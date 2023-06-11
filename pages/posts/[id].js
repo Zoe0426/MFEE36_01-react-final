@@ -10,11 +10,6 @@ export default function Post({ post }) {
   const { asPath } = useRouter()
   const { title, content } = post
 
-  // if need to check fallback and post id exist
-  //   if (!isFallback && !post?.id) {
-  //     return <ErrorPage statusCode={404} />
-  //   }
-
   return (
     <>
       <h1>Title: {title}</h1>
