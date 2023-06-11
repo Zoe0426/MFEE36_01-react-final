@@ -1,1 +1,28 @@
-{}
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "金妮",
+      "email": "ginny@test.com",
+      "username": "ginny",
+      "password": "11111",
+      "r_date": "2023-01-01"
+    },
+    {
+      "id": 2,
+      "name": "哈利",
+      "email": "herry@test.com",
+      "username": "herry",
+      "password": "22222",
+      "r_date": "2023-06-03"
+    },
+    {
+      "id": 3,
+      "name": "妙麗",
+      "email": "mione@test.com",
+      "username": "mione",
+      "password": "33333",
+      "r_date": "2023-06-06"
+    }
+  ]
+}

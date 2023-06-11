@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-// import ErrorPage from 'next/error'
 
 // 頁面元件，對照`/posts/[id].js`，因為是單一篇張貼文的元件，所以命名為`Post`單數詞
 // `{ post }`是由`getStaticProps`最後回傳給此頁面元件的props(屬性)

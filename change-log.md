@@ -1,5 +1,7 @@
 # Change Log
 
+- +proxy in `next.config.js` need for test
+
 - +`"plugin:import/recommended"`ready to change env/files
 
 `npm install eslint-plugin-import eslint-import-resolver-alias --save-dev`
