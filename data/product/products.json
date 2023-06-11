@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "serial_number": "DR0453-005",
+      "name": "Nike Air Max Pulse",
+      "slug": "nike-air-max-pulse",
+      "images": "",
+      "price": 4900,
+      "description": "Air Max Pulse 向倫敦樂壇汲取靈感，為經典 Air Max 系列注入真性情的非主流氣息。 以布質包覆的中底搭配真空密封裝飾，造型新穎簡約；象徵倫敦樂壇的色彩，更添前衛感。 重點式 Air 緩震系統改版自出奇柔軟的 Air Max 270，以更出色的彈力推進你超越極限。",
+      "category_id": 1,
+      "colors": "black,white",
+      "tags": "men,women,new"
+    },
+    {
+      "id": 2,
+      "serial_number": "FD1146-100",
+      "name": "Nike Air Force 1 '07 FlyEase",
+      "slug": "nike-air-force-1-07-fly-ease",
+      "images": "",
+      "price": 3600,
+      "description": "這款原版籃球鞋讓你 3 秒內輕鬆上腳，快速出門。 FlyEase 快穿系統，無須動手就能把鞋穿好。俐落皮革披上淨白色，絕對百搭實穿。 它具備你喜愛的所有元素，甚至更多。",
+      "category_id": 1,
+      "colors": "black,white",
+      "tags": "men,women,new"
+    },
+    {
+      "id": 3,
+      "serial_number": "M991PAL",
+      "name": "MADE in UK Palace 991v1",
+      "slug": "made-in-uk-palace-991-v-1",
+      "images": "",
+      "price": 8680,
+      "description": "繼上次與New Balance的經典合作款式後，Palace這次重塑了極具代表性的MADE in UK 991。亮眼的高科技細節、獨特的鏤空拼貼元素以及線條流暢圓潤的外型，令這雙屬99X系列的鞋款深受大眾喜愛。Palace將適合不同環境的元素傾注到設計之中，以搶眼色彩配合戶外適用的物料打造這雙運動鞋；豬皮革及磨砂皮搭載Ripstop尼龍布料，加上品牌聯名標誌，為傳奇鞋款變得煥然一新。",
+      "category_id": 4,
+      "colors": "black",
+      "tags": "new"
+    }
+  ]
+}
