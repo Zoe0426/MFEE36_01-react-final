@@ -36,4 +36,5 @@ next-env.d.ts
 
 # misc
 package-lock.json
-.temp
+yarn.lock
+/.temp/
