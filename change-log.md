@@ -1,5 +1,7 @@
 # Change Log
 
+- -comment rewrite in `next.config.js`
+
 - +proxy in `next.config.js` need for test
 
 - +`"plugin:import/recommended"`ready to change env/files
