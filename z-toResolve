@@ -1,0 +1,24 @@
+1.愛心切換
+2.
+
+記得寫RWD的唷
+
+共用元件:
+1.Tab(換頁)
+2.Tab(同頁)
+*3.btn(SubBtn,RoundBtn, MainBtn,SecondaryBtn,IconBtn)
+*4.avatar(name, membercenter, logout);
+*5.HashTag(藥丸 padding: var(--p8), var(--p16); font-size: var(--pfs14); bgcolor: var(--light1))
+*6. 評價星: ( RateStarPill, RateStar 星星Jenny黃, 4.3)
+7.彈跳視窗(ResBooking, Comment, popForm)
+*8.Likelist
+*9.CommentCard
+*10. SearchBar
+
+
+
+分工:
+沛怡: RoundBtn
+宜零: SubBtn
+季庭: MainBtn,SecondaryBtn,SearchBar, Hashtag, RateStarPill, RateStar,IconBtn
+書儀: CommentCard, Likelist

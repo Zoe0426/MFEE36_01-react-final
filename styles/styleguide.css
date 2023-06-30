@@ -1,0 +1,126 @@
+:root {
+    --main: #FD8C46;
+    --secondary: #FFD4C0;
+    /* /圓btn, paginationHover */
+    --dark: #5f231B;
+    --flag:#F1C476;
+    --lightBrown: #F7ECE3; /* 咖啡背景色 */
+    --light1: #FFEFE8;/* footer背景色 */
+    --light2: #FFFAF6;/* 主背景色 */
+    --light3:#FFE8D6;/* 論壇背景色 */
+    --light-gray:#DDDDDD;
+    --gray:#909090;
+    --dark-gray: #515151;
+    --green: #A1D429;
+    --heartRed:#EC5353;
+    /* font-size */
+    --h1fs36:2.25rem;
+    --h2fs32:2rem;
+    --h3fs28:1.75rem;
+    --h4fs24:1.5rem;
+    --h5fs20:1.25rem;
+    --h6fs18:1.125rem;
+    --pfs16:1rem;
+    --pfs14:0.875rem;
+    --pfs12:.75rem;
+    /* font-weight */
+    --fwbold: bold;
+    /* border-radius */
+    --br20: 20px;
+    --br10: 10px;
+    --br8: 8px;
+
+    /* padding */
+    --p8:0.5rem;
+    --p16:1rem;
+    --p24:1.5rem;
+    --p32:2rem;
+
+    /* shadow */
+    --shadow: 2px 6px 8px rgba(255,255,255,0.1);
+}
+
+
+
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+*{
+    font-size: 16px;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+    box-sizing: border-box;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body{
+    max-width: 100vw;
+    background-color: var(--light2);
+}
+
+.container-outer{
+    border: 1px solid green;
+    max-width: 1920px;
+    overflow: hidden;
+    margin: auto; 
+}
+.container-inner{
+    max-width: 1280px;
+    border: 1px solid purple;
+    margin: auto;
+}
+
+@media screen and (max-width:1920px) and (min-width:768px){
+.container-inner{
+    width: 68%;
+}
+}
+@media screen and (max-width:767px){
+.container-inner{
+    width: 85%;
+}
+}

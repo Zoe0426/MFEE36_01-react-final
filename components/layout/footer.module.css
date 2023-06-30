@@ -1,0 +1,87 @@
+.footer{
+  position: absolute;
+	bottom: 0;
+  width: 100%;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px;
+  background-color: #FFEFE8;
+}
+
+.fiiterInfo{
+  width: 1280px;
+  /* background-color: lightcoral; */
+}
+
+.logoInfo{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.linkMenu{
+  display: flex;
+}
+
+.linkMenu li{
+  margin: 0 40px;
+}
+
+.linkMenu a{
+  text-decoration: none;
+  color: #5f231b;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.copyRight{
+  display: flex;
+  justify-content: end;
+}
+
+.copyRight p{
+  margin: 0;
+  color: #7A7A7A;
+}
+
+.logoMobile{
+  display: none;
+}
+
+@media only screen and (max-width: 767px){
+  .logoMobile{
+    display: block;
+  }
+
+  .logo{
+    display: none;
+  }
+
+  .footer{
+    height: 85px;
+  }
+
+  .fiiterInfo{
+    width: 100%;
+  }
+
+  .logoInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .linkMenu li{
+    margin: 0 16px;
+  }
+
+  .linkMenu a{
+    font-size: 12px;
+  }
+
+  .copyRight p{
+    font-size: 12px;;
+  }
+}

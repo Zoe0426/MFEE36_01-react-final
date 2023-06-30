@@ -1,4 +1,4 @@
-import '@/styles/globals.css'
+import '@/styles/styleguide.css'
 
 export default function MyApp({ Component, pageProps }) {
   // Use the layout defined at the page level, if available

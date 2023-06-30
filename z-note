@@ -1,0 +1,11 @@
+======FONTAWESOME======
+https://molly1024.medium.com/react%E6%80%8E%E9%BA%BC%E7%94%A8font-awesome-icon-how-to-use-font-awesome-icon-in-react-project-517971c36c05
+
+**import**
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+
+**use**
+<FontAwesomeIcon icon={fab.faFacebookSquare}/>
+<FontAwesomeIcon icon={fab.faInstagramSquare}/>
