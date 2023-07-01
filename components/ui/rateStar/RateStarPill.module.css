@@ -1,0 +1,13 @@
+.rating {
+    border: 1px solid var(--dark-gray);
+    padding: var(--p8) var(--p16);
+    border-radius: var(--br20);
+    font-size: var(--pfs16);
+    display: inline-block;
+}
+
+.icon{
+    margin-right: 6px;
+    color: var(--starYellow);
+    font-size: var(--pfs16);
+}
