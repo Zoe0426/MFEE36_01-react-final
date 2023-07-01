@@ -6,3 +6,12 @@
     display: inline-block;
     color: var(--dark-gray);
 }
+
+@media screen and (max-width:767px){
+    .hash_tag{
+        padding: var(--p8);
+        border-radius: 16px;
+        margin-right: 4px;
+        font-size: var(--pfs12);
+    }
+    }

@@ -11,3 +11,16 @@
     color: var(--starYellow);
     font-size: var(--pfs16);
 }
+
+
+@media screen and (max-width:767px){
+    .rating {
+        padding: var(--p8);
+        border-radius: 20px;
+        font-size: var(--pfs12);
+    }
+    .icon{
+        font-size: var(--pfs12);
+
+    }
+    }

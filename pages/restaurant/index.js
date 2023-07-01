@@ -11,13 +11,16 @@ import RateStar from '@/components/ui/rateStar/RateStar'
 export default function Restindex() {
   return (
     <>
-      <SearchBar />
-      <MainBtn text="找我的寶寶" />
-      <SecondaryBtn text="找我的寶寶" />
-      <IconBtn icon={faMap} text="我的地圖" />
-      <HashTag text="免費食物" />
-      <RateStarPill score="4.8" />
+      <SearchBar placeholder="放置placeholder的地方" />
+      <MainBtn text="主要按鈕" />
+      <SecondaryBtn text="次要按鈕" />
+      <IconBtn icon={faMap} text="icon按鈕" />
+
+      <RateStarPill score="4.2" />
       <RateStar score="4.5" text="(50人已預約)" />
+
+      <HashTag text="免費食物" />
+      <HashTag text="免費食物" />
     </>
   )
 }

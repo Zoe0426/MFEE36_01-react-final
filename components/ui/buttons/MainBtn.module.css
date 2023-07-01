@@ -12,3 +12,12 @@
     background-color: var(--secondary);
     cursor: pointer;
 }
+
+
+@media screen and (max-width:767px){
+    .main_btn{
+        padding: 12px var(--p16) ;
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
+    }
+    }

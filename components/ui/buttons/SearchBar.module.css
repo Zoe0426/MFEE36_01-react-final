@@ -1,7 +1,7 @@
 .search_input{
     width: 24%;
     margin-right: 16px;
-    padding: var(--p16) var(--p16);
+    padding: var(--p16);
     border-radius: var( --br8);
     border: 0;
     font-size: var(--pfs16);
@@ -15,3 +15,11 @@
 .input_area{
     width: 100%;
 }
+
+@media screen and (max-width:767px){
+    .search_input{
+        padding: 12px var(--p16) ;
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
+    }
+    }

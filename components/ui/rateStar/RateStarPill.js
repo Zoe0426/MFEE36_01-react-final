@@ -6,10 +6,10 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 export default function RateStarPill({ score = '' }) {
   return (
     <>
-      <p className={Styles.rating}>
+      <div className={Styles.rating}>
         <FontAwesomeIcon icon={faStar} className={Styles.icon} />
-        <p className={Styles.rate_score}>{score}</p>
-      </p>
+        <span className={Styles.rate_score}>{score}</span>
+      </div>
     </>
   )
 }

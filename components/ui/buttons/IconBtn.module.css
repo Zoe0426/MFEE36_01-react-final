@@ -18,3 +18,12 @@
     font-size: var(--pfs16);
 
 }
+
+
+@media screen and (max-width:767px){
+    .icon_btn{
+        padding: 12px var(--p16) ;
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
+    }
+    }
