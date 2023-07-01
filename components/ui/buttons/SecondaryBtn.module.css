@@ -1,0 +1,14 @@
+.secondary_btn{
+    padding: var(--p16) 20px;
+    border-radius: var(--br10);
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: transparent;
+    border: 1px solid var(--gray);
+    transition: 0.3s;
+}
+.secondary_btn:hover{
+    background-color: var(--light-gray);
+    cursor: pointer;
+}

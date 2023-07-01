@@ -1,0 +1,17 @@
+.search_input{
+    width: 24%;
+    margin-right: 16px;
+    padding: var(--p16) var(--p16);
+    border-radius: var( --br8);
+    border: 0;
+    font-size: var(--pfs16);
+    outline: 2px solid var(--light-gray);
+}
+.search_input:focus{
+    border-radius: var( --br8);
+    border: none;
+    outline: 2px solid var(--main);
+}
+.input_area{
+    width: 100%;
+}
