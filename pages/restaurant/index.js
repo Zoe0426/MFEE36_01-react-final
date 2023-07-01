@@ -20,7 +20,8 @@ export default function Restindex() {
       <RateStar score="4.5" text="(50人已預約)" />
 
       <HashTag text="免費食物" />
-      <HashTag text="免費食物" />
+      <HashTag text="可放繩" />
+      <HashTag text="免費水" />
     </>
   )
 }
