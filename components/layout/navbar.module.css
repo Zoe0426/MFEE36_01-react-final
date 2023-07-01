@@ -85,10 +85,6 @@
   display: none;
 }
 
-.content {
-  margin-top: 65px;
-}
-
 @media screen and (max-width:1000px){
   .logoMenu,
   .icon {
