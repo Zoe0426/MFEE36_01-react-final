@@ -1,0 +1,49 @@
+.card{
+    width: 100%;
+    border-radius: 8px;
+}
+.rest_title{
+    display: flex;
+    margin-top: 12px;
+    align-items: center; /* 垂直居中對齊 */
+    justify-content: space-between; /* 元素間隔平均分布 */
+}
+.rest_img{
+    width: 100%;
+    height: 240px;
+    background-color: bisque;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.rest_img img {
+    width: 100%; 
+    height: auto; 
+  }
+.rating {
+    margin: 10px 0;
+    border: 1px solid #515151;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+.rest_name{
+    margin: 16px 0;
+    font-size: var(--h5fs20);
+
+}
+.rest_location{
+    font-size: var(--pfs16);
+    color: #909090;
+}
+.hash_tag_group{
+    margin-top: 16px;
+}
+
+.icon_inImage{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 30px;
+    color: #EC5353;
+}

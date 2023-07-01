@@ -7,21 +7,40 @@ import { faMap } from '@fortawesome/free-solid-svg-icons'
 import HashTag from '@/components/ui/hashtag/HashTag'
 import RateStarPill from '@/components/ui/rateStar/RateStarPill'
 import RateStar from '@/components/ui/rateStar/RateStar'
+import RestCard from '@/components/ui/cards/rest_card'
+import { Col, Row } from 'antd'
 
 export default function Restindex() {
   return (
     <>
-      <SearchBar placeholder="放置placeholder的地方" />
-      <MainBtn text="主要按鈕" />
-      <SecondaryBtn text="次要按鈕" />
-      <IconBtn icon={faMap} text="icon按鈕" />
-
-      <RateStarPill score="4.2" />
-      <RateStar score="4.5" text="(50人已預約)" />
-
-      <HashTag text="免費食物" />
-      <HashTag text="可放繩" />
-      <HashTag text="免費水" />
+      <div className="container-inner">
+        <Row gutter={[32, 32]}>
+          <Col span={8}>
+            <RestCard
+              image="/rest_image/sunshine.jpeg"
+              name="我家有休閒農場"
+              city="台北市"
+              location="大安區"
+            />
+          </Col>
+          <Col span={8}>
+            <RestCard
+              image="/rest_image/sunshine.jpeg"
+              name="我家有休閒農場"
+              city="台北市"
+              location="大安區"
+            />
+          </Col>
+          <Col span={8}>
+            <RestCard
+              image="/rest_image/sunshine.jpeg"
+              name="我家有休閒農場"
+              city="台北市"
+              location="大安區"
+            />
+          </Col>
+        </Row>
+      </div>
     </>
   )
 }

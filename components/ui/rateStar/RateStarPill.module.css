@@ -1,7 +1,7 @@
 .rating {
-    border: 1px solid var(--dark-gray);
-    padding: var(--p8) var(--p16);
-    border-radius: var(--br20);
+    border: 1px solid var(--light-gray);
+    padding: 6px var(--p8);
+    border-radius: 24px;
     font-size: var(--pfs16);
     display: inline-block;
 }
@@ -21,6 +21,5 @@
     }
     .icon{
         font-size: var(--pfs12);
-
     }
     }
