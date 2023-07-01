@@ -133,6 +133,9 @@ body{
     margin: auto;
 }
 
+
+
+
 @media screen and (max-width:1920px) and (min-width:768px){
 .container-inner{
     width: 68%;

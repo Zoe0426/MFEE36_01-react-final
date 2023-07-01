@@ -7,33 +7,48 @@
   align-items: center;
   justify-content: center;
   height: 150px;
-  background-color: #FFEFE8;
+  background-color: var(--light1);
 }
 
-.fiiterInfo{
+.footerInfo{
   width: 1280px;
-  /* background-color: lightcoral; */
 }
 
 .logoInfo{
   display: flex;
   justify-content: space-between;
   align-items: center;
+} 
+
+.logo{
+  width: 100px;
 }
 
 .linkMenu{
   display: flex;
+  width: 300px;
+  /* flex-grow: 1; */
 }
 
-.linkMenu li{
-  margin: 0 40px;
+.linkItem {
+  width: 25%;
+  height: 35px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
 }
 
-.linkMenu a{
+
+
+.linkMenu a {
   text-decoration: none;
-  color: #5f231b;
-  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  color: var(--dark);
   font-weight: bold;
+  letter-spacing: 3px;
 }
 
 .copyRight{
@@ -46,42 +61,25 @@
   color: #7A7A7A;
 }
 
-.logoMobile{
-  display: none;
-}
 
 @media only screen and (max-width: 767px){
-  .logoMobile{
-    display: block;
-  }
-
-  .logo{
-    display: none;
-  }
-
   .footer{
     height: 85px;
   }
 
-  .fiiterInfo{
+  .footerInfo{
     width: 100%;
   }
 
-  .logoInfo{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .linkItem {
+    font-size: var(--pfs12);
   }
 
-  .linkMenu li{
-    margin: 0 16px;
-  }
-
-  .linkMenu a{
-    font-size: 12px;
+  .logo{
+    width: 60px;
   }
 
   .copyRight p{
-    font-size: 12px;;
+    font-size: 5px;;
   }
 }

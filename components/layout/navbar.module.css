@@ -4,56 +4,33 @@
   left: 0;
   width: 100%;
   height: 65px;
-  background-color: #fffaf6;
+  background-color: var(--light2);
 }
 
 .navbar {
+  /* border: 1px solid purple; */
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 68%;
   height: 65px;
   padding: 10px;
   margin: 0 auto;
-  background-color: #fffaf6;
 }
 
 .logoMenu {
   display: flex;
-  margin-right: 90px;
-  /* width: 100%; */
+  min-width: 100px;
+  width: 15%;
 }
 
-.linkList {
-  display: flex;
-  align-items: center;
-}
-
-.icon {
-  margin-left: 90px;
-}
-
-.iconMenu {
-  display: flex;
+.logo{
+  width: 85px;
 }
 
 .linkMenu{
   display: flex;
-  width: 1000px;
-  justify-content: space-between;
-  padding: 0 10px;
-}
-
-.linkItem {
-  /* width: 250px; */
-  width: 25%;
-  height: 30px;
-  border-left: 1px dashed #5f231b;
-}
-
-.linkItem:last-child {
-  height: 30px;
-  border-right: 1px dashed #5f231b;
+  flex-grow: 1;
 }
 
 .linkMenu a {
@@ -62,65 +39,95 @@
   justify-content: center;
   align-items: center;
   height: 30px;
-  color: #5f231b;
-  font-size: 18px;
+  color: var(--dark);
   font-weight: bold;
   letter-spacing: 3px;
 }
 
-.iconMenu a {
+.linkItem {
+  width: 25%;
+  height: 35px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  /* height: 50px; */
+  border-left: 1px dashed #5f231b;
 }
 
-.iconMenu li {
-  margin: 0 15px;
+.linkItem:last-child {
+  border-right: 1px dashed #5f231b;
 }
 
-.navbarToggler,
-.logoMobile,
-.iconMeneMobile {
+.link{
+  width: 100%;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.link:hover{
+  background-color: var(--lightBrown);
+  font-size: 20px;
+}
+
+.iconMenu {
+  display: flex;
+  min-width: 115px;
+  width: 15%;
+  justify-content: end;
+  /* border: 1px solid green; */
+}
+
+.navbarToggler{
   display: none;
 }
 
-@media screen and (max-width:1000px){
-  .logoMenu,
-  .icon {
-    margin: 0;
-  }
+@media screen and (max-width: 767px) {
+  .header{
+    padding-bottom: 0;
   }
 
-@media only screen and (max-width: 767px) {
   .navbar {
     justify-content: space-between;
     padding: 10px;
     width: 100%;
   }
 
-  .logo,
-  .iconMenu {
-    display: none;
-  }
-
-  .logoMobile,
-  .iconMeneMobile {
-    display: flex;
-  }
-
-  .iconMeneMobile li {
-    margin: 5px;
+  .logo{
+    width: 60px;
   }
 
   .navbarToggler {
     display: block;
-    padding: 0;
+    padding: 0px;
     width: 30px;
     height: 30px;
     margin-right: 10px;
     background-color: transparent;
     border: none;
+  }
+
+
+  .linkMenu {
+    position: fixed;
+    display: block;
+    top: 10px;
+    left: -100%;
+    margin-top: 65px;
+    width: 100%;
+    background-color: var(--light2);
+    transition: all 1s ease;
+  } 
+  .linkMenu.active {
+    top: 0;
+  }
+
+  .linkItem{
+    border: 0;
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px dashed var(--dark);
+  }
+  .linkItem:last-child{
+    border: 0;
+    border-bottom: 1px dashed var(--dark);
   }
 
   .line {
@@ -149,31 +156,6 @@
     bottom: 5px;
   }
 
-  .linkMenu {
-    position: fixed;
-    display: block;
-    left: 0;
-    top: -100%;
-    margin-top: 65px;
-    width: 100%;
-    /* height: 100%; */
-    background-color: #fffaf6;
-    transition: all 1s ease;
-  }
-
-  .linkMenu li {
-    padding: 0;
-    border: none;
-    border-bottom: 1px dashed #5f231b;
-  }
-
-  .linkMenu li:last-child {
-    border: none;
-  }
-
-  .linkMenu.active {
-    top: 0;
-  }
 
   .line,
   .line::before,

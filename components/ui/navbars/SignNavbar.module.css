@@ -1,0 +1,10 @@
+.signNavbar{
+  position: relative;
+}
+
+.logo{
+  position: absolute;
+  top: 50px;
+  left: 70px;
+  width: 85px;
+}
