@@ -91,7 +91,9 @@ export default function Detail() {
           </div>
         </div>
       </div>
-
+      <div className="container-inner">
+        <h2 className={Styles.jill_h2}>餐廳活動</h2>
+      </div>
       <div className="container-inner">
         <div className={Styles.feature_card}>
           <div className={Styles.feature_decorate}>

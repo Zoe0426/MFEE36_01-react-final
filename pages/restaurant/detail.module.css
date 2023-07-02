@@ -35,6 +35,7 @@
     background-color: gray;
     height: 500px;
     width: 100%;
+    border-radius: var(--br10);
 }
 .rest_detail{
     display: flex;
