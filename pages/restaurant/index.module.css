@@ -30,6 +30,9 @@
     padding-bottom: 30px;
     border-radius: 50%;
 }
+.explore_title{
+    display: flex;
+}
 
 .title_icon{
     font-size: var(--h1fs36);
