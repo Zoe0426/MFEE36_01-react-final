@@ -1,5 +1,5 @@
 .search_input{
-    width: 24%;
+    width:  600px; 
     margin-right: 16px;
     padding: var(--p16);
     border-radius: var( --br8);
@@ -14,6 +14,9 @@
 }
 .input_area{
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media screen and (max-width:767px){

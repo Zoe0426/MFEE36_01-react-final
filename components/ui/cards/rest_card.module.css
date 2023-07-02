@@ -45,5 +45,7 @@
     top: 12px;
     right: 12px;
     font-size: 30px;
-    color: #EC5353;
+    color: var(--heartRed);
 }
+
+
