@@ -1,0 +1,28 @@
+.function_group {
+    display: flex;
+  }
+  
+  .function_group > * {
+    margin-right: 16px; 
+  }
+  
+  .function_group > *:last-child {
+    margin-right: 0;
+  }
+
+.top_area{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    margin-top: 20px;   
+}
+
+.bgc{
+    /* background-color: var(--lightBrown); */
+    background-image: url('../../../public/rest_image/top_area_image.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;    
+}

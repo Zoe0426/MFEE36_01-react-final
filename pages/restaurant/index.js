@@ -13,31 +13,14 @@ import { Col, Row } from 'antd'
 import RestTitle from '@/components/ui/restaurant/RestTitle'
 import LocationCard from '@/components/ui/restaurant/LocationCard'
 import Styles from './index.module.css'
+import Banner from '@/components/ui/restaurant/Banner'
+import FunctionArea from '@/components/ui/restaurant/FunctionArea'
 
 export default function Restindex() {
   return (
     <>
-      <div className="container-outter">
-        <div className={Styles.banner}>
-          <img src="/rest_image/banner.jpg" alt="" />
-          <div className={Styles.search}>
-            <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
-            <SearchBar placeholder="搜尋餐廳" />
-          </div>
-        </div>
-      </div>
-      <div className={Styles.bgc}>
-        <div className="container-inner">
-          <div className={Styles.top_area}>
-            <div className={Styles.breadcrumb}></div>
-            <div className={Styles.function_group}>
-              <IconBtn icon={faMap} text="餐廳地圖" />
-              <IconBtn icon={faHeart} text="收藏列表" />
-              <IconBtn icon={faFilter} text="進階篩選" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <Banner />
+      <FunctionArea />
       <div className="container-inner">
         <div className={Styles.explore_title}>
           <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
@@ -125,7 +108,7 @@ export default function Restindex() {
             <FontAwesomeIcon icon={faFaceLaugh} className={Styles.title_icon} />
             <h2 className={Styles.jill_h2}>友善條件</h2>
           </div>
-          <Row gutter={[32, 32]}>
+          <Row gutter={[48, 48]}>
             <Col span={4}>
               <div className={Styles.box}>
                 <img src="/rest_image/friendly/friendly1.png" alt="" />

@@ -1,0 +1,19 @@
+.jill_h2{
+    font-size: var(--h4fs24);
+    font-weight: var(--fwbold);
+    padding-bottom: var(--p16);
+}
+.second_area{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 20px;
+}
+
+.filter{
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin: 0 40px;
+    padding: 12px 20px;
+}

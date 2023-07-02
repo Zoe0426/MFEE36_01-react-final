@@ -5,8 +5,8 @@
 .rest_title{
     display: flex;
     margin-top: 12px;
-    align-items: center; /* 垂直居中對齊 */
-    justify-content: space-between; /* 元素間隔平均分布 */
+    align-items: center; 
+    justify-content: space-between; 
 }
 .rest_img{
     width: 100%;
