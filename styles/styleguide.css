@@ -13,6 +13,7 @@
     --dark-gray: #515151;
     --green: #A1D429;
     --heartRed:#EC5353;
+    --starYellow:#FCC917;
     /* font-size */
     --h1fs36:2.25rem;
     --h2fs32:2rem;
@@ -80,6 +81,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+    color:var(--dark-gray)
 }
 ol, ul {
 	list-style: none;
@@ -103,14 +105,14 @@ body{
 }
 
 .container-outer{
-    border: 1px solid green;
+    /* border: 1px solid green; */
     max-width: 1920px;
     overflow: hidden;
     margin: auto; 
 }
 .container-inner{
     max-width: 1280px;
-    border: 1px solid purple;
+    /* border: 1px solid purple; */
     margin: auto;
 }
 

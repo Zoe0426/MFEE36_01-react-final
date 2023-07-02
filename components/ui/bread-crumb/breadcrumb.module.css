@@ -1,0 +1,14 @@
+/*麵包屑*/
+.breadcrumb{
+    display: flex;
+    color: var(--main);
+    font-size: var(--h6fs18);
+}
+
+.breadcrumb>li{
+    margin-right: 5px;
+}
+
+.breadcrumb>li:last-child{
+    color:black;
+}

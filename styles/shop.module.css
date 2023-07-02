@@ -1,0 +1,173 @@
+.bgc_lightBrown{
+    background-color: var(--lightBrown);
+}
+
+.search_bar{
+    text-align: center;
+    padding:var(--p32) 0;
+    
+}
+
+/*搜尋bar，之後待元件刻好要刪除*/
+.search_bar>input{
+    height: 53px;
+    width:50%;
+    border-radius: var(--br8);
+    background-color: white;
+    border:1px solid var(--light-gray);
+    margin-right:16px;
+    padding-left:var(--p16)
+}
+
+.search_bar>button{
+    height: 53px;
+    padding:var(--p8) var(--p16);
+    border-radius: var(--br10);
+    background-color: var(--main);
+    color:white;
+    border:1px solid var(--light-gray);
+    font-size:var(--pfs16);
+    line-height: var(--h4fs24s);
+}
+
+.nav_head{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+
+/*篩選按鈕，等元件刻好後就可以刪除*/
+.btns>button{
+    padding:var(--p8) var(--p16);
+    border-radius: var(--br10);
+    background-color: white;
+    border:1px solid var(--light-gray)
+}
+
+/*篩選按鈕，不可刪除*/
+.btns>button:first-child{
+    margin-right: var(--p16);
+
+}
+
+
+/*八大類別的圖示按鈕，待元件刻好就可刪除*/
+.eight_icons{
+    position:relative;
+}
+
+.icon_bg{
+    width:100%
+}
+
+.icon_info{
+    text-align: center;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+.icon{
+    padding-bottom: var(--p8);
+}
+
+/*貓狗大類別的圖示按鈕*/
+.pet_type_tabs{    
+    display: flex;
+    justify-content: center;
+}
+
+.pet_type_tabs span{
+    padding-left:var(--p16);
+    font-size: var(--h3fs28);
+    font-weight:var(--fwbold)
+}
+
+.tab_active{
+    display: flex;
+    align-items: center;
+    margin-right: 80px;
+    padding-bottom: var(--p8);
+    border-bottom: 3px solid var(--main);
+}
+
+.tab_normal{
+    display: flex;
+    align-items: center;
+    margin-right: 80px;
+    padding-bottom: var(--p8);
+}
+
+
+/*主頁滑動卡片的排版*/
+.pet_type_cards{
+    margin-left:5%;
+    width:7000px;
+}
+
+.pet_type_btns{
+    text-align: center;
+    margin-top: 56px;
+}
+
+.pet_type_btns>button{
+    width: 15px;
+    height: 15px;
+    border: var(--light-gray);
+    border-radius: 50%;
+    margin:0 5px;
+}
+
+.circle_btn_active{
+    background-color: var(--secondary);
+}
+
+/*品牌卡片*/
+.brand_cards{
+    padding:100px;
+}
+
+/*新品滑動卡片的排版*/
+
+.new_products_title{
+    padding: var(--p32) 0;
+    font-size: var(--h3fs28);
+    font-weight:var(--fwbold);
+    text-align: center;
+}
+
+.new_cards{
+    margin-left:5%;
+    width:7000px;
+}
+
+
+/*商品列表卡片的外層*/
+.cards{
+    margin:36px 0 36px 0;  
+}
+
+/*頁碼*/
+.pagination{
+    margin:70px 0;
+    text-align: center;
+}
+
+
+/*--------------商品細節頁面-------------*/
+.comment_cards{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 6250px;
+}
+
+@media screen and (max-width:767px){
+    .comment_cards{
+        flex-direction: column;
+        /* flex-wrap: wrap; */
+        /* width: 100%; */
+    }
+}
+
