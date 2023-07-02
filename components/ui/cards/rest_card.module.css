@@ -19,6 +19,12 @@
 .rest_img img {
     width: 100%; 
     height: auto; 
+    transition: 0.5s;
+  }
+.rest_img img:hover {
+    width: 100%; 
+    scale: 1.1;
+    height: auto; 
   }
 .rating {
     margin: 10px 0;
