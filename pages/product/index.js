@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import DefaultLayout from '@/components/layout/default-layout'
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration'
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration'
 import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration'
@@ -142,7 +143,7 @@ export default function ProdoctIndex() {
   }, [])
 
   return (
-    <>
+    <DefaultLayout>
       <div className="container-outer">
         <nav></nav>
       </div>
@@ -294,6 +295,6 @@ export default function ProdoctIndex() {
           <button></button>
         </div>
       </section>
-    </>
+    </DefaultLayout>
   )
 }
