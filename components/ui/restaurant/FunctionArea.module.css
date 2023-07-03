@@ -22,6 +22,8 @@
 .bgc{
     /* background-color: var(--lightBrown); */
     background-image: url('../../../public/rest_image/top_area_image.png');
+    padding-top: 10px;
+    padding-bottom: 30px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;    

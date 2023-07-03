@@ -111,7 +111,7 @@ body{
 }
 .container-inner{
     max-width: 1280px;
-    border: 1px solid purple;
+    /* border: 1px solid purple; */
     margin: auto;
 }
 
