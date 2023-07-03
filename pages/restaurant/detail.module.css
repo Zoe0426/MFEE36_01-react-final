@@ -40,6 +40,7 @@
 .rest_detail{
     display: flex;
     margin-bottom: 40px;
+    margin-top: 40px;
 }
 .rest_info{
     padding: var(--p16);
@@ -63,44 +64,14 @@
     gap: 12px;
 }
 
-.feature_card{
-    display: flex;
-    background-color: white;
-    border-radius: var(--br10);
-    align-items: center;
-    margin-bottom: 100px;
-}
 
-.feature_card img{
-    width: 100%;
-    border-radius: var(--br10);
-    background-color: var(--lightBrown);
-}
-.feature_info{
-    width: 100%;
-    padding: 0 var(--p24);
-}
-
-.feature_decorate{
-    width: 100%;
-    border-radius: var(--br10);
-    background-color: var(--secondary);
-    border-radius: 12px;
-    border-bottom: 6px solid var(--secondary);
-    border-right: 8px solid var(--secondary);
-}
-.activity_date{
-    display: flex;
-    color: var(--dark);
-    font-weight: var(--fwbold);
-    margin-bottom: 20px;
-}
 
 .notion_bgc{
     background-image: url('../../public/rest_image/notion_bgc.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    padding-top: 300px;
-    padding-bottom: 300px;
+    padding-top: 360px;
+    padding-bottom: 400px;
+    /* background-size: 100% auto; */
 }

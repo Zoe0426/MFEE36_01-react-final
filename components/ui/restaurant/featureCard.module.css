@@ -1,0 +1,37 @@
+.jill_h2{
+    font-size: var(--h4fs24);
+    font-weight: var(--fwbold);
+    padding-bottom: var(--p16);
+    color: var(--dark-gray);
+}
+.information{
+    line-height: 1.5;
+    margin-bottom: 24px;
+    text-align: justify;
+}
+.feature_card{
+    display: flex;
+    background-color: white;
+    border-radius: var(--br10);
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.feature_card img{
+    width: 100%;
+    border-radius: var(--br10);
+    background-color: var(--lightBrown);
+}
+.feature_info{
+    width: 100%;
+    padding: 0 var(--p24);
+}
+
+.feature_decorate{
+    width: 100%;
+    border-radius: var(--br10);
+    background-color: var(--secondary);
+    border-radius: 12px;
+    border-bottom: 6px solid var(--secondary);
+    border-right: 8px solid var(--secondary);
+}

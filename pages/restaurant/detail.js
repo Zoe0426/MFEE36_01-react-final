@@ -10,6 +10,8 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import Tab from '@/components/ui/restaurant/Tab'
+import FeatureCard from '@/components/ui/restaurant/featureCard'
+import ActivityCard from '@/components/ui/restaurant/ActivityCard'
 
 export default function RestInfo() {
   return (
@@ -78,40 +80,18 @@ export default function RestInfo() {
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>餐廳特色</h2>
       </div>
-      <div className="container-inner">
-        <div className={Styles.feature_card}>
-          <div className={Styles.feature_decorate}>
-            <img src="/rest_image/lawn.jpeg" alt="" />
-          </div>
-          <div className={Styles.feature_info}>
-            <h2 className={Styles.jill_h2}>戶外草皮區</h2>
-            <p className={Styles.information}>
-              寬闊草皮適合狗狗、孩子自由奔跑水晶教堂下看著魚兒水中游，獻給愛陪伴毛小孩的你愛就是要分秒陪伴把用餐的放鬆時光與最親密的牠一起分享適合有帶寵物一起前來的你
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="container-inner">
-        <h2 className={Styles.jill_h2}>餐廳活動</h2>
-      </div>
-      <div className="container-inner">
-        <div className={Styles.feature_card}>
-          <div className={Styles.feature_decorate}>
-            <img src="/rest_image/activity.png" alt="" />
-          </div>
-          <div className={Styles.feature_info}>
-            <h2 className={Styles.jill_h2}>毛孩的專屬粽子</h2>
-            <div className={Styles.activity_date}>
-              <h3>活動日期</h3>
-              <h3>2023/05/01 ~ 2023/05/26</h3>
-            </div>
-            <p className={Styles.information}>
-              以端午節為主題推出寵物鮮食肉粽讓毛寶一起慶端午！特別選用手掌心×天然寵食
-              的『紅趜豬肉粽』香噴噴的豬肉營養滿分的紅趜滿足了您毛小孩的口腹之欲專為寵物製作的美食，讓您的毛小孩開心地一口接一口！
-            </p>
-          </div>
-        </div>
-      </div>
+      <FeatureCard
+        img="/rest_image/lawn.jpeg"
+        title="戶外草皮區"
+        feature_info=" 寬闊草皮適合狗狗、孩子自由奔跑水晶教堂下看著魚兒水中游，獻給愛陪伴毛小孩的你愛就是要分秒陪伴把用餐的放鬆時光與最親密的牠一起分享適合有帶寵物一起前來的你"
+      />
+      <ActivityCard
+        img="/rest_image/activity.png"
+        title="毛孩的專屬粽子"
+        date="2023/05/01 ~ 2023/05/26"
+        activity_info="以端午節為主題推出寵物鮮食肉粽讓毛寶一起慶端午！特別選用手掌心×天然寵食
+              的『紅趜豬肉粽』香噴噴的豬肉營養滿分的紅趜滿足了您毛小孩的口腹之欲專為寵物製作的美食，讓您的毛小孩開心地一口接一口！"
+      />
 
       <div className={Styles.notion_bgc}>
         <div className="container-inner">
