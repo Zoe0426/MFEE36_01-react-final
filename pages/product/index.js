@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import DefaultLayout from '@/components/layout/default-layout'
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration'
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration'
 import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration'
@@ -31,6 +30,26 @@ export default function ProdoctIndex() {
   const [dataForCat, setDataForCat] = useState([])
   const [dataForBrand, setDataForBrand] = useState([])
   const [dataForNew, setDataForNew] = useState([])
+  const [twotCatergoriesData, setTwotCatergoriesData] = useState([
+    {
+      id: 'dog',
+      text: '汪星人專區',
+      icon: dog,
+      href: 'http://localhost:3000/product/dog',
+      display: true,
+
+      // 要詢問，要如何將資料串近來
+      data: dataForDog,
+    },
+    {
+      id: 'cat',
+      text: '喵星人專區',
+      icon: cat,
+      href: 'http://localhost:3000/product/cat',
+      display: false,
+      data: dataForCat,
+    },
+  ])
 
   //八大類icon資料
   const eightCatergoriesData = [
@@ -84,28 +103,6 @@ export default function ProdoctIndex() {
     },
   ]
 
-  //貓狗類icon資料
-  const twotCatergoriesData = [
-    {
-      id: 'dog',
-      text: '汪星人專區',
-      icon: dog,
-      href: 'http://localhost:3000/product/dog',
-      display: true,
-
-      // 要詢問，要如何將資料串近來
-      //data: dataForDog,
-    },
-    {
-      id: 'cat',
-      text: '喵星人專區',
-      icon: cat,
-      href: 'http://localhost:3000/product/cat',
-      display: false,
-      //data: dataForCat,
-    },
-  ]
-
   useEffect(() => {
     ;(async function getData() {
       //拿回汪星人24張卡片資訊
@@ -123,6 +120,16 @@ export default function ProdoctIndex() {
       const catDatas = await res_cat.json()
 
       setDataForCat(catDatas)
+
+      setTwotCatergoriesData(
+        twotCatergoriesData.map((v) => {
+          if (v.id === 'dog') {
+            return { ...v, data: dogDatas }
+          } else {
+            return { ...v, data: catDatas }
+          }
+        })
+      )
 
       //拿回供應商16張卡片的資訊
       const res_brand = await fetch('http://localhost:3002/shop-api/brand', {
@@ -142,13 +149,23 @@ export default function ProdoctIndex() {
     })()
   }, [])
 
+  //轉換貓狗卡片顯示
+  const toggleDisplayForDogCat = (twotCatergoriesData, id) => {
+    return twotCatergoriesData.map((v) => {
+      if (v.id === id) {
+        return { ...v, display: true }
+      } else {
+        return { ...v, display: false }
+      }
+    })
+  }
+
   return (
     <>
-      <DefaultLayout>
-        <div className="container-outer">
-          <nav></nav>
-        </div>
-        {/* <div className="container-outer"> */}
+      <div className="container-outer">
+        <nav></nav>
+      </div>
+      <div className="container-outer">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
             <div className={styles.search_bar}>
@@ -175,64 +192,74 @@ export default function ProdoctIndex() {
           </div>
         </div>
         <BGUpperDecoration />
-        {/* </div> */}
-        <section className="container-outer dog-cat-products">
-          {/* 第一區貓狗顯示區，如何操作需要再改善 */}
-          <div className={styles.pet_type_tabs}>
+      </div>
+      <section className="container-outer dog-cat-products">
+        <div className={styles.pet_type_tabs}>
+          {twotCatergoriesData.map((v) => {
+            return (
+              <div
+                role="presentation"
+                key={v.id}
+                className={v.display ? styles.tab_active : styles.tab_normal}
+                onClick={() => {
+                  setTwotCatergoriesData(
+                    toggleDisplayForDogCat(twotCatergoriesData, v.id)
+                  )
+                }}
+              >
+                {' '}
+                <Image src={v.icon} />
+                <span>{v.text}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className={styles.pet_type_cards}>
+          <Row gutter={[32, 0]} className={styles.cards}>
             {twotCatergoriesData.map((v) => {
               return (
-                <div
-                  key={v.id}
-                  className={v.display ? styles.tab_active : styles.tab_normal}
-                >
-                  {' '}
-                  <Image src={v.icon} />
-                  <span>{v.text}</span>
-                </div>
+                v.display &&
+                v.data.map((v) => {
+                  const {
+                    product_sid,
+                    category_detail_sid,
+                    for_pet_type,
+                    name,
+                    img,
+                    update_date,
+                    supplier,
+                    max_price,
+                    min_price,
+                    avg_rating,
+                  } = v
+                  return (
+                    <ShopProductCard
+                      key={product_sid}
+                      category_detail_sid={category_detail_sid}
+                      for_pet_type={for_pet_type}
+                      name={name}
+                      img={img}
+                      update_date={update_date}
+                      supplier={supplier}
+                      max_price={max_price}
+                      min_price={min_price}
+                      avg_rating={avg_rating}
+                    />
+                  )
+                })
               )
             })}
-          </div>
-          <div className={styles.pet_type_cards}>
-            <Row gutter={[32, 0]} className={styles.cards}>
-              {dataForDog.map((v) => {
-                const {
-                  product_sid,
-                  category_detail_sid,
-                  for_pet_type,
-                  name,
-                  img,
-                  update_date,
-                  supplier,
-                  max_price,
-                  min_price,
-                  avg_rating,
-                } = v
-                return (
-                  <ShopProductCard
-                    key={product_sid}
-                    category_detail_sid={category_detail_sid}
-                    for_pet_type={for_pet_type}
-                    name={name}
-                    img={img}
-                    update_date={update_date}
-                    supplier={supplier}
-                    max_price={max_price}
-                    min_price={min_price}
-                    avg_rating={avg_rating}
-                  />
-                )
-              })}
-            </Row>
-          </div>
-          <div className={styles.pet_type_btns}>
-            <button className={styles.circle_btn_active}></button>
-            <button></button>
-            <button></button>
-            <button></button>
-          </div>
-          <BGMiddleDecoration />
-        </section>
-        {/* <section className="container-outer reccomand-brand"> */}
+          </Row>
+        </div>
+        <div className={styles.pet_type_btns}>
+          <button className={styles.circle_btn_active}></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div>
+        <BGMiddleDecoration />
+      </section>
+      <section className="container-outer reccomand-brand">
         {/* 第二區推薦品牌 */}
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
@@ -252,9 +279,9 @@ export default function ProdoctIndex() {
             </Row>
           </div>
         </div>
-        {/* </section> */}
-        {/* <section className="container-outer new-products"> */}
-        {/* 第三區新品顯示區 頁碼要看怎麼用迴圈產生*/}
+      </section>
+      <section className="container-outer new-products">
+        {/* s第三區新品顯示區 頁碼要看怎麼用迴圈產生*/}
         <BGMNewDecoration />
         <p className={styles.new_products_title}>新品專區</p>
         <div className={styles.new_cards}>
@@ -295,8 +322,7 @@ export default function ProdoctIndex() {
           <button></button>
           <button></button>
         </div>
-        {/* </section> */}
-      </DefaultLayout>
+      </section>
     </>
   )
 }

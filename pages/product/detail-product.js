@@ -22,39 +22,41 @@ export default function Product() {
     })()
   }, [])
   return (
-    <div className="container-outer">
-      <div className="container-inner">
-        <div className={styles.comment_section}>
-          <div className={styles.comment_cards}>
-            {dataForComment.map((v) => {
-              const {
-                product_comment_sid,
-                member_sid,
-                date,
-                rating,
-                content,
-                name,
-              } = v
-              return (
-                <CommentCard
-                  key={product_comment_sid}
-                  member_sid={member_sid}
-                  date={date}
-                  rating={rating}
-                  content={content}
-                  name={name}
-                />
-              )
-            })}
-          </div>
-          <div className={styles.pet_type_btns}>
-            <button className={styles.circle_btn_active}></button>
-            <button></button>
-            <button></button>
-            <button></button>
+    <>
+      <div className="container-outer">
+        <div className="container-inner">
+          <div className={styles.comment_section}>
+            <div className={styles.comment_cards}>
+              {dataForComment.map((v) => {
+                const {
+                  product_comment_sid,
+                  member_sid,
+                  date,
+                  rating,
+                  content,
+                  name,
+                } = v
+                return (
+                  <CommentCard
+                    key={product_comment_sid}
+                    member_sid={member_sid}
+                    date={date}
+                    rating={rating}
+                    content={content}
+                    name={name}
+                  />
+                )
+              })}
+            </div>
+            <div className={styles.pet_type_btns}>
+              <button className={styles.circle_btn_active}></button>
+              <button></button>
+              <button></button>
+              <button></button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }

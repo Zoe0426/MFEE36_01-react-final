@@ -1,7 +1,6 @@
 /*首頁品牌的背景圖*/
 .head_decoration{
     position: relative;
-    margin-bottom: 96px;
 }
 
 .head_decoration img:first-child{
@@ -10,14 +9,14 @@
 
 .head_decoration img:nth-child(2){
     position: absolute;
-    left:30%;
-    top:50%;
+    left:35%;
+    top:40%;
 }
 
 .head_decoration img:nth-child(3){
     transform: rotateY(180deg);
     position: absolute;
-    right:30%;
-    top:40%;
+    right:35%;
+    top:30%;
 }
 

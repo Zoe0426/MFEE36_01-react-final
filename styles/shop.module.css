@@ -77,6 +77,7 @@
 .pet_type_tabs{    
     display: flex;
     justify-content: center;
+    margin: 96px 0;
 }
 
 .pet_type_tabs span{
@@ -98,6 +99,7 @@
     align-items: center;
     margin-right: 80px;
     padding-bottom: var(--p8);
+    cursor: pointer;
 }
 
 
@@ -109,7 +111,7 @@
 
 .pet_type_btns{
     text-align: center;
-    margin-top: 56px;
+    margin: 72px 0 96px 0;
 }
 
 .pet_type_btns>button{
@@ -132,10 +134,12 @@
 /*新品滑動卡片的排版*/
 
 .new_products_title{
-    padding: var(--p32) 0;
-    font-size: var(--h3fs28);
+    padding-bottom: var(--p32) 0;
+    font-size: var(--h2fs32);
     font-weight:var(--fwbold);
     text-align: center;
+    /* border:1px solid black; */
+    margin:88px 0 96px 0;
 }
 
 .new_cards{
