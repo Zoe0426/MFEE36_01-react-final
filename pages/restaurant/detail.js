@@ -11,7 +11,7 @@ import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import Tab from '@/components/ui/restaurant/Tab'
 
-export default function Detail() {
+export default function RestInfo() {
   return (
     <>
       <div className={Styles.abc}>
@@ -106,9 +106,8 @@ export default function Detail() {
               <h3>2023/05/01 ~ 2023/05/26</h3>
             </div>
             <p className={Styles.information}>
-              以端午節為主題推出寵物鮮食肉粽讓毛寶一起慶端午！特別選用
-              手掌心×天然寵食 的『紅趜豬肉粽』香噴噴的豬肉
-              營養滿分的紅趜滿足了您毛小孩的口腹之欲專為寵物製作的美食，讓您的毛小孩開心地一口接一口！
+              以端午節為主題推出寵物鮮食肉粽讓毛寶一起慶端午！特別選用手掌心×天然寵食
+              的『紅趜豬肉粽』香噴噴的豬肉營養滿分的紅趜滿足了您毛小孩的口腹之欲專為寵物製作的美食，讓您的毛小孩開心地一口接一口！
             </p>
           </div>
         </div>

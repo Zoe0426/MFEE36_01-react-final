@@ -10,7 +10,7 @@
     color: var(--dark-gray);
 }
 .information{
-    line-height: 1.2;
+    line-height: 1.5;
     margin-bottom: 24px;
     text-align: justify;
 }
@@ -101,6 +101,6 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    padding-top: 400px;
-    padding-bottom: 400px;
+    padding-top: 300px;
+    padding-bottom: 300px;
 }
