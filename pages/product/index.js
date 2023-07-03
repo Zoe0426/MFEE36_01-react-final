@@ -143,11 +143,12 @@ export default function ProdoctIndex() {
   }, [])
 
   return (
-    <DefaultLayout>
-      <div className="container-outer">
-        <nav></nav>
-      </div>
-      <div className="container-outer">
+    <>
+      <DefaultLayout>
+        <div className="container-outer">
+          <nav></nav>
+        </div>
+        {/* <div className="container-outer"> */}
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
             <div className={styles.search_bar}>
@@ -174,64 +175,64 @@ export default function ProdoctIndex() {
           </div>
         </div>
         <BGUpperDecoration />
-      </div>
-      <section className="container-outer dog-cat-products">
-        {/* 第一區貓狗顯示區，如何操作需要再改善 */}
-        <div className={styles.pet_type_tabs}>
-          {twotCatergoriesData.map((v) => {
-            return (
-              <div
-                key={v.id}
-                className={v.display ? styles.tab_active : styles.tab_normal}
-              >
-                {' '}
-                <Image src={v.icon} />
-                <span>{v.text}</span>
-              </div>
-            )
-          })}
-        </div>
-        <div className={styles.pet_type_cards}>
-          <Row gutter={[32, 0]} className={styles.cards}>
-            {dataForDog.map((v) => {
-              const {
-                product_sid,
-                category_detail_sid,
-                for_pet_type,
-                name,
-                img,
-                update_date,
-                supplier,
-                max_price,
-                min_price,
-                avg_rating,
-              } = v
+        {/* </div> */}
+        <section className="container-outer dog-cat-products">
+          {/* 第一區貓狗顯示區，如何操作需要再改善 */}
+          <div className={styles.pet_type_tabs}>
+            {twotCatergoriesData.map((v) => {
               return (
-                <ShopProductCard
-                  key={product_sid}
-                  category_detail_sid={category_detail_sid}
-                  for_pet_type={for_pet_type}
-                  name={name}
-                  img={img}
-                  update_date={update_date}
-                  supplier={supplier}
-                  max_price={max_price}
-                  min_price={min_price}
-                  avg_rating={avg_rating}
-                />
+                <div
+                  key={v.id}
+                  className={v.display ? styles.tab_active : styles.tab_normal}
+                >
+                  {' '}
+                  <Image src={v.icon} />
+                  <span>{v.text}</span>
+                </div>
               )
             })}
-          </Row>
-        </div>
-        <div className={styles.pet_type_btns}>
-          <button className={styles.circle_btn_active}></button>
-          <button></button>
-          <button></button>
-          <button></button>
-        </div>
-        <BGMiddleDecoration />
-      </section>
-      <section className="container-outer reccomand-brand">
+          </div>
+          <div className={styles.pet_type_cards}>
+            <Row gutter={[32, 0]} className={styles.cards}>
+              {dataForDog.map((v) => {
+                const {
+                  product_sid,
+                  category_detail_sid,
+                  for_pet_type,
+                  name,
+                  img,
+                  update_date,
+                  supplier,
+                  max_price,
+                  min_price,
+                  avg_rating,
+                } = v
+                return (
+                  <ShopProductCard
+                    key={product_sid}
+                    category_detail_sid={category_detail_sid}
+                    for_pet_type={for_pet_type}
+                    name={name}
+                    img={img}
+                    update_date={update_date}
+                    supplier={supplier}
+                    max_price={max_price}
+                    min_price={min_price}
+                    avg_rating={avg_rating}
+                  />
+                )
+              })}
+            </Row>
+          </div>
+          <div className={styles.pet_type_btns}>
+            <button className={styles.circle_btn_active}></button>
+            <button></button>
+            <button></button>
+            <button></button>
+          </div>
+          <BGMiddleDecoration />
+        </section>
+        {/* <section className="container-outer reccomand-brand"> */}
         {/* 第二區推薦品牌 */}
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
@@ -251,8 +252,8 @@ export default function ProdoctIndex() {
             </Row>
           </div>
         </div>
-      </section>
-      <section className="container-outer new-products">
+        {/* </section> */}
+        {/* <section className="container-outer new-products"> */}
         {/* 第三區新品顯示區 頁碼要看怎麼用迴圈產生*/}
         <BGMNewDecoration />
         <p className={styles.new_products_title}>新品專區</p>
@@ -294,7 +295,8 @@ export default function ProdoctIndex() {
           <button></button>
           <button></button>
         </div>
-      </section>
-    </DefaultLayout>
+        {/* </section> */}
+      </DefaultLayout>
+    </>
   )
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import DefaultLayout from '@/components/layout/default-layout'
 import ShopProductCard from '@/components/ui/cards/shop-product-card'
 import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank'
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb'
@@ -35,7 +36,8 @@ export default function Catergory() {
   }, [])
   return (
     <>
-      <div className="container-outer">
+      <DefaultLayout>
+        {/* <div className="container-outer"> */}
         <div className={styles.bgc_lightBrown}>
           <nav className="container-inner">
             <div className={styles.search_bar}>
@@ -54,8 +56,8 @@ export default function Catergory() {
           </nav>
         </div>
         <BGUpperDecoration />
-      </div>
-      <div className="container-outer">
+        {/* </div> */}
+        {/* <div className="container-outer"> */}
         <main className="container-inner">
           <ShopTotalPagesRank totalItems={totalItems} />
           <Row gutter={[32, 36]} className={styles.cards}>
@@ -99,7 +101,8 @@ export default function Catergory() {
             showSizeChanger={false}
           />
         </div>
-      </div>
+        {/* </div> */}
+      </DefaultLayout>
     </>
   )
 }
