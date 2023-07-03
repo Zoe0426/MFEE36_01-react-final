@@ -83,6 +83,9 @@ body {
 	line-height: 1;
     color:var(--dark-gray)
 }
+#__next{
+  height: 100%;
+}
 ol, ul {
 	list-style: none;
 }
