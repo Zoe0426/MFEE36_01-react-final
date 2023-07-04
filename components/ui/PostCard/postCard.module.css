@@ -1,0 +1,84 @@
+.cardBody{
+    width: 99%;
+    height:200px;
+    background-color: white;
+    margin-left:6px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    display: flex;
+    position: relative;
+    border-bottom:1px solid var(--light-gray);
+}
+.author{
+    display: flex;
+    padding:10px;
+}
+.profile{
+    width:36px;
+    height:36px;
+}
+.proImg{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 50%;
+}
+.aut{
+    font-size:var(--pfs16);
+    color:var(--gray);
+    margin:10px;
+}
+.postImg{
+    width:210px;
+    height:173px;
+    border-radius:var(--br10);
+    object-fit: cover;
+    object-position: top center;
+    position: absolute;
+    right:30px;
+    top:13px;
+}
+.postTit{
+    font-size:var(--h4fs24);
+    font-weight:var(--fwbold);
+    margin-top:7px;
+    margin-bottom:11px;
+    margin-left:15px;
+}
+.postCon{
+    font-size:var(--pfs16);
+    margin-left:15px;
+    width:70%;
+    line-height:25px;
+}
+.like{
+    width:20px;
+    height:20px;
+    color: var(--heartRed);
+    padding-right: 5px;
+}
+.comment{
+    width:20px;
+    height:20px;
+    color:rgb(88, 88, 125);
+    padding-right: 5px;
+}
+.favorite{
+    width:20px;
+    height:20px;
+    color:rgb(72, 105, 72);
+    padding-right: 5px;
+}
+.postData{
+    display: flex;
+    margin:3px;
+}
+.postData p{
+    font-size: var(--pfs14);
+    padding-top: 3px;
+}
+.postLike, .postCom, .postFav{
+    display: flex;
+    margin:5px 15px 5px 15px;
+}

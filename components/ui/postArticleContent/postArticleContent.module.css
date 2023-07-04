@@ -1,0 +1,49 @@
+.articleBody{
+    background-color: #fff;
+    padding: 15px;
+}
+.postContent{
+    font-size: var(--h6fs18);
+    line-height: 30px;
+    margin:10px;
+}
+.articleDatas{
+    display:flex;
+    margin:10px;
+    margin-top:30px;
+}
+.postLike, .postCom{
+    display:flex;
+    margin-right:20px;
+}
+.postCom{
+    width:800px;
+}
+.like{
+    width:30px;
+    height:30px;
+    color: var(--heartRed);
+    padding-right: 5px;
+}
+.comment{
+    width:30px;
+    height:30px;
+    color:rgb(88, 88, 125);
+    padding-right: 5px;
+}
+.likeGray, .favoriteGray{
+    width:30px;
+    height:30px;
+    color: var(--gray);
+    margin-right: 15px;
+}
+.favorite{
+    width:30px;
+    height:30px;
+    color:rgb(72, 105, 72);
+    padding-right: 5px;
+}
+.postNum{
+    font-size: var(--h6fs18);
+    padding: 5px;
+}

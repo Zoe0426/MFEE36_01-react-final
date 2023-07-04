@@ -1,0 +1,7 @@
+.imgPic{
+    width:250px;
+    height:200px;
+    border-radius:var(--br10);
+    object-fit: cover;
+    margin:10px;
+}
