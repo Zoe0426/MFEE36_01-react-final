@@ -29,9 +29,7 @@ export default function Product() {
         <div className="container-inner">
           <div className={styles.comment_section}>
             <div
-              className={styles.comment_cards}
-              style={{ width: (dataForComment.length / 3.5) * 100 + '%' }}
-            >
+              className={styles.comment_cards}>
               {dataForComment.map((v) => {
                 const {
                   product_comment_sid,
@@ -40,6 +38,7 @@ export default function Product() {
                   rating,
                   content,
                   name,
+                  profile,
                 } = v
                 return (
                   <CommentCard
@@ -49,6 +48,7 @@ export default function Product() {
                     rating={rating}
                     content={content}
                     name={name}
+                    profile={profile}
                   />
                 )
               })}

@@ -8,7 +8,7 @@ export default function CommentCard({
   rating = 0,
   content = '',
   name = '',
-  img = '',
+  profile = null,
 }) {
   const ratingArr = []
   for (let i = 1; i <= 5; i++) {
@@ -22,10 +22,10 @@ export default function CommentCard({
     <div className={styles.comment_card}>
       <div className={styles.card_head}>
         <div>
-          {img ? (
-            <img src={`/product-img/${img}`} alt="" />
+          {profile ? (
+            <img src={`/product-img/${profile}`} alt="" />
           ) : (
-            <FontAwesomeIcon icon={faUser} />
+            <FontAwesomeIcon icon={faUser} className={styles.default_head} />
           )}
         </div>
         <div>

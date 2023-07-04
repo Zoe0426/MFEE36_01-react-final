@@ -164,14 +164,17 @@
 .comment_cards{
     display: flex;
     flex-wrap: nowrap;
-    width: 6250px;
 }
 
 @media screen and (max-width:767px){
     .comment_cards{
         flex-direction: column;
-        /* flex-wrap: wrap; */
-        /* width: 100%; */
+        width:100%;
+        justify-content: center;
+    }
+    .pet_type_cards{
+        margin-left:5%;
+        width:6000px;
     }
 }
 
