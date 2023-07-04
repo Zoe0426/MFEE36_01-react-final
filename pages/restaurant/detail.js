@@ -10,7 +10,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import { faClock } from '@fortawesome/free-solid-svg-icons'
 import { faPaw } from '@fortawesome/free-solid-svg-icons'
 import Tab from '@/components/ui/restaurant/Tab'
-import FeatureCard from '@/components/ui/restaurant/featureCard'
+import FeatureCard from '@/components/ui/restaurant/FeatureCard'
 import ActivityCard from '@/components/ui/restaurant/ActivityCard'
 
 export default function RestInfo() {
@@ -35,28 +35,39 @@ export default function RestInfo() {
             <p className={Styles.information}>
               一群熱愛生命有夢想的青年，在這2200平方的土地上開始建構毛小孩的奔跑空間，健康自製的料理飲品，無毒自然的溯源食材，我們知道，我們還有很多可以進步的地方，因為我們熱愛我們的家，熱愛每一個回家的家人~當歡迎光臨聲起，我們的微笑綻放，心裡默默念著…歡迎回家!!
             </p>
-            <div className={Styles.contact_group}>
-              <div className={Styles.contact}>
-                <FontAwesomeIcon icon={faPhone} className={Styles.info_icon} />
-                <p>02-2268-1031</p>
+            <div className={Styles.info_text_group}>
+              <div className={Styles.contact_group}>
+                <div className={Styles.contact}>
+                  <FontAwesomeIcon
+                    icon={faPhone}
+                    className={Styles.info_icon}
+                  />
+                  <p>02-2268-1031</p>
+                </div>
+                <div className={Styles.contact}>
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className={Styles.info_icon}
+                  />
+                  <p>新北市土城區承天路103號</p>
+                </div>
+                <div className={Styles.contact}>
+                  <FontAwesomeIcon
+                    icon={faClock}
+                    className={Styles.info_icon}
+                  />
+                  <p>11:00~22:00，週日公休</p>
+                </div>
+                <div className={Styles.contact}>
+                  <FontAwesomeIcon icon={faPaw} className={Styles.info_icon} />
+                  <p>大型/中型/小型犬與貓</p>
+                </div>
               </div>
-              <div className={Styles.contact}>
-                <FontAwesomeIcon icon={faLocationDot} />
-                <p>新北市土城區承天路103號</p>
+              <div className={Styles.rest_group_btn}>
+                <IconBtn icon={faHeart} text="收藏餐廳" />
+                <IconBtn icon={faHeart} text="餐廳菜單" />
+                <IconMainBtn icon={faHeart} text="我要預約" />
               </div>
-              <div className={Styles.contact}>
-                <FontAwesomeIcon icon={faClock} />
-                <p>11:00~22:00，週日公休</p>
-              </div>
-              <div className={Styles.contact}>
-                <FontAwesomeIcon icon={faPaw} />
-                <p>大型/中型/小型犬與貓</p>
-              </div>
-            </div>
-            <div className={Styles.rest_group_btn}>
-              <IconBtn icon={faHeart} text="收藏餐廳" />
-              <IconBtn icon={faHeart} text="餐廳菜單" />
-              <IconMainBtn icon={faHeart} text="我要預約" />
             </div>
           </div>
         </div>

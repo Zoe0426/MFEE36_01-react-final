@@ -8,6 +8,7 @@
     border: 1px solid var(--gray);
     transition: 0.3s;
 }
+
 .icon_btn:hover{
     background-color: var(--light-gray);
     cursor: pointer;

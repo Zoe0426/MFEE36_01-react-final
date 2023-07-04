@@ -1,5 +1,5 @@
 .jill_h1{
-    font-size: var(--h3fs28);
+    font-size: var(--h1fs36);
     font-weight: var(--fwbold);
     color: var(--dark-gray);
 }
@@ -64,7 +64,16 @@
     gap: 12px;
 }
 
+.info_icon{
+    color: var(--main);
+    margin-right: 10px;
+}
 
+.info_text_group{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 .notion_bgc{
     background-image: url('../../public/rest_image/notion_bgc.png');

@@ -10,12 +10,15 @@ import LocationCard from '@/components/ui/restaurant/LocationCard'
 import Styles from './index.module.css'
 import Banner from '@/components/ui/restaurant/Banner'
 import FunctionArea from '@/components/ui/restaurant/FunctionArea'
+import Image from 'next/image'
+import topAreaBgc from '@/assets/top_area_bgc.svg'
 
 export default function Restindex() {
   return (
     <>
       <Banner />
       <FunctionArea />
+      <Image src={topAreaBgc} />
       <div className="container-inner">
         <div className={Styles.explore_title}>
           <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
