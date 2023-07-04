@@ -39,6 +39,7 @@
 }
 .rest_detail{
     display: flex;
+    justify-content: space-between;
     margin-bottom: 40px;
     margin-top: 40px;
 }
@@ -47,6 +48,8 @@
     width: 50%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+
 }
 .contact{
     display: flex;
@@ -76,11 +79,33 @@
 }
 
 .notion_bgc{
-    background-image: url('../../public/rest_image/notion_bgc.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    padding-top: 360px;
-    padding-bottom: 400px;
-    /* background-size: 100% auto; */
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background-color: var(--lightBrown);
+}
+
+/* 自動䩞滿的三顆btn */
+
+.icon_btn{
+    padding: var(--p16) 20px;
+    border-radius: var(--br10);
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: transparent;
+    border: 1px solid var(--gray);
+    transition: 0.3s;
+}
+
+.icon_btn:hover{
+    background-color: var(--light-gray);
+    cursor: pointer;
+}
+
+.icon_btn{
+    font-size: var(--pfs16);
+    flex-grow: 1; 
+    margin: 0 2px;
+    margin-top: 80px;
+
 }

@@ -1,8 +1,10 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFire } from '@fortawesome/free-solid-svg-icons'
-import { faFaceLaugh } from '@fortawesome/free-solid-svg-icons'
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import {
+  faFire,
+  faFaceLaugh,
+  faLocationDot,
+} from '@fortawesome/free-solid-svg-icons'
 import RestCard from '@/components/ui/cards/rest_card'
 import { Col, Row } from 'antd'
 import RestTitle from '@/components/ui/restaurant/RestTitle'
@@ -10,15 +12,19 @@ import LocationCard from '@/components/ui/restaurant/LocationCard'
 import Styles from './index.module.css'
 import Banner from '@/components/ui/restaurant/Banner'
 import FunctionArea from '@/components/ui/restaurant/FunctionArea'
+import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc'
 import Image from 'next/image'
-import topAreaBgc from '@/assets/top_area_bgc.svg'
+import CloudTop from '@/assets/cloud_top.svg'
+import MiddleAreaBgc from '@/components/ui/restaurant/MiddleAreaBgc'
 
 export default function Restindex() {
   return (
     <>
-      <Banner />
-      <FunctionArea />
-      <Image src={topAreaBgc} />
+      <div className="container-outer">
+        <Banner />
+        <FunctionArea />
+        <TopAreaBgc />
+      </div>
       <div className="container-inner">
         <div className={Styles.explore_title}>
           <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
@@ -100,51 +106,57 @@ export default function Restindex() {
           <LocationCard rest_image="/rest_image/dog_paw.png" />
         </div>
       </div>
-      <div className={Styles.cloud_bgc}>
-        <div className="container-inner">
-          <div className={Styles.explore_title}>
-            <FontAwesomeIcon icon={faFaceLaugh} className={Styles.title_icon} />
-            <h2 className={Styles.jill_h2}>友善條件</h2>
-          </div>
-          <Row gutter={[48, 48]}>
-            <Col span={4}>
-              <div className={Styles.box}>
-                <img src="/rest_image/friendly/friendly1.png" alt="" />
-              </div>
-            </Col>
-            <Col span={4}>
-              <div className={Styles.box}>
-                <img src="/rest_image/friendly/friendly1.png" alt="" />
-              </div>
-            </Col>
-            <Col span={4}>
-              <div className={Styles.box}>
-                <img src="/rest_image/friendly/friendly1.png" alt="" />
-              </div>
-            </Col>
-            <Col span={4}>
-              <div className={Styles.box}>
-                <img src="/rest_image/friendly/friendly1.png" alt="" />
-              </div>
-            </Col>
-            <Col span={4}>
-              <div className={Styles.box}>
-                <img src="/rest_image/friendly/friendly1.png" alt="" />
-              </div>
-            </Col>
-            <Col span={4}>
-              <div className={Styles.box}>
-                <img src="/rest_image/friendly/friendly1.png" alt="" />
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </div>
+      <div className="container-outer">
+        <Image src={CloudTop} className={Styles.CloudTop} />
 
+        <div className={Styles.cloud_bgc}>
+          <div className="container-inner">
+            <div className={Styles.explore_title}>
+              <FontAwesomeIcon
+                icon={faFaceLaugh}
+                className={Styles.title_icon}
+              />
+              <h2 className={Styles.jill_h2}>友善條件</h2>
+            </div>
+            <Row gutter={[48, 48]}>
+              <Col span={4}>
+                <div className={Styles.box}>
+                  <img src="/rest_image/friendly/friendly1.png" alt="" />
+                </div>
+              </Col>
+              <Col span={4}>
+                <div className={Styles.box}>
+                  <img src="/rest_image/friendly/friendly1.png" alt="" />
+                </div>
+              </Col>
+              <Col span={4}>
+                <div className={Styles.box}>
+                  <img src="/rest_image/friendly/friendly1.png" alt="" />
+                </div>
+              </Col>
+              <Col span={4}>
+                <div className={Styles.box}>
+                  <img src="/rest_image/friendly/friendly1.png" alt="" />
+                </div>
+              </Col>
+              <Col span={4}>
+                <div className={Styles.box}>
+                  <img src="/rest_image/friendly/friendly1.png" alt="" />
+                </div>
+              </Col>
+              <Col span={4}>
+                <div className={Styles.box}>
+                  <img src="/rest_image/friendly/friendly1.png" alt="" />
+                </div>
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <MiddleAreaBgc />
+      </div>
       <div className="container-inner">
         <RestTitle icon={faFire} text="熱門餐廳" />
       </div>
-
       <div className="container-inner">
         <Row gutter={[32, 32]}>
           <Col span={8}>
@@ -173,11 +185,9 @@ export default function Restindex() {
           </Col>
         </Row>
       </div>
-
       <div className="container-inner">
         <RestTitle icon={faFaceLaugh} text="最友善餐廳" />
       </div>
-
       <div className="container-inner">
         <Row gutter={[32, 32]}>
           <Col span={8}>

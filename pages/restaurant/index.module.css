@@ -46,7 +46,6 @@
     position: relative;
     width: 100%;
     height: 164px;
-    /* background-color: rgb(253, 174, 174); */
     background-image: url('../../public/rest_image/friendly/friendly.png');
     background-repeat: no-repeat;
     background-position: center;
@@ -58,11 +57,13 @@
 }
 
 .cloud_bgc{
-    padding-top: 180px;
-    padding-bottom: 180px;
-    /* background-color: var(--lightBrown); */
-    background-image: url(../../public/rest_image/cloud_bgc.jpg);
-    background-position: center;
-    background-size: cover;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background-color: var(--lightBrown); 
 }
 
+
+.CloudTop{
+    height: 81px;
+    width: 100%;
+}

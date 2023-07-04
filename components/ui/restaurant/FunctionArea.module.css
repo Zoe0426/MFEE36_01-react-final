@@ -15,16 +15,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* margin-bottom: 40px; */
+    padding-bottom: 4px;
     padding-top: var(--p16);
 }
 
 .bgc{
     background-color: var(--lightBrown);
-    /* background-image: url('../../../public/rest_image/top_area_image.png');
-    padding-top: 10px;
-    padding-bottom: 30px;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;     */
+
 }

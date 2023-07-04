@@ -6,11 +6,12 @@
 .top_area_bgc img:nth-child(2){
     position: absolute;
     left:10%;
-    bottom: 0;
+    bottom: 40%;
+    
 }
 
 .top_area_bgc img:nth-child(3){
     position: absolute;
     right:10%;
-    bottom: 0;
+    bottom: 40%;
 }
