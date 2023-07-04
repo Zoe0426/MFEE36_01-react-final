@@ -1,0 +1,55 @@
+.banner{
+    width: 100%;
+    height: 280px;
+    background: rgb(215, 215, 215);
+}
+
+.banner_pic{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.selector{
+    width: 100%;
+    height: 109px;
+    background: rgb(198, 192, 192);
+}
+
+.type{
+    width: 100%;
+    height: 269px;
+    background: rgb(216, 190, 190);
+}
+
+.section1{
+    height: 602px;
+    background: var(--light1);
+}
+
+.section_card{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.section2{
+    height: 602px;
+    background:var(--light2);
+}
+
+.section3{
+    height: 791px;
+    background: var(--light1);
+}
+
+.section4{
+    height: 477px;
+    background: var(--light2);
+}
+
+.title{
+    font-size: var(--h3fs28);
+    color: var(--dark);
+    font-weight: var(--fwbold);
+}

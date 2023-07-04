@@ -1,0 +1,102 @@
+.card {
+  display: flex;
+  width: 602px;
+  height: 262px;
+}
+
+/* -------左邊------- */
+.left {
+  position: relative;
+  width: 294px;
+  height: 262px;
+}
+
+.image {
+  border-radius: var(--br10) 0 0 var(--br10);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 88px;
+  height: 32px;
+  background-color: var(--main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius:var(--br10) 0 var(--br8) 0 ;
+}
+
+.text {
+  font-size: var(--pfs14);
+  color: white;
+}
+
+.icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background-color: #000000;
+}
+
+/* -------右邊------- */
+.right {
+  margin-left: 1rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  margin-right: 8px;
+}
+
+.rowText {
+  margin-right: 8px;
+}
+
+.rowTextReview{
+  display: flex;
+  margin-right: 8px;
+}
+
+/* 標題 */
+.rowTextTitle {
+  font-weight: var(--fwbold);
+  margin-right: 8px;
+}
+
+/* 地址 */
+.rowTextAddress {
+  color: var(--gray);
+  /* font-weight: var(--fwbold); */
+}
+
+.rowTextLarge {
+  font-size: var(--h6fs18);
+}
+
+.rowTextSmall {
+  font-size: var(--pfs16);
+}
+
+.rowIcon {
+  width: 24px;
+  height: 24px;
+  background-color: #6c6b6b;
+  margin-right: 8px;
+}
+
+.feature {
+  width: 134px;
+  height: 40px;
+  background-color: #FFD4C0;
+  color: #515151;
+  margin-right: 8px;
+}
