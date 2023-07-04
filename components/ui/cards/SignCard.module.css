@@ -7,6 +7,16 @@
   margin: 0 auto;
   margin-top: -100px;
   background-color: #fff;
+  border: 1px solid red;
+}
+
+.title{
+  font-size: var(--h1fs36);
+  color: var(--dark);
+  font-weight: var(--fwbold);
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 
@@ -19,5 +29,6 @@
 .drowDog{
   position: absolute;
   bottom: 0;
-  right: -50px;
+  right: -80px;
 }
+

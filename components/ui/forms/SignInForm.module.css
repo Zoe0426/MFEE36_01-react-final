@@ -1,0 +1,35 @@
+
+.form{
+  height: 180px;
+  background-color: gray;
+  margin-bottom: 50px;
+}
+
+.line{
+  position: relative;
+  width: 640px;
+  height: 1px;
+  background-color: var(--light-gray);
+  margin: 0 auto;
+	margin-bottom: 50px;
+}
+
+.lineText{
+  position: absolute;
+  font-size: var(--pfs14);
+  text-align: center;
+  bottom: -5px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: #fff;
+}
+
+.btns{
+  height: 70px;
+  background-color: pink;
+  margin-bottom: 50px;
+}
+
+.google{
+  text-align: center;
+}

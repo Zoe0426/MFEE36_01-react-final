@@ -1,21 +1,14 @@
 import React from 'react';
 import Styles from './SignCard.module.css';
 
-export default function SignCard() {
+export default function SignCard({ children, title }) {
   return (
     <>
       <div className={Styles.signCard}>
-        <div className="h1">會員登入</div>
-        <img
-          src="/sign-images/drow-tree.png"
-          alt=""
-          className={Styles.drowTree}
-        />
-        <img
-          src="/sign-images/drow-dog.png"
-          alt=""
-          className={Styles.drowDog}
-        />
+        <div className={Styles.title}>{title}</div>
+        <div>{children}</div>
+        <img src="/sign-images/tree.svg" alt="" className={Styles.drowTree} />
+        <img src="/sign-images/dog.svg" alt="" className={Styles.drowDog} />
       </div>
     </>
   );

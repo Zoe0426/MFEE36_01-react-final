@@ -10,7 +10,7 @@ export default function Footer() {
           <div className={Styles.logoInfo}>
             <div>
               <img
-                src="/layout-images/h-logo.png"
+                src="/layout-images/h-logo.svg"
                 alt=""
                 className={Styles.logo}
               />
@@ -31,9 +31,7 @@ export default function Footer() {
             </div>
           </div>
           <div className={Styles.copyRight}>
-            <p>
-              Copyright © 2010-2023 GOwithMe Company All rights reserved.
-            </p>
+            <p>Copyright © 2010-2023 GOwithMe Company All rights reserved.</p>
           </div>
         </div>
       </footer>

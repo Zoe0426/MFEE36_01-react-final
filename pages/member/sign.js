@@ -1,12 +1,16 @@
 import React from 'react';
-import SignNavbar from '@/components/ui/navbars/SignNavbar';
+import SignLayout from '@/components/layout/sign-layout';
 import SignCard from '@/components/ui/cards/SignCard';
+import SignInForm from '@/components/ui/forms/SignInForm';
 
 export default function SignIn() {
   return (
     <>
-      <SignNavbar />
-      <SignCard></SignCard>
+      <SignCard title="會員登入">
+        <SignInForm />
+      </SignCard>
     </>
   );
 }
+
+SignIn.getLayout = SignLayout;

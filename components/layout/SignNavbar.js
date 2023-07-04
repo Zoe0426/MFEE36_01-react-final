@@ -5,8 +5,8 @@ export default function SignVavbar() {
   return (
     <>
       <div className={Styles.signNavbar}>
-        <img src="/layout-images/h-logo.png" alt="" className={Styles.logo} />
-        <img src="/sign-images/sign-navbar.png" alt="" />
+        <img src="/layout-images/h-logo.svg" alt="" className={Styles.logo} />
+        <img src="/sign-images/sign-navbar.svg" alt="" />
       </div>
     </>
   );
