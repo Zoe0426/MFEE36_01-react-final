@@ -1,6 +1,6 @@
 import styles from './comment-card.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faUser } from '@fortawesome/free-solid-svg-icons'
 
 export default function CommentCard({
   member_sid = '',
@@ -22,7 +22,11 @@ export default function CommentCard({
     <div className={styles.comment_card}>
       <div className={styles.card_head}>
         <div>
-          <img src={`/product-img/${img}`} alt="" />
+          {img ? (
+            <img src={`/product-img/${img}`} alt="" />
+          ) : (
+            <FontAwesomeIcon icon={faUser} />
+          )}
         </div>
         <div>
           <p class={styles.user_name}>{name}</p>

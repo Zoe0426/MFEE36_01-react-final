@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import CommentCard from '@/components/ui/cards/comment-card'
+import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration'
 
 import styles from '@/styles/shop.module.css'
 import { Row } from 'antd'
@@ -23,10 +24,14 @@ export default function Product() {
   }, [])
   return (
     <>
+      <BGMiddleDecoration />
       <div className="container-outer">
         <div className="container-inner">
           <div className={styles.comment_section}>
-            <div className={styles.comment_cards}>
+            <div
+              className={styles.comment_cards}
+              style={{ width: (dataForComment.length / 3.5) * 100 + '%' }}
+            >
               {dataForComment.map((v) => {
                 const {
                   product_comment_sid,

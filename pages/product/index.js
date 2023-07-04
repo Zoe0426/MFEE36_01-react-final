@@ -201,7 +201,7 @@ export default function ProdoctIndex() {
                 role="presentation"
                 key={v.id}
                 className={v.display ? styles.tab_active : styles.tab_normal}
-                onClick={() => {
+                onMouseEnter={() => {
                   setTwotCatergoriesData(
                     toggleDisplayForDogCat(twotCatergoriesData, v.id)
                   )
