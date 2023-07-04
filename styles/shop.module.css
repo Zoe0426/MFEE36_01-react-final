@@ -34,6 +34,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+    margin-top:36px;
 }
 
 
@@ -161,6 +162,10 @@
 
 
 /*--------------商品細節頁面-------------*/
+
+
+
+
 .comment_cards{
     display: flex;
     flex-wrap: nowrap;
