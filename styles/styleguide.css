@@ -1,35 +1,35 @@
 :root {
-  --main: #FD8C46;
-  --secondary: #FFD4C0;
-  /* /圓btn, paginationHover */
-  --dark: #5f231B;
-  --flag:#F1C476;
-  --lightBrown: #F7ECE3; /* 咖啡背景色 */
-  --light1: #FFEFE8;/* footer背景色 */
-  --light2: #FFFAF6;/* 主背景色 */
-  --light3:#FFE8D6;/* 論壇背景色 */
-  --light-gray:#DDDDDD;
-  --gray:#909090;
-  --dark-gray: #515151;
-  --green: #A1D429;
-  --heartRed:#EC5353;
-  --starYellow: #FCC917;
- /* font-size */
-  --h1fs36:2.25rem;
-  --h2fs32:2rem;
-  --h3fs28:1.75rem;
-  --h4fs24:1.5rem;
-  --h5fs20:1.25rem;
-  --h6fs18:1.125rem;
-  --pfs16:1rem;
-  --pfs14:0.875rem;
-  --pfs12:.75rem;
-  /* font-weight */
-  --fwbold: bold;
-  /* border-radius */
-  --br20: 20px;
-  --br10: 10px;
-  --br8: 8px;
+    --main: #FD8C46;
+    --secondary: #FFD4C0;
+    /* /圓btn, paginationHover */
+    --dark: #5f231B;
+    --flag:#F1C476;
+    --lightBrown: #F7ECE3; /* 咖啡背景色 */
+    --light1: #FFEFE8;/* footer背景色 */
+    --light2: #FFFAF6;/* 主背景色 */
+    --light3:#FFE8D6;/* 論壇背景色 */
+    --light-gray:#DDDDDD;
+    --gray:#909090;
+    --dark-gray: #515151;
+    --green: #A1D429;
+    --heartRed:#EC5353;
+    --starYellow: #FCC917;
+   /* font-size */
+    --h1fs36:2.25rem;
+    --h2fs32:2rem;
+    --h3fs28:1.75rem;
+    --h4fs24:1.5rem;
+    --h5fs20:1.25rem;
+    --h6fs18:1.125rem;
+    --pfs16:1rem;
+    --pfs14:0.875rem;
+    --pfs12:.75rem;
+    /* font-weight */
+    --fwbold: bold;
+    /* border-radius */
+    --br20: 20px;
+    --br10: 10px;
+    --br8: 8px;
 
   /* padding */
   --p8:0.5rem;
@@ -37,16 +37,16 @@
   --p24:1.5rem;
   --p32:2rem;
 
-  /* shadow */
-  --shadow: 2px 6px 8px rgba(255,255,255,0.1);
+    /* shadow */
+    --shadow: 2px 6px 8px rgba(0,0,0,0.1);
 }
 
 
 
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
-v2.0 | 20110126
-License: none (public domain)
+  v2.0 | 20110126
+  License: none (public domain)
 */
 
 *{
@@ -60,6 +60,14 @@ html,body{
 #__next{
   height: 100%;
 }
+
+html,body{
+  height: 100%;
+  }
+  
+  #__next{
+    height: 100%;
+  }
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -88,15 +96,11 @@ footer, header, hgroup, menu, nav, section {
   display: block;
 }
 body {
-  line-height: 1;
+	line-height: 1;
+  color: var(--dark-gray);
 }
 
-.main{
-  width: 100%;
-  margin-top: 65px;
-  padding-bottom: 150px;
-  /* border: 1px solid red; */
-}
+
 
 ol, ul {
   list-style: none;
@@ -120,9 +124,9 @@ body{
 }
 
 .container-outer{
-  min-height: 100%;
-  position: relative;
-  /* border: 1px solid green; */
+	min-height: 100%;
+	position: relative;
+  border: 1px solid green;
   max-width: 1920px;
   overflow: hidden;
   margin: auto;
@@ -133,6 +137,8 @@ body{
   /* border: 1px solid purple; */
   margin: auto;
 }
+
+
 
 
 @media screen and (max-width:1920px) and (min-width:768px){

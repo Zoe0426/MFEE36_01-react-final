@@ -20,7 +20,7 @@ export default function Navbar() {
             ></Image> */}
             <img
               className={Styles.logo}
-              src="/layout-images/h-logo.png"
+              src="/layout-images/h-logo.svg"
               alt=""
             />
           </div>

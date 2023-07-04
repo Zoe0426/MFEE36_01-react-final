@@ -1,6 +1,6 @@
-import React from 'react'
-import Styles from './footer.module.css'
-import Link from 'next/link'
+import React from 'react';
+import Styles from './footer.module.css';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -10,7 +10,7 @@ export default function Footer() {
           <div className={Styles.logoInfo}>
             <div>
               <img
-                src="/layout-images/h-logo.png"
+                src="/layout-images/h-logo.svg"
                 alt=""
                 className={Styles.logo}
               />
