@@ -1,0 +1,27 @@
+.roundBtn{
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%;
+    background-color: var(--secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.roundBtn:first-child{
+    margin-right: 1rem;
+}
+.rb-icon{
+    width: 17px;
+}
+@media screen and (max-width:767px){
+    .roundBtn{
+        width: 30px; 
+        height: 30px; 
+    }
+    .rb-icon{
+        width: 15px;
+    }   
+    .roundBtn:first-child{
+        margin-right: 0.5rem;
+    }
+}
