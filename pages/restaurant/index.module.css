@@ -64,6 +64,6 @@
 
 
 .CloudTop{
-    height: 81px;
-    width: 100%;
+    height: 70px;
+    overflow: hidden;
 }

@@ -1,21 +1,21 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFire,
   faFaceLaugh,
   faLocationDot,
-} from '@fortawesome/free-solid-svg-icons'
-import RestCard from '@/components/ui/cards/rest_card'
-import { Col, Row } from 'antd'
-import RestTitle from '@/components/ui/restaurant/RestTitle'
-import LocationCard from '@/components/ui/restaurant/LocationCard'
-import Styles from './index.module.css'
-import Banner from '@/components/ui/restaurant/Banner'
-import FunctionArea from '@/components/ui/restaurant/FunctionArea'
-import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc'
-import Image from 'next/image'
-import CloudTop from '@/assets/cloud_top.svg'
-import MiddleAreaBgc from '@/components/ui/restaurant/MiddleAreaBgc'
+} from '@fortawesome/free-solid-svg-icons';
+import RestCard from '@/components/ui/cards/rest_card';
+import { Col, Row } from 'antd';
+import RestTitle from '@/components/ui/restaurant/RestTitle';
+import LocationCard from '@/components/ui/restaurant/LocationCard';
+import Styles from './index.module.css';
+import Banner from '@/components/ui/restaurant/Banner';
+import FunctionArea from '@/components/ui/restaurant/FunctionArea';
+import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
+import Image from 'next/image';
+import CloudTop from '@/assets/cloud_top.svg';
+import MiddleAreaBgc from '@/components/ui/restaurant/MiddleAreaBgc';
 
 export default function Restindex() {
   return (
@@ -107,7 +107,9 @@ export default function Restindex() {
         </div>
       </div>
       <div className="container-outer">
-        <Image src={CloudTop} className={Styles.CloudTop} />
+        <div className={Styles.CloudTop}>
+          <Image src={CloudTop} />
+        </div>
 
         <div className={Styles.cloud_bgc}>
           <div className="container-inner">
@@ -217,5 +219,5 @@ export default function Restindex() {
         </Row>
       </div>
     </>
-  )
+  );
 }

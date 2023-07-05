@@ -1,19 +1,19 @@
-import React from 'react'
-import Styles from './detail.module.css'
-import IconBtn from '@/components/ui/buttons/IconBtn'
-import RateStar from '@/components/ui/rateStar/RateStar'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhone } from '@fortawesome/free-solid-svg-icons'
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
-import { faClock } from '@fortawesome/free-solid-svg-icons'
-import { faPaw } from '@fortawesome/free-solid-svg-icons'
-import Tab from '@/components/ui/restaurant/Tab'
-import FeatureCard from '@/components/ui/restaurant/FeatureCard'
-import ActivityCard from '@/components/ui/restaurant/ActivityCard'
-import Image from 'next/image'
-import CloudTop from '@/assets/cloud_top.svg'
-import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc'
+import React from 'react';
+import Styles from './detail.module.css';
+import IconBtn from '@/components/ui/buttons/IconBtn';
+import RateStar from '@/components/ui/rateStar/RateStar';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
+import { faPaw } from '@fortawesome/free-solid-svg-icons';
+import Tab from '@/components/ui/restaurant/Tab';
+import FeatureCard from '@/components/ui/restaurant/FeatureCard';
+import ActivityCard from '@/components/ui/restaurant/ActivityCard';
+import Image from 'next/image';
+import CloudTop from '@/assets/cloud_top.svg';
+import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
 
 export default function RestInfo() {
   return (
@@ -26,7 +26,7 @@ export default function RestInfo() {
           </div>
         </div>
       </div>
-      
+
       <div className="container-inner">
         <div className={Styles.rest_detail}>
           <div className={Styles.rest_image}>
@@ -114,7 +114,9 @@ export default function RestInfo() {
         date="2023/05/01 ~ 2023/05/26"
         activity_info="以端午節為主題推出寵物鮮食肉粽讓毛寶一起慶端午！特別選用手掌心×天然寵食的『紅趜豬肉粽』香噴噴的豬肉營養滿分的紅趜滿足了您毛小孩的口腹之欲專為寵物製作的美食，讓您的毛小孩開心地一口接一口！"
       />
-      <Image src={CloudTop} />
+      <div className={Styles.CloudTop}>
+        <Image src={CloudTop} />
+      </div>
       <div className={Styles.notion_bgc}>
         <div className="container-inner">
           <h2 className={Styles.jill_h2}>店家叮嚀</h2>
@@ -127,5 +129,5 @@ export default function RestInfo() {
         <h2 className={Styles.jill_h2}>饕客評價</h2>
       </div>
     </>
-  )
+  );
 }
