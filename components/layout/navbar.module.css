@@ -73,7 +73,7 @@
   display: flex;
   min-width: 115px;
   width: 15%;
-  justify-content: end;
+  justify-content: flex-end;
   /* border: 1px solid green; */
 }
 

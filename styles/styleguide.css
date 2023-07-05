@@ -131,6 +131,65 @@ body{
 
 
 
+.antRow{
+  height: 100%;
+}
+
+.antCol{
+  height: 100%;
+  border: 1px solid black;
+  background-color: powderblue;
+}
+
+.sideBar{
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .memberInfo{
+  width: 320px;
+  height: 300px;
+  background-color: gray;
+  border: 1px solid red;
+  border-radius: 20px;
+  margin-bottom: 30px;
+} */
+
+.memberInfo {
+  width: 320px;
+  height: 300px;
+  background-color: gray;
+  border: 1px solid red;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  transform-origin: top left;
+}
+
+.calendar{
+  width: 320px;
+  height: 350px;
+  background-color: gray;
+  border: 1px solid red;
+  border-radius: 20px;
+  margin-bottom: 30px;
+}
+
+.gameInfo{
+  width: 320px;
+  height: 300px;
+  background-color: gray;
+  border: 1px solid red;
+  border-radius: 20px;
+  margin-bottom: 30px;
+}
+
+.orderCard{
+  height: 390px;
+  background-color: gray;
+}
 
 @media screen and (max-width:1920px) and (min-width:768px){
 .container-inner{
@@ -140,5 +199,10 @@ body{
 @media screen and (max-width:767px){
 .container-inner{
     width: 85%;
+}
+.memberInfo {
+  width: 50%;
+  height: auto;
+  transform: scale(0.5);
 }
 }

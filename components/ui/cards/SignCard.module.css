@@ -1,7 +1,8 @@
 .signCard{
   position: relative;
   width: 800px;
-  height: 650px;
+  padding: 10px 0;
+  /* height: 650px; */
   box-shadow: var(--shadow);
   border-radius: var(--br20);
   margin: 0 auto;
