@@ -1,10 +1,13 @@
 import React from 'react'
 import styles from './NavRoundBtn.module.css'
+import Link from 'next/link'
 
 export default function RoundBtn({ icon = '' }) {
   return (
     <div className={styles.roundBtn}>
-      <img src={icon} className={styles.rb - icon} alt="" />
+      <Link href="/shop">
+        <img src={icon} className={styles.rb - icon} alt="" />
+      </Link>
     </div>
   )
 }

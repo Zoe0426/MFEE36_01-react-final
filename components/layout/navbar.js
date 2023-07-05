@@ -1,6 +1,9 @@
 import React from 'react';
 import Styles from './navbar.module.css';
-
+// import Image from 'next/image'
+// import logo from '@/assets/logo.svg'
+import Link from 'next/link';
+import NavRoundBtn from '@/components/ui/buttons/NavRoundBtn';
 export default function Navbar() {
   return (
     <>
@@ -10,60 +13,43 @@ export default function Navbar() {
             <button className={Styles.navbarToggler}>
               <div className={Styles.line}></div>
             </button>
-            <div className={Styles.logo}>
-              <a href="">
-                <img src="/layout-images/logo.png" alt="" />
-              </a>
-            </div>
-            <div className={Styles.logoMobile}>
-              <a href="">
-                <img src="/layout-images/logo-mobile.png" alt="" />
-              </a>
-            </div>
+            {/* <Image
+              src={logo}
+              className={Styles.logo}
+              alt="gowithmeLogo"
+            ></Image> */}
+            <img
+              className={Styles.logo}
+              src="/layout-images/h-logo.svg"
+              alt=""
+            />
           </div>
-
-          {/* <div className={Styles.linkList}> */}
           <div className={Styles.linkMenu}>
             <div className={Styles.linkItem}>
-              <a href="">商城</a>
+              <Link href="/shop" className={Styles.link}>
+                商城
+              </Link>
             </div>
             <div className={Styles.linkItem}>
-              <a href="">活動</a>
+              <Link href="/shop" className={Styles.link}>
+                活動
+              </Link>
             </div>
             <div className={Styles.linkItem}>
-              <a href="">餐廳</a>
+              <Link href="/shop" className={Styles.link}>
+                餐廳
+              </Link>
             </div>
             <div className={Styles.linkItem}>
-              <a href="">論壇</a>
+              <Link href="/shop" className={Styles.link}>
+                論壇
+              </Link>
             </div>
           </div>
-          <div className={Styles.icon}>
-            <ul className={Styles.iconMenu}>
-              <li>
-                <a href="">
-                  <img src="/layout-images/icon-cart.png" alt="" />
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <img src="/layout-images/icon-member.png" alt="" />
-                </a>
-              </li>
-            </ul>
-            <ul className={Styles.iconMeneMobile}>
-              <li>
-                <a href="">
-                  <img src="/layout-images/icon-cart-mobile.png" alt="" />
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  <img src="/layout-images/icon-member-moble.png" alt="" />
-                </a>
-              </li>
-            </ul>
+          <div className={Styles.iconMenu}>
+            <NavRoundBtn icon="/layout-images/h-cart.png"></NavRoundBtn>
+            <NavRoundBtn icon="/layout-images/h-user.png"></NavRoundBtn>
           </div>
-          {/* </div> */}
         </nav>
       </header>
     </>
