@@ -1,11 +1,59 @@
 import Head from 'next/head'
+import gwmphoto from '@/assets/gwmphoto.svg'
+import HomeNavbar from '@/components/layout/home-navbar'
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/home.module.css'
+import { Col, Row } from 'antd'
+import HomeShopCard from '@/components/ui/cards/homeShopCard'
+import SubBtn from '@/components/ui/buttons/subBtn'
+// import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+// const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const shopCardsData = [
+    {
+      img: '/home-images/hsprod1.avif',
+      type: '服飾類',
+      sale: '399',
+      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
+      price: '599',
+    },
+    {
+      img: '/home-images/hsprod1.avif',
+      type: '服飾類',
+      sale: '399',
+      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
+      price: '599',
+    },
+    {
+      img: '/home-images/hsprod1.avif',
+      type: '服飾類',
+      sale: '399',
+      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
+      price: '599',
+    },
+    {
+      img: '/home-images/hsprod1.avif',
+      type: '服飾類',
+      sale: '399',
+      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
+      price: '599',
+    },
+    {
+      img: '/home-images/hsprod1.avif',
+      type: '服飾類',
+      sale: '399',
+      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
+      price: '599',
+    },
+    {
+      img: '/home-images/hsprod1.avif',
+      type: '服飾類',
+      sale: '399',
+      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
+      price: '599',
+    },
+  ]
   return (
     <>
       <Head>
@@ -14,101 +62,172 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+      <header>
+        <HomeNavbar></HomeNavbar>
+        <SubBtn />
+        <main className="container-outer">
+          <div className="d-center headSection">
+            <img
+              src="home-images/h-header-photo.png"
+              className="gwmphoto"
+              alt="gwmphoto"
+            />
+            <img
+              src="home-images/h-title.png"
+              className="gwmtitle"
+              alt="title"
+            />
+            {/* <Image
+              src={gwmphoto}
+              sizes="(max-width: 768px)"
+              alt="gwmphoto"
+            ></Image> */}
           </div>
-        </div>
+        </main>
+      </header>
+      <div className="container-outer">
+        <Row>
+          <Col span={2}></Col>
+          <Col span={20}>
+            <Row className="hSection">
+              <Col className="hlCards" xs={24} sm={24} md={14}>
+                {shopCardsData.map((p, i) => {
+                  const { img, type, sale, name, price } = p
+                  return (
+                    <HomeShopCard
+                      key={i}
+                      img={img}
+                      type={type}
+                      sale={sale}
+                      name={name}
+                      price={price}
+                    />
+                  )
+                })}
+              </Col>
+              <Col className="hInfo" xs={24} sm={24} md={10}>
+                <article>
+                  <p className="hstitle">寵物商城</p>
+                  <p className="hetitle">SHOP WITH ME</p>
+                  <p className="hsubtitle">
+                    毛孩的吃喝玩樂都在寵物商城！ 各大品牌狗貓飼料、用品通通有!
+                    毛爸媽安心購買，更別錯過每日特殺活動喔~
+                  </p>
+                  <p className="hp">
+                    探索我們的寵物商城，為您的毛小孩尋找完美的驚喜！我們提供精選的寵物用品，從食品到玩具，應有盡有。{' '}
+                  </p>
+                  <p className="hp">
+                    我們致力於提供最高品質的產品，經過嚴格挑選和測試，讓您的寶貝獲得最好的呵護。購物輕鬆方便，讓您和您的寶貝享受無與倫比的購物體驗！
+                  </p>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
+                  <div className="hhashes">
+                    <p className="hhash">飼料</p>
+                    <p className="hhash">罐頭</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">玩具</p>
+                    <p className="hhash">保健品</p>
+                    <p className="hhash">服飾</p>
+                    <p className="hhash">戶外用品</p>
+                  </div>
+                  <button>看更多商品</button>
+                </article>
+              </Col>
+            </Row>
+            <Row className="hSection">
+              <Col className="hInfo" xs={24} sm={24} md={10}>
+                <article>
+                  <p className="hstitle">寵物活動</p>
+                  <p className="hetitle">PLAY WITH ME</p>
+                  <p className="hsubtitle">
+                    這裡是專為您和您的毛小孩設計的狂歡天地。
+                  </p>
+                  <p className="hp">
+                    我們為您提供多元化的寵物活動，包括遠足、比賽、社交聚會和專題工作坊。與其他寵物愛好者一同分享快樂時光，建立友誼和彼此支持。無論您是狗狗、貓咪還是其他寵物的主人，這裡將是您與您的毛小孩共創美好回憶的地方。加入我們，一同體驗無盡的寵物
+                    樂趣！
+                  </p>
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
+                  <div className="hhashes">
+                    <p className="hhash">狗狗健行趣</p>
+                    <p className="hhash">寵物瑜伽</p>
+                    <p className="hhash">喵星人的外星派對</p>
+                    <p className="hhash">萌寵大對決</p>
+                  </div>
+                  <button>看更多活動</button>
+                </article>
+              </Col>
+              <Col className="hrCards" xs={24} sm={24} md={14}></Col>
+            </Row>
+            <Row className="hSection">
+              <Col className="hlCards" xs={24} sm={24} md={14}></Col>
+              <Col className="hInfo" sxs={24} sm={24} md={10}>
+                <article>
+                  <p className="hstitle">寵物商城</p>
+                  <p className="hetitle">SHOP WITH ME</p>
+                  <p className="hsubtitle">
+                    毛孩的吃喝玩樂都在寵物商城！ 各大品牌狗貓飼料、用品通通有!
+                    毛爸媽安心購買，更別錯過每日特殺活動喔~
+                  </p>
+                  <p className="hp">
+                    探索我們的寵物商城，為您的毛小孩尋找完美的驚喜！我們提供精選的寵物用品，從食品到玩具，應有盡有。{' '}
+                  </p>
+                  <p className="hp">
+                    我們致力於提供最高品質的產品，經過嚴格挑選和測試，讓您的寶貝獲得最好的呵護。購物輕鬆方便，讓您和您的寶貝享受無與倫比的購物體驗！
+                  </p>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
+                  <div className="hhashes">
+                    <p className="hhash">飼料</p>
+                    <p className="hhash">罐頭</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">玩具</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">零食</p>
+                  </div>
+                  <button>看更多商品</button>
+                </article>
+              </Col>
+            </Row>
+            <Row className="hSection">
+              <Col className="hInfo" xs={24} sm={24} md={10}>
+                <article>
+                  <p className="hstitle">寵物商城</p>
+                  <p className="hetitle">SHOP WITH ME</p>
+                  <p className="hsubtitle">
+                    毛孩的吃喝玩樂都在寵物商城！ 各大品牌狗貓飼料、用品通通有!
+                    毛爸媽安心購買，更別錯過每日特殺活動喔~
+                  </p>
+                  <p className="hp">
+                    探索我們的寵物商城，為您的毛小孩尋找完美的驚喜！我們提供精選的寵物用品，從食品到玩具，應有盡有。{' '}
+                  </p>
+                  <p className="hp">
+                    我們致力於提供最高品質的產品，經過嚴格挑選和測試，讓您的寶貝獲得最好的呵護。購物輕鬆方便，讓您和您的寶貝享受無與倫比的購物體驗！
+                  </p>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+                  <div className="hhashes">
+                    <p className="hhash">飼料</p>
+                    <p className="hhash">罐頭</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">玩具</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">零食</p>
+                    <p className="hhash">零食</p>
+                  </div>
+                  <button>看更多商品</button>
+                </article>
+              </Col>
+              <Col className="hrCards" xs={24} sm={24} md={14}></Col>
+            </Row>
+            <section className="shopSection">
+              <div className="hSCards"></div>
+            </section>
+          </Col>
+          <Col span={2}></Col>
+        </Row>
+      </div>
     </>
   )
 }

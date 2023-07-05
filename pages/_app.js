@@ -1,4 +1,5 @@
 import '@/styles/styleguide.css'
+import '@/styles/home.css'
 
 export default function MyApp({ Component, pageProps }) {
   // Use the layout defined at the page level, if available

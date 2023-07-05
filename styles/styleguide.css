@@ -51,6 +51,7 @@
 
 *{
     font-size: 16px;
+    
 }
 
 html, body, div, span, applet, object, iframe,
@@ -70,6 +71,7 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
+    color: var(--dark-gray);
 	font: inherit;
 	vertical-align: baseline;
     box-sizing: border-box;
