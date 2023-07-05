@@ -1,0 +1,25 @@
+.secondNavbar{
+  position: relative;
+}
+
+.linkMenu{
+  position: absolute;
+  width: 100%;
+  top: 30%;
+  display: flex;
+  justify-content: space-around;
+  transform: translateY(-30%);
+}
+
+
+.linkItem{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--dark-gray);
+}
+
+.linkTitile{
+  margin-left: 5px;
+  font-size: var(--h6fs18);
+}

@@ -10,7 +10,7 @@ export default function SignInForm() {
         <div className={Styles.lineText}>更多登入方式</div>
       </div>
       <div className={Styles.google}>
-        <img src="/sign-images/google.svg" alt="" />
+        <img src="/member-center-images/google.svg" alt="" />
       </div>
     </>
   );
