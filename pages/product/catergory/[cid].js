@@ -1,38 +1,38 @@
-import { useState, useEffect } from 'react'
-import ShopProductCard from '@/components/ui/cards/shop-product-card'
-import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank'
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb'
-import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration'
+import { useState, useEffect } from 'react';
+import ShopProductCard from '@/components/ui/cards/shop-product-card';
+import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 
-import { Pagination } from 'antd'
-import { Row } from 'antd'
-import styles from '@/styles/shop.module.css'
+import { Pagination } from 'antd';
+import { Row } from 'antd';
+import styles from '@/styles/shop.module.css';
 
 export default function Catergory() {
-  const [datas, setDatas] = useState([])
-  const [totalItems, setTotalItems] = useState(0)
-  const [totalPages, settotalPages] = useState(0)
+  const [datas, setDatas] = useState([]);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, settotalPages] = useState(0);
 
   //麵包屑寫得有點奇怪...
   const [breadCrubText, setBreadCrubText] = useState([
     { id: 'shop', text: '商城', href: './', show: true },
     { id: 'search', text: '/ 商品列表', href: '', show: true },
     { id: 'pid', text: '', href: '', show: false },
-  ])
+  ]);
 
   useEffect(() => {
-    ;(async function getData() {
+    (async function getData() {
       const r = await fetch('http://localhost:3002/shop-api/maincard/food', {
         method: 'GET',
-      })
-      const backDatas = await r.json()
-      const { totalRows, cardData } = backDatas
-      console.log(cardData)
-      setTotalItems(totalRows)
-      setDatas(cardData)
-      settotalPages(totalPages)
-    })()
-  }, [])
+      });
+      const backDatas = await r.json();
+      const { totalRows, cardData } = backDatas;
+      console.log(cardData);
+      setTotalItems(totalRows);
+      setDatas(cardData);
+      settotalPages(totalPages);
+    })();
+  }, []);
   return (
     <>
       {/* <div className="container-outer"> */}
@@ -71,10 +71,11 @@ export default function Catergory() {
               max_price,
               min_price,
               avg_rating,
-            } = v
+            } = v;
             return (
               <ShopProductCard
                 key={product_sid}
+                product_sid={product_sid}
                 category_detail_sid={category_detail_sid}
                 for_pet_type={for_pet_type}
                 name={name}
@@ -87,7 +88,7 @@ export default function Catergory() {
                 col={6}
                 xs={12}
               />
-            )
+            );
           })}
         </Row>
       </main>
@@ -101,5 +102,5 @@ export default function Catergory() {
       </div>
       {/* </div> */}
     </>
-  )
+  );
 }

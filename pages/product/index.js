@@ -26,26 +26,24 @@ import cat from '@/assets/logo-cat.svg';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 
 export default function ProdoctIndex() {
+  //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
   const [dataForDog, setDataForDog] = useState([]);
   const [dataForCat, setDataForCat] = useState([]);
   const [dataForBrand, setDataForBrand] = useState([]);
   const [dataForNew, setDataForNew] = useState([]);
+
   const [twotCatergoriesData, setTwotCatergoriesData] = useState([
     {
       id: 'dog',
       text: '汪星人專區',
       icon: dog,
-      href: 'http://localhost:3000/product/dog',
       display: true,
-
-      // 要詢問，要如何將資料串近來
       data: dataForDog,
     },
     {
       id: 'cat',
       text: '喵星人專區',
       icon: cat,
-      href: 'http://localhost:3000/product/cat',
       display: false,
       data: dataForCat,
     },
@@ -106,20 +104,18 @@ export default function ProdoctIndex() {
   useEffect(() => {
     (async function getData() {
       //拿回汪星人24張卡片資訊
-      const res_dog = await fetch('http://localhost:3002/shop-api/dog', {
-        method: 'GET',
-      });
-      const dogDatas = await res_dog.json();
+      const res_cards = await fetch(
+        'http://localhost:3002/shop-api/hompage-cards',
+        {
+          method: 'GET',
+        }
+      );
+      const { dogDatas, catDatas, brandData, newData } = await res_cards.json();
 
       setDataForDog(dogDatas);
-
-      //拿回喵星人24張卡片資訊
-      const res_cat = await fetch('http://localhost:3002/shop-api/cat', {
-        method: 'GET',
-      });
-      const catDatas = await res_cat.json();
-
       setDataForCat(catDatas);
+      setDataForBrand(brandData);
+      setDataForNew(newData);
 
       setTwotCatergoriesData(
         twotCatergoriesData.map((v) => {
@@ -130,22 +126,6 @@ export default function ProdoctIndex() {
           }
         })
       );
-
-      //拿回供應商16張卡片的資訊
-      const res_brand = await fetch('http://localhost:3002/shop-api/brand', {
-        method: 'GET',
-      });
-
-      const brandData = await res_brand.json();
-      setDataForBrand(brandData);
-
-      //拿回新品24張卡片資訊
-      const res_new = await fetch('http://localhost:3002/shop-api/new', {
-        method: 'GET',
-      });
-
-      const newData = await res_new.json();
-      setDataForNew(newData);
     })();
   }, []);
 
@@ -235,6 +215,7 @@ export default function ProdoctIndex() {
                   return (
                     <ShopProductCard
                       key={product_sid}
+                      product_sid={product_sid}
                       category_detail_sid={category_detail_sid}
                       for_pet_type={for_pet_type}
                       name={name}

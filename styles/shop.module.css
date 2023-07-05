@@ -163,13 +163,120 @@
 
 /*--------------商品細節頁面-------------*/
 
+/* 主要訊息區 */
+.detail_main_box{
+    margin-top: 88px;
+    display: flex;
+}
 
+/*商品名稱*/
+.detail_title{
+    font-size: var(--h3fs28);
+    font-weight: var(--fwbold);
+}
+
+/*商品的平均評價+購買人數*/
+.avg_rating_total_sales{
+    font-size: var(--h5fs20);
+    line-height: var(--h5fs20);
+    margin:14px 0;
+    display: flex;
+    align-items: center;
+}
+
+.avg_rating_total_sales>div{
+    margin-right: 8px;
+}
+
+.detail_main_star{
+    font-size: var(--h6fs18);    
+    color:var(--starYellow);
+}
+
+.avg_rating_total_sales>div:nth-child(3){
+    /* font-size:var(--pfs14); */
+    font-size: var(--pfs16);
+    color:var(--gray)
+}
+
+/* 照片區 */
+.detail_img_box{
+    width: 40%;
+    margin-right:36px;
+}
+
+.detail_big_img{
+    width: 100%;
+    border-radius: var(--br10);
+    overflow: hidden;
+    text-align: center;
+}
+
+.detail_big_img>img{
+    width: 100%;   
+}
+
+.detail_small_boxs{
+    display: flex;
+    margin-top:10px
+}
+
+.detail_small_img{
+    width: 75px;
+    margin-right: 10px;
+    border:1px solid var(--light-gray);
+    border-radius: var(--br8);
+    overflow: hidden;
+    opacity: 0.5;
+}
+
+.detail_small_img_active{
+    width: 75px;
+    margin-right: 10px;
+    border:1px solid var(--light-gray);
+    border-radius: var(--br8);
+    overflow: hidden;
+    opacity: 1;
+}
+
+.detail_small_img>img, .detail_small_img_active>img{
+    width: 100%;
+}
+
+
+/*規格按鈕*/
+
+.detail_spec_btn{
+    margin-right:16px ;
+    padding:var(--p8) var(--p16);
+    border-radius: var(--br10);
+    background-color: white;
+    border:1px solid var(--light-gray)
+}
+
+.detail_spec_btn:first-child{
+    display: none;
+}
+
+
+
+/* .detail_img_active{
+    opacity: 1;
+} */
 
 
 .comment_cards{
     display: flex;
     flex-wrap: nowrap;
 }
+
+
+
+
+
+
+
+
 
 @media screen and (max-width:767px){
     .comment_cards{

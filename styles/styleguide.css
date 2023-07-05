@@ -90,6 +90,12 @@ time, mark, audio, video {
   vertical-align: baseline;
   box-sizing: border-box;
 }
+
+a:hover,a:link,a:visited,a:active{
+  color: var(--dark-gray);
+}
+
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
