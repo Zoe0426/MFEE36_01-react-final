@@ -1,35 +1,35 @@
-import { useState, useEffect } from 'react'
-import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration'
-import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration'
-import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration'
-import ShopSupplierCard from '@/components/ui/cards/shop-supplier-card'
+import { useState, useEffect } from 'react';
+import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
+import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration';
+import ShopSupplierCard from '@/components/ui/cards/shop-supplier-card';
 
-import Link from 'next/link'
-import { Row, Col } from 'antd'
+import Link from 'next/link';
+import { Row, Col } from 'antd';
 
-import iconBKG from '@/assets/icon-BKG.svg'
+import iconBKG from '@/assets/icon-BKG.svg';
 //八大類圖示
-import Image from 'next/image'
-import styles from '@/styles/shop.module.css'
-import can from '@/assets/icon-shop-can.svg'
-import dress from '@/assets/icon-shop-dress.svg'
-import food from '@/assets/icon-shop-food.svg'
-import health from '@/assets/icon-shop-health.svg'
-import other from '@/assets/icon-shop-other.svg'
-import outdoor from '@/assets/icon-shop-outdoor.svg'
-import snack from '@/assets/icon-shop-snack.svg'
-import toy from '@/assets/icon-shop-toy.svg'
+import Image from 'next/image';
+import styles from '@/styles/shop.module.css';
+import can from '@/assets/icon-shop-can.svg';
+import dress from '@/assets/icon-shop-dress.svg';
+import food from '@/assets/icon-shop-food.svg';
+import health from '@/assets/icon-shop-health.svg';
+import other from '@/assets/icon-shop-other.svg';
+import outdoor from '@/assets/icon-shop-outdoor.svg';
+import snack from '@/assets/icon-shop-snack.svg';
+import toy from '@/assets/icon-shop-toy.svg';
 
 //二大類圖示
-import dog from '@/assets/logo-dog.svg'
-import cat from '@/assets/logo-cat.svg'
-import ShopProductCard from '@/components/ui/cards/shop-product-card'
+import dog from '@/assets/logo-dog.svg';
+import cat from '@/assets/logo-cat.svg';
+import ShopProductCard from '@/components/ui/cards/shop-product-card';
 
 export default function ProdoctIndex() {
-  const [dataForDog, setDataForDog] = useState([])
-  const [dataForCat, setDataForCat] = useState([])
-  const [dataForBrand, setDataForBrand] = useState([])
-  const [dataForNew, setDataForNew] = useState([])
+  const [dataForDog, setDataForDog] = useState([]);
+  const [dataForCat, setDataForCat] = useState([]);
+  const [dataForBrand, setDataForBrand] = useState([]);
+  const [dataForNew, setDataForNew] = useState([]);
   const [twotCatergoriesData, setTwotCatergoriesData] = useState([
     {
       id: 'dog',
@@ -49,7 +49,7 @@ export default function ProdoctIndex() {
       display: false,
       data: dataForCat,
     },
-  ])
+  ]);
 
   //八大類icon資料
   const eightCatergoriesData = [
@@ -101,64 +101,64 @@ export default function ProdoctIndex() {
       icon: other,
       href: 'http://localhost:3000/product/other',
     },
-  ]
+  ];
 
   useEffect(() => {
-    ;(async function getData() {
+    (async function getData() {
       //拿回汪星人24張卡片資訊
       const res_dog = await fetch('http://localhost:3002/shop-api/dog', {
         method: 'GET',
-      })
-      const dogDatas = await res_dog.json()
+      });
+      const dogDatas = await res_dog.json();
 
-      setDataForDog(dogDatas)
+      setDataForDog(dogDatas);
 
       //拿回喵星人24張卡片資訊
       const res_cat = await fetch('http://localhost:3002/shop-api/cat', {
         method: 'GET',
-      })
-      const catDatas = await res_cat.json()
+      });
+      const catDatas = await res_cat.json();
 
-      setDataForCat(catDatas)
+      setDataForCat(catDatas);
 
       setTwotCatergoriesData(
         twotCatergoriesData.map((v) => {
           if (v.id === 'dog') {
-            return { ...v, data: dogDatas }
+            return { ...v, data: dogDatas };
           } else {
-            return { ...v, data: catDatas }
+            return { ...v, data: catDatas };
           }
         })
-      )
+      );
 
       //拿回供應商16張卡片的資訊
       const res_brand = await fetch('http://localhost:3002/shop-api/brand', {
         method: 'GET',
-      })
+      });
 
-      const brandData = await res_brand.json()
-      setDataForBrand(brandData)
+      const brandData = await res_brand.json();
+      setDataForBrand(brandData);
 
       //拿回新品24張卡片資訊
       const res_new = await fetch('http://localhost:3002/shop-api/new', {
         method: 'GET',
-      })
+      });
 
-      const newData = await res_new.json()
-      setDataForNew(newData)
-    })()
-  }, [])
+      const newData = await res_new.json();
+      setDataForNew(newData);
+    })();
+  }, []);
 
   //轉換貓狗卡片顯示
   const toggleDisplayForDogCat = (twotCatergoriesData, id) => {
     return twotCatergoriesData.map((v) => {
       if (v.id === id) {
-        return { ...v, display: true }
+        return { ...v, display: true };
       } else {
-        return { ...v, display: false }
+        return { ...v, display: false };
       }
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -186,7 +186,7 @@ export default function ProdoctIndex() {
                       </div>
                     </Link>
                   </Col>
-                )
+                );
               })}
             </Row>
           </div>
@@ -204,14 +204,14 @@ export default function ProdoctIndex() {
                 onMouseEnter={() => {
                   setTwotCatergoriesData(
                     toggleDisplayForDogCat(twotCatergoriesData, v.id)
-                  )
+                  );
                 }}
               >
                 {' '}
                 <Image src={v.icon} />
                 <span>{v.text}</span>
               </div>
-            )
+            );
           })}
         </div>
         <div className={styles.pet_type_cards}>
@@ -231,7 +231,7 @@ export default function ProdoctIndex() {
                     max_price,
                     min_price,
                     avg_rating,
-                  } = v
+                  } = v;
                   return (
                     <ShopProductCard
                       key={product_sid}
@@ -245,9 +245,9 @@ export default function ProdoctIndex() {
                       min_price={min_price}
                       avg_rating={avg_rating}
                     />
-                  )
+                  );
                 })
-              )
+              );
             })}
           </Row>
         </div>
@@ -265,7 +265,7 @@ export default function ProdoctIndex() {
           <div className="container-inner">
             <Row gutter={[32, 64]} className={styles.brand_cards}>
               {dataForBrand.map((v) => {
-                const { supplier_sid, name, img } = v
+                const { supplier_sid, name, img } = v;
                 return (
                   <ShopSupplierCard
                     key={supplier_sid}
@@ -274,7 +274,7 @@ export default function ProdoctIndex() {
                     img={img}
                     col="1 1 200px"
                   />
-                )
+                );
               })}
             </Row>
           </div>
@@ -298,7 +298,7 @@ export default function ProdoctIndex() {
                 max_price,
                 min_price,
                 avg_rating,
-              } = v
+              } = v;
               return (
                 <ShopProductCard
                   key={product_sid}
@@ -312,7 +312,7 @@ export default function ProdoctIndex() {
                   min_price={min_price}
                   avg_rating={avg_rating}
                 />
-              )
+              );
             })}
           </Row>
         </div>
@@ -324,5 +324,5 @@ export default function ProdoctIndex() {
         </div>
       </section>
     </>
-  )
+  );
 }
