@@ -10,12 +10,10 @@ export default function FunctionArea() {
     <>
       <div className={Styles.bgc}>
         <div className="container-inner">
-          <div className={Styles.top_area}>
-            <div className={Styles.function_group}>
-              <IconBtn icon={faMap} text="餐廳地圖" />
-              <IconBtn icon={faHeart} text="收藏列表" />
-              <IconBtn icon={faFilter} text="進階篩選" />
-            </div>
+          <div className={Styles.function_group}>
+            <IconBtn icon={faMap} text="餐廳地圖" />
+            <IconBtn icon={faHeart} text="收藏列表" />
+            <IconBtn icon={faFilter} text="進階篩選" />
           </div>
         </div>
       </div>

@@ -29,7 +29,7 @@ export default function RestCard({
         <div className={Styles.hash_tag_group}>
           <HashTag text="免費水" />
           <HashTag text="有賣食物" />
-          <HashTag text="可放繩" />
+          <HashTag text="可放繩" className={Styles.last_hash_tag}/>
         </div>
       </div>
     </>

@@ -10,6 +10,7 @@
 @media screen and (max-width:767px){
     .hash_tag{
         padding: var(--p8);
+        margin-top: 6px;
         border-radius: 16px;
         margin-right: 4px;
         font-size: 12px;

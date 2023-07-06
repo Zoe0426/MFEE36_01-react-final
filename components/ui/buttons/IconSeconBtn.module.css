@@ -8,9 +8,6 @@
     border: 1px solid var(--gray);
     transition: 0.3s;
 }
-.icon_text{
-    display: inline;
-}
 
 .icon_btn:hover{
     background-color: var(--light-gray);
@@ -26,19 +23,8 @@
 
 @media screen and (max-width:767px){
     .icon_btn{
-        padding: 12px 0;
-        border:0;
-        font-size: var(--pfs16);
-    }
-    .icon{
-        margin-right: 0;
-        font-size: var(--h6fs18);
-    }
-    .icon_text{
-        display: none;
-    }
-    .icon_btn:hover{
-        background-color: transparent;
-        color: var(--main);
+        padding: 12px var(--p16) ;
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
     }
     }

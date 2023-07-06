@@ -14,3 +14,9 @@
     right:10%;
     bottom: 0;
 }
+
+@media screen and (max-width:767px){
+    .top_area_bgc{
+        display: none;
+    }
+    }

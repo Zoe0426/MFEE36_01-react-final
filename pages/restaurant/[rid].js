@@ -27,7 +27,7 @@ export default function FilterPage() {
       </div>
 
       <div className="container-inner">
-        <Row gutter={[24, 24]}>
+        <Row gutter={{ xs: 16, xl: 32 }}>
           <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
