@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
@@ -9,30 +10,45 @@ import { Row } from 'antd';
 import styles from '@/styles/shop.module.css';
 
 export default function Catergory() {
+  const { query, asPath } = useRouter();
   const [datas, setDatas] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, settotalPages] = useState(0);
 
   //麵包屑寫得有點奇怪...
   const [breadCrubText, setBreadCrubText] = useState([
-    { id: 'shop', text: '商城', href: './', show: true },
+    {
+      id: 'shop',
+      text: '商城',
+      href: 'http://localhost:3000/product',
+      show: true,
+    },
     { id: 'search', text: '/ 商品列表', href: '', show: true },
     { id: 'pid', text: '', href: '', show: false },
   ]);
 
   useEffect(() => {
-    (async function getData() {
-      const r = await fetch('http://localhost:3002/shop-api/maincard/food', {
-        method: 'GET',
-      });
-      const backDatas = await r.json();
-      const { totalRows, cardData } = backDatas;
-      console.log(cardData);
-      setTotalItems(totalRows);
-      setDatas(cardData);
-      settotalPages(totalPages);
-    })();
-  }, []);
+    //取得用戶拜訪的類別選項
+    const { cid } = query;
+
+    if (query) {
+      (async function getData() {
+        const r = await fetch(
+          `http://localhost:3002/shop-api/maincard/${cid}`,
+          {
+            method: 'GET',
+          }
+        );
+        const backDatas = await r.json();
+        const { totalRows, cardData } = backDatas;
+        console.log(cardData);
+        setTotalItems(totalRows);
+        setDatas(cardData);
+        settotalPages(totalPages);
+      })();
+    }
+  }, [query]);
+
   return (
     <>
       {/* <div className="container-outer"> */}

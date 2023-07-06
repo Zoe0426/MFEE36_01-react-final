@@ -1,6 +1,6 @@
-import styles from './comment-card.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faUser } from '@fortawesome/free-solid-svg-icons'
+import styles from './comment-card.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function CommentCard({
   member_sid = '',
@@ -10,12 +10,12 @@ export default function CommentCard({
   name = '',
   profile = null,
 }) {
-  const ratingArr = []
+  const ratingArr = [];
   for (let i = 1; i <= 5; i++) {
     if (parseInt(rating) >= i) {
-      ratingArr.push(true)
+      ratingArr.push(true);
     } else {
-      ratingArr.push(false)
+      ratingArr.push(false);
     }
   }
   return (
@@ -29,7 +29,7 @@ export default function CommentCard({
           )}
         </div>
         <div>
-          <p class={styles.user_name}>{name}</p>
+          <p className={styles.user_name}>{name}</p>
           <div>
             {ratingArr.map((v, i) => {
               return (
@@ -40,15 +40,15 @@ export default function CommentCard({
                     v ? styles.star_icon_yellow : styles.star_icon_normal
                   }
                 />
-              )
+              );
             })}
           </div>
-          <p class={styles.comment_date}>{date}</p>
+          <p className={styles.comment_date}>{date}</p>
         </div>
       </div>
       <div className={styles.card_body}>
         <p className={styles.card_content}>{content}</p>
       </div>
     </div>
-  )
+  );
 }

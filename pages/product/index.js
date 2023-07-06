@@ -283,6 +283,7 @@ export default function ProdoctIndex() {
               return (
                 <ShopProductCard
                   key={product_sid}
+                  product_sid={product_sid}
                   category_detail_sid={category_detail_sid}
                   for_pet_type={for_pet_type}
                   name={name}

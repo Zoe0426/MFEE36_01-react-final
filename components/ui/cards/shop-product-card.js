@@ -1,11 +1,11 @@
-import styles from './shop-product-card.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faHeart } from '@fortawesome/free-solid-svg-icons'
-import { Col } from 'antd'
-import Link from 'next/link'
+import styles from './shop-product-card.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { Col } from 'antd';
+import Link from 'next/link';
 
 export default function ShopProductCard({
-  product_sid='',
+  product_sid = '',
   name = '',
   img = '',
   max_price = 0,
@@ -16,7 +16,10 @@ export default function ShopProductCard({
 }) {
   return (
     <Col xs={xs} sm={xs} md={col} className={styles.card}>
-      <Link className={styles.normal_card} href={`http://localhost:3000/product/${product_sid}`}>
+      <Link
+        className={styles.normal_card}
+        href={`http://localhost:3000/product/${product_sid}`}
+      >
         <div className={styles.card_head}>
           <div>
             <img src={`/product-img/${img}`} alt="" />
@@ -41,5 +44,5 @@ export default function ShopProductCard({
         </div>
       </Link>
     </Col>
-  )
+  );
 }

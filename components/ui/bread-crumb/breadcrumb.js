@@ -1,9 +1,8 @@
-import React from 'react'
-import Link from 'next/link'
-import styles from './breadcrumb.module.css'
+import React from 'react';
+import Link from 'next/link';
+import styles from './breadcrumb.module.css';
 
 export default function BreadCrumb({ breadCrubText = [] }) {
-  console.log(Array.isArray(breadCrubText))
   return (
     <ol className={styles.breadcrumb}>
       {breadCrubText.map((v) => {
@@ -13,8 +12,8 @@ export default function BreadCrumb({ breadCrubText = [] }) {
               {v.href ? <Link href={v.href}> {v.text}</Link> : v.text}
             </li>
           )
-        )
+        );
       })}
     </ol>
-  )
+  );
 }

@@ -175,6 +175,14 @@
     font-weight: var(--fwbold);
 }
 
+/*所有主要訊息區的右邊tiltle字體都固定*/
+.detail_spec_title{
+    font-size:var( --h5fs20) ;
+    /* font-weight: bolder; */
+    margin-bottom: 30px;
+    margin-top: 32px;
+}
+
 /*商品的平均評價+購買人數*/
 .avg_rating_total_sales{
     font-size: var(--h5fs20);
@@ -198,6 +206,8 @@
     font-size: var(--pfs16);
     color:var(--gray)
 }
+
+
 
 /* 照片區 */
 .detail_img_box{
@@ -254,16 +264,47 @@
     border:1px solid var(--light-gray)
 }
 
-.detail_spec_btn:first-child{
+
+.detail_spec_btn_none{
     display: none;
+}
+
+/*購買數量按鈕*/
+.detail_qty{
+    border:1px solid var(--light-gray);
+    border-radius: var(--br10);
+    width:150px;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+
+}
+.detail_qty_sub_btn{
+    padding:var(--p8) var(--p16);
+    border-radius: var(--br10);
+    background-color: white;
+    border:none;  
+    border-right: 1px solid var(--light-gray) ;
+}
+.detail_qty_add_btn{
+    padding:var(--p8) var(--p16);
+    border-radius: var(--br10);
+    background-color: white;
+    border:none;  
+    border-left: 1px solid var(--light-gray) ;
+}
+
+.detail_qty_input{
+    width:16px;    
+    padding:var(--p8) var(--p16);
+    border:none;
+    outline:none;
 }
 
 
 
-/* .detail_img_active{
-    opacity: 1;
-} */
 
+/*評論區*/
 
 .comment_cards{
     display: flex;
