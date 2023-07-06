@@ -19,3 +19,7 @@
     cursor: pointer;
 }
 
+.location_name{
+    font-size: var(--pfs16);
+}
+

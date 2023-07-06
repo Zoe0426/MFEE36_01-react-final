@@ -1,22 +1,17 @@
-import React from 'react'
-import SearchBar from '@/components/ui/buttons/SearchBar'
-import IconBtn from '@/components/ui/buttons/IconBtn'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMap } from '@fortawesome/free-solid-svg-icons'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { faFilter } from '@fortawesome/free-solid-svg-icons'
-import RestCard from '@/components/ui/cards/rest_card'
-import { Col, Row } from 'antd'
-import LocationCard from '@/components/ui/restaurant/LocationCard'
-import Banner from '@/components/ui/restaurant/Banner'
-import FunctionArea from '@/components/ui/restaurant/FunctionArea'
-import Styles from './[rid].module.css'
+import React from 'react';
+import RestCard from '@/components/ui/cards/rest_card';
+import { Col, Row } from 'antd';
+import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
+import Banner from '@/components/ui/restaurant/Banner';
+import FunctionArea from '@/components/ui/restaurant/FunctionArea';
+import Styles from './[rid].module.css';
 
 export default function FilterPage() {
   return (
     <>
       <Banner />
-      <FunctionArea breadcrumb="餐廳列表/進階篩選" />
+      <FunctionArea />
+      <TopAreaBgc />
       <div className="container-inner">
         <div className={Styles.second_area}>
           <div className={Styles.search_title}>
@@ -32,8 +27,8 @@ export default function FilterPage() {
       </div>
 
       <div className="container-inner">
-        <Row gutter={[32, 32]}>
-          <Col span={8}>
+        <Row gutter={[24, 24]}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -41,7 +36,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -49,7 +44,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -57,9 +52,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-        </Row>
-        <Row gutter={[32, 32]}>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -67,7 +60,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -75,7 +68,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -83,9 +76,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-        </Row>
-        <Row gutter={[32, 32]}>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -93,7 +84,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -101,7 +92,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -109,9 +100,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-        </Row>
-        <Row gutter={[32, 32]}>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -119,7 +108,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -127,7 +116,7 @@ export default function FilterPage() {
               location="大安區"
             />
           </Col>
-          <Col span={8}>
+          <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
@@ -138,5 +127,5 @@ export default function FilterPage() {
         </Row>
       </div>
     </>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import React from 'react'
-import Styles from './LocationCard.module.css'
+import React from 'react';
+import Styles from './LocationCard.module.css';
 
 export default function LocationCard({ rest_image = '', location = '' }) {
   return (
@@ -8,8 +8,8 @@ export default function LocationCard({ rest_image = '', location = '' }) {
         <div className={Styles.location_img}>
           <img src={rest_image} alt="" />
         </div>
-        <p>{location}</p>
+        <p className={Styles.location_name}>{location}</p>
       </div>
     </>
-  )
+  );
 }

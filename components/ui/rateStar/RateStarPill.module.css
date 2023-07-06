@@ -15,7 +15,7 @@
 
 @media screen and (max-width:767px){
     .rating {
-        padding: var(--p8);
+        padding: 6px;
         border-radius: 20px;
         font-size: var(--pfs12);
     }

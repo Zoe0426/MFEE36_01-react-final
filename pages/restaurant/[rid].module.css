@@ -8,12 +8,11 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin: 20px;
+    margin: 40px 0;
 }
 
 .filter{
     padding: 10px 20px;
     border-radius: 8px;
-    margin: 0 40px;
     padding: 12px 20px;
 }

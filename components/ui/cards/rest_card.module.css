@@ -11,7 +11,8 @@
 }
 .rest_img{
     width: 100%;
-    height: 240px;
+    height: 0;
+    padding-bottom: 64%; 
     background-color: bisque;
     position: relative;
     border-radius: 8px;
@@ -21,9 +22,9 @@
     width: 100%; 
     height: auto; 
     transition: 0.5s;
+
   }
 .rest_img img:hover {
-    width: 100%; 
     scale: 1.1;
     height: auto; 
   }
@@ -37,7 +38,6 @@
 .rest_name{
     margin: 16px 0;
     font-size: var(--h5fs20);
-
 }
 .rest_location{
     font-size: var(--pfs16);
@@ -56,3 +56,14 @@
 }
 
 
+@media screen and (max-width:767px){
+    .hash_tag_group:nth-child(3) {
+        display: none;
+    }
+    .rest_name{
+        font-size: var(--pfs14);
+    }
+    .rest_location{
+        font-size: 12px;
+    }
+    }

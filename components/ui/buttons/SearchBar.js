@@ -1,8 +1,8 @@
-import React from 'react'
-import Styles from './SearchBar.module.css'
-import MainBtn from './MainBtn'
+import React from 'react';
+import Styles from './SearchBar.module.css';
+import MainBtn from './MainBtn';
 
-export default function SearchBar({ placeholder = '' }) {
+export default function SearchBar({ placeholder = '', btn_text = '' }) {
   return (
     <>
       <div className={Styles.input_area}>
@@ -11,8 +11,8 @@ export default function SearchBar({ placeholder = '' }) {
           className={Styles.search_input}
           placeholder={placeholder}
         />
-        <MainBtn text="搜尋餐廳" />
+        <MainBtn text={btn_text} />
       </div>
     </>
-  )
+  );
 }

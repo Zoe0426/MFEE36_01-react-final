@@ -35,3 +35,11 @@
     height: 100%;
     width: auto;
 }
+
+
+@media screen and (max-width:767px){
+    .jill_h1{
+        font-size: var(--h4fs24);
+
+    }
+    }

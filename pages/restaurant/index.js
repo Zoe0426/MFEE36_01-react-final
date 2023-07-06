@@ -30,81 +30,113 @@ export default function Restindex() {
           <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
           <h2 className={Styles.jill_h2}>探索各地友善餐廳</h2>
         </div>
-        <div className={Styles.location_group}>
-          <LocationCard
-            rest_image="/rest_image/city/taipei.png"
-            location="台北市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/newtaipei.png"
-            location="新北市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/keelung.png"
-            location="基隆市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/taoyuan.png"
-            location="桃園市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/taichung.png"
-            location="台中市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/hsinchu.png"
-            location="新竹市"
-          />
-        </div>
-        <div className={Styles.location_group}>
-          <LocationCard
-            rest_image="/rest_image/city/kaohsiung.png"
-            location="高雄市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/tainan.png"
-            location="台南市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/miaoli.png"
-            location="苗栗市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/chiayi.png"
-            location="嘉義市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/changhua.png"
-            location="彰化市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/yilan.png"
-            location="宜蘭市"
-          />
-        </div>
-        <div className={Styles.location_group}>
-          <LocationCard
-            rest_image="/rest_image/city/pingtung.png"
-            location="屏東市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/hualien.png"
-            location="花蓮市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/taitung.png"
-            location="台東市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/nantou.png"
-            location="南投市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/yunlin.png"
-            location="雲林市"
-          />
-          <LocationCard rest_image="/rest_image/dog_paw.png" />
-        </div>
+        <Row gutter={[48, 48]}>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/taipei.png"
+              location="台北市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/newtaipei.png"
+              location="新北市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/keelung.png"
+              location="基隆市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/taoyuan.png"
+              location="桃園市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/taichung.png"
+              location="台中市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/hsinchu.png"
+              location="新竹市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/kaohsiung.png"
+              location="高雄市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/tainan.png"
+              location="台南市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/miaoli.png"
+              location="苗栗市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/chiayi.png"
+              location="嘉義市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/changhua.png"
+              location="彰化市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/yilan.png"
+              location="宜蘭市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/pingtung.png"
+              location="屏東市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/hualien.png"
+              location="花蓮市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/taitung.png"
+              location="台東市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/nantou.png"
+              location="南投市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard
+              rest_image="/rest_image/city/yunlin.png"
+              location="雲林市"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <LocationCard rest_image="/rest_image/dog_paw.png" />
+          </Col>
+        </Row>
       </div>
       <div className="container-outer">
         <div className={Styles.CloudTop}>
@@ -121,32 +153,32 @@ export default function Restindex() {
               <h2 className={Styles.jill_h2}>友善條件</h2>
             </div>
             <Row gutter={[48, 48]}>
-              <Col span={4}>
+              <Col xl={4} xs={8}>
                 <div className={Styles.box}>
                   <img src="/rest_image/friendly/friendly1.png" alt="" />
                 </div>
               </Col>
-              <Col span={4}>
+              <Col xl={4} xs={8}>
                 <div className={Styles.box}>
                   <img src="/rest_image/friendly/friendly1.png" alt="" />
                 </div>
               </Col>
-              <Col span={4}>
+              <Col xl={4} xs={8}>
                 <div className={Styles.box}>
                   <img src="/rest_image/friendly/friendly1.png" alt="" />
                 </div>
               </Col>
-              <Col span={4}>
+              <Col xl={4} xs={8}>
                 <div className={Styles.box}>
                   <img src="/rest_image/friendly/friendly1.png" alt="" />
                 </div>
               </Col>
-              <Col span={4}>
+              <Col xl={4} xs={8}>
                 <div className={Styles.box}>
                   <img src="/rest_image/friendly/friendly1.png" alt="" />
                 </div>
               </Col>
-              <Col span={4}>
+              <Col xl={4} xs={8}>
                 <div className={Styles.box}>
                   <img src="/rest_image/friendly/friendly1.png" alt="" />
                 </div>

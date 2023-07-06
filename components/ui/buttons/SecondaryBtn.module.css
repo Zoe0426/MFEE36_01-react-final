@@ -16,7 +16,7 @@
 
 @media screen and (max-width:767px){
     .secondary_btn{
-        padding: 12px var(--p16) ;
+        padding: 0.75rem ;
         border-radius: var(--br8);
         font-size: var(--pfs14);
     }

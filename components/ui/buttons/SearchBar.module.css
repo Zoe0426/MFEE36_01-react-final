@@ -21,9 +21,11 @@
 
 @media screen and (max-width:767px){
     .search_input{
-        width:  300px; 
-        padding: 12px var(--p16) ;
+        width:  200px; 
+        padding: 0.75rem ;
+        margin-right: 8px;
         border-radius: var(--br8);
         font-size: var(--pfs14);
+        outline: 1px solid var(--light-gray);
     }
     }
