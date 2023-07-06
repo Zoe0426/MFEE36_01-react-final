@@ -6,7 +6,11 @@ export default function SecondNavbar() {
   return (
     <>
       <div className={Styles.secondNavbar}>
-        <img src="/member-center-images/second-navbar.svg" alt="" />
+        <img
+          src="/member-center-images/second-navbar.svg"
+          alt=""
+          className={Styles.navbarImg}
+        />
         <div className={Styles.linkMenu}>
           <Link href="/shop" className={Styles.linkItem}>
             <img src="/member-center-images/Icon/member.svg" alt="" />
