@@ -35,3 +35,22 @@
     border-bottom: 6px solid var(--secondary);
     border-right: 8px solid var(--secondary);
 }
+
+@media screen and (max-width:767px){
+    .feature_decorate{
+        border-radius: var(--br10);
+        background-color: transparent;
+        border: none
+    }
+    .feature_info{
+        padding: 0;
+    }
+    .feature_card{
+        flex-direction: column;
+        background-color: transparent;
+    }
+    .jill_h2{
+        margin-top: 20px;
+        font-size: var( --h6fs18);
+    }
+    }

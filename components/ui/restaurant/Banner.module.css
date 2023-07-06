@@ -39,7 +39,10 @@
 
 @media screen and (max-width:767px){
     .jill_h1{
-        font-size: var(--h4fs24);
-
+        font-size: var(--h5fs20);
+        padding-bottom: var(--p16);
+    }
+    .banner{
+        height: 220px;
     }
     }

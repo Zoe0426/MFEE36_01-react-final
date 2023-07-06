@@ -21,7 +21,10 @@
         font-size: var(--h6fs18);
         padding-bottom: var(--p8);
     }
+    .second_area{
+        margin: 32px 0;
+    }
     .filter{
-        padding: var(--p8) var(--p16);
+        padding: var(--p8) 12px;
     }
     }

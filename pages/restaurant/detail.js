@@ -45,25 +45,31 @@ export default function RestInfo() {
                     icon={faPhone}
                     className={Styles.info_icon}
                   />
-                  <p>02-2268-1031</p>
+                  <p className={Styles.information_detail}>02-2268-1031</p>
                 </div>
                 <div className={Styles.contact}>
                   <FontAwesomeIcon
                     icon={faLocationDot}
                     className={Styles.info_icon}
                   />
-                  <p>新北市土城區承天路103號</p>
+                  <p className={Styles.information_detail}>
+                    新北市土城區承天路103號
+                  </p>
                 </div>
                 <div className={Styles.contact}>
                   <FontAwesomeIcon
                     icon={faClock}
                     className={Styles.info_icon}
                   />
-                  <p>11:00~22:00，週日公休</p>
+                  <p className={Styles.information_detail}>
+                    11:00~22:00，週日公休
+                  </p>
                 </div>
                 <div className={Styles.contact}>
                   <FontAwesomeIcon icon={faPaw} className={Styles.info_icon} />
-                  <p>大型/中型/小型犬與貓</p>
+                  <p className={Styles.information_detail}>
+                    大型/中型/小型犬與貓
+                  </p>
                 </div>
               </div>
               <div className={Styles.rest_group_btn}>
@@ -108,6 +114,9 @@ export default function RestInfo() {
         title="戶外草皮區"
         feature_info=" 寬闊草皮適合狗狗、孩子自由奔跑水晶教堂下看著魚兒水中游，獻給愛陪伴毛小孩的你愛就是要分秒陪伴把用餐的放鬆時光與最親密的牠一起分享適合有帶寵物一起前來的你"
       />
+      <div className="container-inner">
+        <h2 className={Styles.jill_h2}>餐廳活動</h2>
+      </div>
       <ActivityCard
         img="/rest_image/activity.png"
         title="毛孩的專屬粽子"
@@ -119,8 +128,32 @@ export default function RestInfo() {
       </div>
       <div className={Styles.notion_bgc}>
         <div className="container-inner">
-          <h2 className={Styles.jill_h2}>店家叮嚀</h2>
-          <div className={Styles.notion_frame}></div>
+          <h2 className={Styles.jill_h2}>預約叮嚀</h2>
+          <div className={Styles.notion_frame}>
+            <p>
+              1. 事先了解店家規範：不論是去任何餐廳都應該先詳細了解店內規範。
+            </p>
+            <p>
+              2.
+              配合餐廳規範：遵守不同餐廳的寵物規範，避免惡意違規造成店家不好的印象。
+            </p>
+            <p>
+              3.
+              保護毛兒安全：保護自己與他人毛兒的安全非常重要，攻擊性強的毛兒要加強管控，要摸別人家毛兒之前也要先問過毛爸媽。
+            </p>
+            <p>
+              4.
+              不影響他人用餐：管控好毛兒吠叫問題，也別讓毛兒四處亂跑（是餐廳友善程度而定），避免影響他人用餐。
+            </p>
+            <p>
+              5.
+              不共用餐具：為維護他人權益與用餐品質，除非店家有明確說可以，不然別讓毛兒上餐桌，也不要與毛兒共用餐廳餐具。
+            </p>
+            <p>
+              6.
+              維護環境整潔：自備毛兒坐墊，自行處理毛兒便溺，共同維護環境整潔。
+            </p>
+          </div>
         </div>
       </div>
       <NotionAreaBgc />
