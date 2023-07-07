@@ -15,6 +15,8 @@
     --heartRed:#EC5353;
     --starYellow: #FCC917;
    /* font-size */
+    --starYellow:#FCC917;
+    /* font-size */
     --h1fs36:2.25rem;
     --h2fs32:2rem;
     --h3fs28:1.75rem;
@@ -51,7 +53,16 @@
 
 *{
     font-size: 16px;
+    
 }
+
+html,body{
+  height: 100%;
+  }
+  
+  #__next{
+    height: 100%;
+  }
 
 html,body{
   height: 100%;
@@ -78,6 +89,7 @@ time, mark, audio, video {
 	padding: 0;
 	border: 0;
 	font-size: 100%;
+    color: var(--dark-gray);
 	font: inherit;
 	vertical-align: baseline;
     box-sizing: border-box;

@@ -1,6 +1,6 @@
-import React from 'react';
-import styles from './NavRoundBtn.module.css';
-import Link from 'next/link';
+import React from 'react'
+import styles from './NavRoundBtn.module.css'
+import Link from 'next/link'
 
 export default function RoundBtn({ icon = '' }) {
   return (
@@ -9,5 +9,5 @@ export default function RoundBtn({ icon = '' }) {
         <img src={icon} className={styles.rb - icon} alt="" />
       </Link>
     </div>
-  );
+  )
 }
