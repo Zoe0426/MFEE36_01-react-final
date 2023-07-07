@@ -1,0 +1,48 @@
+.jill_h1{
+    font-size: var(--h1fs36);
+    font-weight: var(--fwbold);
+    padding-bottom: var(--p32);
+    color: #fff; 
+}
+.search{
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+}
+
+
+.banner{
+    position: relative;
+    height: 280px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    background-image: url('../../../public/rest_image/banner.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+}
+
+.banner img {
+    position: absolute;
+    height: 100%;
+    width: auto;
+}
+
+
+@media screen and (max-width:767px){
+    .jill_h1{
+        font-size: var(--h5fs20);
+        padding-bottom: var(--p16);
+    }
+    .banner{
+        height: 220px;
+    }
+    }

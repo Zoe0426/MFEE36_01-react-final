@@ -1,0 +1,25 @@
+.location{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.location_img{
+    height: 140px;
+    width: 140px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    position: relative;
+
+}
+.location_img img{
+    position: absolute;
+    width: 100%;
+    cursor: pointer;
+}
+
+.location_name{
+    font-size: var(--pfs16);
+}
+

@@ -1,0 +1,22 @@
+.main_btn{
+    padding: var(--p16) 20px;
+    border-radius: var(--br10);
+    border: 0;
+    color: #fff;
+    font-size: var(--pfs16);
+    background-color: var(--main);
+    transition: 0.3s;
+}
+.main_btn:hover{
+    color: var(--main);
+    background-color: var(--secondary);
+    cursor: pointer;
+}
+
+@media screen and (max-width:767px){
+    .main_btn{
+        padding: 0.75rem ;
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
+    }
+    }

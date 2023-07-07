@@ -130,14 +130,14 @@ body{
 .container-outer{
 	min-height: 100%;
 	position: relative;
-  border: 1px solid green;
+  /* border: 1px solid green; */
   max-width: 1920px;
   overflow: hidden;
   margin: auto;
 }
 .container-inner{
     max-width: 1280px;
-    border: 1px solid purple;
+    /* border: 1px solid purple; */
     margin: auto;
 }
 

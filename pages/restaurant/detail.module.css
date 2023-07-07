@@ -1,0 +1,141 @@
+.jill_h1{
+    font-size: var(--h1fs36);
+    font-weight: var(--fwbold);
+    color: var(--dark-gray);
+}
+.jill_h2{
+    font-size: var(--h4fs24);
+    font-weight: var(--fwbold);
+    padding-bottom: var(--p16);
+    margin-bottom: var(--p16);
+    color: var(--dark-gray);
+}
+.information{
+    line-height: 1.5;
+    margin-bottom: 24px;
+    text-align: justify;
+    font-size: var(--pfs16);
+}
+.information_detail{
+    font-size: var(--pfs16);
+    line-height: 1.5;
+
+}
+.bgc{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:var(--p16) 0;
+}
+
+.abc{
+    background-color: var(--lightBrown);
+
+}
+.rest_image{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+}
+
+
+.rest_image_group{
+    background-color: gray;
+    height: 500px;
+    width: 100%;
+    border-radius: var(--br10);
+}
+.rest_detail{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+.rest_info{
+    padding: var(--p16);
+    margin-left: 20px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+.contact{
+    display: flex;
+    align-items: center;
+}
+.rest_group_btn{
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+
+}
+.contact_group{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.info_icon{
+    color: var(--main);
+    margin-right: 10px;
+    font-size: var(--pfs16);
+}
+
+.info_text_group{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.notion_bgc{
+    padding-top: 80px;
+    padding-bottom: 80px;
+    background-color: var(--lightBrown);
+}
+
+.notion_frame{
+    border: 2px solid var(--secondary);
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+    font-size: var(--pfs16);
+    line-height: 2;
+}
+
+.icon_btn{
+    padding: var(--p16) 20px;
+    border-radius: var(--br10);
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: transparent;
+    border: 1px solid var(--gray);
+    transition: 0.3s;
+}
+
+.icon_btn:hover{
+    background-color: var(--light-gray);
+    cursor: pointer;
+}
+
+.icon_btn{
+    font-size: var(--pfs16);
+    flex-grow: 1; 
+    margin: 0 2px;
+    margin-top: 80px;
+}
+
+.CloudTop{
+    height: 70px;
+    overflow: hidden;
+}
+
+@media screen and (max-width:767px){
+    .jill_h2{
+        font-size: var(--h5fs20);
+        padding-bottom: var(--p8);
+        margin-bottom: var(--p8);
+    }
+    }

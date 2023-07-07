@@ -1,0 +1,44 @@
+.icon_btn{
+    padding: var(--p16) 20px;
+    border-radius: var(--br10);
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: transparent;
+    border: 1px solid var(--gray);
+    transition: 0.3s;
+}
+.icon_text{
+    display: inline;
+}
+
+.icon_btn:hover{
+    background-color: var(--light-gray);
+    cursor: pointer;
+}
+
+.icon{
+    margin-right: 10px;
+    font-size: var(--pfs16);
+
+}
+
+
+@media screen and (max-width:767px){
+    .icon_btn{
+        padding: 12px 0;
+        border:0;
+        font-size: var(--pfs16);
+    }
+    .icon{
+        margin-right: 0;
+        font-size: var(--h6fs18);
+    }
+    .icon_text{
+        display: none;
+    }
+    .icon_btn:hover{
+        background-color: transparent;
+        color: var(--main);
+    }
+    }

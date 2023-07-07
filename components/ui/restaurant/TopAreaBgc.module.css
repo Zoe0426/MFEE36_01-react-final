@@ -1,0 +1,22 @@
+.top_area_bgc{
+    position: relative;
+    margin:0 0 32px 0;
+}
+
+.top_area_bgc img:nth-child(2){
+    position: absolute;
+    left:10%;
+    bottom: 0;
+}
+
+.top_area_bgc img:nth-child(3){
+    position: absolute;
+    right:10%;
+    bottom: 0;
+}
+
+@media screen and (max-width:767px){
+    .top_area_bgc{
+        display: none;
+    }
+    }

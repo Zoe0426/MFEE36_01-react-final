@@ -1,0 +1,36 @@
+.jill_h2{
+    font-size: var(--h4fs24);
+    font-weight: var(--fwbold);
+    padding-bottom: var(--p16);
+}
+
+.group{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+}
+
+
+.arrow{
+    font-size: var(--h5fs20);
+}
+
+.explore_title{
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.title_icon{
+    font-size: var(--h1fs36);
+    color: var(--main);
+    padding-right: var(--p16);
+    margin-bottom: 20px;
+}
+.show_more{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 20px;
+}

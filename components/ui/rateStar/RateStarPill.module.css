@@ -1,0 +1,25 @@
+.rating {
+    border: 1px solid var(--light-gray);
+    padding: 6px var(--p8);
+    border-radius: 24px;
+    font-size: var(--pfs16);
+    display: inline-block;
+}
+
+.icon{
+    margin-right: 6px;
+    color: var(--starYellow);
+    font-size: var(--pfs16);
+}
+
+
+@media screen and (max-width:767px){
+    .rating {
+        padding: 6px;
+        border-radius: 20px;
+        font-size: var(--pfs12);
+    }
+    .icon{
+        font-size: var(--pfs12);
+    }
+    }

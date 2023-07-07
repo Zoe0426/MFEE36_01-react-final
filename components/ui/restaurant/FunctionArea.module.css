@@ -1,0 +1,36 @@
+.function_group {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 4px;
+  padding-top: var(--p16);
+  }
+  
+  .function_group > * {
+    margin-right: 16px; 
+  }
+  
+  .function_group > *:last-child {
+    margin-right: 0;
+  }
+
+
+
+.bgc{
+    background-color: var(--lightBrown);
+
+}
+
+@media screen and (max-width:767px){
+  .function_group {
+    justify-content: space-between;
+    padding-right: 36px;
+    padding-left: 36px;
+    padding-bottom: var(--p8);
+    padding-top: var(--p8);
+  }
+  .function_group > * {
+    margin-right: 0px; 
+  }
+  }

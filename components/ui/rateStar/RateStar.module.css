@@ -1,0 +1,18 @@
+.rating {
+    padding: var(--p16) 0;
+    font-size: var(--h6fs18);
+    display: flex;
+    color: var(--dark-gray);
+}
+
+.icon{
+    margin-right: 6px;
+    color: var(--starYellow);
+    font-size: var(--h6fs18);
+}
+.rate_score{
+    margin-right:8px ;
+}
+.rate_text{
+    color: var(--gray);
+}
