@@ -234,9 +234,6 @@ export default function Product() {
                 />
                 <p>信用卡 / </p>
                 <p>LINE pay / ATM轉帳</p>
-                <p
-                  dangerouslySetInnerHTML={datatForProductMain.description}
-                ></p>
               </div>
             </div>
           </section>
