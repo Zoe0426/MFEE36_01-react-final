@@ -1,7 +1,7 @@
 import styles from '../../styles/activitydetail.module.css';
 import ActivityCard5 from '@/components/ui/cards/ActivityCard5';
 import NavDetailPage from '@/components/ui/cards/NavDetailPage';
-import ActivityFeatureDetailPage from '@/components/ui/cards/ActivityFeatureDetailPage';
+//import ActivityFeatureDetailPage from '@/components/ui/cards/ActivityFeatureDetailPage';
 
 export default function ActivityDetail() {
   return (

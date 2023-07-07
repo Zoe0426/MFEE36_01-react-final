@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ActivityCard1.module.css';
 
-const ActivityCard1 = () => {
+const ActivityCard1 = ({name,date,time,address}) => {
   return (
     <div className={styles.card}>
       {/* -------左邊------- */}
@@ -21,7 +21,7 @@ const ActivityCard1 = () => {
       <div className={styles.right}>
         <div className={styles.row}>
           <div className={styles.rowTextTitle}>
-            <p className={styles.rowTextLarge}>2022台北與毛家庭有約</p>
+            <p className={styles.rowTextLarge}>{name}</p>
           </div>
           <div>
             <p className={styles.rowTextLarge}>4.5</p>
@@ -31,21 +31,21 @@ const ActivityCard1 = () => {
         <div className={styles.row}>
           <div className={styles.rowIcon}></div>
           <div>
-            <p className={styles.rowTextSmall}>2023-04-09~2023-04-09</p>
+            <p className={styles.rowTextSmall}>{date}</p>
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.rowIcon}></div>
           <div>
-            <p className={styles.rowTextSmall}>每週六 8:00-18:00</p>
+            <p className={styles.rowTextSmall}>{time}</p>
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.rowIcon}></div>
           <div className={styles.rowTextAddress}>
-            <p className={styles.rowTextSmall}>台北市大安區大安路一段</p>
+            <p className={styles.rowTextSmall}>{address}</p>
           </div>
         </div>
 
