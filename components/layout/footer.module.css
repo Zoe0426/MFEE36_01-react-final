@@ -10,6 +10,15 @@
   background-color: var(--light1);
 }
 
+/* 根據classTitle傳入參數決定rwd順序 */
+.bigNone{
+  display: none;
+}
+
+.smNone{
+  display: block;
+}
+
 .footerInfo{
   width: 1280px;
 }
@@ -65,6 +74,17 @@
 @media only screen and (max-width: 767px){
   .footer{
     height: 85px;
+  }
+
+  .bigNone{
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    justify-content: center;
+  }
+
+  .smallNone{
+    display: none;
   }
 
   .footerInfo{

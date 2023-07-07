@@ -1,4 +1,5 @@
 import '@/styles/styleguide.css';
+import '@/styles/testcom.css';
 import DefaultLayout from '@/components/layout/default-layout';
 
 export default function MyApp({ Component, pageProps }) {

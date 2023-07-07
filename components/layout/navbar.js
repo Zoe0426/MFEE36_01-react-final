@@ -4,10 +4,14 @@ import Styles from './navbar.module.css';
 // import logo from '@/assets/logo.svg'
 import Link from 'next/link';
 import NavRoundBtn from '@/components/ui/buttons/NavRoundBtn';
-export default function Navbar() {
+export default function Navbar({ classTitle }) {
   return (
     <>
-      <header className={Styles.header}>
+      <header
+        className={`${Styles.header} ${
+          classTitle === 'bigNone' ? Styles.bigNone : ''
+        }`}
+      >
         <nav className={Styles.navbar}>
           <div className={Styles.logoMenu}>
             <button className={Styles.navbarToggler}>

@@ -21,6 +21,11 @@
   align-items: center;
   text-decoration: none;
   color: var(--dark-gray);
+  transition: all .2s ease;
+}
+
+.linkItem:hover{
+  color: var(--main);
 }
 
 .linkTitile{

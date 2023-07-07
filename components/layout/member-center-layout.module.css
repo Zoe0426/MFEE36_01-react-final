@@ -1,7 +1,7 @@
 
 .main{
   width: 100%;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 
 .antRow{
@@ -13,7 +13,7 @@
 .antCol{
   height: 100%;
   border: 1px solid black;
-  background-color: powderblue;
+  /* background-color: powderblue; */
 }
 
 @media screen and (max-width:1200px) and (min-width:769px){

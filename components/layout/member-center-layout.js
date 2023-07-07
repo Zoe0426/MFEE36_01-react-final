@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'antd';
 import Navbar from './navbar';
-import MemberCenterFooter from './MemberCenterFooter';
+import Footer from './footer';
 import SecondNavbar from './SecondNavbar';
 import MemberSidebar from './MemberSidebar';
 import Styles from './member-center-layout.module.css';
@@ -22,7 +22,7 @@ export default function MemberCenterLayout(children) {
           </Col>
           <Col className={Styles.antCol} lg={4} md={1} sm={1} xs={1}></Col>
         </Row>
-        <MemberCenterFooter />
+        <Footer classTitle="smallNone" />
       </div>
     </>
   );

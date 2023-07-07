@@ -2,10 +2,18 @@ import React from 'react';
 import Styles from './footer.module.css';
 import Link from 'next/link';
 
-export default function Footer() {
+export default function Footer({ classTitle }) {
   return (
     <>
-      <footer className={Styles.footer}>
+      <footer
+        className={`${Styles.footer} ${
+          classTitle === 'bigNone'
+            ? Styles.bigNone
+            : classTitle === 'smallNone'
+            ? Styles.smallNone
+            : ''
+        }`}
+      >
         <div className={Styles.footerInfo}>
           <div className={Styles.logoInfo}>
             <div>
