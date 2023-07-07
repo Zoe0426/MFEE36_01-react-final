@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
 import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration';
 import ShopSupplierCard from '@/components/ui/cards/shop-supplier-card';
+import SearchBar from '@/components/ui/buttons/SearchBar';
+import SubBtn from '@/components/ui/buttons/subBtn';
 
-import Link from 'next/link';
 import { Row, Col } from 'antd';
 
-import iconBKG from '@/assets/icon-BKG.svg';
 //八大類圖示
 import Image from 'next/image';
 import styles from '@/styles/shop.module.css';
@@ -26,6 +27,8 @@ import cat from '@/assets/logo-cat.svg';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 
 export default function ProdoctIndex() {
+  const router = useRouter();
+
   //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
   const [dataForDog, setDataForDog] = useState([]);
   const [dataForCat, setDataForCat] = useState([]);
@@ -149,12 +152,25 @@ export default function ProdoctIndex() {
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
             <div className={styles.search_bar}>
-              {/* 這邊應該要改用共用元件SearchBar */}
-              <input type="text" placeholder="搜尋你愛的東西" />
-              <button>找尋商品</button>
+              <SearchBar placeholder="搜尋你愛的東西" btn_text="尋找商品" />
             </div>
             {/* 這邊應該要改用共用元件分類按鈕 */}
             <Row gutter={16}>
+              {eightCatergoriesData.map((e) => {
+                return (
+                  <Col span={3} key={e.id} className={styles.eight_icons}>
+                    <SubBtn
+                      img={e.icon}
+                      text={e.text}
+                      subBtnHandler={() => {
+                        router.push(e.href);
+                      }}
+                    />
+                  </Col>
+                );
+              })}
+            </Row>
+            {/* <Row gutter={16}>
               {eightCatergoriesData.map((e) => {
                 return (
                   <Col span={3} key={e.id} className={styles.eight_icons}>
@@ -168,7 +184,7 @@ export default function ProdoctIndex() {
                   </Col>
                 );
               })}
-            </Row>
+            </Row> */}
           </div>
         </div>
         <BGUpperDecoration />

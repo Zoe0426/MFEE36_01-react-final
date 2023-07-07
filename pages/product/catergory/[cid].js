@@ -3,7 +3,10 @@ import { useRouter } from 'next/router';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import IconSeconBtn from '@/components/ui/buttons/IconBtn';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+import SearchBar from '@/components/ui/buttons/SearchBar';
+import { faFilter, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import { Pagination } from 'antd';
 import { Row } from 'antd';
@@ -55,15 +58,13 @@ export default function Catergory() {
       <div className={styles.bgc_lightBrown}>
         <nav className="container-inner">
           <div className={styles.search_bar}>
-            {/* 這邊應該要改用共用元件 */}
-            <input type="text" placeholder="搜尋你愛的東西" />
-            <button>找尋商品</button>
+            <SearchBar placeholder="搜尋你愛的東西" btn_text="尋找商品" />
           </div>
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
             <div className={styles.btns}>
-              <button>收藏列表</button>
-              <button>進階篩選</button>
+              <IconSeconBtn icon={faHeart} text={'收藏列表'} />
+              <IconSeconBtn icon={faFilter} text={'進階篩選'} />
             </div>
           </div>
           <div className="filters"></div>

@@ -8,28 +8,6 @@
     
 }
 
-/*搜尋bar，之後待元件刻好要刪除*/
-.search_bar>input{
-    height: 53px;
-    width:50%;
-    border-radius: var(--br8);
-    background-color: white;
-    border:1px solid var(--light-gray);
-    margin-right:16px;
-    padding-left:var(--p16)
-}
-
-.search_bar>button{
-    height: 53px;
-    padding:var(--p8) var(--p16);
-    border-radius: var(--br10);
-    background-color: var(--main);
-    color:white;
-    border:1px solid var(--light-gray);
-    font-size:var(--pfs16);
-    line-height: var(--h4fs24s);
-}
-
 .nav_head{
     display: flex;
     justify-content: space-between;
@@ -38,17 +16,10 @@
 }
 
 
-/*篩選按鈕，等元件刻好後就可以刪除*/
-.btns>button{
-    padding:var(--p8) var(--p16);
-    border-radius: var(--br10);
-    background-color: white;
-    border:1px solid var(--light-gray)
-}
 
 /*篩選按鈕，不可刪除*/
-.btns>button:first-child{
-    margin-right: var(--p16);
+.btns>button:nth-child(2){
+    margin-left: var(--p16);
 
 }
 
@@ -169,45 +140,30 @@
     display: flex;
 }
 
+.detail_main_info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 /*商品名稱*/
-.detail_title{
-    font-size: var(--h3fs28);
+.detail_main_title{
+    font-size: var(--h1fs36);
     font-weight: var(--fwbold);
 }
 
 /*所有主要訊息區的右邊tiltle字體都固定*/
-.detail_spec_title{
+.detail_spec_title, .detail_title{
     font-size:var( --h5fs20) ;
-    /* font-weight: bolder; */
+    font-weight: bolder;
     margin-bottom: 16px;
     margin-top: 32px;
 }
 
-/*商品的平均評價+購買人數*/
-.avg_rating_total_sales{
-    font-size: var(--h5fs20);
-    line-height: var(--h5fs20);
-    margin:14px 0;
-    display: flex;
-    align-items: center;
+.detail_spec_title{
+    margin-top: 24px;
 }
-
-.avg_rating_total_sales>div{
-    margin-right: 8px;
-}
-
-.detail_main_star{
-    font-size: var(--h6fs18);    
-    color:var(--starYellow);
-}
-
-.avg_rating_total_sales>div:nth-child(3){
-    /* font-size:var(--pfs14); */
-    font-size: var(--pfs16);
-    color:var(--gray)
-}
-
-
 
 /* 照片區 */
 .detail_img_box{
@@ -257,11 +213,21 @@
 /*規格按鈕*/
 
 .detail_spec_btn{
-    margin-right:16px ;
-    padding:var(--p8) var(--p16);
+    margin-right:16px;
+    margin-bottom: 8px;
+    padding: var(--p16) 20px;
     border-radius: var(--br10);
-    background-color: white;
-    border:1px solid var(--light-gray)
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: transparent;
+    border: 1px solid var(--gray);
+    transition: 0.3s;
+}
+
+.detail_spec_btn:hover{
+    background-color: var(--light-gray);
+    cursor: pointer;
 }
 
 
@@ -271,47 +237,74 @@
 
 /*購買數量按鈕*/
 .detail_qty{
-    border:1px solid var(--light-gray);
-    border-radius: var(--br10);
-    width:150px;
+    width:200px;
     display: flex;
     justify-content: space-between;
-    background-color: white;
+    border-radius: var(--br10);
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: transparent;
+    border: 1px solid var(--gray);
+    overflow: hidden;
+}
+
+.detail_qty_sub_btn, .detail_qty_add_btn{
+    border:none;  
+    padding: var(--p16) 20px;
+    font-size: var(--pfs16);
+    font-weight: var(--fwbold);
+    background-color: transparent;
+    transition: 0.3s;
 
 }
-.detail_qty_sub_btn{
-    padding:var(--p8) var(--p16);
-    border-radius: var(--br10);
-    background-color: white;
-    border:none;  
-    border-right: 1px solid var(--light-gray) ;
+
+.detail_qty_sub_btn{   
+    border-right: 1px solid var(--dark-gray) ;    
 }
+
 .detail_qty_add_btn{
-    padding:var(--p8) var(--p16);
-    border-radius: var(--br10);
-    background-color: white;
-    border:none;  
-    border-left: 1px solid var(--light-gray) ;
+    border-left: 1px solid var(--dark-gray) ;    
+}
+
+.detail_qty_add_btn:hover, .detail_qty_sub_btn:hover{
+    background-color: var(--light-gray);
+    cursor: pointer;
 }
 
 .detail_qty_input{
     width:30px;    
-    padding:var(--p8) var(--p16);
     text-align: center;
     border:none;
     outline:none;
+    padding: var(--p16) 0;
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: transparent;
 }
 
 /*付款方式*/
-.detail_pay_icon{
-    font-size: var(--h4fs24);
-    margin-right:16px ;
-    /* color:var(--dark); */
-    /* opacity: 0.6; */
-    /* color:pink */
-    color:var(--gray);
-    
+
+.detail_spec_text, .detail_ship_text{
+    font-size: var(--pfs16);
 }
+
+
+/*按鈕區*/
+.detail_main_bottom{
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.detail_main_bottom>button{
+   flex:1;
+   margin-right: 16px;
+}
+
+.detail_main_bottom>button:last-child{
+    margin-right: 0px;
+ }
 
 /*評論區*/
 
@@ -319,9 +312,6 @@
     display: flex;
     flex-wrap: nowrap;
 }
-
-
-
 
 
 
@@ -338,5 +328,73 @@
         margin-left:5%;
         width:6000px;
     }
+
+
+    /*--------------商品細節頁面-------------*/
+    /* 主要訊息區 */
+    .detail_main_box{
+        flex-direction: column;
+    
+    }
+    /*商品名稱*/
+    .detail_main_title{
+        font-size: var(--h4fs24);
+    }
+
+    /*所有主要訊息區的右邊tiltle字體都固定*/
+    .detail_spec_title, .detail_title{
+        font-size:var(--h6fs18) ;
+    }
+
+
+    /* 照片區 */
+    .detail_img_box{
+        width: 100%;
+    }
+
+    .detail_small_boxs{
+        margin-bottom:24px
+    }
+
+
+    /*規格按鈕*/
+    .detail_spec_btn{
+        margin-bottom: 8px;;
+        padding: 12px var(--p16) ;
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
+    }
+
+    /*購買數量按鈕*/
+
+    .detail_qty{
+        width:40%;        
+        border-radius: var(--br8);
+        font-size: var(--pfs14);          
+    
+    }
+    .detail_qty_sub_btn,.detail_qty_add_btn, .detail_qty_input{
+        padding: 12px var(--p16) ;
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
+    }
+
+    /*按鈕區*/
+    .detail_main_bottom{
+        margin-top: 32px;
+        flex-wrap: wrap;
+    }
+
+    .detail_main_bottom>button{
+        flex:0 0 48%;
+        margin-right: 0px;
+        /* width: 48%; */
+    }
+
+    .detail_main_bottom>button:last-child{
+        margin-top:16px;
+        flex:0 0 100%;
+    }
+    
 }
 

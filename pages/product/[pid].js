@@ -3,8 +3,16 @@ import { useRouter } from 'next/router';
 import CommentCard from '@/components/ui/cards/comment-card';
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
+import IconBtn from '@/components/ui/buttons/IconBtn';
+import MainBtn from '@/components/ui/buttons/MainBtn';
+import RateStar from '@/components/ui/rateStar/RateStar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import {
+  faStar,
+  faHeart,
+  faCartShopping,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   faApplePay,
   faCcMastercard,
@@ -86,7 +94,7 @@ export default function Product() {
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
             <div className={styles.btns}>
-              <button>收藏列表</button>
+              <IconBtn icon={faHeart} text={'收藏列表'} />
             </div>
           </div>
           <section className={styles.detail_main_box}>
@@ -104,7 +112,6 @@ export default function Product() {
                   );
                 })}
               </div>
-
               <div className={styles.detail_small_boxs}>
                 {datatForProductDetail.map((v) => {
                   return (
@@ -135,105 +142,93 @@ export default function Product() {
               </div>
             </div>
             <div className={styles.detail_main_info}>
-              <h1 className={styles.detail_title}>
-                {datatForProductMain.name}
-              </h1>
-              <div className={styles.avg_rating_total_sales}>
-                <div>
-                  <FontAwesomeIcon
-                    icon={faStar}
-                    className={styles.detail_main_star}
-                  />
+              <div className="detail_main_upper">
+                <h1 className={styles.detail_main_title}>
+                  {datatForProductMain.name}
+                </h1>
+                <RateStar
+                  score={datatForProductMain.avg_rating}
+                  text={`( 已有99人購買，這邊需要再拉API資料 )`}
+                />
+
+                <div className={styles.detail_spec_box}>
+                  <h5 className={styles.detail_spec_title}>規格選擇</h5>
+                  {datatForProductDetail.map((v, i) => {
+                    return (
+                      <button
+                        className={
+                          i === 0
+                            ? styles.detail_spec_btn_none
+                            : styles.detail_spec_btn
+                        }
+                        key={v.product_detail_sid}
+                        onClick={() => {
+                          v.img &&
+                            setDataForProductDetail(
+                              toggleDisplayForImg(
+                                datatForProductDetail,
+                                v.product_detail_sid
+                              )
+                            );
+                        }}
+                      >
+                        {v.name}
+                      </button>
+                    );
+                  })}
                 </div>
-                <div>{datatForProductMain.avg_rating}</div>
-                <div>( 已有99人購買，這邊需要再拉API資料 )</div>
-              </div>
-              <div className={styles.detail_spec_box}>
-                <h5 className={styles.detail_spec_title}>規格選擇</h5>
-                {datatForProductDetail.map((v, i) => {
-                  return (
+                <div className={styles.detail_qty_box}>
+                  <h5 className={styles.detail_title}>購買數量</h5>
+                  <div className={styles.detail_qty}>
                     <button
-                      className={
-                        i === 0
-                          ? styles.detail_spec_btn_none
-                          : styles.detail_spec_btn
-                      }
-                      key={v.product_detail_sid}
+                      className={styles.detail_qty_sub_btn}
                       onClick={() => {
-                        v.img &&
-                          setDataForProductDetail(
-                            toggleDisplayForImg(
-                              datatForProductDetail,
-                              v.product_detail_sid
-                            )
-                          );
+                        if (count > 1) {
+                          setCount(count - 1);
+                        }
                       }}
                     >
-                      {v.name}
+                      -
                     </button>
-                  );
-                })}
-              </div>
-              <div className={styles.detail_qty_box}>
-                <h5 className={styles.detail_spec_title}>購買數量</h5>
-                <div className={styles.detail_qty}>
-                  <button
-                    className={styles.detail_qty_sub_btn}
-                    onClick={() => {
-                      if (count > 1) {
-                        setCount(count - 1);
-                      }
-                    }}
-                  >
-                    -
-                  </button>
-                  <input
-                    type="text"
-                    className={styles.detail_qty_input}
-                    value={count}
-                    onChange={(e) => {
-                      const reisNumber = /[.\d]/;
-                      if (reisNumber.test(e.target.value)) {
-                        setCount(parseInt(e.target.value));
-                      }
-                    }}
-                  />
-                  <button
-                    className={styles.detail_qty_add_btn}
-                    onClick={() => {
-                      setCount(count + 1);
-                    }}
-                  >
-                    +
-                  </button>
+                    <input
+                      type="text"
+                      className={styles.detail_qty_input}
+                      value={count}
+                      onChange={(e) => {
+                        const reisNumber = /[.\d]/;
+                        if (reisNumber.test(e.target.value)) {
+                          setCount(parseInt(e.target.value));
+                        }
+                      }}
+                    />
+                    <button
+                      className={styles.detail_qty_add_btn}
+                      onClick={() => {
+                        setCount(count + 1);
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <h5 className={styles.detail_title}>付款方式</h5>
+                  <p className={styles.detail_spec_text}>
+                    VISA 信用卡 / MASTER 信用卡 / LINE Pay / Google Pay
+                  </p>
+                </div>
+                <div>
+                  <h5 className={styles.detail_title}>運送方式</h5>
+                  <p className={styles.detail_ship_text}>
+                    黑貓黑貓宅配 / 7-11取貨 / 全家取貨
+                  </p>
                 </div>
               </div>
-              <div className={styles.detail_pay_box}>
-                <h5 className={styles.detail_spec_title}>付款方式</h5>
-                <FontAwesomeIcon
-                  icon={faApplePay}
-                  className={styles.detail_pay_icon}
-                />
-                <p>apple Pay /</p>
-
-                <FontAwesomeIcon
-                  icon={faCcMastercard}
-                  className={styles.detail_pay_icon}
-                />
-                <FontAwesomeIcon
-                  icon={faCcVisa}
-                  className={styles.detail_pay_icon}
-                />
-                <FontAwesomeIcon
-                  icon={faLine}
-                  className={styles.detail_pay_icon}
-                />
-                <FontAwesomeIcon
-                  icon={faGooglePay}
-                  className={styles.detail_pay_icon}
-                />
-                <p>信用卡 / </p>
-                <p>LINE pay / ATM轉帳</p>
+              <div className={styles.detail_main_bottom}>
+                {/* <SecondaryBtn icon={faHeart} text={'收藏列表'} /> */}
+                <IconSeconBtn icon={faHeart} text={'加入收藏'} />
+                <IconSeconBtn icon={faCartShopping} text={'加入購物車'} />
+                <MainBtn text={'立即購買'}/>
               </div>
             </div>
           </section>
