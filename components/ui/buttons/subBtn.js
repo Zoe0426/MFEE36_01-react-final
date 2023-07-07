@@ -1,16 +1,24 @@
-import React from 'react'
-import subBtn from '@/assets/subBtn.svg'
-import Image from 'next/image'
-export default function SubBtn({ img = '', text = '' }) {
+import React from 'react';
+import subBtn from '@/assets/subBtn.svg';
+import Image from 'next/image';
+import styles from './subBtn.module.css';
+
+export default function SubBtn({
+  img = '',
+  text = '',
+  subBtnHandler = () => {},
+}) {
   return (
     <>
-      <div>
-        <Image src={subBtn}></Image>
-        {/* <div>
-          <img src={img} alt="icon" />
-          <p>{text}</p>
-        </div> */}
+      <div className={styles.subBtn} onClick={subBtnHandler}>
+        <Image
+          className={styles.subBtn_outline}
+          src={subBtn}
+          alt="subBtn"
+        ></Image>
+        <img className={styles.icon} src={img} alt="icon" />
+        <p className={styles.text}>{text}</p>
       </div>
     </>
-  )
+  );
 }

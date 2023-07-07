@@ -1,4 +1,20 @@
-1. 如何導入fontfamiliy?
+1. 如何導入fontfamily?
+
+https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
+
 2. 引用SVG，在中間時縮小會有問題～～
-3. 如何去除next.js link 的樣式
+
+
+3. 如何去除next.js link 的樣式(對a link做css 樣式)
 4. 卡片被點時換頁，愛心被點時不換頁
+5. svg輸出有問題
+6.引用不同layout
+
+
+7.ref~~
+
+
+～～.Redux到底在做什麼？
+
+SVG-css pointer event none
+https://developer.mozilla.org/en-US/docs/Web/CSS/pointer-events

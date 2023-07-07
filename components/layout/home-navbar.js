@@ -1,9 +1,9 @@
-import React from 'react'
-import Styles from './home-navbar.module.css'
-// import Image from 'next/image'
-// import logo from '@/assets/logo.svg'
-import Link from 'next/link'
-import NavRoundBtn from '@/components/ui/buttons/NavRoundBtn'
+import React from 'react';
+import Styles from './home-navbar.module.css';
+// import Image from 'next/image';
+// import logo from '@/assets/logo.svg';
+import Link from 'next/link';
+import NavRoundBtn from '@/components/ui/buttons/NavRoundBtn';
 export default function HomeNavbar() {
   return (
     <>
@@ -49,5 +49,5 @@ export default function HomeNavbar() {
         </nav>
       </header>
     </>
-  )
+  );
 }
