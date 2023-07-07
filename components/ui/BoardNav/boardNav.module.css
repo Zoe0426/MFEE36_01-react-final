@@ -1,0 +1,26 @@
+.boardNav{
+  background-color:#F7ECE3;
+  width:100%;
+  height:150px;
+  /* padding: 0;
+  margin: 0; */
+  /* position: relative; */
+  display:flex;
+  position: relative;
+}
+.board{
+  padding:10px 15px 0 15px;
+
+}
+.boardBTM{
+  width:100%;
+}
+.BTMimg{
+  width:100%;
+  object-fit: cover;
+  position: absolute;
+  top:405px;
+}
+.boardNavbar{
+  margin-bottom: 50px;
+}

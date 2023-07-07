@@ -1,0 +1,25 @@
+.banner{
+    background-color:#FFFAF6;
+    width:100%;
+    height:280px;
+    margin: 0;
+}
+.bannerImg{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position: center center;
+    position: relative;
+}
+.input{
+    background-color: #fff;
+    border:1px solid grey;
+    height:53px;
+    width:443px;
+    border-radius:10px;
+    position:absolute;
+    top:225px;
+    left:500px;
+    z-index: 999;
+
+}

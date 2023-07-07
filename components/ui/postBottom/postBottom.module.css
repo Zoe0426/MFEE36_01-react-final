@@ -1,0 +1,32 @@
+.wave{
+    width:100%;
+    object-fit: cover;
+    position: absolute;
+    top:0;
+    
+}
+.bottomBlock{
+    width:100%;
+    height:500px;
+    background-color:var(--light3);
+    
+}
+.bottom{
+    position: relative;
+}
+.bottomContent{
+    max-width: 1280px;
+    /* border: 1px solid purple; */
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bottomWord{
+    position:absolute;
+    top:60px;
+    left:250px;
+    z-index: 9999;
+    font-size: var(--h5fs20);
+    font-weight: var(--fwbold);
+}

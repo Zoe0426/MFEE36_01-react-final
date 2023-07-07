@@ -1,0 +1,12 @@
+.postNav{
+    background-color: #FFEFE8;
+    height:50px;
+    width:100%;
+    /* margin-top:5px; */
+}
+.postNavText{
+    font-size: 28px;
+    font-weight: bold;
+    padding-left:10px;
+    padding-top:10px;
+}

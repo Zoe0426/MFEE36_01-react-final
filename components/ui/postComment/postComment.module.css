@@ -1,0 +1,59 @@
+.author{
+    display: flex;
+    padding:10px;
+}
+.profile{
+    width:36px;
+    height:36px;
+}
+.proImg{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    object-position: center center;
+    border-radius: 50%;
+}
+.aut{
+    font-size:var(--pfs16);
+    font-weight: var(--fwbold);
+    margin:10px;
+}
+.commentBody{
+    background-color: #fff;
+    width:85%;
+    border-radius:var(--br10);
+    margin-top:10px; 
+}
+.details{
+    display: flex;
+    margin-left:50px;
+    font-size: var(--pfs14);
+}
+.floor, .date, .reply{
+    padding:10px;
+    color:var(--gray);
+}
+.comment{
+    padding-bottom:5px;
+    margin-left:55px;
+}
+.hideComment{
+    display:none;
+    color:var(--gray);
+    margin-left:50px;
+    font-size: var(--pfs14);
+    padding:10px;
+    margin-bottom: 10px;
+}
+.moreComments{
+    color:var(--gray);
+    margin-left:50px;
+    font-size: var(--pfs14);
+    padding:10px;
+    margin-bottom: 10px;
+}
+.comments{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
