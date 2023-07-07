@@ -1,17 +1,18 @@
-.hashtag{
-    height: 32px;
-    width:100%;
+.hash_tag{
     background-color: var(--light1);
-    border-radius:var(--br20) ;
-    font-size: var(--pfs16);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right:10px;
-    padding-left:10px;
+    padding: var(--p8) var(--p16);
+    border-radius: 20px;
+    margin-right: 12px;
+    display: inline-block;
+    color: var(--dark-gray);
 }
-.body{
-    background-color: #fff;
-    margin-right:5px;
-    display: flex;
-}
+
+@media screen and (max-width:767px){
+    .hash_tag{
+        padding: var(--p8);
+        margin-top: 6px;
+        border-radius: 16px;
+        margin-right: 4px;
+        font-size: 12px;
+    }
+    }

@@ -1,10 +1,10 @@
 import React from 'react'
-import Style from './hashtag.module.css'
+import Styles from './HashTag.module.css'
 
-export default function Hashtag({text=''}) {
+export default function HashTag({ text = '' }) {
   return (
-    <div className={Style.body}>
-        <div className={Style.hashtag}>#{text}</div>   
-    </div>
+    <>
+      <p className={Styles.hash_tag}>{text}</p>
+    </>
   )
 }
