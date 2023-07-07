@@ -1,0 +1,43 @@
+.card {
+  width: 383px;
+  height: 323px;
+  border-radius: var(--br10);
+  background-image: url('/activity_img/asian-young-girl-holding-kittens-park.jpg');
+  background-size: cover;
+  position: relative;
+  /* margin-bottom: 1.5rem; */
+}
+
+.content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  padding: var(--p16);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.city {
+  font-size: var(--h3fs28);
+  color: white;
+  text-decoration: none;
+}
+
+.btn {
+  width: 104px;
+  height: 51px;
+  background-color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnText {
+  font-size: var(--pfs16);
+  color: white;
+  text-align: center;
+}
+

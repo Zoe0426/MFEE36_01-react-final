@@ -1,0 +1,45 @@
+.card {
+    width: 363px;
+    height: 152px;
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+  
+.image {
+    aspect-ratio: 1/1; /* 設置寬高比為1:1 */
+    width: 152px;
+    height: 100%;
+    border-radius: 50%;
+    background-image: url('/activity_img/asian-young-girl-holding-kittens-park.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  
+.content {
+    padding: var(--p16);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.title {
+    font-family: 'Inter', sans-serif;
+    font-size: var(--h6fs18);
+}
+  
+.count {
+    font-size: var(--pfs16);
+}
+  
+.location {
+    display: flex;
+    align-items: center;
+    font-size: var(--pfs16);
+    color: #666666;
+}
+  
+.icon {
+    margin-right: 4px;
+}
+  

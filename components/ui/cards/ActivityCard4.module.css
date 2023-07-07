@@ -1,0 +1,108 @@
+.card {
+  display: flex;
+  width: 48%;
+}
+
+/* -------左邊------- */
+.left {
+  position: relative;
+  width: 90%;
+  /* height: 352px; */
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--br10) 0 0 var(--br10);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 91px;
+  height: 38px;
+  background-color: var(--main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius:var(--br10) 0 var(--br8) 0 ;
+}
+
+.text {
+  font-size: var(--pfs14);
+  color: white;
+}
+
+.icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background-color: #000000;
+}
+
+/* -------右邊------- */
+.right {
+  width: 90%;
+  margin-left: 1rem; /*左右間距*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+/* .rowText {
+  margin-right: 8px;
+} */
+
+
+/* 標題 */
+.rowTextTitle {
+  font-weight: var(--fwbold);
+  margin-right: 8px;
+}
+
+/* 地址 */
+.rowTextAddress {
+  color: var(--gray);
+  /* font-weight: var(--fwbold); */
+}
+
+.rowTextIntro{
+  line-height: 20px;
+}
+
+.rowTextLarge {
+  font-size: var(--h6fs18);
+}
+
+.rowTextSmall {
+  font-size: var(--pfs16);
+}
+
+.rowIcon {
+  width: 24px;
+  height: 24px;
+  background-color: #000000;
+  margin-right: 8px;
+}
+
+.feature {
+  width: 130px;
+  height: 40px;
+  background-color: #FFD4C0;
+  color: #515151;
+  margin-right: 8px;
+}
+
+.rowTextExtraSmall {
+  font-size: var(--pfs14);
+}

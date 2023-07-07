@@ -1,0 +1,133 @@
+.card {
+  display: flex;
+  width: 100%;
+}
+
+/* -------左邊------- */
+.left {
+  position: relative;
+  width: 70%;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--br10) 0 0 var(--br10);
+}
+
+.overlay_left {
+  position: absolute;
+  top: 50%;
+  left: 2%;
+  width: 35px;
+  height: 35px;
+  background-color: var(--light-gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay_right {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  width: 35px;
+  height: 35px;
+  background-color: var(--light-gray);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 35px;
+  height: 35px;
+  background-color:var(--light-gray);
+}
+
+/* -------右邊------- */
+.right {
+  width: 30%;
+  /* height: 352px; */
+  margin-left: 61px;
+  /* align-content: space-between; */
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.row_text {
+  margin-right: 8px;
+}
+
+
+/* 標題 */
+.row_title{
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 15px;
+}
+
+
+.row_text_title {
+  font-size: var(--h2fs32);
+  font-weight: var(--fwbold);
+}
+
+.row_price{
+  font-size: var(--h6fs18);
+  color: var(--dark);
+}
+
+/* 四-六段 icon */
+.row_icon{
+width: 18px;
+height: 18px;
+background:var(--light-gray);
+margin-right: 5px;
+}
+
+/* 評分 */
+.review{
+display: flex;
+align-items: center;
+}
+
+.star_icon {
+  width: 24px;
+  height: 24px;
+  background:var(--light-gray);
+  margin:0 16px 0 8px;
+}
+
+.row_date{
+  display: flex;
+  align-items: center;
+}
+
+
+.ppl_qty{
+  display: flex;
+}
+
+.ppl_qty_row{
+  margin-bottom: 15px;
+}
+
+.row_btn{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 統一字體 */
+.row_text_small {
+  font-size: var(--h6fs16);
+}
