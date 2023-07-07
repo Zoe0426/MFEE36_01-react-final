@@ -1,11 +1,9 @@
 import Head from 'next/head';
-import HomeNavbar from '@/components/layout/home-navbar';
-import Image from 'next/image';
 import { Col, Row } from 'antd';
 import HomeShopCard from '@/components/ui/cards/homeShopCard';
-import SubBtn from '@/components/ui/buttons/subBtn';
 import style from '@/styles/home.module.css';
 import HomeLayout from '@/components/layout/home-layout';
+import HomeMainBtn from '@/components/ui/buttons/homeMainBtn';
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })
@@ -80,12 +78,10 @@ export default function Home() {
         </main>
       </header>
 
-      <SubBtn
+      <HomeMainBtn
         img="/home-images/h-logo.png"
         text="提供寵物餐具"
-        subBtnHandler={() => {
-          alert('clicked');
-        }}
+        outline="styles.outline1"
       />
 
       <div className="container-outer">

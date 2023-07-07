@@ -13,9 +13,19 @@
     left:0;
     width: 130px;
     height: 130px;
-    transform: scaleX(-1);
 }
-
+.outline1{
+ transform: scaleX(-1);
+}
+.outline2{
+ transform: scaleX(-1);
+}
+.outline3{
+ transform: scaleX(0);
+}
+.outline4{
+ transform: scaleX(-1);
+}
 .subBtn_outline path{
     transition: all 0.3s;
 }

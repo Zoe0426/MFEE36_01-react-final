@@ -1,9 +1,10 @@
 import React from 'react';
-import styles from './subBtn.module.css';
+import styles from './homeMainBtn.module.css';
 
-export default function SubBtn({
+export default function HomeMainBtn({
   img = '',
   text = '',
+  outline = '',
   subBtnHandler = () => {},
 }) {
   return (
@@ -15,7 +16,7 @@ export default function SubBtn({
           height="316"
           fill="none"
           viewBox="0 0 333 316"
-          className={styles.subBtn_outline}
+          className={`${styles.subBtn_outline} ${outline}`}
         >
           <path
             onClick={subBtnHandler}
