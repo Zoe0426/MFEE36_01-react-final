@@ -20,5 +20,5 @@
 分工:
 沛怡: RoundBtn
 宜零: SubBtn
-季庭: MainBtn,SecondaryBtn,SearchBar, Hashtag, RateStarPill, RateStar,IconBtn
+季庭: MainBtn,IconMainBtn,SecondaryBtn,IconSecnBtn,IconBtn(首頁rwd的時候會只剩icon),SearchBar, HashTag, RateStarPill(card裡), RateStar(內頁)
 書儀: CommentCard, Likelist

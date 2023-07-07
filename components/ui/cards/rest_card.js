@@ -1,9 +1,9 @@
-import React from 'react'
-import Styles from './rest_card.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import HashTag from '../hashtag/HashTag'
-import RateStarPill from '../rateStar/RateStarPill'
+import React from 'react';
+import Styles from './rest_card.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import HashTag from '../hashtag/HashTag';
+import RateStarPill from '../rateStar/RateStarPill';
 
 export default function RestCard({
   image = '',
@@ -15,7 +15,7 @@ export default function RestCard({
     <>
       <div className={Styles.card}>
         <div className={Styles.rest_img}>
-          <img src={image} alt="" />
+          <img src={image} alt="rest_image" />
           <FontAwesomeIcon icon={faHeart} className={Styles.icon_inImage} />
         </div>
         <h3 className={Styles.rest_name}>{name}</h3>
@@ -29,9 +29,9 @@ export default function RestCard({
         <div className={Styles.hash_tag_group}>
           <HashTag text="免費水" />
           <HashTag text="有賣食物" />
-          <HashTag text="可放繩" className={Styles.last_hash_tag}/>
+          <HashTag text="可放繩" className={Styles.last_hash_tag} />
         </div>
       </div>
     </>
-  )
+  );
 }

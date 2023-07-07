@@ -124,7 +124,7 @@ export default function RestInfo() {
         activity_info="以端午節為主題推出寵物鮮食肉粽讓毛寶一起慶端午！特別選用手掌心×天然寵食的『紅趜豬肉粽』香噴噴的豬肉營養滿分的紅趜滿足了您毛小孩的口腹之欲專為寵物製作的美食，讓您的毛小孩開心地一口接一口！"
       />
       <div className={Styles.CloudTop}>
-        <Image src={CloudTop} />
+        <Image src={CloudTop} alt="CloudTop" />
       </div>
       <div className={Styles.notion_bgc}>
         <div className="container-inner">
