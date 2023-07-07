@@ -65,7 +65,7 @@ export default function Product() {
         );
       })();
     }
-  }, []);
+  }, [query]);
 
   //轉換圖片顯示
   const toggleDisplayForImg = (datatForProductDetail, id) => {
@@ -192,7 +192,10 @@ export default function Product() {
                     className={styles.detail_qty_input}
                     value={count}
                     onChange={(e) => {
-                      setCount(e.target.value);
+                      const reisNumber = /[.\d]/;
+                      if (reisNumber.test(e.target.value)) {
+                        setCount(parseInt(e.target.value));
+                      }
                     }}
                   />
                   <button
@@ -207,13 +210,33 @@ export default function Product() {
               </div>
               <div className={styles.detail_pay_box}>
                 <h5 className={styles.detail_spec_title}>付款方式</h5>
-                <FontAwesomeIcon icon={faApplePay} />
-                <FontAwesomeIcon icon={faCcMastercard} />
-                <FontAwesomeIcon icon={faCcVisa} />
-                <FontAwesomeIcon icon={faLine} />
-                <FontAwesomeIcon icon={faGooglePay} />
+                <FontAwesomeIcon
+                  icon={faApplePay}
+                  className={styles.detail_pay_icon}
+                />
+                <p>apple Pay /</p>
+
+                <FontAwesomeIcon
+                  icon={faCcMastercard}
+                  className={styles.detail_pay_icon}
+                />
+                <FontAwesomeIcon
+                  icon={faCcVisa}
+                  className={styles.detail_pay_icon}
+                />
+                <FontAwesomeIcon
+                  icon={faLine}
+                  className={styles.detail_pay_icon}
+                />
+                <FontAwesomeIcon
+                  icon={faGooglePay}
+                  className={styles.detail_pay_icon}
+                />
                 <p>信用卡 / </p>
                 <p>LINE pay / ATM轉帳</p>
+                <p
+                  dangerouslySetInnerHTML={datatForProductMain.description}
+                ></p>
               </div>
             </div>
           </section>

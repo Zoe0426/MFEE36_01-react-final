@@ -179,7 +179,7 @@
 .detail_spec_title{
     font-size:var( --h5fs20) ;
     /* font-weight: bolder; */
-    margin-bottom: 30px;
+    margin-bottom: 16px;
     margin-top: 32px;
 }
 
@@ -295,14 +295,23 @@
 }
 
 .detail_qty_input{
-    width:16px;    
+    width:30px;    
     padding:var(--p8) var(--p16);
+    text-align: center;
     border:none;
     outline:none;
 }
 
-
-
+/*付款方式*/
+.detail_pay_icon{
+    font-size: var(--h4fs24);
+    margin-right:16px ;
+    /* color:var(--dark); */
+    /* opacity: 0.6; */
+    /* color:pink */
+    color:var(--gray);
+    
+}
 
 /*評論區*/
 

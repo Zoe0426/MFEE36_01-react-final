@@ -31,7 +31,7 @@ export default function Catergory() {
     //取得用戶拜訪的類別選項
     const { cid } = query;
 
-    if (query) {
+    if (cid) {
       (async function getData() {
         const r = await fetch(
           `http://localhost:3002/shop-api/maincard/${cid}`,

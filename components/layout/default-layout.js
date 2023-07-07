@@ -11,5 +11,5 @@ export default function DefaultLayout({ children }) {
         <Footer />
       </div>
     </>
-  )
+  );
 }
