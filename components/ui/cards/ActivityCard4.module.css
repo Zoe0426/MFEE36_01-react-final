@@ -1,14 +1,13 @@
 .card {
   display: flex;
-  width: 594px;
-  height: 352px;
+  width: 48%;
 }
 
 /* -------左邊------- */
 .left {
   position: relative;
-  width: 276px;
-  height: 352px;
+  width: 90%;
+  /* height: 352px; */
 }
 
 .image {
@@ -47,10 +46,11 @@
 
 /* -------右邊------- */
 .right {
-  width: 318px;
-  height: 352px;
-  padding-left: var(--p16);
-  align-content: space-between;
+  width: 90%;
+  margin-left: 1rem; /*左右間距*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .row {
@@ -59,9 +59,9 @@
   margin-bottom: 8px;
 }
 
-.rowText {
+/* .rowText {
   margin-right: 8px;
-}
+} */
 
 
 /* 標題 */
@@ -96,7 +96,7 @@
 }
 
 .feature {
-  width: 134px;
+  width: 130px;
   height: 40px;
   background-color: #FFD4C0;
   color: #515151;

@@ -6,12 +6,15 @@
 }
   
 .image {
+    aspect-ratio: 1/1; /* 設置寬高比為1:1 */
     width: 152px;
-    height: 152px;
+    height: 100%;
     border-radius: 50%;
     background-image: url('/activity_img/asian-young-girl-holding-kittens-park.jpg');
     background-size: cover;
-}
+    background-position: center;
+  }
+  
   
 .content {
     padding: var(--p16);

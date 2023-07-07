@@ -1,19 +1,16 @@
 .card {
   display: flex;
-  width: 1280px;
-  height: 582px;
-  margin:50px 0; /* 測試用 */
+  width: 100%;
 }
 
 /* -------左邊------- */
 .left {
   position: relative;
-  width: 800px;
-  height: 582px;
+  width: 70%;
 }
 
 .image {
-  width: 800px;
+  width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: var(--br10) 0 0 var(--br10);
@@ -54,8 +51,8 @@
 
 /* -------右邊------- */
 .right {
-  width: 100%;
-  height: 352px;
+  width: 30%;
+  /* height: 352px; */
   margin-left: 61px;
   /* align-content: space-between; */
 }

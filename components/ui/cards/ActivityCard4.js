@@ -1,5 +1,5 @@
-import React from 'react'
-import styles from './ActivityCard4.module.css'
+import React from 'react';
+import styles from './ActivityCard4.module.css';
 
 const ActivityCard4 = () => {
   return (
@@ -23,21 +23,21 @@ const ActivityCard4 = () => {
           <div className={styles.rowTextTitle}>
             <p className={styles.rowTextLarge}>2022台北與毛家庭有約</p>
           </div>
-          <div className={styles.rowText}>
+          <div>
             <p className={styles.rowTextLarge}>4.5</p>
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.rowIcon}></div>
-          <div className={styles.rowText}>
+          <div>
             <p className={styles.rowTextSmall}>2023-04-09~2023-04-09</p>
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.rowIcon}></div>
-          <div className={styles.rowText}>
+          <div>
             <p className={styles.rowTextSmall}>每週六 8:00-18:00</p>
           </div>
         </div>
@@ -64,12 +64,12 @@ const ActivityCard4 = () => {
         <div className={styles.row}>
           <div className={styles.feature}>專屬好禮</div>
         </div>
-        <div className={styles.row}>
+        <div>
           <p className={styles.rowTextSmall}>$250 (大人) $125 (小孩)</p>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ActivityCard4
+export default ActivityCard4;

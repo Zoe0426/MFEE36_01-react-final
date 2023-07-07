@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './FeatureDetailPage.module.css'
+import styles from './ActivityFeatureDetailPage.module.css'
 
 const ActivityFeatureDetailPage = ({
   text1 = '',

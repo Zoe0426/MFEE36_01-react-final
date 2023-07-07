@@ -1,14 +1,15 @@
 .card {
   display: flex;
-  width: 602px;
-  height: 262px;
+  width: 48%;
+  /* justify-content: space-between; */
+  /* height: 262px; */
 }
 
 /* -------左邊------- */
 .left {
   position: relative;
-  width: 294px;
-  height: 262px;
+  width: 90%;
+  /* height: 262px; */
 }
 
 .image {
@@ -47,23 +48,17 @@
 
 /* -------右邊------- */
 .right {
-  margin-left: 1rem;
+  width: 90%;
+  margin-left: 1rem; /*左右間距*/
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .row {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
-  margin-right: 8px;
-}
-
-.rowText {
-  margin-right: 8px;
-}
-
-.rowTextReview{
-  display: flex;
-  margin-right: 8px;
 }
 
 /* 標題 */
@@ -75,7 +70,6 @@
 /* 地址 */
 .rowTextAddress {
   color: var(--gray);
-  /* font-weight: var(--fwbold); */
 }
 
 .rowTextLarge {
@@ -94,9 +88,11 @@
 }
 
 .feature {
-  width: 134px;
+  width: 130px;
   height: 40px;
   background-color: #FFD4C0;
   color: #515151;
   margin-right: 8px;
+  display: flex;
+  justify-content: space-between;
 }

@@ -1,7 +1,7 @@
-import styles from '../../styles/activitydetail.module.css'
-import ActivityCard5 from '@/components/ui/cards/ActivityCard5'
-import NavDetailPage from '@/components/ui/cards/NavDetailPage'
-import ActivityFeatureDetailPage from '@/components/ui/cards/ActivityFeatureDetailPage'
+import styles from '../../styles/activitydetail.module.css';
+import ActivityCard5 from '@/components/ui/cards/ActivityCard5';
+import NavDetailPage from '@/components/ui/cards/NavDetailPage';
+import ActivityFeatureDetailPage from '@/components/ui/cards/ActivityFeatureDetailPage';
 
 export default function ActivityDetail() {
   return (
@@ -17,8 +17,6 @@ export default function ActivityDetail() {
         text6="為您推薦"
       />
       {/* <ActivityFeatureDetailPage /> */}
-
-      <ActivityCard5 />
     </div>
-  )
+  );
 }
