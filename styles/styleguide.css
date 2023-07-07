@@ -33,11 +33,11 @@
     --br10: 10px;
     --br8: 8px;
 
-    /* padding */
-    --p8:0.5rem;
-    --p16:1rem;
-    --p24:1.5rem;
-    --p32:2rem;
+  /* padding */
+  --p8:0.5rem;
+  --p16:1rem;
+  --p24:1.5rem;
+  --p32:2rem;
 
     /* shadow */
     --shadow: 2px 6px 8px rgba(0,0,0,0.1);
@@ -63,6 +63,14 @@ html,body{
   #__next{
     height: 100%;
   }
+
+html,body{
+  height: 100%;
+}
+
+#__next{
+  height: 100%;
+}
 
 html,body{
   height: 100%;
@@ -94,10 +102,16 @@ time, mark, audio, video {
 	vertical-align: baseline;
     box-sizing: border-box;
 }
+
+a:hover,a:link,a:visited,a:active{
+  color: var(--dark-gray);
+}
+
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
-	display: block;
+  display: block;
 }
 body {
 	line-height: 1;
@@ -107,19 +121,19 @@ body {
 
 
 ol, ul {
-	list-style: none;
+  list-style: none;
 }
 blockquote, q {
-	quotes: none;
+  quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-	content: '';
-	content: none;
+  content: '';
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 body{
@@ -135,6 +149,7 @@ body{
   overflow: hidden;
   margin: auto;
 }
+
 .container-inner{
     max-width: 1280px;
     /* border: 1px solid purple; */

@@ -1,0 +1,15 @@
+.total_pages_rank{
+    display: flex;
+    justify-content: space-between;
+    margin:32px 0;
+}
+
+.total_pages_rank>div>p:first-child{
+    font-size: var(--h4fs24);
+    font-weight: var(--fwbold);
+    margin-bottom: 5px;;
+}
+
+.total_pages_rank>div>p:last-child{
+    font-size: var(--pfs16);
+}

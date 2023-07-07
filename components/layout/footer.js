@@ -44,5 +44,5 @@ export default function Footer({ classTitle }) {
         </div>
       </footer>
     </>
-  );
+  )
 }

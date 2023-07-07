@@ -1,0 +1,47 @@
+.card{
+    display:flex;   
+    /* position: relative; */
+    text-align: center;
+}
+
+.shed{    
+    padding:0 var(--p16);
+    width: 100%;
+    position:absolute;
+    top:0px;
+    left:50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+.normal_card:hover{
+    box-shadow:  2px 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+.normal_card{
+    background-color: white;
+    overflow: hidden;
+    border-radius: var(--br10);
+    border:1px solid var(--dark);
+    width:100%;
+    padding:var(--p16) var(--p16);
+    flex:1
+}
+
+.brand_img{
+    width: 60%;
+    max-width: 150px;
+    margin: var(--p8);
+}
+
+
+.card_title{
+    font-size: var(--h5fs20);
+    font-weight: var(--fwbold);
+    text-align: center;
+    line-height: 1.1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+}
+
