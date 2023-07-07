@@ -3,7 +3,7 @@ import Style from '@/styles/post.module.css'
 import PostBanner from '@/components/ui/postBanner/postBanner'
 import BoardNav from '@/components/ui/BoardNav/boardNav'
 import PostArticle from '@/components/ui/postArticle/postArticle';
-import Hashtag from '@/components/ui/hashtag/hashtag';
+import PostHashtag from '@/components/ui/postHashtag/postHashtag';
 import PostArticleContent from '@/components/ui/postArticleContent/postArticleContent';
 import PostImg from '@/components/ui/postImg/postImg';
 import PostCommentBtn from '@/components/ui/postCommentBtn/postCommentBtn';
@@ -21,9 +21,9 @@ export default function Post() {
               <div className="container-inner">
                   <PostArticle navTitle='＃分享 新北寵物友善餐廳' profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' author='莉莉安' id='@lilian' postTitle='＃分享 新北寵物友善餐廳' boardImg='/forum_img/boardrest.png' board='友善餐廳版' time='1月26日 0:53（已編輯）'/>
                   <div className={Style.hashtag}>
-                    <Hashtag text='寵物友善'/>
-                    <Hashtag text='新北市'/>                
-                    <Hashtag text='友善餐廳'/>                
+                    <PostHashtag text='寵物友善'/>
+                    <PostHashtag text='新北市'/>                
+                    <PostHashtag text='友善餐廳'/>                
                   </div>
                   <div className={Style.postImg}>
                     <PostImg img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg'/>
