@@ -6,7 +6,21 @@
   margin: 0; */
   /* position: relative; */
   display:flex;
+  position: relative;
 }
 .board{
-  margin:10px 15px 0 15px;
+  padding:10px 15px 0 15px;
+
+}
+.boardBTM{
+  width:100%;
+}
+.BTMimg{
+  width:100%;
+  object-fit: cover;
+  position: absolute;
+  top:405px;
+}
+.boardNavbar{
+  margin-bottom: 50px;
 }

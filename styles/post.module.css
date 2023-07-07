@@ -11,10 +11,43 @@
 .hashtag{
     display: flex;
     background-color: #fff;
-    margin-left:30px;
+    padding-left:30px;
 }
 .postImg{
     background-color: #fff;
     display: flex;
     padding:10px;
 }
+.commentBlock{
+    background-color:var(--light1);
+}
+.commentBTN{
+    display: flex;
+    padding-left:60px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+.commentNum{
+    margin-left:80px;
+    margin-bottom: 10px;
+    font-size: var(--pfs16);
+}
+.commentLine{
+    width:90%;  
+}
+.line{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+.comments{
+    padding-bottom:20px;
+}
+.PostCommentLaunch{
+    background-color:var(--light1);
+    padding-bottom:50px;
+    padding-top: 10px;
+}
+/* .postAll{
+    margin-top:10px;
+} */

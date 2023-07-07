@@ -1,0 +1,13 @@
+.postCommentBtn{
+    height: 30px;
+    width:80px;
+    /* background-color: var(--light1); */
+    border-radius:var(--br20);
+    font-size: var(--pfs14);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right:5px;
+    padding-left:5px;
+    margin:10px;
+}

@@ -1,9 +1,9 @@
 .postNav{
     display: flex;
-    background-color: #FFEFE8;
+    background-color: var(--light1);
     height:50px;
     width:100%;   
-    margin-top:5px; 
+    /* margin-top:5px;  */
     padding:15px;
 }
 .navTitle{
