@@ -14,6 +14,9 @@ import ActivityCard from '@/components/ui/restaurant/ActivityCard';
 import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
 import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
+import PinkBtn from '@/components/ui/restaurant/PinkBtn';
+import { Col, Row } from 'antd';
+import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function RestInfo() {
   return (
@@ -30,7 +33,13 @@ export default function RestInfo() {
       <div className="container-inner">
         <div className={Styles.rest_detail}>
           <div className={Styles.rest_image}>
-            <div className={Styles.rest_image_group}></div>
+            <div className={Styles.rest_image_main}></div>
+            <div className={Styles.rest_image_group}>
+              <div className={Styles.rest_image_single}></div>
+              <div className={Styles.rest_image_single}></div>
+              <div className={Styles.rest_image_single}></div>
+              <div className={Styles.rest_image_single}></div>
+            </div>
           </div>
           <div className={Styles.rest_info}>
             <h1 className={Styles.jill_h1}>我家有休閒農場</h1>
@@ -72,6 +81,7 @@ export default function RestInfo() {
                   </p>
                 </div>
               </div>
+              {/* button */}
               <div className={Styles.rest_group_btn}>
                 <button className={Styles.icon_btn}>
                   <FontAwesomeIcon icon={faPaw} className={Styles.icon} />
@@ -102,9 +112,61 @@ export default function RestInfo() {
       </div>
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>服務項目</h2>
+        <Row gutter={[48, 48]} className={Styles.row_gutter}>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可放繩" img="/rest_image/friendly/rope.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可自由活動" img="/rest_image/friendly/dog_run.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn
+              text="有賣寵物餐"
+              img="/rest_image/friendly/sell_food.png"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn
+              text="附寵物餐具"
+              img="/rest_image/friendly/tableware.png"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可上座椅" img="/rest_image/friendly/onchair.png" />
+          </Col>
+        </Row>
       </div>
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>攜帶規則</h2>
+        <Row gutter={[48, 48]}>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可放繩" img="/rest_image/friendly/rope.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可自由活動" img="/rest_image/friendly/dog_run.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn
+              text="有賣寵物餐"
+              img="/rest_image/friendly/sell_food.png"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn
+              text="附寵物餐具"
+              img="/rest_image/friendly/tableware.png"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可上座椅" img="/rest_image/friendly/onchair.png" />
+          </Col>
+        </Row>
       </div>
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>餐廳特色</h2>
@@ -128,7 +190,7 @@ export default function RestInfo() {
       </div>
       <div className={Styles.notion_bgc}>
         <div className="container-inner">
-          <h2 className={Styles.jill_h2}>預約叮嚀</h2>
+          <h2 className={Styles.jill_h2_notion}>預約叮嚀</h2>
           <div className={Styles.notion_frame}>
             <p>
               1. 事先了解店家規範：不論是去任何餐廳都應該先詳細了解店內規範。

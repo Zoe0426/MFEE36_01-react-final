@@ -4,13 +4,11 @@
     gap: 60px;
     font-size: var(--h6fs18);
     border-bottom: 1px solid var(--gray);
+    padding-top: 80px;
 }
-
-
 
 @media screen and (max-width:767px){
     .tab_group{
         display: none;
-    }    
-   
+    }     
     }
