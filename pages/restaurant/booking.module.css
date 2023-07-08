@@ -59,20 +59,87 @@
 .arrow{
     font-size: var(--h5fs20);
 }
+
+
 .week{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: var(--p32);
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--light-gray);
 }
 .lastweek{
     font-size: var(--h6fs18);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 16px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.lastweek:hover{
+    color: var(--main);
+}
+.jill_p:hover{
+    color: var(--main);
+    transition: 0.5s;
 }
 .nextweek{
     font-size: var(--h6fs18);
     display: flex;
     align-items: center;
     gap: 16px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.nextweek:hover{
+    color: var(--main);
+}
+
+
+.time_range{
+    margin-bottom: 12px;
+}
+.booking_card{
+    background-color: #fff;
+    box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+    padding: 24px 32px;
+    border-radius: 8px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--pfs14);
+    border-top: 8px solid #B1EFCA;
+}
+.time_group{
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom:var(--p32);
+}
+.date{
+    text-align: center;
+    font-size: var(--pfs16);
+}
+.monday .tuesday{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.time_range{
+    font-weight: var(--fwbold);
+}
+.rest_people{
+    display: flex;
+    align-items: center;
+}
+.rest_num{
+    font-size: var(--h6fs18);
+    color: var(--main);
+    margin: 0 6px;
 }
