@@ -1,0 +1,78 @@
+.bgc{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--p8) ;
+    padding-bottom: var(--p8);
+}
+
+.abc{
+    background-color: var(--lightBrown);
+}
+.timetable{
+    font-size: var(--h3fs28);
+    margin-top: var(--p32);
+    margin-bottom: var(--p32);
+}
+.booking_title{
+    display: flex;
+    justify-content: space-between;
+}
+.hint_group{
+    display: flex;
+    gap: 36px;
+}
+.hint{
+    display: flex;
+    align-items: center;
+}
+.can_book_square{
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+    background-color: #B1EFCA;
+    margin-right: 8px;
+}
+
+.almost_full_square{
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+    background-color: var(--secondary);
+    margin-right: 8px;
+}
+.cannot_book_square{
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+    border: 1px solid var(--light-gray);
+    margin-right: 8px;
+}
+.rest_square{
+    height: 24px;
+    width: 24px;
+    border-radius: 4px;
+    background-color: var(--light-gray);
+    margin-right: 8px;
+}
+
+.arrow{
+    font-size: var(--h5fs20);
+}
+.week{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.lastweek{
+    font-size: var(--h6fs18);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.nextweek{
+    font-size: var(--h6fs18);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
