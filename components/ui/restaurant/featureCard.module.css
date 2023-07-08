@@ -48,6 +48,7 @@
     .feature_card{
         flex-direction: column;
         background-color: transparent;
+        margin-bottom: 32px;
     }
     .jill_h2{
         margin-top: 20px;

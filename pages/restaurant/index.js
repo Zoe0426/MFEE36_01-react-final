@@ -16,6 +16,7 @@ import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
 import MiddleAreaBgc from '@/components/ui/restaurant/MiddleAreaBgc';
+import SubBtn from '@/components/ui/buttons/subBtn';
 
 export default function Restindex() {
   return (
@@ -25,6 +26,7 @@ export default function Restindex() {
         <FunctionArea />
         <TopAreaBgc />
       </div>
+      <div className="container-inner"></div>
       <div className="container-inner">
         <div className={Styles.explore_title}>
           <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
@@ -154,101 +156,99 @@ export default function Restindex() {
             </div>
             <Row gutter={[48, 48]}>
               <Col xl={4} xs={8}>
-                <div className={Styles.box}>
-                  <img src="/rest_image/friendly/friendly1.png" alt="" />
-                </div>
+                <SubBtn text="可放繩" img="/rest_image/friendly/rope.png" />
               </Col>
               <Col xl={4} xs={8}>
-                <div className={Styles.box}>
-                  <img src="/rest_image/friendly/friendly1.png" alt="" />
-                </div>
+                <SubBtn
+                  text="可自由活動"
+                  img="/rest_image/friendly/dog_run.png"
+                />
               </Col>
               <Col xl={4} xs={8}>
-                <div className={Styles.box}>
-                  <img src="/rest_image/friendly/friendly1.png" alt="" />
-                </div>
+                <SubBtn
+                  text="有賣寵物餐"
+                  img="/rest_image/friendly/sell_food.png"
+                />
               </Col>
               <Col xl={4} xs={8}>
-                <div className={Styles.box}>
-                  <img src="/rest_image/friendly/friendly1.png" alt="" />
-                </div>
+                <SubBtn
+                  text="附寵物餐具"
+                  img="/rest_image/friendly/tableware.png"
+                />
               </Col>
               <Col xl={4} xs={8}>
-                <div className={Styles.box}>
-                  <img src="/rest_image/friendly/friendly1.png" alt="" />
-                </div>
+                <SubBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
               </Col>
               <Col xl={4} xs={8}>
-                <div className={Styles.box}>
-                  <img src="/rest_image/friendly/friendly1.png" alt="" />
-                </div>
+                <SubBtn
+                  text="可上座椅"
+                  img="/rest_image/friendly/onchair.png"
+                />
               </Col>
             </Row>
           </div>
         </div>
-        <MiddleAreaBgc />
+        <MiddleAreaBgc className={Styles.middle_bgc} />
       </div>
-      <div className="container-inner">
-        <RestTitle icon={faFire} text="熱門餐廳" />
-      </div>
-      <div className="container-inner">
-        <Row gutter={[32, 32]}>
-          <Col span={8}>
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              location="大安區"
-            />
-          </Col>
-          <Col span={8}>
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              location="大安區"
-            />
-          </Col>
-          <Col span={8}>
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              location="大安區"
-            />
-          </Col>
-        </Row>
-      </div>
+
       <div className="container-inner">
         <RestTitle icon={faFaceLaugh} text="最友善餐廳" />
       </div>
       <div className="container-inner">
-        <Row gutter={[32, 32]}>
-          <Col span={8}>
+        <div className={Styles.hot_card_group}>
+          <div className={Styles.hot_card}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
               location="大安區"
             />
-          </Col>
-          <Col span={8}>
+
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
               location="大安區"
             />
-          </Col>
-          <Col span={8}>
+
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
               location="大安區"
             />
-          </Col>
-        </Row>
+          </div>
+        </div>
+      </div>
+
+      <div className="container-inner">
+        <RestTitle icon={faFire} text="熱門餐廳" />
+      </div>
+      <div className="container-inner">
+        <div className={Styles.hot_card_group}>
+          <div className={Styles.hot_card}>
+            <RestCard
+              image="/rest_image/sunshine.jpeg"
+              name="我家有休閒農場"
+              city="台北市"
+              location="大安區"
+            />
+
+            <RestCard
+              image="/rest_image/sunshine.jpeg"
+              name="我家有休閒農場"
+              city="台北市"
+              location="大安區"
+            />
+
+            <RestCard
+              image="/rest_image/sunshine.jpeg"
+              name="我家有休閒農場"
+              city="台北市"
+              location="大安區"
+            />
+          </div>
+        </div>
       </div>
     </>
   );

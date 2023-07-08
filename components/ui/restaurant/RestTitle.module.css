@@ -11,9 +11,23 @@
     width: 100%;
 }
 
+.more_text{
+    font-size: var(--pfs16);
+}
+.more_text:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
 
 .arrow{
     font-size: var(--h5fs20);
+    padding: 12px;
+    border-radius: 10px;
+    transition: 0.8s;
+    cursor: pointer;
+}
+.arrow:hover{
+    background-color: var(--light1);
 }
 
 .explore_title{
@@ -32,5 +46,22 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    gap: 20px;
+    gap: 10px;
 }
+
+@media screen and (max-width:767px){
+    .arrow{
+        display: none;
+    }
+    .jill_h2{
+        font-size: var(--h6fs18);
+    }
+    .title_icon{
+        font-size: var(--h6fs18);
+        padding-right: var(--p8);
+    }
+    .more_text{
+        font-size: var(--pfs14);
+    }
+    
+    }

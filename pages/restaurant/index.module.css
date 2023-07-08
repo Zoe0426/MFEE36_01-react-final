@@ -32,6 +32,9 @@
 }
 .explore_title{
     display: flex;
+    align-items: center;
+    margin-bottom: var(--p32);
+    margin-top: var(--p16);
 }
 
 .title_icon{
@@ -61,9 +64,37 @@
     padding-bottom: 80px;
     background-color: var(--lightBrown); 
 }
-
+.middle_bgc{
+    margin-bottom: var(--p32);
+}
 
 .CloudTop{
     height: 70px;
     overflow: hidden;
+    margin-top: var(--p32);
 }
+.hot_card_group{
+    overflow-x: auto;
+}
+.hot_card{
+    display: flex;
+    justify-content: flex-start;
+    gap: 32px;
+}
+
+@media screen and (max-width:767px){
+    .jill_h2{
+        font-size: var(--h6fs18);
+    }
+    .title_icon{
+        font-size: var(--h6fs18);
+        padding-right: var(--p8);
+    }
+    .hot_card {
+        width: calc(100% + 360px);
+      }
+      .hot_card_group::-webkit-scrollbar{
+        display: none;
+      }
+      
+    }

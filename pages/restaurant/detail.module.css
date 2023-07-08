@@ -8,6 +8,7 @@
     font-weight: var(--fwbold);
     padding-bottom: var(--p16);
     margin-bottom: var(--p16);
+    margin-top: var(--p32);
     color: var(--dark-gray);
 }
 .information{
@@ -136,6 +137,16 @@
     .jill_h2{
         font-size: var(--h5fs20);
         padding-bottom: var(--p8);
+        padding-top: 0;
         margin-bottom: var(--p8);
+        margin-top: 0;
     }
+
+    .notion_frame{
+        border-radius: 12px;
+        padding: 24px;
+        font-size: var(--pfs14);
+        line-height: 1.8;
+    }
+    
     }

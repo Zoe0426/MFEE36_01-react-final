@@ -14,3 +14,16 @@
     right:10%;
     bottom: 0;
 }
+
+@media screen and (max-width:767px){
+    .top_area_bgc img:nth-child(2){
+       scale: 0.8;
+       left:8%;
+    }
+    
+    .top_area_bgc img:nth-child(3){
+        scale: 0.8;
+        right:1%;
+    }
+   
+    }

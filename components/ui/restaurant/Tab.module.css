@@ -1,7 +1,16 @@
 .tab_group{
     display: flex;
-    padding-bottom: 20px;
+    padding-bottom: 0.75rem;
     gap: 60px;
-    border-bottom: 2px solid var(--light-dark);
+    font-size: var(--h6fs18);
+    border-bottom: 1px solid var(--gray);
 }
 
+
+
+@media screen and (max-width:767px){
+    .tab_group{
+        display: none;
+    }    
+   
+    }

@@ -9,7 +9,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 import Tab from '@/components/ui/restaurant/Tab';
-import FeatureCard from '@/components/ui/restaurant/FeatureCard';
+import FeatureCard from '@/components/ui/restaurant/featureCard';
 import ActivityCard from '@/components/ui/restaurant/ActivityCard';
 import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
