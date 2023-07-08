@@ -20,3 +20,14 @@
     top:30%;
 }
 
+@media screen and (max-width:767px){
+    .head_decoration img:nth-child(2){
+        width: 33%;
+        left:1%;
+        top:20%;
+    }
+    .head_decoration img:nth-child(3){
+        width: 33%;
+        right: 5%
+    }
+}

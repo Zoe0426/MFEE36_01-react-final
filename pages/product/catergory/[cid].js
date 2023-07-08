@@ -104,6 +104,7 @@ export default function Catergory() {
                 avg_rating={avg_rating}
                 col={6}
                 xs={12}
+                flex={0}
               />
             );
           })}

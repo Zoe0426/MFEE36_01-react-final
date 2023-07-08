@@ -4,15 +4,14 @@
 
 .search_bar{
     text-align: center;
-    padding:var(--p32) 0;
-    
+    padding:var(--p32) 0;    
 }
 
 .nav_head{
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    margin-top:36px;
+    align-items: center;
+    padding-top:var(--p32);
 }
 
 
@@ -21,28 +20,6 @@
 .btns>button:nth-child(2){
     margin-left: var(--p16);
 
-}
-
-
-/*八大類別的圖示按鈕，待元件刻好就可刪除*/
-.eight_icons{
-    position:relative;
-}
-
-.icon_bg{
-    width:100%
-}
-
-.icon_info{
-    text-align: center;
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-}
-
-.icon{
-    padding-bottom: var(--p8);
 }
 
 /*貓狗大類別的圖示按鈕*/
@@ -110,13 +87,16 @@
     font-size: var(--h2fs32);
     font-weight:var(--fwbold);
     text-align: center;
-    /* border:1px solid black; */
     margin:88px 0 96px 0;
 }
 
-.new_cards{
+.new_cards,.recomand_cards{
     margin-left:5%;
     width:7000px;
+}
+
+.recomand_cards{
+    margin-left:0%;
 }
 
 
@@ -211,7 +191,6 @@
 
 
 /*規格按鈕*/
-
 .detail_spec_btn{
     margin-right:16px;
     margin-bottom: 8px;
@@ -241,7 +220,7 @@
     display: flex;
     justify-content: space-between;
     border-radius: var(--br10);
-    font-size: var(--pfs16);
+    font-size: var(--h5fs20);
     color: var(--dark-gray);
     background-color: transparent;
     border: 1px solid var(--gray);
@@ -250,8 +229,8 @@
 
 .detail_qty_sub_btn, .detail_qty_add_btn{
     border:none;  
-    padding: var(--p16) 20px;
-    font-size: var(--pfs16);
+    padding: var(--p8) 20px;
+    font-size: var(--h5fs20);
     font-weight: var(--fwbold);
     background-color: transparent;
     transition: 0.3s;
@@ -290,7 +269,7 @@
 }
 
 
-/*按鈕區*/
+/*主要按鈕區*/
 .detail_main_bottom{
     margin-top: 16px;
     display: flex;
@@ -306,27 +285,171 @@
     margin-right: 0px;
  }
 
+
+/*產品詳述區*/
+/*帶共用元件刻好要刪除*/
+.detail_tabs{
+    display: flex;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.detail_tabs>li{
+    font-size:var(--h5fs20) ;
+    flex:0,0,200px;
+    border-bottom: 2px solid transparent;
+    padding: var(--p16) 20px;
+    margin-right:var(--p16) ;
+    transition: 0.3s;
+}
+
+.detail_tabs>li:hover{
+    border-bottom: 2px solid var(--main);
+    cursor: pointer;
+}
+
+.detail_text_box,.detail_return_box{
+    padding: var(--p24) 0;
+}
+
+.detail_return_box{
+    border-top: 2px dashed rgb(95, 35, 27,0.3);
+    padding-bottom:var(--h1fs36);
+}
+
+.detail_text_icon{
+    color:var(--dark);
+    opacity: 0.6;
+}
+
+.detail_text_box>li, .detail_return_box>li{
+    display: flex;
+    font-size: var(--h5fs20);
+    line-height: 1.5;
+    padding: var(--p16) 20px;
+    text-align: justify;
+    align-items: flex-start;
+}
+
+.detail_text_box h4, .detail_return_box h4{
+    font-size: var(--h5fs20);
+    font-weight: var(--fwbold);
+    width: 150px;
+    text-align-last: justify;
+    padding-right: var(--p16);
+}
+
+.detail_text_box>li>p, .detail_return_box>li>p, .detail_return_box>li>ol{
+    flex:1
+}
+
+.detail_return_box>li>ol{
+    padding-left: var(--p16);
+    line-height: 1.5;
+    list-style-type: decimal;
+}
+
+
+
 /*評論區*/
+
+.comment_section{
+overflow: hidden;
+}
+
+.comment_title{
+    font-size: var(--h3fs28);
+    font-weight: var(--fwbold);
+    margin: 48px 0 8px 0;
+}
+
+.comment_title>p{
+    font-size: var(--pfs16);
+}
+
+.comment_btns{
+    margin: 16px 0 32px 0;
+}
+
+.comment_btn{
+    padding: var(--p8) 10px;
+    margin-right: 16px;
+    border-radius: var(--br10);
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: transparent;
+    border: 1px solid var(--gray);
+    transition: 0.3s;
+}
+
+.comment_btn:hover{
+    background-color: var(--light-gray);
+    cursor: pointer;
+}
+
+
 
 .comment_cards{
     display: flex;
     flex-wrap: nowrap;
 }
 
+/*推薦商品*/
+.reconmand_products_box{    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 96px 0;
+}
 
+.reconmand_products_title{
+    margin-left:var(--p16);
+    font-size: var(--h2fs32);
+    font-weight:var(--fwbold);
+}
 
 
 
 
 @media screen and (max-width:767px){
-    .comment_cards{
-        flex-direction: column;
-        width:100%;
-        justify-content: center;
+
+
+    /*貓狗大類別的圖示按鈕*/
+    .pet_type_tabs{    
+        text-align: center;
+        margin: 56px 0;
     }
-    .pet_type_cards{
-        margin-left:5%;
-        width:6000px;
+
+    .pet_type_tabs span{
+        padding-left:var(--p8);
+        font-size: var(--h5fs20);
+    }
+
+    .tab_active, .tab_normal{
+        margin-right: 36px;
+    }
+
+
+
+    /*新品滑動卡片的排版*/
+
+    .new_products_title{
+        font-size: var(--h5fs20);
+        margin:36px 0 36px 36px;
+        text-align: left;
+    }
+
+    .pet_type_cards,.new_cards,.recomand_cards{
+        width:auto
+    }
+
+
+    /*品牌卡片*/
+    .brand_cards{
+        padding:var(--p16);
+        display: flex;
+        flex-wrap: nowrap;
+        
     }
 
 
@@ -368,7 +491,7 @@
     /*購買數量按鈕*/
 
     .detail_qty{
-        width:40%;        
+        width:50%;        
         border-radius: var(--br8);
         font-size: var(--pfs14);          
     
@@ -379,7 +502,7 @@
         font-size: var(--pfs14);
     }
 
-    /*按鈕區*/
+    /*主要按鈕區*/
     .detail_main_bottom{
         margin-top: 32px;
         flex-wrap: wrap;
@@ -388,12 +511,57 @@
     .detail_main_bottom>button{
         flex:0 0 48%;
         margin-right: 0px;
-        /* width: 48%; */
     }
 
     .detail_main_bottom>button:last-child{
         margin-top:16px;
         flex:0 0 100%;
+    }
+
+    /*產品詳述區*/
+    .detail_text_box>li, .detail_return_box>li{
+        flex-direction: column;
+        font-size: var(--pfs16);
+    }
+
+    .detail_text_box h4, .detail_return_box h4{
+        font-size: var(--h6fs18);
+        text-align-last:auto;
+        padding-right: 0;
+        padding-bottom: var(--p8);
+    }
+
+    /*評論區*/
+
+    .comment_cards{
+        flex-direction: column;
+        width:100%;
+        justify-content: center;
+    }
+
+    .comment_btn{
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+
+    .comment_title{
+        font-size: var(--h5fs20);
+
+    }
+    .comment_title>p{
+        font-size: var(--pfs14);
+    }
+
+    /*推薦商品*/
+    .reconmand_products_box{    
+        justify-content: flex-start;
+        margin: 56px 0;
+    }
+
+    .reconmand_products_title{
+        font-size: var(--h5fs20);
     }
     
 }

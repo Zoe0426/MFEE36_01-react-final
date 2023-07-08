@@ -72,21 +72,7 @@
     padding-top:var(--p8);
     display: flex;
     justify-content: space-between;
-}
-
-.icons{
-    display: flex;
     align-items: center;
-}
-
-.star_icon{
-    margin-right:2px;
-    color:var(--starYellow);
-}
-
-.icons span{
-   color:var(--light-gray);
-   font-size: var(--pfs12);
 }
 
 .card_info div:last-child{

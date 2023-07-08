@@ -8,23 +8,15 @@ import SearchBar from '@/components/ui/buttons/SearchBar';
 import SubBtn from '@/components/ui/buttons/subBtn';
 
 import { Row, Col } from 'antd';
-
-//八大類圖示
 import Image from 'next/image';
 import styles from '@/styles/shop.module.css';
-import can from '@/assets/icon-shop-can.svg';
-import dress from '@/assets/icon-shop-dress.svg';
-import food from '@/assets/icon-shop-food.svg';
-import health from '@/assets/icon-shop-health.svg';
-import other from '@/assets/icon-shop-other.svg';
-import outdoor from '@/assets/icon-shop-outdoor.svg';
-import snack from '@/assets/icon-shop-snack.svg';
-import toy from '@/assets/icon-shop-toy.svg';
 
 //二大類圖示
 import dog from '@/assets/logo-dog.svg';
 import cat from '@/assets/logo-cat.svg';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
+//載入八大類icon資料
+import eightCatergoriesData from '@/data/product/eight-catergories-data.json';
 
 export default function ProdoctIndex() {
   const router = useRouter();
@@ -51,58 +43,6 @@ export default function ProdoctIndex() {
       data: dataForCat,
     },
   ]);
-
-  //八大類icon資料
-  const eightCatergoriesData = [
-    {
-      id: 'food',
-      text: '飼料',
-      icon: food,
-      href: 'http://localhost:3000/product/catergory/food',
-    },
-    {
-      id: 'can',
-      text: '罐頭',
-      icon: can,
-      href: 'http://localhost:3000/product/catergory/can',
-    },
-    {
-      id: 'snack',
-      text: '零食',
-      icon: snack,
-      href: 'http://localhost:3000/product/catergory/snack',
-    },
-    {
-      id: 'health',
-      text: '保健品',
-      icon: health,
-      href: 'http://localhost:3000/product/catergory/health',
-    },
-    {
-      id: 'toy',
-      text: '玩具',
-      icon: toy,
-      href: 'http://localhost:3000/product/catergory/toy',
-    },
-    {
-      id: 'dress',
-      text: '服飾',
-      icon: dress,
-      href: 'http://localhost:3000/product/catergory/dress',
-    },
-    {
-      id: 'outdoor',
-      text: '戶外用品',
-      icon: outdoor,
-      href: 'http://localhost:3000/product/catergory/outdoor',
-    },
-    {
-      id: 'other',
-      text: '其他',
-      icon: other,
-      href: 'http://localhost:3000/product/catergory/other',
-    },
-  ];
 
   useEffect(() => {
     (async function getData() {
@@ -155,7 +95,7 @@ export default function ProdoctIndex() {
               <SearchBar placeholder="搜尋你愛的東西" btn_text="尋找商品" />
             </div>
             {/* 這邊應該要改用共用元件分類按鈕 */}
-            <Row gutter={16}>
+            <Row gutter={{ xs: 0, sm: 0, md: 16 }}>
               {eightCatergoriesData.map((e) => {
                 return (
                   <Col span={3} key={e.id} className={styles.eight_icons}>
@@ -170,21 +110,6 @@ export default function ProdoctIndex() {
                 );
               })}
             </Row>
-            {/* <Row gutter={16}>
-              {eightCatergoriesData.map((e) => {
-                return (
-                  <Col span={3} key={e.id} className={styles.eight_icons}>
-                    <Link href={e.href} className={styles.eight_icons_links}>
-                      <Image src={iconBKG} className={styles.icon_bg} />
-                      <div className={styles.icon_info}>
-                        <Image src={e.icon} className={styles.icon} />
-                        <p>{e.text}</p>
-                      </div>
-                    </Link>
-                  </Col>
-                );
-              })}
-            </Row> */}
           </div>
         </div>
         <BGUpperDecoration />
@@ -211,7 +136,7 @@ export default function ProdoctIndex() {
           })}
         </div>
         <div className={styles.pet_type_cards}>
-          <Row gutter={[32, 0]} className={styles.cards}>
+          <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
             {twotCatergoriesData.map((v) => {
               return (
                 v.display &&
@@ -260,7 +185,13 @@ export default function ProdoctIndex() {
         {/* 第二區推薦品牌 */}
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
-            <Row gutter={[32, 64]} className={styles.brand_cards}>
+            <Row
+              gutter={[
+                { xs: 16, sm: 16, md: 32 },
+                { xs: 32, sm: 32, md: 64 },
+              ]}
+              className={styles.brand_cards}
+            >
               {dataForBrand.map((v) => {
                 const { supplier_sid, name, img } = v;
                 return (
@@ -282,7 +213,7 @@ export default function ProdoctIndex() {
         <BGMNewDecoration />
         <p className={styles.new_products_title}>新品專區</p>
         <div className={styles.new_cards}>
-          <Row gutter={[32, 0]} className={styles.cards}>
+          <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
             {dataForNew.map((v) => {
               const {
                 product_sid,
