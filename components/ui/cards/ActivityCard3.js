@@ -1,18 +1,26 @@
 import React from 'react'
 import styles from './ActivityCard3.module.css'
 
-const ActivityCard3 = () => {
+const ActivityCard3 = ({
+image='',
+title='',
+count=0,
+city='',
+area='',
+}) => {
   return (
     <div className={styles.card}>
-      <div className={styles.image}></div>
+      
+      <img className={styles.image} src={image}></img>
+      
       <div className={styles.content}>
-        <div className={styles.title}>2022台北與毛家庭有約</div>
-        <div className={styles.count}>10人已投</div>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.count}>{count}人已投</div>
         <div className={styles.location}>
           <div className={styles.icon}>[icon]</div>
-          <div>新北市大安區</div>
+          <div>{city}{area}</div>
         </div>
-        <button className={styles.btn}>Button</button>
+        <button className={styles.btn}>投我一票</button>
       </div>
     </div>
   )

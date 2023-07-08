@@ -1,20 +1,27 @@
 .card {
-  width: 383px;
+  width: 30%;
   height: 323px;
-  border-radius: var(--br10);
-  background-image: url('/activity_img/asian-young-girl-holding-kittens-park.jpg');
-  background-size: cover;
   position: relative;
+  /* background-image: url('/activity_img/asian-young-girl-holding-kittens-park.jpg'); */
+  /* background-size: cover; */
   /* margin-bottom: 1.5rem; */
+}
+
+.image{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--br10);
 }
 
 .content {
   position: absolute;
-  bottom: 0;
+  top: 220px;
   left: 0;
   right: 0;
   /* background-color: rgba(0, 0, 0, 0.5); */
-  padding: var(--p16);
+  padding: var(--p32);
   display: flex;
   justify-content: space-between;
   align-items: center;
