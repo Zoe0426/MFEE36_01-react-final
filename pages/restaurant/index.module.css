@@ -3,14 +3,16 @@
     font-weight: var(--fwbold);
     padding-bottom: var(--p16);
 }
-
-.location_group{
-    width: 100%;
+/* .city_group{
     display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    margin-bottom: 40px;
-}
+    height: 1000px;
+    justify-content: flex-start;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 84px;
+} */
+
 .friendly_group{
     width: 100%;
     display: flex;
@@ -93,8 +95,29 @@
     .hot_card {
         width: calc(100% + 360px);
       }
-      .hot_card_group::-webkit-scrollbar{
+    .hot_card_group::-webkit-scrollbar{
         display: none;
       }
+
+    /* .city_group{
+        width: calc(100% + 100px);
+        height: 100%;
+        margin-top: 0;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 28px;
+    }
+
+    .city_group::-webkit-scrollbar{
+        display: none;
+      } */
+    .explore_title{
+        margin-bottom: var(--p8);
+        margin-top: var(--p32);
+    }
+    .cloud_bgc{
+        padding-top: 40px;
+        padding-bottom: 100px;
+    }
       
     }
