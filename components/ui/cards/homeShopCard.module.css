@@ -48,6 +48,11 @@
     font-size: 16px;
     line-height: 20px;
 }
+.hscardbody{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
 .hsprodprice{
     color: var(--main);
     text-align:end;

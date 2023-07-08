@@ -1,11 +1,14 @@
+
+
 .d-center{
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 .headSection{
     position: relative;
-     display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -18,6 +21,31 @@
     top: 25%;
     right: 4%;
     width: 32%;
+}
+.cat{
+    position: absolute;
+    top: 75%;
+    left: 4%;
+    width: 15%;
+    z-index:99;
+}
+
+.mainBtnSection{
+    padding-top: 60px;
+    position:relative;
+    justify-content: center;
+}
+
+.btnbg{
+    width: 100%;
+    /* border: 1px solid black; */
+}
+.mainBtns{
+    width: 83%;
+    /* border: 1px solid purple; */
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
 }
 
 .hSection{
@@ -44,9 +72,7 @@ align-items: center;
 
 
 /* SHOPINFO */
-.hInfo{
 
-}
 .hstitle{
     /* font-size: var(--h1fs36); */
     font-size: 36px;

@@ -1,68 +1,22 @@
-.subBtn {
-    width: 130px;
-    height: 130px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
+.hMainBtn{
+    width: 20%;
 }
-.subBtn_outline{
-    position: absolute;
-    top:0;
-    left:0;
-    width: 130px;
-    height: 130px;
-}
-.outline1{
- transform: scaleX(-1);
-}
-.outline2{
- transform: scaleX(-1);
-}
-.outline3{
- transform: scaleX(0);
-}
-.outline4{
- transform: scaleX(-1);
-}
-.subBtn_outline path{
+.hMBtnimg{
+    width: 98%;
     transition: all 0.3s;
 }
-.subBtn_outline path:hover{
-   fill: var(--light1);
+.hMBtnimg:hover{
+    width: 100%;
 }
-
-.icon{
-    width: 50px;
-    height: 50px;
-    margin-bottom: 8px;
-    pointer-events: none;
-    z-index:1;
+.mainBtn1{
+    margin-top:40px;
 }
-.text{
-    font-size: 18px;
-    z-index:1;
-    pointer-events: none;
+.mainBtn2{
+    margin-top: 160px;
 }
-
-
-@media screen and (max-width:767px){
-   .subBtn{
-        width: 90px;
-        height: 90px;
-   }
-   .subBtn_outline{
-        width: 90px;
-        height: 90px;
-        opacity: 0;
-    }
-    .icon{
-        width: 40px;
-        height: 40px;
-    }
-    .text{
-        font-size: 14px;
-
-    }
+.mainBtn3{
+    margin-top: 30px;
+}
+.mainBtn4{
+    margin-top:130px ;
 }

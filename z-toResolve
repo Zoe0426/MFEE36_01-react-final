@@ -1,3 +1,5 @@
+
+https://docs.google.com/spreadsheets/d/1EaQejTVt3BD4pPFVWdBB7B4rrGO02MnUtnRLj6L5Ncg/edit#gid=0
 1.愛心切換
 2.
 
@@ -6,7 +8,7 @@
 共用元件:
 1.Tab(換頁)
 2.Tab(同頁)
-*3.btn(SubBtn,RoundBtn, MainBtn,SecondaryBtn,IconBtn)
+*3.btn(SubBtn,RoundBtn, MainBtn,SecondaryBtn,IconBtn, CloseBtn)
 *4.avatar(name, membercenter, logout);
 *5.HashTag(藥丸 padding: var(--p8), var(--p16); font-size: var(--pfs14); bgcolor: var(--light1))
 *6. 評價星: ( RateStarPill, RateStar 星星Jenny黃, 4.3)
@@ -19,7 +21,7 @@
 
 分工:
 沛怡: RoundBtn
-宜零: SubBtn
+宜零: SubBtn,closeBtn
 季庭: MainBtn,IconMainBtn,SecondaryBtn,IconSecnBtn,IconBtn(首頁rwd的時候會只剩icon),SearchBar, HashTag, RateStarPill(card裡), RateStar(內頁)
 書儀: CommentCard, Likelist
 
