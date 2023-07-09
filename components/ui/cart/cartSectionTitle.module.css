@@ -1,0 +1,9 @@
+
+.title{
+    font-size: var(--h5fs20);
+    font-weight: bold;
+    padding: 16px 0;
+    border-bottom: 2px solid var(--dark);
+    margin-bottom: 16px;
+    color: var(--dark);
+}

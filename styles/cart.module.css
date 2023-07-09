@@ -1,6 +1,107 @@
 .detailSection{
     /* border: 1px solid green; */
 }
+.checkoutType{
+    display: flex;
+    margin-top: 32px;
+}
+.typeSelected{
+    border-radius: var(--br10) var(--br10) 0 0;
+    background-color: var(--main);
+    color: white;
+    text-align: center;
+    padding: var(--p8) var(--p32);
+    display: inline-block;
+    margin-right: 8px;
+    cursor: pointer;
+}
+.type{
+     border-radius: var(--br10) var(--br10) 0 0;
+    border: 1px solid var(--main);
+    border-bottom: none;
+    color: var(--main);
+    text-align: center;
+    padding: var(--p8) var(--p32);
+    display: inline-block;
+    margin-right: 8px;
+    cursor: pointer;
+}
+.section{
+     background-color: white;
+     padding: var(--p16) var(--p16);
+     box-shadow: var(--shadow);
+     border-radius: var(--br10);
+     margin-bottom: var(--p32);
+}
+.info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.details{
+    padding: var(--p16) 0;
+}
+.details p{
+    margin-bottom: 8px;
+}
+.postPrice{
+    color: var(--main);
+}
+.edit{
+    color: var(--gray);
+    cursor: pointer;
+}
+.edit:hover{
+    color: var(--dark-gray);
+
+}
+.expDate{
+    color: var(--gray);
+    font-size: var(--pfs14);;
+}
+
+
 .totalSection{
-    /* border: 1px solid pink; */
+    padding-left: 40px;
+
+}
+.totalCard{
+    margin-top: 32px;
+    position: fixed;
+    width: 16%;
+    background-color: white;
+    box-shadow: var(--shadow);
+    padding: 16px;
+    border-radius: var(--br10);
+}
+
+.subtotals{
+    display: flex;
+    margin-bottom: 16px;
+}
+.amount{
+    display: block;
+    margin-left: auto;
+}
+.total{
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+.totalamount{
+    color: var(--main);
+    display: block;
+    margin-left: auto;
+}
+
+@media screen and (max-width:767px){
+.totalCard{
+    position: relative;
+    width: 100%;
+   
+}
+.totalSection{
+    padding-left: 0px;
+
+}
 }

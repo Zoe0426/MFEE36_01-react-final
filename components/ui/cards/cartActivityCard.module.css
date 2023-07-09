@@ -2,8 +2,8 @@
     /* border: 1px solid black; */
     display: flex;
     align-items: center;
-    padding: var(--p16) 0px;
-    border-bottom: 1px dashed var(--secondary);
+    padding: 16px 0px;
+    border-bottom: 1px dashed #FFD4C0;
 }
 .checkbox{
      margin-right: 16px;
@@ -16,13 +16,12 @@
 .forRwd{
     display: flex;
     align-items: center;
-    flex-grow: 1;
-    /* border: 1px solid red; */
+    flex-grow:1;
 }
 .prodname{
     flex-grow: 1;
     margin-right: 16px;
-   
+  
 }
 .prodtitle{
     font-size: var(--h6fs18);
@@ -32,26 +31,39 @@
     font-size: var(--pfs16);
     color: var(--main);
 }
-.price{
-    width: 10%;
+.priceSet{
+    display: flex;
     /* border: 1px solid red; */
+}
+.qtyset{
+    margin-right: 16px;
+    /* border: 1px solid green; */
+    
+}
+
+.price{
     color: var(--gray);
     text-align: end;
-    margin-right: 32px;
+    margin-bottom: 8px;
+    width: 75px;
+
 }
 .numberstyle{
+    display: block;
     border-radius: 8px;
     border: 1px solid var(--light-gray);
-    width: 60px;
-    margin-right: 16px;
+    width: 70px;
     text-align: center;
     color: var(--dark-gray);
+    margin-left: auto;
+   
 }
 .subtotal{
     text-align: end;
     width: 40px;
     color: var(--main);
     margin-right: 16px;
+    /* border: 1px solid blue; */
 }
 
 @media screen and (max-width:767px){
@@ -66,13 +78,14 @@
     margin-bottom: 16px;
 }
 .price{
-    text-align: start;
     margin-bottom: 8px;
 }
 .prodtitle{
     font-size: var(--pfs16);
+
 }
 .prodSubtitle{
     font-size: var(--pfs14);
+
 }
 }

@@ -74,8 +74,7 @@ align-items: center;
 /* SHOPINFO */
 
 .hstitle{
-    /* font-size: var(--h1fs36); */
-    font-size: 36px;
+    font-size: var(--h1fs36);
     color: var(--dark);
     font-weight: bold;
     letter-spacing: 4px;
@@ -83,15 +82,13 @@ align-items: center;
     padding-bottom : var(--p8);
 }
 .hetitle{
-    /* font-size: var(--h5fs20); */
-    font-size:20px;
+    font-size: var(--h5fs20);
     color: var(--gray);
     letter-spacing: 1.5px;
     font-weight: bold;
 }
 .hsubtitle{
-    /* font-size: var(--h5fs20); */
-    font-size:20px;
+    font-size: var(--h5fs20);
     line-height: 32px;
     padding: var(--p24) 0;
 }

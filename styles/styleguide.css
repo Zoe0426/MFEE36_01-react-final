@@ -96,11 +96,11 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
-    color: var(--dark-gray);
-	font: inherit;
+	/* font-size: 100%; */
+  color: var(--dark-gray);
+	/* font: inherit; */
 	vertical-align: baseline;
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 a:hover,a:link,a:visited,a:active{
