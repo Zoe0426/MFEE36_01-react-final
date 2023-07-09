@@ -1,9 +1,8 @@
 .detailSection{
-    /* border: 1px solid green; */
+   padding: var(--p32) 0;
 }
 .checkoutType{
     display: flex;
-    margin-top: 32px;
 }
 .typeSelected{
     border-radius: var(--br10) var(--br10) 0 0;
@@ -62,11 +61,10 @@
 
 
 .totalSection{
-    padding-left: 40px;
+    padding: 32px 0 32px 40px;
 
 }
 .totalCard{
-    margin-top: 32px;
     position: fixed;
     width: 16%;
     background-color: white;
