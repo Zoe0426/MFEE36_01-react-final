@@ -130,7 +130,7 @@
 /* ------------------下方資訊---------------------- */
 
 .nav_detail{
-    margin: 66px 0 160px 0;
+    margin: 100px 0;
 }
 
 .feature{
@@ -147,9 +147,16 @@
 
 .content{
     display: flex;
+    line-height: 24px;
+    margin: 30px 0;
 }
 
 .content_image{
     width: 45%;
     margin-left: 70px;
+}
+
+.content_image_reverse{
+    width: 45%;
+    margin-right: 70px;
 }
