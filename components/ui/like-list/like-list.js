@@ -7,7 +7,12 @@ import MainBtn from '../buttons/MainBtn';
 
 import { useRouter } from 'next/router';
 
-export default function Likelist({ datas = [], imgPosition = '' }) {
+export default function Likelist({
+  datas = [], //需要渲染的陣列資料
+  imgPosition = '', //告知照片的路徑，例如是存放在public中product-img資料夾，則請傳/product-img
+  closeHandler = () => {}, //用來關閉視窗的函式
+  removeAllHandler = () => {}, //用來清除所有蒐藏清單的函式
+}) {
   const router = useRouter();
   return (
     <div className={styles.like_list_box}>
@@ -56,8 +61,8 @@ export default function Likelist({ datas = [], imgPosition = '' }) {
         )}
       </div>
       <div className={styles.btns}>
-        {<SecondaryBtn text="清除所有" />}
-        {<MainBtn text="關閉視窗" />}
+        {<SecondaryBtn text="清除所有" clickHandler={removeAllHandler} />}
+        {<MainBtn text="關閉視窗" clickHandler={closeHandler} />}
       </div>
     </div>
   );

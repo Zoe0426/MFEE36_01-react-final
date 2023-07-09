@@ -64,9 +64,33 @@ export default function Catergory() {
     }
   }, [query]);
 
+  //收藏列表相關的函式
   const openShowLikeList = () => {
     setShowLikeList(true);
-    console.log(showLikeList);
+  };
+
+  const closeShowLikeList = () => {
+    setShowLikeList(false);
+  };
+
+  const removeAllLikeList = async () => {
+    setLikeDatas([]);
+
+    //這邊需要再修改
+    try {
+      const removeAll = await fetch(
+        `http://localhost:3002/shop-api/maincard/${query.cid}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -83,16 +107,19 @@ export default function Catergory() {
               <IconBtn
                 icon={faHeart}
                 text={'收藏列表'}
-                handleClick={openShowLikeList}
-
-                
+                clickHandler={openShowLikeList}
               />
               <IconBtn icon={faFilter} text={'進階篩選'} />
             </div>
           </div>
           <div className="filters">
             {showLikeList && (
-              <Likelist datas={likeDatas} imgPosition="/product-img" />
+              <Likelist
+                datas={likeDatas}
+                imgPosition="/product-img"
+                closeHandler={closeShowLikeList}
+                removeAllHandler={removeAllLikeList}
+              />
             )}
           </div>
         </nav>
