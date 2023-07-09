@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar,faCalendarDays,faClock,faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import styles from './ActivityCard4.module.css';
 import ActivityFeature from './ActivityFeature';
 
@@ -37,35 +39,36 @@ const ActivityCard4 = ({
           <div className={styles.rowTextTitle}>
             <p className={styles.rowTextLarge}>{title}</p>
           </div>
-          <div>
+          <div className={styles.review}>
+            <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
             <p className={styles.rowTextLarge}>{rating}</p>
           </div>
         </div>
 
         <div className={styles.row}>
-          <div className={styles.rowIcon}></div>
+          <FontAwesomeIcon icon={faCalendarDays} className={styles.row_icon} />
           <div>
             <p className={styles.rowTextSmall}>{date_begin}~{date_end}</p>
           </div>
         </div>
 
         <div className={styles.row}>
-          <div className={styles.rowIcon}></div>
+          <FontAwesomeIcon icon={faClock} className={styles.row_icon} />
           <div>
             <p className={styles.rowTextSmall}>{time}</p>
           </div>
         </div>
 
         <div className={styles.row}>
-          <div className={styles.rowTextIntro}>
-            <p className={styles.rowTextExtraSmall}>{content}</p>
-          </div>
+            <FontAwesomeIcon icon={faLocationDot} className={styles.row_icon} />
+            <div className={styles.rowTextAddress}>
+              <p className={styles.rowTextSmall}>{city}{area}{address}</p>
+            </div>
         </div>
 
         <div className={styles.row}>
-          <div className={styles.rowIcon}></div>
-          <div className={styles.rowTextAddress}>
-            <p className={styles.rowTextSmall}>{city}{area}{address}</p>
+          <div className={styles.rowTextIntro}>
+            <p className={styles.rowTextExtraSmall}>{content}</p>
           </div>
         </div>
 

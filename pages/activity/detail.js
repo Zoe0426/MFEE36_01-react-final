@@ -1,6 +1,12 @@
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar,faCalendarDays,faClock,faLocationDot,faHeart,faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../styles/activitydetail.module.css';
 import NavDetailPage from '@/components/ui/cards/NavDetailPage';
 import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
+import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
+import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
+
 // import CommentCard from '@/componets/ui/cards/comment-card.js';
 
 export default function ActivityDetail() {
@@ -31,24 +37,24 @@ export default function ActivityDetail() {
 
               {/* 第二行 */}
               <div className={styles.row}>
-                <p className={styles.row_price}>$250/ 大人 $125/ 小孩</p>
+                <p className={styles.row_price}>$250/大人 $125/小孩</p>
               </div>
 
               {/* 第三行 */}
               <div className={styles.row}>
                 <div className={styles.review}>
-                  <p className={styles.row_text_small}>4.3</p>
-                  <div className={styles.star_icon}></div>
+                  <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
+                  <p className={styles.row_text_medium}>4.3</p>
                 </div>
 
                 <div>
-                  <p className={styles.row_text_small}>(30人參加過)</p>
+                  <p className={styles.row_text_medium}>(30人參加過)</p>
                 </div>
               </div>
 
               {/* 第四行 */}
               <div className={styles.row}>
-                <div className={styles.row_icon}></div>
+                <FontAwesomeIcon icon={faCalendarDays} className={styles.row_icon} />
                 <div>
                   <p className={styles.row_text_small}>
                     2023-04-09(六)~2023-05-09(六)
@@ -58,7 +64,7 @@ export default function ActivityDetail() {
 
               {/* 第五行 */}
               <div className={styles.row}>
-                <div className={styles.row_icon}></div>
+                <FontAwesomeIcon icon={faClock} className={styles.row_icon} />
                 <div>
                   <p className={styles.row_text_small}>13:00-15:00</p>
                 </div>
@@ -66,7 +72,7 @@ export default function ActivityDetail() {
 
               {/* 第六行 */}
               <div className={styles.row}>
-                <div className={styles.row_icon}></div>
+                <FontAwesomeIcon icon={faLocationDot} className={styles.row_icon} />
                 <div>
                   <p className={styles.row_text_small}>
                     台北市大安區大安路一段24巷420號3樓
@@ -103,15 +109,18 @@ export default function ActivityDetail() {
               </div>
 
               {/* 第九行 */}
-              <div className={styles.row}>
-                <p className={styles.row_text_small}>總金額：</p>
-                <p>$123</p>
+              <div className={styles.row_total_price}>
+                <p className={styles.total_price_color}>總金額：</p>
+                <p className={styles.total_price_color}>$123</p>
               </div>
 
               {/* 第十行 */}
               <div className={styles.row_btn}>
-                <button>加入收藏</button>
-                <button>我要報名</button>
+                <div  className={styles.btn}>
+                  <IconSeconBtn icon={faHeart} text='加入收藏' />
+                </div>
+                
+                <IconMainBtn icon={faUserPlus} text='我要報名' />
               </div>
             </div>
           </div>

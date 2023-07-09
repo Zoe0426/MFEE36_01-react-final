@@ -2,12 +2,13 @@
 .card {
     display: flex;
     width: 100%;
+    
   }
   
   /* -------左邊------- */
   .left {
     position: relative;
-    width: 70%;
+    width: 60%;
   }
   
   .image {
@@ -52,10 +53,8 @@
   
   /* -------右邊------- */
   .right {
-    width: 30%;
-    /* height: 352px; */
+    width: 40%;
     margin-left: 61px;
-    /* align-content: space-between; */
   }
   
   .row {
@@ -83,23 +82,21 @@
   
   /* 四-六段 icon */
   .row_icon{
-  width: 18px;
-  height: 18px;
-  background:var(--light-gray);
-  margin-right: 5px;
+    margin-right: 5px;
+    font-size: var(--h6fs18);
   }
   
   /* 評分 */
   .review{
   display: flex;
   align-items: center;
+  margin-right: 10px;
   }
   
   .star_icon {
-    width: 24px;
-    height: 24px;
-    background:var(--light-gray);
-    margin:0 16px 0 8px;
+    margin-right: 5px;
+    color: var(--starYellow);
+    font-size: var(--h6fs18);
   }
   
   .row_date{
@@ -116,15 +113,35 @@
     margin-bottom: 15px;
   }
   
+  .row_total_price{
+    font-size: var(--h6fs18);
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: var(--fwbold);
+  }
+
+  .total_price_color{
+    color: var(--main);
+  }
+
   .row_btn{
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    margin-right: 20px;
+  }
+
+  .btn{
+    margin-right: 20px;
   }
   
   /* 統一字體 */
+  .row_text_medium {
+    font-size: var(--h6fs18);
+  }
+
   .row_text_small {
-    font-size: var(--h6fs16);
+    font-size: var(--pfs16);
   }
 
 /* ------------------下方資訊---------------------- */
