@@ -3,9 +3,10 @@ import { useRouter } from 'next/router';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
-import IconSeconBtn from '@/components/ui/buttons/IconBtn';
+import IconBtn from '@/components/ui/buttons/IconBtn';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import SearchBar from '@/components/ui/buttons/SearchBar';
+import Likelist from '@/components/ui/like-list/like-list';
 import { faFilter, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import { Pagination } from 'antd';
@@ -15,8 +16,10 @@ import styles from '@/styles/shop.module.css';
 export default function Catergory() {
   const { query, asPath } = useRouter();
   const [datas, setDatas] = useState([]);
+  const [likeDatas, setLikeDatas] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, settotalPages] = useState(0);
+  const [showLikeList, setShowLikeList] = useState(false);
 
   //麵包屑寫得有點奇怪...
   const [breadCrubText, setBreadCrubText] = useState([
@@ -43,14 +46,28 @@ export default function Catergory() {
           }
         );
         const backDatas = await r.json();
-        const { totalRows, cardData } = backDatas;
+        const { totalRows, cardData, likeDatas } = backDatas;
         console.log(cardData);
-        setTotalItems(totalRows);
-        setDatas(cardData);
-        settotalPages(totalPages);
+        if (totalRows) {
+          setTotalItems(totalRows);
+        }
+        if (cardData) {
+          setDatas(cardData);
+        }
+        if (totalPages) {
+          settotalPages(totalPages);
+        }
+        if (likeDatas) {
+          setLikeDatas(likeDatas);
+        }
       })();
     }
   }, [query]);
+
+  const openShowLikeList = () => {
+    setShowLikeList(true);
+    console.log(showLikeList);
+  };
 
   return (
     <>
@@ -63,11 +80,21 @@ export default function Catergory() {
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
             <div className={styles.btns}>
-              <IconSeconBtn icon={faHeart} text={'收藏列表'} />
-              <IconSeconBtn icon={faFilter} text={'進階篩選'} />
+              <IconBtn
+                icon={faHeart}
+                text={'收藏列表'}
+                handleClick={openShowLikeList}
+
+                
+              />
+              <IconBtn icon={faFilter} text={'進階篩選'} />
             </div>
           </div>
-          <div className="filters"></div>
+          <div className="filters">
+            {showLikeList && (
+              <Likelist datas={likeDatas} imgPosition="/product-img" />
+            )}
+          </div>
         </nav>
       </div>
       <BGUpperDecoration />

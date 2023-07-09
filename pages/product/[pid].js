@@ -184,7 +184,7 @@ export default function Product() {
                     v.display && (
                       <img
                         key={v.product_detail_sid}
-                        src={`/product-img/${v.img}`}
+                        src={`http://localhost:3000/product-img/${v.img}`}
                         alt={v.img}
                       />
                     )
@@ -212,7 +212,10 @@ export default function Product() {
                             );
                           }}
                         >
-                          <img src={`/product-img/${v.img}`} alt={v.img} />
+                          <img
+                            src={`http://localhost:3000/product-img/${v.img}`}
+                            alt={v.img}
+                          />
                         </div>
                       )}
                     </Fragment>
