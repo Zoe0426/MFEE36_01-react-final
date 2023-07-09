@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './ActivityCard4.module.css';
+import ActivityFeature from './ActivityFeature';
 
 const ActivityCard4 = ({
   image='',
@@ -13,7 +14,6 @@ const ActivityCard4 = ({
   city='',
   area='',
   address='',
-  feature='',
   price=0,
 }) => {
   return (
@@ -70,12 +70,14 @@ const ActivityCard4 = ({
         </div>
 
         <div className={styles.row}>
-          <div className={styles.feature}>{feature}</div>
-          <div className={styles.feature}>{feature}</div>
+          <ActivityFeature className={styles.feature} feature='專屬攝影師'/>
+          <ActivityFeature className={styles.feature} feature='贈寵物沐浴乳乙瓶'/>
         </div>
         <div className={styles.row}>
-          <div className={styles.feature}>{feature}</div>
+          <ActivityFeature className={styles.feature} feature='寵物拍貼體驗'/>
+          <ActivityFeature className={styles.feature} feature='精美午餐'/>
         </div>
+        
         <div>
           <p className={styles.rowTextSmall}>${price} (大人) ${price/2} (小孩)</p>
         </div>

@@ -1,0 +1,8 @@
+.feature{
+  font-size: var(--pfs14);
+  background-color: var(--secondary);
+  padding: var(--p8) var(--p16);
+  border-radius: var(--br8);
+  margin-right: 12px;
+  display: inline-block;
+}
