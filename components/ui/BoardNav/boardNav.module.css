@@ -16,12 +16,8 @@
 }
 .boardBTM{
   width:100%;
-}
-.BTMimg{
-  width:100%;
-  object-fit: cover;
   position: absolute;
-  top:430px;
+  top:450px;
 }
 .boardNavbar{
   margin-bottom: 50px;

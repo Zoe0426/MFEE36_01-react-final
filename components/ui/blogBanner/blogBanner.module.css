@@ -17,6 +17,20 @@
     background-color:var(--lightBrown);
     padding: 0;
     margin: 0;
-    /* position:fixed; */
-
+    height:120px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.searchBar{
+    position: absolute;
+    top:5px;
+    z-index: 999;
+    display: flex;
+    margin-left:250px;
+}
+.blogDec{
+    position: absolute;
+    top:20px;
+    /* z-index: 999; */
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import Style from './boardNav.module.css'
 import SubBtn from '../buttons/subBtn'
 import PostAuthorBTN from '../postAuthorBtn/postAuthorBtn'
+import BlogDecoration from '../blogBanner/blogDecoration'
 
 export default function BoardNav() {
   return (
@@ -49,7 +50,7 @@ export default function BoardNav() {
       </div>
         </div>
         <div className={Style.boardBTM}>
-          <img className={Style.BTMimg} src="/forum_img/bannerBTM.png"/>
+          <BlogDecoration/>
         </div>
     </div>
   )

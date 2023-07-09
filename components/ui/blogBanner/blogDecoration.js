@@ -9,9 +9,9 @@ export default function BlogDecoration() {
   return (
     <>
       <div className={styles.head_decoration}>
-        <Image src="/forum_img/top-decorate-section.png" width="1920" height='100'/>
-        <Image src={walkingDog} alt="" />
-        <Image src={trees} alt="" />
+      <Image src="/forum_img/top-decorate-section.png" width="1920" height='100'/>
+      <Image src={walkingDog} alt="" />
+      <Image src={trees} alt="" />
       </div>
     </>
   )

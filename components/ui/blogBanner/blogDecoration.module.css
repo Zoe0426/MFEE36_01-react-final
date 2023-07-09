@@ -3,6 +3,7 @@
     position: relative;
     margin:0;
     padding: 0;
+    height:100px;
 }
 
 .head_decoration img:nth-child(2){

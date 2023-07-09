@@ -1,0 +1,18 @@
+.funcBtn{
+    background-color: #fff;
+    width:210px;
+    height:58px;
+    border-radius:var(--br20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.funcBtn img{
+    width:43px;
+    height:43px;
+    margin:10px;
+}
+.funcBtn div{
+    color:var(--dark-gray);
+    font-size:var(--h4fs24);
+}
