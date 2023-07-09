@@ -1,0 +1,56 @@
+
+.main{
+  width: 100%;
+  /* border: 1px solid red; */
+}
+
+.antRow{
+  height: 100%;
+  margin-top: 198px;
+  padding-bottom: 150px;
+}
+
+.antCol{
+  height: 100%;
+  border: 1px solid black;
+  /* background-color: powderblue; */
+}
+.topNav{
+	position: relative;
+}
+.banner{
+	position: absolute;
+	top:100px;
+	height:100%;
+	width:100%;
+}
+
+@media screen and (max-width:1200px) and (min-width:769px){
+	/* .container-inner{
+			width: 68%;
+	} */
+	.memberName,.gameName{
+		font-size: var(--h6fs18);
+		color: var(--dark);
+		font-weight: var(--fwbold);
+		letter-spacing: 2px;
+	}
+	
+	.levelTitle,.gameTitle{
+		font-size: var(--pfs12);
+	}
+	
+	.memberInfo,.calendarInfo,.gameInfo,.gameImg{
+		border-radius: 15px;
+	}
+	
+	.text{
+		font-size: var(--pfs12);
+	}
+	
+	}
+	@media screen and (max-width:768px){
+		.antRow{
+			margin-top: 65px;
+		}
+	}

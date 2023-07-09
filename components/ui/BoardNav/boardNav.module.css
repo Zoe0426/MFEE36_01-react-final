@@ -2,15 +2,17 @@
   background-color:#F7ECE3;
   width:100%;
   height:150px;
-  /* padding: 0;
-  margin: 0; */
-  /* position: relative; */
-  display:flex;
   position: relative;
+  display: flex;
+  justify-content: center;
+  padding-left: 10px;
+  margin: 0;
+}
+.author{
+  padding:10px 0 0 0;
 }
 .board{
   padding:10px 15px 0 15px;
-
 }
 .boardBTM{
   width:100%;
@@ -19,8 +21,22 @@
   width:100%;
   object-fit: cover;
   position: absolute;
-  top:405px;
+  top:430px;
 }
 .boardNavbar{
   margin-bottom: 50px;
+}
+.boardRange{
+  width:1200px;
+  height:100%;
+  overflow: scroll;
+  display:flex;
+  justify-content: center;
+}
+.nav{
+  width:1280px;
+  height:100%;
+  display:flex;
+  justify-content: center;
+  z-index: 999;
 }
