@@ -4,7 +4,7 @@ import BlogBanner from '@/components/ui/blogBanner/blogBanner'
 import { Col, Row } from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
 
-export default function BlogPost() {
+export default function BlogggPost() {
   return (
     <div className="container-outer">
       <div className={Style.body}>

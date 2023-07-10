@@ -22,22 +22,10 @@ export default function BlogSidebar({profile='',memberName=''}) {
           <BlogFuncBtn img='/forum_img/blog_func_img/我的文章.png' func='我的文章'/>
           <BlogFuncBtn img='/forum_img/blog_func_img/收藏文章.png' func='收藏文章'/>
           <BlogFuncBtn img='/forum_img/blog_func_img/毛孩日記.png' func='毛孩日記'/>
-          <BlogFuncBtn img='/forum_img/blog_func_img/我的文章.png' func='我的文章'/>
+          <BlogFuncBtn img='/forum_img/blog_func_img/發布文章.png' func='發布文章'/>
+          <BlogFuncBtn img='/forum_img/blog_func_img/草稿夾.png' func='  草稿夾'/>
+          <BlogFuncBtn img='/forum_img/blog_func_img/成效分析.png' func='成效分析'/>
         </div>
-        </div>
-        <div className={Styles.gameInfo}>
-          <div className={Styles.gameImg}>
-            <img
-              src="/member-center-images/nn.jpg"
-              alt=""
-              className={Styles.gameImg}
-            />
-          </div>
-          <div className={Styles.gameName}>爆擊小狗狗</div>
-          <div className={Styles.gameLevel}>
-            <img src="/member-center-images/Icon/crown.svg" alt="" />
-            <div className={Styles.gameTitle}>Lv. 10</div>
-          </div>
         </div>
       </div>
     </>

@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-left:40px;
 }
 
 .memberInfo{
@@ -17,11 +18,9 @@
   border-radius: var(--br20);
   margin-bottom: 30px;
 }
-
-
 .blogFunc{
   width: 17vw;
-  height: 18.5vw;
+  /* height: 18.5vw; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,6 +29,7 @@
   border-radius: var(--br20);
   margin-bottom: 30px;
   overflow: hidden;
+  padding:30px;
 }
 .func{
   display: flex;
