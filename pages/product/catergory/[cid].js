@@ -1,26 +1,42 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import styles from '@/styles/shop.module.css';
+import { Pagination, Row } from 'antd';
+
+/*引用的卡片+篩選*/
+import Likelist from '@/components/ui/like-list/like-list';
+import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import ProductFilter from '@/components/ui/shop/product-filter';
+import ProductInput from '@/components/ui/shop/product-input';
+
+/*引用的按鈕*/
 import IconBtn from '@/components/ui/buttons/IconBtn';
-import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
+import MainBtn from '@/components/ui/buttons/MainBtn';
 import SearchBar from '@/components/ui/buttons/SearchBar';
-import Likelist from '@/components/ui/like-list/like-list';
+
+/*引用的背景+icon+圖示*/
+import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import { faFilter, faHeart } from '@fortawesome/free-solid-svg-icons';
 
-import { Pagination } from 'antd';
-import { Row } from 'antd';
-import styles from '@/styles/shop.module.css';
+/*引入資料*/
+import filterDatas from '@/data/product/filters.json';
+
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function Catergory() {
+  const { typeForPet, categoryDetailSid, typeForAge } = filterDatas;
   const { query, asPath } = useRouter();
+
   const [datas, setDatas] = useState([]);
   const [likeDatas, setLikeDatas] = useState([]);
+  const [brandDatas, setBrandDatas] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, settotalPages] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
-
+  const [showfilter, setShowFilter] = useState(false);
   //麵包屑寫得有點奇怪...
   const [breadCrubText, setBreadCrubText] = useState([
     {
@@ -46,7 +62,7 @@ export default function Catergory() {
           }
         );
         const backDatas = await r.json();
-        const { totalRows, cardData, likeDatas } = backDatas;
+        const { totalRows, cardData, likeDatas, brandDatas } = backDatas;
         console.log(cardData);
         if (totalRows) {
           setTotalItems(totalRows);
@@ -60,26 +76,46 @@ export default function Catergory() {
         if (likeDatas) {
           setLikeDatas(likeDatas);
         }
+
+        if (brandDatas) {
+          setBrandDatas(brandDatas);
+        }
       })();
     }
   }, [query]);
 
-  //收藏列表相關的函式
-  const openShowLikeList = () => {
-    setShowLikeList(true);
+  //篩選BOX相關的函式-------------------------------------------------------
+  const toggleFilter = () => {
+    setShowFilter(!showfilter);
   };
 
-  const closeShowLikeList = () => {
-    setShowLikeList(false);
+  //收藏列表相關的函式-------------------------------------------------------
+  const toggleLikeList = () => {
+    setShowLikeList(!showLikeList);
   };
 
-  const removeAllLikeList = async () => {
-    setLikeDatas([]);
+  const removeAllLikeList = () => {
+    if (likeDatas.length > 0) {
+      setLikeDatas([]);
+      //這邊需要再修改，要看怎麼得到會員的編號
+      removeLikeListToDB('all', 'mem00002');
+    }
+  };
 
-    //這邊需要再修改
+  const removeLikeListItem = (pid) => {
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.product_sid !== pid;
+    });
+
+    setLikeDatas(newLikeList);
+    //這邊需要再修改，要看怎麼得到會員的編號
+    removeLikeListToDB(pid, 'mem00002');
+  };
+
+  const removeLikeListToDB = async (pid = '', mid = '') => {
     try {
       const removeAll = await fetch(
-        `http://localhost:3002/shop-api/maincard/${query.cid}`,
+        `http://localhost:3002/shop-api/likelist/${pid}/${mid}`,
         {
           method: 'DELETE',
         }
@@ -87,12 +123,19 @@ export default function Catergory() {
 
       const result = await removeAll.json();
       console.log(JSON.stringify(result, null, 4));
-
+      if (pid === 'all') {
+        setTimeout(() => {
+          toggleLikeList();
+        }, 1000);
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
+  const onChange = (checkedValues) => {
+    console.log('checked = ', checkedValues);
+  };
   return (
     <>
       {/* <div className="container-outer"> */}
@@ -107,19 +150,65 @@ export default function Catergory() {
               <IconBtn
                 icon={faHeart}
                 text={'收藏列表'}
-                clickHandler={openShowLikeList}
+                clickHandler={toggleLikeList}
               />
-              <IconBtn icon={faFilter} text={'進階篩選'} />
+              <IconBtn
+                icon={faFilter}
+                text={'進階篩選'}
+                clickHandler={toggleFilter}
+              />
             </div>
           </div>
-          <div className="filters">
+          <div className="like">
             {showLikeList && (
               <Likelist
                 datas={likeDatas}
-                imgPosition="/product-img"
-                closeHandler={closeShowLikeList}
+                customCard={
+                  <ShopLikelistCard
+                    datas={likeDatas}
+                    removeLikeListItem={removeLikeListItem}
+                  />
+                }
+                closeHandler={toggleLikeList}
                 removeAllHandler={removeAllLikeList}
+                removeLikeListItem={removeLikeListItem}
               />
+            )}
+          </div>
+          <div className={styles.filter_box}>
+            {/* 要記得補上onChange的function給子元件 */}
+            {showfilter && (
+              <>
+                <ProductFilter
+                  text="適用對象:"
+                  data={typeForPet}
+                  onChange={() => {}}
+                />
+                <ProductFilter
+                  text="使用年齡:"
+                  data={typeForAge}
+                  onChange={() => {}}
+                />
+                <ProductFilter
+                  text="商品類別:"
+                  data={categoryDetailSid}
+                  onChange={() => {}}
+                />
+                <ProductInput
+                  minHandlerHandler={() => {}}
+                  maxHandler={() => {}}
+                />
+                <ProductFilter
+                  text="品牌:"
+                  data={brandDatas}
+                  needSpan={false}
+                  onChange={() => {}}
+                />
+                <div className={styles.filter_btns}>
+                  <SecondaryBtn text="重置條件" />
+                  <MainBtn text="確定篩選" />
+                </div>
+              </>
             )}
           </div>
         </nav>

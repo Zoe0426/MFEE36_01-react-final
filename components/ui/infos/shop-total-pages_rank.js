@@ -1,17 +1,17 @@
-import React from 'react'
-import styles from './shop-total-pages_rank.module.css'
-import { DownOutlined } from '@ant-design/icons'
-import { Button, Dropdown, Space, message } from 'antd'
+import React from 'react';
+import styles from './shop-total-pages_rank.module.css';
+import { DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Space, message, ConfigProvider } from 'antd';
 
 export default function ShopTotalPagesRank({ totalItems = 0 }) {
   const handleButtonClick = (e) => {
-    message.info('Click on left button.')
-    console.log('click left button', e)
-  }
+    message.info('Click on left button.');
+    console.log('click left button', e);
+  };
   const handleMenuClick = (e) => {
-    message.info('Click on menu item.')
-    console.log('click', e)
-  }
+    message.info('Click on menu item.');
+    console.log('click', e);
+  };
   const items = [
     {
       label: '價格由低到高',
@@ -29,26 +29,40 @@ export default function ShopTotalPagesRank({ totalItems = 0 }) {
       label: '熱賣商品',
       key: '4',
     },
-  ]
+  ];
   const menuProps = {
     items,
     onClick: handleMenuClick,
-  }
+  };
 
   return (
-    <div className={styles.total_pages_rank}>
-      <div>
-        <p>商品搜尋結果</p>
-        <p>共{totalItems}項商品</p>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorBorder: '#909090',
+          colorPrimary: '#909090',
+          colorBgContainer: 'rgba(255,255,255,0.3)',
+          borderRadius: 10,
+          controlHeight: 55,
+          fontSize: 16,
+          borderRadiusOuter: 10,
+        },
+      }}
+    >
+      <div className={styles.total_pages_rank}>
+        <div>
+          <h3>商品搜尋結果</h3>
+          <p>( 共{totalItems}項商品 )</p>
+        </div>
+        <Dropdown menu={menuProps}>
+          <Button>
+            <Space>
+              -- 排序方式 --
+              <DownOutlined />
+            </Space>
+          </Button>
+        </Dropdown>
       </div>
-      <Dropdown menu={menuProps}>
-        <Button>
-          <Space>
-            排序
-            <DownOutlined />
-          </Space>
-        </Button>
-      </Dropdown>
-    </div>
-  )
+    </ConfigProvider>
+  );
 }

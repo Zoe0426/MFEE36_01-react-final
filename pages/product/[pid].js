@@ -6,6 +6,8 @@ import { Row } from 'antd';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
+import Likelist from '@/components/ui/like-list/like-list';
+import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 
 /*引用的按鈕*/
@@ -15,20 +17,15 @@ import MainBtn from '@/components/ui/buttons/MainBtn';
 
 /*引用的背景*/
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
-import GBRecomandDecoration from '@/components/ui/decoration/bg-reconmand-decoration';
+import BGRecomandDecoration from '@/components/ui/decoration/bg-reconmand-decoration';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import PawWalking from '@/components/ui/shop/pawWalking';
 
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
-// 引用的圖示
+// 引用的icon+圖示
 import RateStar from '@/components/ui/rateStar/RateStar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faStar,
-  faHeart,
-  faCartShopping,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import CorpLogo from '@/assets/corpLogo.svg';
 
 export default function Product() {
@@ -54,6 +51,8 @@ export default function Product() {
     { rating: 2, count: 0 },
     { rating: 1, count: 0 },
   ]);
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
   //評論篩選，6為全部，其他為5~1
   const [commentFilter, setCommentFilter] = useState(6);
   const [count, setCount] = useState(1);
@@ -106,6 +105,7 @@ export default function Product() {
           commentDatas,
           commentEachQty,
           reccomandData,
+          likeDatas,
         } = await res_productInfo.json();
         const innitDescription = shopMainData[0].description;
         const description = innitDescription.replace(/\n/g, '<br/>');
@@ -144,6 +144,11 @@ export default function Product() {
         if (reccomandData) {
           setDataForRecomand(reccomandData);
         }
+
+        if (likeDatas) {
+          setLikeDatas(likeDatas);
+        }
+
         setCount(1);
       })();
     }
@@ -160,6 +165,52 @@ export default function Product() {
     });
   };
 
+  //收藏列表相關的函式-------------------------------------------------------
+  const openShowLikeList = () => {
+    setShowLikeList(true);
+  };
+
+  const closeShowLikeList = () => {
+    setShowLikeList(false);
+  };
+
+  const removeAllLikeList = () => {
+    setLikeDatas([]);
+    //這邊需要再修改，要看怎麼得到會員的編號
+    removeLikeListToDB('all', 'mem00002');
+  };
+
+  const removeLikeListItem = (pid) => {
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.product_sid !== pid;
+    });
+
+    setLikeDatas(newLikeList);
+    //這邊需要再修改，要看怎麼得到會員的編號
+    removeLikeListToDB(pid, 'mem00002');
+  };
+
+  const removeLikeListToDB = async (pid = '', mid = '') => {
+    try {
+      const removeAll = await fetch(
+        `http://localhost:3002/shop-api/likelist/${pid}/${mid}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+      if (pid === 'all') {
+        setTimeout(() => {
+          closeShowLikeList();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="outer-container">
@@ -169,8 +220,28 @@ export default function Product() {
             <div className={styles.nav_head}>
               <BreadCrumb breadCrubText={breadCrubText} />
               <div className={styles.btns}>
-                <IconBtn icon={faHeart} text={'收藏列表'} />
+                <IconBtn
+                  icon={faHeart}
+                  text={'收藏列表'}
+                  clickHandler={openShowLikeList}
+                />
               </div>
+            </div>
+            <div className="like">
+              {showLikeList && (
+                <Likelist
+                  datas={likeDatas}
+                  customCard={
+                    <ShopLikelistCard
+                      datas={likeDatas}
+                      removeLikeListItem={removeLikeListItem}
+                    />
+                  }
+                  closeHandler={closeShowLikeList}
+                  removeAllHandler={removeAllLikeList}
+                  removeLikeListItem={removeLikeListItem}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -433,7 +504,7 @@ export default function Product() {
           </div>
         </div>
       </div>
-      <GBRecomandDecoration />
+      <BGRecomandDecoration />
       {/* 商品詳述區 */}
       <div className="container-outer">
         <div className={styles.bgc_lightBrown}>

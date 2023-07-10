@@ -99,7 +99,19 @@
     margin-left:0%;
 }
 
-
+/*--------------商品列表頁-------------*/
+/* 篩選的按鈕 */
+.filter_btns{
+    display: flex;
+    justify-content: flex-end;
+}
+.filter_btns>button{
+    margin-right: 16px;
+    height:90%
+}
+.filter_btns>button:last-child{
+    margin-right: 0;
+}
 /*商品列表卡片的外層*/
 .cards{
     margin:36px 0 36px 0;  
@@ -450,6 +462,17 @@ overflow: hidden;
         display: flex;
         flex-wrap: nowrap;
         
+    }
+
+    /*--------------商品列表頁-------------*/
+    /* 篩選的按鈕 */
+    .filter_btns{
+        margin-top: 16px;
+    }
+    .filter_btns>button{
+        height: 100%;
+        width: 100%;
+        margin-right:8px
     }
 
 

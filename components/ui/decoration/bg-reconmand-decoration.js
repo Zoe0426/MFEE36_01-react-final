@@ -5,7 +5,7 @@ import StretchDog from '@/assets/stretch-dog.svg';
 import wave from '@/assets/bgc02-wave.svg';
 import trees from '@/assets/trees.svg';
 
-export default function BGMiddleDecoration() {
+export default function BGRecomandDecoration() {
   return (
     <div className={styles.head_decoration}>
       <Image src={wave} alt="" />
