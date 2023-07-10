@@ -3,7 +3,17 @@ import Styles from './SignUpForm.module.css';
 import Link from 'next/link';
 import SecondaryBtn from '../buttons/SecondaryBtn';
 import MainBtn from '../buttons/MainBtn';
-import { Form, Input, Radio, Select, Row, Col, ConfigProvider } from 'antd';
+import {
+  Form,
+  Input,
+  Radio,
+  Select,
+  Row,
+  Col,
+  ConfigProvider,
+  Button,
+  DatePicker,
+} from 'antd';
 
 export default function SignUpForm() {
   const onFinish = (values) => {
@@ -12,9 +22,15 @@ export default function SignUpForm() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  const [form] = Form.useForm();
+  const handleReset = () => {
+    // 用 form.resetFields() 來重置表單
+    form.resetFields();
+  };
   return (
     <>
       <Form
+        form={form}
         name="signUpForm"
         className={Styles.signUpForm}
         onFinish={onFinish}
@@ -77,7 +93,7 @@ export default function SignUpForm() {
           ]}
           hasFeedback
         >
-          <Input.Password />
+          <Input.Password size="large" />
         </Form.Item>
 
         <Form.Item
@@ -100,7 +116,15 @@ export default function SignUpForm() {
             }),
           ]}
         >
-          <Input.Password />
+          <Input.Password size="large" />
+        </Form.Item>
+        <Form.Item label="生日">
+          <DatePicker
+            size="large"
+            style={{
+              width: '100%',
+            }}
+          />
         </Form.Item>
         <Form.Item name="gender" label="性別">
           <ConfigProvider
@@ -120,24 +144,34 @@ export default function SignUpForm() {
           </ConfigProvider>
         </Form.Item>
         <Form.Item name="pet" label="寵物">
-          <Radio.Group>
-            <Radio value="狗"> 狗 </Radio>
-            <Radio value="貓"> 貓 </Radio>
-            <Radio value="狗貓"> 狗貓 </Radio>
-            <Radio value="其他"> 其他 </Radio>
-          </Radio.Group>
+          <ConfigProvider
+            theme={{
+              components: {
+                Radio: {
+                  colorPrimary: '#FD8C46',
+                },
+              },
+            }}
+          >
+            <Radio.Group>
+              <Radio value="狗"> 狗 </Radio>
+              <Radio value="貓"> 貓 </Radio>
+              <Radio value="狗貓"> 狗貓 </Radio>
+              <Radio value="其他"> 其他 </Radio>
+            </Radio.Group>
+          </ConfigProvider>
         </Form.Item>
         <Row gutter={16}>
           <Col xl={12} lg={24} md={24} sm={24} xs={24}>
             <Form.Item name="city" label="縣市">
-              <Select>
+              <Select size="large">
                 <Select.Option value="demo">Demo</Select.Option>
               </Select>
             </Form.Item>
           </Col>
           <Col xl={12} lg={24} md={24} sm={24} xs={24}>
             <Form.Item name="area" label="鄉/鎮/區">
-              <Select>
+              <Select size="large">
                 <Select.Option value="demo">Demo</Select.Option>
               </Select>
             </Form.Item>
@@ -148,13 +182,17 @@ export default function SignUpForm() {
         </Form.Item>
 
         <div className={Styles.btns}>
-          <Link href="/shop" className={Styles.btn}>
-            <SecondaryBtn text="取消" />
-          </Link>
+          <div className={Styles.btn}>
+            <SecondaryBtn onClick={handleReset} text="取消" />
+          </div>
           <div className={Styles.btn}>
             <MainBtn text="完成" />
           </div>
         </div>
+        <Button onClick={handleReset} htmlType="reset">
+          取消
+        </Button>
+        <Button htmlType="submit">完成</Button>
       </Form>
     </>
   );

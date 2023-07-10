@@ -6,7 +6,6 @@
 .btns{
   display: flex;
   justify-content: flex-end;
-  background-color: pink;
 }
 
 .btn{
