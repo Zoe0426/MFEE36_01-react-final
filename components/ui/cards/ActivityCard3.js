@@ -1,5 +1,8 @@
-import React from 'react'
-import styles from './ActivityCard3.module.css'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHand,faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import styles from './ActivityCard3.module.css';
+import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 
 const ActivityCard3 = ({
 image='',
@@ -17,10 +20,10 @@ area='',
         <div className={styles.title}>{title}</div>
         <div className={styles.count}>{count}人已投</div>
         <div className={styles.location}>
-          <div className={styles.icon}>[icon]</div>
+          <FontAwesomeIcon icon={faLocationDot} className={styles.icon} />
           <div>{city}{area}</div>
         </div>
-        <button className={styles.btn}>投我一票</button>
+        <IconMainBtn icon={faHand} text = '投我一票'/>
       </div>
     </div>
   )

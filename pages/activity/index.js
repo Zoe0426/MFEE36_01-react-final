@@ -1,10 +1,14 @@
-import styles from '../../styles/activityindex.module.css'
+import styles from '../../styles/activityindex.module.css';
+import ActivityLikeWithSelector from '@/components/ui/cards/ActivityLikeWithSelector';
+import SubBtn from '@/components/ui/buttons/subBtn';
+import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
+import ActivityCard2 from '@/components/ui/cards/ActivityCard2';
+import ActivityCard3 from '@/components/ui/cards/ActivityCard3';
+import ActivityFormSelectors from '@/components/ui/cards/ActivityFormSelectors';
 
-import ActivityCard1 from '@/components/ui/cards/ActivityCard1'
-import ActivityCard2 from '@/components/ui/cards/ActivityCard2'
-import ActivityCard3 from '@/components/ui/cards/ActivityCard3'
 
 export default function ActivityHome() {
+
   return (
     <div>
       {/* .........banner......... */}
@@ -16,11 +20,44 @@ export default function ActivityHome() {
         />
       </div>
 
+      <ActivityFormSelectors />
+
       {/* .........收藏列表/進階篩選 btn......... */}
-      <div className={styles.selector}></div>
+      <div className={styles.like_selector}>
+        <div className="container-inner">
+          <ActivityLikeWithSelector />
+        </div>
+      </div>
 
       {/* .........分類bar......... */}
-      <div className={styles.type}></div>
+      <div className={styles.type}>
+        <div className="container-inner">
+          <div className={styles.type_btn_group}>
+            <img className={styles.type_decoration} src='./activity_img/decoration1.png' alt='' />
+            <div>
+               <SubBtn img='./activity_img/subicon_1.png' text='主題派對' />
+            </div>
+            <div>
+              <SubBtn img='./activity_img/subicon_2.png' text='在地活動' />
+            </div>
+            <div>
+              <SubBtn img='./activity_img/subicon_3.png' text='市集展覽' />
+            </div>
+            <div>
+              <SubBtn img='./activity_img/subicon_4.png' text='毛孩講座' />
+            </div>
+            <div >
+              <SubBtn img='./activity_img/subicon_5.png' text='寵物學校' />
+            </div>
+            <div>
+              <SubBtn img='./activity_img/subicon_6.png' text='願望實現清單' />
+            </div>
+            <img className={styles.type_decoration} src='./activity_img/decoration1.png' alt='' />
+          </div>
+        </div>
+      </div>
+
+
 
       {/* .........section1......... */}
       <div className={styles.section1}>

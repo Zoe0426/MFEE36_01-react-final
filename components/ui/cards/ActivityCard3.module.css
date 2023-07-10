@@ -1,6 +1,6 @@
 .card {
-    width: 363px;
-    height: 152px;
+    width: 30%;
+    /* height: 152px; */
     display: flex;
     margin-bottom: 1.5rem;
 }
@@ -18,7 +18,7 @@
   
   
 .content {
-    padding: var(--p16);
+    padding: 0 0 0 var(--p16);
     display: flex;
     flex-direction: column;
     justify-content: space-between;

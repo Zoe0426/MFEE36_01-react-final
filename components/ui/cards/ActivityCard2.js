@@ -1,5 +1,6 @@
-import React from 'react'
-import styles from './ActivityCard2.module.css'
+import React from 'react';
+import styles from './ActivityCard2.module.css';
+import ActivitySecondaryBtn from '@/components/ui/buttons/ActivitySecondaryBtn';
 
 const ActivityCard2 = ({
   image='',
@@ -7,14 +8,12 @@ const ActivityCard2 = ({
 }) => {
   return (
     <div className={styles.card}>
-     
-        <img className={styles.image} src={image} alt='' />
-     
+      <img className={styles.image} src={image} alt='' />
+      <div className={styles.overlay}></div> {/* 新增的覆盖层 */}
       <div className={styles.content}>
         <p className={styles.city}>{city}</p>
-          
-        <div className={styles.btn}>
-          <p className={styles.btnText}>更多活動</p>
+        <div className={styles.btnContainer}>
+          <ActivitySecondaryBtn text='更多活動' />
         </div>
       </div>
     </div>
