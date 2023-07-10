@@ -21,17 +21,20 @@
   align-items: center;
   text-decoration: none;
   color: var(--dark-gray);
-  transition: all .2s ease;
-}
 
-.linkItem:hover{
-  color: var(--main);
 }
 
 .linkTitile{
   margin-left: 5px;
   font-size: var(--h6fs18);
+  transition: all .2s ease;
 }
+
+.linkTitile:hover{
+  color: var(--main);
+}
+
+
 
 @media screen and (max-width: 767px) {
   .secondNavbar {
