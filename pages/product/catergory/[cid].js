@@ -6,6 +6,7 @@ import { Pagination, Row } from 'antd';
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/like-list';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
+import ShopHistoryCard from '@/components/ui/cards/shop-history-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
 import ProductFilter from '@/components/ui/shop/product-filter';
@@ -214,6 +215,15 @@ export default function Catergory() {
         </nav>
       </div>
       <BGUpperDecoration />
+      <div className="container-outer">
+        <ShopHistoryCard
+          data={[
+            { product_sid: 'CFCA0001', img: 'pro009.jpg' },
+            { product_sid: 'CFCA0002', img: 'pro010.jpg' },
+          ]}
+        />
+      </div>
+
       {/* </div> */}
       {/* <div className="container-outer"> */}
       <main className="container-inner">
