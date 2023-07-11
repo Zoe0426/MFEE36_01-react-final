@@ -2,12 +2,16 @@ import React from 'react';
 import Styles from './detail.module.css';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import RateStar from '@/components/ui/rateStar/RateStar';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import { faClock } from '@fortawesome/free-solid-svg-icons';
-import { faPaw } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart,
+  faFileLines,
+  faPhone,
+  faLocationDot,
+  faClock,
+  faPaw,
+  faCalendar,
+} from '@fortawesome/free-solid-svg-icons';
 import Tab from '@/components/ui/restaurant/Tab';
 import FeatureCard from '@/components/ui/restaurant/featureCard';
 import ActivityCard from '@/components/ui/restaurant/ActivityCard';
@@ -16,6 +20,7 @@ import CloudTop from '@/assets/cloud_top.svg';
 import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
 import PinkBtn from '@/components/ui/restaurant/PinkBtn';
 import { Col, Row } from 'antd';
+import CommentCard from '@/components/ui/cards/comment-card';
 import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function RestInfo() {
@@ -33,16 +38,26 @@ export default function RestInfo() {
       <div className="container-inner">
         <div className={Styles.rest_detail}>
           <div className={Styles.rest_image}>
-            <div className={Styles.rest_image_main}></div>
+            <div className={Styles.rest_image_main}>
+              <img src="/rest_image/sunshine.jpeg" alt="" />
+            </div>
             <div className={Styles.rest_image_group}>
-              <div className={Styles.rest_image_single}></div>
-              <div className={Styles.rest_image_single}></div>
-              <div className={Styles.rest_image_single}></div>
-              <div className={Styles.rest_image_single}></div>
+              <div className={Styles.rest_image_single}>
+                <img src="/rest_image/sunshine_detail1.jpeg" alt="" />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img src="/rest_image/sunshine_detail2.jpeg" alt="" />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img src="/rest_image/sunshine_detail3.jpeg" alt="" />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img src="/rest_image/sunshine_detail4.jpeg" alt="" />
+              </div>
             </div>
           </div>
           <div className={Styles.rest_info}>
-            <h1 className={Styles.jill_h1}>我家有休閒農場</h1>
+            <h1 className={Styles.jill_h1}>陽光莊園</h1>
             <RateStar score="4.8" />
             <p className={Styles.information}>
               一群熱愛生命有夢想的青年，在這2200平方的土地上開始建構毛小孩的奔跑空間，健康自製的料理飲品，無毒自然的溯源食材，我們知道，我們還有很多可以進步的地方，因為我們熱愛我們的家，熱愛每一個回家的家人~當歡迎光臨聲起，我們的微笑綻放，心裡默默念著…歡迎回家!!
@@ -83,18 +98,28 @@ export default function RestInfo() {
               </div>
               {/* button */}
               <div className={Styles.rest_group_btn}>
-                <button className={Styles.icon_btn}>
-                  <FontAwesomeIcon icon={faPaw} className={Styles.icon} />
-                  我要預約
-                </button>
-                <button className={Styles.icon_btn}>
-                  <FontAwesomeIcon icon={faPaw} className={Styles.icon} />
-                  我要預約
-                </button>
-                <button className={Styles.icon_btn}>
-                  <FontAwesomeIcon icon={faPaw} className={Styles.icon} />
-                  我要預約
-                </button>
+                <div className={Styles.half_btn}>
+                  <button className={Styles.icon_btn}>
+                    <FontAwesomeIcon icon={faHeart} className={Styles.icon} />
+                    收藏餐廳
+                  </button>
+                  <button className={Styles.icon_btn}>
+                    <FontAwesomeIcon
+                      icon={faFileLines}
+                      className={Styles.icon}
+                    />
+                    餐廳菜單
+                  </button>
+                </div>
+                <div className={Styles.full_btn}>
+                  <button className={Styles.full_icon_btn}>
+                    <FontAwesomeIcon
+                      icon={faCalendar}
+                      className={Styles.icon}
+                    />
+                    我要預約
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -222,6 +247,12 @@ export default function RestInfo() {
 
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>饕客評價</h2>
+        <div className={Styles.comment}>
+          <CommentCard />
+          <CommentCard />
+          <CommentCard />
+          <CommentCard />
+        </div>
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import Styles from './rest_card.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import HashTag from '../hashtag/HashTag';
+import HashTag from '../hashtag/hashtag';
 import RateStarPill from '../rateStar/RateStarPill';
 
 export default function RestCard({

@@ -58,42 +58,10 @@
 
 .arrow{
     font-size: var(--h5fs20);
-}
-
-
-.week{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: var(--p32);
-    padding-bottom: 16px;
-    border-bottom: 2px solid var(--light-gray);
-}
-.lastweek{
-    font-size: var(--h6fs18);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
     transition: 0.5s;
     cursor: pointer;
 }
-.lastweek:hover{
-    color: var(--main);
-}
-.jill_p:hover{
-    color: var(--main);
-    transition: 0.5s;
-}
-.nextweek{
-    font-size: var(--h6fs18);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    transition: 0.5s;
-    cursor: pointer;
-}
-.nextweek:hover{
+.arrow:hover{
     color: var(--main);
 }
 
@@ -103,7 +71,7 @@
 }
 .booking_card{
     background-color: #fff;
-    box-shadow: 2px 3px 6px rgba(0,0,0,0.1);
+    /* box-shadow: 2px 3px 6px rgba(0,0,0,0.1); */
     padding: 24px 32px;
     border-radius: 8px;
     margin-top: 20px;
@@ -112,7 +80,8 @@
     justify-content: center;
     align-items: center;
     font-size: var(--pfs14);
-    border-top: 8px solid #B1EFCA;
+    border: 1px solid var(--light-gray);
+    /* border-top: 8px solid #B1EFCA; */
 }
 .time_group{
     display: flex;
@@ -143,3 +112,24 @@
     color: var(--main);
     margin: 0 6px;
 }
+
+
+@media screen and (max-width:767px){
+    .time_group{
+        overflow: auto;
+        gap: 20px;
+    }  
+    .hint_group{
+        gap: 16px;
+    }
+    .time_group::-webkit-scrollbar{
+        display: none;
+      }
+
+    .timetable{
+        font-size: var(--h6fs18);
+    }
+    .booking_card{
+      padding: 20px 24px;
+    }
+    }

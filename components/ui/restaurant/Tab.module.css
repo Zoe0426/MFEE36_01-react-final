@@ -1,9 +1,9 @@
 .tab_group{
     display: flex;
-    padding-bottom: 0.75rem;
+    padding-bottom: 1rem;
     gap: 60px;
     font-size: var(--h6fs18);
-    border-bottom: 1px solid var(--gray);
+    border-bottom: 0.8px solid var(--gray);
     padding-top: 80px;
 }
 

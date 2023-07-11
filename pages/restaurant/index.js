@@ -268,7 +268,7 @@ export default function Restindex() {
       </div>
 
       <div className="container-inner">
-        <RestTitle icon={faFaceLaugh} text="最友善餐廳" />
+        <RestTitle icon={faFire} text="熱門餐廳" />
       </div>
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
@@ -298,7 +298,7 @@ export default function Restindex() {
       </div>
 
       <div className="container-inner">
-        <RestTitle icon={faFire} text="熱門餐廳" />
+        <RestTitle icon={faFaceLaugh} text="最友善餐廳" />
       </div>
       <div className="container-inner">
         <div className={Styles.hot_card_group}>

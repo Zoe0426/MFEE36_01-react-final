@@ -42,20 +42,11 @@ export default function RestBooking() {
             </div>
           </div> */}
         </div>
-        <div className={Styles.week}>
-          <div className={Styles.lastweek}>
-            <FontAwesomeIcon icon={faArrowLeft} className={Styles.arrow} />
-            <p className={Styles.jill_p}>上一週</p>
-          </div>
-          <div className={Styles.nextweek}>
-            <p className={Styles.jill_p}>下一週</p>
-            <FontAwesomeIcon icon={faArrowRight} className={Styles.arrow} />
-          </div>
-        </div>
       </div>
 
       <div className="container-inner">
         <div className={Styles.time_group}>
+          <FontAwesomeIcon icon={faArrowLeft} className={Styles.arrow} />
           <div className={Styles.monday}>
             <div className={Styles.date}>7/10 (一)</div>
             <div className={Styles.booking_card}>
@@ -335,6 +326,7 @@ export default function RestBooking() {
               </div>
             </div>
           </div>
+          <FontAwesomeIcon icon={faArrowRight} className={Styles.arrow} />
         </div>
       </div>
     </>
