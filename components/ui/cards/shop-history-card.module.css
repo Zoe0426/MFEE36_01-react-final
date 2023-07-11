@@ -1,0 +1,61 @@
+.history_box{
+    width:5%;
+    background-color: var(--light3);
+    border-radius: var(--br10);
+    padding:var(--p16) 0;
+    position: fixed;
+    top:35%;
+    left:calc(((100% - 1920px) / 2) + 1700px);
+    text-align: center;
+}
+
+.history_title{
+    font-size: var(--h6fs18);
+    font-weight: var(--fwbold);
+    padding-bottom: var(--p16);
+    border-bottom: 1px solid white;
+    letter-spacing: 3px
+}
+
+.history_img{
+    position: relative;
+    width: 75%;;
+    margin: var(--p16) auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.history_img:hover::before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.history_img:hover::after{
+    content: '再看一次';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: var(--light2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--h6fs18);
+    /* font-weight: var(--fwbold); */
+}
+.history_img>img{
+    width: 100%;
+}
+
+.history_reset{
+    font-size: var(--h6fs18);
+    font-weight: var(--fwbold);
+    padding-top: var(--p16);
+    border-top: 1px solid white;
+    letter-spacing: 3px
+}
+
+

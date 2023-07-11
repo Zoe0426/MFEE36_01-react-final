@@ -23,7 +23,8 @@
     border:1px solid var(--dark);
     width:100%;
     padding:var(--p16) var(--p16);
-    flex:1
+    flex:1;
+    border:1px solid black
 }
 
 .brand_img{
@@ -42,5 +43,14 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
+}
+
+@media screen and (max-width:767px){
+    .normal_card{
+        width: 700px;
+    }
+    .card_title{
+        font-size: var(--pfs16);
+    }
 }
 

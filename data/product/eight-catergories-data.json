@@ -1,0 +1,50 @@
+[
+    {
+      "id": "food",
+      "text": "飼料",
+      "icon": "/product-img/icon-shop-food.svg",
+      "href": "http://localhost:3000/product/catergory/food"
+    },
+    {
+      "id": "can",
+      "text": "罐頭",
+      "icon": "/product-img/icon-shop-can.svg",
+      "href": "http://localhost:3000/product/catergory/can"
+    },
+    {
+      "id": "snack",
+      "text": "零食",
+      "icon": "/product-img/icon-shop-snack.svg",
+      "href": "http://localhost:3000/product/catergory/snack"
+    },
+    {
+      "id": "health",
+      "text": "保健品",
+      "icon": "/product-img/icon-shop-health.svg",
+      "href": "http://localhost:3000/product/catergory/health"
+    },
+    {
+      "id": "toy",
+      "text": "玩具",
+      "icon": "/product-img/icon-shop-toy.svg",
+      "href": "http://localhost:3000/product/catergory/toy"
+    },
+    {
+      "id": "dress",
+      "text": "服飾",
+      "icon": "/product-img/icon-shop-dress.svg",
+      "href": "http://localhost:3000/product/catergory/dress"
+    },
+    {
+      "id": "outdoor",
+      "text": "戶外用品",
+      "icon": "/product-img/icon-shop-outdoor.svg",
+      "href": "http://localhost:3000/product/catergory/outdoor"
+    },
+    {
+      "id": "other",
+      "text": "其他",
+      "icon": "/product-img/icon-shop-other.svg",
+      "href": "http://localhost:3000/product/catergory/other"
+    }
+  ]

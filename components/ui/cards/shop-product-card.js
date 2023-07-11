@@ -1,6 +1,7 @@
 import styles from './shop-product-card.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
+import RateStarPill from '../rateStar/RateStarPill';
 import { Col } from 'antd';
 import Link from 'next/link';
 
@@ -12,7 +13,7 @@ export default function ShopProductCard({
   min_price = 0,
   avg_rating = 0,
   col = 1,
-  xs = 1,
+  xs = 12,
 }) {
   return (
     <Col xs={xs} sm={xs} md={col} className={styles.card}>
@@ -22,7 +23,7 @@ export default function ShopProductCard({
       >
         <div className={styles.card_head}>
           <div>
-            <img src={`/product-img/${img}`} alt="" />
+            <img src={`/product-img/${img}`} alt={name} />
           </div>
           <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />
         </div>
@@ -30,8 +31,7 @@ export default function ShopProductCard({
           <h6 className={styles.card_title}>{name}</h6>
           <div className={styles.card_info}>
             <div className={styles.icons}>
-              <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
-              <span>{avg_rating && `( ${avg_rating} )`}</span>
+              {avg_rating && <RateStarPill score={avg_rating} />}
             </div>
             <div>
               {max_price === min_price

@@ -1,0 +1,125 @@
+.pawPath{
+  position: relative;
+}
+
+.detail_paw_walking_box{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    color:var(--dark);
+    opacity: 0.6;
+}
+.detail_paw_up_walking{
+  position: absolute;
+    font-size: var(--h4fs24);
+    -webkit-animation: 100050ms pawAnimation ease-in-out infinite;
+    animation: 4050ms pawAnimation ease-in-out infinite;
+}
+
+.detail_paw_up_walking:nth-child(odd){
+  transform: rotate(80deg);
+}
+.detail_paw_up_walking:nth-child(even){
+  transform: rotate(95deg);
+}
+
+.detail_paw_up_walking:nth-child(1){
+  top:25%;
+  left:5%;
+}
+
+.detail_paw_up_walking:nth-child(2){
+  top:60%;
+  left:10%;
+}
+
+
+.detail_paw_up_walking:nth-child(3){
+  top:5%;
+  left:15%;
+}
+
+.detail_paw_up_walking:nth-child(4){
+  top:40%;
+  left:20%;
+} 
+
+.detail_paw_up_walking:nth-child(5){
+  top:-10%;
+  left:25%;
+}
+
+.detail_paw_up_walking:nth-child(1) {
+  -webkit-animation-delay: 0.5s;
+          animation-delay: 0.5s;
+}
+.detail_paw_up_walking:nth-child(2) {
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+}
+.detail_paw_up_walking:nth-child(3) {
+  -webkit-animation-delay: 1.5s;
+          animation-delay: 1.5s;
+}
+  .detail_paw_up_walking:nth-child(4) {
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s;
+}
+  .detail_paw_up_walking:nth-child(5) {
+    -webkit-animation-delay: 2.5s;
+    animation-delay: 2.5s;
+}
+
+  @keyframes pawAnimation {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @-webkit-keyframes pawAnimation {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media screen and (max-width:767px){
+    .detail_paw_up_walking:nth-child(1){
+      left:5%;
+    }
+    
+    .detail_paw_up_walking:nth-child(2){
+
+      left:25%;
+    }
+    
+    
+    .detail_paw_up_walking:nth-child(3){
+
+      left:45%;
+    }
+    
+    .detail_paw_up_walking:nth-child(4){
+
+      left:65%;
+    } 
+    
+    .detail_paw_up_walking:nth-child(5){
+
+      left:85%;
+    }
+
+  }
