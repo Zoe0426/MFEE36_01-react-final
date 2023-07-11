@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
 :root {
     --main: #FD8C46;
     --secondary: #FFD4C0;
@@ -41,6 +42,7 @@
 
     /* shadow */
     --shadow: 2px 6px 8px rgba(0,0,0,0.1);
+    --fontCT:'Noto Sans TC';
 }
 
 
@@ -117,6 +119,8 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
   color: var(--dark-gray);
+  font-family: var(--fontCT);
+  letter-spacing: 1px;
 }
 
 
