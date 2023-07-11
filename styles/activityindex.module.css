@@ -10,9 +10,10 @@
     object-fit: cover;
 }
 
-.like_selector{
+.selector{
     background: var(--light1);
 }
+
 
 .type{
     width: 100%;

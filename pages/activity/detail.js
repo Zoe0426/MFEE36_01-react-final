@@ -110,8 +110,8 @@ export default function ActivityDetail() {
 
               {/* 第九行 */}
               <div className={styles.row_total_price}>
-                <p className={styles.total_price_color}>總金額：</p>
-                <p className={styles.total_price_color}>$123</p>
+                <p className={styles.total_price}>總金額：</p>
+                <p className={styles.total_price}>$123</p>
               </div>
 
               {/* 第十行 */}
@@ -156,7 +156,7 @@ export default function ActivityDetail() {
             <div>
               <p className={styles.subtitle}>活動內容＆行程：</p>
 
-              <p>
+              <p className={styles.row_text_small}>
                 今夏最大「毛小孩都市水樂園」活動即將在圓山花博公園盛大登場！覺得海太遠？幫你搬過來不用跑到墾丁衝到離島，就在台北圓山捷運站1號出口。歡迎帶
                 毛小孩 來參加 圓山花博廣場 的 台北海洋水樂園
                 現場免費開放寵物游泳池
@@ -192,7 +192,7 @@ export default function ActivityDetail() {
             <div>
               <p className={styles.subtitle}>活動規範：</p>
 
-              <p>
+              <p className={styles.row_text_small}>
                 寵物於園區內活動時，須全程置於提袋、提籠、推車等限制活動範圍的器具內，或是妥善繫上最長1.5公尺的繫繩，並禁止與野生動物接觸。非指定區域，寵物不得進入。寵物如產生不聽指令、攻擊行為，飼主應立即將寵物帶離園區。園區內發生的衝突情事，若涉及訴訟或賠償問題，由飼主負責。寵物食品禁止遺留園區。寵物若產生糞便，飼主應隨手清理並丟置垃圾桶。飼主應善盡維護園區清潔和安全秩序的責任。上述規範飼主經勸導若仍拒絕遵守，管理單位得要求飼主立即攜帶寵物離開園區，且不得要求退費或賠償。
               </p>
             </div>
@@ -207,7 +207,7 @@ export default function ActivityDetail() {
             <div>
               <p className={styles.subtitle}>購買須知&取消政策：</p>
 
-              <p>
+              <p className={styles.row_text_small}>
                 寵物於園區內活動時，須全程置於提袋、提籠、推車等限制活動範圍的器具內，或是妥善繫上最長1.5公尺的繫繩，並禁止與野生動物接觸。非指定區域，寵物不得進入。寵物如產生不聽指令、攻擊行為，飼主應立即將寵物帶離園區。園區內發生的衝突情事，若涉及訴訟或賠償問題，由飼主負責。寵物食品禁止遺留園區。寵物若產生糞便，飼主應隨手清理並丟置垃圾桶。飼主應善盡維護園區清潔和安全秩序的責任。上述規範飼主經勸導若仍拒絕遵守，管理單位得要求飼主立即攜帶寵物離開園區，且不得要求退費或賠償。
               </p>
             </div>

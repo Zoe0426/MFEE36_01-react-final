@@ -48,21 +48,21 @@ const ActivityCard1 = ({
         <div className={styles.row}>
           <FontAwesomeIcon icon={faCalendarDays} className={styles.row_icon} />
           <div>
-            <p className={styles.rowTextSmall}>{date_begin}~{date_end}</p>
+            <p>{date_begin}~{date_end}</p>
           </div>
         </div>
 
         <div className={styles.row}>
           <FontAwesomeIcon icon={faClock} className={styles.row_icon} />
           <div>
-            <p className={styles.rowTextSmall}>{time}</p>
+            <p>{time}</p>
           </div>
         </div>
 
         <div className={styles.row}>
           <FontAwesomeIcon icon={faLocationDot} className={styles.row_icon} />
           <div className={styles.rowTextAddress}>
-            <p className={styles.rowTextSmall}>{city}{area}{address}</p>
+            <p>{city}{area}{address}</p>
           </div>
         </div>
 
@@ -75,8 +75,8 @@ const ActivityCard1 = ({
           <ActivityFeature className={styles.feature} feature='精美午餐'/>
         </div>
         
-        <div className={styles.rowPrice}>
-          <p className={styles.rowTextSmall}>${price} (大人) ${price/2} (小孩)</p>
+        <div>
+          <p className={styles.row_price}>${price} (大人) ${price/2} (小孩)</p>
         </div>
       </div>
     </div>

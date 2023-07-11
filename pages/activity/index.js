@@ -43,7 +43,8 @@ export default function ActivityHome() {
         />
       </div>
 
-      <ActivityFormSelectors />
+      
+
 
       {/* <div>
         <div>測試 連接資料庫</div>
@@ -51,10 +52,15 @@ export default function ActivityHome() {
         <p>{data[1].name}</p>
       </div> */}
 
+
+
+
       {/* .........收藏列表/進階篩選 btn......... */}
-      <div className={styles.like_selector}>
+      <div className={styles.selector}>
         <div className="container-inner">
           <ActivityLikeWithSelector />
+
+          <ActivityFormSelectors />
         </div>
       </div>
 

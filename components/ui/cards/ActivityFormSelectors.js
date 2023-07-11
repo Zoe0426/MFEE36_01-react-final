@@ -71,7 +71,7 @@ const ActivityFormSelectors = () => {
         }}
       >
         <Form name="time_related_controls" onFinish={onFinish}>
-          <Form.Item name="range-picker" label="RangePicker" {...rangeConfig}>
+          <Form.Item name="range-picker" label="活動日期" {...rangeConfig}>
             <RangePicker />
           </Form.Item>
 
@@ -84,16 +84,11 @@ const ActivityFormSelectors = () => {
             />
           </div>
 
-          <Form.Item
-            wrapperCol={{
-              xs: { span: 24, offset: 0 },
-              sm: { span: 24, offset: 0 },
-            }}
-          >
-            <Button type="primary" htmlType="submit">
+         
+          <Button type="primary" htmlType="submit">
               送出
-            </Button>
-          </Form.Item>
+          </Button>
+          
         </Form>
       </ConfigProvider>
     </div>

@@ -70,13 +70,14 @@
   
   /* 標題 */ 
   .row_text_title {
+    color: var(--dark);
     font-size: var(--h2fs32);
     font-weight: var(--fwbold);
     margin-bottom: 15px;
   }
   
   .row_price{
-    font-size: var(--h6fs18);
+    font-size: var(--h5fs20);
     color: var(--dark);
   }
   
@@ -84,6 +85,7 @@
   .row_icon{
     margin-right: 5px;
     font-size: var(--h6fs18);
+    color: var(--main);
   }
   
   /* 評分 */
@@ -111,17 +113,18 @@
   
   .ppl_qty_row{
     margin-bottom: 15px;
+    font-size: var(--h6fs18);
   }
   
   .row_total_price{
-    font-size: var(--h6fs18);
     display: flex;
     align-items: center;
     margin-bottom: 15px;
     font-weight: var(--fwbold);
   }
 
-  .total_price_color{
+  .total_price{
+    font-size: var(--h4fs24);
     color: var(--main);
   }
 
@@ -137,11 +140,11 @@
   
   /* 統一字體 */
   .row_text_medium {
-    font-size: var(--h6fs18);
+    font-size: var(--h5fs20);
   }
 
   .row_text_small {
-    font-size: var(--pfs16);
+    font-size: var(--h6fs18);
   }
 
 /* ------------------下方資訊---------------------- */
@@ -164,7 +167,7 @@
 
 .content{
     display: flex;
-    line-height: 24px;
+    line-height: 30px;
     margin: 30px 0;
 }
 
