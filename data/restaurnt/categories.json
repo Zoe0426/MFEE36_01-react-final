@@ -1,0 +1,52 @@
+{
+  "categorySid": [
+    {
+      "label": "早午餐",
+      "value": "brunch"
+    },
+    {
+      "label": "下午茶",
+      "value": "afternoon_tea"
+    },
+    {
+      "label": "餐酒館",
+      "value": "bistro"
+    },
+    {
+      "label": "火鍋",
+      "value": "hot_pot"
+    },
+    {
+      "label": "燒烤",
+      "value": "barbecue"
+    },
+    {
+      "label": "咖啡與茶",
+      "value": "coffee_tea"
+    },
+    {
+      "label": "中式料理",
+      "value": "chinese_cuisine"
+    },
+    {
+      "label": "日式料理",
+      "value": "japan_cuisine"
+    },
+    {
+      "label": "韓式料理",
+      "value": "koren_cuisine"
+    },
+    {
+      "label": "美式料理",
+      "value": "us_cuisine"
+    },
+    {
+      "label": "義式料理",
+      "value": "italian_cuisine"
+    },
+    {
+      "label": "冰品",
+      "value": "ice"
+    }
+  ]
+}

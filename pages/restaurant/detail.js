@@ -23,7 +23,6 @@ import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
 import PinkBtn from '@/components/ui/restaurant/PinkBtn';
 import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
-import { faChevronCircleRight } from '@fortawesome/free-solid-svg-icons';
 
 export default function RestInfo() {
   return (
