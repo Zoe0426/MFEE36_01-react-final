@@ -59,15 +59,29 @@
   margin-bottom: 8px;
 }
 
-/* .rowText {
-  margin-right: 8px;
-} */
 
 
 /* 標題 */
 .rowTextTitle {
   font-weight: var(--fwbold);
   margin-right: 8px;
+}
+
+.review{
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  }
+
+.star_icon {
+  margin-right: 5px;
+  color: var(--starYellow);
+  font-size: var(--h6fs18);
+}
+
+.row_icon{
+  margin-right: 5px;
+  font-size: var(--h6fs18);
 }
 
 /* 地址 */
@@ -88,12 +102,6 @@
   font-size: var(--pfs16);
 }
 
-.rowIcon {
-  width: 24px;
-  height: 24px;
-  background-color: #000000;
-  margin-right: 8px;
-}
 
 .feature {
   width: 130px;

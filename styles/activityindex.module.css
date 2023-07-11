@@ -10,16 +10,24 @@
     object-fit: cover;
 }
 
-.selector{
-    width: 100%;
-    height: 109px;
-    background: rgb(198, 192, 192);
+.like_selector{
+    background: var(--light1);
 }
 
 .type{
     width: 100%;
-    height: 269px;
-    background: rgb(216, 190, 190);
+    background: var(--light1);
+}
+
+.type_btn_group{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:80px 0;
+}
+
+.type_decoration{
+    height: 100%;
 }
 
 .section1{
@@ -36,6 +44,7 @@
 .section2{
     height: 602px;
     background:var(--light2);
+    margin-top: 70px;
 }
 
 .section3{
