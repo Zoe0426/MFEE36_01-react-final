@@ -1,0 +1,8 @@
+.btn_group{
+    display: flex;
+    justify-content: end;
+}
+
+.btn{
+    margin-right: 20px;
+}

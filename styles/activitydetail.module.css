@@ -1,16 +1,179 @@
-.text_large{
-    font-size: var(--h3fs28);
-    margin-bottom: .375rem;
-}
-
-.banner{
+/* ------------------上方資訊---------------------- */
+.card {
+    display: flex;
     width: 100%;
-    height: 280px;
-    background: rgb(215, 215, 215);
-}
-
-.banner_pic{
+    
+  }
+  
+  /* -------左邊------- */
+  .left {
+    position: relative;
+    width: 60%;
+  }
+  
+  .image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: var(--br10) 0 0 var(--br10);
+  }
+  
+  .overlay_left {
+    position: absolute;
+    top: 50%;
+    left: 2%;
+    width: 35px;
+    height: 35px;
+    background-color: var(--light-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .overlay_right {
+    position: absolute;
+    top: 50%;
+    right: 2%;
+    width: 35px;
+    height: 35px;
+    background-color: var(--light-gray);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    background-color:var(--light-gray);
+  }
+  
+  /* -------右邊------- */
+  .right {
+    width: 40%;
+    margin-left: 61px;
+  }
+  
+  .row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .row_text {
+    margin-right: 8px;
+  }
+  
+  
+  /* 標題 */ 
+  .row_text_title {
+    font-size: var(--h2fs32);
+    font-weight: var(--fwbold);
+    margin-bottom: 15px;
+  }
+  
+  .row_price{
+    font-size: var(--h6fs18);
+    color: var(--dark);
+  }
+  
+  /* 四-六段 icon */
+  .row_icon{
+    margin-right: 5px;
+    font-size: var(--h6fs18);
+  }
+  
+  /* 評分 */
+  .review{
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  }
+  
+  .star_icon {
+    margin-right: 5px;
+    color: var(--starYellow);
+    font-size: var(--h6fs18);
+  }
+  
+  .row_date{
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .ppl_qty{
+    display: flex;
+  }
+  
+  .ppl_qty_row{
+    margin-bottom: 15px;
+  }
+  
+  .row_total_price{
+    font-size: var(--h6fs18);
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-weight: var(--fwbold);
+  }
+
+  .total_price_color{
+    color: var(--main);
+  }
+
+  .row_btn{
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+
+  .btn{
+    margin-right: 20px;
+  }
+  
+  /* 統一字體 */
+  .row_text_medium {
+    font-size: var(--h6fs18);
+  }
+
+  .row_text_small {
+    font-size: var(--pfs16);
+  }
+
+/* ------------------下方資訊---------------------- */
+
+.nav_detail{
+    margin: 100px 0;
+}
+
+.feature{
+   display: flex;
+   justify-content: center; 
+}
+
+.subtitle{
+    color: var(--main);
+    font-size: var(--h3fs28);
+    font-weight: var(--fwbold);
+    margin-bottom: 30px;
+}
+
+.content{
+    display: flex;
+    line-height: 24px;
+    margin: 30px 0;
+}
+
+.content_image{
+    width: 45%;
+    margin-left: 70px;
+}
+
+.content_image_reverse{
+    width: 45%;
+    margin-right: 70px;
 }

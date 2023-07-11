@@ -1,9 +1,12 @@
 
-.form{
-  height: 180px;
-  background-color: gray;
-  margin-bottom: 50px;
+.loginForm{
+  width: 70%;
+  /* background-color: lightblue; */
+  margin: 50px auto;
+
 }
+
+
 
 .line{
   position: relative;
@@ -18,16 +21,34 @@
   position: absolute;
   font-size: var(--pfs14);
   text-align: center;
-  bottom: -5px;
+  bottom: -10px;
   left: 50%;
   transform: translate(-50%, 0);
   background-color: #fff;
 }
 
-.btns{
-  height: 70px;
-  background-color: pink;
+.btnsContain{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  /* background-color: pink; */
   margin-bottom: 50px;
+}
+
+.forgetPwd{
+  text-decoration: none;
+}
+
+.forgetPwd:hover{
+  color: #1f9ec5be;
+}
+
+.btns{
+  display: flex;
+}
+
+.btn{
+  margin: 10px;
 }
 
 .google{

@@ -67,6 +67,16 @@
   margin-right: 8px;
 }
 
+.review{
+  display: flex;
+}
+
+.star_icon{
+  margin-right: 5px;
+  color: var(--starYellow);
+  font-size: var(--h6fs18);
+}
+
 /* 地址 */
 .rowTextAddress {
   color: var(--gray);
@@ -80,11 +90,9 @@
   font-size: var(--pfs16);
 }
 
-.rowIcon {
-  width: 24px;
-  height: 24px;
-  background-color: #6c6b6b;
-  margin-right: 8px;
+.row_icon {
+  margin-right:8px;
+  font-size: var(--h6fs18);
 }
 
 .feature {

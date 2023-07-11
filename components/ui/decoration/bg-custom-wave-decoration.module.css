@@ -1,0 +1,22 @@
+/*客製背景wave圖*/
+.head_decoration{
+    position: relative;
+}
+
+.head_decoration>div{
+    height:105px;
+    overflow: hidden;
+}
+
+.head_decoration img:nth-child(2){
+    position: absolute;
+    left:10%;
+    bottom: 0;
+}
+
+.head_decoration img:nth-child(3){
+    position: absolute;
+    right:10%;
+    bottom: 0;
+}
+

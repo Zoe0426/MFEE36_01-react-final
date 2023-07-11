@@ -1,0 +1,47 @@
+{
+    "typeForPet":[
+        {
+            "label": "汪星人",
+            "value": "dog"},
+        {
+            "label": "喵星人",
+            "value": "cat"}
+    ],
+    "categoryDetailSid":[
+        {
+            "label": "飼料",
+            "value": "food"},
+        {
+            "label": "罐頭",
+            "value": "can"},
+        {
+            "label": "零食",
+            "value": "snack"},
+        {
+            "label": "保健品",
+            "value": "health"},
+        {
+            "label": "服飾",
+            "value": "dress"},
+        {
+            "label": "戶外用品",
+            "value": "outdoor"},
+        {
+            "label": "玩具",
+            "value": "toy"},
+        {
+            "label": "其他",
+            "value": "other"}
+    ],    
+    "typeForAge":[
+        {
+            "label": "幼年",
+            "value": "younger"},
+        {
+            "label": "成年",
+            "value": "aldult"},
+        {
+            "label": "高齡",
+            "value": "elder"}
+    ]
+}

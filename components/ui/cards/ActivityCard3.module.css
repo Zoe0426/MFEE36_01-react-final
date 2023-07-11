@@ -1,6 +1,6 @@
 .card {
-    width: 363px;
-    height: 152px;
+    width: 30%;
+    /* height: 152px; */
     display: flex;
     margin-bottom: 1.5rem;
 }
@@ -10,14 +10,15 @@
     width: 152px;
     height: 100%;
     border-radius: 50%;
-    background-image: url('/activity_img/asian-young-girl-holding-kittens-park.jpg');
-    background-size: cover;
-    background-position: center;
+    /* background-image: url('/activity_img/asian-young-girl-holding-kittens-park.jpg'); */
+    /* background-size: cover;
+    background-position: center; */
+    object-fit: cover;
   }
   
   
 .content {
-    padding: var(--p16);
+    padding: 0 0 0 var(--p16);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
