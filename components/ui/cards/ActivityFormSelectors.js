@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Radio, Button, DatePicker, Form } from 'antd';
+import { Radio, Button, DatePicker, Form, ConfigProvider } from 'antd';
 const { RangePicker } = DatePicker;
 
 const ActivityFormSelectors = () => {
@@ -57,33 +57,45 @@ const ActivityFormSelectors = () => {
       'radio-value': value1,
     };
     console.log('Received values of form: ', values);
-
-   
   };
 
   return (
     <div className="container-inner">
-      <Form name="time_related_controls" onFinish={onFinish}>
-        <Form.Item
-          name="range-picker"
-          label="RangePicker"
-          {...rangeConfig}
-          
-        >
-          <RangePicker />
-        </Form.Item>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#FD8C46',
+            fontSize: 18,
+            controlInteractiveSize: 18,
+          },
+        }}
+      >
+        <Form name="time_related_controls" onFinish={onFinish}>
+          <Form.Item name="range-picker" label="RangePicker" {...rangeConfig}>
+            <RangePicker />
+          </Form.Item>
 
-        <div>
-          <p>活動類別：</p>
-          <Radio.Group options={plainOptions} onChange={onChange1} value={value1} />
-        </div>
+          <div>
+            <p>活動類別：</p>
+            <Radio.Group
+              options={plainOptions}
+              onChange={onChange1}
+              value={value1}
+            />
+          </div>
 
-        <Form.Item wrapperCol={{ xs: { span: 24, offset: 0 }, sm: { span: 24, offset: 0 } }}>
-          <Button type="primary" htmlType="submit">
-            送出
-          </Button>
-        </Form.Item>
-      </Form>
+          <Form.Item
+            wrapperCol={{
+              xs: { span: 24, offset: 0 },
+              sm: { span: 24, offset: 0 },
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              送出
+            </Button>
+          </Form.Item>
+        </Form>
+      </ConfigProvider>
     </div>
   );
 };
