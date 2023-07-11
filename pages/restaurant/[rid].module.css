@@ -1,5 +1,5 @@
 .jill_h2 {
-  font-size: var(--h4fs24);
+  font-size: var(--h3fs28);
   font-weight: var(--fwbold);
   padding-bottom: var(--p16);
 }
@@ -18,12 +18,18 @@
 
 .filter_box{
     padding-top: 20px;
-
+    padding-bottom: 80px;
+}
+.line{
+    border-bottom:1px solid var(--gray) ;
+    opacity: 0.5;
+    margin-top: 12px;
 }
 .filter_btns {
   display: flex;
   justify-content: flex-end;
   margin-top: 80px;
+
   height: 56px;
 }
 .filter_btns > button {
@@ -44,6 +50,7 @@
   justify-content: flex-end;
   align-items: center;
   padding-top: var(--p16);
+  padding-bottom: 8px;
 }
 
 .function_group > * {

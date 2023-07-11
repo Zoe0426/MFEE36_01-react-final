@@ -1,7 +1,7 @@
 .filter{
     display: flex;
     align-items: center;
-    height:50px ;
+    height:56px ;
 }
 .labels{
     font-size:var(--h6fs18) ;

@@ -15,7 +15,7 @@ import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 export default function FilterPage() {
   const { categorySid } = filterDatas;
   const [showfilter, setShowFilter] = useState(false);
-  //篩選BOX相關的函式-------------------------------------------------------
+  //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
     setShowFilter(!showfilter);
   };
@@ -34,10 +34,14 @@ export default function FilterPage() {
             />
           </div>
         </div>
-        <div className="container-inner">
-          <div className={Styles.filter_box}>
-            {showfilter && (
-              <>
+        {/* 進階篩選的畫面 */}
+        {showfilter && (
+          <>
+            <div className="container-outer">
+              <div className={Styles.line}></div>
+            </div>
+            <div className="container-inner">
+              <div className={Styles.filter_box}>
                 <RestaurantFilter
                   text="用餐類別"
                   data={categorySid}
@@ -48,10 +52,10 @@ export default function FilterPage() {
                   <SecondaryBtn text="重置" />
                   <MainBtn text="確定" />
                 </div>
-              </>
-            )}
-          </div>
-        </div>
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <TopAreaBgc />
 
