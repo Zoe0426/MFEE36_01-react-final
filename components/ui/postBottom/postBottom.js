@@ -12,6 +12,7 @@ export default function PostBottom() {
         <PostPhotoCard img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' boardName='#友善景點版' bc='green' title='寵物友善景點推薦' content='十分推薦新莊寵物公園！就在新月橋附近，可以帶毛小孩去跑跑也可以...'/>
         <PostPhotoCard img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' boardName='#友善景點版' bc='green' title='寵物友善景點推薦' content='十分推薦新莊寵物公園！就在新月橋附近，可以帶毛小孩去跑跑也可以...'/>
         <PostPhotoCard img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' boardName='#友善景點版' bc='green' title='寵物友善景點推薦' content='十分推薦新莊寵物公園！就在新月橋附近，可以帶毛小孩去跑跑也可以...'/>
+        <PostPhotoCard img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' boardName='#友善景點版' bc='green' title='寵物友善景點推薦' content='十分推薦新莊寵物公園！就在新月橋附近，可以帶毛小孩去跑跑也可以...'/>
     </div>
     </div>       
 </div>

@@ -15,7 +15,7 @@
     position: relative;
 }
 .bottomContent{
-    max-width: 1280px;
+    max-width: 70%;
     /* border: 1px solid purple; */
     margin: auto;
     display: flex;
@@ -25,7 +25,7 @@
 .bottomWord{
     position:absolute;
     top:60px;
-    left:250px;
+    left:18%;
     z-index: 9999;
     font-size: var(--h5fs20);
     font-weight: var(--fwbold);

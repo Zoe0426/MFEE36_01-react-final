@@ -1,0 +1,21 @@
+/*貓走路到森林的背景圖*/
+.head_decoration{
+    position: relative;
+    margin:0;
+    padding: 0;
+    height:100px;
+}
+
+.head_decoration img:nth-child(2){
+    position: absolute;
+    left:10%;
+    top:0;
+    bottom: 0;
+}
+
+.head_decoration img:nth-child(3){
+    position: absolute;
+    right:10%;
+    bottom: 0;
+    top:0;
+}
