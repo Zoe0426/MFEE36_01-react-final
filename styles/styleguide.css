@@ -107,6 +107,25 @@ a:hover,a:link,a:visited,a:active{
   color: var(--dark-gray);
 }
 
+/* ant design form-item */
+.ant-form-item{
+  padding-bottom: 30px;
+}
+
+/* ant design radio */
+/* .ant-radio-wrapper:hover .ant-radio-inner {
+  border-color: var(--main);
+}
+
+.ant-radio-wrapper .ant-radio-checked .ant-radio-inner{
+  background-color: var(--main);
+  border-color: var(--main);
+}
+
+
+.ant-radio-wrapper .ant-radio-inner::after{
+  background-color: var(--main);
+} */
 
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -157,11 +176,15 @@ body{
 }
 
 
+
+
 /* ---------------- */
 
 .order{
   height: 1200px;
 }
+
+
 
 /* -------------------- */
 @media screen and (max-width:1920px) and (min-width:768px){
