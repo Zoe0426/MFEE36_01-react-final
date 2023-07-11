@@ -4,9 +4,9 @@ import HomeShopCard from '@/components/ui/cards/homeShopCard';
 import style from '@/styles/home.module.css';
 import HomeLayout from '@/components/layout/home-layout';
 import HomeMainBtn from '@/components/ui/buttons/homeMainBtn';
-import SubBtn from '@/components/ui/buttons/subBtn';
+import HashTag from '@/components/ui/hashtag/hashtag';
 import MainBtn from '@/components/ui/buttons/MainBtn';
-SubBtn;
+import Image from 'next/image';
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })
@@ -56,6 +56,23 @@ export default function Home() {
       price: '599',
     },
   ];
+  const hashShop = [
+    '飼料',
+    '罐頭',
+    '零食',
+    '玩具',
+    '保健品',
+    '服飾',
+    '戶外用品',
+  ];
+  const hashActivity = [
+    '狗狗健行趣',
+    '寵物瑜伽',
+    '喵星人的外星派對',
+    '萌寵大對決',
+  ];
+  const hashForum = ['#討論毛孩大小事', '#各式主題看板', '#專屬毛孩日記'];
+  const res1 = ['免費水', '有賣食物', '可自由奔跑'];
   return (
     <>
       <Head>
@@ -77,15 +94,15 @@ export default function Home() {
               className={style.gwmtitle}
               alt="title"
             />
-            <img
-              src="/home-images/h-walkingCat.png"
-              className={style.cat}
-              alt="walkingCat"
-            />
           </div>
         </main>
       </header>
       <Row className={style.mainBtnSection}>
+        <img
+          src="/home-images/h-walkingCat.png"
+          className={style.cat}
+          alt="walkingCat"
+        />
         <img
           src="/home-images/h-btnbg.jpg"
           alt="btnbg"
@@ -146,13 +163,9 @@ export default function Home() {
                 </p>
 
                 <div className={style.hhashes}>
-                  <p className={style.hhash}>飼料</p>
-                  <p className={style.hhash}>罐頭</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>玩具</p>
-                  <p className={style.hhash}>保健品</p>
-                  <p className={style.hhash}>服飾</p>
-                  <p className={style.hhash}>戶外用品</p>
+                  {hashShop.map((h, i) => {
+                    return <HashTag key={i} text={h} marginB="mb8" />;
+                  })}
                 </div>
                 <MainBtn text="看更多商品" />
               </article>
@@ -172,76 +185,73 @@ export default function Home() {
                 </p>
 
                 <div className={style.hhashes}>
-                  <p className={style.hhash}>狗狗健行趣</p>
-                  <p className={style.hhash}>寵物瑜伽</p>
-                  <p className={style.hhash}>喵星人的外星派對</p>
-                  <p className={style.hhash}>萌寵大對決</p>
+                  {hashActivity.map((h, i) => {
+                    return <HashTag key={i} text={h} marginB="mb8" />;
+                  })}
                 </div>
-                <button>看更多活動</button>
+                <MainBtn text="看更多活動" />
               </article>
             </Col>
             <Col className={style.hrCards} xs={24} sm={24} md={14}></Col>
           </Row>
           <Row className={style.hSection}>
-            <Col className={style.hlCards} xs={24} sm={24} md={14}></Col>
+            <Col className={style.hlCards} xs={24} sm={24} md={14}>
+              <div className={style.hresCard}>
+                <Image
+                  src="/rest_image/sunshine.jpeg"
+                  width={310}
+                  height={215}
+                  alt="resPhoto"
+                ></Image>
+                <p className={style.resName}>陽光莊園</p>
+                <p className={style.cityArea}>桃園市 ‧ 大園區</p>
+                <p className={style.resDetail}>
+                  是一間寵物與親子友善餐廳，地點就在桃園大園區。裡面有大片草地給小朋友...
+                </p>
+                {res1.map((h, i) => {
+                  return <HashTag key={i} text={h} marginB="mb8" />;
+                })}
+              </div>
+            </Col>
             <Col sxs={24} sm={24} md={10}>
               <article>
-                <p className={style.hstitle}>寵物商城</p>
-                <p className={style.hetitle}>SHOP WITH ME</p>
-                <p className={style.hsubtitle}>
-                  毛孩的吃喝玩樂都在寵物商城！ 各大品牌狗貓飼料、用品通通有!
-                  毛爸媽安心購買，更別錯過每日特殺活動喔~
-                </p>
+                <p className={style.hstitle}>寵物餐廳</p>
+                <p className={style.hetitle}>EAT WITH ME</p>
+                <ul className={style.hsubtitle}>
+                  <li>* 地圖上玲瑯滿目的餐廳讓你們眼花撩亂？</li>
+                  <li>* 搜尋寵物友善餐廳，卻找到不相關的訊息?</li>
+                  <li>* 找到寵物友善餐廳，卻有好多規則不清楚？</li>
+                </ul>
+
                 <p className={style.hp}>
-                  探索我們的寵物商城，為您的毛小孩尋找完美的驚喜！我們提供精選的寵物用品，從食品到玩具，應有盡有。{' '}
-                </p>
-                <p className={style.hp}>
-                  我們致力於提供最高品質的產品，經過嚴格挑選和測試，讓您的寶貝獲得最好的呵護。購物輕鬆方便，讓您和您的寶貝享受無與倫比的購物體驗！
+                  狗with咪統整多家寵物友善餐廳並結合預約服務，包含豐富的餐食類別，透過多元的篩選功能（如：餐廳類別、攜帶規範、服務項目以及地區等），找到合適的用餐環境，讓飼主和毛寶貝能夠一起快樂用餐！{' '}
                 </p>
 
-                <div className={style.hhashes}>
-                  <p className={style.hhash}>飼料</p>
-                  <p className={style.hhash}>罐頭</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>玩具</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>零食</p>
-                </div>
-                <button>看更多商品</button>
+                <MainBtn text="看更多餐廳" />
               </article>
             </Col>
           </Row>
           <Row className={style.hSection}>
             <Col className={style.hInfo} xs={24} sm={24} md={10}>
               <article>
-                <p className={style.hstitle}>寵物商城</p>
-                <p className={style.hetitle}>SHOP WITH ME</p>
+                <p className={style.hstitle}>寵物論壇</p>
+                <p className={style.hetitle}>CHAT WITH ME</p>
                 <p className={style.hsubtitle}>
-                  毛孩的吃喝玩樂都在寵物商城！ 各大品牌狗貓飼料、用品通通有!
-                  毛爸媽安心購買，更別錯過每日特殺活動喔~
+                  無論是醫療、安親、各式各樣吃喝玩樂，從毛孩出生到衰老，狗with咪開放性寵物論壇，陪你一起討論毛孩大小事。一起解決毛孩各種疑難雜症！
                 </p>
                 <p className={style.hp}>
-                  探索我們的寵物商城，為您的毛小孩尋找完美的驚喜！我們提供精選的寵物用品，從食品到玩具，應有盡有。{' '}
+                  我們提供一個熱情、友善的平台，讓您和其他寵物家長們共同分享探討飼養訓練、健康和生活等議題。我們鼓勵大家分享故事、提出問題、回答疑惑，一同建立一個充滿愛和關懷的寵物社群。
                 </p>
                 <p className={style.hp}>
-                  我們致力於提供最高品質的產品，經過嚴格挑選和測試，讓您的寶貝獲得最好的呵護。購物輕鬆方便，讓您和您的寶貝享受無與倫比的購物體驗！
+                  加入我們，一起追尋寵物與人類的無限快樂！
                 </p>
 
                 <div className={style.hhashes}>
-                  <p className={style.hhash}>飼料</p>
-                  <p className={style.hhash}>罐頭</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>玩具</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>零食</p>
-                  <p className={style.hhash}>零食</p>
+                  {hashForum.map((h, i) => {
+                    return <HashTag key={i} text={h} marginB="mb8" />;
+                  })}
                 </div>
-                <button>看更多商品</button>
+                <MainBtn text="前往論壇" />
               </article>
             </Col>
             <Col className={style.hrCards} xs={24} sm={24} md={14}></Col>

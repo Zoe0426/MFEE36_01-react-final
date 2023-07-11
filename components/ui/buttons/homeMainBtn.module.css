@@ -4,6 +4,7 @@
 .hMBtnimg{
     width: 98%;
     transition: all 0.3s;
+   
 }
 .hMBtnimg:hover{
     width: 100%;

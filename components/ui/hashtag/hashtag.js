@@ -1,10 +1,16 @@
-import React from 'react'
-import Styles from './HashTag.module.css'
+import React from 'react';
+import Styles from './hashtag.module.css';
 
-export default function HashTag({ text = '' }) {
+export default function HashTag({ text = '', marginB = '' }) {
   return (
     <>
-      <p className={Styles.hash_tag}>{text}</p>
+      <p
+        className={`${Styles.hash_tag} ${
+          marginB === 'mb8' ? Styles.marginB : ''
+        }`}
+      >
+        {text}
+      </p>
     </>
-  )
+  );
 }

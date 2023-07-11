@@ -1,5 +1,22 @@
-
-
+.hresCard{
+    background-color: white;
+    padding: var(--p32);
+    border-radius: var(--br10);
+    box-shadow: var(--shadow);
+}
+.resName{
+    font-size: var(--h4fs24);
+    font-weight: bold;
+    padding: var(--p24) 0;
+}
+.cityArea{
+    font-size: var(--pfs16);
+    color: var(--gray);
+    padding-bottom: var(--p16);
+}
+.resDetail{
+    padding-bottom: var(--p32);
+}
 .d-center{
     display: flex;
     justify-content: center;
@@ -11,6 +28,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid pink;
 }
 .gwmphoto{
     width: 95%;
@@ -24,10 +42,11 @@
 }
 .cat{
     position: absolute;
-    top: 75%;
-    left: 4%;
+    top: -28%;
+    left: 1%;
     width: 15%;
-    z-index:99;
+  
+    border: 1px solid green;
 }
 
 .mainBtnSection{
@@ -89,11 +108,16 @@ align-items: center;
 }
 .hsubtitle{
     font-size: var(--h5fs20);
-    line-height: 32px;
+    line-height: 28px;
     padding: var(--p24) 0;
+    font-weight: bold;
+}
+.hsubtitle li{
+    font-size: var(--h5fs20);
+    line-height: 32px;
 }
 .hp{
-    font-size: 16px;
+    font-size: var(--pfs16);
     line-height: 20px;
     margin-bottom: 10px;
 }
@@ -102,13 +126,7 @@ align-items: center;
     flex-wrap: wrap;
     padding: var(--p32) 0;
 }
-.hhash{
-    padding: var(--p8) var(--p16);
-    background-color: var(--light1);
-    border-radius: var(--br20);
-    margin-right: 10px;
-    margin-bottom: 10px;
-}
+
 
 @media screen and (max-width:767px){
 

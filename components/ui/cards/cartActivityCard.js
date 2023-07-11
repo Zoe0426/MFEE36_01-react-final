@@ -22,6 +22,8 @@ export default function CartActivityCard({
       theme={{
         token: {
           colorPrimary: '#FD8C46',
+          fontSize: 20,
+          controlInteractiveSize: 20,
         },
       }}
     >

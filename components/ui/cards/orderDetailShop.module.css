@@ -1,14 +1,11 @@
+
 .productCard{
-    /* border: 1px solid black; */
     display: flex;
     align-items: center;
     padding: var(--p16) 0px;
     border-bottom: 1px dashed var(--secondary);
 }
-.checkbox{
-     margin-right: 16px;
-    
-}
+
 .prodimg{
     width: 80px;
     border-radius: var(--br8);
@@ -18,7 +15,6 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
-    /* border: 1px solid red; */
 }
 .prodname{
     flex-grow: 1;
@@ -33,26 +29,30 @@
     font-size: var(--pfs16);
     color: var(--main);
 }
-.price{
-    width: 10%;
-    /* border: 1px solid red; */
-    color: var(--gray);
-    text-align: end;
-    margin-right: 32px;
+.prodDetail{
+  display: flex;
+  width: 40%;
 }
-.numberstyle{
-    border-radius: 8px;
-    border: 1px solid var(--light-gray);
-    width: 60px;
-    margin-right: 16px;
-    text-align: center;
-    color: var(--dark-gray);
+.price{
+  width: 33%;
+  color: var(--gray);
+  text-align: end; 
+}
+
+.times{
+  display: none;
+}
+.qty{
+  width: 33%;
+  text-align: end;
+  color: var(--gray);
 }
 .subtotal{
+    flex-grow: 1;
     text-align: end;
     width: 40px;
-    color: var(--main);
-    margin-right: 16px;
+    color: var(--gray);
+    font-weight: bold;
 }
 
 @media screen and (max-width:767px){
@@ -61,19 +61,32 @@
     align-items: flex-start;
 }
 .subtotal{
-    display: none;
+    /* display: none; */
 }
 .prodname{
-    margin-bottom: 16px;
+    margin-bottom: 8px;
 }
 .price{
     text-align: start;
     margin-bottom: 8px;
+    width: 40px;
+}
+.qty{
+  text-align: start;
+  padding-left: var(--p8);
 }
 .prodtitle{
     font-size: var(--pfs16);
 }
 .prodSubtitle{
     font-size: var(--pfs14);
+}
+
+.prodDetail{
+  display: flex;
+  width: 100%;
+}
+.times{
+  display: block;
 }
 }

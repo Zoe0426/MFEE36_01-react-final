@@ -1,5 +1,7 @@
+
+
 .detailSection{
-   padding: var(--p32) 0;
+   padding: 32px 0 32px 0;
 }
 .checkoutType{
     display: flex;
@@ -69,7 +71,7 @@
     width: 16%;
     background-color: white;
     box-shadow: var(--shadow);
-    padding: 16px;
+    padding: var(--p16);
     border-radius: var(--br10);
 }
 
@@ -91,7 +93,12 @@
     display: block;
     margin-left: auto;
 }
-
+.runningdog{
+    transform: scaleX(-1) rotate(20deg);
+    position: absolute;
+    left: 190px;
+    width: 100px;
+}
 @media screen and (max-width:767px){
 .totalCard{
     position: relative;
@@ -101,5 +108,19 @@
 .totalSection{
     padding-left: 0px;
 
+}
+
+.headcat{
+
+    left: 3%;
+    width: 60px;
+}
+.headtrees{
+
+    right: 3%;
+    width: 60px;
+}
+.heading{
+    text-align: center;
 }
 }

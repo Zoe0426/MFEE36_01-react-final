@@ -1,14 +1,11 @@
+
 .productCard{
-    /* border: 1px solid black; */
     display: flex;
     align-items: center;
     padding: var(--p16) 0px;
     border-bottom: 1px dashed var(--secondary);
 }
-.checkbox{
-     margin-right: 16px;
-    
-}
+
 .prodimg{
     width: 80px;
     border-radius: var(--br8);
@@ -18,7 +15,6 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
-    /* border: 1px solid red; */
 }
 .prodname{
     flex-grow: 1;
@@ -33,26 +29,43 @@
     font-size: var(--pfs16);
     color: var(--main);
 }
-.price{
-    width: 10%;
-    /* border: 1px solid red; */
-    color: var(--gray);
-    text-align: end;
-    margin-right: 32px;
+.prodDetail{
+  display: flex;
+  width: 40%;
+  min-width: 200px;;
+
 }
-.numberstyle{
-    border-radius: 8px;
-    border: 1px solid var(--light-gray);
-    width: 60px;
-    margin-right: 16px;
-    text-align: center;
-    color: var(--dark-gray);
+.detailblock{
+  width: 35%;
+
+}
+.price{
+  width: 50%;
+  color: var(--gray);
+  text-align: end; 
+}
+
+.times{
+  display: none;
+   color: var(--gray);
+}
+.qty{
+  text-align: end;
+  color: var(--gray);
+
+  padding-right: var(--p16);
 }
 .subtotal{
+    flex-grow: 1;
     text-align: end;
     width: 40px;
-    color: var(--main);
-    margin-right: 16px;
+    color: var(--gray);
+    font-weight: bold;
+}
+.qtyblock{
+  display: flex;
+  justify-content: space-between;
+
 }
 
 @media screen and (max-width:767px){
@@ -60,20 +73,40 @@
     flex-direction: column;
     align-items: flex-start;
 }
-.subtotal{
-    display: none;
-}
+
 .prodname{
     margin-bottom: 16px;
 }
 .price{
     text-align: start;
     margin-bottom: 8px;
+    width: 40px;
+}
+.qty{
+  text-align: start;
+  padding-left: var(--p8);
+  width: 40px;
 }
 .prodtitle{
     font-size: var(--pfs16);
 }
 .prodSubtitle{
     font-size: var(--pfs14);
+}
+
+.prodDetail{
+  display: flex;
+  width: 100%;
+}
+.times{
+  display: block;
+}
+.qtyblock{
+   display: flex;
+   justify-content: flex-start;
+  margin-top: 8px;
+}
+.detailblock{
+  width: auto;
 }
 }
