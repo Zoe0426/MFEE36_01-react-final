@@ -1,6 +1,5 @@
 import React from 'react';
 import Styles from './SignUpForm.module.css';
-import Link from 'next/link';
 import SecondaryBtn from '../buttons/SecondaryBtn';
 import MainBtn from '../buttons/MainBtn';
 import {
@@ -11,29 +10,35 @@ import {
   Row,
   Col,
   ConfigProvider,
-  Button,
   DatePicker,
 } from 'antd';
 
 export default function SignUpForm() {
   const onFinish = (values) => {
-    console.log('Success:', values);
+    console.log('選中的值:', values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const [form] = Form.useForm();
-  const handleReset = () => {
-    // 用 form.resetFields() 來重置表單
-    form.resetFields();
+
+  const handleSubmit = (values) => {
+    fetch('http://localhost:3002/member-api', {
+      method: 'POST',
+      body: JSON.stringify(values),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
+
   return (
     <>
       <Form
-        form={form}
         name="signUpForm"
         className={Styles.signUpForm}
-        onFinish={onFinish}
+        onFinish={handleSubmit}
         onFinishFailed={onFinishFailed}
       >
         <Row gutter={16}>
@@ -41,7 +46,7 @@ export default function SignUpForm() {
             <Form.Item
               label="姓名"
               className={Styles.formItem}
-              name={'name'}
+              name="name"
               rules={[
                 {
                   required: true,
@@ -71,7 +76,7 @@ export default function SignUpForm() {
         <Form.Item
           label="帳號"
           className={Styles.formItem}
-          name={'email'}
+          name="email"
           rules={[
             {
               required: true,
@@ -118,7 +123,7 @@ export default function SignUpForm() {
         >
           <Input.Password size="large" />
         </Form.Item>
-        <Form.Item label="生日">
+        <Form.Item label="生日" name="birthday">
           <DatePicker
             size="large"
             style={{
@@ -126,41 +131,41 @@ export default function SignUpForm() {
             }}
           />
         </Form.Item>
-        <Form.Item name="gender" label="性別">
-          <ConfigProvider
-            theme={{
-              components: {
-                Radio: {
-                  colorPrimary: '#FD8C46',
-                },
+        <ConfigProvider
+          theme={{
+            components: {
+              Radio: {
+                colorPrimary: '#FD8C46',
               },
-            }}
-          >
+            },
+          }}
+        >
+          <Form.Item label="性別" name="gender">
             <Radio.Group>
               <Radio value="男"> 男 </Radio>
               <Radio value="女"> 女 </Radio>
               <Radio value="其他"> 其他 </Radio>
             </Radio.Group>
-          </ConfigProvider>
-        </Form.Item>
-        <Form.Item name="pet" label="寵物">
-          <ConfigProvider
-            theme={{
-              components: {
-                Radio: {
-                  colorPrimary: '#FD8C46',
-                },
+          </Form.Item>
+        </ConfigProvider>
+        <ConfigProvider
+          theme={{
+            components: {
+              Radio: {
+                colorPrimary: '#FD8C46',
               },
-            }}
-          >
+            },
+          }}
+        >
+          <Form.Item label="寵物" name="pet">
             <Radio.Group>
               <Radio value="狗"> 狗 </Radio>
               <Radio value="貓"> 貓 </Radio>
               <Radio value="狗貓"> 狗貓 </Radio>
               <Radio value="其他"> 其他 </Radio>
             </Radio.Group>
-          </ConfigProvider>
-        </Form.Item>
+          </Form.Item>
+        </ConfigProvider>
         <Row gutter={16}>
           <Col xl={12} lg={24} md={24} sm={24} xs={24}>
             <Form.Item name="city" label="縣市">
@@ -177,22 +182,18 @@ export default function SignUpForm() {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item label="地址" className={Styles.formItem} name={'address'}>
+        <Form.Item label="地址" className={Styles.formItem} name="address">
           <Input size="large" />
         </Form.Item>
 
         <div className={Styles.btns}>
           <div className={Styles.btn}>
-            <SecondaryBtn onClick={handleReset} text="取消" />
+            <SecondaryBtn text="取消" htmltype="reset" />
           </div>
           <div className={Styles.btn}>
-            <MainBtn text="完成" />
+            <MainBtn text="完成" htmltype="submit" />
           </div>
         </div>
-        <Button onClick={handleReset} htmlType="reset">
-          取消
-        </Button>
-        <Button htmlType="submit">完成</Button>
       </Form>
     </>
   );
