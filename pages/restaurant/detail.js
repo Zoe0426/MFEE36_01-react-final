@@ -1,6 +1,8 @@
 import React from 'react';
 import Styles from './detail.module.css';
 import IconBtn from '@/components/ui/buttons/IconBtn';
+import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
+import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import RateStar from '@/components/ui/rateStar/RateStar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -97,29 +99,10 @@ export default function RestInfo() {
                 </div>
               </div>
               {/* button */}
-              <div className={Styles.rest_group_btn}>
-                <div className={Styles.half_btn}>
-                  <button className={Styles.icon_btn}>
-                    <FontAwesomeIcon icon={faHeart} className={Styles.icon} />
-                    收藏餐廳
-                  </button>
-                  <button className={Styles.icon_btn}>
-                    <FontAwesomeIcon
-                      icon={faFileLines}
-                      className={Styles.icon}
-                    />
-                    餐廳菜單
-                  </button>
-                </div>
-                <div className={Styles.full_btn}>
-                  <button className={Styles.full_icon_btn}>
-                    <FontAwesomeIcon
-                      icon={faCalendar}
-                      className={Styles.icon}
-                    />
-                    我要預約
-                  </button>
-                </div>
+              <div className={Styles.detail_main_buttom}>
+                <IconSeconBtn icon={faHeart} text="收藏餐廳" />
+                <IconSeconBtn icon={faFileLines} text="餐廳菜單" />
+                <IconMainBtn icon={faCalendar} text="我要預約" />
               </div>
             </div>
           </div>

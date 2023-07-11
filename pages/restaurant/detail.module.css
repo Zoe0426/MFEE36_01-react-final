@@ -138,71 +138,28 @@
   font-size: var(--pfs16);
   line-height: 2;
 }
-.rest_group_btn {
-  margin-top: var(--p16);
-}
-
-.half_btn {
-  display: flex;
-  gap: 12px;
-}
-.full_btn {
-  margin-top: 12px;
-}
-.icon_btn {
-  padding: var(--p16) 20px;
-  border-radius: var(--br10);
-  border: 0;
-  font-size: var(--pfs16);
-  color: var(--dark-gray);
-  background-color: transparent;
-  border: 1px solid var(--gray);
-  transition: 0.3s;
-  flex: 1;
-}
-.full_icon_btn {
-  padding: var(--p16) 20px;
-  border-radius: var(--br10);
-  border: 0;
-  width: 100%;
-  font-size: var(--pfs16);
-  color: white;
-  background-color: var(--main);
-  border: 1px solid var(--main);
-  transition: 0.3s;
-}
-.full_icon_btn:hover {
-  color: var(--main);
-  border: 1px solid var(--secondary);
-  background-color: var(--secondary);
-  cursor: pointer;
-
-}
-
-.icon {
-  margin-right: 8px;
-  font-size: var(--pfs16);
-}
-
-.icon_btn:hover {
-  background-color: var(--light-gray);
-  cursor: pointer;
-}
-
-.icon_btn {
-  font-size: var(--pfs16);
-  flex-grow: 1;
-  margin: 0 2px;
-  margin-top: 20px;
-}
 
 .CloudTop {
   height: 70px;
   overflow: hidden;
 }
-.comment{
-    display: flex;
-    margin-bottom: 48px;
+.comment {
+  display: flex;
+  margin-bottom: 48px;
+}
+.detail_main_buttom {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.detail_main_buttom > button {
+  flex: 1;
+  margin-right: 16px;
+}
+
+.detail_main_buttom > button:last-child {
+  margin-right: 0px;
 }
 
 @media screen and (max-width: 767px) {
@@ -262,13 +219,19 @@
     padding-top: 60px;
   }
 
-  .rest_group_btn {
-    margin-top: 12px;
+  
+  .detail_main_buttom {
+    margin-top: 32px;
+    flex-wrap: wrap;
   }
-  .icon_btn {
-    padding: 16px;
+
+  .detail_main_buttom > button {
+    flex: 0 0 48%;
+    margin-right: 0px;
   }
-  .full_icon_btn {
-    padding: 16px;
+
+  .detail_main_buttom > button:last-child {
+    margin-top: 16px;
+    flex: 0 0 100%;
   }
 }
