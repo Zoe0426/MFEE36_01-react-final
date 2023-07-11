@@ -53,24 +53,8 @@
 
 *{
     font-size: 16px;
-    
 }
 
-html,body{
-  height: 100%;
-  }
-  
-  #__next{
-    height: 100%;
-  }
-
-html,body{
-  height: 100%;
-}
-
-#__next{
-  height: 100%;
-}
 
 html,body{
   height: 100%;
@@ -96,9 +80,7 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	/* font-size: 100%; */
   color: var(--dark-gray);
-	/* font: inherit; */
 	vertical-align: baseline;
   box-sizing: border-box;
 }
