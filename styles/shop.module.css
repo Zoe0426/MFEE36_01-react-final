@@ -14,8 +14,6 @@
     padding-top:var(--p32);
 }
 
-
-
 /*篩選按鈕，不可刪除*/
 .btns>button:nth-child(2){
     margin-left: var(--p16);
@@ -141,8 +139,9 @@
 
 /*商品名稱*/
 .detail_main_title{
-    font-size: var(--h1fs36);
+    font-size: var(--h2fs32);
     font-weight: var(--fwbold);
+    line-height: 1.3;
 }
 
 /*所有主要訊息區的右邊tiltle字體都固定*/
@@ -277,7 +276,8 @@
 /*付款方式*/
 
 .detail_spec_text, .detail_ship_text{
-    font-size: var(--pfs16);
+    font-size: var(--h6fs18);
+    line-height: 1.3;
 }
 
 
@@ -342,8 +342,8 @@
     align-items: flex-start;
 }
 
-.detail_text_box h4, .detail_return_box h4{
-    font-size: var(--h5fs20);
+.detail_text_box h6, .detail_return_box h6{
+    font-size: var(--h6fs18);
     font-weight: var(--fwbold);
     width: 150px;
     text-align-last: justify;
@@ -351,15 +351,20 @@
 }
 
 .detail_text_box>li>p, .detail_return_box>li>p, .detail_return_box>li>ol{
-    flex:1
+    flex:1;
+    font-size: var(--h6fs18);
 }
 
 .detail_return_box>li>ol{
     padding-left: var(--p16);
     line-height: 1.5;
     list-style-type: decimal;
+    
 }
+.detail_return_box>li>ol>li{
+    font-size: var(--h6fs18);
 
+}
 
 
 /*評論區*/
@@ -416,7 +421,7 @@ overflow: hidden;
 
 .reconmand_products_title{
     margin-left:var(--p16);
-    font-size: var(--h2fs32);
+    font-size: var(--h3fs28);
     font-weight:var(--fwbold);
 }
 

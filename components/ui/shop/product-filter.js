@@ -13,7 +13,8 @@ export default function ProductFilter({
         token: {
           colorPrimary: '#FD8C46',
           colorText: 'rgb(81, 81, 81)',
-          fontSize: 18,
+          fontSize: 20,
+          fontSizeLG: 20,
           controlInteractiveSize: 18,
         },
       }}

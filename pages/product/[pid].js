@@ -296,9 +296,9 @@ export default function Product() {
             </div>
             <div className={styles.detail_main_info}>
               <div className="detail_main_upper">
-                <h1 className={styles.detail_main_title}>
+                <h2 className={styles.detail_main_title}>
                   {datatForProductMain.name}
-                </h1>
+                </h2>
                 <RateStar
                   score={datatForProductMain.avg_rating}
                   text={`( 已有99人購買，這邊需要再拉API資料 )`}
@@ -373,7 +373,7 @@ export default function Product() {
                 <div>
                   <h5 className={styles.detail_title}>運送方式</h5>
                   <p className={styles.detail_ship_text}>
-                    黑貓黑貓宅配 / 7-11取貨 / 全家取貨
+                    黑貓宅配 / 7-11取貨 / 全家取貨
                   </p>
                 </div>
               </div>
@@ -401,15 +401,15 @@ export default function Product() {
 
             <ul className={styles.detail_text_box}>
               <li>
-                <h4>品牌:</h4>
+                <h6>品牌:</h6>
                 <p>{datatForProductMain.supplier_name}</p>
               </li>
               <li>
-                <h4>產地:</h4>
+                <h6>產地:</h6>
                 <p>{datatForProductMain.made_in_where}</p>
               </li>
               <li>
-                <h4>商品詳述 :</h4>
+                <h6>商品詳述 :</h6>
                 <p
                   dangerouslySetInnerHTML={{
                     __html: datatForProductMain.description,
@@ -419,14 +419,14 @@ export default function Product() {
             </ul>
             <ul className={styles.detail_return_box}>
               <li>
-                <h4>退換規定:</h4>
+                <h6>退換規定:</h6>
                 <p>
                   商品到貨享十天猶豫期之權益（注意！猶豫期非試用期）
                   ，辦理退貨商品必須是全新狀態且包裝完整，商品一經拆封，等同商品價值已受損，僅能以福利品出售，若需退換貨，我方須收取價值損失之費用(回復原狀、整新費)，請先確認商品正確、外觀可接受，再行開機/使用，以免影響您的權利，祝您購物順心
                 </p>
               </li>
               <li>
-                <h4>特別說明:</h4>
+                <h6>特別說明:</h6>
                 <ol>
                   <li>
                     本公司收到您下單(要約)後，仍需確認交易條件正確、供貨商品有庫存或服務可提供。如有無法接受訂單之異常情形，或您下單後未能完成正常付款，應視為訂單(買賣契約)全部自始不成立或失效，本公司得於合理期間內通知說明拒絕接受訂單。請您重新依需求下單訂購。

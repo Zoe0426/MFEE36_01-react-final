@@ -98,7 +98,13 @@ export default function ProdoctIndex() {
             <Row gutter={{ xs: 0, sm: 0, md: 16 }}>
               {eightCatergoriesData.map((e) => {
                 return (
-                  <Col span={3} key={e.id} className={styles.eight_icons}>
+                  <Col
+                    xs={{ span: 6 }}
+                    sm={{ span: 6 }}
+                    md={{ span: 3 }}
+                    key={e.id}
+                    className={styles.eight_icons}
+                  >
                     <SubBtn
                       img={e.icon}
                       text={e.text}

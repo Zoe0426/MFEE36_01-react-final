@@ -11,7 +11,7 @@
 
 .history_title{
     font-size: var(--h6fs18);
-    font-weight: var(--fwbold);
+    /* font-weight: var(--fwbold); */
     padding-bottom: var(--p16);
     border-bottom: 1px solid white;
     letter-spacing: 3px
@@ -52,7 +52,7 @@
 
 .history_reset{
     font-size: var(--h6fs18);
-    font-weight: var(--fwbold);
+    /* font-weight: var(--fwbold); */
     padding-top: var(--p16);
     border-top: 1px solid white;
     letter-spacing: 3px
