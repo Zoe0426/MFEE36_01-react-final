@@ -6,7 +6,7 @@ export default function RoundBtn({ icon = '', src = '' }) {
   return (
     <div className={styles.roundBtn}>
       <Link href={src}>
-        <img src={icon} className={styles.rb - icon} alt="" />
+        <img src={icon} className={styles.rbIcon} alt="" />
       </Link>
     </div>
   );

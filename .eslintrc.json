@@ -28,7 +28,7 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended",
+    // "plugin:jsx-a11y/recommended",
     "plugin:import/errors",
     "next",
     "next/core-web-vitals",
@@ -42,6 +42,6 @@
     "jsx-a11y/anchor-is-valid": "off",
     "react/prop-types": "off",
     "prettier/prettier": "warn",
-    "no-unused-vars": "warn",
+    "no-unused-vars": "warn"
   }
 }

@@ -1,28 +1,24 @@
-.pageTag{
-  width: 100%;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  border-bottom: 3px solid #FD8C46;
+.content{
+  min-height: 1000px;
+  background-color: var(--light1);
+  border-radius: 0 0 20px 20px;
+  padding: 30px;
 }
 
-.tag{
-  width: 120px;
-  height: 100%;
+.couponContent{
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width:1300px) and (min-width:769px){
+  .couponContent{
+    justify-content: center;
+  }
+  }
+  
+@media screen and (max-width:768px){
+.couponContent{
   justify-content: center;
-  margin-right: 40px;
-  border-radius: 10px 10px 0 0;
-  cursor: pointer;
 }
-
-.active{
-  background-color: var(--main);
-  color: #fff;
 }
-@media screen and (max-width:767px){
-  .tag{
-    margin-right: 5px;
-  }
-  }

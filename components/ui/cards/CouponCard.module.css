@@ -1,0 +1,39 @@
+.coupon{
+  width: 40%;
+  height: 120px;
+  background-color: #fff;
+  border-radius: var(--br10);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.couponTitle,.couponText,.couponExpire{
+  margin-bottom: 10px;
+}
+
+.couponTitle{
+  color: var(--main);
+  font-size: var(--h3fs28);
+}
+
+.couponExpire{
+  color: var(--gray);
+	font-size: var(--pfs14);
+}
+
+@media screen and (max-width:1300px) and (min-width:769px){
+  .coupon{
+      width: 68%;
+  }
+
+  }
+  
+@media screen and (max-width:768px){
+  .coupon{
+    width: 100%;
+}
+
+}

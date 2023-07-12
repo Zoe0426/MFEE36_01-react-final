@@ -1,0 +1,22 @@
+
+.tag{
+  width: 120px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 40px;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+}
+
+.active{
+  background-color: var(--main);
+  color: #fff;
+}
+@media screen and (max-width:767px){
+  .tag{
+    margin-right: 5px;
+  }
+  }
+

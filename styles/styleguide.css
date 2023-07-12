@@ -82,10 +82,9 @@ time, mark, audio, video {
   color: var(--dark-gray);
 	vertical-align: baseline;
   box-sizing: border-box;
- 
 }
 h1, h2, h3, h4, h5, h6{
-   font-weight: normal;
+  font-weight: normal;
 }
 
 a:hover,a:link,a:visited,a:active{
@@ -172,44 +171,19 @@ body{
   height: 1200px;
 }
 
-.content{
+.pageTag{
   width: 100%;
-	border-radius: 0 0 20px 20px;
-  background-color: var(--light1);
-  margin-bottom: 400px;
-}
-
-.couponContent{
+  height: 56px;
+	margin-top: 20px;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.coupon{
-  width: 40%;
-  height: 120px;
-  background-color: #fff;
-  border-radius: var(--br10);
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  margin-bottom: 30px;
-}
-
-.couponTitle,.couponText,.couponExpire{
-  margin-bottom: 10px;
-}
-
-.couponTitle{
-  color: var(--main);
-  font-size: var(--h3fs28);
+  border-bottom: 3px solid #FD8C46;
 }
 
 
 
 /* -------------------- */
- @media screen and (max-width:1920px) and (min-width:768px){
+@media screen and (max-width:1920px) and (min-width:768px){
   .container-inner{
       width: 68%;
   }
@@ -221,22 +195,3 @@ body{
 }
 } 
 
-/* @media screen and (max-width:1300px) and (min-width:769px){
-  .coupon{
-      width: 68%;
-  }
-
-  .couponContent{
-    justify-content: center;
-  }
-  }
-  
-@media screen and (max-width:768px){
-  .coupon{
-    width: 100%;
-}
-
-.couponContent{
-  justify-content: center;
-}
-} */
