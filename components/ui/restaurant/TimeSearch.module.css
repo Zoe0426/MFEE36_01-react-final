@@ -35,10 +35,7 @@
 .arrow{
     margin-right: 100px;
 }
-.section{
-    padding: 0 16px;
-    width: 200px;
-}
+
 
 @media screen and (max-width:767px){
     .total_pages_rank>div>p{

@@ -11,6 +11,9 @@ import { faFilter, faHeart, faMap } from '@fortawesome/free-solid-svg-icons';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
+import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
+import LocationSearch from '@/components/ui/restaurant/LocationSearch';
+import TimeSearch from '@/components/ui/restaurant/TimeSearch';
 
 export default function FilterPage() {
   const { categorySid } = filterDatas;
@@ -42,6 +45,8 @@ export default function FilterPage() {
             </div>
             <div className="container-inner">
               <div className={Styles.filter_box}>
+                <LocationSearch text="用餐地區" />
+                <TimeSearch />
                 <RestaurantFilter
                   text="用餐類別"
                   data={categorySid}
@@ -65,11 +70,12 @@ export default function FilterPage() {
             <h2 className={Styles.jill_h2}>餐廳進階篩選結果</h2>
             <p>共64間餐廳</p>
           </div>
-          <select name="" id="" className={Styles.filter}>
+          <RestPageOrder />
+          {/* <select name="" id="" className={Styles.filter}>
             <option value="1">排序</option>
             <option value="2">2</option>
             <option value="3">3</option>
-          </select>
+          </select> */}
         </div>
       </div>
 

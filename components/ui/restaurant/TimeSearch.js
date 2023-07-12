@@ -1,11 +1,18 @@
 import React from 'react';
-import Styles from './LocationSearch.module.css';
+import Styles from './TimeSearch.module.css';
 import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Space, message, ConfigProvider } from 'antd';
+import {
+  DatePicker,
+  Button,
+  Dropdown,
+  Space,
+  message,
+  ConfigProvider,
+} from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-export default function LocationSearch({ text = '', totalItems = 0 }) {
+export default function TimeSearch({ totalItems = 0 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
     console.log('click left button', e);
@@ -14,6 +21,11 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
     message.info('Click on menu item.');
     console.log('click', e);
   };
+
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+  };
+  
   const items = [
     {
       label: '評價高到低',
@@ -50,20 +62,17 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
       <div className={Styles.total_pages_rank}>
         <div className={Styles.categor_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
-          <label className={Styles.labels}>{text}</label>
+          <label className={Styles.labels}>用餐日期</label>
+        </div>
+        <DatePicker onChange={onChange} />
+        <div className={Styles.categor_area}>
+          <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
+          <label className={Styles.labels}>用餐時間</label>
         </div>
         <Dropdown menu={menuProps} className={Styles.city}>
           <Button>
             <Space>
-              <p className={Styles.arrow}>城市</p>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
-        <Dropdown menu={menuProps} className={Styles.section}>
-          <Button>
-            <Space>
-              <p className={Styles.arrow}>地區</p>
+              <p className={Styles.arrow}>時間</p>
               <DownOutlined />
             </Space>
           </Button>
