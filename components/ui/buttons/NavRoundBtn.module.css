@@ -10,7 +10,7 @@
 .roundBtn:first-child{
     margin-right: 1rem;
 }
-.rb-icon{
+.rbIcon{
     width: 17px;
 }
 @media screen and (max-width:767px){
@@ -18,7 +18,7 @@
         width: 30px; 
         height: 30px; 
     }
-    .rb-icon{
+    .rbIcon{
         width: 15px;
     }   
     .roundBtn:first-child{
