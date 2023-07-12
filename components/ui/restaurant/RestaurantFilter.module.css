@@ -37,9 +37,12 @@
         height:auto;
         line-height: 1.1;
     }
+    .categor_area{
+        width: 100%;
+    }
     .filter{
         flex-wrap: wrap;
         height:auto;
-        margin-top: 16px;
+        margin-top: 24px;
     }
 }

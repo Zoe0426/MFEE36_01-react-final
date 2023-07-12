@@ -44,4 +44,14 @@
     .total_pages_rank>div>p{
         font-size:var(--pfs16) ;
     }
+    .labels{
+        width:100%;
+        text-align-last: auto;
+        height:auto;
+        line-height: 1.1;
+    }
+    .categor_area{
+        width: 100%;
+    }
+
     }

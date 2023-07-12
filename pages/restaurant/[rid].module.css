@@ -42,9 +42,6 @@
   margin-right: 0;
 }
 
-/* .day{
-  display: flex;
-} */
 
 .function_group {
   width: 100%;
@@ -88,5 +85,17 @@
     flex-wrap: wrap;
     height: auto;
     margin-top: 16px;
+  }
+  .filter_btns {
+    margin-top: 60px;
+  }
+
+  .filter_btns > button {
+    margin-right: 16px;
+    padding-top: 0;
+    width: 100%;
+    padding-bottom: 0;
+    line-height: 100%;
+    text-align: center;
   }
 }
