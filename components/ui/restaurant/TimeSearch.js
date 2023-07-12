@@ -25,7 +25,7 @@ export default function TimeSearch({ totalItems = 0 }) {
   const onChange = (date, dateString) => {
     console.log(date, dateString);
   };
-  
+
   const items = [
     {
       label: '評價高到低',
@@ -62,14 +62,14 @@ export default function TimeSearch({ totalItems = 0 }) {
       <div className={Styles.total_pages_rank}>
         <div className={Styles.categor_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
-          <label className={Styles.labels}>用餐日期</label>
+          <p className={Styles.labels}>用餐日期</p>
         </div>
-        <DatePicker onChange={onChange} />
+        <DatePicker onChange={onChange} className={Styles.date} />
         <div className={Styles.categor_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
-          <label className={Styles.labels}>用餐時間</label>
+          <p className={Styles.labels}>用餐時間</p>
         </div>
-        <Dropdown menu={menuProps} className={Styles.city}>
+        <Dropdown menu={menuProps} className={Styles.time}>
           <Button>
             <Space>
               <p className={Styles.arrow}>時間</p>

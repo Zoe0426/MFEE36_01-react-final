@@ -26,8 +26,11 @@
     color: var(--dark);
     margin-right: 10px;
 }
+.date{
+    width: 200px;
 
-.city{
+}
+.time{
     margin-right: 16px;
     padding: 0 16px;
     width: 200px;
