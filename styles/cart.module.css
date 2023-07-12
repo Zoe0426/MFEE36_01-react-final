@@ -39,6 +39,12 @@
     justify-content: space-between;
     align-items: center;
 }
+.info p{
+font-size: var(--h6fs18);
+}
+.info span{
+font-size: var(--h6fs18);
+}
 .details{
     padding: var(--p16) 0;
 }
