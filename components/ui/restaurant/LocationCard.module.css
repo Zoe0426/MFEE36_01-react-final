@@ -9,10 +9,11 @@
     height: 140px;
     width: 140px;
     margin-bottom: 10px;
+    margin-top: 20px;
     border-radius: 50%;
     position: relative;
-
 }
+
 .location_img img{
     position: absolute;
     width: 100%;
@@ -23,3 +24,14 @@
     font-size: var(--pfs16);
 }
 
+@media screen and (max-width:767px){
+    .location_img{
+        height: 88px;
+        width: 88px;
+        margin-bottom: 6px;
+
+    }
+    .location_name{
+        font-size: var(--pfs12);
+    }
+    }

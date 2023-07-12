@@ -1,19 +1,28 @@
 import React from 'react';
 import Styles from './detail.module.css';
 import IconBtn from '@/components/ui/buttons/IconBtn';
+import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
+import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import RateStar from '@/components/ui/rateStar/RateStar';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhone } from '@fortawesome/free-solid-svg-icons';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import { faClock } from '@fortawesome/free-solid-svg-icons';
-import { faPaw } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart,
+  faFileLines,
+  faPhone,
+  faLocationDot,
+  faClock,
+  faPaw,
+  faCalendar,
+} from '@fortawesome/free-solid-svg-icons';
 import Tab from '@/components/ui/restaurant/Tab';
-import FeatureCard from '@/components/ui/restaurant/FeatureCard';
+import FeatureCard from '@/components/ui/restaurant/featureCard';
 import ActivityCard from '@/components/ui/restaurant/ActivityCard';
 import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
 import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
+import PinkBtn from '@/components/ui/restaurant/PinkBtn';
+import { Col, Row } from 'antd';
+import CommentCard from '@/components/ui/cards/comment-card';
 
 export default function RestInfo() {
   return (
@@ -30,10 +39,26 @@ export default function RestInfo() {
       <div className="container-inner">
         <div className={Styles.rest_detail}>
           <div className={Styles.rest_image}>
-            <div className={Styles.rest_image_group}></div>
+            <div className={Styles.rest_image_main}>
+              <img src="/rest_image/sunshine.jpeg" alt="" />
+            </div>
+            <div className={Styles.rest_image_group}>
+              <div className={Styles.rest_image_single}>
+                <img src="/rest_image/sunshine_detail1.jpeg" alt="" />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img src="/rest_image/sunshine_detail2.jpeg" alt="" />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img src="/rest_image/sunshine_detail3.jpeg" alt="" />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img src="/rest_image/sunshine_detail4.jpeg" alt="" />
+              </div>
+            </div>
           </div>
           <div className={Styles.rest_info}>
-            <h1 className={Styles.jill_h1}>我家有休閒農場</h1>
+            <h1 className={Styles.jill_h1}>陽光莊園</h1>
             <RateStar score="4.8" />
             <p className={Styles.information}>
               一群熱愛生命有夢想的青年，在這2200平方的土地上開始建構毛小孩的奔跑空間，健康自製的料理飲品，無毒自然的溯源食材，我們知道，我們還有很多可以進步的地方，因為我們熱愛我們的家，熱愛每一個回家的家人~當歡迎光臨聲起，我們的微笑綻放，心裡默默念著…歡迎回家!!
@@ -72,19 +97,11 @@ export default function RestInfo() {
                   </p>
                 </div>
               </div>
-              <div className={Styles.rest_group_btn}>
-                <button className={Styles.icon_btn}>
-                  <FontAwesomeIcon icon={faPaw} className={Styles.icon} />
-                  我要預約
-                </button>
-                <button className={Styles.icon_btn}>
-                  <FontAwesomeIcon icon={faPaw} className={Styles.icon} />
-                  我要預約
-                </button>
-                <button className={Styles.icon_btn}>
-                  <FontAwesomeIcon icon={faPaw} className={Styles.icon} />
-                  我要預約
-                </button>
+              {/* button */}
+              <div className={Styles.detail_main_buttom}>
+                <IconSeconBtn icon={faHeart} text="收藏餐廳" />
+                <IconSeconBtn icon={faFileLines} text="餐廳菜單" />
+                <IconMainBtn icon={faCalendar} text="我要預約" />
               </div>
             </div>
           </div>
@@ -102,9 +119,61 @@ export default function RestInfo() {
       </div>
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>服務項目</h2>
+        <Row gutter={[48, 48]} className={Styles.row_gutter}>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可放繩" img="/rest_image/friendly/rope.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可自由活動" img="/rest_image/friendly/dog_run.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn
+              text="有賣寵物餐"
+              img="/rest_image/friendly/sell_food.png"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn
+              text="附寵物餐具"
+              img="/rest_image/friendly/tableware.png"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可上座椅" img="/rest_image/friendly/onchair.png" />
+          </Col>
+        </Row>
       </div>
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>攜帶規則</h2>
+        <Row gutter={[48, 48]}>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可放繩" img="/rest_image/friendly/rope.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可自由活動" img="/rest_image/friendly/dog_run.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn
+              text="有賣寵物餐"
+              img="/rest_image/friendly/sell_food.png"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn
+              text="附寵物餐具"
+              img="/rest_image/friendly/tableware.png"
+            />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
+          </Col>
+          <Col xl={4} xs={8}>
+            <PinkBtn text="可上座椅" img="/rest_image/friendly/onchair.png" />
+          </Col>
+        </Row>
       </div>
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>餐廳特色</h2>
@@ -128,7 +197,7 @@ export default function RestInfo() {
       </div>
       <div className={Styles.notion_bgc}>
         <div className="container-inner">
-          <h2 className={Styles.jill_h2}>預約叮嚀</h2>
+          <h2 className={Styles.jill_h2_notion}>預約叮嚀</h2>
           <div className={Styles.notion_frame}>
             <p>
               1. 事先了解店家規範：不論是去任何餐廳都應該先詳細了解店內規範。
@@ -160,6 +229,12 @@ export default function RestInfo() {
 
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>饕客評價</h2>
+        <div className={Styles.comment}>
+          <CommentCard />
+          <CommentCard />
+          <CommentCard />
+          <CommentCard />
+        </div>
       </div>
     </>
   );

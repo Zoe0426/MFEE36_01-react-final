@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap');
 :root {
     --main: #FD8C46;
     --secondary: #FFD4C0;
@@ -15,8 +15,7 @@
     --green: #A1D429;
     --heartRed:#EC5353;
     --starYellow: #FCC917;
-   /* font-size */
-    --starYellow:#FCC917;
+
     /* font-size */
     --h1fs36:2.25rem;
     --h2fs32:2rem;
@@ -53,9 +52,7 @@
   License: none (public domain)
 */
 
-*{
-    font-size: 16px;
-}
+
 
 
 html,body{
@@ -85,6 +82,7 @@ time, mark, audio, video {
   color: var(--dark-gray);
 	vertical-align: baseline;
   box-sizing: border-box;
+  font-weight: normal;
 }
 
 a:hover,a:link,a:visited,a:active{
@@ -121,6 +119,7 @@ body {
   color: var(--dark-gray);
   font-family: var(--fontCT);
   letter-spacing: 1px;
+  font-size: 16px;
 }
 
 

@@ -13,7 +13,7 @@ export default function RestTitle({ icon = '', text = '' }) {
           <h2 className={Styles.jill_h2}>{text}</h2>
         </div>
         <div className={Styles.show_more}>
-          <p>顯示更多</p>
+          <p className={Styles.more_text}>顯示更多</p>
           <FontAwesomeIcon icon={faArrowLeft} className={Styles.arrow} />
           <FontAwesomeIcon icon={faArrowRight} className={Styles.arrow} />
         </div>

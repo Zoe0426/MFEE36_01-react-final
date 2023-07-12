@@ -1,5 +1,5 @@
 .card {
-    width: 30%;
+    width: 32%;
     /* height: 152px; */
     display: flex;
     margin-bottom: 1.5rem;
@@ -25,22 +25,28 @@
 }
   
 .title {
-    font-family: 'Inter', sans-serif;
-    font-size: var(--h6fs18);
+    color: var(--dark);
+    font-size: var(--h5fs20);
+    font-weight: var(--fwbold);
 }
   
 .count {
-    font-size: var(--pfs16);
+    font-size: var(--h6fs18);
 }
   
 .location {
     display: flex;
     align-items: center;
-    font-size: var(--pfs16);
     color: #666666;
+}
+
+.location_text{
+    font-size: var(--h6fs18);
 }
   
 .icon {
+    font-size: var(--h6fs18);
     margin-right: 4px;
+    color: var(--main);
 }
   

@@ -1,19 +1,20 @@
 .history_box{
     width:5%;
-    background-color: var(--light3);
+    background-color: rgba(255, 255, 255, 0.709);
     border-radius: var(--br10);
     padding:var(--p16) 0;
     position: fixed;
     top:35%;
     left:calc(((100% - 1920px) / 2) + 1700px);
     text-align: center;
+    box-shadow: var(--shadow);
 }
 
 .history_title{
-    font-size: var(--h6fs18);
-    font-weight: var(--fwbold);
+    font-size: var(--pfs16);
+    /* font-weight: var(--fwbold); */
     padding-bottom: var(--p16);
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid var(--light-gray);
     letter-spacing: 3px
 }
 
@@ -43,7 +44,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--h6fs18);
+    font-size: var(--pfs14);
     /* font-weight: var(--fwbold); */
 }
 .history_img>img{
@@ -51,10 +52,10 @@
 }
 
 .history_reset{
-    font-size: var(--h6fs18);
-    font-weight: var(--fwbold);
+    font-size: var(--pfs16);
+    /* font-weight: var(--fwbold); */
     padding-top: var(--p16);
-    border-top: 1px solid white;
+    border-top: 1px solid  var(--light-gray);
     letter-spacing: 3px
 }
 

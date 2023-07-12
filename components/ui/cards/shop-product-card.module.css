@@ -53,8 +53,8 @@
 }
 
 .card_title{
-    font-size: var(--h5fs20);
-    font-weight: var(--fwbold);
+    font-size: var(--h6fs18);
+    /* font-weight: var(--fwbold); */
     text-align: justify;
     line-height: 1.3;
     display: -webkit-box;
@@ -64,7 +64,7 @@
 }
 
 .card_info{
-    font-size: var(--pfs16);
+    font-size: var(--h6fs18);
     padding-top:var(--p8);
     display: flex;
     justify-content: space-between;
@@ -80,4 +80,10 @@
     .icons{
         display: none;
     }
+
+    .card_info{
+        font-size: var(--pfs14);
+    }
+
+
     }

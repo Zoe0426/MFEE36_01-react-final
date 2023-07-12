@@ -1,5 +1,5 @@
-import React from 'react'
-import Styles from './Tab.module.css'
+import React from 'react';
+import Styles from './Tab.module.css';
 
 export default function Tab({
   text1 = '',
@@ -12,13 +12,13 @@ export default function Tab({
   return (
     <>
       <div className={Styles.tab_group}>
-        <p>{text1}</p>
-        <p>{text2}</p>
-        <p>{text3}</p>
-        <p>{text4}</p>
-        <p>{text5}</p>
-        <p>{text6}</p>
+        <p className={Styles.tab}>{text1}</p>
+        <p className={Styles.tab}>{text2}</p>
+        <p className={Styles.tab}>{text3}</p>
+        <p className={Styles.tab}>{text4}</p>
+        <p className={Styles.tab}>{text5}</p>
+        <p className={Styles.tab}>{text6}</p>
       </div>
     </>
-  )
+  );
 }

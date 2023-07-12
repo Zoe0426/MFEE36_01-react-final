@@ -7,6 +7,7 @@ import HomeMainBtn from '@/components/ui/buttons/homeMainBtn';
 import HashTag from '@/components/ui/hashtag/hashtag';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import Image from 'next/image';
+import HomeResCard from '@/components/ui/cards/homeResCard';
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })
@@ -196,22 +197,22 @@ export default function Home() {
           </Row>
           <Row className={style.hSection}>
             <Col className={style.hlCards} xs={24} sm={24} md={14}>
-              <div className={style.hresCard}>
-                <Image
-                  src="/rest_image/sunshine.jpeg"
-                  width={310}
-                  height={215}
-                  alt="resPhoto"
-                ></Image>
-                <p className={style.resName}>陽光莊園</p>
-                <p className={style.cityArea}>桃園市 ‧ 大園區</p>
-                <p className={style.resDetail}>
-                  是一間寵物與親子友善餐廳，地點就在桃園大園區。裡面有大片草地給小朋友...
-                </p>
-                {res1.map((h, i) => {
-                  return <HashTag key={i} text={h} marginB="mb8" />;
-                })}
-              </div>
+              <HomeResCard
+                stickerText="毛小孩與親子共遊"
+                src="/rest_image/sunshine.jpeg"
+                resName="陽光莊園"
+                cityArea="桃園市 ‧ 大園區"
+                resDetail="是一間寵物與親子友善餐廳，地點就在桃園大園區。裡面有大片草地給小朋友..."
+                reshash={res1}
+              />
+              <HomeResCard
+                stickerText="毛小孩與親子共遊"
+                src="/rest_image/sunshine.jpeg"
+                resName="陽光莊園"
+                cityArea="桃園市 ‧ 大園區"
+                resDetail="是一間寵物與親子友善餐廳，地點就在桃園大園區。裡面有大片草地給小朋友..."
+                reshash={res1}
+              />
             </Col>
             <Col sxs={24} sm={24} md={10}>
               <article>

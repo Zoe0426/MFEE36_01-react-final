@@ -1,0 +1,42 @@
+.total_pages_rank{
+    margin:48px 12px 48px 12px;
+}
+
+
+.total_pages_rank>div>p{
+    font-size: var(--h6fs18);
+}
+
+.filter{
+    display: flex;
+    align-items: center;
+    height:56px ;
+}
+.labels{
+    font-size:var(--h6fs18) ;
+    font-weight: var(--fwbold);
+    height: 100%;
+    line-height: 50px;
+    width:110px;
+    margin-right: 16px;
+}
+
+
+.categor_area{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.paw{
+    font-size: var(--h6fs18);
+    color: var(--dark);
+    margin-right: 10px;
+}
+
+@media screen and (max-width:767px){
+    .total_pages_rank>div>p{
+        font-size:var(--pfs16) ;
+    }
+    }

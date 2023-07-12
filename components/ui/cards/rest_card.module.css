@@ -5,7 +5,7 @@
 }
 .rest_title{
     display: flex;
-    margin-top: 12px;
+    margin-top: 8px;
     align-items: center; 
     justify-content: space-between; 
 }
@@ -36,8 +36,10 @@
     font-size: 14px;
 }
 .rest_name{
-    margin: 16px 0;
+    margin-top: var(--p16);
+    margin-bottom: 10px;
     font-size: var(--h5fs20);
+    font-weight: var(--fwbold);
 }
 .rest_location{
     font-size: var(--pfs16);

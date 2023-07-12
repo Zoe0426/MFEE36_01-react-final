@@ -28,7 +28,7 @@ export default function ShopProductCard({
           <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />
         </div>
         <div className={styles.card_body}>
-          <h6 className={styles.card_title}>{name}</h6>
+          <p className={styles.card_title}>{name}</p>
           <div className={styles.card_info}>
             <div className={styles.icons}>
               {avg_rating && <RateStarPill score={avg_rating} />}

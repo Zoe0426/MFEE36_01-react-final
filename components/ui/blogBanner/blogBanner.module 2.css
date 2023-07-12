@@ -1,0 +1,36 @@
+.banner{
+    background-color:#FFFAF6;
+    width:100%;
+    height:290px;
+    margin: 0;
+    padding: 0;
+    /* position:fixed; */
+}
+.bannerImg{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center -120px;
+    position: relative;
+}
+.searchArea{
+    background-color:var(--lightBrown);
+    padding: 0;
+    margin: 0;
+    height:120px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.searchBar{
+    position: absolute;
+    top:5px;
+    z-index: 999;
+    display: flex;
+    margin-left:250px;
+}
+.blogDec{
+    position: absolute;
+    top:20px;
+    /* z-index: 999; */
+}

@@ -17,7 +17,7 @@
 .boardBTM{
   width:100%;
   position: absolute;
-  top:450px;
+  top:455px;
 }
 .boardNavbar{
   margin-bottom: 50px;
@@ -34,5 +34,5 @@
   height:100%;
   display:flex;
   justify-content: center;
-  z-index: 999;
+  z-index: 90;
 }
