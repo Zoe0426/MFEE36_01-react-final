@@ -6,8 +6,31 @@ import ActivityCard2 from '@/components/ui/cards/ActivityCard2';
 import ActivityCard3 from '@/components/ui/cards/ActivityCard3';
 import ActivityFormSelectors from '@/components/ui/cards/ActivityFormSelectors';
 
+import { useEffect, useState } from "react";
+import Head from "next/head";
+
 
 export default function ActivityHome() {
+
+  // 連node
+  // const [data, setData] = useState({
+  //   redirect: "",
+  //   totalRows: 0,
+  //   perPage: 4,
+  //   totalPages: 0,
+  //   page: 1,
+  //   rows: [],
+  // });
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:3002/activity-api`)
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setData(data);
+  //     });
+  // }, []);
+
 
   return (
     <div>
@@ -20,12 +43,24 @@ export default function ActivityHome() {
         />
       </div>
 
-      <ActivityFormSelectors />
+      
+
+
+      {/* <div>
+        <div>測試 連接資料庫</div>
+        <p>{data[0].name}</p>
+        <p>{data[1].name}</p>
+      </div> */}
+
+
+
 
       {/* .........收藏列表/進階篩選 btn......... */}
-      <div className={styles.like_selector}>
+      <div className={styles.selector}>
         <div className="container-inner">
           <ActivityLikeWithSelector />
+
+          <ActivityFormSelectors />
         </div>
       </div>
 
@@ -66,6 +101,7 @@ export default function ActivityHome() {
             <p className={styles.title}>TOP 4 熱門活動</p>
           </div>
           <div className={styles.section_card}>
+
           <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
           <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
           </div>

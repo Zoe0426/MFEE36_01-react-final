@@ -68,7 +68,7 @@ const ActivityCard4 = ({
 
         <div className={styles.row}>
           <div className={styles.rowTextIntro}>
-            <p className={styles.rowTextExtraSmall}>{content}</p>
+            <p className={styles.content}>{content}</p>
           </div>
         </div>
 
@@ -82,7 +82,7 @@ const ActivityCard4 = ({
         </div>
         
         <div>
-          <p className={styles.rowTextSmall}>${price} (大人) ${price/2} (小孩)</p>
+          <p className={styles.price}>${price} (大人) ${price/2} (小孩)</p>
         </div>
       </div>
     </div>

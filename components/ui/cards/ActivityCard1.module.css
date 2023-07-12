@@ -83,16 +83,16 @@
 }
 
 .rowTextLarge {
+  color: var(--dark);
   font-size: var(--h6fs18);
 }
 
-.rowTextSmall {
-  font-size: var(--pfs16);
-}
+
 
 .row_icon {
   margin-right:8px;
   font-size: var(--h6fs18);
+  color: var(--main);
 }
 
 .feature {
@@ -103,4 +103,9 @@
   margin-right: 8px;
   display: flex;
   justify-content: space-between;
+}
+
+.row_price{
+  font-size: var(--pfs16);
+  color: var(--dark);
 }
