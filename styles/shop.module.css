@@ -51,6 +51,10 @@
 
 
 /*主頁滑動卡片的排版*/
+.product_card{
+    display:flex
+}
+
 .pet_type_cards{
     margin-left:5%;
     width:7000px;

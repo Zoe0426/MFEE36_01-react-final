@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/shop.module.css';
 import Image from 'next/image';
-import { Row } from 'antd';
+import { Row,Col } from 'antd';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
@@ -533,8 +533,8 @@ export default function Product() {
                       avg_rating,
                     } = v;
                     return (
-                      <ShopProductCard
-                        key={product_sid}
+                      <Col xs={12} sm={12} md={1} className={styles.product_card} key={product_sid}>
+                      <ShopProductCard                        
                         product_sid={product_sid}
                         category_detail_sid={category_detail_sid}
                         for_pet_type={for_pet_type}
@@ -546,7 +546,7 @@ export default function Product() {
                         min_price={min_price}
                         avg_rating={avg_rating}
                       />
-                    );
+                    </Col>);
                   })}
                 </Row>
               </div>

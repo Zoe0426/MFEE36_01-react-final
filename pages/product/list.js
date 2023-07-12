@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import styles from '@/styles/shop.module.css';
-import { Pagination, Row,Col } from 'antd';
+import { Pagination, Row, Col, ConfigProvider } from 'antd';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/like-list';
@@ -27,15 +28,31 @@ import filterDatas from '@/data/product/filters.json';
 
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
-export default function Catergory() {
-  const { typeForPet, categoryDetailSid, typeForAge } = filterDatas;
-  const { query, asPath } = useRouter();
 
-  const [datas, setDatas] = useState([]);
+export default function List() {
+  const { typeForPet, categoryDetailSid, typeForAge } = filterDatas;
+  const router = useRouter();
+  const [catergory, setCategory]=useState('');
+  //頁碼
+  const [currentPage, setCurrentPage] = useState(1);
+  const [keyword, setKeyword]=useState('')
+
+  console.log(router.query)
+  const [datas, setDatas] = useState({
+    totalRows: 0,
+    perPage: 16,
+    totalPages: 0,
+    page: 1,
+    rows: [],
+    // like:[],
+    brand:[]
+  });
+
+
   const [likeDatas, setLikeDatas] = useState([]);
-  const [brandDatas, setBrandDatas] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPages, settotalPages] = useState(0);
+//   const [brandDatas, setBrandDatas] = useState([]);
+//   const [totalItems, setTotalItems] = useState(0);
+//   const [totalPages, settotalPages] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
   //麵包屑寫得有點奇怪...
@@ -52,38 +69,55 @@ export default function Catergory() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { cid } = query;
+    const { category, page,keyword } = router.query;
+    setCategory(category || '')
+    setCurrentPage(page || 1)
+    setKeyword(keyword || '')
+    const usp=new URLSearchParams(router.query)
 
-    if (cid) {
-      (async function getData() {
-        const r = await fetch(
-          `http://localhost:3002/shop-api/maincard/${cid}`,
-          {
-            method: 'GET',
-          }
-        );
-        const backDatas = await r.json();
-        const { totalRows, cardData, likeDatas, brandDatas } = backDatas;
-        console.log(cardData);
-        if (totalRows) {
-          setTotalItems(totalRows);
-        }
-        if (cardData) {
-          setDatas(cardData);
-        }
-        if (totalPages) {
-          settotalPages(totalPages);
-        }
-        if (likeDatas) {
-          setLikeDatas(likeDatas);
-        }
+    fetch(`${process.env.API_SERVER}/shop-api/products?${usp.toString()}`)
+    .then(r=>r.json())
+    .then(obj=>{
+        
+        setDatas(obj);
+        setLikeDatas(obj.likeDatas);
+    })
+    .catch(error => {
+      // 處理錯誤情況
+      console.error(error);
+    });
 
-        if (brandDatas) {
-          setBrandDatas(brandDatas);
-        }
-      })();
-    }
-  }, [query]);
+
+    // if (cid) {
+    //   (async function getData() {
+    //     const r = await fetch(
+    //       `http://localhost:3002/shop-api/maincard/${cid}`,
+    //       {
+    //         method: 'GET',
+    //       }
+    //     );
+    //     const backDatas = await r.json();
+    //     const { totalRows, cardData, likeDatas, brandDatas } = backDatas;
+    //     console.log(cardData);
+    //     if (totalRows) {
+    //       setTotalItems(totalRows);
+    //     }
+    //     if (cardData) {
+    //       setDatas(cardData);
+    //     }
+    //     if (totalPages) {
+    //       settotalPages(totalPages);
+    //     }
+    //     if (likeDatas) {
+    //       setLikeDatas(likeDatas);
+    //     }
+
+    //     if (brandDatas) {
+    //       setBrandDatas(brandDatas);
+    //     }
+    //   })();
+    // }
+  }, [router.query]);
 
   //篩選BOX相關的函式-------------------------------------------------------
   const toggleFilter = () => {
@@ -134,16 +168,43 @@ export default function Catergory() {
     }
   };
 
+
+
+//searchBar相關的函式-------------------------------------------------------
+  const searchBarHandler=(e)=>{
+    let copyURL={...router.query,page:1}
+    if(e.key==='Enter'){
+      if(!keyword){
+      delete copyURL.keyword;
+      } else {
+        const searchText=e.target.value
+        copyURL={...copyURL,keyword:searchText}
+      }
+    router.push(`?${new URLSearchParams(copyURL).toString()}`)
+  }}
+
+  const searchBarClickHandler=()=>{
+    router.push(`?${new URLSearchParams({...router.query, keyword:keyword,page:1}).toString()}`)
+  }
+
+
   const onChange = (checkedValues) => {
     console.log('checked = ', checkedValues);
   };
+
   return (
     <>
       {/* <div className="container-outer"> */}
       <div className={styles.bgc_lightBrown}>
         <nav className="container-inner">
           <div className={styles.search_bar}>
-            <SearchBar placeholder="搜尋你愛的東西" btn_text="尋找商品" />
+            <SearchBar 
+            placeholder="搜尋你愛的東西" 
+            btn_text="尋找商品" 
+            inputText={keyword} 
+            changeHandler={(e)=>{setKeyword(e.target.value)}}
+            keyDownHandler={searchBarHandler}
+            clickHandler={searchBarClickHandler}  />
           </div>
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
@@ -201,7 +262,7 @@ export default function Catergory() {
                 />
                 <ProductFilter
                   text="品牌:"
-                  data={brandDatas}
+                  data={datas.brand}
                   needSpan={false}
                   onChange={() => {}}
                 />
@@ -227,9 +288,9 @@ export default function Catergory() {
       {/* </div> */}
       {/* <div className="container-outer"> */}
       <main className="container-inner">
-        <ShopTotalPagesRank totalItems={totalItems} />
+        <ShopTotalPagesRank totalItems={datas.totalRows} />
         <Row gutter={[32, 36]} className={styles.cards}>
-          {datas.map((v) => {
+          {datas.rows && datas.rows.map((v) => {
             const {
               product_sid,
               category_detail_sid,
@@ -243,9 +304,8 @@ export default function Catergory() {
               avg_rating,
             } = v;
             return (
-              <Col xs={12} sm={12} md={6} className={styles.product_card}>
-                <ShopProductCard
-                  key={product_sid}
+              <Col xs={12} sm={12} md={6} className={styles.product_card} key={product_sid}>
+                <ShopProductCard                  
                   product_sid={product_sid}
                   category_detail_sid={category_detail_sid}
                   for_pet_type={for_pet_type}
@@ -262,12 +322,31 @@ export default function Catergory() {
         </Row>
       </main>
       <div className={styles.pagination}>
-        <Pagination
-          defaultCurrent={1}
-          total={totalItems}
-          pageSize={16}
-          showSizeChanger={false}
-        />
+      <ConfigProvider
+        theme={{
+            token: {
+            colorPrimary:'#FD8C46', 
+            colorText:'#515151',
+            colorBgContainer: '#FFEFE8',
+            colorBgTextHover:'#FFEFE8',
+            colorBgTextActive:'#FFEFE8',
+            fontSize:18,
+            lineWidthFocus:1,
+            },
+        }}
+        >
+            <Pagination
+                defaultCurrent={currentPage}
+                total={datas.totalRows}
+                pageSize={datas.perPage}
+                showSizeChanger={false}
+                onChange={(page)=>{
+                    setCurrentPage(page)
+                    router.push(`?${new URLSearchParams({...router.query, page:page}).toString()}`)
+                }}
+
+            />
+        </ConfigProvider>
       </div>
       {/* </div> */}
     </>

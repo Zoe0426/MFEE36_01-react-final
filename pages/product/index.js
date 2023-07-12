@@ -160,20 +160,20 @@ export default function ProdoctIndex() {
                     avg_rating,
                   } = v;
                   return (
-                    <ShopProductCard
-                      key={product_sid}
-                      product_sid={product_sid}
-                      category_detail_sid={category_detail_sid}
-                      for_pet_type={for_pet_type}
-                      name={name}
-                      img={img}
-                      update_date={update_date}
-                      supplier={supplier}
-                      max_price={max_price}
-                      min_price={min_price}
-                      avg_rating={avg_rating}
-                    />
-                  );
+                    <Col xs={12} sm={12} md={1} className={styles.product_card} key={product_sid}>
+                      <ShopProductCard                        
+                        product_sid={product_sid}
+                        category_detail_sid={category_detail_sid}
+                        for_pet_type={for_pet_type}
+                        name={name}
+                        img={img}
+                        update_date={update_date}
+                        supplier={supplier}
+                        max_price={max_price}
+                        min_price={min_price}
+                        avg_rating={avg_rating}
+                      />
+                  </Col>);
                 })
               );
             })}
@@ -234,8 +234,8 @@ export default function ProdoctIndex() {
                 avg_rating,
               } = v;
               return (
-                <ShopProductCard
-                  key={product_sid}
+                <Col xs={12} sm={12} md={1} className={styles.product_card} key={product_sid}>
+                <ShopProductCard                  
                   product_sid={product_sid}
                   category_detail_sid={category_detail_sid}
                   for_pet_type={for_pet_type}
@@ -247,7 +247,7 @@ export default function ProdoctIndex() {
                   min_price={min_price}
                   avg_rating={avg_rating}
                 />
-              );
+              </Col>);
             })}
           </Row>
         </div>

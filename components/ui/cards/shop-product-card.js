@@ -16,7 +16,7 @@ export default function ShopProductCard({
   xs = 12,
 }) {
   return (
-    <Col xs={xs} sm={xs} md={col} className={styles.card}>
+    // <Col xs={xs} sm={xs} md={col} className={styles.card}>
       <Link
         className={styles.normal_card}
         href={`http://localhost:3000/product/${product_sid}`}
@@ -43,6 +43,6 @@ export default function ShopProductCard({
           </div>
         </div>
       </Link>
-    </Col>
+    // </Col>
   );
 }
