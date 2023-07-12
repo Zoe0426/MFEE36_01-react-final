@@ -82,7 +82,10 @@ time, mark, audio, video {
   color: var(--dark-gray);
 	vertical-align: baseline;
   box-sizing: border-box;
-  font-weight: normal;
+ 
+}
+h1, h2, h3, h4, h5, h6{
+   font-weight: normal;
 }
 
 a:hover,a:link,a:visited,a:active{
@@ -206,7 +209,7 @@ body{
 
 
 /* -------------------- */
-/* @media screen and (max-width:1920px) and (min-width:768px){
+ @media screen and (max-width:1920px) and (min-width:768px){
   .container-inner{
       width: 68%;
   }
@@ -216,9 +219,9 @@ body{
 .container-inner{
     width: 85%;
 }
-} */
+} 
 
-@media screen and (max-width:1300px) and (min-width:769px){
+/* @media screen and (max-width:1300px) and (min-width:769px){
   .coupon{
       width: 68%;
   }
@@ -236,4 +239,4 @@ body{
 .couponContent{
   justify-content: center;
 }
-}
+} */
