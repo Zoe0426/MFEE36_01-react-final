@@ -27,7 +27,7 @@ export default function RestaurantFilter({
         </div>
         <div className={Styles.checkBoxs}>
           <Checkbox.Group style={{ width: '100%' }} onChange={onChange} />
-          <Row gutter={[16, 8]}>
+          <Row gutter={[16, 16]}>
             {data.map((v) => {
               return (
                 <Col

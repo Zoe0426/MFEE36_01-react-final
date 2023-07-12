@@ -42,7 +42,6 @@ export default function FilterPage() {
             </div>
             <div className="container-inner">
               <div className={Styles.filter_box}>
-              
                 <RestaurantFilter
                   text="用餐類別"
                   data={categorySid}
