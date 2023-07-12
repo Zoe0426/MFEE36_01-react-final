@@ -444,13 +444,15 @@ overflow: hidden;
 
     /*貓狗大類別的圖示按鈕*/
     .pet_type_tabs{    
-        text-align: center;
-        margin: 56px 0;
+        margin:56px auto;
     }
 
     .pet_type_tabs span{
-        padding-left:var(--p8);
+        padding-right:var(--p8);
         font-size: var(--h5fs20);
+    }
+    .pet_type_tabs span:last-child{
+        padding-left:0;
     }
 
     .tab_active, .tab_normal{
