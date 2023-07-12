@@ -206,7 +206,7 @@ body{
 
 
 /* -------------------- */
-/* @media screen and (max-width:1920px) and (min-width:768px){
+ @media screen and (max-width:1920px) and (min-width:768px){
   .container-inner{
       width: 68%;
   }
@@ -216,24 +216,5 @@ body{
 .container-inner{
     width: 85%;
 }
-} */
+} 
 
-@media screen and (max-width:1300px) and (min-width:769px){
-  .coupon{
-      width: 68%;
-  }
-
-  .couponContent{
-    justify-content: center;
-  }
-  }
-  
-@media screen and (max-width:768px){
-  .coupon{
-    width: 100%;
-}
-
-.couponContent{
-  justify-content: center;
-}
-}

@@ -27,17 +27,18 @@
     margin-right: 10px;
 }
 .date{
-    width: 200px;
-
+    width: 416px;
+    margin-right: 100px;
 }
 .time{
     margin-right: 16px;
     padding: 0 16px;
-    width: 200px;
+    width: 416px;
 }
 .arrow{
-    margin-right: 100px;
+    margin-right: 320px;
 }
+
 
 
 @media screen and (max-width:767px){

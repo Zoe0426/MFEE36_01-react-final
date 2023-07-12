@@ -8,6 +8,8 @@ import {
   Space,
   message,
   ConfigProvider,
+  Row,
+  Col,
 } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
@@ -50,12 +52,13 @@ export default function TimeSearch({ totalItems = 0 }) {
       theme={{
         token: {
           colorBorder: '#DDDDDD',
-          colorPrimary: '#909090',
+          colorPrimary: '#FD8C46',
           colorBgContainer: 'rgba(255,255,255)',
           borderRadius: 10,
           controlHeight: 50,
           fontSize: 16,
           borderRadiusOuter: 10,
+
         },
       }}
     >
@@ -64,7 +67,8 @@ export default function TimeSearch({ totalItems = 0 }) {
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <p className={Styles.labels}>用餐日期</p>
         </div>
-        <DatePicker onChange={onChange} className={Styles.date} />
+
+        <DatePicker onChange={onChange} className={Styles.date}  placeholder="選擇日期" />
         <div className={Styles.categor_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <p className={Styles.labels}>用餐時間</p>
@@ -77,6 +81,7 @@ export default function TimeSearch({ totalItems = 0 }) {
             </Space>
           </Button>
         </Dropdown>
+
       </div>
     </ConfigProvider>
   );

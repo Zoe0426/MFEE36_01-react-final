@@ -38,7 +38,7 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
       theme={{
         token: {
           colorBorder: '#DDDDDD',
-          colorPrimary: '#909090',
+          colorPrimary: '#FD8C46',
           colorBgContainer: 'rgba(255,255,255)',
           borderRadius: 10,
           controlHeight: 50,
