@@ -1,11 +1,9 @@
 import React from 'react';
-import Styles from './LocationSearch.module.css';
+import Styles from './RestPageOrder.module.css';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Space, message, ConfigProvider } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-export default function LocationSearch({ text = '', totalItems = 0 }) {
+export default function RestPageOrder({ totalItems = 0 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
     console.log('click left button', e);
@@ -37,9 +35,9 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
     <ConfigProvider
       theme={{
         token: {
-          colorBorder: '#DDDDDD',
+          colorBorder: '#909090',
           colorPrimary: '#909090',
-          colorBgContainer: 'rgba(255,255,255)',
+          colorBgContainer: 'rgba(255,255,255,0.8)',
           borderRadius: 10,
           controlHeight: 50,
           fontSize: 16,
@@ -48,22 +46,11 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
       }}
     >
       <div className={Styles.total_pages_rank}>
-        <div className={Styles.categor_area}>
-          <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
-          <label className={Styles.labels}>{text}</label>
-        </div>
-        <Dropdown menu={menuProps} className={Styles.city}>
+      
+        <Dropdown menu={menuProps}>
           <Button>
             <Space>
-              <p className={Styles.arrow}>城市</p>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
-        <Dropdown menu={menuProps} className={Styles.section}>
-          <Button>
-            <Space>
-              <p className={Styles.arrow}>地區</p>
+              排序方式
               <DownOutlined />
             </Space>
           </Button>

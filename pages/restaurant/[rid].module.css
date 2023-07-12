@@ -7,7 +7,7 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   margin: 40px 0;
 }
 
@@ -42,6 +42,9 @@
   margin-right: 0;
 }
 
+/* .day{
+  display: flex;
+} */
 
 .function_group {
   width: 100%;

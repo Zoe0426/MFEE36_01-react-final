@@ -1,16 +1,16 @@
 .total_pages_rank{
-    margin:48px 12px 48px 0px;
-    display: flex;
+    margin:48px 12px 48px 12px;
 }
+
 
 .total_pages_rank>div>p{
     font-size: var(--h6fs18);
 }
-.categor_area{
+
+.filter{
     display: flex;
     align-items: center;
-    justify-content: center;
-
+    height:56px ;
 }
 .labels{
     font-size:var(--h6fs18) ;
@@ -21,23 +21,18 @@
     margin-right: 16px;
 }
 
+
+.categor_area{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
 .paw{
     font-size: var(--h6fs18);
     color: var(--dark);
     margin-right: 10px;
-}
-
-.city{
-    margin-right: 16px;
-    padding: 0 16px;
-    width: 200px;
-}
-.arrow{
-    margin-right: 100px;
-}
-.section{
-    padding: 0 16px;
-    width: 200px;
 }
 
 @media screen and (max-width:767px){

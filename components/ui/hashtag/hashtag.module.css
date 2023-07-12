@@ -5,6 +5,12 @@
 	margin-right: 12px;
 	display: inline-block;
 	color: var(--dark-gray);
+	background-color: var(--light1);
+	padding: var(--p8) var(--p16);
+	border-radius: 20px;
+	margin-right: 12px;
+	display: inline-block;
+	color: var(--dark-gray);
 }
 
 @media screen and (max-width:767px){
