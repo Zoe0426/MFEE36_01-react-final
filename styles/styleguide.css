@@ -15,8 +15,7 @@
     --green: #A1D429;
     --heartRed:#EC5353;
     --starYellow: #FCC917;
-   /* font-size */
-    --starYellow:#FCC917;
+
     /* font-size */
     --h1fs36:2.25rem;
     --h2fs32:2rem;
@@ -53,9 +52,7 @@
   License: none (public domain)
 */
 
-body{
-    font-size: 16px;
-}
+
 
 
 html,body{
@@ -122,6 +119,7 @@ body {
   color: var(--dark-gray);
   font-family: var(--fontCT);
   letter-spacing: 1px;
+  font-size: 16px;
 }
 
 
