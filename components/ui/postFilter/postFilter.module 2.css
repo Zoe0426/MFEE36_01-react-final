@@ -1,0 +1,19 @@
+.filter{
+    border-radius: 8px;
+    padding:0 10px;
+    background-color: var(--main);
+    color: white;
+    height: 40px;
+    margin-top:10px;
+    position: relative;
+}
+/* .option {
+    appearance: none;
+    background: #fff;
+    position: absolute;
+  } */
+@media screen and (max-width:767px){
+    .filter{
+        padding: var(--p8) 12px;
+    }
+    }

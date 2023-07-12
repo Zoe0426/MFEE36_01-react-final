@@ -1,0 +1,163 @@
+.sideBar{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left:40px;
+}
+
+.memberInfo{
+  width: 17vw;
+  height: 16vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--secondary);
+  /* border: 1px solid red; */
+  border-radius: var(--br20);
+  margin-bottom: 30px;
+}
+.blogFunc{
+  width: 17vw;
+  /* height: 18.5vw; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary);
+  /* border: 1px solid red; */
+  border-radius: var(--br20);
+  margin-bottom: 30px;
+  overflow: hidden;
+  padding:30px;
+}
+.func{
+  display: flex;
+  flex-direction: column;
+}
+
+.gameInfo{
+  width: 17vw;
+  height: 16vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: var(--secondary);
+  border: 1px solid red;
+  border-radius: var(--br20);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.orderCard{
+  height: 390px;
+  background-color: gray;
+}
+
+.profile{
+  width: 57%;
+  height: 60%;
+  border-radius: 50%;
+  /* border: 1px solid red; */
+  overflow: hidden;
+}
+
+.profile img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.memberName,.gameName{
+  font-size: var(--h4fs24);
+  color: var(--dark);
+  font-weight: var(--fwbold);
+  letter-spacing: 2px;
+  margin-right:10px;
+}
+
+.member,.gameLevel{
+  display: flex;
+  align-items: center;
+  margin-left:10px;
+}
+
+
+.levelTitle,.gameTitle{
+  margin-left: 5px;
+}
+
+.calendar{
+  width: 17vw;
+  height: 12.5vw;
+  background-color: #fff;
+}
+
+.calendarCircle{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.red,.green,.blue{
+  display: flex;
+  align-items: center;
+}
+
+.redCircle{
+  background-color: #EC5353;
+}
+
+.greenCircle{
+  background-color: #317F46;
+}
+
+.blueCircle{
+  background-color: #5CAAF3;
+}
+
+.redCircle,.greenCircle,.blueCircle{
+  width: 1vw;
+  height: 1vw;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.text,.gameLevel{
+  font-size: var(--pfs14);
+}
+
+.gameImg{
+  width: 15vw;
+  height: 9vw;
+  border-radius: var(--br20);
+}
+
+.gameImg img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media screen and (max-width:1200px) and (min-width:768px){
+
+.memberName,.gameName{
+  font-size: var(--h6fs18);
+  color: var(--dark);
+  font-weight: var(--fwbold);
+  letter-spacing: 2px;
+}
+
+.levelTitle,.gameTitle{
+  font-size: var(--pfs12);
+}
+
+.memberInfo,.blogFunc,.gameInfo,.gameImg{
+  border-radius: 15px;
+}
+
+.text{
+  font-size: var(--pfs12);
+}
+}

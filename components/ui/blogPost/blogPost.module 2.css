@@ -1,0 +1,11 @@
+.blogCon{
+    background-color: #fff;
+    padding-bottom: 20px;;
+}
+.date{
+    padding: 10px;
+    margin-left:10px;
+    padding-top:15px;
+    font-size: var(--h5fs20);
+    font-weight: var(--fwbold);
+}
