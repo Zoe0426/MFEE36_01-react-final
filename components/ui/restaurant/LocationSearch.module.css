@@ -44,14 +44,35 @@
     .total_pages_rank>div>p{
         font-size:var(--pfs16) ;
     }
+    .total_pages_rank{
+        flex-direction: column;
+        margin:0px;
+        font-size: var(--h6fs18);
+    }
     .labels{
         width:100%;
         text-align-last: auto;
         height:auto;
         line-height: 1.1;
+        
     }
     .categor_area{
         width: 100%;
+        margin-bottom: 20px;
     }
-
+    
+    .dropdowns{
+        width: 100%;
+    }
+    .city{
+        width: 100%;
+        margin-bottom: 20px;
+        margin-right: 0;
+    }
+    .section{
+        width: 100%;
+    }
+    .arrow{
+        margin-right: 240px;
+    }
     }

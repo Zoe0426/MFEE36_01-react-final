@@ -47,27 +47,30 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
         },
       }}
     >
+    
       <div className={Styles.total_pages_rank}>
         <div className={Styles.categor_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <label className={Styles.labels}>{text}</label>
         </div>
-        <Dropdown menu={menuProps} className={Styles.city}>
-          <Button>
-            <Space>
-              <p className={Styles.arrow}>城市</p>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
-        <Dropdown menu={menuProps} className={Styles.section}>
-          <Button>
-            <Space>
-              <p className={Styles.arrow}>地區</p>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
+        <div className={Styles.dropdowns}>
+          <Dropdown menu={menuProps} className={Styles.city}>
+            <Button>
+              <Space>
+                <p className={Styles.arrow}>城市</p>
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+          <Dropdown menu={menuProps} className={Styles.section}>
+            <Button>
+              <Space>
+                <p className={Styles.arrow}>地區</p>
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+        </div>
       </div>
     </ConfigProvider>
   );

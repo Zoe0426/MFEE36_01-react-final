@@ -23,7 +23,7 @@
 .line{
     border-bottom:1px solid var(--gray) ;
     opacity: 0.5;
-    margin-top: 12px;
+    margin-top: 2px;
 }
 .filter_btns {
   display: flex;
@@ -71,6 +71,14 @@
   }
   .second_area {
     margin: 32px 0;
+  }
+  .function_group{
+    display: flex;
+    justify-content: space-between;
+    padding-right: 36px;
+    padding-left: 36px;
+    padding-bottom: var(--p8);
+    padding-top: var(--p8);
   }
   .filter {
     padding: var(--p8) 12px;
