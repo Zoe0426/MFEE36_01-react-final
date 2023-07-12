@@ -24,7 +24,7 @@
 .pet_type_tabs{    
     display: flex;
     justify-content: center;
-    margin: 96px 0;
+    margin: 48px 0 32px 0;
 }
 
 .pet_type_tabs span{
@@ -459,6 +459,10 @@ overflow: hidden;
         margin-right: 36px;
     }
 
+    .pet_type_btns{
+        display: none;
+    }
+
 
 
     /*新品滑動卡片的排版*/
@@ -470,8 +474,13 @@ overflow: hidden;
     }
 
     .pet_type_cards,.new_cards,.recomand_cards{
-        width:auto
+        width:390px;
+        overflow-y: hidden;
     }
+
+    .pet_type_cards::-webkit-scrollbar,.new_cards::-webkit-scrollbar,.recomand_cards::-webkit-scrollbar {
+        display: none;
+      }
 
 
     /*品牌卡片*/
@@ -479,8 +488,18 @@ overflow: hidden;
         padding:var(--p16);
         display: flex;
         flex-wrap: nowrap;
-        
+        width:390px;
+        overflow-y: hidden
     }
+
+    .pet_type_cards,.new_cards,.recomand_cards{
+        width:390px;
+        overflow-y: hidden;
+    }
+
+    .brand_cards::-webkit-scrollbar {
+        display: none;
+      }
 
     /*--------------商品列表頁-------------*/
     /* 篩選的按鈕 */
@@ -609,7 +628,7 @@ overflow: hidden;
     /*推薦商品*/
     .reconmand_products_box{    
         justify-content: flex-start;
-        margin: 56px 0;
+        margin: 48px 0 32px 0;
     }
 
     .reconmand_products_title{
