@@ -14,7 +14,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-export default function TimeSearch({ totalItems = 0 }) {
+export default function TimeDateFilter({ totalItems = 0 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
     console.log('click left button', e);

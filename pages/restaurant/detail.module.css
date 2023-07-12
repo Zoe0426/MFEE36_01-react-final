@@ -98,7 +98,7 @@
   width: 50%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .contact {
   display: flex;
@@ -110,6 +110,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 12px;
+  margin-bottom: 60px;
 }
 
 .info_icon {
@@ -143,9 +144,9 @@
   height: 70px;
   overflow: hidden;
 }
-.comment {
+.comment_cards {
   display: flex;
-  margin-bottom: 48px;
+  flex-wrap: nowrap;
 }
 .detail_main_buttom {
   margin-top: 16px;
@@ -211,6 +212,7 @@
   }
   .contact_group {
     gap: 8px;
+    margin-bottom: 0;
   }
   .icon_btn {
     margin-top: 20px;
@@ -218,11 +220,14 @@
   .notion_bgc {
     padding-top: 60px;
   }
+  .comment_cards {
+    flex-direction: column;
+  }
 
-  
   .detail_main_buttom {
     margin-top: 32px;
     flex-wrap: wrap;
+    padding-bottom: 10px;
   }
 
   .detail_main_buttom > button {

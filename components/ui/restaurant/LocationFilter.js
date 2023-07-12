@@ -5,7 +5,7 @@ import { Button, Dropdown, Space, message, ConfigProvider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-export default function LocationSearch({ text = '', totalItems = 0 }) {
+export default function LocationFilter({ text = '', totalItems = 0 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
     console.log('click left button', e);

@@ -59,7 +59,7 @@ export default function RestInfo() {
           </div>
           <div className={Styles.rest_info}>
             <h1 className={Styles.jill_h1}>陽光莊園</h1>
-            <RateStar score="4.8" />
+            <RateStar score="4.8" className={Styles.rate_star}/>
             <p className={Styles.information}>
               一群熱愛生命有夢想的青年，在這2200平方的土地上開始建構毛小孩的奔跑空間，健康自製的料理飲品，無毒自然的溯源食材，我們知道，我們還有很多可以進步的地方，因為我們熱愛我們的家，熱愛每一個回家的家人~當歡迎光臨聲起，我們的微笑綻放，心裡默默念著…歡迎回家!!
             </p>
@@ -229,7 +229,7 @@ export default function RestInfo() {
 
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>饕客評價</h2>
-        <div className={Styles.comment}>
+        <div className={Styles.comment_cards}>
           <CommentCard />
           <CommentCard />
           <CommentCard />

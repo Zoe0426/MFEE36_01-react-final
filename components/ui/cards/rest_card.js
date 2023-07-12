@@ -22,7 +22,7 @@ export default function RestCard({
 
         <div className={Styles.rest_title}>
           <p className={Styles.rest_location}>
-            {city} ‧ {location}
+            {city}‧{location}
           </p>
           <RateStarPill score="4.8" />
         </div>

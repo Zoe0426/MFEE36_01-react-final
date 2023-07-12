@@ -16,14 +16,14 @@
   padding: 12px 20px;
 }
 
-.filter_box{
-    padding-top: 20px;
-    padding-bottom: 80px;
+.filter_box {
+  padding-top: 20px;
+  padding-bottom: 80px;
 }
-.line{
-    border-bottom:1px solid var(--gray) ;
-    opacity: 0.5;
-    margin-top: 2px;
+.line {
+  border-bottom: 1px solid var(--gray);
+  opacity: 0.5;
+  margin-top: 2px;
 }
 .filter_btns {
   display: flex;
@@ -42,14 +42,13 @@
   margin-right: 0;
 }
 
-
 .function_group {
   width: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding-top: var(--p16);
-  padding-bottom: 6px;
+  padding-bottom: 20px;
 }
 
 .function_group > * {
@@ -64,6 +63,7 @@
   background-color: var(--lightBrown);
 }
 
+
 @media screen and (max-width: 767px) {
   .jill_h2 {
     font-size: var(--h6fs18);
@@ -72,7 +72,7 @@
   .second_area {
     margin: 32px 0;
   }
-  .function_group{
+  .function_group {
     display: flex;
     justify-content: space-between;
     padding-right: 36px;
@@ -82,6 +82,9 @@
   }
   .filter {
     padding: var(--p8) 12px;
+  }
+  .filter_box {
+    padding-bottom: 50px;
   }
   .labels {
     width: 100%;

@@ -12,16 +12,47 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
-import LocationSearch from '@/components/ui/restaurant/LocationFilter';
-import TimeSearch from '@/components/ui/restaurant/TimeDateFilter';
+import LocationFilter from '@/components/ui/restaurant/LocationFilter';
+import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
+import Likelist from '@/components/ui/like-list/like-list';
 
 export default function FilterPage() {
   const { categorySid } = filterDatas;
   const [showfilter, setShowFilter] = useState(false);
+
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
+
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
     setShowFilter(!showfilter);
   };
+
+  //收藏列表相關的函式-------------------------------------------------------
+  const openShowLikeList = () => {
+    setShowLikeList(!showLikeList);
+  };
+
+  const closeShowLikeList = () => {
+    setShowLikeList(false);
+  };
+
+  const removeAllLikeList = () => {
+    setLikeDatas([]);
+    //這邊需要再修改，要看怎麼得到會員的編號
+    removeLikeListToDB('all', 'mem00002');
+  };
+
+  const removeLikeListItem = (pid) => {
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.product_sid !== pid;
+    });
+
+    setLikeDatas(newLikeList);
+    //這邊需要再修改，要看怎麼得到會員的編號
+    removeLikeListToDB(pid, 'mem00002');
+  };
+
   return (
     <>
       <Banner />
@@ -29,7 +60,11 @@ export default function FilterPage() {
         <div className="container-inner">
           <div className={Styles.function_group}>
             <IconBtn icon={faMap} text="餐廳地圖" />
-            <IconBtn icon={faHeart} text="收藏列表" />
+            <IconBtn
+              icon={faHeart}
+              text="收藏列表"
+              clickHandler={openShowLikeList}
+            />
             <IconBtn
               icon={faFilter}
               text="進階篩選"
@@ -45,8 +80,8 @@ export default function FilterPage() {
             </div>
             <div className="container-inner">
               <div className={Styles.filter_box}>
-                <LocationSearch text="用餐地區" />
-                <TimeSearch />
+                <LocationFilter text="用餐地區" />
+                <TimeDateFilter />
                 <RestaurantFilter
                   text="用餐類別"
                   data={categorySid}
@@ -61,6 +96,25 @@ export default function FilterPage() {
             </div>
           </>
         )}
+        {/* 收藏列表畫面 */}
+        <div className="container-inner">
+          <div className={Styles.like_list}>
+            {showLikeList && (
+              <Likelist
+                datas={likeDatas}
+                // customCard={
+                //   <ShopLikelistCard
+                //     datas={likeDatas}
+                //     removeLikeListItem={removeLikeListItem}
+                //   />
+                // }
+                closeHandler={closeShowLikeList}
+                removeAllHandler={removeAllLikeList}
+                removeLikeListItem={removeLikeListItem}
+              />
+            )}
+          </div>
+        </div>
       </div>
       <TopAreaBgc />
 
