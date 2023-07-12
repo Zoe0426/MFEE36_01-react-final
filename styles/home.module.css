@@ -1,22 +1,4 @@
-.hresCard{
-    background-color: white;
-    padding: var(--p32);
-    border-radius: var(--br10);
-    box-shadow: var(--shadow);
-}
-.resName{
-    font-size: var(--h4fs24);
-    font-weight: bold;
-    padding: var(--p24) 0;
-}
-.cityArea{
-    font-size: var(--pfs16);
-    color: var(--gray);
-    padding-bottom: var(--p16);
-}
-.resDetail{
-    padding-bottom: var(--p32);
-}
+
 .d-center{
     display: flex;
     justify-content: center;
@@ -69,7 +51,8 @@
 
 .hSection{
 /* border: 1px solid green; */
-align-items: center;
+    align-items: center;
+    padding: 50px 0;
 } 
 
 
@@ -127,8 +110,34 @@ align-items: center;
     padding: var(--p32) 0;
 }
 
+.hhashes p{
+    margin-bottom: var(--p8);
+}
 
-@media screen and (max-width:767px){
+@media screen and (max-width:767px) and (max-width:576px){
+.hSection{
+    padding: 0;
+}
+.hInfo{
+    order: -1;
+    padding: 20px 0;
+}
+.hlCards{ 
+    padding-right: 0;
+    padding: 20px 0;
+}
+.hrCards{ 
+    padding-left: 0;
+    padding: 20px 0;
+}
 
+.hresCard{
+    width: 100%;
+}
+}
 
+@media screen and (max-width:575px){
+.hlCards{ 
+    justify-content: center;
+}
 }

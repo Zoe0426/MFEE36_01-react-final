@@ -1,0 +1,58 @@
+.hresCard{
+    position: relative;
+    background-color: white;
+    padding: 28px;
+    border-radius: var(--br20);
+    box-shadow: var(--shadow);
+    width: 45%;
+}
+.stickerbox{
+    position: absolute;
+    top: -9%;
+    width: 86%;
+    display: flex;
+    justify-content: center;
+}
+.hresSticker{
+    display: inline-block;
+    padding: var(--p16) var(--p32);
+    color: var(--dark);
+    font-weight: bold;
+    font-size: var(--h6fs18);
+    background-color: var(--secondary);
+    border-radius: 30px;
+}
+.hresimg{
+    width: 100%;
+    border-radius: var(--br20);
+}
+.resName{
+    font-size: var(--h4fs24);
+    font-weight: bold;
+    padding: var(--p16) 0;
+}
+.cityArea{
+    font-size: var(--pfs16);
+    color: var(--gray);
+    padding-bottom: var(--p16);
+}
+.resDetail{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;  
+    line-height: 20px;
+    margin-bottom: 32px;
+    overflow: hidden;
+}
+
+.reshash p{
+    margin-bottom: var(--p8);
+    letter-spacing: 0;
+}
+
+
+@media screen and (max-width:767px) and (max-width:576px){
+.hresCard{
+    width: 100%;
+}
+}
