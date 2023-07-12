@@ -21,7 +21,7 @@ export default function RestaurantFilter({
       }}
     >
       <div className={Styles.filter}>
-        <div className={Styles.categor_area}>
+        <div className={Styles.category_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <label className={Styles.labels}>{text}</label>
         </div>
@@ -34,7 +34,6 @@ export default function RestaurantFilter({
                   xs={{ span: needSpan && 12 }}
                   sm={{ span: needSpan && 12 }}
                   md={{ span: needSpan && 3 }}
-                  //   span={needSpan && 3}
                   key={v.value}
                 >
                   <Checkbox value={v.value}>{v.label}</Checkbox>

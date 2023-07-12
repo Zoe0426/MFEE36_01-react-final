@@ -12,8 +12,8 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
-import LocationSearch from '@/components/ui/restaurant/LocationSearch';
-import TimeSearch from '@/components/ui/restaurant/TimeSearch';
+import LocationSearch from '@/components/ui/restaurant/LocationFilter';
+import TimeSearch from '@/components/ui/restaurant/TimeDateFilter';
 
 export default function FilterPage() {
   const { categorySid } = filterDatas;

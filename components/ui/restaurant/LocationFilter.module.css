@@ -1,12 +1,12 @@
-.total_pages_rank{
+.location_search_area{
     margin:48px 12px 48px 0px;
     display: flex;
 }
 
-.total_pages_rank>div>p{
+.location_search_area>div>p{
     font-size: var(--h6fs18);
 }
-.categor_area{
+.category_area{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,7 +32,7 @@
     padding: 0 16px;
     width: 200px;
 }
-.arrow{
+.dropdown_arrow{
     margin-right: 100px;
 }
 .section{
@@ -41,10 +41,10 @@
 }
 
 @media screen and (max-width:767px){
-    .total_pages_rank>div>p{
+    .location_search_area>div>p{
         font-size:var(--pfs16) ;
     }
-    .total_pages_rank{
+    .location_search_area{
         flex-direction: column;
         margin:0px;
         font-size: var(--h6fs18);
@@ -56,7 +56,7 @@
         line-height: 1.1;
         
     }
-    .categor_area{
+    .category_area{
         width: 100%;
         margin-bottom: 20px;
     }
@@ -72,7 +72,7 @@
     .section{
         width: 100%;
     }
-    .arrow{
+    .dropdown_arrow{
         margin-right: 240px;
     }
     }

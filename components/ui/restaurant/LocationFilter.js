@@ -1,20 +1,11 @@
 import React from 'react';
-import Styles from './TimeSearch.module.css';
+import Styles from './LocationFilter.module.css';
 import { DownOutlined } from '@ant-design/icons';
-import {
-  DatePicker,
-  Button,
-  Dropdown,
-  Space,
-  message,
-  ConfigProvider,
-  Row,
-  Col,
-} from 'antd';
+import { Button, Dropdown, Space, message, ConfigProvider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-export default function TimeSearch({ totalItems = 0 }) {
+export default function LocationSearch({ text = '', totalItems = 0 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
     console.log('click left button', e);
@@ -23,22 +14,17 @@ export default function TimeSearch({ totalItems = 0 }) {
     message.info('Click on menu item.');
     console.log('click', e);
   };
-
-  const onChange = (date, dateString) => {
-    console.log(date, dateString);
-  };
-
   const items = [
     {
-      label: '08:00~09:00',
+      label: '台北市',
       key: '1',
     },
     {
-      label: '09:00~10:00',
+      label: '桃園市',
       key: '2',
     },
     {
-      label: '10:00~11:00',
+      label: '高雄市',
       key: '3',
     },
   ];
@@ -58,30 +44,33 @@ export default function TimeSearch({ totalItems = 0 }) {
           controlHeight: 50,
           fontSize: 16,
           borderRadiusOuter: 10,
-
         },
       }}
     >
-      <div className={Styles.total_pages_rank}>
-        <div className={Styles.categor_area}>
+    
+      <div className={Styles.location_search_area}>
+        <div className={Styles.category_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
-          <p className={Styles.labels}>用餐日期</p>
+          <label className={Styles.labels}>{text}</label>
         </div>
-
-        <DatePicker onChange={onChange} className={Styles.date}  placeholder="選擇日期" />
-        <div className={Styles.categor_area}>
-          <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
-          <p className={Styles.labels}>用餐時間</p>
+        <div className={Styles.dropdowns}>
+          <Dropdown menu={menuProps} className={Styles.city}>
+            <Button>
+              <Space>
+                <p className={Styles.dropdown_arrow}>城市</p>
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+          <Dropdown menu={menuProps} className={Styles.section}>
+            <Button>
+              <Space>
+                <p className={Styles.dropdown_arrow}>地區</p>
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
         </div>
-        <Dropdown menu={menuProps} className={Styles.time}>
-          <Button>
-            <Space>
-              <p className={Styles.arrow}>時間</p>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
-
       </div>
     </ConfigProvider>
   );
