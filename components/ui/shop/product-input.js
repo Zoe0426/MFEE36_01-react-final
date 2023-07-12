@@ -14,8 +14,8 @@ export default function ProductInput({
           colorText: 'rgb(81, 81, 81)',
           colorTextPlaceholder: '#DDDDDD',
           controlOutline: 'transparent',
-          fontSize: 16,
-          controlInteractiveSize: 16,
+          fontSize: 18,
+          controlInteractiveSize: 18,
         },
       }}
     >

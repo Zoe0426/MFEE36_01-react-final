@@ -303,7 +303,6 @@ export default function Product() {
                   score={datatForProductMain.avg_rating}
                   text={`( 已有99人購買，這邊需要再拉API資料 )`}
                 />
-
                 <div className={styles.detail_spec_box}>
                   <h5 className={styles.detail_spec_title}>規格選擇</h5>
                   {datatForProductDetail.map((v, i) => {

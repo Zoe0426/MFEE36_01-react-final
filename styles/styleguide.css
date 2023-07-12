@@ -53,7 +53,7 @@
   License: none (public domain)
 */
 
-*{
+body{
     font-size: 16px;
 }
 
@@ -85,6 +85,7 @@ time, mark, audio, video {
   color: var(--dark-gray);
 	vertical-align: baseline;
   box-sizing: border-box;
+  font-weight: normal;
 }
 
 a:hover,a:link,a:visited,a:active{

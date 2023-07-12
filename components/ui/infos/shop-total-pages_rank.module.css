@@ -11,7 +11,7 @@
 }
 
 .total_pages_rank>div>p{
-    font-size: var(--h6fs18);
+    font-size: var(--pfs16);
 }
 
 @media screen and (max-width:767px){
