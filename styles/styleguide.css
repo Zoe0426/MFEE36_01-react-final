@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap');
 :root {
     --main: #FD8C46;
     --secondary: #FFD4C0;
@@ -85,6 +85,7 @@ time, mark, audio, video {
   color: var(--dark-gray);
 	vertical-align: baseline;
   box-sizing: border-box;
+  font-weight: normal;
 }
 
 a:hover,a:link,a:visited,a:active{

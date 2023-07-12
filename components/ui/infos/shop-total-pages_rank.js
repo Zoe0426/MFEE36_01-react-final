@@ -41,9 +41,9 @@ export default function ShopTotalPagesRank({ totalItems = 0 }) {
         token: {
           colorBorder: '#909090',
           colorPrimary: '#909090',
-          colorBgContainer: 'rgba(255,255,255,0.3)',
+          colorBgContainer: 'rgba(255,255,255,0.8)',
           borderRadius: 10,
-          controlHeight: 55,
+          controlHeight: 50,
           fontSize: 16,
           borderRadiusOuter: 10,
         },
@@ -51,13 +51,13 @@ export default function ShopTotalPagesRank({ totalItems = 0 }) {
     >
       <div className={styles.total_pages_rank}>
         <div>
-          <h3>商品搜尋結果</h3>
+          <h4>商品搜尋結果</h4>
           <p>( 共{totalItems}項商品 )</p>
         </div>
         <Dropdown menu={menuProps}>
           <Button>
             <Space>
-              -- 排序方式 --
+              排序方式
               <DownOutlined />
             </Space>
           </Button>
