@@ -30,15 +30,15 @@ export default function TimeSearch({ totalItems = 0 }) {
 
   const items = [
     {
-      label: '評價高到低',
+      label: '08:00~09:00',
       key: '1',
     },
     {
-      label: '評價低到高',
+      label: '09:00~10:00',
       key: '2',
     },
     {
-      label: '最熱門',
+      label: '10:00~11:00',
       key: '3',
     },
   ];

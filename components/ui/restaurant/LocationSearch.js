@@ -16,15 +16,15 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
   };
   const items = [
     {
-      label: '評價高到低',
+      label: '台北市',
       key: '1',
     },
     {
-      label: '評價低到高',
+      label: '桃園市',
       key: '2',
     },
     {
-      label: '最熱門',
+      label: '高雄市',
       key: '3',
     },
   ];
