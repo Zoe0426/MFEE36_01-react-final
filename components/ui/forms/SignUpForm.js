@@ -35,111 +35,118 @@ export default function SignUpForm() {
 
   return (
     <>
-      <Form
-        name="signUpForm"
-        className={Styles.signUpForm}
-        onFinish={handleSubmit}
-        onFinishFailed={onFinishFailed}
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: '#FD8C46',
+            colorText: 'rgb(81, 81, 81)',
+            fontSize: 18,
+            controlInteractiveSize: 18,
+          },
+          components: {
+            Radio: {
+              colorPrimary: '#FD8C46',
+            },
+          },
+        }}
       >
-        <Row gutter={16}>
-          <Col xl={12} lg={24} md={24} sm={24}>
-            <Form.Item
-              label="姓名"
-              className={Styles.formItem}
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: '請輸入姓名',
-                },
-              ]}
-            >
-              <Input size="large" />
-            </Form.Item>
-          </Col>
-          <Col xl={12} lg={24} md={24} sm={24}>
-            <Form.Item
-              label="手機"
-              className={Styles.formItem}
-              name={'mobile'}
-              rules={[
-                {
-                  required: true,
-                  message: '請輸入手機',
-                },
-              ]}
-            >
-              <Input size="large" />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item
-          label="帳號"
-          className={Styles.formItem}
-          name="email"
-          rules={[
-            {
-              required: true,
-              type: 'email',
-              message: '請輸入正確Email',
-            },
-          ]}
+        <Form
+          name="signUpForm"
+          className={Styles.signUpForm}
+          onFinish={handleSubmit}
+          onFinishFailed={onFinishFailed}
         >
-          <Input placeholder="請輸入Email" size="large" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="密碼"
-          rules={[
-            {
-              required: true,
-              message: '請輸入密碼',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input.Password size="large" />
-        </Form.Item>
+          <Row gutter={16}>
+            <Col xl={12} lg={24} md={24} sm={24}>
+              <Form.Item
+                label="姓名"
+                className={Styles.formItem}
+                name="name"
+                rules={[
+                  {
+                    type: 'string',
+                    required: true,
+                    message: '請輸入姓名',
+                  },
+                ]}
+              >
+                <Input size="large" />
+              </Form.Item>
+            </Col>
+            <Col xl={12} lg={24} md={24} sm={24}>
+              <Form.Item
+                label="手機"
+                className={Styles.formItem}
+                name={'mobile'}
+                rules={[
+                  {
+                    required: true,
+                    message: '請輸入手機',
+                  },
+                ]}
+              >
+                <Input size="large" />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item
+            label="帳號"
+            className={Styles.formItem}
+            name="email"
+            rules={[
+              {
+                required: true,
+                type: 'email',
+                message: '請輸入正確Email',
+              },
+            ]}
+          >
+            <Input placeholder="請輸入Email" size="large" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="密碼"
+            rules={[
+              {
+                required: true,
+                message: '請輸入密碼',
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password size="large" />
+          </Form.Item>
 
-        <Form.Item
-          name="confirm"
-          label="確認密碼"
-          dependencies={['password']}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: '請輸入密碼',
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error('密碼不相符，請重新輸入'));
+          <Form.Item
+            name="confirm"
+            label="確認密碼"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: '請輸入密碼',
               },
-            }),
-          ]}
-        >
-          <Input.Password size="large" />
-        </Form.Item>
-        <Form.Item label="生日" name="birthday">
-          <DatePicker
-            size="large"
-            style={{
-              width: '100%',
-            }}
-          />
-        </Form.Item>
-        <ConfigProvider
-          theme={{
-            components: {
-              Radio: {
-                colorPrimary: '#FD8C46',
-              },
-            },
-          }}
-        >
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error('密碼不相符，請重新輸入'));
+                },
+              }),
+            ]}
+          >
+            <Input.Password size="large" />
+          </Form.Item>
+          <Form.Item label="生日" name="birthday">
+            <DatePicker
+              size="large"
+              style={{
+                width: '100%',
+              }}
+            />
+          </Form.Item>
           <Form.Item label="性別" name="gender">
             <Radio.Group>
               <Radio value="男"> 男 </Radio>
@@ -147,16 +154,6 @@ export default function SignUpForm() {
               <Radio value="其他"> 其他 </Radio>
             </Radio.Group>
           </Form.Item>
-        </ConfigProvider>
-        <ConfigProvider
-          theme={{
-            components: {
-              Radio: {
-                colorPrimary: '#FD8C46',
-              },
-            },
-          }}
-        >
           <Form.Item label="寵物" name="pet">
             <Radio.Group>
               <Radio value="狗"> 狗 </Radio>
@@ -165,36 +162,36 @@ export default function SignUpForm() {
               <Radio value="其他"> 其他 </Radio>
             </Radio.Group>
           </Form.Item>
-        </ConfigProvider>
-        <Row gutter={16}>
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-            <Form.Item name="city" label="縣市">
-              <Select size="large">
-                <Select.Option value="demo">Demo</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-            <Form.Item name="area" label="鄉/鎮/區">
-              <Select size="large">
-                <Select.Option value="demo">Demo</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-        <Form.Item label="地址" className={Styles.formItem} name="address">
-          <Input size="large" />
-        </Form.Item>
+          <Row gutter={16}>
+            <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+              <Form.Item name="city" label="縣市">
+                <Select size="large">
+                  <Select.Option value="demo">Demo</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+              <Form.Item name="area" label="鄉/鎮/區">
+                <Select size="large">
+                  <Select.Option value="demo">Demo</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Form.Item label="地址" className={Styles.formItem} name="address">
+            <Input size="large" />
+          </Form.Item>
 
-        <div className={Styles.btns}>
-          <div className={Styles.btn}>
-            <SecondaryBtn text="取消" htmltype="reset" />
+          <div className={Styles.btns}>
+            <div className={Styles.btn}>
+              <SecondaryBtn text="取消" htmltype="reset" />
+            </div>
+            <div className={Styles.btn}>
+              <MainBtn text="完成" htmltype="submit" />
+            </div>
           </div>
-          <div className={Styles.btn}>
-            <MainBtn text="完成" htmltype="submit" />
-          </div>
-        </div>
-      </Form>
+        </Form>
+      </ConfigProvider>
     </>
   );
 }

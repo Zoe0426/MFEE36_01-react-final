@@ -1,5 +1,4 @@
 import '@/styles/styleguide.css';
-import '@/styles/testcom.css';
 import DefaultLayout from '@/components/layout/default-layout';
 import { ConfigProvider } from 'antd';
 

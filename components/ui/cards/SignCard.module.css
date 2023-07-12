@@ -43,3 +43,21 @@
     display: none;
   }
 }
+
+@media screen and (max-width:1500px) and (min-width:769px){
+	.signCard{
+    width: 60%;
+    margin-top: 0;
+  }
+	
+	}
+	@media screen and (max-width:768px){
+		.signCard{
+      width: 325px;
+      margin-top: 0;
+    }
+  
+    .drowTree,.drowDog{
+      display: none;
+    }
+	}
