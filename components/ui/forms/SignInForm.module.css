@@ -1,6 +1,6 @@
 
 .loginForm{
-  width: 70%;
+  width: 80%;
   /* background-color: lightblue; */
   margin: 50px auto;
 
@@ -48,7 +48,7 @@
 }
 
 .btn{
-  margin: 10px;
+  margin-right: 10px;
 }
 
 .google{
