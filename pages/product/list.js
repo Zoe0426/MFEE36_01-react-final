@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import styles from '@/styles/shop.module.css';
 import { Pagination, Row, Col, ConfigProvider } from 'antd';
 
@@ -28,16 +27,15 @@ import filterDatas from '@/data/product/filters.json';
 
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
-
 export default function List() {
   const { typeForPet, categoryDetailSid, typeForAge } = filterDatas;
   const router = useRouter();
-  const [catergory, setCategory]=useState('');
-  //頁碼
-  const [current, setCurrent] = useState(1);
-  const [keyword, setKeyword]=useState('')
+  //換頁時要用的-類別/關鍵字/頁碼
+  const [catergory, setCategory] = useState('');
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(16);
+  const [keyword, setKeyword] = useState('');
 
-  console.log(router.query)
   const [datas, setDatas] = useState({
     totalRows: 0,
     perPage: 16,
@@ -45,14 +43,13 @@ export default function List() {
     page: 1,
     rows: [],
     // like:[],
-    brand:[]
+    brand: [],
   });
 
-
   const [likeDatas, setLikeDatas] = useState([]);
-//   const [brandDatas, setBrandDatas] = useState([]);
-//   const [totalItems, setTotalItems] = useState(0);
-//   const [totalPages, settotalPages] = useState(0);
+  //   const [brandDatas, setBrandDatas] = useState([]);
+  //   const [totalItems, setTotalItems] = useState(0);
+  //   const [totalPages, settotalPages] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
   //麵包屑寫得有點奇怪...
@@ -69,25 +66,22 @@ export default function List() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { category, page,keyword } = router.query;
-    console.log(router.query)
-    setCategory(category || '')
-    setCurrent(page || 1)
-    setKeyword(keyword || '')
-    const usp=new URLSearchParams(router.query)
+    const { category, keyword } = router.query;
+    console.log(router.query);
+    setCategory(category || '');
+    setKeyword(keyword || '');
+    const usp = new URLSearchParams(router.query);
 
     fetch(`${process.env.API_SERVER}/shop-api/products?${usp.toString()}`)
-    .then(r=>r.json())
-    .then(obj=>{
-        
+      .then((r) => r.json())
+      .then((obj) => {
         setDatas(obj);
         setLikeDatas(obj.likeDatas);
-    })
-    .catch(error => {
-      // 處理錯誤情況
-      console.error(error);
-    });
-
+      })
+      .catch((error) => {
+        // 處理錯誤情況
+        console.error(error);
+      });
 
     // if (cid) {
     //   (async function getData() {
@@ -169,29 +163,47 @@ export default function List() {
     }
   };
 
-
-
-//searchBar相關的函式-------------------------------------------------------
-  const searchBarHandler=(e)=>{
-    let copyURL={...router.query,page:1}
-    if(e.key==='Enter'){
-      if(!keyword){
-      delete copyURL.keyword;
+  //searchBar相關的函式-------------------------------------------------------
+  const searchBarHandler = (e) => {
+    let copyURL = { ...router.query, page: 1 };
+    if (e.key === 'Enter') {
+      if (!keyword) {
+        delete copyURL.keyword;
       } else {
-        const searchText=e.target.value
-        copyURL={...copyURL,keyword:searchText}
+        const searchText = e.target.value;
+        copyURL = { ...copyURL, keyword: searchText };
       }
-    router.push(`?${new URLSearchParams(copyURL).toString()}`)
-  }}
-
-  const searchBarClickHandler=()=>{
-    router.push(`?${new URLSearchParams({...router.query, keyword:keyword,page:1}).toString()}`)
-  }
-
-
-  const onChange = (checkedValues) => {
-    console.log('checked = ', checkedValues);
+      router.push(`?${new URLSearchParams(copyURL).toString()}`);
+    }
   };
+
+  const searchBarClickHandler = () => {
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        keyword: keyword,
+        page: 1,
+      }).toString()}`
+    );
+  };
+
+  //Pagination相關的函式-------------------------------------------------------
+  const onPageChange = (page, perpage) => {
+    console.log(perpage);
+    setPerPage(perpage);
+    setPage(page);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: page,
+        perPage: perpage,
+      }).toString()}`
+    );
+  };
+
+  // const onChange = (checkedValues) => {
+  //   console.log('checked = ', checkedValues);
+  // };
 
   return (
     <>
@@ -199,13 +211,16 @@ export default function List() {
       <div className={styles.bgc_lightBrown}>
         <nav className="container-inner">
           <div className={styles.search_bar}>
-            <SearchBar 
-            placeholder="搜尋你愛的東西" 
-            btn_text="尋找商品" 
-            inputText={keyword} 
-            changeHandler={(e)=>{setKeyword(e.target.value)}}
-            keyDownHandler={searchBarHandler}
-            clickHandler={searchBarClickHandler}  />
+            <SearchBar
+              placeholder="搜尋你愛的東西"
+              btn_text="尋找商品"
+              inputText={keyword}
+              changeHandler={(e) => {
+                setKeyword(e.target.value);
+              }}
+              keyDownHandler={searchBarHandler}
+              clickHandler={searchBarClickHandler}
+            />
           </div>
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
@@ -291,63 +306,72 @@ export default function List() {
       <main className="container-inner">
         <ShopTotalPagesRank totalItems={datas.totalRows} />
         <Row gutter={[32, 36]} className={styles.cards}>
-          {datas.rows && datas.rows.map((v) => {
-            const {
-              product_sid,
-              category_detail_sid,
-              for_pet_type,
-              name,
-              img,
-              update_date,
-              supplier,
-              max_price,
-              min_price,
-              avg_rating,
-            } = v;
-            return (
-              <Col xs={12} sm={12} md={6} className={styles.product_card} key={product_sid}>
-                <ShopProductCard                  
-                  product_sid={product_sid}
-                  category_detail_sid={category_detail_sid}
-                  for_pet_type={for_pet_type}
-                  name={name}
-                  img={img}
-                  update_date={update_date}
-                  supplier={supplier}
-                  max_price={max_price}
-                  min_price={min_price}
-                  avg_rating={avg_rating}
-                />
-            </Col>);
-          })}
+          {datas.rows &&
+            datas.rows.map((v) => {
+              const {
+                product_sid,
+                category_detail_sid,
+                for_pet_type,
+                name,
+                img,
+                update_date,
+                supplier,
+                max_price,
+                min_price,
+                avg_rating,
+              } = v;
+              return (
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  className={styles.product_card}
+                  key={product_sid}
+                >
+                  <ShopProductCard
+                    product_sid={product_sid}
+                    category_detail_sid={category_detail_sid}
+                    for_pet_type={for_pet_type}
+                    name={name}
+                    img={img}
+                    update_date={update_date}
+                    supplier={supplier}
+                    max_price={max_price}
+                    min_price={min_price}
+                    avg_rating={avg_rating}
+                  />
+                </Col>
+              );
+            })}
         </Row>
       </main>
       <div className={styles.pagination}>
-      <ConfigProvider
-        theme={{
+        <ConfigProvider
+          theme={{
             token: {
-            // colorPrimary:'#FD8C46', 
-            // colorText:'#515151',
-            // colorBgContainer: '#FFEFE8',
-            // colorBgTextHover:'#FFEFE8',
-            // colorBgTextActive:'#FFEFE8',
-            // fontSize:18,
-            // lineWidthFocus:1,
+              colorPrimary: '#FD8C46',
+              colorBgContainer: 'transparent',
+              colorBgTextHover: '#FFEFE8',
+              colorBgTextActive: '#FFEFE8',
+              fontSize: 18,
+              controlHeight: 38,
+              lineWidthFocus: 1,
             },
-        }}
+          }}
         >
-            <Pagination
-                current={current}
-                // defaultCurrent={1}
-                total={datas.totalRows}
-                pageSize={datas.perPage}
-                showSizeChanger={false}
-                onChange={(page)=>{
-                  setCurrent(page)
-                    router.push(`?${new URLSearchParams({...router.query, page:page}).toString()}`)
-                }}
-
-            />
+          <Pagination
+            current={datas.page}
+            total={datas.totalRows}
+            pageSize={datas.perPage}
+            showSizeChanger
+            // showFirstButton
+            // showLastButton
+            // showQuickJumper={true}
+            pageSizeOptions={[20, 40, 60]}
+            // showSizeChanger={false}
+            onChange={onPageChange}
+            onShowSizeChange={onPageChange}
+          />
         </ConfigProvider>
       </div>
       {/* </div> */}
