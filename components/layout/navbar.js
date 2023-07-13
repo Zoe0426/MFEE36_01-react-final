@@ -1,10 +1,14 @@
 import React from 'react';
 import Styles from './navbar.module.css';
-// import Image from 'next/image'
-// import logo from '@/assets/logo.svg'
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
-import NavRoundBtn from '@/components/ui/buttons/NavRoundBtn';
+import NavRoundBtn from '../ui/buttons/NavRoundBtn';
 export default function Navbar({ classTitle }) {
+  const { auth, setAuth, logout } = useContext(AuthContext);
+  const router = useRouter();
+
   return (
     <>
       <header
@@ -51,8 +55,20 @@ export default function Navbar({ classTitle }) {
             </div>
           </div>
           <div className={Styles.iconMenu}>
-            <NavRoundBtn icon="/layout-images/h-cart.png"></NavRoundBtn>
-            <NavRoundBtn icon="/layout-images/h-user.png"></NavRoundBtn>
+            {/* {auth.id === '' ? (
+              <NavRoundBtn
+                linku="/member/sign-in"
+                icon="/layout-images/h-cart.png"
+                test="1"
+              />
+            ) : (
+              ''
+            )} */}
+
+            <NavRoundBtn
+              link="/member/sign-in"
+              icon="/layout-images/h-cart.png"
+            ></NavRoundBtn>
           </div>
         </nav>
       </header>

@@ -5,7 +5,7 @@ import SecondaryBtn from '../buttons/SecondaryBtn';
 import Link from 'next/link';
 import { Form, Input, ConfigProvider } from 'antd';
 
-export default function SignInForm() {
+export default function SignInForm({ handleSubmit }) {
   const onFinish = (values) => {
     console.log('Success:', values);
   };
@@ -33,7 +33,7 @@ export default function SignInForm() {
         <Form
           name="loginForm"
           className={Styles.loginForm}
-          onFinish={onFinish}
+          onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
         >
           <Form.Item

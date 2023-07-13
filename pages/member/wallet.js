@@ -11,14 +11,21 @@ export default function Wallet() {
   const [coupons, setCoupons] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3002/member-api/coupon/mem00001')
+    // const Authorization = 'Bearer ' + auth.token;
+
+    // {
+    //   headers: {
+    //     Authorization: 'Bearer ' + auth.token,
+    //   },
+    // }
+    fetch(`http://localhost:3002/member-api/coupon`, {})
       .then((r) => r.json())
       .then((data) => {
         console.log(data);
         setAllCoupons(data);
         setCoupons(data);
       });
-  }, []);
+  }, [setPageTag]);
 
   // 篩選條件
   const usedHandleFilter = () => {
