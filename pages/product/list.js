@@ -34,7 +34,7 @@ export default function List() {
   const router = useRouter();
   const [catergory, setCategory]=useState('');
   //頁碼
-  const [currentPage, setCurrentPage] = useState(1);
+  const [current, setCurrent] = useState(1);
   const [keyword, setKeyword]=useState('')
 
   console.log(router.query)
@@ -70,8 +70,9 @@ export default function List() {
   useEffect(() => {
     //取得用戶拜訪的類別選項
     const { category, page,keyword } = router.query;
+    console.log(router.query)
     setCategory(category || '')
-    setCurrentPage(page || 1)
+    setCurrent(page || 1)
     setKeyword(keyword || '')
     const usp=new URLSearchParams(router.query)
 
@@ -325,23 +326,24 @@ export default function List() {
       <ConfigProvider
         theme={{
             token: {
-            colorPrimary:'#FD8C46', 
-            colorText:'#515151',
-            colorBgContainer: '#FFEFE8',
-            colorBgTextHover:'#FFEFE8',
-            colorBgTextActive:'#FFEFE8',
-            fontSize:18,
-            lineWidthFocus:1,
+            // colorPrimary:'#FD8C46', 
+            // colorText:'#515151',
+            // colorBgContainer: '#FFEFE8',
+            // colorBgTextHover:'#FFEFE8',
+            // colorBgTextActive:'#FFEFE8',
+            // fontSize:18,
+            // lineWidthFocus:1,
             },
         }}
         >
             <Pagination
-                defaultCurrent={currentPage}
+                current={current}
+                // defaultCurrent={1}
                 total={datas.totalRows}
                 pageSize={datas.perPage}
                 showSizeChanger={false}
                 onChange={(page)=>{
-                    setCurrentPage(page)
+                  setCurrent(page)
                     router.push(`?${new URLSearchParams({...router.query, page:page}).toString()}`)
                 }}
 
