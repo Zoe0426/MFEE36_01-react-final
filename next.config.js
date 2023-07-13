@@ -4,6 +4,9 @@ const nextConfig = {
   images: {
     domains: ['via.placeholder.com', 'localhost'],
   },
+  env: {
+    API_SERVER: 'http://localhost:3002',
+  },
   // avoid cors with proxy
   // async rewrites() {
   //   return [
@@ -13,6 +16,6 @@ const nextConfig = {
   //     },
   //   ]
   // },
-}
+};
 
 module.exports = nextConfig

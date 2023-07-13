@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Row, Col, Radio, ConfigProvider } from 'antd';
 import style from '@/styles/cart.module.css';
 import CartProductCard from '@/components/ui/cards/cartProductCard';
@@ -10,17 +10,48 @@ import rundog from '@/assets/running-dog.svg';
 import Image from 'next/image';
 
 export default function Cart() {
+  const [cartData, setCartData] = useState({
+    shop: [],
+    activity: [],
+    defaultAddress: [],
+    blackCat: [],
+    sevenEleven: [],
+    family: [],
+    coupon: [],
+  });
   const [checkoutType, setCheckoutType] = useState('shop');
   const [postType, setPostType] = useState(1);
+  const [paymentType, setPaymentType] = useState(1);
+
+
+
   const changePostType = (e) => {
     console.log('radio checked', e.target.value);
     setPostType(e.target.value);
   };
-  const [paymentType, setPaymentType] = useState(1);
+
   const changePaymentType = (e) => {
     console.log('radio checked', e.target.value);
     setPaymentType(e.target.value);
   };
+  
+  const getCart = async ()=>{
+    const r = await fetch(`${process.env.API_SERVER}/cart-api/get-cart-items`, {
+      method: 'POST',
+      body: JSON.stringify({member_sid: 'mem00471'}),
+      headers:{
+        "Content-Type": 'application/json',
+      }
+    });
+    const data = await r.json();
+    console.log(data);
+    setCartData(data);
+  }
+
+  useEffect(()=>{
+    getCart();
+  },[])
+
   return (
     <>
       <BgCartHead text="購物車" />
@@ -51,31 +82,29 @@ export default function Cart() {
               </div>
             </div>
             <div className={style.section}>
-              <CartProductCard
-                img="/product-img/pro001.jpg"
-                prodtitle="搖!搖! 超級水果～酥脆貓零食-鮭魚"
-                prodSubtitle="鮪魚+0.4kg"
-                price="250"
-                qty="2"
-              />
-              <CartActivityCard
-                img="/product-img/pro001.jpg"
-                prodtitle="台北與毛家庭有約,邀你一起來挺寵！"
-                prodSubtitle="2023-05-06"
-                adPrice="500"
-                adQty="2"
-                kidPrice="100"
-                kidQty="1"
-              />
-              <CartActivityCard
-                img="/product-img/pro001.jpg"
-                prodtitle="台北與毛家庭有約,邀你一起來挺寵！"
-                prodSubtitle="2023-05-06"
-                adPrice="200"
-                adQty="1"
-                kidPrice="100"
-                kidQty="1"
-              />
+              {checkoutType === 'shop'
+                ? cartData.shop.map((v) => (
+                    <CartProductCard
+                      key={v.rel_sid + v.rel_seq_sid}
+                      img={'/product-img/' + v.img}
+                      prodtitle={v.rel_name}
+                      prodSubtitle={v.rel_seq_name}
+                      price={v.prod_price}
+                      qty={v.prod_qty}
+                    />
+                  ))
+                : cartData.activity.map((v) => (
+                    <CartActivityCard
+                      key={v.rel_sid + v.rel_seq_sid}
+                      img={'/activity_img/' + v.img}
+                      prodtitle={v.rel_name}
+                      prodSubtitle={v.rel_seq_name}
+                      adPrice={v.adult_price}
+                      adQty={v.adult_qty}
+                      kidPrice={v.child_price}
+                      kidQty={v.child_qty}
+                    />
+                  ))}
             </div>
             {checkoutType === 'shop' ? (
               <div className={style.section}>
