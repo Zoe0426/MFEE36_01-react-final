@@ -188,8 +188,7 @@ export default function List() {
   };
 
   //Pagination相關的函式-------------------------------------------------------
-  const onPageChange = (page, perpage) => {
-    console.log(perpage);
+  const PageChangeHandler = (page, perpage) => {
     setPerPage(perpage);
     setPage(page);
     router.push(
@@ -201,9 +200,26 @@ export default function List() {
     );
   };
 
-  // const onChange = (checkedValues) => {
-  //   console.log('checked = ', checkedValues);
-  // };
+
+  //dropDown排序相關的函式-------------------------------------------------------
+  const rankOptions = {
+    '1': 'price_ASC',
+    '2': 'price_DESC',
+    '3': 'new_DESC',
+    '4': 'sales_DESC',
+  };
+  
+  const onRankChange = (e) => {
+    const selectedRank = rankOptions[e.key];
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page:1,
+        orderBy: selectedRank,
+      }).toString()}`
+    );
+    console.log(selectedRank);
+  };
 
   return (
     <>
@@ -304,7 +320,7 @@ export default function List() {
       {/* </div> */}
       {/* <div className="container-outer"> */}
       <main className="container-inner">
-        <ShopTotalPagesRank totalItems={datas.totalRows} />
+        <ShopTotalPagesRank totalItems={datas.totalRows} onRankChange={onRankChange}/>
         <Row gutter={[32, 36]} className={styles.cards}>
           {datas.rows &&
             datas.rows.map((v) => {
@@ -369,8 +385,8 @@ export default function List() {
             // showQuickJumper={true}
             pageSizeOptions={[20, 40, 60]}
             // showSizeChanger={false}
-            onChange={onPageChange}
-            onShowSizeChange={onPageChange}
+            onChange={PageChangeHandler}
+            onShowSizeChange={PageChangeHandler}
           />
         </ConfigProvider>
       </div>
