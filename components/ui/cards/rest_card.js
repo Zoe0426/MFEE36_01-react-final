@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import Styles from './rest_card.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,11 @@ export default function RestCard({
   name = '',
   city = '',
   area = '',
+  rule_names = '',
+  service_names = '',
 }) {
+  const rules = rule_names.split(',');
+  const services = service_names.split(',');
   return (
     <>
       <div className={Styles.card}>
@@ -27,9 +31,12 @@ export default function RestCard({
           <RateStarPill score="4.8" />
         </div>
         <div className={Styles.hash_tag_group}>
-          <HashTag text="免費水" />
-          <HashTag text="有賣食物" />
-          <HashTag text="可放繩" className={Styles.last_hash_tag} />
+          {rules.map((v1, i1) => {
+            return <HashTag key={i1} text={v1} />;
+          })}
+          {services.map((v2, i2) => {
+            return <HashTag key={i2} text={v2} />;
+          })}
         </div>
       </div>
     </>
