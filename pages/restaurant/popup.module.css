@@ -13,7 +13,7 @@ body.active-modal {
   font-weight: 600;
   text-align: center;
   padding-bottom: 16px;
-  border-bottom: 1px solid var(--gray);
+  border-bottom: 1px solid rgb(203, 203, 203);;
 }
 
 .modal,
@@ -48,7 +48,7 @@ body.active-modal {
 }
 .line {
   height: 1px;
-  border-bottom: 1px solid var(--gray);
+  border-bottom: 1px solid rgb(203, 203, 203);
 }
 .btn_group {
     display: flex;
