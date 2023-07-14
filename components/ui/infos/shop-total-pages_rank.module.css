@@ -10,8 +10,19 @@
     margin-bottom: 12px;;
 }
 
-.total_pages_rank>div>p{
+.total_pages_rank>div:first-child>p{
     font-size: var(--pfs16);
+}
+
+.total_pages_order_title{
+   display: flex;
+   align-items: center;
+}
+
+.total_pages_order_title p{
+    font-size: var(--h6fs18);
+    padding-right: var(--p8);
+    color:var(--dark-gray)
 }
 
 @media screen and (max-width:767px){

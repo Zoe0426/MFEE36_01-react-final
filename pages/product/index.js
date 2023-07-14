@@ -48,7 +48,7 @@ export default function ProdoctIndex() {
     (async function getData() {
       //拿回汪星人24張卡片資訊
       const res_cards = await fetch(
-        'http://localhost:3002/shop-api/hompage-cards',
+        `${process.env.API_SERVER}/shop-api/hompage-cards`,
         {
           method: 'GET',
         }
@@ -158,22 +158,28 @@ export default function ProdoctIndex() {
                     max_price,
                     min_price,
                     avg_rating,
+                    sales_qty,
                   } = v;
                   return (
-                    <Col xs={12} sm={12} md={1} className={styles.product_card} key={product_sid}>
-                      <ShopProductCard                        
+                    <Col
+                      xs={12}
+                      sm={12}
+                      md={1}
+                      className={styles.product_card}
+                      key={product_sid}
+                    >
+                      <ShopProductCard
                         product_sid={product_sid}
-                        category_detail_sid={category_detail_sid}
-                        for_pet_type={for_pet_type}
                         name={name}
                         img={img}
-                        update_date={update_date}
-                        supplier={supplier}
                         max_price={max_price}
                         min_price={min_price}
                         avg_rating={avg_rating}
+                        tag_display={true}
+                        sales_qty={sales_qty}
                       />
-                  </Col>);
+                    </Col>
+                  );
                 })
               );
             })}
@@ -234,20 +240,27 @@ export default function ProdoctIndex() {
                 avg_rating,
               } = v;
               return (
-                <Col xs={12} sm={12} md={1} className={styles.product_card} key={product_sid}>
-                <ShopProductCard                  
-                  product_sid={product_sid}
-                  category_detail_sid={category_detail_sid}
-                  for_pet_type={for_pet_type}
-                  name={name}
-                  img={img}
-                  update_date={update_date}
-                  supplier={supplier}
-                  max_price={max_price}
-                  min_price={min_price}
-                  avg_rating={avg_rating}
-                />
-              </Col>);
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={1}
+                  className={styles.product_card}
+                  key={product_sid}
+                >
+                  <ShopProductCard
+                    product_sid={product_sid}
+                    category_detail_sid={category_detail_sid}
+                    for_pet_type={for_pet_type}
+                    name={name}
+                    img={img}
+                    update_date={update_date}
+                    supplier={supplier}
+                    max_price={max_price}
+                    min_price={min_price}
+                    avg_rating={avg_rating}
+                  />
+                </Col>
+              );
             })}
           </Row>
         </div>

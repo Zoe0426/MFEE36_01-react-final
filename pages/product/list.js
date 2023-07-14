@@ -30,10 +30,16 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 export default function List() {
   const { typeForPet, categoryDetailSid, typeForAge } = filterDatas;
   const router = useRouter();
+  //排序
+  const [orderBy, setOrderBy] = useState('-- 請選擇 --');
+
+  //是否顯示總銷售數的tag
+  const [showFlag, setShowFlag] = useState(false);
+
   //換頁時要用的-類別/關鍵字/頁碼
   const [catergory, setCategory] = useState('');
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(16);
+  const [perPage, setPerPage] = useState(20);
   const [keyword, setKeyword] = useState('');
 
   const [datas, setDatas] = useState({
@@ -145,7 +151,7 @@ export default function List() {
   const removeLikeListToDB = async (pid = '', mid = '') => {
     try {
       const removeAll = await fetch(
-        `http://localhost:3002/shop-api/likelist/${pid}/${mid}`,
+        `${process.env.API_SERVER}/shop-api/likelist/${pid}/${mid}`,
         {
           method: 'DELETE',
         }
@@ -200,21 +206,47 @@ export default function List() {
     );
   };
 
-
   //dropDown排序相關的函式-------------------------------------------------------
   const rankOptions = {
-    '1': 'price_ASC',
-    '2': 'price_DESC',
-    '3': 'new_DESC',
-    '4': 'sales_DESC',
+    1: 'price_ASC',
+    2: 'price_DESC',
+    3: 'new_DESC',
+    4: 'sales_DESC',
   };
-  
+
+  const items = [
+    {
+      label: '價格由低到高',
+      key: '1',
+    },
+    {
+      label: '價格由高到低',
+      key: '2',
+    },
+    {
+      label: '最新商品',
+      key: '3',
+    },
+    {
+      label: '熱賣商品',
+      key: '4',
+    },
+  ];
+
   const onRankChange = (e) => {
+    const newSelect = items.find((v) => v.key === e.key);
+    setOrderBy(newSelect.label);
+
     const selectedRank = rankOptions[e.key];
+    if (selectedRank === 'sales_DESC') {
+      setShowFlag(true);
+    } else {
+      setShowFlag(false);
+    }
     router.push(
       `?${new URLSearchParams({
         ...router.query,
-        page:1,
+        page: 1,
         orderBy: selectedRank,
       }).toString()}`
     );
@@ -320,21 +352,23 @@ export default function List() {
       {/* </div> */}
       {/* <div className="container-outer"> */}
       <main className="container-inner">
-        <ShopTotalPagesRank totalItems={datas.totalRows} onRankChange={onRankChange}/>
+        <ShopTotalPagesRank
+          totalItems={datas.totalRows}
+          onRankChange={onRankChange}
+          orderBy={orderBy}
+          items={items}
+        />
         <Row gutter={[32, 36]} className={styles.cards}>
           {datas.rows &&
             datas.rows.map((v) => {
               const {
                 product_sid,
-                category_detail_sid,
-                for_pet_type,
                 name,
                 img,
-                update_date,
-                supplier,
                 max_price,
                 min_price,
                 avg_rating,
+                sales_qty,
               } = v;
               return (
                 <Col
@@ -346,15 +380,13 @@ export default function List() {
                 >
                   <ShopProductCard
                     product_sid={product_sid}
-                    category_detail_sid={category_detail_sid}
-                    for_pet_type={for_pet_type}
                     name={name}
                     img={img}
-                    update_date={update_date}
-                    supplier={supplier}
                     max_price={max_price}
                     min_price={min_price}
                     avg_rating={avg_rating}
+                    tag_display={showFlag}
+                    sales_qty={sales_qty}
                   />
                 </Col>
               );
@@ -380,9 +412,6 @@ export default function List() {
             total={datas.totalRows}
             pageSize={datas.perPage}
             showSizeChanger
-            // showFirstButton
-            // showLastButton
-            // showQuickJumper={true}
             pageSizeOptions={[20, 40, 60]}
             // showSizeChanger={false}
             onChange={PageChangeHandler}
