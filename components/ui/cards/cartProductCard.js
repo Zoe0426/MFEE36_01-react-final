@@ -8,12 +8,17 @@ export default function CartProductCard({
   prodSubtitle = '',
   price = 0,
   qty = 0,
+  selected,
+  shopData = [],
+  setShopData = () => {},
   delHandler = () => {},
-  checkHandler = () => {},
 }) {
   const onChange = (value) => {
     console.log('changed', value);
   };
+
+  console.log(selected);
+
   return (
     <ConfigProvider
       theme={{
@@ -25,7 +30,15 @@ export default function CartProductCard({
       }}
     >
       <div className={style.productCard}>
-        <Checkbox onChange={checkHandler} className={style.checkbox}></Checkbox>
+        <Checkbox
+          // onChange={() => {
+          //   const newData = shopData.map((v)=>{
+          //     && {}
+          //   })
+          // }}
+          className={style.checkbox}
+          checked={selected}
+        ></Checkbox>
         <img src={img} alt="productimg" className={style.prodimg} />
         <div className={style.forRwd}>
           <div className={style.prodname}>

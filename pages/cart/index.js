@@ -23,8 +23,6 @@ export default function Cart() {
   const [postType, setPostType] = useState(1);
   const [paymentType, setPaymentType] = useState(1);
 
-
-
   const changePostType = (e) => {
     console.log('radio checked', e.target.value);
     setPostType(e.target.value);
@@ -34,23 +32,23 @@ export default function Cart() {
     console.log('radio checked', e.target.value);
     setPaymentType(e.target.value);
   };
-  
-  const getCart = async ()=>{
+
+  const getCart = async () => {
     const r = await fetch(`${process.env.API_SERVER}/cart-api/get-cart-items`, {
       method: 'POST',
-      body: JSON.stringify({member_sid: 'mem00471'}),
-      headers:{
-        "Content-Type": 'application/json',
-      }
+      body: JSON.stringify({ member_sid: 'mem00471' }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
     const data = await r.json();
     console.log(data);
     setCartData(data);
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     getCart();
-  },[])
+  }, []);
 
   return (
     <>
