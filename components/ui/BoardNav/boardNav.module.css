@@ -25,9 +25,12 @@
 .boardRange{
   width:1200px;
   height:100%;
-  overflow: scroll;
+  overflow-y: hidden;
   display:flex;
   justify-content: center;
+}
+.boardRange::-webkit-scrollbar{
+  display: none;
 }
 .nav{
   width:1280px;
