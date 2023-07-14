@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Styles from './popup.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function Modal() {
   const [modal, setModal] = useState(false);
@@ -33,6 +35,11 @@ export default function Modal() {
               quaerat ipsum quos molestiae rem aspernatur dicta tenetur. Sunt
               placeat tempora vitae enim incidunt porro fuga ea.
             </p>
+            <FontAwesomeIcon
+              icon={faXmark}
+              className={Styles.close_modal}
+              onClick={toggleModal}
+            />
             <div className={Styles.line}></div>
             <div className={Styles.btn_group}>
               <SecondaryBtn text="取消" clickHandler={toggleModal} />
