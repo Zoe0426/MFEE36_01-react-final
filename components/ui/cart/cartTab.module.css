@@ -1,0 +1,23 @@
+.typeSelected{
+    border-radius: var(--br10) var(--br10) 0 0;
+    background-color: var(--main);
+    color: white;
+    text-align: center;
+    padding: var(--p8) var(--p32);
+    display: inline-block;
+    margin-right: 8px;
+    cursor: pointer;
+    font-size: var(--pfs16);
+}
+.type{
+     border-radius: var(--br10) var(--br10) 0 0;
+    border: 1px solid var(--main);
+    border-bottom: none;
+    color: var(--main);
+    text-align: center;
+    padding: var(--p16) var(--p32);
+    display: inline-block;
+    margin-right: 8px;
+    cursor: pointer;
+    font-size: var(--pfs16);
+}

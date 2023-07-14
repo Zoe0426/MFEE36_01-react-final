@@ -8,7 +8,7 @@ import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import rundog from '@/assets/running-dog.svg';
 import Image from 'next/image';
-
+import CartTab from '@/components/ui/cart/cartTab';
 export default function Cart() {
   const [cartData, setCartData] = useState({
     shop: [],
@@ -60,16 +60,12 @@ export default function Cart() {
         <Row>
           <Col xs={24} sm={24} md={24} lg={17} className={style.detailSection}>
             <div className={style.checkoutType}>
-              <div
-                onClick={() => {
-                  setCheckoutType('shop');
-                }}
-                className={`${
-                  checkoutType === 'shop' ? style.typeSelected : style.type
-                }`}
-              >
-                商品
-              </div>
+              {/* <CartTab text="商品" checkoutType={checkoutType} setCheckoutType= {setCheckoutType('shop')}/> */}
+              
+
+
+
+
               <div
                 onClick={() => {
                   setCheckoutType('activity');
