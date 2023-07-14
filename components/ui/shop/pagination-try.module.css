@@ -1,0 +1,41 @@
+.pages{
+    display: flex;
+    justify-content: center;
+}
+
+.page{
+    width: 30px;
+    height: 30px;
+    margin: 0 var(--p8);
+    border-radius: var(--br8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: var(--fwbold);
+    
+}
+
+.page_active{
+    background-color: var(--secondary);
+}
+
+.page:hover{
+    background-color: var(--lightBrown);
+}
+
+
+.page_disabled {   
+    cursor: not-allowed;
+    pointer-events: none;
+    /* color:var(--gray) */
+  }
+
+.page>a{
+    flex:1;
+    text-decoration: none;
+    font-size:var(--pfs16) ;
+}
+
+.icon_disable{
+    color:var(--light-gray)
+}

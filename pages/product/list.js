@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/shop.module.css';
-import { Pagination, Row,Col } from 'antd';
+import { Pagination, Row, Col, ConfigProvider } from 'antd';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/like-list';
@@ -27,15 +27,29 @@ import filterDatas from '@/data/product/filters.json';
 
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
-export default function Catergory() {
+export default function List() {
   const { typeForPet, categoryDetailSid, typeForAge } = filterDatas;
-  const { query, asPath } = useRouter();
+  const router = useRouter();
+  //換頁時要用的-類別/關鍵字/頁碼
+  const [catergory, setCategory] = useState('');
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(16);
+  const [keyword, setKeyword] = useState('');
 
-  const [datas, setDatas] = useState([]);
+  const [datas, setDatas] = useState({
+    totalRows: 0,
+    perPage: 16,
+    totalPages: 0,
+    page: 1,
+    rows: [],
+    // like:[],
+    brand: [],
+  });
+
   const [likeDatas, setLikeDatas] = useState([]);
-  const [brandDatas, setBrandDatas] = useState([]);
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPages, settotalPages] = useState(0);
+  //   const [brandDatas, setBrandDatas] = useState([]);
+  //   const [totalItems, setTotalItems] = useState(0);
+  //   const [totalPages, settotalPages] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
   //麵包屑寫得有點奇怪...
@@ -52,38 +66,53 @@ export default function Catergory() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { cid } = query;
+    const { category, keyword } = router.query;
+    console.log(router.query);
+    setCategory(category || '');
+    setKeyword(keyword || '');
+    const usp = new URLSearchParams(router.query);
 
-    if (cid) {
-      (async function getData() {
-        const r = await fetch(
-          `http://localhost:3002/shop-api/maincard/${cid}`,
-          {
-            method: 'GET',
-          }
-        );
-        const backDatas = await r.json();
-        const { totalRows, cardData, likeDatas, brandDatas } = backDatas;
-        console.log(cardData);
-        if (totalRows) {
-          setTotalItems(totalRows);
-        }
-        if (cardData) {
-          setDatas(cardData);
-        }
-        if (totalPages) {
-          settotalPages(totalPages);
-        }
-        if (likeDatas) {
-          setLikeDatas(likeDatas);
-        }
+    fetch(`${process.env.API_SERVER}/shop-api/products?${usp.toString()}`)
+      .then((r) => r.json())
+      .then((obj) => {
+        setDatas(obj);
+        setLikeDatas(obj.likeDatas);
+      })
+      .catch((error) => {
+        // 處理錯誤情況
+        console.error(error);
+      });
 
-        if (brandDatas) {
-          setBrandDatas(brandDatas);
-        }
-      })();
-    }
-  }, [query]);
+    // if (cid) {
+    //   (async function getData() {
+    //     const r = await fetch(
+    //       `http://localhost:3002/shop-api/maincard/${cid}`,
+    //       {
+    //         method: 'GET',
+    //       }
+    //     );
+    //     const backDatas = await r.json();
+    //     const { totalRows, cardData, likeDatas, brandDatas } = backDatas;
+    //     console.log(cardData);
+    //     if (totalRows) {
+    //       setTotalItems(totalRows);
+    //     }
+    //     if (cardData) {
+    //       setDatas(cardData);
+    //     }
+    //     if (totalPages) {
+    //       settotalPages(totalPages);
+    //     }
+    //     if (likeDatas) {
+    //       setLikeDatas(likeDatas);
+    //     }
+
+    //     if (brandDatas) {
+    //       setBrandDatas(brandDatas);
+    //     }
+    //   })();
+    // }
+  }, [router.query]);
 
   //篩選BOX相關的函式-------------------------------------------------------
   const toggleFilter = () => {
@@ -134,16 +163,80 @@ export default function Catergory() {
     }
   };
 
-  const onChange = (checkedValues) => {
-    console.log('checked = ', checkedValues);
+  //searchBar相關的函式-------------------------------------------------------
+  const searchBarHandler = (e) => {
+    let copyURL = { ...router.query, page: 1 };
+    if (e.key === 'Enter') {
+      if (!keyword) {
+        delete copyURL.keyword;
+      } else {
+        const searchText = e.target.value;
+        copyURL = { ...copyURL, keyword: searchText };
+      }
+      router.push(`?${new URLSearchParams(copyURL).toString()}`);
+    }
   };
+
+  const searchBarClickHandler = () => {
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        keyword: keyword,
+        page: 1,
+      }).toString()}`
+    );
+  };
+
+  //Pagination相關的函式-------------------------------------------------------
+  const PageChangeHandler = (page, perpage) => {
+    setPerPage(perpage);
+    setPage(page);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: page,
+        perPage: perpage,
+      }).toString()}`
+    );
+  };
+
+
+  //dropDown排序相關的函式-------------------------------------------------------
+  const rankOptions = {
+    '1': 'price_ASC',
+    '2': 'price_DESC',
+    '3': 'new_DESC',
+    '4': 'sales_DESC',
+  };
+  
+  const onRankChange = (e) => {
+    const selectedRank = rankOptions[e.key];
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page:1,
+        orderBy: selectedRank,
+      }).toString()}`
+    );
+    console.log(selectedRank);
+  };
+
   return (
     <>
       {/* <div className="container-outer"> */}
       <div className={styles.bgc_lightBrown}>
         <nav className="container-inner">
           <div className={styles.search_bar}>
-            <SearchBar placeholder="搜尋你愛的東西" btn_text="尋找商品" />
+            <SearchBar
+              placeholder="搜尋你愛的東西"
+              btn_text="尋找商品"
+              inputText={keyword}
+              changeHandler={(e) => {
+                setKeyword(e.target.value);
+              }}
+              keyDownHandler={searchBarHandler}
+              clickHandler={searchBarClickHandler}
+            />
           </div>
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
@@ -201,7 +294,7 @@ export default function Catergory() {
                 />
                 <ProductFilter
                   text="品牌:"
-                  data={brandDatas}
+                  data={datas.brand}
                   needSpan={false}
                   onChange={() => {}}
                 />
@@ -227,47 +320,75 @@ export default function Catergory() {
       {/* </div> */}
       {/* <div className="container-outer"> */}
       <main className="container-inner">
-        <ShopTotalPagesRank totalItems={totalItems} />
+        <ShopTotalPagesRank totalItems={datas.totalRows} onRankChange={onRankChange}/>
         <Row gutter={[32, 36]} className={styles.cards}>
-          {datas.map((v) => {
-            const {
-              product_sid,
-              category_detail_sid,
-              for_pet_type,
-              name,
-              img,
-              update_date,
-              supplier,
-              max_price,
-              min_price,
-              avg_rating,
-            } = v;
-            return (
-              <Col xs={12} sm={12} md={6} className={styles.product_card}>
-                <ShopProductCard
+          {datas.rows &&
+            datas.rows.map((v) => {
+              const {
+                product_sid,
+                category_detail_sid,
+                for_pet_type,
+                name,
+                img,
+                update_date,
+                supplier,
+                max_price,
+                min_price,
+                avg_rating,
+              } = v;
+              return (
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  className={styles.product_card}
                   key={product_sid}
-                  product_sid={product_sid}
-                  category_detail_sid={category_detail_sid}
-                  for_pet_type={for_pet_type}
-                  name={name}
-                  img={img}
-                  update_date={update_date}
-                  supplier={supplier}
-                  max_price={max_price}
-                  min_price={min_price}
-                  avg_rating={avg_rating}
-                />
-            </Col>);
-          })}
+                >
+                  <ShopProductCard
+                    product_sid={product_sid}
+                    category_detail_sid={category_detail_sid}
+                    for_pet_type={for_pet_type}
+                    name={name}
+                    img={img}
+                    update_date={update_date}
+                    supplier={supplier}
+                    max_price={max_price}
+                    min_price={min_price}
+                    avg_rating={avg_rating}
+                  />
+                </Col>
+              );
+            })}
         </Row>
       </main>
       <div className={styles.pagination}>
-        <Pagination
-          defaultCurrent={1}
-          total={totalItems}
-          pageSize={16}
-          showSizeChanger={false}
-        />
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#FD8C46',
+              colorBgContainer: 'transparent',
+              colorBgTextHover: '#FFEFE8',
+              colorBgTextActive: '#FFEFE8',
+              fontSize: 18,
+              controlHeight: 38,
+              lineWidthFocus: 1,
+            },
+          }}
+        >
+          <Pagination
+            current={datas.page}
+            total={datas.totalRows}
+            pageSize={datas.perPage}
+            showSizeChanger
+            // showFirstButton
+            // showLastButton
+            // showQuickJumper={true}
+            pageSizeOptions={[20, 40, 60]}
+            // showSizeChanger={false}
+            onChange={PageChangeHandler}
+            onShowSizeChange={PageChangeHandler}
+          />
+        </ConfigProvider>
       </div>
       {/* </div> */}
     </>

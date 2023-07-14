@@ -24,7 +24,7 @@
 .pet_type_tabs{    
     display: flex;
     justify-content: center;
-    margin: 96px 0;
+    margin: 48px 0 32px 0;
 }
 
 .pet_type_tabs span{
@@ -51,6 +51,10 @@
 
 
 /*主頁滑動卡片的排版*/
+.product_card{
+    display:flex
+}
+
 .pet_type_cards{
     margin-left:5%;
     width:7000px;
@@ -126,12 +130,11 @@
     text-align: center;
 }
 
-
 /*--------------商品細節頁面-------------*/
 
 /* 主要訊息區 */
 .detail_main_box{
-    margin-top: 88px;
+    margin-top: 48px;
     display: flex;
 }
 
@@ -287,7 +290,7 @@
 /*付款方式*/
 
 .detail_spec_text, .detail_ship_text{
-    font-size: var(--pfs16);
+    font-size: var(--h6fs18);
     line-height: 1.3;
 }
 
@@ -369,12 +372,11 @@
 .detail_return_box>li>ol{
     padding-left: var(--p16);
     line-height: 1.5;
-    list-style-type: decimal;
-    
+    list-style-type: decimal;    
 }
+
 .detail_return_box>li>ol>li{
     font-size: var(--h6fs18);
-
 }
 
 
@@ -444,17 +446,24 @@ overflow: hidden;
 
     /*貓狗大類別的圖示按鈕*/
     .pet_type_tabs{    
-        text-align: center;
-        margin: 56px 0;
+        /* margin:56px auto; */
+        padding-left:16px
     }
 
     .pet_type_tabs span{
-        padding-left:var(--p8);
+        padding-right:var(--p8);
         font-size: var(--h5fs20);
+    }
+    .pet_type_tabs span:last-child{
+        padding-left:0;
     }
 
     .tab_active, .tab_normal{
         margin-right: 36px;
+    }
+
+    .pet_type_btns{
+        display: none;
     }
 
 
@@ -468,8 +477,13 @@ overflow: hidden;
     }
 
     .pet_type_cards,.new_cards,.recomand_cards{
-        width:auto
+        width:390px;
+        overflow-y: hidden;
     }
+
+    .pet_type_cards::-webkit-scrollbar,.new_cards::-webkit-scrollbar,.recomand_cards::-webkit-scrollbar {
+        display: none;
+      }
 
 
     /*品牌卡片*/
@@ -477,8 +491,18 @@ overflow: hidden;
         padding:var(--p16);
         display: flex;
         flex-wrap: nowrap;
-        
+        width:390px;
+        overflow-y: hidden
     }
+
+    .pet_type_cards,.new_cards,.recomand_cards{
+        width:390px;
+        overflow-y: hidden;
+    }
+
+    .brand_cards::-webkit-scrollbar {
+        display: none;
+      }
 
     /*--------------商品列表頁-------------*/
     /* 篩選的按鈕 */
@@ -529,13 +553,27 @@ overflow: hidden;
     /*購買數量按鈕*/
 
     .detail_qty{
-        width:30%;        
+        width:40%;
+        height: 42px;        
         border-radius: var(--br8);
         font-size: var(--pfs14);          
     
     }
     .detail_qty_sub_btn,.detail_qty_add_btn, .detail_qty_input{
         font-size: var(--pfs14);
+        padding: 0 12px;
+    }
+
+    .detail_spec_text, .detail_ship_text{
+        font-size: var(--pfs16);
+    }
+
+    .detail_text_box>li>p, .detail_return_box>li>p, .detail_return_box>li>ol{
+        font-size: var(--pfs16);
+    }
+
+    .detail_return_box>li>ol>li{
+        font-size: var(--pfs16);
     }
 
     /*主要按鈕區*/
@@ -560,7 +598,7 @@ overflow: hidden;
         font-size: var(--pfs16);
     }
 
-    .detail_text_box h4, .detail_return_box h4{
+    .detail_text_box h6, .detail_return_box h6{
         font-size: var(--h6fs18);
         text-align-last:auto;
         padding-right: 0;
@@ -593,7 +631,7 @@ overflow: hidden;
     /*推薦商品*/
     .reconmand_products_box{    
         justify-content: flex-start;
-        margin: 56px 0;
+        margin: 48px 0 32px 0;
     }
 
     .reconmand_products_title{
