@@ -6,7 +6,7 @@ const nextConfig = {
   },
   images: {
     domains: ['via.placeholder.com', 'localhost'],
-  }
+  },
   // avoid cors with proxy
   // async rewrites() {
   //   return [
