@@ -27,6 +27,23 @@
     text-align: center;
 }
 
+.card_tag{
+    position: absolute;
+    bottom:0;
+    left:0;
+    background-color: var(--light1);
+    padding: var(--p8);
+    display: flex;
+    z-index: 3;
+}
+.card_tag>p:nth-child(2){
+    color:var(--main);
+    font-weight: var(--fwbold);
+}
+
+
+
+
 .card_head img{
     width: 100%;
     max-width: 200px;

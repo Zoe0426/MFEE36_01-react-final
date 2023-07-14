@@ -1,7 +1,7 @@
 .total_pages_rank{
     display: flex;
     justify-content: space-between;
-    margin:64px 0 48px 0;
+    margin:16px 0 48px 0;
 }
 
 .total_pages_rank>div>h4{

@@ -12,8 +12,8 @@ export default function ShopProductCard({
   max_price = 0,
   min_price = 0,
   avg_rating = 0,
-  col = 1,
-  xs = 12,
+  tag_display=false,
+  sales_qty=0,
 }) {
   return (
     // <Col xs={xs} sm={xs} md={col} className={styles.card}>
@@ -22,6 +22,11 @@ export default function ShopProductCard({
         href={`http://localhost:3000/product/${product_sid}`}
       >
         <div className={styles.card_head}>
+        {tag_display && <div className={styles.card_tag}>
+          <p>已銷售 </p>
+          <p>{sales_qty}</p>
+          <p> 組</p>
+        </div>}
           <div>
             <img src={`/product-img/${img}`} alt={name} />
           </div>
