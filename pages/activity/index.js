@@ -121,7 +121,7 @@ export default function ActivityHome() {
       <div className={styles.section2}>
         <div className="container-inner">
           <div>
-            <p className={styles.title}>本月最新活動</p>
+            <p className={styles.title}>最新上架</p>
           </div>
           <div className={styles.section_card}>
           <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />

@@ -5,6 +5,7 @@ import styles from './ActivityCard4.module.css';
 import ActivityFeature from './ActivityFeature';
 
 const ActivityCard4 = ({
+  activity_sid='', //link要用的
   image='',
   type='',
   title='',
