@@ -60,22 +60,22 @@ export default function Cart() {
         <Row>
           <Col xs={24} sm={24} md={24} lg={17} className={style.detailSection}>
             <div className={style.checkoutType}>
-              {/* <CartTab text="商品" checkoutType={checkoutType} setCheckoutType= {setCheckoutType('shop')}/> */}
-              
-
-
-
-
-              <div
-                onClick={() => {
+              <CartTab
+                type="shop"
+                text="商品"
+                checkoutType={checkoutType}
+                clickHandler={() => {
+                  setCheckoutType('shop');
+                }}
+              />
+              <CartTab
+                type="activity"
+                text="活動"
+                checkoutType={checkoutType}
+                clickHandler={() => {
                   setCheckoutType('activity');
                 }}
-                className={`${
-                  checkoutType === 'activity' ? style.typeSelected : style.type
-                }`}
-              >
-                活動
-              </div>
+              />
             </div>
             <div className={style.section}>
               {checkoutType === 'shop'
