@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import RestCard from '@/components/ui/cards/rest_card';
 import { Col, Row } from 'antd';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
@@ -22,6 +22,18 @@ export default function FilterPage() {
 
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
+
+  //取資料相關的函式-------------------------------------------------------
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:3002/restaurant-api');
+      const data = await response.json();
+      setData(data);
+    };
+
+    fetchData();
+  }, []);
 
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
@@ -135,12 +147,26 @@ export default function FilterPage() {
 
       <div className="container-inner">
         <Row gutter={{ xs: 16, xl: 32 }}>
+          {data.map((i) => {
+            const { rest_sid, name, city, area, image } = i;
+
+            return(
+              <Col xl={8} xs={12}>
+              <RestCard
+              image={image}
+              name={name}
+              city={city}
+              area={area}
+            />
+              </Col>
+            )
+          })}
           <Col xl={8} xs={12}>
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -148,7 +174,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -156,7 +182,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -164,7 +190,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -172,7 +198,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -180,7 +206,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -188,7 +214,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -196,7 +222,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -204,7 +230,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -212,7 +238,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -220,7 +246,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
           <Col xl={8} xs={12}>
@@ -228,7 +254,7 @@ export default function FilterPage() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </Col>
         </Row>

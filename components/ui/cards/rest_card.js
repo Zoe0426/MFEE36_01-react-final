@@ -9,7 +9,7 @@ export default function RestCard({
   image = '',
   name = '',
   city = '',
-  location = '',
+  area = '',
 }) {
   return (
     <>
@@ -22,7 +22,7 @@ export default function RestCard({
 
         <div className={Styles.rest_title}>
           <p className={Styles.rest_location}>
-            {city}‧{location}
+            {city}‧{area}
           </p>
           <RateStarPill score="4.8" />
         </div>

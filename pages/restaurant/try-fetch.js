@@ -16,10 +16,10 @@ export default function TestFetch() {
   return (
     <>
       {data.map((v) => {
-        const { rest_sid, name, city, area, rule_name, service_name } = v;
+        const { rest_sid, name, city, area, rule_names, service_names } = v;
         return (
           <p key={rest_sid}>
-            {name},{city},{area},{rule_name},{service_name}
+            {name},{city},{area},{rule_names},{service_names}
           </p>
         );
       })}

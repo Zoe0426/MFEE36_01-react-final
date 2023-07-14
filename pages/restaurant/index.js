@@ -304,21 +304,21 @@ export default function Restindex() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
 
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
 
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </div>
         </div>
@@ -334,21 +334,21 @@ export default function Restindex() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
 
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
 
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </div>
         </div>
