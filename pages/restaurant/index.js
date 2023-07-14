@@ -1,7 +1,11 @@
 import React from 'react';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFire,
+  faMap,
+  faHeart,
+  faFilter,
   faFaceLaugh,
   faLocationDot,
 } from '@fortawesome/free-solid-svg-icons';
@@ -11,98 +15,121 @@ import RestTitle from '@/components/ui/restaurant/RestTitle';
 import LocationCard from '@/components/ui/restaurant/LocationCard';
 import Styles from './index.module.css';
 import Banner from '@/components/ui/restaurant/Banner';
-import FunctionArea from '@/components/ui/restaurant/FunctionArea';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
+import IconBtn from '@/components/ui/buttons/IconBtn';
 import MiddleAreaBgc from '@/components/ui/restaurant/MiddleAreaBgc';
 import SubBtn from '@/components/ui/buttons/subBtn';
+import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
+import LocationFilter from '@/components/ui/restaurant/LocationFilter';
+import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
+import Likelist from '@/components/ui/like-list/like-list';
+import filterDatas from '@/data/restaurnt/categories.json';
+import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
+import MainBtn from '@/components/ui/buttons/MainBtn';
 
 export default function Restindex() {
+  const { categorySid } = filterDatas;
+  const [showfilter, setShowFilter] = useState(false);
+
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
+
+  //篩選filter相關的函式-------------------------------------------------------
+  const toggleFilter = () => {
+    setShowFilter(!showfilter);
+  };
+
+  //收藏列表相關的函式-------------------------------------------------------
+  const openShowLikeList = () => {
+    setShowLikeList(!showLikeList);
+  };
+
+  const closeShowLikeList = () => {
+    setShowLikeList(false);
+  };
+
+  const removeAllLikeList = () => {
+    setLikeDatas([]);
+    //這邊需要再修改，要看怎麼得到會員的編號
+    removeLikeListToDB('all', 'mem00002');
+  };
+
+  const removeLikeListItem = (pid) => {
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.product_sid !== pid;
+    });
+
+    setLikeDatas(newLikeList);
+    //這邊需要再修改，要看怎麼得到會員的編號
+    removeLikeListToDB(pid, 'mem00002');
+  };
   return (
     <>
-      <div className="container-outer">
-        <Banner />
-        <FunctionArea />
-        <TopAreaBgc />
+      <Banner />
+      <div className={Styles.bgc}>
+        <div className="container-inner">
+          <div className={Styles.function_group}>
+            <IconBtn icon={faMap} text="餐廳地圖" />
+            <IconBtn
+              icon={faHeart}
+              text="收藏列表"
+              clickHandler={openShowLikeList}
+            />
+            <IconBtn
+              icon={faFilter}
+              text="進階篩選"
+              clickHandler={toggleFilter}
+            />
+          </div>
+        </div>
+        {/* 進階篩選的畫面 */}
+        {showfilter && (
+          <>
+            <div className="container-outer">
+              <div className={Styles.line}></div>
+            </div>
+            <div className="container-inner">
+              <div className={Styles.filter_box}>
+                <LocationFilter text="用餐地區" />
+                <TimeDateFilter />
+                <RestaurantFilter
+                  text="用餐類別"
+                  data={categorySid}
+                  onChange={() => {}}
+                />
+
+                <div className={Styles.filter_btns}>
+                  <SecondaryBtn text="重置" />
+                  <MainBtn text="確定" />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/* 收藏列表畫面 */}
+        <div className="container-inner">
+          <div className={Styles.like_list}>
+            {showLikeList && (
+              <Likelist
+                datas={likeDatas}
+                // customCard={
+                //   <ShopLikelistCard
+                //     datas={likeDatas}
+                //     removeLikeListItem={removeLikeListItem}
+                //   />
+                // }
+                closeHandler={closeShowLikeList}
+                removeAllHandler={removeAllLikeList}
+                removeLikeListItem={removeLikeListItem}
+              />
+            )}
+          </div>
+        </div>
       </div>
-      {/* <div className="container-inner">
-        <div className={Styles.explore_title}>
-          <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
-          <h2 className={Styles.jill_h2}>探索各地友善餐廳</h2>
-        </div>
-        <div className={Styles.city_group}>
-          <LocationCard
-            rest_image="/rest_image/city/taipei.png"
-            location="台北市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/newtaipei.png"
-            location="新北市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/keelung.png"
-            location="基隆市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/taoyuan.png"
-            location="桃園市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/taichung.png"
-            location="台中市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/hsinchu.png"
-            location="新竹市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/kaohsiung.png"
-            location="高雄市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/tainan.png"
-            location="台南市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/miaoli.png"
-            location="苗栗市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/chiayi.png"
-            location="嘉義市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/changhua.png"
-            location="彰化市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/yilan.png"
-            location="宜蘭市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/pingtung.png"
-            location="屏東市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/hualien.png"
-            location="花蓮市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/taitung.png"
-            location="台東市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/nantou.png"
-            location="南投市"
-          />
-          <LocationCard
-            rest_image="/rest_image/city/yunlin.png"
-            location="雲林市"
-          />
-          <LocationCard rest_image="/rest_image/dog_paw.png" />
-        </div>
-      </div> */}
+      <TopAreaBgc />
+    
       <div className="container-inner">
         <div className={Styles.explore_title}>
           <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
@@ -277,21 +304,21 @@ export default function Restindex() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
 
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
 
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </div>
         </div>
@@ -307,21 +334,21 @@ export default function Restindex() {
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
 
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
 
             <RestCard
               image="/rest_image/sunshine.jpeg"
               name="我家有休閒農場"
               city="台北市"
-              location="大安區"
+              area="大安區"
             />
           </div>
         </div>

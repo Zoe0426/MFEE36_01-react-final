@@ -26,22 +26,39 @@
     color: var(--dark);
     margin-right: 10px;
 }
-
-.city{
-    margin-right: 16px;
-    padding: 0 16px;
-    width: 200px;
-}
-.arrow{
+.date{
+    width: 416px;
     margin-right: 100px;
 }
-.section{
+.time{
+    margin-right: 16px;
     padding: 0 16px;
-    width: 200px;
+    width: 416px;
 }
+.arrow{
+    margin-right: 320px;
+}
+
+
 
 @media screen and (max-width:767px){
     .total_pages_rank>div>p{
         font-size:var(--pfs16) ;
+    }
+    .categor_area{
+        justify-content: flex-start;
+        margin-top: 20px;
+    }
+    .total_pages_rank{
+        flex-direction: column;
+        margin:0px;
+        font-size: var(--h6fs18);
+    }
+    .time{
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .date{
+        width: 100%;
     }
     }

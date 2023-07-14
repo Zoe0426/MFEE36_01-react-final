@@ -1,11 +1,11 @@
 import React from 'react';
-import Styles from './LocationSearch.module.css';
+import Styles from './LocationFilter.module.css';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Space, message, ConfigProvider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-export default function LocationSearch({ text = '', totalItems = 0 }) {
+export default function LocationFilter({ text = '', totalItems = 0 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
     console.log('click left button', e);
@@ -16,15 +16,15 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
   };
   const items = [
     {
-      label: '評價高到低',
+      label: '台北市',
       key: '1',
     },
     {
-      label: '評價低到高',
+      label: '桃園市',
       key: '2',
     },
     {
-      label: '最熱門',
+      label: '高雄市',
       key: '3',
     },
   ];
@@ -38,7 +38,7 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
       theme={{
         token: {
           colorBorder: '#DDDDDD',
-          colorPrimary: '#909090',
+          colorPrimary: '#FD8C46',
           colorBgContainer: 'rgba(255,255,255)',
           borderRadius: 10,
           controlHeight: 50,
@@ -47,27 +47,30 @@ export default function LocationSearch({ text = '', totalItems = 0 }) {
         },
       }}
     >
-      <div className={Styles.total_pages_rank}>
-        <div className={Styles.categor_area}>
+    
+      <div className={Styles.location_search_area}>
+        <div className={Styles.category_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <label className={Styles.labels}>{text}</label>
         </div>
-        <Dropdown menu={menuProps} className={Styles.city}>
-          <Button>
-            <Space>
-              <p className={Styles.arrow}>城市</p>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
-        <Dropdown menu={menuProps} className={Styles.section}>
-          <Button>
-            <Space>
-              <p className={Styles.arrow}>地區</p>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
+        <div className={Styles.dropdowns}>
+          <Dropdown menu={menuProps} className={Styles.city}>
+            <Button>
+              <Space>
+                <p className={Styles.dropdown_arrow}>城市</p>
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+          <Dropdown menu={menuProps} className={Styles.section}>
+            <Button>
+              <Space>
+                <p className={Styles.dropdown_arrow}>地區</p>
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+        </div>
       </div>
     </ConfigProvider>
   );

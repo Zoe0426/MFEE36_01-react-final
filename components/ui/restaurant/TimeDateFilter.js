@@ -1,5 +1,5 @@
 import React from 'react';
-import Styles from './TimeSearch.module.css';
+import Styles from './TimeDateFilter.module.css';
 import { DownOutlined } from '@ant-design/icons';
 import {
   DatePicker,
@@ -8,11 +8,13 @@ import {
   Space,
   message,
   ConfigProvider,
+  Row,
+  Col,
 } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-export default function TimeSearch({ totalItems = 0 }) {
+export default function TimeDateFilter({ totalItems = 0 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
     console.log('click left button', e);
@@ -28,15 +30,15 @@ export default function TimeSearch({ totalItems = 0 }) {
 
   const items = [
     {
-      label: '評價高到低',
+      label: '08:00~09:00',
       key: '1',
     },
     {
-      label: '評價低到高',
+      label: '09:00~10:00',
       key: '2',
     },
     {
-      label: '最熱門',
+      label: '10:00~11:00',
       key: '3',
     },
   ];
@@ -50,12 +52,13 @@ export default function TimeSearch({ totalItems = 0 }) {
       theme={{
         token: {
           colorBorder: '#DDDDDD',
-          colorPrimary: '#909090',
+          colorPrimary: '#FD8C46',
           colorBgContainer: 'rgba(255,255,255)',
           borderRadius: 10,
           controlHeight: 50,
           fontSize: 16,
           borderRadiusOuter: 10,
+
         },
       }}
     >
@@ -64,7 +67,8 @@ export default function TimeSearch({ totalItems = 0 }) {
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <p className={Styles.labels}>用餐日期</p>
         </div>
-        <DatePicker onChange={onChange} className={Styles.date} />
+
+        <DatePicker onChange={onChange} className={Styles.date}  placeholder="選擇日期" />
         <div className={Styles.categor_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <p className={Styles.labels}>用餐時間</p>
@@ -77,6 +81,7 @@ export default function TimeSearch({ totalItems = 0 }) {
             </Space>
           </Button>
         </Dropdown>
+
       </div>
     </ConfigProvider>
   );
