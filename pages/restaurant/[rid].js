@@ -42,15 +42,15 @@ export default function RestInfo() {
     feature_img: '',
   });
 
-  useEffect(() => {
-    const { rid } = qurey;
+  // useEffect(() => {
+  //   const { rid } = qurey;
 
-    if(rid){
-      (async function getData(){
-        
-      })
-    }
-  });
+  //   if(rid){
+  //     (async function getData(){
+
+  //     })
+  //   }
+  // });
 
   //圖片輪播取照片
   const [restImage, setRestImage] = useState([]);
