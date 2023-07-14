@@ -109,4 +109,14 @@
     line-height: 100%;
     text-align: center;
   }
+  .function_group {
+    justify-content: space-between;
+    padding-right: 36px;
+    padding-left: 36px;
+    padding-bottom: var(--p8);
+    padding-top: var(--p8);
+  }
+  .function_group > * {
+    margin-right: 0px; 
+  }
 }
