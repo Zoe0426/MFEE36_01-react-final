@@ -2,15 +2,14 @@ import React from 'react';
 import styles from './NavRoundBtn.module.css';
 import Link from 'next/link';
 
-export default function NavRoundBtn({ icon, link }) {
+export default function NavRoundBtn({ icon, link = 'noLink' }) {
   console.log(icon);
   console.log(link);
-
   return (
-    <Link href={link}>
-      <div className={styles.roundBtn}>
+    <div className={styles.roundBtn}>
+      <Link href={link}>
         <img src={icon} className={styles.rbIcon} alt="" />
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

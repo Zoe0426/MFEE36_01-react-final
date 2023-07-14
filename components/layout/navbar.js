@@ -55,19 +55,13 @@ export default function Navbar({ classTitle }) {
             </div>
           </div>
           <div className={Styles.iconMenu}>
-            {/* {auth.id === '' ? (
-              <NavRoundBtn
-                linku="/member/sign-in"
-                icon="/layout-images/h-cart.png"
-                test="1"
-              />
-            ) : (
-              ''
-            )} */}
-
             <NavRoundBtn
-              link="/member/sign-in"
               icon="/layout-images/h-cart.png"
+              link="/member/sign-in"
+            ></NavRoundBtn>
+            <NavRoundBtn
+              icon="/layout-images/h-user.png"
+              link={'/member/sign-in'}
             ></NavRoundBtn>
           </div>
         </nav>

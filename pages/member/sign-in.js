@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 
 export default function SignIn() {
   const router = useRouter();
+  const fromPath = router.query.from || '/';
+  console.log(fromPath);
   const { auth, setAuth } = useContext(AuthContext);
   const handleSubmit = (values) => {
     fetch('http://localhost:3002/member-api/login', {
@@ -23,7 +25,7 @@ export default function SignIn() {
           localStorage.setItem('petauth', JSON.stringify(obj));
           setAuth(obj);
           // window.location.href = 'http://localhost:3000/member/wallet';
-          router.push('/');
+          router.push(fromPath);
         } else {
           alert(data.error || '帳密錯誤');
         }
