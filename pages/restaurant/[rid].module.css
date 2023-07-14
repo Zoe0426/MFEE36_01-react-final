@@ -147,6 +147,7 @@
 .comment_cards {
   display: flex;
   flex-wrap: nowrap;
+  margin-bottom: 40px;
 }
 .detail_main_buttom {
   margin-top: 60px;

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import Styles from './[rid].module.css';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
@@ -25,6 +27,43 @@ import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 
 export default function RestInfo() {
+  const { qurey, asPath } = useRouter();
+
+  const [dataForRest, setDataForRest] = useState({
+    rest_sid: '',
+    name: '',
+    phone: '',
+    city: '',
+    area: '',
+    acceptType: '',
+    info: '',
+    feature_title: '',
+    feature_content: '',
+    feature_img: '',
+  });
+
+  useEffect(() => {
+    const { rid } = qurey;
+
+    if(rid){
+      (async function getData(){
+        
+      })
+    }
+  });
+
+  //圖片輪播取照片
+  const [restImage, setRestImage] = useState([]);
+
+  const toggleDisplayForImg = (restImage, id) => {
+    return restImage.map((v) => {
+      if (v.img_sid === id) {
+        return { ...v, display: true };
+      } else {
+        return { ...v, display: true };
+      }
+    });
+  };
   return (
     <>
       <div className={Styles.abc}>
@@ -40,7 +79,17 @@ export default function RestInfo() {
         <div className={Styles.rest_detail}>
           <div className={Styles.rest_image}>
             <div className={Styles.rest_image_main}>
-              <img src="/rest_image/sunshine.jpeg" alt="" />
+              {restImage.map((v) => {
+                return (
+                  v.display && (
+                    <img
+                      key={v.img_sid}
+                      src={`http://localhost:3000/rest_image/image/${v.img}`}
+                      alt={v.img}
+                    />
+                  )
+                );
+              })}
             </div>
             <div className={Styles.rest_image_group}>
               <div className={Styles.rest_image_single}>
@@ -226,7 +275,18 @@ export default function RestInfo() {
         </div>
       </div>
       <NotionAreaBgc />
-
+      <div className="container-inner">
+        <h2 className={Styles.jill_h2}>饕客評價</h2>
+      </div>
+      <div className="container-inner">
+        <div className={Styles.comment_cards}>
+          <CommentCard />
+          <CommentCard />
+          <CommentCard />
+          <CommentCard />
+          <CommentCard />
+        </div>
+      </div>
     </>
   );
 }
