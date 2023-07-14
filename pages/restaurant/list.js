@@ -159,9 +159,8 @@ export default function FilterPage() {
             } = i;
 
             return (
-              <Col xl={8} xs={12}>
+              <Col xl={8} xs={12} key={rest_sid}>
                 <RestCard
-                  key={rest_sid}
                   image={'/rest_image/image/' + img_names.split(',')[0]}
                   name={name}
                   city={city}

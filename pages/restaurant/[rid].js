@@ -227,34 +227,6 @@ export default function RestInfo() {
       </div>
       <NotionAreaBgc />
 
-      <div className="container-inner">
-        <Row gutter={{ xs: 16, xl: 32 }}>
-          {data.map((i) => {
-            const {
-              rest_sid,
-              name,
-              city,
-              area,
-              img_names,
-              rule_names,
-              service_names,
-            } = i;
-
-            return (
-              <Col xl={8} xs={12} key={rest_sid}>
-                <RestCard
-                  image={'/rest_image/image/' + img_names.split(',')[0]}
-                  name={name}
-                  city={city}
-                  area={area}
-                  rule_names={rule_names}
-                  service_names={service_names}
-                />
-              </Col>
-            );
-          })}
-        </Row>
-      </div>
     </>
   );
 }
