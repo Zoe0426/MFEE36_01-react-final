@@ -36,7 +36,7 @@ export default function Post() {
             author={v.nickname}
             postTitle={v.post_title} 
             postContent={v.post_content} 
-            img='./forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' 
+            img={`http://localhost:3000/forum_img/post_img/${v.file}`} 
             likes={v.postLike} 
             comments={v.postComment} 
             favorites={v.postFavlist}/>
