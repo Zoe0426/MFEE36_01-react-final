@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Styles from './Image.module.css';
-import { SlideImage } from './ImageSlider';
+import { SlideImage } from './ImageSample';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
@@ -11,14 +11,17 @@ export default function Image() {
   const [current, setCurrnet] = useState(0);
   const length = SlideImage.length;
 
+  //控制開關
   const toggleModal = () => {
     setModal(!modal);
   };
 
+  //下一張照片
   const nextSlide = () => {
     setCurrnet(current === length - 1 ? 0 : current + 1);
   };
 
+  //上一張照片
   const prevtSlide = () => {
     setCurrnet(current === 0 ? length - 1 : current - 1);
   };
@@ -31,11 +34,10 @@ export default function Image() {
 
   return (
     <>
-      <SecondaryBtn clickHandler={toggleModal} text="菜單" />
+      <SecondaryBtn clickHandler={toggleModal} text="餐廳菜單" />
       {modal && (
         <>
           <div onClick={toggleModal} className={Styles.overlay}></div>
-
           <div className={Styles.slider}>
             <FontAwesomeIcon
               icon={faArrowLeft}
@@ -51,9 +53,9 @@ export default function Image() {
               return (
                 <div
                   key={index}
-                  className={
-                    index === current ? Styles.slide.active : Styles.slide
-                  }
+                  // className={
+                  //   index === current ? Styles.slide.active : Styles.slide
+                  // }
                 >
                   {index === current && (
                     <img

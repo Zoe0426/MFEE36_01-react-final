@@ -24,12 +24,11 @@
 .image {
   width: 1400px;
   height: auto;
-  border: 10px;
 }
+
 .right_arrow {
   color: white;
   position: absolute;
-  top: 50%;
   right: 5%;
   font-size: 2.75rem;
   z-index: 10;
@@ -42,13 +41,14 @@
 .right_arrow:hover{
     opacity: 1;
 }
+
 .left_arrow:hover{
     opacity: 1;
 }
+
 .left_arrow {
   color: white;
   position: absolute;
-  top: 50%;
   left: 5%;
   font-size: 2.75rem;
   z-index: 10;
