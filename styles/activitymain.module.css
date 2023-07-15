@@ -21,9 +21,13 @@
 }
 
 .section_card{
+    
+    margin-top: 6.5rem;
+}
+
+.card{
     display: flex;
     justify-content: space-between;
-    margin-top: 6.5rem;
 }
 
 .pagination{

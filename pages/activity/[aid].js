@@ -8,7 +8,7 @@ export default function ActivityMain() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:3002/activity-api');
+      const response = await fetch('http://localhost:3002/activity-api/cid');
       const data = await response.json();
       setData(data);
     };
@@ -36,8 +36,8 @@ export default function ActivityMain() {
         </div>
         {/* .........section1......... */}
 
-        <div className={styles.activity_card}>
-          <Row gutter={[16, 32]}>
+        <div className={styles.section_card}>
+          <Row gutter={[0, 106]} className={styles.card}>
             {data.map((i) => {
               const {
                 activity_sid,

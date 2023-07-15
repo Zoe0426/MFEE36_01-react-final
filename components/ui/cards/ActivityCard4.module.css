@@ -6,8 +6,8 @@
 /* -------左邊------- */
 .left {
   position: relative;
-  width: 90%;
-  /* height: 352px; */
+  width: 60%;
+  /* height: 100%; */
 }
 
 .image {
@@ -46,8 +46,8 @@
 
 /* -------右邊------- */
 .right {
-  width: 90%;
-  margin-left: 1rem; /*左右間距*/
+  width: 70%;
+  margin-left: 1.5rem; /*左右間距*/
   display: flex;
   flex-direction: column;
   justify-content: space-between;
