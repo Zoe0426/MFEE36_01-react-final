@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/shop.module.css';
-import { Pagination, Row,Col } from 'antd';
+import { Pagination, Row, Col } from 'antd';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/like-list';
@@ -243,9 +243,14 @@ export default function Catergory() {
               avg_rating,
             } = v;
             return (
-              <Col xs={12} sm={12} md={6} className={styles.product_card}>
+              <Col
+                xs={12}
+                sm={12}
+                md={6}
+                className={styles.product_card}
+                key={product_sid}
+              >
                 <ShopProductCard
-                  key={product_sid}
                   product_sid={product_sid}
                   category_detail_sid={category_detail_sid}
                   for_pet_type={for_pet_type}
@@ -257,7 +262,8 @@ export default function Catergory() {
                   min_price={min_price}
                   avg_rating={avg_rating}
                 />
-            </Col>);
+              </Col>
+            );
           })}
         </Row>
       </main>

@@ -24,11 +24,11 @@ import { faFilter, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 /*引入資料*/
 import filterDatas from '@/data/product/filters.json';
+import orderByOptions from '@/data/product/orderby.json';
 
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function List() {
-  const { typeForPet, categoryDetailSid, typeForAge } = filterDatas;
   const router = useRouter();
   //排序
   const [orderBy, setOrderBy] = useState('-- 請選擇 --');
@@ -81,6 +81,10 @@ export default function List() {
     fetch(`${process.env.API_SERVER}/shop-api/products?${usp.toString()}`)
       .then((r) => r.json())
       .then((obj) => {
+        const newBrand = obj.brand.map((v) => {
+          return { ...v, checked: false };
+        });
+        setFilters({ ...filters, brand: newBrand });
         setDatas(obj);
         setLikeDatas(obj.likeDatas);
       })
@@ -88,42 +92,7 @@ export default function List() {
         // 處理錯誤情況
         console.error(error);
       });
-
-    // if (cid) {
-    //   (async function getData() {
-    //     const r = await fetch(
-    //       `http://localhost:3002/shop-api/maincard/${cid}`,
-    //       {
-    //         method: 'GET',
-    //       }
-    //     );
-    //     const backDatas = await r.json();
-    //     const { totalRows, cardData, likeDatas, brandDatas } = backDatas;
-    //     console.log(cardData);
-    //     if (totalRows) {
-    //       setTotalItems(totalRows);
-    //     }
-    //     if (cardData) {
-    //       setDatas(cardData);
-    //     }
-    //     if (totalPages) {
-    //       settotalPages(totalPages);
-    //     }
-    //     if (likeDatas) {
-    //       setLikeDatas(likeDatas);
-    //     }
-
-    //     if (brandDatas) {
-    //       setBrandDatas(brandDatas);
-    //     }
-    //   })();
-    // }
   }, [router.query]);
-
-  //篩選BOX相關的函式-------------------------------------------------------
-  const toggleFilter = () => {
-    setShowFilter(!showfilter);
-  };
 
   //收藏列表相關的函式-------------------------------------------------------
   const toggleLikeList = () => {
@@ -214,27 +183,8 @@ export default function List() {
     4: 'sales_DESC',
   };
 
-  const items = [
-    {
-      label: '價格由低到高',
-      key: '1',
-    },
-    {
-      label: '價格由高到低',
-      key: '2',
-    },
-    {
-      label: '最新商品',
-      key: '3',
-    },
-    {
-      label: '熱賣商品',
-      key: '4',
-    },
-  ];
-
-  const onRankChange = (e) => {
-    const newSelect = items.find((v) => v.key === e.key);
+  const orderByHandler = (e) => {
+    const newSelect = orderByOptions.find((v) => v.key === e.key);
     setOrderBy(newSelect.label);
 
     const selectedRank = rankOptions[e.key];
@@ -250,7 +200,63 @@ export default function List() {
         orderBy: selectedRank,
       }).toString()}`
     );
-    console.log(selectedRank);
+  };
+
+  //篩選BOX相關的函式-------------------------------------------------------
+  const toggleFilter = () => {
+    setShowFilter(!showfilter);
+  };
+
+  const [filters, setFilters] = useState(filterDatas);
+
+  const filterCheckedHandler = (arr, name, id) => {
+    const newFilters = arr.map((v) => {
+      if (v.label === id) {
+        return { ...v, checked: !v.checked };
+      } else return { ...v };
+    });
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: newFilters,
+    }));
+  };
+
+  const filterHandler = (filters = {}) => {
+    const { typeForPet, typeForAge, category, brand } = filters;
+
+    const checekedOptions = (arr) => {
+      return arr.filter((v) => v.checked === true).map((v) => v.value);
+    };
+
+    let newTypeForPet = checekedOptions(typeForPet);
+    let newTypeForAge = checekedOptions(typeForAge);
+    let newCategory = checekedOptions(category);
+    let newBrand = checekedOptions(brand);
+
+    let query = router.query;
+
+    if (typeForPet.length > 0) {
+      query = { ...query, typeForPet: newTypeForPet };
+    }
+    if (typeForAge.length > 0) {
+      query = { ...query, typeForAge: newTypeForAge };
+    }
+
+    if (category.length > 0) {
+      query = { ...query, category: newCategory };
+    }
+
+    if (brand.length > 0) {
+      query = { ...query, brand: newBrand };
+    }
+
+    router.push(
+      `?${new URLSearchParams({
+        ...query,
+        page: 1,
+      }).toString()}`
+    );
   };
 
   return (
@@ -307,32 +313,41 @@ export default function List() {
               <>
                 <ProductFilter
                   text="適用對象:"
-                  data={typeForPet}
-                  onChange={() => {}}
+                  name="typeForPet"
+                  data={filters.typeForPet}
+                  changeHandler={filterCheckedHandler}
                 />
                 <ProductFilter
                   text="使用年齡:"
-                  data={typeForAge}
-                  onChange={() => {}}
+                  name="typeForAge"
+                  data={filters.typeForAge}
+                  changeHandler={filterCheckedHandler}
                 />
                 <ProductFilter
                   text="商品類別:"
-                  data={categoryDetailSid}
-                  onChange={() => {}}
+                  name="category"
+                  data={filters.category}
+                  changeHandler={filterCheckedHandler}
                 />
                 <ProductInput
                   minHandlerHandler={() => {}}
-                  maxHandler={() => {}}
+                  changeHandler={() => {}}
                 />
                 <ProductFilter
                   text="品牌:"
-                  data={datas.brand}
+                  name="brand"
+                  data={filters.brand}
                   needSpan={false}
-                  onChange={() => {}}
+                  changeHandler={filterCheckedHandler}
                 />
                 <div className={styles.filter_btns}>
                   <SecondaryBtn text="重置條件" />
-                  <MainBtn text="確定篩選" />
+                  <MainBtn
+                    text="確定篩選"
+                    clickHandler={() => {
+                      filterHandler(filters);
+                    }}
+                  />
                 </div>
               </>
             )}
@@ -354,9 +369,9 @@ export default function List() {
       <main className="container-inner">
         <ShopTotalPagesRank
           totalItems={datas.totalRows}
-          onRankChange={onRankChange}
+          onRankChange={orderByHandler}
           orderBy={orderBy}
-          items={items}
+          items={orderByOptions}
         />
         <Row gutter={[32, 36]} className={styles.cards}>
           {datas.rows &&

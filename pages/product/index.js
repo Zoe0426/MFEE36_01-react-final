@@ -21,6 +21,22 @@ import eightCatergoriesData from '@/data/product/eight-catergories-data.json';
 export default function ProdoctIndex() {
   const router = useRouter();
 
+  const [cardPosition, setCardPosition] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCardPosition((prevPosition) => prevPosition - window.innerWidth);
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+  useEffect(() => {
+    if (cardPosition <= -((5 - 1) * window.innerWidth)) {
+      setCardPosition(0);
+    }
+  }, [cardPosition]);
+
   //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
   const [dataForDog, setDataForDog] = useState([]);
   const [dataForCat, setDataForCat] = useState([]);
@@ -141,49 +157,52 @@ export default function ProdoctIndex() {
             );
           })}
         </div>
-        <div className={styles.pet_type_cards}>
-          <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
-            {twotCatergoriesData.map((v) => {
-              return (
-                v.display &&
-                v.data.map((v) => {
-                  const {
-                    product_sid,
-                    category_detail_sid,
-                    for_pet_type,
-                    name,
-                    img,
-                    update_date,
-                    supplier,
-                    max_price,
-                    min_price,
-                    avg_rating,
-                    sales_qty,
-                  } = v;
-                  return (
-                    <Col
-                      xs={12}
-                      sm={12}
-                      md={1}
-                      className={styles.product_card}
-                      key={product_sid}
-                    >
-                      <ShopProductCard
-                        product_sid={product_sid}
-                        name={name}
-                        img={img}
-                        max_price={max_price}
-                        min_price={min_price}
-                        avg_rating={avg_rating}
-                        tag_display={true}
-                        sales_qty={sales_qty}
-                      />
-                    </Col>
-                  );
-                })
-              );
-            })}
-          </Row>
+        <div
+          style={{
+            transform: `translateX(${cardPosition}px)`,
+            transition: 'transform 0.3s ease-in-out',
+          }}
+        >
+          <div className={styles.pet_type_cards}>
+            <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
+              {twotCatergoriesData.map((v) => {
+                return (
+                  v.display &&
+                  v.data.map((v) => {
+                    const {
+                      product_sid,
+                      name,
+                      img,
+                      max_price,
+                      min_price,
+                      avg_rating,
+                      sales_qty,
+                    } = v;
+                    return (
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={1}
+                        className={styles.product_card}
+                        key={product_sid}
+                      >
+                        <ShopProductCard
+                          product_sid={product_sid}
+                          name={name}
+                          img={img}
+                          max_price={max_price}
+                          min_price={min_price}
+                          avg_rating={avg_rating}
+                          tag_display={true}
+                          sales_qty={sales_qty}
+                        />
+                      </Col>
+                    );
+                  })
+                );
+              })}
+            </Row>
+          </div>
         </div>
         <div className={styles.pet_type_btns}>
           <button className={styles.circle_btn_active}></button>
