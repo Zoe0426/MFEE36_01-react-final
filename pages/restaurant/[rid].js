@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { SlideImage } from '@/components/ui/restaurant/ImageSample';
 import Styles from './[rid].module.css';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
@@ -68,6 +69,7 @@ export default function RestInfo() {
   return (
     <>
       <ImageGallary />
+
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>
@@ -107,6 +109,7 @@ export default function RestInfo() {
               </div>
             </div>
           </div>
+
           <div className={Styles.rest_info}>
             <h1 className={Styles.jill_h1}>陽光莊園</h1>
             <RateStar score="4.8" className={Styles.rate_star} />

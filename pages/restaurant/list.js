@@ -18,8 +18,12 @@ import Likelist from '@/components/ui/like-list/like-list';
 
 export default function FilterPage() {
   const { categorySid } = filterDatas;
+  
+  //進階篩選------------------------------------------------------------
   const [showfilter, setShowFilter] = useState(false);
 
+
+  //收藏清單------------------------------------------------------------
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
 

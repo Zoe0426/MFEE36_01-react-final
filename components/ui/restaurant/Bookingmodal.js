@@ -14,12 +14,6 @@ export default function BookingModal() {
     setModal(!modal);
   };
 
-  // if (modal) {
-  //   document.body.classList.add('active-modal');
-  // } else {
-  //   document.body.classList.remove('active-modal');
-  // }
-
   return (
     <>
       <MainBtn clickHandler={toggleModal} text="預約的時間區塊" />

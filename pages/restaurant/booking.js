@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import BookingModal from '@/components/ui/restaurant/BookingModal';
 
 export default function RestBooking() {
+  // 彈跳視窗
   return (
     <>
       <div className={Styles.abc}>

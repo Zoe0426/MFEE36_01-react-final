@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { countries, townships, postcodes } from '@/data/restaurnt/location';
+import ImageGallary from '@/components/ui/restaurant/ImageGallary';
 
 export default function TWZipCode({
   initPostcode = '',
@@ -51,6 +52,7 @@ export default function TWZipCode({
 
   return (
     <>
+    <ImageGallary/>
       <select
         value={countryIndex}
         onChange={(e) => {
