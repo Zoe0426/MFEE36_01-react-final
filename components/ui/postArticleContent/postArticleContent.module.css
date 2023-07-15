@@ -1,6 +1,6 @@
 .articleBody{
     background-color: #fff;
-    padding: 15px;
+    padding: 20px 120px;
 }
 .postContent{
     font-size: var(--h6fs18);
@@ -9,7 +9,7 @@
 }
 .articleDatas{
     display:flex;
-    margin:10px;
+    margin-left:20px;
     margin-top:30px;
 }
 .postLike, .postCom{

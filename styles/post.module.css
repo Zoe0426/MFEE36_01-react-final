@@ -11,12 +11,20 @@
 .hashtag{
     display: flex;
     background-color: #fff;
-    padding-left:30px;
+    padding-left:150px;
+    padding-top: 10px;
+}
+.content{
+    /* width:80%; */
+    display: flex;
+    justify-content: center;
 }
 .postImg{
     background-color: #fff;
     display: flex;
-    padding:10px;
+    justify-content: center;
+    /* display: flex; */
+    /* padding:10px; */
 }
 .commentBlock{
     background-color:var(--light1);
@@ -48,6 +56,6 @@
     padding-bottom:50px;
     padding-top: 10px;
 }
-/* .postAll{
-    margin-top:10px;
-} */
+.title{
+    padding-left: 100px;
+}

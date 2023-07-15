@@ -1,18 +1,36 @@
-import React from 'react'
+import React, {useEffect, useState } from 'react'
 import Style from './postBottom.module.css'
 import PostPhotoCard from '../postPhotoCard/postPhotoCard'
 
 export default function PostBottom() {
+  const [data, setData] = useState([]);
+  const fetchData = async()=>{
+    const response = await fetch ('http://localhost:3002/forum-api/recommend', {method:"GET"});
+    const data = await response.json();
+    setData(data);
+    console.log('data',data);
+  };
+  useEffect(()=>{
+    fetchData();
+  }, []);
+
   return (
 <div className={Style.bottom}>
     <div className={Style.bottomWord}>＃你可能感興趣的文章</div>
     <img className={Style.wave} src="/forum_img/wave.png"/>
     <div className={Style.bottomBlock}>
     <div className={Style.bottomContent}>
-        <PostPhotoCard img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' boardName='#友善景點版' bc='green' title='寵物友善景點推薦' content='十分推薦新莊寵物公園！就在新月橋附近，可以帶毛小孩去跑跑也可以...'/>
-        <PostPhotoCard img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' boardName='#友善景點版' bc='green' title='寵物友善景點推薦' content='十分推薦新莊寵物公園！就在新月橋附近，可以帶毛小孩去跑跑也可以...'/>
-        <PostPhotoCard img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' boardName='#友善景點版' bc='green' title='寵物友善景點推薦' content='十分推薦新莊寵物公園！就在新月橋附近，可以帶毛小孩去跑跑也可以...'/>
-        <PostPhotoCard img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' boardName='#友善景點版' bc='green' title='寵物友善景點推薦' content='十分推薦新莊寵物公園！就在新月橋附近，可以帶毛小孩去跑跑也可以...'/>
+    {data.map((v)=>(
+
+      <PostPhotoCard key={v.post_sid} 
+      img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' 
+      boardImg={`http://localhost:3000/forum_img/board_img/${v.board_img}`}
+      boardName={v.board_name} 
+      bc='var(--main)' 
+      title={v.post_title} 
+      content={v.post_content}/>
+    ))}
+
     </div>
     </div>       
 </div>

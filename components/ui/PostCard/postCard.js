@@ -9,7 +9,7 @@ export default function PostCard({profile='', boardName='', author='', postTitle
         <div className={Style.cardBody}>
             <div className={Style.left}>
                 <div className={Style.author}>
-                    <div className={Style.profile}><img className={Style.proImg} src={profile}/></div>
+                    <div className={Style.profile}><img className={Style.proImg} src={profile} alt=''/></div>
                     <div className={Style.aut}>{boardName} · {author}</div>
                 </div>
                 <div className={Style.postTit}>{postTitle}</div>
@@ -31,7 +31,7 @@ export default function PostCard({profile='', boardName='', author='', postTitle
             </div>
                 </div>
             </div>
-            <div><img className={Style.postImg} src={img}/></div>
+            <div><img className={Style.postImg} src={img} alt=''/></div>
         </div>
         </>
     )
