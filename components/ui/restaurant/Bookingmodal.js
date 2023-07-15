@@ -22,7 +22,7 @@ export default function BookingModal() {
 
   return (
     <>
-      <MainBtn clickHandler={toggleModal} text="按我" />
+      <MainBtn clickHandler={toggleModal} text="預約的時間區塊" />
 
       {modal && (
         <>

@@ -2,7 +2,7 @@
   z-index: 999;
   background: rgba(49, 49, 49, 0.6);
 }
-.modal{
+.modal {
   z-index: 9999;
   font-size: var(--pfs16);
 }
@@ -36,7 +36,7 @@
   font-weight: 600;
   text-align: center;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgb(203, 203, 203);;
+  border-bottom: 1px solid rgb(203, 203, 203);
 }
 
 .modal_content {
@@ -55,18 +55,18 @@
   gap: 16px;
   margin-bottom: 16px;
 }
-.member{
+.member {
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
 }
-.phone{
+.phone {
   display: flex;
   gap: 16px;
   padding-bottom: 30px;
 }
 
-.booking_title{
+.booking_title {
   font-weight: bold !important;
 }
 
@@ -76,20 +76,17 @@
 }
 
 /* 購買數量 */
-.detail_qty_area{
+.detail_qty_area {
   display: flex;
   gap: 40px;
 }
-.detail_people_box{
-  margin-top: 30px;
-  width: 48%;
-}
-.detail_pet_box{
+.detail_people_box,
+.detail_pet_box {
   margin-top: 30px;
   width: 48%;
 }
 
-.detail_qty{
+.detail_qty {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -102,40 +99,40 @@
   height: 46px;
   line-height: 100%;
   text-align: center;
-
 }
 
-.detail_qty_sub_btn, .detail_qty_add_btn{
-  border:none;  
+.detail_qty_sub_btn,
+.detail_qty_add_btn {
+  border: none;
   padding: 0 20px;
   font-size: var(--h5fs20);
   background-color: transparent;
   transition: 0.3s;
 }
 
-.detail_qty_sub_btn{   
-  border-right: 1px solid var(--dark-gray) ;    
+.detail_qty_sub_btn {
+  border-right: 1px solid var(--dark-gray);
 }
 
-.detail_qty_add_btn{
-  border-left: 1px solid var(--dark-gray) ;    
+.detail_qty_add_btn {
+  border-left: 1px solid var(--dark-gray);
 }
 
-.detail_qty_add_btn:hover, .detail_qty_sub_btn:hover{
+.detail_qty_add_btn:hover,
+.detail_qty_sub_btn:hover {
   background-color: var(--light-gray);
   cursor: pointer;
 }
-.detail_title{
+.detail_title {
   font-size: var(--pfs16);
   padding-bottom: 4px;
-
 }
 
-.detail_qty_input{
-  width:30px;    
+.detail_qty_input {
+  width: 30px;
   text-align: center;
-  border:none;
-  outline:none;
+  border: none;
+  outline: none;
   padding: var(--p16) 0;
   border: 0;
   font-size: var(--pfs16);
@@ -143,16 +140,16 @@
   background-color: transparent;
 }
 
-.note{
+.note {
   margin-top: 30px;
   display: flex;
   flex-direction: column;
 }
-.note_content{
+.note_content {
   margin-bottom: 4px;
 }
 
-.note_input{
+.note_input {
   height: 46px;
   border-radius: var(--br10);
   padding: 0 12px;
@@ -177,10 +174,49 @@
 }
 
 .btn_group > button {
-margin-right: 16px;
-padding-top: 0;
-padding-bottom: 0;
-line-height: 100%;
-text-align: center;
+  margin-right: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 100%;
+  text-align: center;
 }
 
+@media screen and (max-width: 767px) {
+  .modal_card {
+    width: 80%;
+    top: 48%;
+    max-width: 600px;
+    min-width: 350px;
+  }
+  .modal_title {
+    font-size: var(--h6fs18);
+    padding-bottom: 12px;
+  }
+  .time,
+  .phone,
+  .member {
+    font-size: var(--pfs14);
+  }
+  .detail_qty_area {
+    flex-direction: column;
+    gap: 0;
+  }
+  .detail_people_box,
+  .detail_pet_box {
+    margin-top: 20px;
+    width: 100%;
+  }
+  .note {
+    margin-top: 20px;
+  }
+  .btn_group > button {
+    margin-right: 0;
+    width: 100%;
+    line-height: 100%;
+  }
+  .btn_group {
+    gap: 16px;
+    justify-content: space-around;
+    padding: 0 16px;
+  }
+}
