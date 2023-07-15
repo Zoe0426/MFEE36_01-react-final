@@ -9,7 +9,7 @@
      margin-right: 16px;
 }
 .prodimg{
-    width: 80px;
+    width: 120px;
     border-radius: var(--br8);
     margin-right: 16px;
 }
@@ -86,7 +86,9 @@
 
 @media screen and (max-width:767px){
 
-
+.prodimg{
+    width: 80px;
+}
 .forRwd{
     flex-direction: column;
     align-items: stretch;

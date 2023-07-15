@@ -9,6 +9,8 @@ import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import rundog from '@/assets/running-dog.svg';
 import Image from 'next/image';
 import CartTab from '@/components/ui/cart/cartTab';
+import CartBlackcatPostInfo from '@/components/ui/cart/cartblackcatpostinfo';
+import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
 export default function Cart() {
   const [cartData, setCartData] = useState({
     shop: [],
@@ -24,6 +26,8 @@ export default function Cart() {
   const [paymentType, setPaymentType] = useState(1);
   const [shopData, setShopData] = useState([]);
   const [activityData, setActivityData] = useState([]);
+  const [couponData, setCouponData] = useState([]);
+  const [blackcatData, setBlackcatData] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
 
   const changeCheckoutType = (type) => {
@@ -64,15 +68,22 @@ export default function Cart() {
       ...v,
       selected: false,
     }));
+    const myCouponData = data.coupon.map((v) => ({ ...v, selected: false }));
+    const myBlackcatData = data.blackCat.map((v) => ({
+      ...v,
+      selected: false,
+    }));
     setShopData(myShopData);
     setActivityData(myActivityData);
+    setCouponData(myCouponData);
+    setBlackcatData(myBlackcatData);
     setCartData(data);
   };
 
   useEffect(() => {
     getCart();
   }, []);
-  console.log(shopData);
+  console.log(cartData);
 
   return (
     <>
@@ -98,7 +109,6 @@ export default function Cart() {
                 }}
               />
             </div>
-
             <div className={style.section}>
               <ConfigProvider
                 theme={{
@@ -108,7 +118,11 @@ export default function Cart() {
                   },
                 }}
               >
-                <Checkbox onChange={checkAllHandler} checked={selectAll}>
+                <Checkbox
+                  onChange={checkAllHandler}
+                  checked={selectAll}
+                  className={style.selectAll}
+                >
                   全選
                 </Checkbox>
                 {console.log(checkoutType)}
@@ -165,46 +179,29 @@ export default function Cart() {
                     <Radio value={3}>全家 $60</Radio>
                   </Radio.Group>
                 </ConfigProvider>
-                <div className={style.info}>
-                  <div className={style.details}>
-                    <p>
-                      <span>郭宜零&nbsp;&nbsp;&nbsp;</span>
-                      <span>0919894942&nbsp;&nbsp;&nbsp;</span>
-                      <span>屏東縣里港鄉大平村中山路XX號</span>
-                    </p>
-                    <p>
-                      email: <span>ilwitu@mail.com</span>
-                    </p>
-                    <p>
-                      預計到貨時間&nbsp;&nbsp;{' '}
-                      <span>6月8日&nbsp;&nbsp;-&nbsp;&nbsp;6月16日</span>
-                    </p>
-                  </div>
-                  <div>
-                    <span className={style.postPrice}>$90&nbsp;&nbsp;</span>{' '}
-                    <span className={style.edit}>編輯</span>
-                  </div>
-                </div>
+                <CartBlackcatPostInfo
+                  address={
+                    blackcatData[0].city +
+                    blackcatData[0].area +
+                    blackcatData[0].address
+                  }
+                  name={blackcatData[0].name}
+                  mobile={blackcatData[0].mobile}
+                  email={blackcatData[0].email}
+                  selected={blackcatData[0].selected}
+                />
               </div>
             ) : (
               ''
             )}
-
             <div className={style.section}>
               <CartSectionTitle text="使用優惠券" />
-              <div className={style.info}>
-                <div className={style.details}>
-                  <p>全站50</p>
-                  <p className={style.expDate}>
-                    使用期限&nbsp;&nbsp;
-                    <span className={style.expDate}>2023-07-24</span>
-                  </p>
-                </div>
-                <div>
-                  <span className={style.postPrice}>-$50&nbsp;&nbsp;</span>
-                  <span className={style.edit}>編輯</span>
-                </div>
-              </div>
+              <CartCouponInfo
+                coupon_send_sid={couponData[0].coupon_send_sid}
+                exp_date={couponData[0].exp_date}
+                name={couponData[0].name}
+                price={couponData[0].price}
+              />
             </div>
             <div className={style.section}>
               <ConfigProvider

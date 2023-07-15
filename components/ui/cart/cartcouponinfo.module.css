@@ -1,0 +1,25 @@
+.info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.info p{
+    font-size: var(--h6fs18);
+    line-height: 24px;;
+}
+.info span{
+    font-size: var(--h6fs18);
+}
+.details{
+    padding-bottom: var(--p16);
+}
+.details p{
+    margin-bottom: 8px;
+}
+.postPrice{
+    color: var(--main);
+}
+.edit{
+    color: var(--gray);
+    cursor: pointer;
+}

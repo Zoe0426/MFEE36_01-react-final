@@ -14,30 +14,13 @@
      border-radius: var(--br10);
      margin-bottom: var(--p32);
 }
-.info{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.selectAll{
+    font-size: var(--pfs16);
+    padding-bottom: var(--p8);
+    border-bottom: 1px dashed var(--secondary);
+    width: 100%;
 }
-.info p{
-font-size: var(--h6fs18);
-}
-.info span{
-font-size: var(--h6fs18);
-}
-.details{
-    padding: var(--p16) 0;
-}
-.details p{
-    margin-bottom: 8px;
-}
-.postPrice{
-    color: var(--main);
-}
-.edit{
-    color: var(--gray);
-    cursor: pointer;
-}
+
 .edit:hover{
     color: var(--dark-gray);
 
