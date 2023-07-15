@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Styles from './Bookingmodal.module.css';
+import Styles from './BookingModal.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
