@@ -1,12 +1,16 @@
 import { useState } from 'react';
-import Styles from './Image.module.css';
+import Styles from './ImageGallary.module.css';
 import { SlideImage } from './ImageSample';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
+import {
+  faArrowLeft,
+  faArrowRight,
+  faFileLines,
+} from '@fortawesome/free-solid-svg-icons';
 
-export default function Image() {
+import IconSeconBtn from '../buttons/IconSeconBtn';
+
+export default function ImageGallary() {
   const [modal, setModal] = useState(false);
   const [current, setCurrnet] = useState(0);
   const length = SlideImage.length;
@@ -34,7 +38,11 @@ export default function Image() {
 
   return (
     <>
-      <SecondaryBtn clickHandler={toggleModal} text="餐廳菜單" />
+      <IconSeconBtn
+        clickHandler={toggleModal}
+        text="餐廳菜單"
+        icon={faFileLines}
+      />
       {modal && (
         <>
           <div onClick={toggleModal} className={Styles.overlay}></div>

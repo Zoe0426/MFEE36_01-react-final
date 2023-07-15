@@ -25,6 +25,7 @@ import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
 import PinkBtn from '@/components/ui/restaurant/PinkBtn';
 import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
+import ImageGallary from '../../components/ui/restaurant/ImageGallary';
 
 export default function RestInfo() {
   const { qurey, asPath } = useRouter();
@@ -66,6 +67,7 @@ export default function RestInfo() {
   };
   return (
     <>
+      <ImageGallary />
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>
@@ -74,7 +76,6 @@ export default function RestInfo() {
           </div>
         </div>
       </div>
-
       <div className="container-inner">
         <div className={Styles.rest_detail}>
           <div className={Styles.rest_image}>
