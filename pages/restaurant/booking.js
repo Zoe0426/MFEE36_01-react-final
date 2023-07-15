@@ -7,6 +7,7 @@ import {
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import BookingModal from '@/components/ui/restaurant/Bookingmodal';
 
 export default function RestBooking() {
   return (
@@ -19,7 +20,7 @@ export default function RestBooking() {
           </div>
         </div>
       </div>
-
+      <BookingModal />
       <div className="container-inner">
         <div className={Styles.booking_title}>
           <h1 className={Styles.timetable}>我們的家休閒農場預約時間表</h1>

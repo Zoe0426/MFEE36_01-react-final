@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import Styles from './Modal.module.css';
+import Styles from './Bookingmodal.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-export default function Modal() {
+export default function BookingModal() {
   const [modal, setModal] = useState(false);
-  const [count1, setCount1] = useState(1);
-  const [count2, setCount2] = useState(1);
+  const [countPeople, setCountPeople] = useState(1);
+  const [countPet, setCountPet] = useState(1);
 
   const toggleModal = () => {
     setModal(!modal);
@@ -54,8 +54,8 @@ export default function Modal() {
                       <button
                         className={Styles.detail_qty_sub_btn}
                         onClick={() => {
-                          if (count1 > 1) {
-                            setCount1(count1 - 1);
+                          if (countPeople > 1) {
+                            setCountPeople(countPeople - 1);
                           }
                         }}
                       >
@@ -64,18 +64,18 @@ export default function Modal() {
                       <input
                         type="text"
                         className={Styles.detail_qty_input}
-                        value={count1}
+                        value={countPeople}
                         onChange={(e) => {
                           const reisNumber = /[.\d]/;
                           if (reisNumber.test(e.target.value)) {
-                            setCoun1t(parseInt(e.target.value));
+                            setCountPeople(parseInt(e.target.value));
                           }
                         }}
                       />
                       <button
                         className={Styles.detail_qty_add_btn}
                         onClick={() => {
-                          setCount1(count1 + 1);
+                          setCountPeople(countPeople + 1);
                         }}
                       >
                         +
@@ -90,8 +90,8 @@ export default function Modal() {
                       <button
                         className={Styles.detail_qty_sub_btn}
                         onClick={() => {
-                          if (count2 > 1) {
-                            setCount2(count2 - 1);
+                          if (countPet > 1) {
+                            setCountPet(countPet - 1);
                           }
                         }}
                       >
@@ -100,18 +100,18 @@ export default function Modal() {
                       <input
                         type="text"
                         className={Styles.detail_qty_input}
-                        value={count2}
+                        value={countPet}
                         onChange={(e) => {
                           const reisNumber = /[.\d]/;
                           if (reisNumber.test(e.target.value)) {
-                            setCount2(parseInt(e.target.value));
+                            setCountPet(parseInt(e.target.value));
                           }
                         }}
                       />
                       <button
                         className={Styles.detail_qty_add_btn}
                         onClick={() => {
-                          setCount2(count2 + 1);
+                          setCountPet(countPet + 1);
                         }}
                       >
                         +
