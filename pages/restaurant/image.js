@@ -53,9 +53,9 @@ export default function Image() {
               return (
                 <div
                   key={index}
-                  // className={
-                  //   index === current ? Styles.slide.active : Styles.slide
-                  // }
+                  className={
+                    index === current ? Styles.slide_active : Styles.slide
+                  }
                 >
                   {index === current && (
                     <img
