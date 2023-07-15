@@ -1,20 +1,29 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHand,faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faHand,faLocationDot,faUser } from '@fortawesome/free-solid-svg-icons';
 import styles from './ActivityCard3.module.css';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 
 const ActivityCard3 = ({
-image='',
+member_sid = '',
 title='',
 count=0,
 city='',
 area='',
+profile = null,
 }) => {
   return (
     <div className={styles.card}>
       
-      <img className={styles.image} src={image}></img>
+      <div>
+          {profile ? (
+            <img className={styles.image} src={`/product-img/${profile}`} alt="" />
+          ) : (
+            
+            <FontAwesomeIcon  className={styles.image} icon={faUser} />
+           
+          )}
+      </div>
       
       <div className={styles.content}>
         <div className={styles.title}>{title}</div>

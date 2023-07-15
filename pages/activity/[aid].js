@@ -52,6 +52,7 @@ export default function ActivityMain() {
                 area,
                 address,
                 content,
+                feature_names,
                 price_adult,
               } = i;
               return (
@@ -69,6 +70,7 @@ export default function ActivityMain() {
                   area={area}
                   address={address}
                   content={content}
+                  features={feature_names.split(',')}
                   price={price_adult}
                 />
               );

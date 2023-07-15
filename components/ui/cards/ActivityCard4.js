@@ -1,33 +1,36 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar,faCalendarDays,faClock,faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import {
+  faStar,
+  faCalendarDays,
+  faClock,
+  faLocationDot,
+} from '@fortawesome/free-solid-svg-icons';
 import styles from './ActivityCard4.module.css';
 import ActivityFeature from './ActivityFeature';
+import { Row, Col } from 'antd';
 
 const ActivityCard4 = ({
-  activity_sid='', //link要用的
-  image='',
-  type='',
-  title='',
-  rating=0,
-  date_begin='',
-  date_end='',
-  time='',
-  content='',
-  city='',
-  area='',
-  address='',
-  price=0,
+  activity_sid = '', //link要用的
+  image = '',
+  type = '',
+  title = '',
+  rating = 0,
+  date_begin = '',
+  date_end = '',
+  time = '',
+  city = '',
+  area = '',
+  address = '',
+  content = '',
+  features = '',
+  price = 0,
 }) => {
   return (
     <div className={styles.card}>
       {/* -------右邊------- */}
       <div className={styles.left}>
-        <img
-          src={image}
-          alt="Activity"
-          className={styles.image}
-        />
+        <img src={image} alt="Activity" className={styles.image} />
         <div className={styles.overlay}>
           <p className={styles.text}>{type}</p>
         </div>
@@ -49,7 +52,9 @@ const ActivityCard4 = ({
         <div className={styles.row}>
           <FontAwesomeIcon icon={faCalendarDays} className={styles.row_icon} />
           <div>
-            <p className={styles.rowTextSmall}>{date_begin}~{date_end}</p>
+            <p className={styles.rowTextSmall}>
+              {date_begin}~{date_end}
+            </p>
           </div>
         </div>
 
@@ -61,10 +66,14 @@ const ActivityCard4 = ({
         </div>
 
         <div className={styles.row}>
-            <FontAwesomeIcon icon={faLocationDot} className={styles.row_icon} />
-            <div className={styles.rowTextAddress}>
-              <p className={styles.rowTextSmall}>{city}{area}{address}</p>
-            </div>
+          <FontAwesomeIcon icon={faLocationDot} className={styles.row_icon} />
+          <div className={styles.rowTextAddress}>
+            <p className={styles.rowTextSmall}>
+              {city}
+              {area}
+              {address}
+            </p>
+          </div>
         </div>
 
         <div className={styles.row}>
@@ -73,17 +82,19 @@ const ActivityCard4 = ({
           </div>
         </div>
 
-        <div className={styles.row}>
-          <ActivityFeature className={styles.feature} feature='專屬攝影師'/>
-          <ActivityFeature className={styles.feature} feature='贈寵物沐浴乳乙瓶'/>
-        </div>
-        <div className={styles.row}>
-          <ActivityFeature className={styles.feature} feature='寵物拍貼體驗'/>
-          <ActivityFeature className={styles.feature} feature='精美午餐'/>
-        </div>
+        <Row className={styles.row}>
         
+          {features.map((feature, i) => (
+            <div className={styles.row} key={i}>
+              <ActivityFeature className={styles.feature} feature={feature} />
+            </div>
+          ))}
+        
+        </Row>
         <div>
-          <p className={styles.price}>${price} (大人) ${price/2} (小孩)</p>
+          <p className={styles.price}>
+            ${price} (大人) ${price / 2} (小孩)
+          </p>
         </div>
       </div>
     </div>

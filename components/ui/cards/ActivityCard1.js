@@ -6,9 +6,10 @@ import ActivityFeature from './ActivityFeature';
 
 
 const ActivityCard1 = ({
+  activity_sid='', //link要用
   image='',
   type='',
-  name='',
+  title='',
   rating=0,
   date_begin='',
   date_end='',
@@ -37,7 +38,7 @@ const ActivityCard1 = ({
       <div className={styles.right}>
         <div className={styles.row}>
           <div className={styles.rowTextTitle}>
-            <p className={styles.rowTextLarge}>{name}</p>
+            <p className={styles.rowTextLarge}>{title}</p>
           </div>
           <div className={styles.review}>
             <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
