@@ -6,13 +6,14 @@ import {
   faArrowLeft,
   faArrowRight,
   faFileLines,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 import IconSeconBtn from '../buttons/IconSeconBtn';
 
 export default function ImageGallary() {
   const [modal, setModal] = useState(false);
-  const [current, setCurrnet] = useState(0);
+  const [current, setCurrent] = useState(0);
   const length = SlideImage.length;
 
   //控制開關
@@ -22,12 +23,12 @@ export default function ImageGallary() {
 
   //下一張照片
   const nextSlide = () => {
-    setCurrnet(current === length - 1 ? 0 : current + 1);
+    setCurrent(current === length - 1 ? 0 : current + 1);
   };
 
   //上一張照片
-  const prevtSlide = () => {
-    setCurrnet(current === 0 ? length - 1 : current - 1);
+  const prevSlide = () => {
+    setCurrent(current === 0 ? length - 1 : current - 1);
   };
 
   console.log(current);
@@ -50,7 +51,7 @@ export default function ImageGallary() {
             <FontAwesomeIcon
               icon={faArrowLeft}
               className={Styles.left_arrow}
-              onClick={prevtSlide}
+              onClick={prevSlide}
             />
             <FontAwesomeIcon
               icon={faArrowRight}
@@ -75,6 +76,11 @@ export default function ImageGallary() {
                 </div>
               );
             })}
+            <FontAwesomeIcon
+              icon={faXmark}
+              className={Styles.xmark}
+              onClick={toggleModal}
+            />
           </div>
         </>
       )}
