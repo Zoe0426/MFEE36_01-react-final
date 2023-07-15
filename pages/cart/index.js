@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Row, Col, Radio, ConfigProvider } from 'antd';
+import { Row, Col, Radio, ConfigProvider, Checkbox } from 'antd';
 import style from '@/styles/cart.module.css';
 import CartProductCard from '@/components/ui/cards/cartProductCard';
 import CartActivityCard from '@/components/ui/cards/cartActivityCard';
@@ -22,7 +22,18 @@ export default function Cart() {
   const [checkoutType, setCheckoutType] = useState('shop');
   const [postType, setPostType] = useState(1);
   const [paymentType, setPaymentType] = useState(1);
+  const [shopData, setShopData] = useState([]);
+  const [activityData, setActivityData] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
 
+  const changeCheckoutType = (type) => {
+    if (checkoutType !== type) {
+      setCheckoutType(type);
+      setSelectAll(false);
+      setShopData((old) => old.map((v) => ({ ...v, selected: false })));
+      setActivityData((old) => old.map((v) => ({ ...v, selected: false })));
+    }
+  };
   const changePostType = (e) => {
     console.log('radio checked', e.target.value);
     setPostType(e.target.value);
@@ -31,6 +42,12 @@ export default function Cart() {
   const changePaymentType = (e) => {
     console.log('radio checked', e.target.value);
     setPaymentType(e.target.value);
+  };
+
+  const checkAllHandler = () => {
+    setSelectAll((old) => !old);
+    setShopData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
+    setActivityData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
   };
 
   const getCart = async () => {
@@ -42,18 +59,24 @@ export default function Cart() {
       },
     });
     const data = await r.json();
-    console.log(data);
+    const myShopData = data.shop.map((v) => ({ ...v, selected: false }));
+    const myActivityData = data.activity.map((v) => ({
+      ...v,
+      selected: false,
+    }));
+    setShopData(myShopData);
+    setActivityData(myActivityData);
     setCartData(data);
   };
 
   useEffect(() => {
     getCart();
   }, []);
+  console.log(shopData);
 
   return (
     <>
       <BgCartHead text="購物車" />
-
       <div className="container-inner">
         <Row>
           <Col xs={24} sm={24} md={24} lg={17} className={style.detailSection}>
@@ -63,7 +86,7 @@ export default function Cart() {
                 text="商品"
                 checkoutType={checkoutType}
                 clickHandler={() => {
-                  setCheckoutType('shop');
+                  changeCheckoutType('shop');
                 }}
               />
               <CartTab
@@ -71,34 +94,58 @@ export default function Cart() {
                 text="活動"
                 checkoutType={checkoutType}
                 clickHandler={() => {
-                  setCheckoutType('activity');
+                  changeCheckoutType('activity');
                 }}
               />
             </div>
+
             <div className={style.section}>
-              {checkoutType === 'shop'
-                ? cartData.shop.map((v) => (
-                    <CartProductCard
-                      key={v.rel_sid + v.rel_seq_sid}
-                      img={'/product-img/' + v.img}
-                      prodtitle={v.rel_name}
-                      prodSubtitle={v.rel_seq_name}
-                      price={v.prod_price}
-                      qty={v.prod_qty}
-                    />
-                  ))
-                : cartData.activity.map((v) => (
-                    <CartActivityCard
-                      key={v.rel_sid + v.rel_seq_sid}
-                      img={'/activity_img/' + v.img}
-                      prodtitle={v.rel_name}
-                      prodSubtitle={v.rel_seq_name}
-                      adPrice={v.adult_price}
-                      adQty={v.adult_qty}
-                      kidPrice={v.child_price}
-                      kidQty={v.child_qty}
-                    />
-                  ))}
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    controlInteractiveSize: 20,
+                  },
+                }}
+              >
+                <Checkbox onChange={checkAllHandler} checked={selectAll}>
+                  全選
+                </Checkbox>
+                {console.log(checkoutType)}
+                {checkoutType === 'shop'
+                  ? shopData.map((v) => (
+                      <CartProductCard
+                        key={v.cart_sid}
+                        cartSid={v.cart_sid}
+                        selected={v.selected}
+                        img={'/product-img/' + v.img}
+                        prodtitle={v.rel_name}
+                        prodSubtitle={v.rel_seq_name}
+                        price={v.prod_price}
+                        qty={v.prod_qty}
+                        shopData={shopData}
+                        setShopData={setShopData}
+                        setSelectAll={setSelectAll}
+                      />
+                    ))
+                  : activityData.map((v) => (
+                      <CartActivityCard
+                        key={v.cart_sid}
+                        cartSid={v.cart_sid}
+                        selected={v.selected}
+                        img={'/activity_img/' + v.img}
+                        prodtitle={v.rel_name}
+                        prodSubtitle={v.rel_seq_name}
+                        adPrice={v.adult_price}
+                        adQty={v.adult_qty}
+                        kidPrice={v.child_price}
+                        kidQty={v.child_qty}
+                        activityData={activityData}
+                        setActivityData={setActivityData}
+                        setSelectAll={setSelectAll}
+                      />
+                    ))}
+              </ConfigProvider>
             </div>
             {checkoutType === 'shop' ? (
               <div className={style.section}>

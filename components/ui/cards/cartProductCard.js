@@ -1,50 +1,47 @@
 import React from 'react';
 import style from './cartProductCard.module.css';
-import { Checkbox, ConfigProvider, InputNumber } from 'antd';
+import { Checkbox, InputNumber } from 'antd';
 import CloseBtn from '../buttons/closeBtn';
 export default function CartProductCard({
+  cartSid = '',
   img = '',
   prodtitle = '',
   prodSubtitle = '',
   price = 0,
   qty = 0,
-  selected,
+  selected = false,
   shopData = [],
   setShopData = () => {},
   delHandler = () => {},
+  setSelectAll = () => {},
 }) {
+  const onChecked = (sid) => {
+    const newData = shopData.map((v) => {
+      return v.cart_sid == sid ? { ...v, selected: !v.selected } : { ...v };
+    });
+    setShopData(newData);
+    newData.some((obj) => obj.selected === false) && setSelectAll(false);
+  };
   const onChange = (value) => {
     console.log('changed', value);
   };
 
-  console.log(selected);
-
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#FD8C46',
-          fontSize: 20,
-          controlInteractiveSize: 20,
-        },
-      }}
-    >
-      <div className={style.productCard}>
-        <Checkbox
-          // onChange={() => {
-          //   const newData = shopData.map((v)=>{
-          //     && {}
-          //   })
-          // }}
-          className={style.checkbox}
-          checked={selected}
-        ></Checkbox>
-        <img src={img} alt="productimg" className={style.prodimg} />
-        <div className={style.forRwd}>
-          <div className={style.prodname}>
-            <p className={style.prodtitle}>{prodtitle}</p>
-            <p className={style.prodSubtitle}>{prodSubtitle}</p>
-          </div>
+    <div className={style.productCard}>
+      <Checkbox
+        onChange={() => {
+          onChecked(cartSid);
+        }}
+        className={style.checkbox}
+        checked={selected}
+      ></Checkbox>
+      <img src={img} alt="productimg" className={style.prodimg} />
+      <div className={style.forRwd}>
+        <div className={style.prodname}>
+          <p className={style.prodtitle}>{prodtitle}</p>
+          <p className={style.prodSubtitle}>{prodSubtitle}</p>
+        </div>
+        <div className={style.priceQty}>
           <p className={style.price}>${price}</p>
 
           <InputNumber
@@ -54,11 +51,11 @@ export default function CartProductCard({
             onChange={onChange}
             className={style.numberstyle}
           />
+          <p className={style.subtotal}>${price * qty}</p>
         </div>
-
-        <p className={style.subtotal}>{price * qty}</p>
-        <CloseBtn closeHandler={delHandler} />
       </div>
-    </ConfigProvider>
+
+      <CloseBtn closeHandler={delHandler} />
+    </div>
   );
 }
