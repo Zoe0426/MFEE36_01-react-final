@@ -16,6 +16,7 @@ import LocationFilter from '@/components/ui/restaurant/LocationFilter';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
+import SearchBar from '@/components/ui/buttons/SearchBar';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -31,6 +32,10 @@ export default function FilterPage() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(15);
 
+  const [keyword, setKeyword] = useState('');
+
+  const [catergory, setCategory] = useState('');
+
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
     totalRows: 0,
@@ -40,15 +45,38 @@ export default function FilterPage() {
     rows: [],
   });
 
+  //searchBar相關的函式-------------------------------------------------------
+  const searchBarHandler = (e) => {
+    let copyURL = { ...router.query, page: 1 };
+    if (e.key === 'Enter') {
+      if (!keyword) {
+        delete copyURL.keyword;
+      } else {
+        const searchText = e.target.value;
+        copyURL = { ...copyURL, keyword: searchText };
+      }
+      router.push(`?${new URLSearchParams(copyURL).toString()}`);
+    }
+  };
+
+  const searchBarClickHandler = () => {
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        keyword: keyword,
+        page: 1,
+      }).toString()}`
+    );
+  };
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
+    const { keyword } = router.query;
     console.log(router.query);
+    setKeyword(keyword || '');
     const usp = new URLSearchParams(router.query);
 
-    fetch(
-      `${process.env.API_SERVER}/restaurant-api/?${usp.toString()}`
-    )
+    fetch(`${process.env.API_SERVER}/restaurant-api/?${usp.toString()}`)
       .then((r) => r.json())
       .then((data) => {
         setData(data);
@@ -96,14 +124,29 @@ export default function FilterPage() {
       `?${new URLSearchParams({
         ...router.query,
         page: page,
-        perPage: perpage,
+        // perPage: perpage,
       }).toString()}`
     );
   };
 
   return (
     <>
-      <Banner />
+      <div className={Styles.banner}>
+        <div className={Styles.search}>
+          <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
+          <SearchBar
+            placeholder="搜尋餐廳名稱"
+            btn_text="尋找餐廳"
+            inputText={keyword}
+            changeHandler={(e) => {
+              setKeyword(e.target.value);
+            }}
+            keyDownHandler={searchBarHandler}
+            clickHandler={searchBarClickHandler}
+          />
+        </div>
+      </div>
+
       <div className={Styles.bgc}>
         <div className="container-inner">
           <div className={Styles.function_group}>
