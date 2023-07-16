@@ -68,8 +68,6 @@ export default function RestInfo() {
   };
   return (
     <>
-      <ImageGallary />
-
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>
@@ -153,7 +151,7 @@ export default function RestInfo() {
               {/* button */}
               <div className={Styles.detail_main_buttom}>
                 <IconSeconBtn icon={faHeart} text="收藏餐廳" />
-                <IconSeconBtn icon={faFileLines} text="餐廳菜單" />
+                <ImageGallary />
                 <IconMainBtn icon={faCalendar} text="我要預約" />
               </div>
             </div>
