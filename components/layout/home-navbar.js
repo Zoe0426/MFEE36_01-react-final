@@ -43,8 +43,14 @@ export default function HomeNavbar() {
             </div>
           </div>
           <div className={Styles.iconMenu}>
-            <NavRoundBtn icon="/home-images/h-cart.png"></NavRoundBtn>
-            <NavRoundBtn icon="/home-images/h-user.png"></NavRoundBtn>
+            <NavRoundBtn
+              icon="/home-images/h-cart.png"
+              link={'/member/sign-in'}
+            ></NavRoundBtn>
+            <NavRoundBtn
+              icon="/home-images/h-user.png"
+              link={'/member/sign-in'}
+            ></NavRoundBtn>
           </div>
         </nav>
       </header>

@@ -10,9 +10,10 @@ export default function SignIn() {
   const router = useRouter();
   const fromPath = router.query.from || '/';
   console.log(fromPath);
+  console.log(router.query.from);
   const { auth, setAuth } = useContext(AuthContext);
   const handleSubmit = (values) => {
-    fetch('http://localhost:3002/member-api/login', {
+    fetch(`${process.env.API_SERVER}/member-api/login`, {
       method: 'POST',
       body: JSON.stringify(values),
       headers: { 'Content-Type': 'application/json' },

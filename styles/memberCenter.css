@@ -1,0 +1,52 @@
+/* ant design form-item */
+.ant-form-item{
+  padding-bottom: 30px;
+}
+
+.pageTag{
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  border-bottom: 3px solid #FD8C46;
+}
+
+.orderPageTag{
+  width: 100%;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #FD8C46;
+}
+
+.orderTag{
+  display: flex;
+  height: 100%;
+}
+
+.orderSearch{
+  width: 100%;
+}
+
+
+
+
+/* -------------------- */
+
+  
+@media screen and (max-width:767px){
+
+.pageTag{
+  margin-top: 20px;
+}
+
+.orderPageTag{
+  margin-top: 20px;
+  height: 125px;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+
+
+} 

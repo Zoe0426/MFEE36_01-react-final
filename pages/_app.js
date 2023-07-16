@@ -1,4 +1,5 @@
 import '@/styles/styleguide.css';
+import '@/styles/memberCenter.css';
 import DefaultLayout from '@/components/layout/default-layout';
 import { AuthContextProvider } from '@/context/AuthContext';
 import { ConfigProvider } from 'antd';

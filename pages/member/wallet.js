@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Style from '@/pages/member/wallet.module.css';
+import Style from '@/styles/wallet.module.css';
 import { useState, useContext } from 'react';
 import PageTag from '@/components/ui/pageTag/PageTag';
 import CouponCard from '@/components/ui/cards/CouponCard';
@@ -33,7 +33,7 @@ export default function Wallet() {
     }
 
     if (auth.token) {
-      fetch(`http://localhost:3002/member-api/coupon`, {
+      fetch(`${process.env.API_SERVER}/member-api/coupon`, {
         headers: {
           Authorization: 'Bearer ' + auth.token,
         },
@@ -71,13 +71,11 @@ export default function Wallet() {
     const thisMonthEnd = new Date(
       thisMonthStart.getFullYear(),
       thisMonthStart.getMonth() + 1
-      // Set to last day of the current month
     );
 
     const newCoupons = allCoupons.filter((data) => {
       const expDate = new Date(data.exp_date);
 
-      // Check if the coupon expires this month
       return (
         data.coupon_status === 0 &&
         expDate <= thisMonthEnd &&
