@@ -50,10 +50,8 @@
 
 }
 .numberstyle{
-    display: block;
-    border-radius: 8px;
-    border: 1px solid var(--light-gray);
-    width: 70px;
+
+    width: 80px;
     text-align: center;
     color: var(--dark-gray);
     margin-left: auto;

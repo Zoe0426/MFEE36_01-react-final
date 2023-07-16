@@ -13,6 +13,7 @@ import CartBlackcatPostInfo from '@/components/ui/cart/cartblackcatpostinfo';
 import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
 import Modal from '@/components/ui/modal/modal';
 import CartCouponList from '@/components/ui/cart/cartCouponList';
+import NumberInput from '@/components/ui/numberInput/numberInput';
 
 export default function Cart() {
   const [cartData, setCartData] = useState({
@@ -25,14 +26,18 @@ export default function Cart() {
     coupon: [],
   });
   const [checkoutType, setCheckoutType] = useState('shop');
-  const [postType, setPostType] = useState(1);
-  const [paymentType, setPaymentType] = useState(1);
+  //商品選擇區
   const [shopData, setShopData] = useState([]);
   const [activityData, setActivityData] = useState([]);
-  const [couponData, setCouponData] = useState([]);
-  const [blackcatData, setBlackcatData] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  //寄送資訊
+  const [postType, setPostType] = useState(1);
+  const [blackcatData, setBlackcatData] = useState([]);
+  //優惠券
+  const [couponData, setCouponData] = useState([]);
   const [chosenCoupon, setChosenCoupon] = useState();
+  //付款
+  const [paymentType, setPaymentType] = useState(1);
 
   const changeCheckoutType = (type) => {
     if (checkoutType !== type) {
@@ -42,17 +47,18 @@ export default function Cart() {
       setActivityData((old) => old.map((v) => ({ ...v, selected: false })));
     }
   };
+
+  const checkAllHandler = () => {
+    setSelectAll((old) => !old);
+    setShopData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
+    setActivityData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
+  };
+
   const changePostType = (e) => {
-    console.log('radio checked', e.target.value);
     setPostType(e.target.value);
   };
 
-  const changePaymentType = (e) => {
-    console.log('radio checked', e.target.value);
-    setPaymentType(e.target.value);
-  };
   const selectCoupon = () => {
-    console.log(chosenCoupon);
     setCouponData((old) =>
       old.map((v) =>
         v.coupon_send_sid === chosenCoupon
@@ -61,10 +67,9 @@ export default function Cart() {
       )
     );
   };
-  const checkAllHandler = () => {
-    setSelectAll((old) => !old);
-    setShopData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
-    setActivityData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
+
+  const changePaymentType = (e) => {
+    setPaymentType(e.target.value);
   };
 
   const getCart = async () => {
@@ -100,14 +105,13 @@ export default function Cart() {
     getCart();
   }, []);
   console.log(cartData);
-  // console.log(chosenCoupon);
-  console.log(couponData);
 
   return (
     <>
       <BgCartHead text="購物車" />
       <div className="container-inner">
         <Row>
+          <NumberInput defaultValue={3} />
           <Col xs={24} sm={24} md={24} lg={17} className={style.detailSection}>
             {/* ========== 選擇結帳種類 ========== */}
             <div className={style.checkoutType}>

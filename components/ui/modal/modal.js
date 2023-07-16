@@ -4,11 +4,11 @@ import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 
 export default function Modal({
-  btnType = 'main',
-  btnText = '',
-  title = '標題',
-  mainBtnText = '確認',
-  subBtnText = '取消',
+  btnType = 'main', //選點了展開modal的Btn類型，目前只有main(MainBtn)跟text(純文字)兩種
+  btnText = '點我展開modal', // 選點了展開modal的Btn文字內容
+  title = '標題', //Modal標題
+  mainBtnText = '確認', //確認btn的文字
+  subBtnText = '取消', //取消btn的文字
   content = <></>,
   confirmHandler = () => {},
 }) {

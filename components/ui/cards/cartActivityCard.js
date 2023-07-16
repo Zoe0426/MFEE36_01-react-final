@@ -1,7 +1,8 @@
-import React from 'react';
+import { useState } from 'react';
 import style from './cartActivityCard.module.css';
-import { Checkbox, InputNumber } from 'antd';
+import { Checkbox } from 'antd';
 import CloseBtn from '../buttons/closeBtn';
+import NumberInput from '../numberInput/numberInput';
 
 export default function CartActivityCard({
   cartSid = '',
@@ -15,9 +16,12 @@ export default function CartActivityCard({
   selected = false,
   activityData = [],
   setActivityData = () => {},
-  delHandler = () => {},
   setSelectAll = () => {},
+  delHandler = () => {},
 }) {
+  const [myAdQty, setMyAdQty] = useState(adQty);
+  const [myKidQty, setMyKidQty] = useState(kidQty);
+
   const onChecked = (sid) => {
     const newData = activityData.map((v) => {
       return v.cart_sid == sid ? { ...v, selected: !v.selected } : { ...v };
@@ -25,8 +29,11 @@ export default function CartActivityCard({
     setActivityData(newData);
     newData.some((obj) => obj.selected === false) && setSelectAll(false);
   };
-  const onChange = (value) => {
-    console.log('changed', value);
+  const handleAdQty = (qty) => {
+    setMyAdQty(qty);
+  };
+  const handleKidQty = (qty) => {
+    setMyKidQty(qty);
   };
   return (
     <div className={style.productCard}>
@@ -47,26 +54,26 @@ export default function CartActivityCard({
         <div className={style.priceSet}>
           <div className={style.qtyset}>
             <p className={style.price}>大人${adPrice}</p>
-            <InputNumber
-              size="small"
-              min={1}
-              defaultValue={adQty}
-              onChange={onChange}
-              className={style.numberstyle}
-            />
+            <div className={style.numberstyle}>
+              <NumberInput
+                min={1}
+                defaultValue={myAdQty}
+                handleNumber={handleAdQty}
+              />
+            </div>
           </div>
           <div className={style.qtyset}>
             <p className={style.price}>小孩${kidPrice}</p>
-            <InputNumber
-              size="small"
-              min={1}
-              defaultValue={kidQty}
-              onChange={onChange}
-              className={style.numberstyle}
-            />
+            <div className={style.numberstyle}>
+              <NumberInput
+                min={0}
+                defaultValue={myKidQty}
+                handleNumber={handleKidQty}
+              />
+            </div>
           </div>
           <p className={style.subtotal}>
-            ${adPrice * adQty + kidPrice * kidQty}
+            ${adPrice * myAdQty + kidPrice * myKidQty}
           </p>
         </div>
       </div>

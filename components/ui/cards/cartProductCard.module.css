@@ -47,12 +47,10 @@
     margin-right: 32px;
 }
 .numberstyle{
-    border-radius: 8px;
-    border: 1px solid var(--light-gray);
-    min-width: 30px;
-    margin-right: 16px;
-    font-size: var(--pfs16);
+    width: 80px;
+    text-align: center;
     color: var(--dark-gray);
+    margin-left: auto;
 }
 .subtotal{
     text-align: end;
