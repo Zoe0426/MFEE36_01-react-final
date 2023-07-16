@@ -93,7 +93,7 @@
 
 .content{
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* 设置显示的行数 */
+  -webkit-line-clamp: 2; /* 顯示的行数 */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
