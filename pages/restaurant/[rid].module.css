@@ -150,12 +150,12 @@
   margin-bottom: 40px;
 }
 .detail_main_buttom {
-  margin-top: 60px;
+  margin-top: 50px;
   display: flex;
   justify-content: space-between;
 }
 
-.detail_main_buttom > button {
+.detail_main_buttom > button{
   flex: 1;
   margin-right: 16px;
 }

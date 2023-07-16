@@ -27,9 +27,11 @@ import PinkBtn from '@/components/ui/restaurant/PinkBtn';
 import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
+import Link from 'next/link';
 
 export default function RestInfo() {
   const { qurey, asPath } = useRouter();
+  const router = useRouter();
 
   const [dataForRest, setDataForRest] = useState({
     rest_sid: '',
@@ -152,7 +154,13 @@ export default function RestInfo() {
               <div className={Styles.detail_main_buttom}>
                 <IconSeconBtn icon={faHeart} text="收藏餐廳" />
                 <ImageGallary />
-                <IconMainBtn icon={faCalendar} text="我要預約" />
+                <IconMainBtn
+                  icon={faCalendar}
+                  text="我要預約"
+                  clickHandler={() => {
+                    router.push(`/restaurant/booking`);
+                  }}
+                />
               </div>
             </div>
           </div>

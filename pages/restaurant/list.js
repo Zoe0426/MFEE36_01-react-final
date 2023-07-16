@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import RestCard from '@/components/ui/cards/rest_card';
-import { Col, Row } from 'antd';
+import { Pagination, Col, Row, ConfigProvider } from 'antd';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Banner from '@/components/ui/restaurant/Banner';
 import Styles from './list.module.css';
@@ -15,29 +15,58 @@ import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
 import LocationFilter from '@/components/ui/restaurant/LocationFilter';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import Likelist from '@/components/ui/like-list/like-list';
+import { useRouter } from 'next/router';
 
 export default function FilterPage() {
+  const router = useRouter();
   const { categorySid } = filterDatas;
-  
+
   //進階篩選------------------------------------------------------------
   const [showfilter, setShowFilter] = useState(false);
-
 
   //收藏清單------------------------------------------------------------
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(15);
+
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState([]);
+  // const [data, setData] = useState([
+  //   {
+  //     totalRows: 0,
+  //     perPage: 16,
+  //     totalPages: 0,
+  //     page: 1,
+  //     rows: [],
+  //   },
+  // ]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch('http://localhost:3002/restaurant-api');
       const data = await response.json();
+      console.log(data);
       setData(data);
     };
 
     fetchData();
   }, []);
+
+  // useEffect(() => {
+  //   console.log(router.query);
+  //   const usp = new URLSearchParams(router.query);
+
+  //   fetch(`http://localhost:3002/restaurant-api/restaurants?${usp.toString()}`)
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setData(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [router.query]);
 
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
@@ -67,6 +96,19 @@ export default function FilterPage() {
     setLikeDatas(newLikeList);
     //這邊需要再修改，要看怎麼得到會員的編號
     removeLikeListToDB(pid, 'mem00002');
+  };
+
+  //Pagination相關的函式-------------------------------------------------------
+  const PageChangeHandler = (page, perpage) => {
+    setPerPage(perpage);
+    setPage(page);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: page,
+        perPage: perpage,
+      }).toString()}`
+    );
   };
 
   return (
@@ -141,11 +183,6 @@ export default function FilterPage() {
             <p>共64間餐廳</p>
           </div>
           <RestPageOrder />
-          {/* <select name="" id="" className={Styles.filter}>
-            <option value="1">排序</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select> */}
         </div>
       </div>
 
@@ -160,6 +197,7 @@ export default function FilterPage() {
               img_names,
               rule_names,
               service_names,
+              average_friendly,
             } = i;
 
             return (
@@ -171,12 +209,40 @@ export default function FilterPage() {
                   area={area}
                   rule_names={rule_names}
                   service_names={service_names}
+                  average_friendly={average_friendly}
                 />
               </Col>
             );
           })}
         </Row>
       </div>
+
+      {/* <div className={Styles.pagination}>
+        <ConfigProvider
+          theme={{
+            token: {
+              colorPrimary: '#FD8C46',
+              colorBgContainer: 'transparent',
+              colorBgTextHover: '#FFEFE8',
+              colorBgTextActive: '#FFEFE8',
+              fontSize: 18,
+              controlHeight: 38,
+              lineWidthFocus: 1,
+            },
+          }}
+        >
+          <Pagination
+            current={datas.page}
+            total={datas.totalRows}
+            pageSize={datas.perPage}
+            showSizeChanger
+            pageSizeOptions={[20, 40, 60]}
+            // showSizeChanger={false}
+            onChange={PageChangeHandler}
+            onShowSizeChange={PageChangeHandler}
+          />
+        </ConfigProvider>
+      </div> */}
     </>
   );
 }

@@ -14,6 +14,7 @@ export default function RestCard({
   area = '',
   rule_names = '',
   service_names = '',
+  average_friendly = '',
 }) {
   const rules = rule_names.split(',');
   const services = service_names.split(',');
@@ -31,7 +32,9 @@ export default function RestCard({
             <p className={Styles.rest_location}>
               {city}‧{area}
             </p>
-            <RateStarPill score="4.8" />
+            {/* {average_friendly.map((v3, i3) => {
+              return <RateStarPill key={i3} score={v3} />;
+            })} */}
           </div>
           <div className={Styles.hash_tag_group}>
             {rules.map((v1, i1) => {
