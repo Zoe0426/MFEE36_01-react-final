@@ -11,6 +11,9 @@ import Image from 'next/image';
 import CartTab from '@/components/ui/cart/cartTab';
 import CartBlackcatPostInfo from '@/components/ui/cart/cartblackcatpostinfo';
 import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
+import Modal from '@/components/ui/modal/modal';
+import CartCouponList from '@/components/ui/cart/cartCouponList';
+
 export default function Cart() {
   const [cartData, setCartData] = useState({
     shop: [],
@@ -29,6 +32,7 @@ export default function Cart() {
   const [couponData, setCouponData] = useState([]);
   const [blackcatData, setBlackcatData] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [chosenCoupon, setChosenCoupon] = useState();
 
   const changeCheckoutType = (type) => {
     if (checkoutType !== type) {
@@ -47,7 +51,16 @@ export default function Cart() {
     console.log('radio checked', e.target.value);
     setPaymentType(e.target.value);
   };
-
+  const selectCoupon = () => {
+    console.log(chosenCoupon);
+    setCouponData((old) =>
+      old.map((v) =>
+        v.coupon_send_sid === chosenCoupon
+          ? { ...v, selected: true }
+          : { ...v, selected: false }
+      )
+    );
+  };
   const checkAllHandler = () => {
     setSelectAll((old) => !old);
     setShopData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
@@ -68,7 +81,10 @@ export default function Cart() {
       ...v,
       selected: false,
     }));
-    const myCouponData = data.coupon.map((v) => ({ ...v, selected: false }));
+    const myCouponData = data.coupon.map((v, i) => ({
+      ...v,
+      selected: i === 0,
+    }));
     const myBlackcatData = data.blackCat.map((v) => ({
       ...v,
       selected: false,
@@ -84,6 +100,8 @@ export default function Cart() {
     getCart();
   }, []);
   console.log(cartData);
+  // console.log(chosenCoupon);
+  console.log(couponData);
 
   return (
     <>
@@ -91,6 +109,7 @@ export default function Cart() {
       <div className="container-inner">
         <Row>
           <Col xs={24} sm={24} md={24} lg={17} className={style.detailSection}>
+            {/* ========== 選擇結帳種類 ========== */}
             <div className={style.checkoutType}>
               <CartTab
                 type="shop"
@@ -109,6 +128,7 @@ export default function Cart() {
                 }}
               />
             </div>
+            {/* ========== 顯示商品 ==========*/}
             <div className={style.section}>
               <ConfigProvider
                 theme={{
@@ -161,6 +181,7 @@ export default function Cart() {
                     ))}
               </ConfigProvider>
             </div>
+            {/* ========== 寄件方式 ==========*/}
             {checkoutType === 'shop' ? (
               <div className={style.section}>
                 <ConfigProvider
@@ -168,7 +189,6 @@ export default function Cart() {
                     token: {
                       colorPrimary: '#FD8C46',
                       fontSize: 18,
-                      controlInteractiveSize: 18,
                     },
                   }}
                 >
@@ -179,37 +199,69 @@ export default function Cart() {
                     <Radio value={3}>全家 $60</Radio>
                   </Radio.Group>
                 </ConfigProvider>
-                <CartBlackcatPostInfo
-                  address={
-                    blackcatData[0].city +
-                    blackcatData[0].area +
-                    blackcatData[0].address
-                  }
-                  name={blackcatData[0].name}
-                  mobile={blackcatData[0].mobile}
-                  email={blackcatData[0].email}
-                  selected={blackcatData[0].selected}
-                />
+                {blackcatData.length > 0 ? (
+                  <CartBlackcatPostInfo
+                    address={
+                      blackcatData[0].city +
+                      blackcatData[0].area +
+                      blackcatData[0].address
+                    }
+                    name={blackcatData[0].name}
+                    mobile={blackcatData[0].mobile}
+                    email={blackcatData[0].email}
+                    selected={blackcatData[0].selected}
+                  />
+                ) : (
+                  <p>沒有可使用的優惠券</p>
+                )}
               </div>
             ) : (
               ''
             )}
+            {/* ========== 優惠券 ==========*/}
             <div className={style.section}>
               <CartSectionTitle text="使用優惠券" />
-              <CartCouponInfo
-                coupon_send_sid={couponData[0].coupon_send_sid}
-                exp_date={couponData[0].exp_date}
-                name={couponData[0].name}
-                price={couponData[0].price}
-              />
+              <div>
+                {couponData.length > 0 ? (
+                  couponData.map((v) =>
+                    v.selected === true ? (
+                      <CartCouponInfo
+                        key={v.coupon_send_sid}
+                        coupon_send_sid={v.coupon_send_sid}
+                        exp_date={v.exp_date}
+                        name={v.name}
+                        price={v.price}
+                      />
+                    ) : (
+                      ''
+                    )
+                  )
+                ) : (
+                  <p>沒有可使用的優惠券</p>
+                )}
+                <div className={style.couponModal}>
+                  <Modal
+                    btnType="text"
+                    btnText="查看其它優惠券"
+                    title="選擇優惠券"
+                    confirmHandler={selectCoupon}
+                    content={
+                      <CartCouponList
+                        couponData={couponData}
+                        setChosenCoupon={setChosenCoupon}
+                      />
+                    }
+                  />
+                </div>
+              </div>
             </div>
+            {/* ========== 選付款方式 ==========*/}
             <div className={style.section}>
               <ConfigProvider
                 theme={{
                   token: {
                     colorPrimary: '#FD8C46',
                     fontSize: 18,
-                    controlInteractiveSize: 18,
                   },
                 }}
               >
@@ -222,6 +274,7 @@ export default function Cart() {
               </ConfigProvider>
             </div>
           </Col>
+          {/* ========== 金額統計 ==========*/}
           <Col xs={24} sm={24} md={24} lg={7} className={style.totalSection}>
             <div className={style.totalCard}>
               <CartSectionTitle text="訂單詳情" />

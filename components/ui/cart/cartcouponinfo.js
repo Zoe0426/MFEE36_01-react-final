@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './cartcouponinfo.module.css';
+import { Radio } from 'antd';
 
 export default function CartCouponInfo({
   coupon_send_sid = '',
@@ -7,11 +8,12 @@ export default function CartCouponInfo({
   name = '',
   price = 0,
   selected = false,
+  // radioBtn = true,
 }) {
   return (
     <div className={style.info}>
       <div className={style.details}>
-        <p>{name}</p>
+        <p className={style.name}>{name}</p>
         <p className={style.expDate}>
           使用期限&nbsp;&nbsp;
           <span className={style.expDate}>{exp_date}</span>
@@ -19,7 +21,6 @@ export default function CartCouponInfo({
       </div>
       <div>
         <span className={style.postPrice}>-${price}&nbsp;&nbsp;</span>
-        <span className={style.edit}>編輯</span>
       </div>
     </div>
   );
