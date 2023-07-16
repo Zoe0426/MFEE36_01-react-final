@@ -32,41 +32,31 @@ export default function FilterPage() {
   const [perPage, setPerPage] = useState(15);
 
   //取資料相關的函式-------------------------------------------------------
-  const [data, setData] = useState([]);
-  // const [data, setData] = useState([
-  //   {
-  //     totalRows: 0,
-  //     perPage: 16,
-  //     totalPages: 0,
-  //     page: 1,
-  //     rows: [],
-  //   },
-  // ]);
+  const [data, setData] = useState({
+    totalRows: 0,
+    perPage: 15,
+    totalPages: 0,
+    page: 1,
+    rows: [],
+  });
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch('http://localhost:3002/restaurant-api');
-      const data = await response.json();
-      console.log(data);
-      setData(data);
-    };
+    //取得用戶拜訪的類別選項
+    console.log(router.query);
+    const usp = new URLSearchParams(router.query);
 
-    fetchData();
-  }, []);
-
-  // useEffect(() => {
-  //   console.log(router.query);
-  //   const usp = new URLSearchParams(router.query);
-
-  //   fetch(`http://localhost:3002/restaurant-api/restaurants?${usp.toString()}`)
-  //     .then((r) => r.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setData(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, [router.query]);
+    fetch(
+      `${process.env.API_SERVER}/restaurant-api/?${usp.toString()}`
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [router.query]);
 
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
@@ -188,7 +178,7 @@ export default function FilterPage() {
 
       <div className="container-inner">
         <Row gutter={{ xs: 16, xl: 32 }}>
-          {data.map((i) => {
+          {data.rows.map((v) => {
             const {
               rest_sid,
               name,
@@ -198,7 +188,7 @@ export default function FilterPage() {
               rule_names,
               service_names,
               average_friendly,
-            } = i;
+            } = v;
 
             return (
               <Col xl={8} xs={12} key={rest_sid}>
@@ -217,7 +207,7 @@ export default function FilterPage() {
         </Row>
       </div>
 
-      {/* <div className={Styles.pagination}>
+      <div className={Styles.pagination}>
         <ConfigProvider
           theme={{
             token: {
@@ -232,17 +222,13 @@ export default function FilterPage() {
           }}
         >
           <Pagination
-            current={datas.page}
-            total={datas.totalRows}
-            pageSize={datas.perPage}
-            showSizeChanger
-            pageSizeOptions={[20, 40, 60]}
-            // showSizeChanger={false}
+            current={data.page}
+            total={data.totalRows}
+            pageSize={data.perPage}
             onChange={PageChangeHandler}
-            onShowSizeChange={PageChangeHandler}
           />
         </ConfigProvider>
-      </div> */}
+      </div>
     </>
   );
 }

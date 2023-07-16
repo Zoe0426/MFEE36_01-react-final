@@ -61,7 +61,10 @@
 .bgc {
   background-color: var(--lightBrown);
 }
-
+.pagination{
+  margin:70px 0;
+  text-align: center;
+}
 
 @media screen and (max-width: 767px) {
   .jill_h2 {
