@@ -6,6 +6,8 @@ import { Row, Col } from 'antd';
 export default function ActivityMain() {
   const [data, setData] = useState([]);
 
+//test
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     const response = await fetch('http://localhost:3002/activity-api/:cid');
