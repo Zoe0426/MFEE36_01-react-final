@@ -41,7 +41,6 @@ export default function List() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [keyword, setKeyword] = useState('');
-  const [filters, setFilters] = useState(filterDatas);
 
   const [datas, setDatas] = useState({
     totalRows: 0,
@@ -71,89 +70,29 @@ export default function List() {
     { id: 'pid', text: '', href: '', show: false },
   ]);
 
-  const getData = async (obj) => {
-    const usp = new URLSearchParams(obj);
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/products?${usp.toString()}`,
-      { method: 'GET' }
-    );
-    const data = await res.json();
-
-    if (Array.isArray(data.rows)) {
-      setDatas(data);
-    }
-  };
-
-  const getBrandData = async () => {
-    const res = await fetch(`${process.env.API_SERVER}/shop-api/brand-list`, {
-      method: 'GET',
-    });
-    const data = await res.json();
-
-    if (Array.isArray(data.brand)) {
-      const newBrand = data.brand.map((v) => {
-        return { ...v, checked: false };
-      });
-      setFilters({ ...filters, brand: newBrand });
-    }
-  };
-
-  useEffect(() => {
-    // getBrandData();
-    // const { category } = router.query;
-    // if (category) {
-    //   resetCheckBox('category', category);
-    // }
-
-    getBrandData().then(() => {
-      const { category } = router.query;
-      if (category) {
-        resetCheckBox('category', category);
-      }
-    });
-  }, []);
-
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { category, keyword, orderBy, typeForPet, typeForAge, brand } =
-      router.query;
-
-    // setCategory(category || '');
+    console.log(router.query);
+    const { category, keyword } = router.query;
+    setCategory(category || '');
     setKeyword(keyword || '');
 
-    //將按下上一頁/重新整理，都可將先前排序的選項設定回去
-    if (orderBy) {
-      const selectedOrderByKey = Object.keys(rankOptions).find(
-        (key) => rankOptions[key] === orderBy
-      );
-      if (selectedOrderByKey === '4') {
-        setShowFlag(true);
-      }
-      const selectedOrderBy = orderByOptions.find((v) => {
-        return v.key === selectedOrderByKey;
+    const usp = new URLSearchParams(router.query);
+
+    fetch(`${process.env.API_SERVER}/shop-api/products?${usp.toString()}`)
+      .then((r) => r.json())
+      .then((obj) => {
+        const newBrand = obj.brand.map((v) => {
+          return { ...v, checked: false };
+        });
+        setFilters({ ...filters, brand: newBrand });
+        setDatas(obj);
+        setLikeDatas(obj.likeDatas);
+      })
+      .catch((error) => {
+        // 處理錯誤情況
+        console.error(error);
       });
-      setOrderBy(selectedOrderBy.label);
-    }
-
-    if (typeForPet) {
-      resetCheckBox('typeForPet', typeForPet);
-    }
-
-    if (typeForAge) {
-      resetCheckBox('typeForAge', typeForAge);
-    }
-
-    if (category) {
-      resetCheckBox('category', category);
-    }
-
-    if (brand) {
-      resetCheckBox('brand', brand);
-    }
-
-    if (router.query) {
-      getData(router.query);
-    }
   }, [router.query]);
 
   //收藏列表相關的函式-------------------------------------------------------
@@ -269,21 +208,9 @@ export default function List() {
     setShowFilter(!showfilter);
   };
 
-  //進入畫面時將checkbox依據queryString設定勾選狀態
-  const resetCheckBox = (key, str) => {
-    const selectedValues = str.split(',');
-    const newCheckBox = filters[key].map((v) => {
-      if (selectedValues.includes(String(v.value))) {
-        return { ...v, checked: true };
-      }
-      return { ...v, checked: false };
-    });
-    setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
-  };
+  const [filters, setFilters] = useState(filterDatas);
 
   const filterCheckedHandler = (arr, name, id) => {
-    console.log(id);
-
     const newFilters = arr.map((v) => {
       if (v.label === id) {
         return { ...v, checked: !v.checked };
@@ -302,6 +229,7 @@ export default function List() {
     const checkedOptions = (arr) => {
       return arr.filter((v) => v.checked === true).map((v) => v.value);
     };
+
     const filtersToCheck = {
       typeForPet: checkedOptions(typeForPet),
       typeForAge: checkedOptions(typeForAge),
@@ -309,15 +237,7 @@ export default function List() {
       brand: checkedOptions(brand),
     };
 
-    const { orderBy, keyword } = router.query;
-
-    let query = {};
-    if (orderBy) {
-      query.orderBy = orderBy;
-    }
-    if (keyword) {
-      query.keyword = keyword;
-    }
+    let query = router.query;
 
     for (const [key, value] of Object.entries(filtersToCheck)) {
       if (value.length > 0) {
@@ -391,7 +311,6 @@ export default function List() {
                   data={filters.typeForPet}
                   changeHandler={filterCheckedHandler}
                 />
-
                 <ProductFilter
                   text="使用年齡:"
                   name="typeForAge"
@@ -503,6 +422,7 @@ export default function List() {
             pageSize={datas.perPage}
             showSizeChanger
             pageSizeOptions={[20, 40, 60]}
+            // showSizeChanger={false}
             onChange={PageChangeHandler}
             onShowSizeChange={PageChangeHandler}
           />

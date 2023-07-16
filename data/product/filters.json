@@ -2,33 +2,39 @@
   "typeForPet": [
     {
         "id":1,
-        "label": "汪星人",
+        "label": "狗狗",
         "value": "dog",
         "checked": false
     },
     {
         "id":2,
-        "label": "喵星人",
+        "label": "貓咪",
         "value": "cat",
+        "checked": false
+    },
+    {
+        "id":3,
+        "label": "皆可",
+        "value": "both",
         "checked": false
     }
   ],
   "typeForAge": [
     {
         "id":1,
-        "label": "幼年",
+        "label": "幼犬/幼貓",
         "value": "younger",
         "checked": false
     },
     {    
         "id":2,
-        "label": "成年",
+        "label": "成犬/成貓",
         "value": "adult",
         "checked": false
     },
     {
         "id":3,
-        "label": "高齡",
+        "label": "老犬/老貓",
         "value": "elder",
         "checked": false
     }
