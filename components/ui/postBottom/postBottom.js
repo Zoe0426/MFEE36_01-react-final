@@ -23,7 +23,7 @@ export default function PostBottom() {
     {data.map((v)=>(
 
       <PostPhotoCard key={v.post_sid} 
-      img='/forum_img/chris-smith-vCPF8e_-JPg-unsplash.jpg' 
+      img={`http://localhost:3000/forum_img/post_img/${v.file}`} 
       boardImg={`http://localhost:3000/forum_img/board_img/${v.board_img}`}
       boardName={v.board_name} 
       bc='var(--main)' 
