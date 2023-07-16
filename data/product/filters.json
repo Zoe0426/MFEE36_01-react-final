@@ -37,6 +37,12 @@
         "label": "老犬/老貓",
         "value": "elder",
         "checked": false
+    },
+    {
+        "id":4,
+        "label": "皆可",
+        "value": "all",
+        "checked": false
     }
   ],
   "category": [

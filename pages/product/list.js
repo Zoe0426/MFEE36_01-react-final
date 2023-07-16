@@ -282,13 +282,37 @@ export default function List() {
   };
 
   const filterCheckedHandler = (arr, name, id) => {
-    console.log(id);
+    const arrLength = arr.length - 1;
+    let countTrue = 0;
+    let newFilters = [];
 
-    const newFilters = arr.map((v) => {
-      if (v.label === id) {
-        return { ...v, checked: !v.checked };
-      } else return { ...v };
-    });
+    if (id === '皆可') {
+      const prechecked = arr[arr.length - 1].checked;
+      newFilters = arr.map((v) => {
+        if (!prechecked) {
+          return { ...v, checked: true };
+        } else return { ...v, checked: false };
+      });
+    } else {
+      newFilters = arr.map((v) => {
+        if (v.label === id) {
+          return { ...v, checked: !v.checked };
+        } else return { ...v };
+      });
+    }
+    for (let a of newFilters) {
+      if (a.checked) {
+        countTrue++;
+      }
+    }
+
+    if (countTrue === arrLength) {
+      newFilters[arr.length - 1].checked = true;
+    } else {
+      newFilters[arr.length - 1].checked = false;
+    }
+    console.log({ arrLength });
+    console.log({ countTrue });
 
     setFilters((prevFilters) => ({
       ...prevFilters,
