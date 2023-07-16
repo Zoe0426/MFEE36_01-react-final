@@ -78,7 +78,8 @@ export default function PostBottom() {
       img={`http://localhost:3000/forum_img/post_img/${v.file}`} 
       boardImg={`http://localhost:3000/forum_img/board_img/${v.board_img}`}
       boardName={v.board_name} 
-      bc= {bgc()}
+      bc= 'var(--main)'
+      // bc= {bgc()}
       title={v.post_title} 
       content={v.post_content}/>
     ))}
