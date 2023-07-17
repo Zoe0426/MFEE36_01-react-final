@@ -30,18 +30,19 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function List() {
   const router = useRouter();
-  //排序
-  const [orderBy, setOrderBy] = useState('-- 請選擇 --');
 
   //是否顯示總銷售數的tag
   const [showFlag, setShowFlag] = useState(false);
 
-  //換頁時要用的-類別/關鍵字/頁碼
-  const [catergory, setCategory] = useState('');
+  //換頁時要用的-類別/關鍵字/頁碼/排序
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
+  const [orderBy, setOrderBy] = useState('-- 請選擇 --');
   const [keyword, setKeyword] = useState('');
   const [filters, setFilters] = useState(filterDatas);
+  const [copyFilters, setCopyFilters] = useState([]);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
 
   const [datas, setDatas] = useState({
     totalRows: 0,
@@ -54,9 +55,6 @@ export default function List() {
   });
 
   const [likeDatas, setLikeDatas] = useState([]);
-  //   const [brandDatas, setBrandDatas] = useState([]);
-  //   const [totalItems, setTotalItems] = useState(0);
-  //   const [totalPages, settotalPages] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
   //麵包屑寫得有點奇怪...
@@ -95,16 +93,11 @@ export default function List() {
         return { ...v, checked: false };
       });
       setFilters({ ...filters, brand: newBrand });
+      setCopyFilters({ ...filters, brand: newBrand });
     }
   };
 
   useEffect(() => {
-    // getBrandData();
-    // const { category } = router.query;
-    // if (category) {
-    //   resetCheckBox('category', category);
-    // }
-
     getBrandData().then(() => {
       const { category } = router.query;
       if (category) {
@@ -118,7 +111,6 @@ export default function List() {
     const { category, keyword, orderBy, typeForPet, typeForAge, brand } =
       router.query;
 
-    // setCategory(category || '');
     setKeyword(keyword || '');
 
     //將按下上一頁/重新整理，都可將先前排序的選項設定回去
@@ -133,8 +125,11 @@ export default function List() {
         return v.key === selectedOrderByKey;
       });
       setOrderBy(selectedOrderBy.label);
+    } else {
+      setOrderBy('-- 請選擇 --');
     }
 
+    // if (typeof filters === 'object') {
     if (typeForPet) {
       resetCheckBox('typeForPet', typeForPet);
     }
@@ -150,6 +145,11 @@ export default function List() {
     if (brand) {
       resetCheckBox('brand', brand);
     }
+
+    if (!typeForPet && !typeForAge && !category && !brand) {
+      setFilters(copyFilters);
+    }
+    // }
 
     if (router.query) {
       getData(router.query);
@@ -202,13 +202,13 @@ export default function List() {
 
   //searchBar相關的函式-------------------------------------------------------
   const searchBarHandler = (e) => {
-    let copyURL = { ...router.query, page: 1 };
+    let copyURL = { page: 1 };
     if (e.key === 'Enter') {
       if (!keyword) {
-        delete copyURL.keyword;
+        copyURL;
       } else {
         const searchText = e.target.value;
-        copyURL = { ...copyURL, keyword: searchText };
+        copyURL = { keyword: searchText, ...copyURL };
       }
       router.push(`?${new URLSearchParams(copyURL).toString()}`);
     }
@@ -217,7 +217,6 @@ export default function List() {
   const searchBarClickHandler = () => {
     router.push(
       `?${new URLSearchParams({
-        ...router.query,
         keyword: keyword,
         page: 1,
       }).toString()}`
@@ -281,7 +280,8 @@ export default function List() {
     setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
   };
 
-  const filterCheckedHandler = (arr, name, id) => {
+  //管理checkbox勾選的狀態
+  const checkboxToggleHandler = (arr, name, id) => {
     const arrLength = arr.length - 1;
     let countTrue = 0;
     let newFilters = [];
@@ -311,8 +311,6 @@ export default function List() {
     if (countTrue === arrLength) {
       newFilters[arrLength].checked = true;
     }
-    console.log({ arrLength });
-    console.log({ countTrue });
 
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -341,6 +339,12 @@ export default function List() {
     }
     if (keyword) {
       query.keyword = keyword;
+    }
+    if (minPrice) {
+      query.minPrice = minPrice;
+    }
+    if (maxPrice) {
+      query.maxPrice = maxPrice;
     }
 
     for (const [key, value] of Object.entries(filtersToCheck)) {
@@ -413,31 +417,52 @@ export default function List() {
                   text="適用對象:"
                   name="typeForPet"
                   data={filters.typeForPet}
-                  changeHandler={filterCheckedHandler}
+                  changeHandler={checkboxToggleHandler}
                 />
 
                 <ProductFilter
                   text="使用年齡:"
                   name="typeForAge"
                   data={filters.typeForAge}
-                  changeHandler={filterCheckedHandler}
+                  changeHandler={checkboxToggleHandler}
                 />
                 <ProductFilter
                   text="商品類別:"
                   name="category"
                   data={filters.category}
-                  changeHandler={filterCheckedHandler}
-                />
-                <ProductInput
-                  minHandlerHandler={() => {}}
-                  changeHandler={() => {}}
+                  changeHandler={checkboxToggleHandler}
                 />
                 <ProductFilter
                   text="品牌:"
                   name="brand"
                   data={filters.brand}
                   needSpan={false}
-                  changeHandler={filterCheckedHandler}
+                  changeHandler={checkboxToggleHandler}
+                />
+                <ProductInput
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  minHandler={(e) => {
+                    setMinPrice(e.target.value);
+                    e.target.closest('input').style.border =
+                      '1px solid #FD8C46';
+                    e.target.nextSibling.style.visibility = 'hidden';
+                  }}
+                  maxHandler={(e) => {
+                    setMaxPrice(e.target.value);
+                    e.target.closest('input').style.border =
+                      '1px solid #FD8C46';
+                    e.target.nextSibling.style.visibility = 'hidden';
+                  }}
+                  blurHander={(e) => {
+                    if (isNaN(e.target.value)) {
+                      e.target.closest('input').style.border = '1px solid red';
+                      e.target.nextSibling.style.visibility = 'visible';
+                    } else {
+                      e.target.closest('input').style.border =
+                        '1px solid #DDDDDD';
+                    }
+                  }}
                 />
                 <div className={styles.filter_btns}>
                   <SecondaryBtn text="重置條件" />
