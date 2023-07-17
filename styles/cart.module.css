@@ -14,95 +14,36 @@
      border-radius: var(--br10);
      margin-bottom: var(--p32);
 }
-.info{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.selectAll{
+    font-size: var(--pfs16);
+    padding-bottom: var(--p8);
+    border-bottom: 1px dashed var(--secondary);
+    width: 100%;
 }
-.info p{
-font-size: var(--h6fs18);
-}
-.info span{
-font-size: var(--h6fs18);
-}
-.details{
+.couponModal{
+    /* border: 1px solid red; */
     padding: var(--p16) 0;
+    display: flex;
+    justify-content: flex-end;
 }
-.details p{
-    margin-bottom: 8px;
-}
-.postPrice{
-    color: var(--main);
-}
-.edit{
-    color: var(--gray);
-    cursor: pointer;
-}
-.edit:hover{
-    color: var(--dark-gray);
 
-}
-.expDate{
-    color: var(--gray);
-    font-size: var(--pfs14);;
-}
 
 
 .totalSection{
     padding: 32px 0 32px 40px;
-
-}
-.totalCard{
-    position: fixed;
-    width: 16%;
-    background-color: white;
-    box-shadow: var(--shadow);
-    padding: var(--p16);
-    border-radius: var(--br10);
 }
 
-.subtotals{
-    display: flex;
-    margin-bottom: 16px;
-}
-.amount{
-    display: block;
-    margin-left: auto;
-}
-.total{
-    display: flex;
-    font-weight: bold;
-    margin-bottom: 16px;
-}
-.totalamount{
-    color: var(--main);
-    display: block;
-    margin-left: auto;
-}
-.runningdog{
-    transform: scaleX(-1) rotate(20deg);
-    position: absolute;
-    left: 190px;
-    width: 100px;
-}
 @media screen and (max-width:767px){
-.totalCard{
-    position: relative;
-    width: 100%;
-   
-}
+
 .totalSection{
     padding-left: 0px;
-
 }
 
 .headcat{
-
     left: 3%;
     width: 60px;
 }
 .headtrees{
-
     right: 3%;
     width: 60px;
 }

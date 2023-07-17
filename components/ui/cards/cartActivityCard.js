@@ -1,9 +1,11 @@
-import React from 'react';
+import { useState } from 'react';
 import style from './cartActivityCard.module.css';
-import { Checkbox, ConfigProvider, InputNumber } from 'antd';
+import { Checkbox } from 'antd';
 import CloseBtn from '../buttons/closeBtn';
+import NumberInput from '../numberInput/numberInput';
 
 export default function CartActivityCard({
+  cartSid = '',
   img = '',
   prodtitle = '',
   prodSubtitle = '',
@@ -11,58 +13,82 @@ export default function CartActivityCard({
   adQty = 0,
   kidPrice = 0,
   kidQty = 0,
+  selected = false,
+  activityData = [],
+  setActivityData = () => {},
+  setSelectAll = () => {},
   delHandler = () => {},
-  checkHandler = () => {},
 }) {
-  const onChange = (value) => {
-    console.log('changed', value);
+  const [myAdQty, setMyAdQty] = useState(adQty);
+  const [myKidQty, setMyKidQty] = useState(kidQty);
+
+  const onChecked = (sid) => {
+    const newData = activityData.map((v) => {
+      return v.cart_sid == sid ? { ...v, selected: !v.selected } : { ...v };
+    });
+    setActivityData(newData);
+    newData.some((obj) => obj.selected === false) && setSelectAll(false);
+  };
+  const handleAdQty = (qty) => {
+    setMyAdQty(qty);
+    setActivityData((old) =>
+      old.map((v) =>
+        v.cart_sid === cartSid ? { ...v, adult_qty: qty } : { ...v }
+      )
+    );
+  };
+  const handleKidQty = (qty) => {
+    setMyKidQty(qty);
+    setActivityData((old) =>
+      old.map((v) =>
+        v.cart_sid === cartSid ? { ...v, child_qty: qty } : { ...v }
+      )
+    );
   };
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#FD8C46',
-          fontSize: 20,
-          controlInteractiveSize: 20,
-        },
-      }}
-    >
-      <div className={style.productCard}>
-        <Checkbox onChange={checkHandler} className={style.checkbox}></Checkbox>
-        <img src={img} alt="productimg" className={style.prodimg} />
+    <div className={style.productCard}>
+      <Checkbox
+        onChange={() => {
+          onChecked(cartSid);
+        }}
+        className={style.checkbox}
+        checked={selected}
+      ></Checkbox>
+      <img src={img} alt="activity-Img" className={style.prodimg} />
 
-        <div className={style.forRwd}>
-          <div className={style.prodname}>
-            <p className={style.prodtitle}>{prodtitle}</p>
-            <p className={style.prodSubtitle}>{prodSubtitle}</p>
-          </div>
-          <div className={style.priceSet}>
-            <div className={style.qtyset}>
-              <p className={style.price}>大人${adPrice}</p>
-              <InputNumber
-                size="small"
-                min={1}
-                defaultValue={adQty}
-                onChange={onChange}
-                className={style.numberstyle}
-              />
-            </div>
-            <div className={style.qtyset}>
-              <p className={style.price}>小孩${kidPrice}</p>
-              <InputNumber
-                size="small"
-                min={1}
-                defaultValue={kidQty}
-                onChange={onChange}
-                className={style.numberstyle}
-              />
-            </div>
-          </div>
+      <div className={style.forRwd}>
+        <div className={style.prodname}>
+          <p className={style.prodtitle}>{prodtitle}</p>
+          <p className={style.prodSubtitle}>{prodSubtitle}</p>
         </div>
-
-        <p className={style.subtotal}>{adPrice * adQty + kidPrice * kidQty}</p>
-        <CloseBtn closeHandler={delHandler} />
+        <div className={style.priceSet}>
+          <div className={style.qtyset}>
+            <p className={style.price}>大人${adPrice}</p>
+            <div className={style.numberstyle}>
+              <NumberInput
+                min={1}
+                defaultValue={myAdQty}
+                handleNumber={handleAdQty}
+              />
+            </div>
+          </div>
+          <div className={style.qtyset}>
+            <p className={style.price}>小孩${kidPrice}</p>
+            <div className={style.numberstyle}>
+              <NumberInput
+                min={0}
+                defaultValue={myKidQty}
+                handleNumber={handleKidQty}
+              />
+            </div>
+          </div>
+          <p className={style.subtotal}>
+            ${adPrice * myAdQty + kidPrice * myKidQty}
+          </p>
+        </div>
       </div>
-    </ConfigProvider>
+
+      <CloseBtn closeHandler={delHandler} />
+    </div>
   );
 }

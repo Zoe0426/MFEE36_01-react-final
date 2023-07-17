@@ -2,14 +2,14 @@
     /* border: 1px solid black; */
     display: flex;
     align-items: center;
-    padding: 16px 0px;
+    padding: var(--p24) 0px;
     border-bottom: 1px dashed #FFD4C0;
 }
 .checkbox{
      margin-right: 16px;
 }
 .prodimg{
-    width: 80px;
+    width: 120px;
     border-radius: var(--br8);
     margin-right: 16px;
 }
@@ -17,11 +17,12 @@
     display: flex;
     align-items: center;
     flex-grow:1;
+    /* border: 1px solid red; */
 }
 .prodname{
     flex-grow: 1;
     margin-right: 16px;
-  
+    /* border: 1px solid blue; */
 }
 .prodtitle{
     font-size: var(--h6fs18);
@@ -30,15 +31,15 @@
 .prodSubtitle{
     font-size: var(--pfs16);
     color: var(--main);
+ 
 }
 .priceSet{
     display: flex;
-    /* border: 1px solid red; */
+    /* border: 1px solid orange; */
 }
 .qtyset{
     margin-right: 16px;
     /* border: 1px solid green; */
-    
 }
 
 .price{
@@ -49,30 +50,50 @@
 
 }
 .numberstyle{
-    display: block;
-    border-radius: 8px;
-    border: 1px solid var(--light-gray);
-    width: 70px;
+
+    width: 80px;
     text-align: center;
     color: var(--dark-gray);
     margin-left: auto;
    
 }
 .subtotal{
-    text-align: end;
-    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     color: var(--main);
     margin-right: 16px;
-    /* border: 1px solid blue; */
+    min-width: 60px;
+    font-size: var(--pfs16);
+    /* border: 1px solid red; */
+}
+
+@media screen and (max-width:1300px) and (min-width:768px){
+.forRwd{
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.prodname{
+    margin-bottom: 16px;
+}
+.subtotal{
+    flex-grow: 1;
+}
 }
 
 @media screen and (max-width:767px){
+
+.prodimg{
+    width: 80px;
+}
 .forRwd{
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
 }
 .subtotal{
-    display: none;
+    /* display:none */
+    flex-grow: 1;
 }
 .prodname{
     margin-bottom: 16px;
@@ -86,6 +107,16 @@
 }
 .prodSubtitle{
     font-size: var(--pfs14);
+
+}
+.qtyset{
+    margin-right: 8px;
+}
+}
+
+@media screen and (max-width:500px){
+.subtotal{
+    display:none
 
 }
 }

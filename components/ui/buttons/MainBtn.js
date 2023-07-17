@@ -2,9 +2,9 @@ import React from 'react';
 import Styles from './MainBtn.module.css';
 
 export default function MainBtn({
-  text = '',
+  text = 'mainBtn',
   clickHandler = () => {},
-  htmltype = '',
+  htmltype = 'button',
 }) {
   return (
     <>

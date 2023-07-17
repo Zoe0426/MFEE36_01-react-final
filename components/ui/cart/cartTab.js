@@ -1,7 +1,12 @@
-import React from 'react'
-import style from './cartTab.module.css'
+import React from 'react';
+import style from './cartTab.module.css';
 
-export default function CartTab({ type = '', text = '', checkoutType = '', clickHandler }) {
+export default function CartTab({
+  type = '',
+  text = '',
+  checkoutType = '',
+  clickHandler = () => {},
+}) {
   return (
     <div
       onClick={clickHandler}

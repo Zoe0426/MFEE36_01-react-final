@@ -18,12 +18,12 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
-    /* border: 1px solid red; */
+    /* border: 1px solid gray; */
 }
 .prodname{
-    flex-grow: 1;
+    flex-grow:1;
     margin-right: 16px;
-   
+    /* border: 1px solid red; */
 }
 .prodtitle{
     font-size: var(--h6fs18);
@@ -33,42 +33,83 @@
     font-size: var(--pfs16);
     color: var(--main);
 }
+.priceQty{
+    display: flex;
+    align-items: center;
+    max-width: 240px;
+    /* border: 1px solid purple; */
+}
 .price{
-    width: 10%;
-    /* border: 1px solid red; */
+    min-width: 55px;
+    font-size: var(--pfs16);
     color: var(--gray);
     text-align: end;
     margin-right: 32px;
 }
 .numberstyle{
-    border-radius: 8px;
-    border: 1px solid var(--light-gray);
-    width: 60px;
-    margin-right: 16px;
+    width: 80px;
     text-align: center;
     color: var(--dark-gray);
+    margin-left: auto;
 }
 .subtotal{
     text-align: end;
-    width: 40px;
+    min-width: 60px;
     color: var(--main);
     margin-right: 16px;
+    font-size: var(--pfs16);
+    /* border: 1px solid green; */
 }
-
-@media screen and (max-width:767px){
-.forRwd{
+@media screen and (max-width:1300px) and (min-width:768px){
+  .forRwd{
     flex-direction: column;
     align-items: flex-start;
 }
+.price{
+    text-align: start;
+}
+.priceQty{
+    min-width: 90%;
+}
+.prodname{
+    margin-bottom: 16px;
+}
 .subtotal{
-    display: none;
+    margin-left: auto;
+
+}
+}
+
+@media screen and (max-width:767px){
+.checkbox{
+    margin-right: 8px;
+}
+.prodimg{
+    width: 60px;
+    margin-right: 8px;
+}
+.forRwd{
+    flex-direction: column;
+    align-items: stretch;
+}
+.subtotal{
+    margin-left: auto;
+    font-size: var(--pfs14);
+}
+.priceQty{
+    min-width: 90%;
 }
 .prodname{
     margin-bottom: 16px;
 }
 .price{
     text-align: start;
-    margin-bottom: 8px;
+    margin-right: 8px;
+    font-size: var(--pfs14);
+}
+.numberstyle{
+    max-width: 60px;
+    font-size: var(--pfs14);
 }
 .prodtitle{
     font-size: var(--pfs16);
