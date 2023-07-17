@@ -3,11 +3,17 @@ import styles from './product-input.module.css';
 import { Row, Col, Input, ConfigProvider } from 'antd';
 
 export default function ProductInput({
+  showErrorMessage1 = false,
+  showErrorMessage2 = false,
+  outlineStatus1 = '',
+  outlineStatus2 = '',
+  errorMessage = '',
   minPrice = 0,
   maxPrice = 0,
   minHandler = () => {},
   maxHandler = () => {},
-  blurHander = () => {},
+  blurHandler = () => {},
+  keyDownHandler = () => {},
 }) {
   return (
     <ConfigProvider
@@ -28,11 +34,21 @@ export default function ProductInput({
           <Col xs={{ span: 10 }} sm={{ span: 10 }} md={{ span: 3 }}>
             <Input
               placeholder="$ 最小金額"
-              value={minPrice ? minPrice : ''}
+              value={minPrice ? minPrice : null}
+              status={outlineStatus1}
               onChange={minHandler}
-              onBlur={blurHander}
+              onBlur={(e) => {
+                blurHandler(e, 'minPrice');
+              }}
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                  keyDownHandler(e, 'minPrice');
+                }
+              }}
             />
-            <div className={styles.message_box}> 請輸入數字</div>
+            <div className={showErrorMessage1 && styles.message_box}>
+              {errorMessage}
+            </div>
           </Col>
           <Col xs={{ span: 4 }} sm={{ span: 4 }} md={{ span: 1 }}>
             <div className={styles.symboTo}>~</div>
@@ -40,11 +56,22 @@ export default function ProductInput({
           <Col xs={{ span: 10 }} sm={{ span: 10 }} md={{ span: 3 }}>
             <Input
               placeholder="$ 最大金額"
-              value={maxPrice ? maxPrice : ''}
+              value={maxPrice ? maxPrice : null}
+              status={outlineStatus2}
               onChange={maxHandler}
-              onBlur={blurHander}
+              onBlur={(e) => {
+                blurHandler(e, 'maxPrice');
+              }}
+              onKeyUp={(e) => {
+                if (e.key === 'Enter') {
+                  keyDownHandler(e, 'maxPrice');
+                }
+              }}
             />
-            <div className={styles.message_box}> 請輸入數字</div>
+            <div className={showErrorMessage2 && styles.message_box}>
+              {' '}
+              {errorMessage}
+            </div>
           </Col>
         </Row>
       </div>
