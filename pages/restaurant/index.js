@@ -143,13 +143,22 @@ export default function Restindex() {
             <LocationCard
               rest_image="/rest_image/city/taipei.png"
               location="台北市"
-              href="http://localhost:3000/restaurant/list?location=taipei"
+              clickHandler={() => {
+                router.push(
+                  'http://localhost:3000/restaurant/list?city=taipei'
+                );
+              }}
             />
           </Col>
           <Col xl={4} xs={8}>
             <LocationCard
               rest_image="/rest_image/city/newtaipei.png"
               location="新北市"
+              clickHandler={() => {
+                router.push(
+                  'http://localhost:3000/restaurant/list?city=newtaipei'
+                );
+              }}
             />
           </Col>
           <Col xl={4} xs={8}>
@@ -168,6 +177,11 @@ export default function Restindex() {
             <LocationCard
               rest_image="/rest_image/city/taichung.png"
               location="台中市"
+              clickHandler={() => {
+                router.push(
+                  'http://localhost:3000/restaurant/list?city=taichung'
+                );
+              }}
             />
           </Col>
           <Col xl={4} xs={8}>

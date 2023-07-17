@@ -17,6 +17,7 @@ import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
 import SearchBar from '@/components/ui/buttons/SearchBar';
+import orderByOptions from '@/data/restaurnt/orderby.json';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -36,7 +37,9 @@ export default function FilterPage() {
 
   const [rule, setRule] = useState('');
   const [service, setService] = useState('');
-  const [location, setLocation] = useState('');
+  const [city, setCity] = useState('');
+
+  const [orderBy, setOrderBy] = useState('-- 排序條件 --');
 
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
@@ -73,11 +76,11 @@ export default function FilterPage() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { keyword, rule, service } = router.query;
+    const { keyword, rule, service, city } = router.query;
     console.log(router.query);
     setRule(rule || '');
     setService(service || '');
-    setLocation(location || '');
+    setCity(city || '');
     setKeyword(keyword || '');
     const usp = new URLSearchParams(router.query);
 
@@ -220,9 +223,9 @@ export default function FilterPage() {
         <div className={Styles.second_area}>
           <div className={Styles.search_title}>
             <h2 className={Styles.jill_h2}>餐廳進階篩選結果</h2>
-            <p>共64間餐廳</p>
+            <p>共{data.totalRows}間餐廳</p>
           </div>
-          <RestPageOrder />
+          <RestPageOrder orderBy={orderBy} items={orderByOptions} />
         </div>
       </div>
 
