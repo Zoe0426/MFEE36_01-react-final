@@ -3,30 +3,79 @@ import { useRouter } from 'next/router';
 import styles from '../../styles/activitymain.module.css';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
 import { Row, Col } from 'antd';
+import SearchBar from '@/components/ui/buttons/SearchBar';
 
 export default function ActivityMain() {
   //網址在這看 http://localhost:3000/activity/list?cid=類別的sid
 
   const router = useRouter();
   const [cidData, setCidData] = useState([]);
+  const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
-    const { cid } = router.query;
+    const { cid, keyword } = router.query;
     const activity_type_sid = cid ? encodeURIComponent(cid) : '';
 
-    fetch(`${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${activity_type_sid}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setCidData(data);
-      })
-      .catch((error) => {
+    setKeyword(keyword || '');
+
+    const fetchData = async () => {
+      try {
+        const encodedCid = encodeURIComponent(cid || '');
+        const encodedKeyword = encodeURIComponent(keyword || '');
+        const response = await fetch(
+          `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}`
+        );
+        if (!response.ok) {
+          throw new Error('Request failed');
+        }
+        const data = await response.json();
+        setCidData(data.cid_data);
+      } catch (error) {
         console.error(error);
-      });
+      }
+    };
+
+    fetchData();
   }, [router.query]);
 
+  // 分類搜尋
+  // useEffect(() => {
+  //   const { cid } = router.query;
+  //   const activity_type_sid = cid ? encodeURIComponent(cid) : '';
+
+  //   fetch(`${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${activity_type_sid}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setCidData(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // }, [router.query]);
+
+  // 關鍵字
+  //const [keyword, setKeyword] = useState("");
+
+  // useEffect(() => {
+  //   //取得用戶拜訪的類別選項
+  //   const { keyword } =router.query;
+  //   setKeyword(keyword || '');
+  // }, [router.query]);
+
+  // useEffect(() => {
+  //   setKeyword(router.query.keyword || "");
+  //   const usp = new URLSearchParams(router.query);
+
+  //   fetch(`${process.env.API_SERVER}/activity-api?${usp.toString()}`)
+  //     .then((r) => r.json())
+  //     .then((datakeyword) => {
+  //       console.log(datakeyword);
+  //       setKeyword(datakeyword);
+  //     });
+  // }, [router.query]);
 
   //const [data, setData] = useState([]);
- 
+
   // useEffect(() => {
   //   const fetchData = async () => {
   //     const response = await fetch('http://localhost:3002/activity-api/:cid');
@@ -40,7 +89,22 @@ export default function ActivityMain() {
   return (
     <div>
       {/* .........banner......... */}
-      <div className={styles.banner}></div>
+      <div className={styles.banner}>
+        <div className={styles.search}>
+          <h1>想找活動嗎？來這裡就對了！</h1>
+          <SearchBar
+            placeholder="搜尋活動名稱"
+            btn_text="尋找活動"
+            inputText={keyword}
+            changeHandler={(e) => {
+              setKeyword(e.target.value);
+              router.push(
+                `/?cid=${router.query.cid}&keyword=${e.target.value}`
+              );
+            }}
+          />
+        </div>
+      </div>
 
       <div className="container-inner">
         {/* .........小麵包屑+篩選btn+收藏btn......... */}
@@ -59,43 +123,44 @@ export default function ActivityMain() {
 
         <div className={styles.section_card}>
           <Row gutter={[0, 106]} className={styles.card}>
-            {cidData.map((i) => {
-              const {
-                activity_sid,
-                type_name,
-                activity_pic,
-                name,
-                avg_star,
-                recent_date,
-                farthest_date,
-                time,
-                city,
-                area,
-                address,
-                content,
-                feature_names,
-                price_adult,
-              } = i;
-              return (
-                <ActivityCard4
-                key={activity_sid}
-                  activity_sid={activity_sid}
-                  type={type_name}
-                  image={'/activity_img/'+activity_pic.split(',')[0]}
-                  title={name}
-                  rating={avg_star}
-                  date_begin={recent_date}
-                  date_end={farthest_date}
-                  time={time}
-                  city={city}
-                  area={area}
-                  address={address}
-                  content={content}
-                  features={feature_names.split(',')}
-                  price={price_adult}
-                />
-              );
-            })}
+            {Array.isArray(cidData?.cid_data) &&
+              cidData.cid_data.map((i) => {
+                const {
+                  activity_sid,
+                  type_name,
+                  activity_pic,
+                  name,
+                  avg_star,
+                  recent_date,
+                  farthest_date,
+                  time,
+                  city,
+                  area,
+                  address,
+                  content,
+                  feature_names,
+                  price_adult,
+                } = i;
+                return (
+                  <ActivityCard4
+                    key={activity_sid}
+                    activity_sid={activity_sid}
+                    type={type_name}
+                    image={'/activity_img/' + activity_pic.split(',')[0]}
+                    title={name}
+                    rating={avg_star}
+                    date_begin={recent_date}
+                    date_end={farthest_date}
+                    time={time}
+                    city={city}
+                    area={area}
+                    address={address}
+                    content={content}
+                    features={feature_names.split(',')}
+                    price={price_adult}
+                  />
+                );
+              })}
           </Row>
         </div>
 

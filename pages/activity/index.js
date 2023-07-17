@@ -18,20 +18,7 @@ export default function ActivityHome() {
   const [topCityData, setTopCityData] = useState([]);
   const [wish, setWish] = useState([]);
 
-  // 關鍵字
-  // const [keyword, setKeyword] = useState("");
-
-  // useEffect(() => {
-  //   setKeyword(router.query.keyword || "");
-  //   const usp = new URLSearchParams(router.query);
-
-  //   fetch(`${process.env.API_SERVER}/activity-api?${usp.toString()}`)
-  //     .then((r) => r.json())
-  //     .then((datakeyword) => {
-  //       console.log(datakeyword);
-  //       setData(datakeyword);
-  //     });
-  // }, [router.query]);
+  
 
 
   // 下面卡片的資訊
@@ -56,12 +43,9 @@ export default function ActivityHome() {
       {/* .........banner......... */}
       <div className={styles.banner}>
       
-
-
-
         <div className={styles.search}>
           <h1>想找活動嗎？來這裡就對了！</h1>
-          <SearchBar placeholder="搜尋活動名稱" btn_text="尋找活動" />
+          <SearchBar placeholder="搜尋活動名稱" btn_text="尋找活動"/>
         </div>
       
         {/* <img
@@ -262,7 +246,7 @@ export default function ActivityHome() {
             <p className={styles.title}>會員願望投票區</p>
           </div>
           <Row gutter={[0, 64]} className={styles.section_card}>
-            {data.map((i) => {
+            {wish.map((i) => {
               const {
                 member_sid,
                 profile,
