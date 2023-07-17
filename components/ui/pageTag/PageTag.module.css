@@ -1,6 +1,6 @@
 
 .tag{
-  width: 120px;
+  width: 100px;
   height: 100%;
   display: flex;
   align-items: center;
@@ -14,7 +14,16 @@
   background-color: var(--main);
   color: #fff;
 }
-@media screen and (max-width:767px){
+
+@media screen and (max-width:1300px) and (min-width:769px){
+  .tag{
+    width: 80px;
+    font-size: var(--pfs16);
+    margin-right: 20px;
+  }
+}
+
+@media screen and (max-width:768px){
   .tag{
     margin-right: 5px;
   }

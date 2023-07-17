@@ -91,25 +91,7 @@ a:hover,a:link,a:visited,a:active{
   color: var(--dark-gray);
 }
 
-/* ant design form-item */
-.ant-form-item{
-  padding-bottom: 30px;
-}
 
-/* ant design radio */
-/* .ant-radio-wrapper:hover .ant-radio-inner {
-  border-color: var(--main);
-}
-
-.ant-radio-wrapper .ant-radio-checked .ant-radio-inner{
-  background-color: var(--main);
-  border-color: var(--main);
-}
-
-
-.ant-radio-wrapper .ant-radio-inner::after{
-  background-color: var(--main);
-} */
 
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -171,17 +153,6 @@ body{
   height: 1200px;
 }
 
-.pageTag{
-  width: 100%;
-  height: 56px;
-	margin-top: 20px;
-  display: flex;
-  align-items: center;
-  border-bottom: 3px solid #FD8C46;
-}
-
-
-
 /* -------------------- */
 
 @media screen and (max-width:1920px) and (min-width:768px){
@@ -189,6 +160,7 @@ body{
       width: 68%;
   }
   }
+
   
 @media screen and (max-width:767px){
 .container-inner{
