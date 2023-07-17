@@ -123,8 +123,7 @@ export default function ActivityMain() {
 
         <div className={styles.section_card}>
           <Row gutter={[0, 106]} className={styles.card}>
-            {Array.isArray(cidData?.cid_data) &&
-              cidData.cid_data.map((i) => {
+            {cidData.map((i) => {
                 const {
                   activity_sid,
                   type_name,
