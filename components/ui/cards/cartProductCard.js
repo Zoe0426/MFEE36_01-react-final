@@ -28,6 +28,12 @@ export default function CartProductCard({
 
   const handleQty = (qty) => {
     setMyQty(qty);
+
+    setShopData((old) =>
+      old.map((v) =>
+        v.cart_sid === cartSid ? { ...v, prod_qty: qty } : { ...v }
+      )
+    );
   };
 
   return (

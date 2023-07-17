@@ -1,28 +1,24 @@
 import { useEffect, useState } from 'react';
 import { Row, Col, Radio, ConfigProvider, Checkbox } from 'antd';
 import style from '@/styles/cart.module.css';
+
+//components
+import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import CartProductCard from '@/components/ui/cards/cartProductCard';
 import CartActivityCard from '@/components/ui/cards/cartActivityCard';
-import MainBtn from '@/components/ui/buttons/MainBtn';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
-import BgCartHead from '@/components/ui/decoration/bg-cartHead';
-import rundog from '@/assets/running-dog.svg';
-import Image from 'next/image';
 import CartTab from '@/components/ui/cart/cartTab';
-import CartBlackcatPostInfo from '@/components/ui/cart/cartblackcatpostinfo';
+import CartPostInfo from '@/components/ui/cart/cartpostinfo';
 import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
-import Modal from '@/components/ui/modal/modal';
 import CartCouponList from '@/components/ui/cart/cartCouponList';
-import NumberInput from '@/components/ui/numberInput/numberInput';
+import Modal from '@/components/ui/modal/modal';
+import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 
 export default function Cart() {
   const [cartData, setCartData] = useState({
     shop: [],
     activity: [],
-    defaultAddress: [],
-    blackCat: [],
-    sevenEleven: [],
-    family: [],
+    postAddress: [],
     coupon: [],
   });
   const [checkoutType, setCheckoutType] = useState('shop');
@@ -32,12 +28,13 @@ export default function Cart() {
   const [selectAll, setSelectAll] = useState(false);
   //寄送資訊
   const [postType, setPostType] = useState(1);
-  const [blackcatData, setBlackcatData] = useState([]);
+  const [postAddData, setPostAddData] = useState([]);
   //優惠券
   const [couponData, setCouponData] = useState([]);
   const [chosenCoupon, setChosenCoupon] = useState();
   //付款
   const [paymentType, setPaymentType] = useState(1);
+  //總額
 
   const changeCheckoutType = (type) => {
     if (checkoutType !== type) {
@@ -45,6 +42,7 @@ export default function Cart() {
       setSelectAll(false);
       setShopData((old) => old.map((v) => ({ ...v, selected: false })));
       setActivityData((old) => old.map((v) => ({ ...v, selected: false })));
+      setCouponData((old) => old.map((v, i) => ({ ...v, selected: i === 0 })));
     }
   };
 
@@ -90,28 +88,59 @@ export default function Cart() {
       ...v,
       selected: i === 0,
     }));
-    const myBlackcatData = data.blackCat.map((v) => ({
+    const myPostAddData = data.postAddress.map((v, i) => ({
       ...v,
-      selected: false,
+      selected: i === 0,
     }));
+    const defaultPostType = data.postAddress[0].post_type;
     setShopData(myShopData);
     setActivityData(myActivityData);
+    setPostType(defaultPostType);
+    setPostAddData(myPostAddData);
     setCouponData(myCouponData);
-    setBlackcatData(myBlackcatData);
     setCartData(data);
+  };
+
+  const sendOrderRequest = async (data) => {
+    const r = await fetch(`${process.env.API_SERVER}/cart-api/create-order`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await r.json();
+    console.log(result);
+  };
+
+  const createOrder = () => {
+    const data = {};
+    data.checkoutType = checkoutType;
+    data.checkoutItems =
+      checkoutType === 'shop'
+        ? shopData.filter((v) => v.selected)
+        : activityData.filter((v) => v.selected);
+    data.postInfo =
+      checkoutType === 'shop'
+        ? postAddData.filter((v) => v.default_status === 1 || v.selected)
+        : [];
+    data.paymentType = paymentType;
+    console.log(data);
+    sendOrderRequest(data);
   };
 
   useEffect(() => {
     getCart();
   }, []);
+
   console.log(cartData);
+  //console.log(postType);
 
   return (
     <>
       <BgCartHead text="購物車" />
       <div className="container-inner">
         <Row>
-          <NumberInput defaultValue={3} />
           <Col xs={24} sm={24} md={24} lg={17} className={style.detailSection}>
             {/* ========== 選擇結帳種類 ========== */}
             <div className={style.checkoutType}>
@@ -203,18 +232,27 @@ export default function Cart() {
                     <Radio value={3}>全家 $60</Radio>
                   </Radio.Group>
                 </ConfigProvider>
-                {blackcatData.length > 0 ? (
-                  <CartBlackcatPostInfo
-                    address={
-                      blackcatData[0].city +
-                      blackcatData[0].area +
-                      blackcatData[0].address
-                    }
-                    name={blackcatData[0].name}
-                    mobile={blackcatData[0].mobile}
-                    email={blackcatData[0].email}
-                    selected={blackcatData[0].selected}
-                  />
+                {postAddData.length > 0 ? (
+                  postAddData
+                    .filter((v) => v.selected)
+                    .map((v) =>
+                      v.selected === true ? (
+                        <CartPostInfo
+                          key={v.address_sid}
+                          addressSid={v.address_sid}
+                          storeName={v.store_name}
+                          address={v.city + v.area + v.address}
+                          name={v.recipient}
+                          mobile={v.recipient_phone}
+                          email={v.email}
+                          selected={v.selected}
+                          postType={v.post_type}
+                          edit={true}
+                        />
+                      ) : (
+                        ''
+                      )
+                    )
                 ) : (
                   <p>沒有可使用的優惠券</p>
                 )}
@@ -280,36 +318,14 @@ export default function Cart() {
           </Col>
           {/* ========== 金額統計 ==========*/}
           <Col xs={24} sm={24} md={24} lg={7} className={style.totalSection}>
-            <div className={style.totalCard}>
-              <CartSectionTitle text="訂單詳情" />
-              <div className={style.subtotals}>
-                <span>小計</span>
-                <span className={style.amount}>$5400</span>
-              </div>
-              {checkoutType === 'shop' ? (
-                <div className={style.subtotals}>
-                  <span>運費</span>
-                  <span className={style.amount}>$90</span>
-                </div>
-              ) : (
-                ''
-              )}
-
-              <div className={style.subtotals}>
-                <span>優惠券</span>
-                <span className={style.amount}>-$50</span>
-              </div>
-              <div className={style.total}>
-                <span>總計</span>
-                <span className={style.totalamount}>$50</span>
-              </div>
-              <MainBtn text="結帳"></MainBtn>
-              <Image
-                src={rundog}
-                className={style.runningdog}
-                alt="runningdog"
-              ></Image>
-            </div>
+            <CartTotalSection
+              checkoutType={checkoutType}
+              shopData={shopData}
+              activityData={activityData}
+              postType={postType}
+              couponData={couponData}
+              createOrder={createOrder}
+            />
           </Col>
         </Row>
       </div>

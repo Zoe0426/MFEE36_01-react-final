@@ -1,12 +1,16 @@
 import React from 'react';
-import style from './cartblackcatpostinfo.module.css';
+import style from './cartpostinfo.module.css';
 
-export default function CartBlackcatPostInfo({
+export default function CartPostInfo({
+  addressSid = '',
+  storeName = '',
   address = '',
   name = '',
   mobile = '',
   email = '',
   selected = false,
+  postType,
+  edit = false,
 }) {
   return (
     <div className={style.info}>
@@ -17,7 +21,10 @@ export default function CartBlackcatPostInfo({
         </p>
         <p>email:{email}</p>
         <p>
-          收入地址：<span>{address}</span>
+          收入地址：
+          <span>
+            {address}&nbsp;&nbsp;&nbsp;{storeName}
+          </span>
         </p>
         <p>
           預計到貨時間&nbsp;&nbsp;
@@ -25,8 +32,10 @@ export default function CartBlackcatPostInfo({
         </p>
       </div>
       <div>
-        <span className={style.postPrice}>$90&nbsp;&nbsp;</span>
-        <span className={style.edit}>編輯</span>
+        <span className={style.postPrice}>
+          ${postType == 1 ? 90 : 60}&nbsp;&nbsp;
+        </span>
+        {edit && <span className={style.edit}>編輯</span>}
       </div>
     </div>
   );

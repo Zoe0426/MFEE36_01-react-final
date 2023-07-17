@@ -31,9 +31,19 @@ export default function CartActivityCard({
   };
   const handleAdQty = (qty) => {
     setMyAdQty(qty);
+    setActivityData((old) =>
+      old.map((v) =>
+        v.cart_sid === cartSid ? { ...v, adult_qty: qty } : { ...v }
+      )
+    );
   };
   const handleKidQty = (qty) => {
     setMyKidQty(qty);
+    setActivityData((old) =>
+      old.map((v) =>
+        v.cart_sid === cartSid ? { ...v, child_qty: qty } : { ...v }
+      )
+    );
   };
   return (
     <div className={style.productCard}>
