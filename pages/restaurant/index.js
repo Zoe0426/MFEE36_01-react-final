@@ -143,6 +143,7 @@ export default function Restindex() {
             <LocationCard
               rest_image="/rest_image/city/taipei.png"
               location="台北市"
+              href="http://localhost:3000/restaurant/list?location=taipei"
             />
           </Col>
           <Col xl={4} xs={8}>

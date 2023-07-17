@@ -34,7 +34,9 @@ export default function FilterPage() {
 
   const [keyword, setKeyword] = useState('');
 
-  const [catergory, setCategory] = useState('');
+  const [rule, setRule] = useState('');
+  const [service, setService] = useState('');
+  const [location, setLocation] = useState('');
 
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
@@ -71,12 +73,15 @@ export default function FilterPage() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { keyword } = router.query;
+    const { keyword, rule, service } = router.query;
     console.log(router.query);
+    setRule(rule || '');
+    setService(service || '');
+    setLocation(location || '');
     setKeyword(keyword || '');
     const usp = new URLSearchParams(router.query);
 
-    fetch(`${process.env.API_SERVER}/restaurant-api/?${usp.toString()}`)
+    fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
       .then((r) => r.json())
       .then((data) => {
         if (data.rows.length > 0) {
