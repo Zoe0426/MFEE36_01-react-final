@@ -18,39 +18,6 @@ import AuthContext from '@/context/AuthContext';
 export default function Cart() {
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    setFirst(true);
-  }, []);
-
-  useEffect(() => {
-    if (!auth.id && first) {
-      const from = router.asPath;
-      console.log(from);
-      router.push(`/member/sign-in?from=${from}`);
-    } else if (auth.id) {
-      console.log('getcart');
-      getCart(auth.id);
-    }
-  }, [auth, first]);
-
-  useEffect(() => {
-    let auth = {};
-    const authStr = localStorage.getItem('petauth');
-    if (authStr) {
-      try {
-        auth = JSON.parse(authStr);
-      } catch (ex) {
-        ('');
-      }
-      console.log(auth);
-    }
-  }, []);
-
-  console.log('auth:', auth);
-  console.log('!auth.id:', !auth.id);
-
   const [cartData, setCartData] = useState({
     shop: [],
     activity: [],
@@ -72,6 +39,23 @@ export default function Cart() {
   //付款
   const [paymentType, setPaymentType] = useState(1);
   //總額
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    if (!auth.id && first) {
+      const from = router.asPath;
+      console.log(from);
+      router.push(`/member/sign-in?from=${from}`);
+    } else if (auth.id) {
+      console.log('getcart');
+      getCart(auth.id);
+    }
+  }, [auth, first]);
 
   const changeCheckoutType = (type) => {
     if (checkoutType !== type) {
@@ -155,7 +139,6 @@ export default function Cart() {
 
   const createOrder = () => {
     let isPass = false;
-    const auth = localStorage.getItem('petauth');
     const data = {};
     const checkoutItems =
       checkoutType === 'shop'
@@ -188,7 +171,7 @@ export default function Cart() {
     }
   };
 
-  // console.log(cartData);
+  console.log(cartData);
   //console.log(postType);
 
   return !auth.id && first ? (
