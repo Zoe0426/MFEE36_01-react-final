@@ -114,19 +114,26 @@ export default function Cart() {
   };
 
   const createOrder = () => {
+    let isPass = false;
     const data = {};
-    data.checkoutType = checkoutType;
-    data.checkoutItems =
+    const checkoutItems =
       checkoutType === 'shop'
         ? shopData.filter((v) => v.selected)
         : activityData.filter((v) => v.selected);
-    data.postInfo =
-      checkoutType === 'shop'
-        ? postAddData.filter((v) => v.default_status === 1 || v.selected)
-        : [];
-    data.paymentType = paymentType;
-    console.log(data);
-    sendOrderRequest(data);
+    if (checkoutItems === 0) {
+      isPass = true;
+    }
+    if (isPass) {
+      data.checkoutType = checkoutType;
+      data.paymentType = paymentType;
+      data.checkoutItems = checkoutItems;
+      data.postInfo =
+        checkoutType === 'shop'
+          ? postAddData.filter((v) => v.default_status === 1 || v.selected)
+          : [];
+      data.couponInfo = couponData.filter((v) => v.selected);
+      sendOrderRequest(data);
+    }
   };
 
   useEffect(() => {
