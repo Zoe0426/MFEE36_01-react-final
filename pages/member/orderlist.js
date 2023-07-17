@@ -11,23 +11,22 @@ import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
 
 export default function OrderList() {
-  const [pageTag, setPageTag] = useState('coupon');
+  const [pageTag, setPageTag] = useState('shop');
+  const [allData, setAllData] = useState([]);
   const [data, setData] = useState([]);
-  const [price, setPrice] = useState([]);
   const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
 
-  // // 分组
-  // const groupedData = data.reduce((acc, cur) => {
-  //   acc[cur.order_sid] = acc[cur.order_sid]
-  //     ? [...acc[cur.order_sid], cur]
-  //     : [cur];
-  //   return acc;
+  // 分组
+  const groupedData = data.reduce((acc, cur) => {
+    acc[cur.order_sid] = acc[cur.order_sid]
+      ? [...acc[cur.order_sid], cur]
+      : [cur];
+    return acc;
+  }, {});
 
-  // }, {});
-
-  // // 取出每组的第一项
-  // const firstItems = Object.values(groupedData).map((items) => items[0]);
+  // 取出每组的第一项
+  const firstItems = Object.values(groupedData).map((items) => items[0]);
 
   const toSignIn = () => {
     const from = router.asPath;
@@ -55,14 +54,26 @@ export default function OrderList() {
       .then((r) => r.json())
       .then((data) => {
         console.log(data);
-        setData(data);
-        const price = data.orderRelS + data.post_amount - data.coupon_amount;
-        setPrice(price);
+        const newArray = data.rows.concat(data.rows2);
+        setData(newArray);
+        setAllData(newArray);
       });
     // } else {
     //   console.log('User is not logged in. Cannot fetch');
     // }
   }, []);
+
+  const shopOrder = () => {
+    const newData = allData.filter((data) => data.rel_type === 'prod');
+    console.log(newData);
+    setData(newData);
+  };
+
+  const actOrder = () => {
+    const newData = allData.filter((data) => data.rel_type === 'event');
+    console.log(newData);
+    setData(newData);
+  };
 
   return (
     <>
@@ -74,6 +85,7 @@ export default function OrderList() {
             pageTag={pageTag}
             onClick={() => {
               setPageTag('shop');
+              shopOrder();
             }}
           />
           <PageTag
@@ -82,6 +94,7 @@ export default function OrderList() {
             pageTag={pageTag}
             onClick={() => {
               setPageTag('activity');
+              actOrder();
             }}
           />
         </div>
@@ -90,7 +103,7 @@ export default function OrderList() {
         </div>
       </div>
       <div className="content">
-        {data.map((data, i) => (
+        {firstItems.map((data, i) => (
           <OrderCard
             key={i}
             orderSid={data.order_sid}
@@ -98,8 +111,13 @@ export default function OrderList() {
             itemTitle={data.rel_name}
             itemText={data.rel_seqName}
             itemQty={data.product_qty}
-            subTotal={price}
+            adultQty={data.adult_qty}
+            childQty={data.child_qty}
+            subTotal={data.orderRelS + data.post_amount - data.coupon_amount}
             img={data.img}
+            actImg={data.activity_pic}
+            length={data.order_product}
+            type={data.rel_type}
           />
         ))}
       </div>

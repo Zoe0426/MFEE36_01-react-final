@@ -7,12 +7,19 @@ export default function OrderCard({
   itemTitle,
   itemText,
   itemQty,
+  adultQty,
+  childQty,
   subTotal,
   img,
+  actImg,
   statusName,
   length,
+  type,
 }) {
-  console.log(length);
+  // console.log(length);
+
+  let ary = actImg.split(',');
+  let mainPic = ary[0];
 
   switch (status) {
     case 1:
@@ -32,11 +39,7 @@ export default function OrderCard({
       break;
 
     case 5:
-      statusName = '已取貨';
-      break;
-
-    default:
-      // 如果上面的情况都不匹配，那么就执行这里的代码
+      statusName = '已完成';
       break;
   }
 
@@ -60,14 +63,31 @@ export default function OrderCard({
           </div>
           <div className={Style.itemContent}>
             <div className={Style.items}>
-              <img src={`/product-img/${img}`} alt="" width={80} />
+              <img
+                src={
+                  type === 'prod'
+                    ? `/product-img/${img}`
+                    : `/activity_img/${mainPic}`
+                }
+                alt=""
+                className={Style.img}
+              />
               <div className={Style.itemInfo}>
                 <div className={Style.itemTitle}>{itemTitle}</div>
                 <p>{itemText}</p>
-                <p>x{itemQty}</p>
+                {type === 'prod' ? (
+                  <p>{`x${itemQty}`}</p>
+                ) : (
+                  <>
+                    <p>{`大人x${adultQty}`}</p>
+                    <p>{`小孩x${childQty}`}</p>
+                  </>
+                )}
               </div>
             </div>
-            <div className={Style.itemNum}>{length}商品</div>
+            <div className={Style.itemNum}>
+              {length} {type === 'prod' ? '商品' : '活動'}
+            </div>
           </div>
           <div className={Style.totalPrice}>
             訂單金額 : <div className={Style.price}>${subTotal}</div>

@@ -93,3 +93,23 @@
 .statusTime{
   font-size: 8px;
 }
+
+.img{
+	width: 80px;
+	margin-right: 10px;
+}
+
+@media screen and (max-width:1440px){
+	.icons{
+			display: none;
+	}
+
+	.statusIcon{
+		justify-content: flex-end;
+	}
+
+	.itemContent{
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	} 
