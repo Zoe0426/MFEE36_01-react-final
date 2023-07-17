@@ -1,54 +1,14 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import styles from './shop-total-pages_rank.module.css';
 import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Space, message, ConfigProvider } from 'antd';
+import { Button, Dropdown, Space, ConfigProvider } from 'antd';
 
-export default function ShopTotalPagesRank({ totalItems = 0,onRankChange=()=>{} }) {
-  const [orderBy, setOrderBy]=useState(3)
-  const handleButtonClick = (e) => {
-    message.info('Click on left button.');
-    console.log('click left button', e);
-  };
-  // const handleMenuClick = (e) => {
-  //   // message.info(key, keyPath, domEvent);
-  //   console.log('click', e.key);
-  //   switch (e.key){
-  //     case '1':
-  //       console.log('price_ASC')
-  //       break;
-  //     case '2':
-  //       console.log('price_DESC')
-  //       break;
-  //     case '3':
-  //       console.log('shelfDate_DESC')
-  //       break;
-  //     case '4':
-  //       console.log('bestSales_DESC')
-  //       break;
-  //   }
-  // };
-  const items = [
-    {
-      label: '價格由低到高',
-      key: '1',
-      value:'price_ASC'
-    },
-    {
-      label: '價格由高到低',
-      key: '2',
-      value:'price_DESC'
-    },
-    {
-      label: '最新商品',
-      key: '3',
-      value:'shelfDate_DESC'
-    },
-    {
-      label: '熱賣商品',
-      key: '4',
-      value:'bestSales_DESC'
-    },
-  ];
+export default function ShopTotalPagesRank({
+  totalItems = 0,
+  onRankChange = () => {},
+  orderBy = '',
+  items = [],
+}) {
   const menuProps = {
     items,
     onClick: onRankChange,
@@ -73,14 +33,17 @@ export default function ShopTotalPagesRank({ totalItems = 0,onRankChange=()=>{} 
           <h4>商品搜尋結果</h4>
           <p>( 共{totalItems}項商品 )</p>
         </div>
-        <Dropdown menu={menuProps} value={orderBy} onClick={handleButtonClick}>
-          <Button>
-            <Space>
-              排序方式
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown>
+        <div className={styles.total_pages_order_title}>
+          <p>排 序 :</p>
+          <Dropdown menu={menuProps}>
+            <Button>
+              <Space>
+                {orderBy}
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
+        </div>
       </div>
     </ConfigProvider>
   );

@@ -1,47 +1,98 @@
 {
-    "typeForPet":[
-        {
-            "label": "汪星人",
-            "value": "dog"},
-        {
-            "label": "喵星人",
-            "value": "cat"}
-    ],
-    "categoryDetailSid":[
-        {
-            "label": "飼料",
-            "value": "food"},
-        {
-            "label": "罐頭",
-            "value": "can"},
-        {
-            "label": "零食",
-            "value": "snack"},
-        {
-            "label": "保健品",
-            "value": "health"},
-        {
-            "label": "服飾",
-            "value": "dress"},
-        {
-            "label": "戶外用品",
-            "value": "outdoor"},
-        {
-            "label": "玩具",
-            "value": "toy"},
-        {
-            "label": "其他",
-            "value": "other"}
-    ],    
-    "typeForAge":[
-        {
-            "label": "幼年",
-            "value": "younger"},
-        {
-            "label": "成年",
-            "value": "aldult"},
-        {
-            "label": "高齡",
-            "value": "elder"}
-    ]
+  "typeForPet": [
+    {
+        "id":1,
+        "label": "狗狗",
+        "value": "dog",
+        "checked": false
+    },
+    {
+        "id":2,
+        "label": "貓咪",
+        "value": "cat",
+        "checked": false
+    },
+    {
+        "id":3,
+        "label": "皆可",
+        "value": "both",
+        "checked": false
+    }
+  ],
+  "typeForAge": [
+    {
+        "id":1,
+        "label": "幼犬/幼貓",
+        "value": "younger",
+        "checked": false
+    },
+    {    
+        "id":2,
+        "label": "成犬/成貓",
+        "value": "adult",
+        "checked": false
+    },
+    {
+        "id":3,
+        "label": "老犬/老貓",
+        "value": "elder",
+        "checked": false
+    },
+    {
+        "id":4,
+        "label": "皆可",
+        "value": "all",
+        "checked": false
+    }
+  ],
+  "category": [
+    {
+        "id":1,
+        "label": "飼料",
+        "value": "food",
+        "checked": false
+    },
+    {
+        "id":2,
+        "label": "罐頭",
+        "value": "can",
+        "checked": false
+    },
+    {
+        "id":3,
+        "label": "零食",
+        "value": "snack",
+        "checked": false
+    },
+    {   
+        "id":4,
+        "label": "保健品",
+        "value": "health",
+        "checked": false
+    },
+    {
+        "id":5,
+        "label": "服飾",
+        "value": "dress",
+        "checked": false
+    },
+    {
+        "id":6,
+        "label": "戶外用品",
+        "value": "outdoor",
+        "checked": false
+    },
+    {
+        "id":7,
+        "label": "玩具",
+        "value": "toy",
+        "checked": false
+    },
+    {
+        "id":8,
+        "label": "其他",
+        "value": "other",
+        "checked": false
+    }
+  ]
 }
