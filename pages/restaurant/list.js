@@ -79,7 +79,9 @@ export default function FilterPage() {
     fetch(`${process.env.API_SERVER}/restaurant-api/?${usp.toString()}`)
       .then((r) => r.json())
       .then((data) => {
-        setData(data);
+        if (data.rows.length > 0) {
+          setData(data);
+        }
       })
       .catch((error) => {
         console.error(error);

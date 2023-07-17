@@ -18,6 +18,9 @@ export default function RestCard({
 }) {
   const rules = rule_names.split(',');
   const services = service_names.split(',');
+  console.log(name);
+  console.log(average_friendly);
+
   return (
     <>
       <Link href={`http://localhost:3000/restaurant/${rest_sid}`}>
@@ -32,9 +35,7 @@ export default function RestCard({
             <p className={Styles.rest_location}>
               {city}‧{area}
             </p>
-            {/* {average_friendly.map((v3, i3) => {
-              return <RateStarPill key={i3} score={v3} />;
-            })} */}
+            {average_friendly && <RateStarPill score={average_friendly} />}
           </div>
           <div className={Styles.hash_tag_group}>
             {rules.map((v1, i1) => {
