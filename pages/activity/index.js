@@ -9,6 +9,8 @@ import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 import ActivityCard2 from '@/components/ui/cards/ActivityCard2';
 import ActivityCard3 from '@/components/ui/cards/ActivityCard3';
 import ActivityFormSelectors from '@/components/ui/cards/ActivityFormSelectors';
+import SearchBar from '@/components/ui/buttons/SearchBar';
+
 
 export default function ActivityHome() {
   const [data, setData] = useState([]);
@@ -35,11 +37,21 @@ export default function ActivityHome() {
     <div>
       {/* .........banner......... */}
       <div className={styles.banner}>
-        <img
+      
+
+
+
+        <div className={styles.search}>
+          <h1>想找活動嗎？來這裡就對了！</h1>
+          <SearchBar placeholder="搜尋活動名稱" btn_text="尋找活動" />
+        </div>
+      
+        {/* <img
           className={styles.banner_pic}
           src="/activity_img/index_banner.jpg"
           alt="banner"
-        />
+        /> */}
+        
       </div>
 
       {/* .........收藏列表/進階篩選 btn......... */}
@@ -52,6 +64,7 @@ export default function ActivityHome() {
       </div>
 
       {/* .........分類bar......... */}
+      {/* !!!!!!!!! 這邊要加入分類連結 !!!!!!!!! */}
       <div className={styles.type}>
         <div className="container-inner">
           <div className={styles.type_btn_group}>
