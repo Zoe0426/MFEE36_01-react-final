@@ -1,0 +1,40 @@
+.totalCard{
+    position: fixed;
+    width: 16%;
+    background-color: white;
+    box-shadow: var(--shadow);
+    padding: var(--p16);
+    border-radius: var(--br10);
+}
+
+.subtotals{
+    display: flex;
+    margin-bottom: 16px;
+}
+.amount{
+    display: block;
+    margin-left: auto;
+}
+.total{
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+.totalamount{
+    color: var(--main);
+    display: block;
+    margin-left: auto;
+}
+.runningdog{
+    transform: scaleX(-1) rotate(20deg);
+    position: absolute;
+    left: 190px;
+    width: 100px;
+}
+
+@media screen and (max-width:767px){
+.totalCard{
+    position: relative;
+    width: 100%;
+}
+}

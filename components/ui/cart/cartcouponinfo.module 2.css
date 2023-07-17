@@ -1,0 +1,28 @@
+.info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--secondary);
+}
+
+.info p{
+    font-size: var(--h6fs18);
+    line-height: 24px;
+
+}
+.name{
+    font-weight: bold;
+    color: var(--dark)
+}
+.info span{
+    font-size: var(--h6fs18);
+}
+.details{
+    padding: var(--p8) 0;
+}
+.details p{
+    margin-bottom: 8px;
+}
+.postPrice{
+    color: var(--main);
+}
