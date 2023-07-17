@@ -1,14 +1,39 @@
 .banner{
-    width: 100%;
-    height: 280px;
+    /* width: 100%; */
+    /* height: 280px; */
     background: rgb(215, 215, 215);
+    position: relative;
+    height: 280px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+    background-image: url('../public/activity_img/index_banner.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
 }
 
-.banner_pic{
+
+.search{
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
 }
+
+
+.banner img {
+    position: absolute;
+    height: 100%;
+    width: auto;
+}
+
 
 .selector{
     background: var(--light1);

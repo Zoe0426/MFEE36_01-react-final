@@ -41,10 +41,11 @@
 }
 
 .city {
-  font-size: var(--h3fs28);
+  font-size: var(--h1fs36);
   color: white;
   text-decoration: none;
 }
+
 
 .btnContainer {
   opacity: 0;

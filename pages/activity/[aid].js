@@ -6,15 +6,17 @@ import { Row, Col } from 'antd';
 export default function ActivityMain() {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch('http://localhost:3002/activity-api');
-      const data = await response.json();
-      setData(data);
-    };
+//test
 
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch('http://localhost:3002/activity-api/:cid');
+  //     const data = await response.json();
+  //     setData(data);
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   return (
     <div>
@@ -36,8 +38,8 @@ export default function ActivityMain() {
         </div>
         {/* .........section1......... */}
 
-        <div className={styles.activity_card}>
-          <Row gutter={[16, 32]}>
+        <div className={styles.section_card}>
+          <Row gutter={[0, 106]} className={styles.card}>
             {data.map((i) => {
               const {
                 activity_sid,
@@ -52,6 +54,7 @@ export default function ActivityMain() {
                 area,
                 address,
                 content,
+                feature_names,
                 price_adult,
               } = i;
               return (
@@ -69,6 +72,7 @@ export default function ActivityMain() {
                   area={area}
                   address={address}
                   content={content}
+                  features={feature_names.split(',')}
                   price={price_adult}
                 />
               );

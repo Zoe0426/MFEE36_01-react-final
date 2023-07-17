@@ -1,3 +1,7 @@
+import { useEffect, useState } from 'react';
+import Head from 'next/head';
+import { Row, Col } from 'antd';
+
 import styles from '../../styles/activityindex.module.css';
 import ActivityLikeWithSelector from '@/components/ui/cards/ActivityLikeWithSelector';
 import SubBtn from '@/components/ui/buttons/subBtn';
@@ -5,55 +9,50 @@ import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 import ActivityCard2 from '@/components/ui/cards/ActivityCard2';
 import ActivityCard3 from '@/components/ui/cards/ActivityCard3';
 import ActivityFormSelectors from '@/components/ui/cards/ActivityFormSelectors';
-
-import { useEffect, useState } from "react";
-import Head from "next/head";
+import SearchBar from '@/components/ui/buttons/SearchBar';
 
 
 export default function ActivityHome() {
+  const [data, setData] = useState([]);
+  const [topCityData, setTopCityData] = useState([]);
+  const [wish, setWish] = useState([]);
 
-  // 連node
-  // const [data, setData] = useState({
-  //   redirect: "",
-  //   totalRows: 0,
-  //   perPage: 4,
-  //   totalPages: 0,
-  //   page: 1,
-  //   rows: [],
-  // });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:3002/activity-api');
+        const { data, topCityData, wish } = await response.json();
+        setData(data);
+        setTopCityData(topCityData);
+        setWish(wish);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:3002/activity-api`)
-  //     .then((r) => r.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //       setData(data);
-  //     });
-  // }, []);
-
+    fetchData();
+  }, []);
 
   return (
     <div>
       {/* .........banner......... */}
       <div className={styles.banner}>
-        <img
-          className={styles.banner_pic}
-          src="/activity_img/index_banner.jpg"
-          alt="banner"
-        />
-      </div>
-
       
 
 
-      {/* <div>
-        <div>測試 連接資料庫</div>
-        <p>{data[0].name}</p>
-        <p>{data[1].name}</p>
-      </div> */}
 
-
-
+        <div className={styles.search}>
+          <h1>想找活動嗎？來這裡就對了！</h1>
+          <SearchBar placeholder="搜尋活動名稱" btn_text="尋找活動" />
+        </div>
+      
+        {/* <img
+          className={styles.banner_pic}
+          src="/activity_img/index_banner.jpg"
+          alt="banner"
+        /> */}
+        
+      </div>
 
       {/* .........收藏列表/進階篩選 btn......... */}
       <div className={styles.selector}>
@@ -65,34 +64,41 @@ export default function ActivityHome() {
       </div>
 
       {/* .........分類bar......... */}
+      {/* !!!!!!!!! 這邊要加入分類連結 !!!!!!!!! */}
       <div className={styles.type}>
         <div className="container-inner">
           <div className={styles.type_btn_group}>
-            <img className={styles.type_decoration} src='./activity_img/decoration1.png' alt='' />
+            <img
+              className={styles.type_decoration}
+              src="./activity_img/decoration1.png"
+              alt=""
+            />
             <div>
-               <SubBtn img='./activity_img/subicon_1.png' text='主題派對' />
-            </div>
-            <div>
-              <SubBtn img='./activity_img/subicon_2.png' text='在地活動' />
-            </div>
-            <div>
-              <SubBtn img='./activity_img/subicon_3.png' text='市集展覽' />
+              <SubBtn img="./activity_img/subicon_1.png" text="主題派對" />
             </div>
             <div>
-              <SubBtn img='./activity_img/subicon_4.png' text='毛孩講座' />
-            </div>
-            <div >
-              <SubBtn img='./activity_img/subicon_5.png' text='寵物學校' />
+              <SubBtn img="./activity_img/subicon_2.png" text="在地活動" />
             </div>
             <div>
-              <SubBtn img='./activity_img/subicon_6.png' text='願望實現清單' />
+              <SubBtn img="./activity_img/subicon_3.png" text="市集展覽" />
             </div>
-            <img className={styles.type_decoration} src='./activity_img/decoration1.png' alt='' />
+            <div>
+              <SubBtn img="./activity_img/subicon_4.png" text="毛孩講座" />
+            </div>
+            <div>
+              <SubBtn img="./activity_img/subicon_5.png" text="寵物學校" />
+            </div>
+            <div>
+              <SubBtn img="./activity_img/subicon_6.png" text="願望實現清單" />
+            </div>
+            <img
+              className={styles.type_decoration}
+              src="./activity_img/decoration1.png"
+              alt=""
+            />
           </div>
         </div>
       </div>
-
-
 
       {/* .........section1......... */}
       <div className={styles.section1}>
@@ -100,17 +106,61 @@ export default function ActivityHome() {
           <div>
             <p className={styles.title}>TOP 4 熱門活動</p>
           </div>
-          <div className={styles.section_card}>
 
-          <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
-          <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
-          </div>
-          
-          <div className={styles.section_card}>
-          <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
-          <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
-          </div>
-         
+          <Row gutter={[0, 64]} className={styles.section_card}>
+            <ActivityCard1
+              image="/activity_img/asian-young-girl-holding-kittens-park.jpg"
+              type="市集展覽"
+              name="2022台北與毛家庭有約"
+              rating="4.5"
+              date_begin="2023-04-09"
+              date_end="2023-05-09"
+              time="每週六 8:00-18:00"
+              city="台北市"
+              area="大安區"
+              address="大安路一段234號"
+              price="250"
+            />
+            <ActivityCard1
+              image="/activity_img/asian-young-girl-holding-kittens-park.jpg"
+              type="市集展覽"
+              name="2022台北與毛家庭有約"
+              rating="4.5"
+              date_begin="2023-04-09"
+              date_end="2023-05-09"
+              time="每週六 8:00-18:00"
+              city="台北市"
+              area="大安區"
+              address="大安路一段234號"
+              price="250"
+            />
+            <ActivityCard1
+              image="/activity_img/asian-young-girl-holding-kittens-park.jpg"
+              type="市集展覽"
+              name="2022台北與毛家庭有約"
+              rating="4.5"
+              date_begin="2023-04-09"
+              date_end="2023-05-09"
+              time="每週六 8:00-18:00"
+              city="台北市"
+              area="大安區"
+              address="大安路一段234號"
+              price="250"
+            />
+            <ActivityCard1
+              image="/activity_img/asian-young-girl-holding-kittens-park.jpg"
+              type="市集展覽"
+              name="2022台北與毛家庭有約"
+              rating="4.5"
+              date_begin="2023-04-09"
+              date_end="2023-05-09"
+              time="每週六 8:00-18:00"
+              city="台北市"
+              area="大安區"
+              address="大安路一段234號"
+              price="250"
+            />
+          </Row>
         </div>
       </div>
 
@@ -123,15 +173,43 @@ export default function ActivityHome() {
           <div>
             <p className={styles.title}>最新上架</p>
           </div>
-          <div className={styles.section_card}>
-          <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
-          <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
-          </div>
-          <div className={styles.section_card}>
-          <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
-          <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' />
-          </div>
-          
+          <Row gutter={[0, 64]} className={styles.section_card}>
+            {data.map((i) => {
+              const {
+                activity_sid,
+                type_name,
+                activity_pic,
+                name,
+                avg_star,
+                recent_date,
+                farthest_date,
+                time,
+                city,
+                area,
+                address,
+                price_adult,
+              } = i;
+              return (
+                <ActivityCard1
+                  key={activity_sid}
+                  activity_sid={activity_sid}
+                  type={type_name}
+                  image={'/activity_img/' + activity_pic.split(',')[0]}
+                  title={name}
+                  rating={avg_star}
+                  date_begin={recent_date}
+                  date_end={farthest_date}
+                  time={time}
+                  city={city}
+                  area={area}
+                  address={address}
+                  price={price_adult}
+                />
+              );
+            })}
+
+            {/* <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' /> */}
+          </Row>
         </div>
       </div>
 
@@ -144,17 +222,13 @@ export default function ActivityHome() {
           <div>
             <p className={styles.title}>探索熱門城市</p>
           </div>
-          <div className={styles.section_card}>
-            <ActivityCard2 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' city='台北市' />
-            <ActivityCard2 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' city='台北市' />
-            <ActivityCard2 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' city='台北市' /> 
-          </div>
-          <div className={styles.section_card}>
-            <ActivityCard2 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' city='台北市' />
-            <ActivityCard2 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' city='台北市' />
-            <ActivityCard2 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' city='台北市' /> 
-          </div>
-          
+
+          <Row gutter={[0, 64]} className={styles.section_card}>
+            {topCityData.map((i) => {
+              const { city } = i;
+              return <ActivityCard2 key={city} city={city} />;
+            })}
+          </Row>
         </div>
       </div>
 
@@ -167,20 +241,55 @@ export default function ActivityHome() {
           <div>
             <p className={styles.title}>會員願望投票區</p>
           </div>
-          <div className={styles.section_card}>
-            <ActivityCard3 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' title='2022台北與毛家庭有約' count={10} city='台北市' area='大安區' />
-            <ActivityCard3 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' title='2022台北與毛家庭有約' count={10} city='台北市' area='大安區' />
-            <ActivityCard3 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' title='2022台北與毛家庭有約' count={10} city='台北市' area='大安區' />
-          </div>
+          <Row gutter={[0, 64]} className={styles.section_card}>
+            {data.map((i) => {
+              const {
+                member_sid,
+                profile,
+                name,
+                city,
+                area,
+                vote_count,
+              } = i;
+              return (
+                <ActivityCard3
+                key={member_sid}
+                profile={profile}
+                title={name}
+                count={vote_count}
+                city={city}
+                area={area}
+                />
+                // <ActivityCard4
+                // key={activity_sid}
+                //   activity_sid={activity_sid}
+                //   type={type_name}
+                //   image={'/activity_img/'+activity_pic.split(',')[0]}
+                //   title={name}
+                //   rating={avg_star}
+                //   date_begin={recent_date}
+                //   date_end={farthest_date}
+                //   time={time}
+                //   city={city}
+                //   area={area}
+                //   address={address}
+                //   content={content}
+                //   features={feature_names.split(',')}
+                //   price={price_adult}
+                // />
+              );
+            })}
 
-          <div className={styles.section_card}>
-            <ActivityCard3 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' title='2022台北與毛家庭有約' count={10} city='台北市' area='大安區' />
-            <ActivityCard3 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' title='2022台北與毛家庭有約' count={10} city='台北市' area='大安區' />
-            <ActivityCard3 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' title='2022台北與毛家庭有約' count={10} city='台北市' area='大安區' />
-          </div>
-          
+            {/* <ActivityCard3
+              image="/activity_img/asian-young-girl-holding-kittens-park.jpg"
+              title="2022台北與毛家庭有約"
+              count={10}
+              city="台北市"
+              area="大安區"
+            /> */}
+          </Row>
         </div>
       </div>
     </div>
-  )
+  );
 }

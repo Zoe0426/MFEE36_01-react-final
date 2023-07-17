@@ -6,8 +6,8 @@
 /* -------左邊------- */
 .left {
   position: relative;
-  width: 90%;
-  /* height: 352px; */
+  width: 60%;
+  /* height: 100%; */
 }
 
 .image {
@@ -46,8 +46,8 @@
 
 /* -------右邊------- */
 .right {
-  width: 90%;
-  margin-left: 1rem; /*左右間距*/
+  width: 70%;
+  margin-left: 1.5rem; /*左右間距*/
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -93,7 +93,7 @@
 
 .content{
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* 设置显示的行数 */
+  -webkit-line-clamp: 2; /* 顯示的行数 */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
