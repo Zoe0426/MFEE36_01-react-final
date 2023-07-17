@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -39,6 +39,11 @@ export default function Restindex() {
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
 
+  const [data, setData] = useState({
+    rows1: [],
+    rows2: [],
+  });
+
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
     setShowFilter(!showfilter);
@@ -68,6 +73,18 @@ export default function Restindex() {
     //這邊需要再修改，要看怎麼得到會員的編號
     removeLikeListToDB(pid, 'mem00002');
   };
+
+  useEffect(() => {
+    fetch(`${process.env.API_SERVER}/restaurant-api`)
+      .then((r) => r.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <>
       <Banner />
@@ -303,26 +320,32 @@ export default function Restindex() {
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
+            {data.rows1.map((v) => {
+              const {
+                rest_sid,
+                name,
+                city,
+                area,
+                img_names,
+                rule_names,
+                service_names,
+                average_friendly,
+              } = v;
 
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
-
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
+              return (
+                <Col xl={8} xs={12} key={rest_sid}>
+                  <RestCard
+                    image={'/rest_image/image/' + img_names.split(',')[0]}
+                    name={name}
+                    city={city}
+                    area={area}
+                    rule_names={rule_names}
+                    service_names={service_names}
+                    average_friendly={average_friendly}
+                  />
+                </Col>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -333,26 +356,32 @@ export default function Restindex() {
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
+            {data.rows2.map((v) => {
+              const {
+                rest_sid,
+                name,
+                city,
+                area,
+                img_names,
+                rule_names,
+                service_names,
+                average_friendly,
+              } = v;
 
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
-
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
+              return (
+                <Col xl={8} xs={12} key={rest_sid}>
+                  <RestCard
+                    image={'/rest_image/image/' + img_names.split(',')[0]}
+                    name={name}
+                    city={city}
+                    area={area}
+                    rule_names={rule_names}
+                    service_names={service_names}
+                    average_friendly={average_friendly}
+                  />
+                </Col>
+              );
+            })}
           </div>
         </div>
       </div>

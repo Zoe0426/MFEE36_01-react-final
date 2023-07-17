@@ -50,6 +50,30 @@ export default function FilterPage() {
     rows: [],
   });
 
+  //排序相關的函式-------------------------------------------------------
+  const rankOptions = {
+    1: 'hot_DESC',
+    2: 'new_DESC',
+    3: 'cmt_DESC',
+  };
+
+  const orderByHandler = (e) => {
+    const newSelect = orderByOptions.find((v) => v.key === e.key);
+
+    console.log(newSelect.label);
+    setOrderBy(newSelect.label);
+
+    const selectedRank = rankOptions[e.key];
+    // console.log(selectedRank);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: 1,
+        orderBy: selectedRank,
+      }).toString()}`
+    );
+  };
+
   //searchBar相關的函式-------------------------------------------------------
   const searchBarHandler = (e) => {
     let copyURL = { ...router.query, page: 1 };
@@ -76,18 +100,20 @@ export default function FilterPage() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { keyword, rule, service, city } = router.query;
+    const { keyword, rule, service, city, orderBy } = router.query;
     console.log(router.query);
     setRule(rule || '');
     setService(service || '');
     setCity(city || '');
     setKeyword(keyword || '');
+    // setOrderBy(orderBy);
+
     const usp = new URLSearchParams(router.query);
 
     fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.rows.length > 0) {
+        if (Array.isArray(data.rows)) {
           setData(data);
         }
       })
@@ -223,9 +249,16 @@ export default function FilterPage() {
         <div className={Styles.second_area}>
           <div className={Styles.search_title}>
             <h2 className={Styles.jill_h2}>餐廳進階篩選結果</h2>
-            <p>共{data.totalRows}間餐廳</p>
+            <p>
+              {data.totalRows != 0 ? `共${data.totalRows}間餐廳` : '查無餐廳'}
+            </p>
           </div>
-          <RestPageOrder orderBy={orderBy} items={orderByOptions} />
+          <RestPageOrder
+            totalItems={data.totalRows}
+            onRankChange={orderByHandler}
+            orderBy={orderBy}
+            items={orderByOptions}
+          />
         </div>
       </div>
 
