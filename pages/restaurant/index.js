@@ -39,6 +39,8 @@ export default function Restindex() {
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
 
+  const [keyword, setKeyword] = useState('');
+
   const [data, setData] = useState({
     rows1: [],
     rows2: [],

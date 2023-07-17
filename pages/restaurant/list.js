@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import RestCard from '@/components/ui/cards/rest_card';
-import { Pagination, Col, Row, ConfigProvider } from 'antd';
+import { Pagination, Col, Row, ConfigProvider, Breadcrumb } from 'antd';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Banner from '@/components/ui/restaurant/Banner';
 import Styles from './list.module.css';
@@ -185,20 +185,49 @@ export default function FilterPage() {
 
       <div className={Styles.bgc}>
         <div className="container-inner">
-          <div className={Styles.function_group}>
-            <IconBtn icon={faMap} text="餐廳地圖" />
-            <IconBtn
-              icon={faHeart}
-              text="收藏列表"
-              clickHandler={openShowLikeList}
-            />
-            <IconBtn
-              icon={faFilter}
-              text="進階篩選"
-              clickHandler={toggleFilter}
-            />
+          <div className={Styles.bread_btn}>
+            <div className={Styles.breadcrumb}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    colorBgContainer: 'transparent',
+                    colorPrimaryTextHover: '#FFEFE8',
+                    colorBgTextActive: '#FD8C46',
+                    fontSize: 18,
+                  },
+                }}
+              >
+                <Breadcrumb
+                  items={[
+                    {
+                      title: '餐廳首頁',
+                      href: 'http://localhost:3000/restaurant',
+                    },
+                    {
+                      title: '餐廳列表',
+             
+                    },
+                  ]}
+                />
+              </ConfigProvider>
+            </div>
+            <div className={Styles.function_group}>
+              <IconBtn icon={faMap} text="餐廳地圖" />
+              <IconBtn
+                icon={faHeart}
+                text="收藏列表"
+                clickHandler={openShowLikeList}
+              />
+              <IconBtn
+                icon={faFilter}
+                text="進階篩選"
+                clickHandler={toggleFilter}
+              />
+            </div>
           </div>
         </div>
+
         {/* 進階篩選的畫面 */}
         {showfilter && (
           <>
