@@ -46,6 +46,35 @@ export default function Restindex() {
     rows2: [],
   });
 
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const itemsPerPage = 3;
+
+  // 點擊右邊箭頭
+  const rightArrow1 = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex + itemsPerPage >= data.rows1.length
+        ? 0
+        : prevIndex + itemsPerPage
+    );
+  };
+
+  // 點擊左邊箭頭
+  const leftArrow1 = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex - itemsPerPage < 0
+        ? data.rows1.length - itemsPerPage
+        : prevIndex - itemsPerPage
+    );
+  };
+
+  // 根據目前的索引來顯示資料
+  const displayData = data.rows1.slice(
+    currentIndex,
+    currentIndex + itemsPerPage
+  );
+
+
+
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
     setShowFilter(!showfilter);
@@ -317,12 +346,17 @@ export default function Restindex() {
       </div>
 
       <div className="container-inner">
-        <RestTitle icon={faFire} text="熱門餐廳" />
+        <RestTitle
+          icon={faFire}
+          text="熱門餐廳"
+          clickHandler1={leftArrow1}
+          clickHandler2={rightArrow1}
+        />
       </div>
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            {data.rows1.map((v) => {
+            {displayData.map((v) => {
               const {
                 rest_sid,
                 name,
@@ -353,7 +387,10 @@ export default function Restindex() {
       </div>
 
       <div className="container-inner">
-        <RestTitle icon={faFaceLaugh} text="最友善餐廳" />
+        <RestTitle
+          icon={faFaceLaugh}
+          text="最友善餐廳"
+        />
       </div>
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
