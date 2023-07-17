@@ -297,6 +297,8 @@ export default function List() {
       newFilters = arr.map((v) => {
         if (v.label === id) {
           return { ...v, checked: !v.checked };
+        } else if (v.label === '皆可') {
+          return { ...v, checked: false };
         } else return { ...v };
       });
     }
@@ -307,9 +309,7 @@ export default function List() {
     }
 
     if (countTrue === arrLength) {
-      newFilters[arr.length - 1].checked = true;
-    } else {
-      newFilters[arr.length - 1].checked = false;
+      newFilters[arrLength].checked = true;
     }
     console.log({ arrLength });
     console.log({ countTrue });
