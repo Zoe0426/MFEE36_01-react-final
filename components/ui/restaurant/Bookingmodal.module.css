@@ -1,0 +1,222 @@
+.overlay {
+  z-index: 999;
+  background: rgba(49, 49, 49, 0.6);
+}
+.modal {
+  z-index: 9999;
+  font-size: var(--pfs16);
+}
+.modal,
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.modal_card {
+  position: absolute;
+  width: 60%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #ffffff;
+  padding: 14px 0;
+  border-radius: 10px;
+  max-width: 600px;
+  min-width: 300px;
+}
+
+.modal_title {
+  font-size: var(--h5fs20);
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgb(203, 203, 203);
+}
+
+.modal_content {
+  padding: 24px;
+}
+
+.btn-modal {
+  padding: 10px 20px;
+  display: block;
+  margin: 100px auto 0;
+  font-size: 18px;
+}
+
+.time {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.member {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.phone {
+  display: flex;
+  gap: 16px;
+  padding-bottom: 30px;
+}
+
+.booking_title {
+  font-weight: bold !important;
+}
+
+.line {
+  height: 1px;
+  border-bottom: 1px solid rgb(203, 203, 203);
+}
+
+/* 購買數量 */
+.detail_qty_area {
+  display: flex;
+  gap: 40px;
+}
+.detail_people_box,
+.detail_pet_box {
+  margin-top: 30px;
+  width: 48%;
+}
+
+.detail_qty {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-radius: var(--br10);
+  font-size: var(--h5fs20);
+  color: var(--dark-gray);
+  background-color: transparent;
+  border: 1px solid var(--gray);
+  overflow: hidden;
+  height: 46px;
+  line-height: 100%;
+  text-align: center;
+}
+
+.detail_qty_sub_btn,
+.detail_qty_add_btn {
+  border: none;
+  padding: 0 20px;
+  font-size: var(--h5fs20);
+  background-color: transparent;
+  transition: 0.3s;
+}
+
+.detail_qty_sub_btn {
+  border-right: 1px solid var(--dark-gray);
+}
+
+.detail_qty_add_btn {
+  border-left: 1px solid var(--dark-gray);
+}
+
+.detail_qty_add_btn:hover,
+.detail_qty_sub_btn:hover {
+  background-color: var(--light-gray);
+  cursor: pointer;
+}
+.detail_title {
+  font-size: var(--pfs16);
+  padding-bottom: 4px;
+}
+
+.detail_qty_input {
+  width: 30px;
+  text-align: center;
+  border: none;
+  outline: none;
+  padding: var(--p16) 0;
+  border: 0;
+  font-size: var(--pfs16);
+  color: var(--dark-gray);
+  background-color: transparent;
+}
+
+.note {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+}
+.note_content {
+  margin-bottom: 4px;
+}
+
+.note_input {
+  height: 46px;
+  border-radius: var(--br10);
+  padding: 0 12px;
+  border: 0;
+  border: 1px solid var(--gray);
+}
+
+.close_modal {
+  position: absolute;
+  font-size: var(--h6fs18);
+  top: 16px;
+  right: 20px;
+  padding: 5px 7px;
+  cursor: pointer;
+}
+
+.btn_group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  height: 50px;
+}
+
+.btn_group > button {
+  margin-right: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 100%;
+  text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+  .modal_card {
+    width: 80%;
+    top: 48%;
+    max-width: 600px;
+    min-width: 350px;
+  }
+  .modal_title {
+    font-size: var(--h6fs18);
+    padding-bottom: 12px;
+  }
+  .time,
+  .phone,
+  .member {
+    font-size: var(--pfs14);
+  }
+  .detail_qty_area {
+    flex-direction: column;
+    gap: 0;
+  }
+  .detail_people_box,
+  .detail_pet_box {
+    margin-top: 20px;
+    width: 100%;
+  }
+  .note {
+    margin-top: 20px;
+  }
+  .btn_group > button {
+    margin-right: 0;
+    width: 100%;
+    line-height: 100%;
+  }
+  .btn_group {
+    gap: 16px;
+    justify-content: space-around;
+    padding: 0 16px;
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFire,
@@ -28,8 +29,10 @@ import Likelist from '@/components/ui/like-list/like-list';
 import filterDatas from '@/data/restaurnt/categories.json';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
+import friendlyCondition from '@/data/restaurnt/firendly-condition.json';
 
 export default function Restindex() {
+  const router = useRouter();
   const { categorySid } = filterDatas;
   const [showfilter, setShowFilter] = useState(false);
 
@@ -129,7 +132,7 @@ export default function Restindex() {
         </div>
       </div>
       <TopAreaBgc />
-    
+
       <div className="container-inner">
         <div className={Styles.explore_title}>
           <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
@@ -140,6 +143,7 @@ export default function Restindex() {
             <LocationCard
               rest_image="/rest_image/city/taipei.png"
               location="台北市"
+              href="http://localhost:3000/restaurant/list?location=taipei"
             />
           </Col>
           <Col xl={4} xs={8}>
@@ -257,37 +261,22 @@ export default function Restindex() {
               />
               <h2 className={Styles.jill_h2}>友善條件</h2>
             </div>
+
             <Row gutter={[48, 48]}>
-              <Col xl={4} xs={8}>
-                <SubBtn text="可放繩" img="/rest_image/friendly/rope.png" />
-              </Col>
-              <Col xl={4} xs={8}>
-                <SubBtn
-                  text="可自由活動"
-                  img="/rest_image/friendly/dog_run.png"
-                />
-              </Col>
-              <Col xl={4} xs={8}>
-                <SubBtn
-                  text="有賣寵物餐"
-                  img="/rest_image/friendly/sell_food.png"
-                />
-              </Col>
-              <Col xl={4} xs={8}>
-                <SubBtn
-                  text="附寵物餐具"
-                  img="/rest_image/friendly/tableware.png"
-                />
-              </Col>
-              <Col xl={4} xs={8}>
-                <SubBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
-              </Col>
-              <Col xl={4} xs={8}>
-                <SubBtn
-                  text="可上座椅"
-                  img="/rest_image/friendly/onchair.png"
-                />
-              </Col>
+              {friendlyCondition.map((e) => {
+                return (
+                  <Col xl={4} xs={8} key={e.id}>
+                    <SubBtn
+                      img={e.icon}
+                      text={e.text}
+                      subBtnHandler={() => {
+                        //分類這邊的連結還沒寫
+                        router.push(e.href);
+                      }}
+                    />
+                  </Col>
+                );
+              })}
             </Row>
           </div>
         </div>

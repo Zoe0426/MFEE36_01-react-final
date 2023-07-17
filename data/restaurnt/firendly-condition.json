@@ -1,0 +1,38 @@
+[
+    {
+    "id": "no_rope",
+    "text": "可放繩",
+    "icon": "/rest_image/friendly/rope.png",
+    "href": "http://localhost:3000/restaurant/list?rule=no_rope"  
+},
+{
+    "id": "free",
+    "text": "可自由活動",
+    "icon": "/rest_image/friendly/dog_run.png",
+    "href": "http://localhost:3000/restaurant/list?rule=free"  
+},
+{
+    "id": "sell_food",
+    "text": "有賣寵物餐",
+    "icon": "/rest_image/friendly/sell_food.png",
+    "href": "http://localhost:3000/restaurant/list?service=sell_food"  
+},
+{
+    "id": "tableware",
+    "text": "附寵物餐具",
+    "icon": "/rest_image/friendly/tableware.png",
+    "href": "http://localhost:3000/restaurant/list?service=tableware"  
+},
+{
+    "id": "clean",
+    "text": "幫忙鏟屎",
+    "icon": "/rest_image/friendly/clean.png",
+    "href": "http://localhost:3000/restaurant/list?service=clean"  
+},
+{
+    "id": "have_seat",
+    "text": "可上座椅",
+    "icon": "/rest_image/friendly/onchair.png",
+    "href": "http://localhost:3000/restaurant/list?rule=have_seat"  
+}    
+]
