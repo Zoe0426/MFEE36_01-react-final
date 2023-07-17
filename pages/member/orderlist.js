@@ -13,9 +13,22 @@ import Link from 'next/link';
 export default function OrderList() {
   const [pageTag, setPageTag] = useState('coupon');
   const [data, setData] = useState([]);
+  const [price, setPrice] = useState([]);
   const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
-  const totalLength = data.length;
+
+  // // 分组
+  // const groupedData = data.reduce((acc, cur) => {
+  //   acc[cur.order_sid] = acc[cur.order_sid]
+  //     ? [...acc[cur.order_sid], cur]
+  //     : [cur];
+  //   return acc;
+
+  // }, {});
+
+  // // 取出每组的第一项
+  // const firstItems = Object.values(groupedData).map((items) => items[0]);
+
   const toSignIn = () => {
     const from = router.asPath;
     router.push(`/member/sign-in?from=${from}`);
@@ -43,6 +56,8 @@ export default function OrderList() {
       .then((data) => {
         console.log(data);
         setData(data);
+        const price = data.orderRelS + data.post_amount - data.coupon_amount;
+        setPrice(price);
       });
     // } else {
     //   console.log('User is not logged in. Cannot fetch');
@@ -75,17 +90,16 @@ export default function OrderList() {
         </div>
       </div>
       <div className="content">
-        {data.map((data) => (
+        {data.map((data, i) => (
           <OrderCard
-            key={data.order_detail_sid}
+            key={i}
             orderSid={data.order_sid}
             status={data.post_status}
             itemTitle={data.rel_name}
             itemText={data.rel_seqName}
             itemQty={data.product_qty}
-            subTotal={data.rel_subtotal}
+            subTotal={price}
             img={data.img}
-            length={totalLength}
           />
         ))}
       </div>

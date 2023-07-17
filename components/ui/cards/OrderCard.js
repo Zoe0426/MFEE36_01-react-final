@@ -155,8 +155,8 @@ export default function OrderCard({
                     x2="89.9887"
                     y2="1.01178"
                     stroke={status > 0 ? '#A1D429' : '#DDDDDD'}
-                    stroke-width="2"
-                    stroke-linecap="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
                   />
                 </svg>
                 <div className={Style.div}></div>
@@ -234,8 +234,8 @@ export default function OrderCard({
                     x2="89.9887"
                     y2="1.01178"
                     stroke={status >= 2 ? '#A1D429' : '#DDDDDD'}
-                    stroke-width="2"
-                    stroke-linecap="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
                   />
                 </svg>
                 <div className={Style.div}></div>
@@ -292,8 +292,8 @@ export default function OrderCard({
                     x2="89.9887"
                     y2="1.01178"
                     stroke={status >= 5 ? '#A1D429' : '#DDDDDD'}
-                    stroke-width="2"
-                    stroke-linecap="round"
+                    strokeWidth="2"
+                    strokeLinecap="round"
                   />
                 </svg>
                 <div className={Style.div}></div>
