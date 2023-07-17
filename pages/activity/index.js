@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Row, Col } from 'antd';
 
@@ -17,6 +18,23 @@ export default function ActivityHome() {
   const [topCityData, setTopCityData] = useState([]);
   const [wish, setWish] = useState([]);
 
+  // 關鍵字
+  // const [keyword, setKeyword] = useState("");
+
+  // useEffect(() => {
+  //   setKeyword(router.query.keyword || "");
+  //   const usp = new URLSearchParams(router.query);
+
+  //   fetch(`${process.env.API_SERVER}/activity-api?${usp.toString()}`)
+  //     .then((r) => r.json())
+  //     .then((datakeyword) => {
+  //       console.log(datakeyword);
+  //       setData(datakeyword);
+  //     });
+  // }, [router.query]);
+
+
+  // 下面卡片的資訊
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -187,6 +205,7 @@ export default function ActivityHome() {
                 city,
                 area,
                 address,
+                feature_names,
                 price_adult,
               } = i;
               return (
@@ -203,6 +222,7 @@ export default function ActivityHome() {
                   city={city}
                   area={area}
                   address={address}
+                  features={feature_names.split(',')}
                   price={price_adult}
                 />
               );

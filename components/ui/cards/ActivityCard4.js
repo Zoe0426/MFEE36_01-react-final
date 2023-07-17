@@ -23,7 +23,7 @@ const ActivityCard4 = ({
   area = '',
   address = '',
   content = '',
-  features = '',
+  features = [],
   price = 0,
 }) => {
   return (

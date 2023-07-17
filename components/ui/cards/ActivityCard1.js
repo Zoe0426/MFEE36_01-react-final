@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar,faCalendarDays,faClock,faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import styles from './ActivityCard1.module.css';
 import ActivityFeature from './ActivityFeature';
+import { Row, Col } from 'antd';
 
 
 const ActivityCard1 = ({
@@ -17,6 +18,7 @@ const ActivityCard1 = ({
   city='',
   area='',
   address='',
+  features = [],
   price=0,
 }) => {
   return (
@@ -67,14 +69,15 @@ const ActivityCard1 = ({
           </div>
         </div>
 
-        <div className={styles.row}>
-          <ActivityFeature className={styles.feature} feature='專屬攝影師'/>
-          <ActivityFeature className={styles.feature} feature='贈寵物沐浴乳乙瓶'/>
-        </div>
-        <div className={styles.row}>
-          <ActivityFeature className={styles.feature} feature='寵物拍貼體驗'/>
-          <ActivityFeature className={styles.feature} feature='精美午餐'/>
-        </div>
+        <Row className={styles.row}>
+        
+          {features.map((feature, i) => (
+            <div className={styles.row} key={i}>
+              <ActivityFeature className={styles.feature} feature={feature} />
+            </div>
+          ))}
+        
+        </Row>
         
         <div>
           <p className={styles.row_price}>${price} (大人) ${price/2} (小孩)</p>
