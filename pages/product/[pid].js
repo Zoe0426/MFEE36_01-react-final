@@ -193,7 +193,7 @@ export default function Product() {
   const removeLikeListToDB = async (pid = '', mid = '') => {
     try {
       const removeAll = await fetch(
-        `http://localhost:3002/shop-api/likelist/${pid}/${mid}`,
+        `${process.env.API_SERVER}/shop-api/likelist/${pid}/${mid}`,
         {
           method: 'DELETE',
         }
@@ -303,6 +303,20 @@ export default function Product() {
                   score={datatForProductMain.avg_rating}
                   text={`( 已有99人購買，這邊需要再拉API資料 )`}
                 />
+                <div className={styles.detail_price_box}>
+                  <h5 className={styles.detail_spec_title}>價格</h5>
+                  {datatForProductDetail.map((v, i) => {
+                    return (
+                      <div
+                        className={styles.detail_price}
+                        key={v.product_detail_sid}
+                      >
+                        ${v.price}
+                      </div>
+                    );
+                  })}
+                </div>
+
                 <div className={styles.detail_spec_box}>
                   <h5 className={styles.detail_spec_title}>規格選擇</h5>
                   {datatForProductDetail.map((v, i) => {

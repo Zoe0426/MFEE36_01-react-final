@@ -208,6 +208,14 @@
     width: 100%;
 }
 
+/*價格*/
+.detail_price{
+    font-size: var(--h4fs24);
+    font-weight: var(--fwbold);
+
+}
+
+
 
 /*規格按鈕*/
 .detail_spec_btn{

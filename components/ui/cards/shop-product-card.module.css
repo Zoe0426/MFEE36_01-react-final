@@ -88,6 +88,14 @@
     align-items: center;
 }
 
+.card_info span:first-child{
+    font-weight: var(--fwbold);
+}
+
+.upto{
+    font-size: var(--pfs14);
+}
+
 
 @media screen and (max-width:767px){
     .card_title{
@@ -101,6 +109,8 @@
     .card_info{
         font-size: var(--pfs14);
     }
-
+    .upto{
+        font-size: var(--pfs12);
+    }
 
     }

@@ -39,11 +39,13 @@ export default function ShopProductCard({
             {avg_rating && <RateStarPill score={avg_rating} />}
           </div>
           <div>
-            {max_price === min_price
+            <span>{`$ ${min_price.toLocaleString('en-US')} `}</span>
+            <span className={styles.upto}>起</span>
+            {/* {max_price === min_price
               ? `$ ${max_price.toLocaleString('en-US')}`
               : `$ ${min_price.toLocaleString(
                   'en-US'
-                )} ~ ${max_price.toLocaleString('en-US')}`}
+                )} ~ ${max_price.toLocaleString('en-US')}`} */}
           </div>
         </div>
       </div>
