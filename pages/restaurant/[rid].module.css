@@ -61,6 +61,7 @@
 
 .rest_image_single {
   overflow: hidden;
+  cursor: pointer;
 }
 .rest_image_single img {
   width: 100%;
@@ -83,6 +84,15 @@
   background-color: var(--secondary);
   border-radius: 8px;
   height: 100px;
+}
+
+.rest_image_single_active{
+  width: 60%;
+  margin-top: 16px;
+  background-color: var(--secondary);
+  border-radius: 8px;
+  height: 100px;
+  border: 3px solid rgb(255, 123, 0); 
 }
 
 .rest_detail {
@@ -231,6 +241,13 @@
   transition-duration: 1s;
   transform: scale(1.08);
 }
+
+
+.selected {
+  border: 1px solid black;
+}
+
+
 
 
 @media screen and (max-width: 767px) {
