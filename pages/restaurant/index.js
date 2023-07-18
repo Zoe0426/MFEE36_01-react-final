@@ -73,8 +73,6 @@ export default function Restindex() {
     currentIndex + itemsPerPage
   );
 
-
-
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
     setShowFilter(!showfilter);
@@ -356,7 +354,34 @@ export default function Restindex() {
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            {displayData.map((v) => {
+            <RestCard
+              name="我家休閒農場"
+              city="台北市"
+              area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
+            />
+            <RestCard
+              name="我家休閒農場"
+              city="台北市"
+              area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
+            />
+            <RestCard
+              name="我家休閒農場"
+              city="台北市"
+              area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
+            />
+            {/* {displayData.map((v) => {
               const {
                 rest_sid,
                 name,
@@ -381,21 +406,45 @@ export default function Restindex() {
                   />
                 </Col>
               );
-            })}
+            })} */}
           </div>
         </div>
       </div>
 
       <div className="container-inner">
-        <RestTitle
-          icon={faFaceLaugh}
-          text="最友善餐廳"
-        />
+        <RestTitle icon={faFaceLaugh} text="最友善餐廳" />
       </div>
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            {data.rows2.map((v) => {
+            <RestCard
+              name="我家休閒農場"
+              city="台北市"
+              area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
+            />
+            <RestCard
+              name="我家休閒農場"
+              city="台北市"
+              area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
+            />
+            <RestCard
+              name="我家休閒農場"
+              city="台北市"
+              area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
+            />
+            {/* {data.rows2.map((v) => {
               const {
                 rest_sid,
                 name,
@@ -420,7 +469,7 @@ export default function Restindex() {
                   />
                 </Col>
               );
-            })}
+            })} */}
           </div>
         </div>
       </div>

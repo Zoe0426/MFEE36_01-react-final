@@ -32,24 +32,22 @@ import Link from 'next/link';
 export default function RestInfo() {
   const { query, asPath } = useRouter();
   const router = useRouter();
-  const [restDetailRows, setRestDetailRows] = useState();
-  const [imageRows, setImageRows] = useState([]);
+  const [restDetailRows, setRestDetailRows] = useState([]);
+  const [data, setData] = useState({
+    restDetailRows: [],
+    imageRows: [],
+    ruleRows: [],
+    serviceRows: [],
+    commentRows: [],
+  });
+  const [imageRows, setImageRows] = useState({
+    rest_sid: '',
+    name: '',
+  });
   const [ruleRows, setRuleRows] = useState([]);
   const [serviceRows, setServiceRows] = useState([]);
   const [commentRows, setCommentRows] = useState([]);
 
-  // const [dataForRest, setDataForRest] = useState({
-  //   rest_sid: '',
-  //   name: '',
-  //   phone: '',
-  //   city: '',
-  //   area: '',
-  //   acceptType: '',
-  //   info: '',
-  //   feature_title: '',
-  //   feature_content: '',
-  //   feature_img: '',
-  // });
   useEffect(() => {
     const { rid } = query;
 
@@ -57,26 +55,26 @@ export default function RestInfo() {
       fetch(`http://localhost:3002/restaurant-api/restaurant/${rid}`)
         .then((r) => r.json())
         .then((data) => {
-          // const {
-          //   restDetailRows,
-          //   imageRows,
-          //   ruleRows,
-          //   serviceRows,
-          //   commentRows,
-          // } = data;
+          const {
+            restDetailRows,
+            imageRows,
+            ruleRows,
+            serviceRows,
+            commentRows,
+          } = data;
 
-          // if (restDetailRows) {
-          //   setRestDetailRows( ...restDetailRows[0].name );
-          // }
-  
           // 更新 React 組件的狀態
-          //setRestDetailRows(restDetailRows[0]);
+          if (restDetailRows && restDetailRows.length > 0) {
+            setRestDetailRows(...restDetailRows);
+          }
+
           setImageRows(imageRows);
           setRuleRows(ruleRows);
           setServiceRows(serviceRows);
           setCommentRows(commentRows);
-          console.log(restDetailRows);
-          console.log(imageRows);
+          setData(data);
+          console.log(...restDetailRows);
+          console.log(serviceRows);
         })
         .catch((error) => {
           console.error(error);
@@ -139,11 +137,9 @@ export default function RestInfo() {
           </div>
 
           <div className={Styles.rest_info}>
-            <h1 className={Styles.jill_h1}></h1>
+            <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
             <RateStar score="4.8" className={Styles.rate_star} />
-            <p className={Styles.information}>
-              一群熱愛生命有夢想的青年，在這2200平方的土地上開始建構毛小孩的奔跑空間，健康自製的料理飲品，無毒自然的溯源食材，我們知道，我們還有很多可以進步的地方，因為我們熱愛我們的家，熱愛每一個回家的家人~當歡迎光臨聲起，我們的微笑綻放，心裡默默念著…歡迎回家!!
-            </p>
+            <p className={Styles.information}>{restDetailRows.info}</p>
             <div className={Styles.info_text_group}>
               <div className={Styles.contact_group}>
                 <div className={Styles.contact}>
@@ -151,7 +147,9 @@ export default function RestInfo() {
                     icon={faPhone}
                     className={Styles.info_icon}
                   />
-                  <p className={Styles.information_detail}>02-2268-1031</p>
+                  <p className={Styles.information_detail}>
+                    0{restDetailRows.phone}
+                  </p>
                 </div>
                 <div className={Styles.contact}>
                   <FontAwesomeIcon
@@ -159,7 +157,9 @@ export default function RestInfo() {
                     className={Styles.info_icon}
                   />
                   <p className={Styles.information_detail}>
-                    新北市土城區承天路103號
+                    {restDetailRows.city}
+                    {restDetailRows.area}
+                    {restDetailRows.address}
                   </p>
                 </div>
                 <div className={Styles.contact}>
@@ -168,13 +168,13 @@ export default function RestInfo() {
                     className={Styles.info_icon}
                   />
                   <p className={Styles.information_detail}>
-                    11:00~22:00，週日公休
+                    {restDetailRows.start_at_1}~{restDetailRows.end_at_1}
                   </p>
                 </div>
                 <div className={Styles.contact}>
                   <FontAwesomeIcon icon={faPaw} className={Styles.info_icon} />
                   <p className={Styles.information_detail}>
-                    大型/中型/小型犬與貓
+                    {restDetailRows.acceptType}
                   </p>
                 </div>
               </div>
@@ -266,9 +266,9 @@ export default function RestInfo() {
         <h2 className={Styles.jill_h2}>餐廳特色</h2>
       </div>
       <FeatureCard
-        img="/rest_image/lawn.jpeg"
-        title="戶外草皮區"
-        feature_info=" 寬闊草皮適合狗狗、孩子自由奔跑水晶教堂下看著魚兒水中游，獻給愛陪伴毛小孩的你愛就是要分秒陪伴把用餐的放鬆時光與最親密的牠一起分享適合有帶寵物一起前來的你"
+        img={`/rest_image/feature/${restDetailRows.feature_img}`}
+        title={restDetailRows.feature_title}
+        feature_info={restDetailRows.feature_content}
       />
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>餐廳活動</h2>
