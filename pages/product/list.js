@@ -42,9 +42,6 @@ export default function List() {
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
   const [copyFilters, setCopyFilters] = useState([]);
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
-  const [priceErrorText, setPriceErrorText] = useState('');
 
   const [datas, setDatas] = useState({
     totalRows: 0,
@@ -115,8 +112,16 @@ export default function List() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { category, keyword, orderBy, typeForPet, typeForAge, brand } =
-      router.query;
+    const {
+      category,
+      keyword,
+      orderBy,
+      typeForPet,
+      typeForAge,
+      brand,
+      minPrice,
+      maxPrice,
+    } = router.query;
 
     setKeyword(keyword || '');
 
@@ -134,6 +139,17 @@ export default function List() {
       setOrderBy(selectedOrderBy.label);
     } else {
       setOrderBy('-- 請選擇 --');
+    }
+
+    if (minPrice) {
+      setMinPrice(minPrice);
+    } else {
+      setMinPrice(0);
+    }
+    if (maxPrice) {
+      setMaxPrice(maxPrice);
+    } else {
+      setMaxPrice(0);
     }
 
     //需要等所有filters(brands)設定都完成後才能開始跑回圈將有勾選的設定回來
@@ -328,11 +344,12 @@ export default function List() {
 
   const filterHandler = (
     filters = {},
-    priceErrorText = '',
+    priceErrorText1 = '',
+    priceErrorText2 = '',
     minPrice = 0,
     maxPrice = 0
   ) => {
-    if (!priceErrorText) {
+    if (!priceErrorText1 && !priceErrorText2) {
       const { typeForPet, typeForAge, category, brand } = filters;
 
       const checkedOptions = (arr) => {
@@ -376,10 +393,60 @@ export default function List() {
     }
   };
 
+  const clearAllFilter = () => {
+    setFilters(copyFilters);
+    setMinPrice(0);
+    setMaxPrice(0);
+    setShowErrorMessage1(false);
+    setShowErrorMessage2(false);
+    setOutlineStatus1('');
+    setOutlineStatus2('');
+    setPriceErrorText1('');
+    setPriceErrorText2('');
+    const { keyword } = router.query;
+    router.push(
+      `?${new URLSearchParams({
+        keyword,
+        page: 1,
+      }).toString()}`
+    );
+  };
+
   //管理價格條件的input
 
-  const inputCheckHandler = (e, whichError) => {
+  const [showErrorMessage1, setShowErrorMessage1] = useState(false);
+  const [showErrorMessage2, setShowErrorMessage2] = useState(false);
+  const [outlineStatus1, setOutlineStatus1] = useState('');
+  const [outlineStatus2, setOutlineStatus2] = useState('');
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [priceErrorText1, setPriceErrorText1] = useState('');
+  const [priceErrorText2, setPriceErrorText2] = useState('');
+
+  const inputCheckHandler = (e, inputType) => {
     let isPass = true;
+    let setPriceErrorText = null;
+    let setShowErrorMessage = null;
+    let setOutlineStatus = null;
+    const priceNow = Number(e.target.value);
+    if (inputType === 'minPrice') {
+      setPriceErrorText = setPriceErrorText1;
+      setShowErrorMessage = setShowErrorMessage1;
+      setOutlineStatus = setOutlineStatus1;
+      if (priceNow && maxPrice && priceNow > maxPrice) {
+        setPriceErrorText('不能大於最高金額');
+        isPass = false;
+      }
+    } else if (inputType === 'maxPrice') {
+      setPriceErrorText = setPriceErrorText2;
+      setShowErrorMessage = setShowErrorMessage2;
+      setOutlineStatus = setOutlineStatus2;
+      if (priceNow && minPrice && priceNow < minPrice) {
+        setPriceErrorText('不能小於最低金額');
+        isPass = false;
+      }
+    }
+
     if (isNaN(e.target.value)) {
       setPriceErrorText('請輸入數字');
       isPass = false;
@@ -388,28 +455,15 @@ export default function List() {
       setPriceErrorText('請輸入整數');
       isPass = false;
     }
-    if (parseInt(e.target.value) < 0) {
+    if (parseInt(priceNow) < 0) {
       setPriceErrorText('金額需大於0');
       isPass = false;
     }
-    if (!isPass & (whichError === 'minPrice')) {
-      setShowErrorMessage1(true);
-      setOutlineStatus1('error');
-    }
-    if (!isPass & (whichError === 'maxPrice')) {
-      setShowErrorMessage2(true);
-      setOutlineStatus2('error');
+    if (!isPass) {
+      setShowErrorMessage(true);
+      setOutlineStatus('error');
     }
   };
-
-  const [inputNumber, setInputNumber] = useState({
-    name,
-  });
-
-  const [showErrorMessage1, setShowErrorMessage1] = useState(false);
-  const [showErrorMessage2, setShowErrorMessage2] = useState(false);
-  const [outlineStatus1, setOutlineStatus1] = useState('');
-  const [outlineStatus2, setOutlineStatus2] = useState('');
 
   return (
     <>
@@ -490,7 +544,8 @@ export default function List() {
                   changeHandler={checkboxToggleHandler}
                 />
                 <ProductInput
-                  errorMessage={priceErrorText}
+                  errorMessage1={priceErrorText1}
+                  errorMessage2={priceErrorText2}
                   showErrorMessage1={showErrorMessage1}
                   showErrorMessage2={showErrorMessage2}
                   outlineStatus1={outlineStatus1}
@@ -499,32 +554,25 @@ export default function List() {
                   maxPrice={maxPrice}
                   minHandler={(e) => {
                     setOutlineStatus1('');
-                    setPriceErrorText('');
+                    setPriceErrorText1('');
                     setMinPrice(e.target.value);
                   }}
                   maxHandler={(e) => {
                     setOutlineStatus2('');
-                    setPriceErrorText('');
+                    setPriceErrorText2('');
                     setMaxPrice(e.target.value);
                   }}
-                  blurHandler={inputCheckHandler}
-                  keyDownHandler={inputCheckHandler}
+                  checkHandler={inputCheckHandler}
                 />
                 <div className={styles.filter_btns}>
-                  <SecondaryBtn
-                    text="清除"
-                    clickHandler={() => {
-                      setFilters(copyFilters);
-                      setMinPrice(0);
-                      setMaxPrice(0);
-                    }}
-                  />
+                  <SecondaryBtn text="清除" clickHandler={clearAllFilter} />
                   <MainBtn
                     text="搜尋"
                     clickHandler={() => {
                       filterHandler(
                         filters,
-                        priceErrorText,
+                        priceErrorText1,
+                        priceErrorText2,
                         minPrice,
                         maxPrice
                       );

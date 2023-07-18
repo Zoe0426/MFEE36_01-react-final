@@ -7,13 +7,13 @@ export default function ProductInput({
   showErrorMessage2 = false,
   outlineStatus1 = '',
   outlineStatus2 = '',
-  errorMessage = '',
+  errorMessage1 = '',
+  errorMessage2 = '',
   minPrice = 0,
   maxPrice = 0,
   minHandler = () => {},
   maxHandler = () => {},
-  blurHandler = () => {},
-  keyDownHandler = () => {},
+  checkHandler = () => {},
 }) {
   return (
     <ConfigProvider
@@ -37,18 +37,16 @@ export default function ProductInput({
               value={minPrice ? minPrice : null}
               status={outlineStatus1}
               onChange={minHandler}
-              onBlur={(e) => {
-                blurHandler(e, 'minPrice');
-              }}
+              onBlur={(e) => checkHandler(e, 'minPrice')}
               onKeyUp={(e) => {
                 if (e.key === 'Enter') {
-                  keyDownHandler(e, 'minPrice');
+                  checkHandler(e, 'minPrice');
                 }
               }}
             />
-            <div className={showErrorMessage1 && styles.message_box}>
-              {errorMessage}
-            </div>
+            {showErrorMessage1 && (
+              <div className={styles.message_box}> {errorMessage1}</div>
+            )}
           </Col>
           <Col xs={{ span: 4 }} sm={{ span: 4 }} md={{ span: 1 }}>
             <div className={styles.symboTo}>~</div>
@@ -59,19 +57,16 @@ export default function ProductInput({
               value={maxPrice ? maxPrice : null}
               status={outlineStatus2}
               onChange={maxHandler}
-              onBlur={(e) => {
-                blurHandler(e, 'maxPrice');
-              }}
+              onBlur={(e) => checkHandler(e, 'maxPrice')}
               onKeyUp={(e) => {
                 if (e.key === 'Enter') {
-                  keyDownHandler(e, 'maxPrice');
+                  checkHandler(e, 'maxPrice');
                 }
               }}
             />
-            <div className={showErrorMessage2 && styles.message_box}>
-              {' '}
-              {errorMessage}
-            </div>
+            {showErrorMessage2 && (
+              <div className={styles.message_box}> {errorMessage2}</div>
+            )}
           </Col>
         </Row>
       </div>

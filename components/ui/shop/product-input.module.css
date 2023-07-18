@@ -27,7 +27,6 @@
   margin-left: 4px;
   margin-top: 8px;
   font-size: var(--pfs16);
-  visibility: hidden;
 }
 
 @media screen and (max-width: 767px) {
