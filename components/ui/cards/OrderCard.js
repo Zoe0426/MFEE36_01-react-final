@@ -16,11 +16,6 @@ export default function OrderCard({
   length,
   type,
 }) {
-  // console.log(length);
-
-  let ary = actImg.split(',');
-  let mainPic = ary[0];
-
   switch (status) {
     case 1:
       statusName = '備貨中';
@@ -65,9 +60,9 @@ export default function OrderCard({
             <div className={Style.items}>
               <img
                 src={
-                  type === 'prod'
+                  type === 'shop'
                     ? `/product-img/${img}`
-                    : `/activity_img/${mainPic}`
+                    : `/activity_img/${actImg}`
                 }
                 alt=""
                 className={Style.img}
@@ -75,7 +70,7 @@ export default function OrderCard({
               <div className={Style.itemInfo}>
                 <div className={Style.itemTitle}>{itemTitle}</div>
                 <p>{itemText}</p>
-                {type === 'prod' ? (
+                {type === 'shop' ? (
                   <p>{`x${itemQty}`}</p>
                 ) : (
                   <>
@@ -86,7 +81,7 @@ export default function OrderCard({
               </div>
             </div>
             <div className={Style.itemNum}>
-              {length} {type === 'prod' ? '商品' : '活動'}
+              {length} {type === 'shop' ? '商品' : '活動'}
             </div>
           </div>
           <div className={Style.totalPrice}>

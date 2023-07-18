@@ -17,17 +17,6 @@ export default function OrderList() {
   const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
 
-  // 分组
-  const groupedData = data.reduce((acc, cur) => {
-    acc[cur.order_sid] = acc[cur.order_sid]
-      ? [...acc[cur.order_sid], cur]
-      : [cur];
-    return acc;
-  }, {});
-
-  // 取出每组的第一项
-  const firstItems = Object.values(groupedData).map((items) => items[0]);
-
   const toSignIn = () => {
     const from = router.asPath;
     router.push(`/member/sign-in?from=${from}`);
@@ -54,9 +43,9 @@ export default function OrderList() {
       .then((r) => r.json())
       .then((data) => {
         console.log(data);
-        const newArray = data.rows.concat(data.rows2);
-        setData(newArray);
-        setAllData(newArray);
+        const firstData = data.filter((data) => data.rel_type === 'shop');
+        setData(firstData);
+        setAllData(data);
       });
     // } else {
     //   console.log('User is not logged in. Cannot fetch');
@@ -64,13 +53,13 @@ export default function OrderList() {
   }, []);
 
   const shopOrder = () => {
-    const newData = allData.filter((data) => data.rel_type === 'prod');
+    const newData = allData.filter((data) => data.rel_type === 'shop');
     console.log(newData);
     setData(newData);
   };
 
   const actOrder = () => {
-    const newData = allData.filter((data) => data.rel_type === 'event');
+    const newData = allData.filter((data) => data.rel_type === 'activity');
     console.log(newData);
     setData(newData);
   };
@@ -103,23 +92,25 @@ export default function OrderList() {
         </div>
       </div>
       <div className="content">
-        {firstItems.map((data, i) => (
-          <OrderCard
-            key={i}
-            orderSid={data.order_sid}
-            status={data.post_status}
-            itemTitle={data.rel_name}
-            itemText={data.rel_seqName}
-            itemQty={data.product_qty}
-            adultQty={data.adult_qty}
-            childQty={data.child_qty}
-            subTotal={data.orderRelS + data.post_amount - data.coupon_amount}
-            img={data.img}
-            actImg={data.activity_pic}
-            length={data.order_product}
-            type={data.rel_type}
-          />
-        ))}
+        {data.map((data, i) => {
+          return (
+            <OrderCard
+              key={i}
+              orderSid={data.order_sid}
+              status={data.post_status}
+              itemTitle={data.rel_name}
+              itemText={data.rel_seqName}
+              itemQty={data.product_qty}
+              adultQty={data.adult_qty}
+              childQty={data.child_qty}
+              subTotal={data.orderRelS}
+              img={data.img}
+              actImg={data.activity_pic}
+              length={data.order_product}
+              type={data.rel_type}
+            />
+          );
+        })}
       </div>
     </>
   );
