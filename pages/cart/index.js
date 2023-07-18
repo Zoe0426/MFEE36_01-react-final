@@ -137,9 +137,10 @@ export default function Cart() {
     if (result.success && result.orderSid) {
       const id = result.orderSid;
       const total = result.finalTotal;
+      const checkoutType = result.checkoutType;
       window.location.href =
         process.env.API_SERVER +
-        `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}`;
+        `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}`;
     }
   };
 
