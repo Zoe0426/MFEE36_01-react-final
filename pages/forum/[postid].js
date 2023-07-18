@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import Style from '@/styles/post.module.css'
 import PostBanner from '@/components/ui/postBanner/postBanner'
 import BoardNav from '@/components/ui/BoardNav/boardNav'
@@ -11,14 +12,20 @@ import PostComment from '@/components/ui/postComment/postComment';
 import PostCommentLaunch from '@/components/ui/postCommentLaunch/postCommentLaunch';
 import PostBottom from '@/components/ui/postBottom/postBottom';
 
+
 export default function Post() {
+  const router = useRouter();
+  const {post} = router.query;
+  
+
+
+
   const images = [
     '/forum_img/狗活動.jpeg',
     '/forum_img/狗活動.jpeg',
     '/forum_img/狗活動.jpeg',
     '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    
+    '/forum_img/狗活動.jpeg',   
   ];
 
   return (
