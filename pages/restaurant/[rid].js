@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Fragment } from 'react';
 import { useState } from 'react';
 import { SlideImage } from '@/components/ui/restaurant/ImageSample';
 import Styles from './[rid].module.css';
@@ -27,47 +28,101 @@ import PinkBtn from '@/components/ui/restaurant/PinkBtn';
 import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
-import Link from 'next/link';
 
 export default function RestInfo() {
-  const { qurey, asPath } = useRouter();
+  const { query, asPath } = useRouter();
   const router = useRouter();
-
-  const [dataForRest, setDataForRest] = useState({
-    rest_sid: '',
-    name: '',
-    phone: '',
-    city: '',
-    area: '',
-    acceptType: '',
-    info: '',
-    feature_title: '',
-    feature_content: '',
-    feature_img: '',
+  const [restDetailRows, setRestDetailRows] = useState([]);
+  const [data, setData] = useState({
+    restDetailRows: [],
+    imageRows: [],
+    ruleRows: [],
+    serviceRows: [],
+    commentRows: [],
+    activityRows: [],
   });
+  const [imageRows, setImageRows] = useState([]);
+  const [ruleRows, setRuleRows] = useState([]);
+  const [serviceRows, setServiceRows] = useState([]);
+  const [commentRows, setCommentRows] = useState([]);
+  const [activityRows, setActivityRows] = useState([]);
 
-  // useEffect(() => {
-  //   const { rid } = qurey;
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
-  //   if(rid){
-  //     (async function getData(){
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
+  };
 
-  //     })
-  //   }
-  // });
+  useEffect(() => {
+    const { rid } = query;
+
+    if (rid) {
+      fetch(`http://localhost:3002/restaurant-api/restaurant/${rid}`)
+        .then((r) => r.json())
+        .then((data) => {
+          const {
+            restDetailRows,
+            imageRows,
+            ruleRows,
+            serviceRows,
+            commentRows,
+            activityRows,
+          } = data;
+
+          // 更新 React 組件的狀態
+          if (restDetailRows && restDetailRows.length > 0) {
+            setRestDetailRows(...restDetailRows);
+          }
+
+          if (serviceRows && serviceRows.length > 0) {
+            setServiceRows(serviceRows);
+          }
+          if (ruleRows && ruleRows.length > 0) {
+            setRuleRows(ruleRows);
+          }
+
+          // if (imageRows && imageRows.length > 0) {
+          //   setImageRows(imageRows);
+          // }
+
+          const initialImageRows = data.imageRows.map((v, index) => {
+            return {
+              ...v,
+              display: index === 0, // 第一張照片設為預設顯示
+            };
+          });
+          setImageRows(initialImageRows);
+
+          if (commentRows && commentRows.length > 0) {
+            setCommentRows(...commentRows);
+          }
+
+          if (activityRows && activityRows.length > 0) {
+            setActivityRows(...activityRows);
+          }
+          console.log(...activityRows);
+
+          setData(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [query]);
 
   //圖片輪播取照片
-  const [restImage, setRestImage] = useState([]);
-
-  const toggleDisplayForImg = (restImage, id) => {
-    return restImage.map((v) => {
-      if (v.img_sid === id) {
+  const toggleDisplayForImg = (imageRows, id) => {
+    return imageRows.map((v) => {
+      if (v.rest_sid === id) {
         return { ...v, display: true };
       } else {
-        return { ...v, display: true };
+        return { ...v, display: false };
       }
     });
   };
+
+  //給他一個loading的時間
+  if (!serviceRows || !restDetailRows) return <p>loading</p>;
   return (
     <>
       <div className={Styles.abc}>
@@ -80,88 +135,130 @@ export default function RestInfo() {
       </div>
       <div className="container-inner">
         <div className={Styles.rest_detail}>
+          {/* <div className={Styles.rest_image}>
+            <div className={Styles.rest_image_main}>
+              <img src={`/rest_image/image/${imageRows[0]?.img_name}`} alt="" />
+            </div>
+            <div className={Styles.rest_image_group}>
+              <div className={Styles.rest_image_single}>
+                <img
+                  src={`/rest_image/image/${imageRows[1]?.img_name}`}
+                  alt=""
+                />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img
+                  src={`/rest_image/image/${imageRows[2]?.img_name}`}
+                  alt=""
+                />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img
+                  src={`/rest_image/image/${imageRows[3]?.img_name}`}
+                  alt=""
+                />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img
+                  src={`/rest_image/image/${imageRows[4]?.img_name}`}
+                  alt=""
+                />
+              </div>
+            </div>
+          </div> */}
+
           <div className={Styles.rest_image}>
             <div className={Styles.rest_image_main}>
-              {restImage.map((v) => {
+              {imageRows.map((v) => {
                 return (
                   v.display && (
                     <img
-                      key={v.img_sid}
-                      src={`http://localhost:3000/rest_image/image/${v.img}`}
-                      alt={v.img}
+                      key={v.rest_sid}
+                      src={`/rest_image/image/${v.img_name}`}
+                      alt={v.img_name}
                     />
                   )
                 );
               })}
             </div>
             <div className={Styles.rest_image_group}>
-              <div className={Styles.rest_image_single}>
-                <img src="/rest_image/sunshine_detail1.jpeg" alt="" />
-              </div>
-              <div className={Styles.rest_image_single}>
-                <img src="/rest_image/sunshine_detail2.jpeg" alt="" />
-              </div>
-              <div className={Styles.rest_image_single}>
-                <img src="/rest_image/sunshine_detail3.jpeg" alt="" />
-              </div>
-              <div className={Styles.rest_image_single}>
-                <img src="/rest_image/sunshine_detail4.jpeg" alt="" />
-              </div>
+              {imageRows
+                .filter((v) => !v.display)
+                .map((v) => {
+                  return (
+                    <div className={Styles.rest_image_single} key={v.rest_sid}>
+                      {v.img_name && (
+                        <div
+                          role="presentation"
+                          onClick={() => {
+                            setImageRows(
+                              toggleDisplayForImg(imageRows, v.rest_sid)
+                            );
+                          }}
+                        >
+                          <img
+                            src={`/rest_image/image/${v.img_name}`}
+                            alt={v.img_name}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           </div>
 
           <div className={Styles.rest_info}>
-            <h1 className={Styles.jill_h1}>陽光莊園</h1>
-            <RateStar score="4.8" className={Styles.rate_star} />
-            <p className={Styles.information}>
-              一群熱愛生命有夢想的青年，在這2200平方的土地上開始建構毛小孩的奔跑空間，健康自製的料理飲品，無毒自然的溯源食材，我們知道，我們還有很多可以進步的地方，因為我們熱愛我們的家，熱愛每一個回家的家人~當歡迎光臨聲起，我們的微笑綻放，心裡默默念著…歡迎回家!!
-            </p>
-            <div className={Styles.info_text_group}>
-              <div className={Styles.contact_group}>
-                <div className={Styles.contact}>
-                  <FontAwesomeIcon
-                    icon={faPhone}
-                    className={Styles.info_icon}
-                  />
-                  <p className={Styles.information_detail}>02-2268-1031</p>
-                </div>
-                <div className={Styles.contact}>
-                  <FontAwesomeIcon
-                    icon={faLocationDot}
-                    className={Styles.info_icon}
-                  />
-                  <p className={Styles.information_detail}>
-                    新北市土城區承天路103號
-                  </p>
-                </div>
-                <div className={Styles.contact}>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className={Styles.info_icon}
-                  />
-                  <p className={Styles.information_detail}>
-                    11:00~22:00，週日公休
-                  </p>
-                </div>
-                <div className={Styles.contact}>
-                  <FontAwesomeIcon icon={faPaw} className={Styles.info_icon} />
-                  <p className={Styles.information_detail}>
-                    大型/中型/小型犬與貓
-                  </p>
-                </div>
+            <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
+            <RateStar
+              score={commentRows.avg_friendly}
+              className={Styles.rate_star}
+            />
+            <p className={Styles.information}>{restDetailRows.info}</p>
+
+            <div className={Styles.contact_group}>
+              <div className={Styles.contact}>
+                <FontAwesomeIcon icon={faPhone} className={Styles.info_icon} />
+                <p className={Styles.information_detail}>
+                  0{restDetailRows.phone}
+                </p>
               </div>
-              {/* button */}
-              <div className={Styles.detail_main_buttom}>
-                <IconSeconBtn icon={faHeart} text="收藏餐廳" />
-                <ImageGallary />
-                <IconMainBtn
-                  icon={faCalendar}
-                  text="我要預約"
-                  clickHandler={() => {
-                    router.push(`/restaurant/booking`);
-                  }}
+              <div className={Styles.contact}>
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  className={Styles.info_icon}
                 />
+                <p className={Styles.information_detail}>
+                  {restDetailRows.city}
+                  {restDetailRows.area}
+                  {restDetailRows.address}
+                </p>
               </div>
+              <div className={Styles.contact}>
+                <FontAwesomeIcon icon={faClock} className={Styles.info_icon} />
+                <p className={Styles.information_detail}>
+                  {restDetailRows.start_at_1}~{restDetailRows.end_at_1}
+                </p>
+              </div>
+              <div className={Styles.contact}>
+                <FontAwesomeIcon icon={faPaw} className={Styles.info_icon} />
+                <p className={Styles.information_detail}>
+                  {restDetailRows.acceptType}
+                </p>
+              </div>
+            </div>
+
+            {/* button */}
+            <div className={Styles.detail_main_buttom}>
+              <IconSeconBtn icon={faHeart} text="收藏餐廳" />
+              <ImageGallary />
+              <IconMainBtn
+                icon={faCalendar}
+                text="我要預約"
+                clickHandler={() => {
+                  router.push(`/restaurant/booking`);
+                }}
+              />
             </div>
           </div>
         </div>
@@ -180,28 +277,16 @@ export default function RestInfo() {
         <h2 className={Styles.jill_h2}>服務項目</h2>
         <Row gutter={[48, 48]} className={Styles.row_gutter}>
           <Col xl={4} xs={8}>
-            <PinkBtn text="可放繩" img="/rest_image/friendly/rope.png" />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="可自由活動" img="/rest_image/friendly/dog_run.png" />
-          </Col>
-          <Col xl={4} xs={8}>
             <PinkBtn
-              text="有賣寵物餐"
-              img="/rest_image/friendly/sell_food.png"
+              text={serviceRows[0]?.service_name}
+              img={`/rest_image/service/${serviceRows[0]?.service_icon}`}
             />
           </Col>
           <Col xl={4} xs={8}>
             <PinkBtn
-              text="附寵物餐具"
-              img="/rest_image/friendly/tableware.png"
+              text={serviceRows[1]?.service_name}
+              img={`/rest_image/service/${serviceRows[1]?.service_icon}`}
             />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="可上座椅" img="/rest_image/friendly/onchair.png" />
           </Col>
         </Row>
       </div>
@@ -209,28 +294,16 @@ export default function RestInfo() {
         <h2 className={Styles.jill_h2}>攜帶規則</h2>
         <Row gutter={[48, 48]}>
           <Col xl={4} xs={8}>
-            <PinkBtn text="可放繩" img="/rest_image/friendly/rope.png" />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="可自由活動" img="/rest_image/friendly/dog_run.png" />
-          </Col>
-          <Col xl={4} xs={8}>
             <PinkBtn
-              text="有賣寵物餐"
-              img="/rest_image/friendly/sell_food.png"
+              text={ruleRows[0]?.rule_name}
+              img={`/rest_image/rule/${ruleRows[0]?.rule_icon}`}
             />
           </Col>
           <Col xl={4} xs={8}>
             <PinkBtn
-              text="附寵物餐具"
-              img="/rest_image/friendly/tableware.png"
+              text={ruleRows[1]?.rule_name}
+              img={`/rest_image/rule/${ruleRows[1]?.rule_icon}`}
             />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="可上座椅" img="/rest_image/friendly/onchair.png" />
           </Col>
         </Row>
       </div>
@@ -238,18 +311,18 @@ export default function RestInfo() {
         <h2 className={Styles.jill_h2}>餐廳特色</h2>
       </div>
       <FeatureCard
-        img="/rest_image/lawn.jpeg"
-        title="戶外草皮區"
-        feature_info=" 寬闊草皮適合狗狗、孩子自由奔跑水晶教堂下看著魚兒水中游，獻給愛陪伴毛小孩的你愛就是要分秒陪伴把用餐的放鬆時光與最親密的牠一起分享適合有帶寵物一起前來的你"
+        img={`/rest_image/feature/${restDetailRows.feature_img}`}
+        title={restDetailRows.feature_title}
+        feature_info={restDetailRows.feature_content}
       />
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>餐廳活動</h2>
       </div>
       <ActivityCard
-        img="/rest_image/activity.png"
-        title="毛孩的專屬粽子"
-        date="2023/05/01 ~ 2023/05/26"
-        activity_info="以端午節為主題推出寵物鮮食肉粽讓毛寶一起慶端午！特別選用手掌心×天然寵食的『紅趜豬肉粽』香噴噴的豬肉營養滿分的紅趜滿足了您毛小孩的口腹之欲專為寵物製作的美食，讓您的毛小孩開心地一口接一口！"
+        img={`/rest_image/activity/${activityRows.img}`}
+        title={activityRows.title}
+        date={activityRows.date}
+        activity_info={activityRows.content}
       />
       <div className={Styles.CloudTop}>
         <Image src={CloudTop} alt="CloudTop" />

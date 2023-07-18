@@ -1,10 +1,10 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import Styles from './RestTitle.module.css'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import Styles from './RestTitle.module.css';
 
-export default function RestTitle({ icon = '', text = '' }) {
+export default function RestTitle({ icon = '', text = '', clickHandler1 = '' , clickHandler2 = '' }) {
   return (
     <>
       <div className={Styles.group}>
@@ -14,10 +14,18 @@ export default function RestTitle({ icon = '', text = '' }) {
         </div>
         <div className={Styles.show_more}>
           <p className={Styles.more_text}>顯示更多</p>
-          <FontAwesomeIcon icon={faArrowLeft} className={Styles.arrow} />
-          <FontAwesomeIcon icon={faArrowRight} className={Styles.arrow} />
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className={Styles.arrow}
+            onClick={clickHandler1}
+          />
+          <FontAwesomeIcon
+            icon={faArrowRight}
+            className={Styles.arrow}
+            onClick={clickHandler2}
+          />
         </div>
       </div>
     </>
-  )
+  );
 }

@@ -21,6 +21,7 @@
 }
 .subBtn_outline path:hover{
    fill: var(--light1);
+   cursor: pointer;
 }
 
 .icon{

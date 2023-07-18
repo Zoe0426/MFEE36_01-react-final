@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import RestCard from '@/components/ui/cards/rest_card';
-import { Pagination, Col, Row, ConfigProvider } from 'antd';
+import { Pagination, Col, Row, ConfigProvider, Breadcrumb } from 'antd';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Banner from '@/components/ui/restaurant/Banner';
 import Styles from './list.module.css';
@@ -17,6 +17,7 @@ import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
 import SearchBar from '@/components/ui/buttons/SearchBar';
+import orderByOptions from '@/data/restaurnt/orderby.json';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -36,7 +37,9 @@ export default function FilterPage() {
 
   const [rule, setRule] = useState('');
   const [service, setService] = useState('');
-  const [location, setLocation] = useState('');
+  const [city, setCity] = useState('');
+
+  const [orderBy, setOrderBy] = useState('-- 排序條件 --');
 
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
@@ -46,6 +49,30 @@ export default function FilterPage() {
     page: 1,
     rows: [],
   });
+
+  //排序相關的函式-------------------------------------------------------
+  const rankOptions = {
+    1: 'hot_DESC',
+    2: 'new_DESC',
+    3: 'cmt_DESC',
+  };
+
+  const orderByHandler = (e) => {
+    const newSelect = orderByOptions.find((v) => v.key === e.key);
+
+    console.log(newSelect.label);
+    setOrderBy(newSelect.label);
+
+    const selectedRank = rankOptions[e.key];
+    // console.log(selectedRank);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: 1,
+        orderBy: selectedRank,
+      }).toString()}`
+    );
+  };
 
   //searchBar相關的函式-------------------------------------------------------
   const searchBarHandler = (e) => {
@@ -73,18 +100,20 @@ export default function FilterPage() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { keyword, rule, service } = router.query;
+    const { keyword, rule, service, city, orderBy } = router.query;
     console.log(router.query);
     setRule(rule || '');
     setService(service || '');
-    setLocation(location || '');
+    setCity(city || '');
     setKeyword(keyword || '');
+    // setOrderBy(orderBy);
+
     const usp = new URLSearchParams(router.query);
 
     fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.rows.length > 0) {
+        if (Array.isArray(data.rows)) {
           setData(data);
         }
       })
@@ -156,20 +185,48 @@ export default function FilterPage() {
 
       <div className={Styles.bgc}>
         <div className="container-inner">
-          <div className={Styles.function_group}>
-            <IconBtn icon={faMap} text="餐廳地圖" />
-            <IconBtn
-              icon={faHeart}
-              text="收藏列表"
-              clickHandler={openShowLikeList}
-            />
-            <IconBtn
-              icon={faFilter}
-              text="進階篩選"
-              clickHandler={toggleFilter}
-            />
+          <div className={Styles.bread_btn}>
+            <div className={Styles.breadcrumb}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    colorBgContainer: 'transparent',
+                    colorPrimaryTextHover: '#FFEFE8',
+                    colorBgTextActive: '#FD8C46',
+                    fontSize: 18,
+                  },
+                }}
+              >
+                <Breadcrumb
+                  items={[
+                    {
+                      title: '餐廳首頁',
+                      href: 'http://localhost:3000/restaurant',
+                    },
+                    {
+                      title: '餐廳列表',
+                    },
+                  ]}
+                />
+              </ConfigProvider>
+            </div>
+            <div className={Styles.function_group}>
+              <IconBtn icon={faMap} text="餐廳地圖" />
+              <IconBtn
+                icon={faHeart}
+                text="收藏列表"
+                clickHandler={openShowLikeList}
+              />
+              <IconBtn
+                icon={faFilter}
+                text="進階篩選"
+                clickHandler={toggleFilter}
+              />
+            </div>
           </div>
         </div>
+
         {/* 進階篩選的畫面 */}
         {showfilter && (
           <>
@@ -220,9 +277,16 @@ export default function FilterPage() {
         <div className={Styles.second_area}>
           <div className={Styles.search_title}>
             <h2 className={Styles.jill_h2}>餐廳進階篩選結果</h2>
-            <p>共64間餐廳</p>
+            <p>
+              {data.totalRows != 0 ? `共${data.totalRows}間餐廳` : '查無餐廳'}
+            </p>
           </div>
-          <RestPageOrder />
+          <RestPageOrder
+            totalItems={data.totalRows}
+            onRankChange={orderByHandler}
+            orderBy={orderBy}
+            items={orderByOptions}
+          />
         </div>
       </div>
 
@@ -243,6 +307,7 @@ export default function FilterPage() {
             return (
               <Col xl={8} xs={12} key={rest_sid}>
                 <RestCard
+                  rest_sid={rest_sid}
                   image={'/rest_image/image/' + img_names.split(',')[0]}
                   name={name}
                   city={city}

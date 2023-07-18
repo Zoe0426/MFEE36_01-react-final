@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -39,6 +39,40 @@ export default function Restindex() {
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
 
+  const [keyword, setKeyword] = useState('');
+
+  const [data, setData] = useState({
+    rows1: [],
+    rows2: [],
+  });
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const itemsPerPage = 3;
+
+  // 點擊右邊箭頭
+  const rightArrow1 = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex + itemsPerPage >= data.rows1.length
+        ? 0
+        : prevIndex + itemsPerPage
+    );
+  };
+
+  // 點擊左邊箭頭
+  const leftArrow1 = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex - itemsPerPage < 0
+        ? data.rows1.length - itemsPerPage
+        : prevIndex - itemsPerPage
+    );
+  };
+
+  // 根據目前的索引來顯示資料
+  const displayData = data.rows1.slice(
+    currentIndex,
+    currentIndex + itemsPerPage
+  );
+
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
     setShowFilter(!showfilter);
@@ -68,6 +102,18 @@ export default function Restindex() {
     //這邊需要再修改，要看怎麼得到會員的編號
     removeLikeListToDB(pid, 'mem00002');
   };
+
+  useEffect(() => {
+    fetch(`${process.env.API_SERVER}/restaurant-api`)
+      .then((r) => r.json())
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <>
       <Banner />
@@ -143,13 +189,22 @@ export default function Restindex() {
             <LocationCard
               rest_image="/rest_image/city/taipei.png"
               location="台北市"
-              href="http://localhost:3000/restaurant/list?location=taipei"
+              clickHandler={() => {
+                router.push(
+                  'http://localhost:3000/restaurant/list?city=taipei'
+                );
+              }}
             />
           </Col>
           <Col xl={4} xs={8}>
             <LocationCard
               rest_image="/rest_image/city/newtaipei.png"
               location="新北市"
+              clickHandler={() => {
+                router.push(
+                  'http://localhost:3000/restaurant/list?city=newtaipei'
+                );
+              }}
             />
           </Col>
           <Col xl={4} xs={8}>
@@ -168,6 +223,11 @@ export default function Restindex() {
             <LocationCard
               rest_image="/rest_image/city/taichung.png"
               location="台中市"
+              clickHandler={() => {
+                router.push(
+                  'http://localhost:3000/restaurant/list?city=taichung'
+                );
+              }}
             />
           </Col>
           <Col xl={4} xs={8}>
@@ -284,31 +344,43 @@ export default function Restindex() {
       </div>
 
       <div className="container-inner">
-        <RestTitle icon={faFire} text="熱門餐廳" />
+        <RestTitle
+          icon={faFire}
+          text="熱門餐廳"
+          clickHandler1={leftArrow1}
+          clickHandler2={rightArrow1}
+        />
       </div>
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
+            {displayData.map((v) => {
+              const {
+                rest_sid,
+                name,
+                city,
+                area,
+                img_names,
+                rule_names,
+                service_names,
+                average_friendly,
+              } = v;
 
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
-
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
+              return (
+                <Col xl={8} xs={12} key={rest_sid}>
+                  <RestCard
+                    rest_sid={rest_sid}
+                    image={'/rest_image/image/' + img_names.split(',')[0]}
+                    name={name}
+                    city={city}
+                    area={area}
+                    rule_names={rule_names}
+                    service_names={service_names}
+                    average_friendly={average_friendly}
+                  />
+                </Col>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -319,26 +391,60 @@ export default function Restindex() {
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
+            {/* <RestCard
+              name="我家休閒農場"
               city="台北市"
               area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
             />
+            <RestCard
+              name="我家休閒農場"
+              city="台北市"
+              area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
+            />
+            <RestCard
+              name="我家休閒農場"
+              city="台北市"
+              area="大安區"
+              rule_names="可自由活動"
+              service_names="幫忙鏟屎"
+              average_friendly="4.8"
+              image="/rest_image/sunshine.jpeg"
+            /> */}
+            {data.rows2.map((v) => {
+              const {
+                rest_sid,
+                name,
+                city,
+                area,
+                img_names,
+                rule_names,
+                service_names,
+                average_friendly,
+              } = v;
 
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
-
-            <RestCard
-              image="/rest_image/sunshine.jpeg"
-              name="我家有休閒農場"
-              city="台北市"
-              area="大安區"
-            />
+              return (
+                <Col xl={8} xs={12} key={rest_sid}>
+                  <RestCard
+                    rest_sid={rest_sid}
+                    image={'/rest_image/image/' + img_names.split(',')[0]}
+                    name={name}
+                    city={city}
+                    area={area}
+                    rule_names={rule_names}
+                    service_names={service_names}
+                    average_friendly={average_friendly}
+                  />
+                </Col>
+              );
+            })}
           </div>
         </div>
       </div>
