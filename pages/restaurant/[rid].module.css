@@ -69,12 +69,12 @@
   /* background-color: var(--secondary); */
   border-radius: 10px;
   width: 100%;
-  height: 500px;
+  height: 420px;
   overflow: hidden;
 }
 
 .rest_image_main img {
-  height: 100%;
+  width: 100%;
 }
 
 .rest_image_single {
@@ -98,7 +98,7 @@
   width: 50%;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
+ justify-content: space-between;
 }
 .contact {
   display: flex;
@@ -119,11 +119,7 @@
   font-size: var(--pfs16);
 }
 
-.info_text_group {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+
 
 .notion_bgc {
   padding-top: 80px;
@@ -153,6 +149,7 @@
   margin-top: 50px;
   display: flex;
   justify-content: space-between;
+  margin-top: auto; /* 將按鈕推到最下面 */
 }
 
 .detail_main_buttom > button{

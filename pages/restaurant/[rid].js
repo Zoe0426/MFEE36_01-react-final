@@ -27,7 +27,6 @@ import PinkBtn from '@/components/ui/restaurant/PinkBtn';
 import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
-import Link from 'next/link';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
@@ -68,13 +67,22 @@ export default function RestInfo() {
             setRestDetailRows(...restDetailRows);
           }
 
-          setImageRows(imageRows);
-          setRuleRows(ruleRows);
-          setServiceRows(serviceRows);
+          if (serviceRows && serviceRows.length > 0) {
+            setServiceRows(serviceRows);
+          }
+          if (ruleRows && ruleRows.length > 0) {
+            setRuleRows(ruleRows);
+          }
+
+          if (imageRows && imageRows.length > 0) {
+            setImageRows(imageRows);
+          }
+
           setCommentRows(commentRows);
+
           setData(data);
-          console.log(...restDetailRows);
-          console.log(serviceRows);
+          console.log(imageRows[0].img_name
+            );
         })
         .catch((error) => {
           console.error(error);
@@ -94,6 +102,9 @@ export default function RestInfo() {
       }
     });
   };
+
+  //給他一個loading的時間
+  if (!serviceRows || !restDetailRows) return <p>loading</p>;
   return (
     <>
       <div className={Styles.abc}>
@@ -108,30 +119,20 @@ export default function RestInfo() {
         <div className={Styles.rest_detail}>
           <div className={Styles.rest_image}>
             <div className={Styles.rest_image_main}>
-              {restImage.map((v) => {
-                return (
-                  v.display && (
-                    <img
-                      key={v.img_sid}
-                      src={`http://localhost:3000/rest_image/image/${v.img}`}
-                      alt={v.img}
-                    />
-                  )
-                );
-              })}
+              <img src={`/rest_image/image/${imageRows[0]?.img_name}`} alt="" />
             </div>
             <div className={Styles.rest_image_group}>
               <div className={Styles.rest_image_single}>
-                <img src="/rest_image/sunshine_detail1.jpeg" alt="" />
+              <img src={`/rest_image/image/${imageRows[1]?.img_name}`} alt="" />
               </div>
               <div className={Styles.rest_image_single}>
-                <img src="/rest_image/sunshine_detail2.jpeg" alt="" />
+              <img src={`/rest_image/image/${imageRows[2]?.img_name}`} alt="" />
               </div>
               <div className={Styles.rest_image_single}>
-                <img src="/rest_image/sunshine_detail3.jpeg" alt="" />
+              <img src={`/rest_image/image/${imageRows[3]?.img_name}`} alt="" />
               </div>
               <div className={Styles.rest_image_single}>
-                <img src="/rest_image/sunshine_detail4.jpeg" alt="" />
+              <img src={`/rest_image/image/${imageRows[4]?.img_name}`} alt="" />
               </div>
             </div>
           </div>
@@ -140,56 +141,50 @@ export default function RestInfo() {
             <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
             <RateStar score="4.8" className={Styles.rate_star} />
             <p className={Styles.information}>{restDetailRows.info}</p>
-            <div className={Styles.info_text_group}>
-              <div className={Styles.contact_group}>
-                <div className={Styles.contact}>
-                  <FontAwesomeIcon
-                    icon={faPhone}
-                    className={Styles.info_icon}
-                  />
-                  <p className={Styles.information_detail}>
-                    0{restDetailRows.phone}
-                  </p>
-                </div>
-                <div className={Styles.contact}>
-                  <FontAwesomeIcon
-                    icon={faLocationDot}
-                    className={Styles.info_icon}
-                  />
-                  <p className={Styles.information_detail}>
-                    {restDetailRows.city}
-                    {restDetailRows.area}
-                    {restDetailRows.address}
-                  </p>
-                </div>
-                <div className={Styles.contact}>
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    className={Styles.info_icon}
-                  />
-                  <p className={Styles.information_detail}>
-                    {restDetailRows.start_at_1}~{restDetailRows.end_at_1}
-                  </p>
-                </div>
-                <div className={Styles.contact}>
-                  <FontAwesomeIcon icon={faPaw} className={Styles.info_icon} />
-                  <p className={Styles.information_detail}>
-                    {restDetailRows.acceptType}
-                  </p>
-                </div>
+
+            <div className={Styles.contact_group}>
+              <div className={Styles.contact}>
+                <FontAwesomeIcon icon={faPhone} className={Styles.info_icon} />
+                <p className={Styles.information_detail}>
+                  0{restDetailRows.phone}
+                </p>
               </div>
-              {/* button */}
-              <div className={Styles.detail_main_buttom}>
-                <IconSeconBtn icon={faHeart} text="收藏餐廳" />
-                <ImageGallary />
-                <IconMainBtn
-                  icon={faCalendar}
-                  text="我要預約"
-                  clickHandler={() => {
-                    router.push(`/restaurant/booking`);
-                  }}
+              <div className={Styles.contact}>
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  className={Styles.info_icon}
                 />
+                <p className={Styles.information_detail}>
+                  {restDetailRows.city}
+                  {restDetailRows.area}
+                  {restDetailRows.address}
+                </p>
               </div>
+              <div className={Styles.contact}>
+                <FontAwesomeIcon icon={faClock} className={Styles.info_icon} />
+                <p className={Styles.information_detail}>
+                  {restDetailRows.start_at_1}~{restDetailRows.end_at_1}
+                </p>
+              </div>
+              <div className={Styles.contact}>
+                <FontAwesomeIcon icon={faPaw} className={Styles.info_icon} />
+                <p className={Styles.information_detail}>
+                  {restDetailRows.acceptType}
+                </p>
+              </div>
+            </div>
+
+            {/* button */}
+            <div className={Styles.detail_main_buttom}>
+              <IconSeconBtn icon={faHeart} text="收藏餐廳" />
+              <ImageGallary />
+              <IconMainBtn
+                icon={faCalendar}
+                text="我要預約"
+                clickHandler={() => {
+                  router.push(`/restaurant/booking`);
+                }}
+              />
             </div>
           </div>
         </div>
@@ -208,28 +203,16 @@ export default function RestInfo() {
         <h2 className={Styles.jill_h2}>服務項目</h2>
         <Row gutter={[48, 48]} className={Styles.row_gutter}>
           <Col xl={4} xs={8}>
-            <PinkBtn text="可放繩" img="/rest_image/friendly/rope.png" />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="可自由活動" img="/rest_image/friendly/dog_run.png" />
-          </Col>
-          <Col xl={4} xs={8}>
             <PinkBtn
-              text="有賣寵物餐"
-              img="/rest_image/friendly/sell_food.png"
+              text={serviceRows[0]?.service_name}
+              img={`/rest_image/service/${serviceRows[0]?.service_icon}`}
             />
           </Col>
           <Col xl={4} xs={8}>
             <PinkBtn
-              text="附寵物餐具"
-              img="/rest_image/friendly/tableware.png"
+              text={serviceRows[1]?.service_name}
+              img={`/rest_image/service/${serviceRows[1]?.service_icon}`}
             />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="可上座椅" img="/rest_image/friendly/onchair.png" />
           </Col>
         </Row>
       </div>
@@ -237,28 +220,16 @@ export default function RestInfo() {
         <h2 className={Styles.jill_h2}>攜帶規則</h2>
         <Row gutter={[48, 48]}>
           <Col xl={4} xs={8}>
-            <PinkBtn text="可放繩" img="/rest_image/friendly/rope.png" />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="可自由活動" img="/rest_image/friendly/dog_run.png" />
-          </Col>
-          <Col xl={4} xs={8}>
             <PinkBtn
-              text="有賣寵物餐"
-              img="/rest_image/friendly/sell_food.png"
+              text={ruleRows[0]?.rule_name}
+              img={`/rest_image/rule/${ruleRows[0]?.rule_icon}`}
             />
           </Col>
           <Col xl={4} xs={8}>
             <PinkBtn
-              text="附寵物餐具"
-              img="/rest_image/friendly/tableware.png"
+              text={ruleRows[1]?.rule_name}
+              img={`/rest_image/rule/${ruleRows[1]?.rule_icon}`}
             />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="幫忙鏟屎" img="/rest_image/friendly/clean.png" />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn text="可上座椅" img="/rest_image/friendly/onchair.png" />
           </Col>
         </Row>
       </div>

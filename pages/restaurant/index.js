@@ -354,34 +354,7 @@ export default function Restindex() {
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            />
-            <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            />
-            <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            />
-            {/* {displayData.map((v) => {
+            {displayData.map((v) => {
               const {
                 rest_sid,
                 name,
@@ -396,6 +369,7 @@ export default function Restindex() {
               return (
                 <Col xl={8} xs={12} key={rest_sid}>
                   <RestCard
+                    rest_sid={rest_sid}
                     image={'/rest_image/image/' + img_names.split(',')[0]}
                     name={name}
                     city={city}
@@ -406,7 +380,7 @@ export default function Restindex() {
                   />
                 </Col>
               );
-            })} */}
+            })}
           </div>
         </div>
       </div>
@@ -417,7 +391,7 @@ export default function Restindex() {
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
-            <RestCard
+            {/* <RestCard
               name="我家休閒農場"
               city="台北市"
               area="大安區"
@@ -443,8 +417,8 @@ export default function Restindex() {
               service_names="幫忙鏟屎"
               average_friendly="4.8"
               image="/rest_image/sunshine.jpeg"
-            />
-            {/* {data.rows2.map((v) => {
+            /> */}
+            {data.rows2.map((v) => {
               const {
                 rest_sid,
                 name,
@@ -459,6 +433,7 @@ export default function Restindex() {
               return (
                 <Col xl={8} xs={12} key={rest_sid}>
                   <RestCard
+                    rest_sid={rest_sid}
                     image={'/rest_image/image/' + img_names.split(',')[0]}
                     name={name}
                     city={city}
@@ -469,7 +444,7 @@ export default function Restindex() {
                   />
                 </Col>
               );
-            })} */}
+            })}
           </div>
         </div>
       </div>

@@ -206,7 +206,6 @@ export default function FilterPage() {
                     },
                     {
                       title: '餐廳列表',
-            
                     },
                   ]}
                 />
@@ -308,6 +307,7 @@ export default function FilterPage() {
             return (
               <Col xl={8} xs={12} key={rest_sid}>
                 <RestCard
+                  rest_sid={rest_sid}
                   image={'/rest_image/image/' + img_names.split(',')[0]}
                   name={name}
                   city={city}
