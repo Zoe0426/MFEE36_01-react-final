@@ -85,7 +85,7 @@ export default function RestInfo() {
           //   setImageRows(imageRows);
           // }
 
-          const initialImageRows = data.imageRows.map((v, index) => {
+          const initialImageRows = imageRows.map((v, index) => {
             return {
               ...v,
               display: index === 0, // 第一張照片設為預設顯示
