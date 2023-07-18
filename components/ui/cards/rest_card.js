@@ -18,7 +18,7 @@ export default function RestCard({
 }) {
   const rules = rule_names.split(',');
   const services = service_names.split(',');
-  console.log(rest_sid);
+  // console.log(rest_sid);
   // console.log(average_friendly);
 
   return (

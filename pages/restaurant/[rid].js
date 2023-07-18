@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { Fragment } from 'react';
 import { useState } from 'react';
 import { SlideImage } from '@/components/ui/restaurant/ImageSample';
 import Styles from './[rid].module.css';
@@ -38,14 +39,19 @@ export default function RestInfo() {
     ruleRows: [],
     serviceRows: [],
     commentRows: [],
+    activityRows: [],
   });
-  const [imageRows, setImageRows] = useState({
-    rest_sid: '',
-    name: '',
-  });
+  const [imageRows, setImageRows] = useState([]);
   const [ruleRows, setRuleRows] = useState([]);
   const [serviceRows, setServiceRows] = useState([]);
   const [commentRows, setCommentRows] = useState([]);
+  const [activityRows, setActivityRows] = useState([]);
+
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const handleImageClick = (index) => {
+    setSelectedImageIndex(index);
+  };
 
   useEffect(() => {
     const { rid } = query;
@@ -60,6 +66,7 @@ export default function RestInfo() {
             ruleRows,
             serviceRows,
             commentRows,
+            activityRows,
           } = data;
 
           // 更新 React 組件的狀態
@@ -78,11 +85,16 @@ export default function RestInfo() {
             setImageRows(imageRows);
           }
 
-          setCommentRows(commentRows);
+          if (commentRows && commentRows.length > 0) {
+            setCommentRows(...commentRows);
+          }
+
+          if (activityRows && activityRows.length > 0) {
+            setActivityRows(...activityRows);
+          }
+          console.log(...activityRows);
 
           setData(data);
-          console.log(imageRows[0].img_name
-            );
         })
         .catch((error) => {
           console.error(error);
@@ -91,14 +103,12 @@ export default function RestInfo() {
   }, [query]);
 
   //圖片輪播取照片
-  const [restImage, setRestImage] = useState([]);
-
-  const toggleDisplayForImg = (restImage, id) => {
-    return restImage.map((v) => {
-      if (v.img_sid === id) {
+  const toggleDisplayForImg = (imageRows, id) => {
+    return imageRows.map((v) => {
+      if (v.rest_sid === id) {
         return { ...v, display: true };
       } else {
-        return { ...v, display: true };
+        return { ...v, display: false };
       }
     });
   };
@@ -117,29 +127,83 @@ export default function RestInfo() {
       </div>
       <div className="container-inner">
         <div className={Styles.rest_detail}>
-          <div className={Styles.rest_image}>
+          {/* <div className={Styles.rest_image}>
             <div className={Styles.rest_image_main}>
               <img src={`/rest_image/image/${imageRows[0]?.img_name}`} alt="" />
             </div>
             <div className={Styles.rest_image_group}>
               <div className={Styles.rest_image_single}>
-              <img src={`/rest_image/image/${imageRows[1]?.img_name}`} alt="" />
+                <img
+                  src={`/rest_image/image/${imageRows[1]?.img_name}`}
+                  alt=""
+                />
               </div>
               <div className={Styles.rest_image_single}>
-              <img src={`/rest_image/image/${imageRows[2]?.img_name}`} alt="" />
+                <img
+                  src={`/rest_image/image/${imageRows[2]?.img_name}`}
+                  alt=""
+                />
               </div>
               <div className={Styles.rest_image_single}>
-              <img src={`/rest_image/image/${imageRows[3]?.img_name}`} alt="" />
+                <img
+                  src={`/rest_image/image/${imageRows[3]?.img_name}`}
+                  alt=""
+                />
               </div>
               <div className={Styles.rest_image_single}>
-              <img src={`/rest_image/image/${imageRows[4]?.img_name}`} alt="" />
+                <img
+                  src={`/rest_image/image/${imageRows[4]?.img_name}`}
+                  alt=""
+                />
               </div>
+            </div>
+          </div> */}
+
+          <div className={Styles.rest_image}>
+            <div className={Styles.rest_image_main}>
+              {imageRows.map((v) => {
+                return (
+                  v.display && (
+                    <img
+                      key={v.rest_sid}
+                      src={`/rest_image/image/${v.img_name}`}
+                      alt=""
+                    />
+                  )
+                );
+              })}
+            </div>
+            <div className={Styles.rest_image_group}>
+              {imageRows.map((v) => {
+                return (
+                  <div className={Styles.rest_image_single} key={v.rest_sid}>
+                    {v.img && (
+                      <div
+                        role="presentation"
+                        onClick={() => {
+                          setImageRows(
+                            toggleDisplayForImg(imageRows, v.rest_sid)
+                          );
+                        }}
+                      >
+                        <img
+                          src={`/rest_image/image/${v.img_name}`}
+                          alt={v.img_name}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
           <div className={Styles.rest_info}>
             <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
-            <RateStar score="4.8" className={Styles.rate_star} />
+            <RateStar
+              score={commentRows.avg_friendly}
+              className={Styles.rate_star}
+            />
             <p className={Styles.information}>{restDetailRows.info}</p>
 
             <div className={Styles.contact_group}>
@@ -245,10 +309,10 @@ export default function RestInfo() {
         <h2 className={Styles.jill_h2}>餐廳活動</h2>
       </div>
       <ActivityCard
-        img="/rest_image/activity.png"
-        title="毛孩的專屬粽子"
-        date="2023/05/01 ~ 2023/05/26"
-        activity_info="以端午節為主題推出寵物鮮食肉粽讓毛寶一起慶端午！特別選用手掌心×天然寵食的『紅趜豬肉粽』香噴噴的豬肉營養滿分的紅趜滿足了您毛小孩的口腹之欲專為寵物製作的美食，讓您的毛小孩開心地一口接一口！"
+        img={`/rest_image/activity/${activityRows.img}`}
+        title={activityRows.title}
+        date={activityRows.date}
+        activity_info={activityRows.content}
       />
       <div className={Styles.CloudTop}>
         <Image src={CloudTop} alt="CloudTop" />
