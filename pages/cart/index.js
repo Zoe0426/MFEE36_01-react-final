@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Row, Col, Radio, ConfigProvider, Checkbox } from 'antd';
 import style from '@/styles/cart.module.css';
-
+import { useRouter } from 'next/router';
 //components
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import CartProductCard from '@/components/ui/cards/cartProductCard';
@@ -13,14 +13,18 @@ import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
 import CartCouponList from '@/components/ui/cart/cartCouponList';
 import Modal from '@/components/ui/modal/modal';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
+import AuthContext from '@/context/AuthContext';
 
 export default function Cart() {
+  const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
   const [cartData, setCartData] = useState({
     shop: [],
     activity: [],
     postAddress: [],
     coupon: [],
   });
+
   const [checkoutType, setCheckoutType] = useState('shop');
   //商品選擇區
   const [shopData, setShopData] = useState([]);
@@ -35,6 +39,23 @@ export default function Cart() {
   //付款
   const [paymentType, setPaymentType] = useState(1);
   //總額
+
+  const router = useRouter();
+
+  useEffect(() => {
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    if (!auth.id && first) {
+      const from = router.asPath;
+      console.log(from);
+      router.push(`/member/sign-in?from=${from}`);
+    } else if (auth.id) {
+      console.log('getcart');
+      getCart(auth.id);
+    }
+  }, [auth, first]);
 
   const changeCheckoutType = (type) => {
     if (checkoutType !== type) {
@@ -70,10 +91,11 @@ export default function Cart() {
     setPaymentType(e.target.value);
   };
 
-  const getCart = async () => {
+  const getCart = async (id) => {
+    //console.log(id);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/get-cart-items`, {
       method: 'POST',
-      body: JSON.stringify({ member_sid: 'mem00471' }),
+      body: JSON.stringify({ member_sid: id }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -102,6 +124,8 @@ export default function Cart() {
   };
 
   const sendOrderRequest = async (data) => {
+    console.log('sentData:', data);
+    console.log('sendOrderRequest');
     const r = await fetch(`${process.env.API_SERVER}/cart-api/create-order`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -110,7 +134,14 @@ export default function Cart() {
       },
     });
     const result = await r.json();
-    console.log(result);
+    if (result.success && result.orderSid) {
+      const id = result.orderSid;
+      const total = result.finalTotal;
+      const checkoutType = result.checkoutType;
+      window.location.href =
+        process.env.API_SERVER +
+        `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}`;
+    }
   };
 
   const createOrder = () => {
@@ -120,10 +151,21 @@ export default function Cart() {
       checkoutType === 'shop'
         ? shopData.filter((v) => v.selected)
         : activityData.filter((v) => v.selected);
-    if (checkoutItems === 0) {
-      isPass = true;
+
+    if (auth) {
+      if (checkoutItems.length === 0) {
+        console.log('no items selected');
+        alert('請至少選擇一樣商品');
+      } else {
+        isPass = true;
+      }
+    } else {
+      console.log('not loged in');
+      // TODO: need to login
     }
+
     if (isPass) {
+      data.member_sid = auth.id;
       data.checkoutType = checkoutType;
       data.paymentType = paymentType;
       data.checkoutItems = checkoutItems;
@@ -136,14 +178,12 @@ export default function Cart() {
     }
   };
 
-  useEffect(() => {
-    getCart();
-  }, []);
-
   console.log(cartData);
   //console.log(postType);
 
-  return (
+  return !auth.id && first ? (
+    <>沒東西</>
+  ) : (
     <>
       <BgCartHead text="購物車" />
       <div className="container-inner">
@@ -185,7 +225,7 @@ export default function Cart() {
                 >
                   全選
                 </Checkbox>
-                {console.log(checkoutType)}
+
                 {checkoutType === 'shop'
                   ? shopData.map((v) => (
                       <CartProductCard
