@@ -134,7 +134,13 @@ export default function Cart() {
       },
     });
     const result = await r.json();
-    console.log(result);
+    if (result.success && result.orderSid) {
+      const id = result.orderSid;
+      const total = result.finalTotal;
+      window.location.href =
+        process.env.API_SERVER +
+        `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}`;
+    }
   };
 
   const createOrder = () => {
