@@ -9,6 +9,7 @@ import {
   faFilter,
   faFaceLaugh,
   faLocationDot,
+  faThumbsUp
 } from '@fortawesome/free-solid-svg-icons';
 import RestCard from '@/components/ui/cards/rest_card';
 import { Col, Row } from 'antd';
@@ -347,6 +348,7 @@ export default function Restindex() {
         <RestTitle
           icon={faFire}
           text="熱門餐廳"
+          href="http://localhost:3000/restaurant/list?page=1&orderBy=hot_DESC"
           clickHandler1={leftArrow1}
           clickHandler2={rightArrow1}
         />
@@ -386,7 +388,11 @@ export default function Restindex() {
       </div>
 
       <div className="container-inner">
-        <RestTitle icon={faFaceLaugh} text="最友善餐廳" />
+        <RestTitle
+          icon={faThumbsUp}
+          text="好評餐廳"
+          href="http://localhost:3000/restaurant/list?page=1&orderBy=cmt_DESC"
+        />
       </div>
       <div className="container-inner">
         <div className={Styles.hot_card_group}>

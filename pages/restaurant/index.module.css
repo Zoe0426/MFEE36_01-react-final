@@ -124,19 +124,11 @@
 .hot_card_group {
   overflow-x: auto;
 }
-/* .hot_card {
+.hot_card {
   display: flex;
   justify-content: flex-start;
   width: 97%;
   gap: 20px;
-} */
-
-.hot_card{
-  display: flex;
-  justify-content: flex-start;
-  width: 100%;
-  gap: 20px;
-  text-decoration: none;
 }
 .hot_card_group::-webkit-scrollbar {
   display: none;
