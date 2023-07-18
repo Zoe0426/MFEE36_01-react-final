@@ -402,6 +402,10 @@ export default function List() {
     }
   };
 
+  const [inputNumber, setInputNumber] = useState({
+    name,
+  });
+
   const [showErrorMessage1, setShowErrorMessage1] = useState(false);
   const [showErrorMessage2, setShowErrorMessage2] = useState(false);
   const [outlineStatus1, setOutlineStatus1] = useState('');
