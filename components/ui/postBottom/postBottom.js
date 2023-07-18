@@ -5,7 +5,7 @@ import PostPhotoCard from '../postPhotoCard/postPhotoCard'
 export default function PostBottom() {
   const [data, setData] = useState([]);
   const fetchData = async()=>{
-    const response = await fetch ('http://localhost:3002/forum-api/recommend', {method:"GET"});
+    const response = await fetch (`${process.env.API_SERVER}/forum-api/recommend`, {method:"GET"});
     const data = await response.json();
     setData(data);
     console.log('data',data);
