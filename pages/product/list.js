@@ -30,18 +30,18 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function List() {
   const router = useRouter();
-  //排序
-  const [orderBy, setOrderBy] = useState('-- 請選擇 --');
 
   //是否顯示總銷售數的tag
   const [showFlag, setShowFlag] = useState(false);
 
-  //換頁時要用的-類別/關鍵字/頁碼
-  const [catergory, setCategory] = useState('');
+  //換頁時要用的-類別/關鍵字/頁碼/排序
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
+  const [orderBy, setOrderBy] = useState('-- 請選擇 --');
   const [keyword, setKeyword] = useState('');
+  const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
+  const [copyFilters, setCopyFilters] = useState([]);
 
   const [datas, setDatas] = useState({
     totalRows: 0,
@@ -54,9 +54,6 @@ export default function List() {
   });
 
   const [likeDatas, setLikeDatas] = useState([]);
-  //   const [brandDatas, setBrandDatas] = useState([]);
-  //   const [totalItems, setTotalItems] = useState(0);
-  //   const [totalPages, settotalPages] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
   const [showfilter, setShowFilter] = useState(false);
   //麵包屑寫得有點奇怪...
@@ -95,30 +92,37 @@ export default function List() {
         return { ...v, checked: false };
       });
       setFilters({ ...filters, brand: newBrand });
+      // setCopyFilters({ ...filters, brand: newBrand });
+      setCopyFilters(
+        JSON.parse(JSON.stringify({ ...filters, brand: newBrand }))
+      );
+      setFiltersReady(true);
     }
   };
 
   useEffect(() => {
-    // getBrandData();
-    // const { category } = router.query;
-    // if (category) {
-    //   resetCheckBox('category', category);
-    // }
-
     getBrandData().then(() => {
       const { category } = router.query;
       if (category) {
         resetCheckBox('category', category);
+        setFiltersReady(true);
       }
     });
   }, []);
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { category, keyword, orderBy, typeForPet, typeForAge, brand } =
-      router.query;
+    const {
+      category,
+      keyword,
+      orderBy,
+      typeForPet,
+      typeForAge,
+      brand,
+      minPrice,
+      maxPrice,
+    } = router.query;
 
-    // setCategory(category || '');
     setKeyword(keyword || '');
 
     //將按下上一頁/重新整理，都可將先前排序的選項設定回去
@@ -133,28 +137,48 @@ export default function List() {
         return v.key === selectedOrderByKey;
       });
       setOrderBy(selectedOrderBy.label);
+    } else {
+      setOrderBy('-- 請選擇 --');
     }
 
-    if (typeForPet) {
-      resetCheckBox('typeForPet', typeForPet);
+    if (minPrice) {
+      setMinPrice(minPrice);
+    } else {
+      setMinPrice(0);
+    }
+    if (maxPrice) {
+      setMaxPrice(maxPrice);
+    } else {
+      setMaxPrice(0);
     }
 
-    if (typeForAge) {
-      resetCheckBox('typeForAge', typeForAge);
-    }
+    //需要等所有filters(brands)設定都完成後才能開始跑回圈將有勾選的設定回來
+    if (filtersReady) {
+      if (typeForPet) {
+        resetCheckBox('typeForPet', typeForPet);
+      }
 
-    if (category) {
-      resetCheckBox('category', category);
-    }
+      if (typeForAge) {
+        resetCheckBox('typeForAge', typeForAge);
+      }
 
-    if (brand) {
-      resetCheckBox('brand', brand);
+      if (category) {
+        resetCheckBox('category', category);
+      }
+
+      if (brand) {
+        resetCheckBox('brand', brand);
+      }
+
+      if (!typeForPet && !typeForAge && !category && !brand) {
+        setFilters(copyFilters);
+      }
     }
 
     if (router.query) {
       getData(router.query);
     }
-  }, [router.query]);
+  }, [router.query, filtersReady]);
 
   //收藏列表相關的函式-------------------------------------------------------
   const toggleLikeList = () => {
@@ -202,13 +226,13 @@ export default function List() {
 
   //searchBar相關的函式-------------------------------------------------------
   const searchBarHandler = (e) => {
-    let copyURL = { ...router.query, page: 1 };
+    let copyURL = { page: 1 };
     if (e.key === 'Enter') {
       if (!keyword) {
-        delete copyURL.keyword;
+        copyURL;
       } else {
         const searchText = e.target.value;
-        copyURL = { ...copyURL, keyword: searchText };
+        copyURL = { keyword: searchText, ...copyURL };
       }
       router.push(`?${new URLSearchParams(copyURL).toString()}`);
     }
@@ -217,7 +241,6 @@ export default function List() {
   const searchBarClickHandler = () => {
     router.push(
       `?${new URLSearchParams({
-        ...router.query,
         keyword: keyword,
         page: 1,
       }).toString()}`
@@ -269,7 +292,7 @@ export default function List() {
     setShowFilter(!showfilter);
   };
 
-  //進入畫面時將checkbox依據queryString設定勾選狀態
+  //進入畫面時將checkbox依據queryString設定勾選狀態;
   const resetCheckBox = (key, str) => {
     const selectedValues = str.split(',');
     const newCheckBox = filters[key].map((v) => {
@@ -281,7 +304,8 @@ export default function List() {
     setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
   };
 
-  const filterCheckedHandler = (arr, name, id) => {
+  //管理checkbox勾選的狀態
+  const checkboxToggleHandler = (arr, name, id) => {
     const arrLength = arr.length - 1;
     let countTrue = 0;
     let newFilters = [];
@@ -311,8 +335,6 @@ export default function List() {
     if (countTrue === arrLength) {
       newFilters[arrLength].checked = true;
     }
-    console.log({ arrLength });
-    console.log({ countTrue });
 
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -320,41 +342,127 @@ export default function List() {
     }));
   };
 
-  const filterHandler = (filters = {}) => {
-    const { typeForPet, typeForAge, category, brand } = filters;
+  const filterHandler = (
+    filters = {},
+    priceErrorText1 = '',
+    priceErrorText2 = '',
+    minPrice = 0,
+    maxPrice = 0
+  ) => {
+    if (!priceErrorText1 && !priceErrorText2) {
+      const { typeForPet, typeForAge, category, brand } = filters;
 
-    const checkedOptions = (arr) => {
-      return arr.filter((v) => v.checked === true).map((v) => v.value);
-    };
-    const filtersToCheck = {
-      typeForPet: checkedOptions(typeForPet),
-      typeForAge: checkedOptions(typeForAge),
-      category: checkedOptions(category),
-      brand: checkedOptions(brand),
-    };
+      const checkedOptions = (arr) => {
+        return arr.filter((v) => v.checked === true).map((v) => v.value);
+      };
+      const filtersToCheck = {
+        typeForPet: checkedOptions(typeForPet),
+        typeForAge: checkedOptions(typeForAge),
+        category: checkedOptions(category),
+        brand: checkedOptions(brand),
+      };
 
-    const { orderBy, keyword } = router.query;
+      const { orderBy, keyword } = router.query;
 
-    let query = {};
-    if (orderBy) {
-      query.orderBy = orderBy;
-    }
-    if (keyword) {
-      query.keyword = keyword;
-    }
-
-    for (const [key, value] of Object.entries(filtersToCheck)) {
-      if (value.length > 0) {
-        query[key] = value;
+      let query = {};
+      if (orderBy) {
+        query.orderBy = orderBy;
       }
-    }
+      if (keyword) {
+        query.keyword = keyword;
+      }
+      if (minPrice) {
+        query.minPrice = minPrice;
+      }
+      if (maxPrice) {
+        query.maxPrice = maxPrice;
+      }
 
+      for (const [key, value] of Object.entries(filtersToCheck)) {
+        if (value.length > 0) {
+          query[key] = value;
+        }
+      }
+
+      router.push(
+        `?${new URLSearchParams({
+          ...query,
+          page: 1,
+        }).toString()}`
+      );
+    }
+  };
+
+  const clearAllFilter = () => {
+    setFilters(copyFilters);
+    setMinPrice(0);
+    setMaxPrice(0);
+    setShowErrorMessage1(false);
+    setShowErrorMessage2(false);
+    setOutlineStatus1('');
+    setOutlineStatus2('');
+    setPriceErrorText1('');
+    setPriceErrorText2('');
+    const { keyword } = router.query;
     router.push(
       `?${new URLSearchParams({
-        ...query,
+        keyword,
         page: 1,
       }).toString()}`
     );
+  };
+
+  //管理價格條件的input
+
+  const [showErrorMessage1, setShowErrorMessage1] = useState(false);
+  const [showErrorMessage2, setShowErrorMessage2] = useState(false);
+  const [outlineStatus1, setOutlineStatus1] = useState('');
+  const [outlineStatus2, setOutlineStatus2] = useState('');
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [priceErrorText1, setPriceErrorText1] = useState('');
+  const [priceErrorText2, setPriceErrorText2] = useState('');
+
+  const inputCheckHandler = (e, inputType) => {
+    let isPass = true;
+    let setPriceErrorText = null;
+    let setShowErrorMessage = null;
+    let setOutlineStatus = null;
+    const priceNow = Number(e.target.value);
+    if (inputType === 'minPrice') {
+      setPriceErrorText = setPriceErrorText1;
+      setShowErrorMessage = setShowErrorMessage1;
+      setOutlineStatus = setOutlineStatus1;
+      if (priceNow && maxPrice && priceNow > maxPrice) {
+        setPriceErrorText('不能大於最高金額');
+        isPass = false;
+      }
+    } else if (inputType === 'maxPrice') {
+      setPriceErrorText = setPriceErrorText2;
+      setShowErrorMessage = setShowErrorMessage2;
+      setOutlineStatus = setOutlineStatus2;
+      if (priceNow && minPrice && priceNow < minPrice) {
+        setPriceErrorText('不能小於最低金額');
+        isPass = false;
+      }
+    }
+
+    if (isNaN(e.target.value)) {
+      setPriceErrorText('請輸入數字');
+      isPass = false;
+    }
+    if (e.target.value.includes('.')) {
+      setPriceErrorText('請輸入整數');
+      isPass = false;
+    }
+    if (parseInt(priceNow) < 0) {
+      setPriceErrorText('金額需大於0');
+      isPass = false;
+    }
+    if (!isPass) {
+      setShowErrorMessage(true);
+      setOutlineStatus('error');
+    }
   };
 
   return (
@@ -413,38 +521,61 @@ export default function List() {
                   text="適用對象:"
                   name="typeForPet"
                   data={filters.typeForPet}
-                  changeHandler={filterCheckedHandler}
+                  changeHandler={checkboxToggleHandler}
                 />
 
                 <ProductFilter
                   text="使用年齡:"
                   name="typeForAge"
                   data={filters.typeForAge}
-                  changeHandler={filterCheckedHandler}
+                  changeHandler={checkboxToggleHandler}
                 />
                 <ProductFilter
                   text="商品類別:"
                   name="category"
                   data={filters.category}
-                  changeHandler={filterCheckedHandler}
-                />
-                <ProductInput
-                  minHandlerHandler={() => {}}
-                  changeHandler={() => {}}
+                  changeHandler={checkboxToggleHandler}
                 />
                 <ProductFilter
                   text="品牌:"
                   name="brand"
                   data={filters.brand}
                   needSpan={false}
-                  changeHandler={filterCheckedHandler}
+                  changeHandler={checkboxToggleHandler}
+                />
+                <ProductInput
+                  errorMessage1={priceErrorText1}
+                  errorMessage2={priceErrorText2}
+                  showErrorMessage1={showErrorMessage1}
+                  showErrorMessage2={showErrorMessage2}
+                  outlineStatus1={outlineStatus1}
+                  outlineStatus2={outlineStatus2}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  minHandler={(e) => {
+                    setOutlineStatus1('');
+                    setPriceErrorText1('');
+                    setMinPrice(e.target.value);
+                  }}
+                  maxHandler={(e) => {
+                    setOutlineStatus2('');
+                    setPriceErrorText2('');
+                    setMaxPrice(e.target.value);
+                  }}
+                  checkHandler={inputCheckHandler}
                 />
                 <div className={styles.filter_btns}>
-                  <SecondaryBtn text="重置條件" />
+                  <SecondaryBtn text="清除" clickHandler={clearAllFilter} />
                   <MainBtn
-                    text="確定篩選"
+                    text="搜尋"
                     clickHandler={() => {
-                      filterHandler(filters);
+                      filterHandler(
+                        filters,
+                        priceErrorText1,
+                        priceErrorText2,
+                        minPrice,
+                        maxPrice
+                      );
                     }}
                   />
                 </div>
