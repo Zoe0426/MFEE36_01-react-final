@@ -404,10 +404,13 @@ export default function List() {
     setPriceErrorText1('');
     setPriceErrorText2('');
     const { keyword } = router.query;
+    const query = { page: 1 };
+    if (keyword) {
+      query.keyword = keyword;
+    }
     router.push(
       `?${new URLSearchParams({
-        keyword,
-        page: 1,
+        ...query,
       }).toString()}`
     );
   };
