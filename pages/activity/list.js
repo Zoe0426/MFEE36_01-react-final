@@ -6,7 +6,8 @@ import { Row, Col } from 'antd';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 
 export default function ActivityMain() {
-  //網址在這看 http://localhost:3000/activity/list?cid=類別的sid
+  // 網址在這看 http://localhost:3000/activity/list?cid=類別的sid
+  // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字
 
   const router = useRouter();
   const [cidData, setCidData] = useState([]);
