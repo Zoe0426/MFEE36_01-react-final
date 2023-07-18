@@ -81,9 +81,17 @@ export default function RestInfo() {
             setRuleRows(ruleRows);
           }
 
-          if (imageRows && imageRows.length > 0) {
-            setImageRows(imageRows);
-          }
+          // if (imageRows && imageRows.length > 0) {
+          //   setImageRows(imageRows);
+          // }
+
+          const initialImageRows = data.imageRows.map((v, index) => {
+            return {
+              ...v,
+              display: index === 0, // 第一張照片設為預設顯示
+            };
+          });
+          setImageRows(initialImageRows);
 
           if (commentRows && commentRows.length > 0) {
             setCommentRows(...commentRows);
@@ -167,34 +175,36 @@ export default function RestInfo() {
                     <img
                       key={v.rest_sid}
                       src={`/rest_image/image/${v.img_name}`}
-                      alt=""
+                      alt={v.img_name}
                     />
                   )
                 );
               })}
             </div>
             <div className={Styles.rest_image_group}>
-              {imageRows.map((v) => {
-                return (
-                  <div className={Styles.rest_image_single} key={v.rest_sid}>
-                    {v.img && (
-                      <div
-                        role="presentation"
-                        onClick={() => {
-                          setImageRows(
-                            toggleDisplayForImg(imageRows, v.rest_sid)
-                          );
-                        }}
-                      >
-                        <img
-                          src={`/rest_image/image/${v.img_name}`}
-                          alt={v.img_name}
-                        />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+              {imageRows
+                .filter((v) => !v.display)
+                .map((v) => {
+                  return (
+                    <div className={Styles.rest_image_single} key={v.rest_sid}>
+                      {v.img_name && (
+                        <div
+                          role="presentation"
+                          onClick={() => {
+                            setImageRows(
+                              toggleDisplayForImg(imageRows, v.rest_sid)
+                            );
+                          }}
+                        >
+                          <img
+                            src={`/rest_image/image/${v.img_name}`}
+                            alt={v.img_name}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
             </div>
           </div>
 
