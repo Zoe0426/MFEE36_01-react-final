@@ -15,11 +15,12 @@ import PostBottom from '@/components/ui/postBottom/postBottom';
 
 export default function Post() {
   const router = useRouter();
-  const {post} = router.query;
+  const {post} = router.query; // Get the post ID from the router
+  const postid = post; // 將query中的post值指定給postid變數
   const [postData, setPostData] = useState([]);
 
   const fetchData = async()=>{
-    const response = await fetch (`${process.env.API_SERVER}forum-api/:postid`, {method:"GET"});
+    const response = await fetch (`${process.env.API_SERVER}forum-api/${postid}`, {method:"GET"});
     const postData = await response.json();
     setPostData(postData);
     console.log('postData', postData);
@@ -27,7 +28,7 @@ export default function Post() {
 
   useEffect(()=>{
     fetchData();
-  }, []);
+  }, [post]); // Fetch data when the post ID changes
   
 
   const images = [
