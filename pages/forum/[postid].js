@@ -23,7 +23,8 @@ export default function Post() {
   const [data, setData] =useState({
     postData:[],
     hashtagData:[],
-    commentData:[]
+    commentData:[],
+    imgData:[]
   })
   // 文章
   const [postData, setPostData] = useState([]);
@@ -31,6 +32,8 @@ export default function Post() {
   const [hashtagData, setHashtagData] = useState([]);
   // 留言
   const [commentData, setCommentData] = useState([]);
+  // 圖片
+  const [imgData, setImgData] = useState([]);
 
   const fetchData = async (postid) => {
     try {
@@ -44,10 +47,12 @@ export default function Post() {
       setPostData(data.data || []); //因為在node文章資料是叫data
       setHashtagData(data.tagData || []); //因為在node hashtag資料是叫tagData
       setCommentData(data.commentData || []);
+      setImgData(data.imgData || []);
   
       console.log('postData', data.data);
       console.log('hashtagData', data.tagData);
       console.log('commentData', data.commentData);
+      console.log('imgData', data.imgData);
   
       console.log(postid);
     } catch (error) {
@@ -67,11 +72,12 @@ export default function Post() {
   
 
   const images = [
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',   
+    // '/forum_img/狗活動.jpeg',
+    // '/forum_img/狗活動.jpeg',
+    // '/forum_img/狗活動.jpeg',
+    // '/forum_img/狗活動.jpeg',
+    // '/forum_img/狗活動.jpeg',   
+    `${commentData}`
   ];
 
   return (
@@ -100,7 +106,9 @@ export default function Post() {
               
               </div>
                 <div className={Style.postImg}>
+                {imgData.map((v,i)=>(
                   <PostImg images={images}/>
+                ))}
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
@@ -122,7 +130,7 @@ export default function Post() {
                   </div>
                   <div className={Style.comments}>
                   {commentData.map((v,i)=>(
-                    <PostComment profile={v.profile} author={v.nickname} comment={v.comment_content} floor='B1' date={v.comment_date} moreComments=''/>
+                    <PostComment profile={v.profile} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
                   ))}
                   </div>
                 </div>
