@@ -21,8 +21,15 @@ import orderByOptions from '@/data/restaurnt/orderby.json';
 
 export default function FilterPage() {
   const router = useRouter();
-  const { categorySid } = filterDatas;
+  // const { categorySid } = filterDatas;
+  // console.log(categorySid);
   const [filters, setFilters] = useState(filterDatas);
+  console.log(filters.categorySid);
+
+  //const [filters, setFilters] = useState(filterDatas);
+
+  // 儲存篩選條件
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   //進階篩選------------------------------------------------------------
   const [showfilter, setShowFilter] = useState(false);
@@ -39,6 +46,7 @@ export default function FilterPage() {
   const [rule, setRule] = useState('');
   const [service, setService] = useState('');
   const [city, setCity] = useState('');
+  const [category, setCategory] = useState('');
 
   const [orderBy, setOrderBy] = useState('-- 排序條件 --');
 
@@ -101,11 +109,12 @@ export default function FilterPage() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { keyword, rule, service, city, orderBy } = router.query;
+    const { keyword, rule, service, city, orderBy, category } = router.query;
     console.log(router.query);
     setRule(rule || '');
     setService(service || '');
     setCity(city || '');
+    setCategory(category || '');
     setKeyword(keyword || '');
     // setOrderBy(orderBy);
 
@@ -122,6 +131,46 @@ export default function FilterPage() {
         console.error(error);
       });
   }, [router.query]);
+
+  //checkbox相關的函式-------------------------------------------------------
+  const checkboxToggleHandler = (arr, name, id) => {
+    // 在點擊時處理 checkbox 的選擇，並更新狀態
+    const updatedCategorySid = arr.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setFilters({
+      ...filters,
+      categorySid: updatedCategorySid,
+    });
+  };
+  const filterHandler = (filters = {}) => {};
+
+  // const filterHandler = (filters = {}) => {
+  //   const { category } = filters.categorySid;
+
+  //   console.log(filters.categorySid);
+
+  //   const checkedOptions = (filters) => {
+  //     return filters.filter((v) => v.checked === true).map((v) => v.value);
+  //   };
+
+  //   const filtersToCheck = {
+  //     category: checkedOptions(category),
+  //   };
+  //   
+  //   for (const [key, value] of Object.entries(filtersToCheck)) {
+  //     if (value.length > 0) {
+  //       query[key] = value;
+  //     }
+  //   }
+  // let query = {};
+  //   router.push(
+  //     `?${new URLSearchParams({
+  //       ...query,
+  //       page: 1,
+  //     }).toString()}`
+  //   );
+  // };
 
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
@@ -240,13 +289,18 @@ export default function FilterPage() {
                 <TimeDateFilter />
                 <RestaurantFilter
                   text="用餐類別"
-                  data={categorySid}
-                  onChange={() => {}}
+                  data={filters.categorySid}
+                  onChange={checkboxToggleHandler}
                 />
 
                 <div className={Styles.filter_btns}>
                   <SecondaryBtn text="重置" />
-                  <MainBtn text="確定" />
+                  <MainBtn
+                    text="確定"
+                    clickHandler={() => {
+                      // filterHandler(filters);
+                    }}
+                  />
                 </div>
               </div>
             </div>

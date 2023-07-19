@@ -9,7 +9,7 @@ import {
   faFilter,
   faFaceLaugh,
   faLocationDot,
-  faThumbsUp
+  faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
 import RestCard from '@/components/ui/cards/rest_card';
 import { Col, Row } from 'antd';

@@ -21,13 +21,13 @@
     {
       "id":4,
       "label": "烤肉/燒烤",
-      "value": "hot_pot",
+      "value": "barbecue",
       "checked": false
     },
     {
       "id":5,
       "label": "火鍋",
-      "value": "barbecue",
+      "value": "hot_pot",
       "checked": false
     },
     {
