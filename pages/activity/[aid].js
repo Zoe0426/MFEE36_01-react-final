@@ -53,9 +53,15 @@ export default function ActivityDetail() {
             setActDetailRows(...actDetailRows);
           }
 
-          // if (actImageRows && actImageRows.length > 0) {
-          //   setActImageRows(actImageRows);
-          // }
+          // 將圖片切成actImageRows的陣列
+          if (actImageRows && actImageRows.length > 0) {
+            // setActImageRows(actImageRows);
+            setActImageRows(actImageRows[0].activity_pic.split(','));
+          }
+
+          // console.log(actImageRows); //測試
+          // console.log((actImageRows[0].activity_pic).split(',')[0])//測試
+
           if (actDateRows && actDateRows.length > 0) {
             setActDateRows(actDateRows);
           }
@@ -107,23 +113,6 @@ export default function ActivityDetail() {
 
   //   fetchData();
 
-  //   const { aid } = query;
-  // const activity_sid = aid ? encodeURIComponent(aid) : '';
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await fetch(`${process.env.API_SERVER}/activity-api/activity/${activity_sid}`,
-  //       { method: 'GET' }
-  //     );
-  //     const data = await response.json();
-  //     setActivity_sid_data(data.activity_sid_data);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
-
-  // fetchData();
-
   // }, [query]);
 
   return (
@@ -132,12 +121,13 @@ export default function ActivityDetail() {
       <div className="container-inner">
         <div className={styles.card}>
           {/* -------右邊------- */}
+
           <div className={styles.left}>
-            <img
-              src="/activity_img/act1_1.jpg"
+            {/* <img
+              // src={`/activity_img/${actImageRows[0]}`}
               alt="Activity"
               className={styles.image}
-            />
+            /> */}
             <div className={styles.overlay_left}></div>
             <div className={styles.overlay_right}></div>
             <div className={styles.icon}></div>
@@ -212,11 +202,16 @@ export default function ActivityDetail() {
             <div className={styles.row}>
               <div className={styles.row_date}>
                 <p className={styles.row_text_small}>選擇日期：</p>
+
                 <Select defaultValue="選擇活動日期">
                   {actDateRows.map((row, index) => (
-                    <Option className={styles.dateSelect} key={index}>
+                    <Select.Option
+                      className={styles.dateSelect}
+                      key={index}
+                      value={row.date}
+                    >
                       {row.date}
-                    </Option>
+                    </Select.Option>
                   ))}
                 </Select>
               </div>
@@ -333,11 +328,9 @@ export default function ActivityDetail() {
         </div>
 
         <div className={styles.feature}>
-          <ActivityFeatureDetail feature="專屬攝影師隨拍" />
-          <ActivityFeatureDetail feature="專屬好禮" />
-          <ActivityFeatureDetail feature="提供寵物健康下午茶" />
-          <ActivityFeatureDetail feature="提供瑜珈墊" />
-          <ActivityFeatureDetail feature="一人一間更衣室及置物櫃" />
+          {actFeatureRows.map((row, index) => (
+            <ActivityFeatureDetail key={index} feature={row.name} />
+          ))}
         </div>
       </div>
 
@@ -359,7 +352,7 @@ export default function ActivityDetail() {
 
           <img
             className={styles.content_image}
-            src="/activity_img/act1_1.jpg"
+            src={`/activity_img/${actImageRows[2]}`}
             alt=""
           />
         </div>
@@ -372,7 +365,7 @@ export default function ActivityDetail() {
         <div className={styles.content}>
           <img
             className={styles.content_image_reverse}
-            src="/activity_img/act1_1.jpg"
+            src={`/activity_img/${actImageRows[3]}`}
             alt=""
           />
 
@@ -399,7 +392,7 @@ export default function ActivityDetail() {
 
           <img
             className={styles.content_image}
-            src="/activity_img/act1_1.jpg"
+            src={`/activity_img/${actImageRows[4]}`}
             alt=""
           />
         </div>
