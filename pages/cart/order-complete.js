@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import PostInfo from '@/components/ui/cart-orderDetail/postinfo';
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import style from '@/styles/cartOrderdetail.module.css';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
@@ -14,16 +15,16 @@ export default function OrderComplete() {
   const [first, setFirst] = useState(false);
   const [memberSid, setMemberSid] = useState(query.memberSid);
   const [orderSid, setOrderSid] = useState(query.orderSid);
-  const [checkoutType, setCheckoutType] = useState('');
+  const [checkoutType, setCheckoutType] = useState('shop');
   const [orderInfo, setOrderInfo] = useState({
     order_sid: '',
-    checkoutType: '',
+    checkoutType: 'shop',
     email: '',
     create_dt: '',
     coupon_amount: 0,
     recipient: '',
     recipient_phone: '',
-    post_type: '',
+    post_type: 0,
     post_address: '',
     post_store_name: '',
     post_amount: 0,
@@ -64,8 +65,6 @@ export default function OrderComplete() {
     }
   }, [auth, query, first]);
 
-  const orderNum = 'ORD000345';
-  const orderType = 'shop';
   return !auth.id && first ? (
     <>沒東西</>
   ) : (
@@ -73,65 +72,41 @@ export default function OrderComplete() {
       <BgCartHead text="完成結帳" />
       <div className="container-inner">
         <div className={style.orderDetail}>
-          <CartSectionTitle text={'訂單編號： ' + orderNum} />
-          <div className={style.postDetails}>
-            <div className={style.postTo}>
-              <div className={style.detail}>
-                <p className={style.detailtitle}>收件人</p>
-                <p>: &nbsp;&nbsp;郭宜零</p>
-              </div>
-              <div className={style.detail}>
-                <p className={style.detailtitle}>聯絡電話</p>
-                <p>: &nbsp;&nbsp;0900123123</p>
-              </div>
-              <div className={style.detail}>
-                <p className={style.detailtitle}>成立時間</p>
-                <p>: &nbsp;&nbsp;2023-06-12 16:32</p>
-              </div>
-            </div>
-            <div className={style.postAdd}>
-              <div className={style.detail}>
-                <p className={style.detailtitle}>運送方式</p>
-                <p>: &nbsp;&nbsp;7-ELEVEN</p>
-              </div>
-              <div className={style.detail}>
-                <p className={style.detailtitle}>運送地址</p>
-                <p>: &nbsp;&nbsp;台北市中山區開心街 123號</p>
-              </div>
-            </div>
-          </div>
-          <OrderDetailShop
-            img="/product-img/pro001.jpg"
-            prodtitle="搖!搖! 超級水果～酥脆貓零食-鮭魚"
-            prodSubtitle="鮪魚+0.4kg"
-            price="250"
-            qty="2"
-          />
-          <OrderDetailShop
-            img="/product-img/pro001.jpg"
-            prodtitle="搖!搖! 超級水果～酥脆貓零食-鮭魚"
-            prodSubtitle="鮪魚+0.4kg"
-            price="250"
-            qty="2"
-          />
-          <OrderDetailActivity
-            img="/product-img/pro001.jpg"
-            prodtitle="台北與毛家庭有約,邀你一起來挺寵！"
-            prodSubtitle="2023-05-06"
-            adPrice="500"
-            adQty="2"
-            kidPrice="100"
-            kidQty="1"
-          />
-          <OrderDetailActivity
-            img="/product-img/pro001.jpg"
-            prodtitle="台北與毛家庭有約,邀你一起來挺寵！"
-            prodSubtitle="2023-05-06"
-            adPrice="200"
-            adQty="1"
-            kidPrice="100"
-            kidQty="1"
-          />
+          <CartSectionTitle text={'訂單編號： ' + orderInfo.order_sid} />
+          {orderInfo.checkoutType === 'shop' ? (
+            <PostInfo
+              recipient={orderInfo.recipient}
+              recipient_phone={orderInfo.recipient_phone}
+              post_type={orderInfo.post_type}
+              post_address={orderInfo.post_address}
+              post_store_name={orderInfo.post_store_name}
+            />
+          ) : (
+            ''
+          )}
+          {orderInfo.checkoutType === 'shop'
+            ? orderInfo.orderDetailItems.map((v) => (
+                <OrderDetailShop
+                  key={v.order_detail_sid}
+                  img={`/product-img/${v.img}`}
+                  prodtitle={v.rel_name}
+                  prodSubtitle={v.rel_seq_name}
+                  price={v.product_price}
+                  qty={v.product_qty}
+                />
+              ))
+            : orderInfo.orderDetailItems.map((v) => (
+                <OrderDetailActivity
+                  key={v.order_detail_sid}
+                  img={`/product-img/${v.activity_pic}`}
+                  prodtitle={v.rel_name}
+                  prodSubtitle={v.rel_seq_name}
+                  adPrice={v.adult_price}
+                  adQty={v.adult_qty}
+                  kidPrice={v.child_price}
+                  kidQty={v.child_qty}
+                />
+              ))}
           <div className={style.totalSection}>
             <div className={style.subtotals}>
               <span>小計</span>
