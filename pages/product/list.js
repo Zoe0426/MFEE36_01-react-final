@@ -16,7 +16,7 @@ import ProductInput from '@/components/ui/shop/product-input';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
-import SearchBar from '@/components/ui/buttons/SearchBar';
+import SearchBar from '@/components/ui/buttons/SearchBar1';
 
 /*引用的背景+icon+圖示*/
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
@@ -42,6 +42,18 @@ export default function List() {
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
   const [copyFilters, setCopyFilters] = useState([]);
+  const [keywordDatas, setKeywordDatats] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
+
+  //管理價格條件的input
+  const [showErrorMessage1, setShowErrorMessage1] = useState(false);
+  const [showErrorMessage2, setShowErrorMessage2] = useState(false);
+  const [outlineStatus1, setOutlineStatus1] = useState('');
+  const [outlineStatus2, setOutlineStatus2] = useState('');
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [priceErrorText1, setPriceErrorText1] = useState('');
+  const [priceErrorText2, setPriceErrorText2] = useState('');
 
   const [datas, setDatas] = useState({
     totalRows: 0,
@@ -50,7 +62,7 @@ export default function List() {
     page: 1,
     rows: [],
     // like:[],
-    brand: [],
+    // brand: [],
   });
 
   const [likeDatas, setLikeDatas] = useState([]);
@@ -81,10 +93,13 @@ export default function List() {
     }
   };
 
-  const getBrandData = async () => {
-    const res = await fetch(`${process.env.API_SERVER}/shop-api/brand-list`, {
-      method: 'GET',
-    });
+  const getBrandKeywordData = async () => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/shop-api/search-brand-list`,
+      {
+        method: 'GET',
+      }
+    );
     const data = await res.json();
 
     if (Array.isArray(data.brand)) {
@@ -92,16 +107,20 @@ export default function List() {
         return { ...v, checked: false };
       });
       setFilters({ ...filters, brand: newBrand });
-      // setCopyFilters({ ...filters, brand: newBrand });
       setCopyFilters(
         JSON.parse(JSON.stringify({ ...filters, brand: newBrand }))
       );
+      const newKeywords = data.keywords.map((v) => {
+        return { name: v, count: 0 };
+      });
+      setKeywordDatats(newKeywords);
+      // setKeywordDatats(data.keywords);
       setFiltersReady(true);
     }
   };
 
   useEffect(() => {
-    getBrandData().then(() => {
+    getBrandKeywordData().then(() => {
       const { category } = router.query;
       if (category) {
         resetCheckBox('category', category);
@@ -225,13 +244,38 @@ export default function List() {
   };
 
   //searchBar相關的函式-------------------------------------------------------
+
+  const filterKeywordDatas = (datas, keyword) => {
+    const searchWord = keyword.split('');
+    datas.forEach((v1) => {
+      v1.count = 0;
+      searchWord.forEach((v2) => {
+        if (v1.name.includes(v2)) {
+          v1.count += 1;
+        }
+      });
+    });
+
+    datas.sort((a, b) => b.count - a.count); // 依 count 降序排列
+
+    return datas.filter((v) => v.count >= searchWord.length);
+  };
+
   const searchBarHandler = (e) => {
     let copyURL = { page: 1 };
+    const searchText = e.target.value;
+
+    if (!searchText) {
+      const newKeywordDatas = [...keywordDatas];
+      setShowKeywordDatas(false);
+      setKeywordDatats(newKeywordDatas);
+    }
+
     if (e.key === 'Enter') {
+      setShowKeywordDatas(false);
       if (!keyword) {
         copyURL;
       } else {
-        const searchText = e.target.value;
         copyURL = { keyword: searchText, ...copyURL };
       }
       router.push(`?${new URLSearchParams(copyURL).toString()}`);
@@ -245,6 +289,10 @@ export default function List() {
         page: 1,
       }).toString()}`
     );
+  };
+
+  const autocompleteHandler = (selectkeyword) => {
+    setKeyword(selectkeyword);
   };
 
   //Pagination相關的函式-------------------------------------------------------
@@ -416,16 +464,6 @@ export default function List() {
   };
 
   //管理價格條件的input
-
-  const [showErrorMessage1, setShowErrorMessage1] = useState(false);
-  const [showErrorMessage2, setShowErrorMessage2] = useState(false);
-  const [outlineStatus1, setOutlineStatus1] = useState('');
-  const [outlineStatus2, setOutlineStatus2] = useState('');
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
-  const [priceErrorText1, setPriceErrorText1] = useState('');
-  const [priceErrorText2, setPriceErrorText2] = useState('');
-
   const inputCheckHandler = (e, inputType) => {
     let isPass = true;
     let setPriceErrorText = null;
@@ -475,16 +513,26 @@ export default function List() {
         <nav className="container-inner">
           <div className={styles.search_bar}>
             <SearchBar
+              keywordDatas={filterKeywordDatas(keywordDatas, keyword)}
               placeholder="搜尋你愛的東西"
               btn_text="尋找商品"
               inputText={keyword}
               changeHandler={(e) => {
                 setKeyword(e.target.value);
+                setShowKeywordDatas(true);
               }}
               keyDownHandler={searchBarHandler}
               clickHandler={searchBarClickHandler}
+              autocompleteHandler={autocompleteHandler}
+              showKeywordDatas={showKeywordDatas}
+              blurHandler={() => {
+                setTimeout(() => {
+                  setShowKeywordDatas(false);
+                }, 100);
+              }}
             />
           </div>
+
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
             <div className={styles.btns}>
