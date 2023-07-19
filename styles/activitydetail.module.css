@@ -5,6 +5,11 @@
     
   }
 
+/* 期別選擇 */
+.dateSelect{
+  width:170px;
+  height: 46px;
+}
 
   
 /*購買數量按鈕*/
