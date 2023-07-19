@@ -22,6 +22,7 @@ import orderByOptions from '@/data/restaurnt/orderby.json';
 export default function FilterPage() {
   const router = useRouter();
   const { categorySid } = filterDatas;
+  const [filters, setFilters] = useState(filterDatas);
 
   //進階篩選------------------------------------------------------------
   const [showfilter, setShowFilter] = useState(false);
