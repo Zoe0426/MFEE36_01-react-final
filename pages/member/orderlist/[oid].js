@@ -451,6 +451,7 @@ export default function OrderDetail() {
                   memberSid={data.member_sid}
                   odSid={data.order_detail_sid}
                   actSid={data.activity_sid}
+                  prodSid={data.product_sid}
                   relName={data.rel_name}
                   relSeqName={data.rel_seq_name}
                   productQty={data.product_qty}

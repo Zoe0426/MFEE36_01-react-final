@@ -20,12 +20,14 @@ export default function OrderDetailCard({
   memberSid,
   odSid,
   actSid,
+  prodSid,
 }) {
   const [show, setShow] = useState(false);
   const initialValues = {
     memberSid: memberSid,
     odSid: odSid,
     actSid: actSid,
+    prodSid: prodSid,
   };
 
   const showReviewContent = () => {
@@ -40,16 +42,29 @@ export default function OrderDetailCard({
   };
 
   const handleSubmit = (values) => {
-    fetch(`${process.env.API_SERVER}/member-api/reviews`, {
-      method: 'POST',
-      body: JSON.stringify(values),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        console.log(data);
-      });
+    if (relType === 'activity') {
+      fetch(`${process.env.API_SERVER}/member-api/actReviews`, {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          console.log(data);
+        });
+    } else if (relType === 'shop') {
+      fetch(`${process.env.API_SERVER}/member-api/prodReviews`, {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }
   };
+
   return (
     <>
       <div className={Style.productCard}>
@@ -106,12 +121,26 @@ export default function OrderDetailCard({
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              name={'actSid'}
-              style={{ padding: '0px', display: 'none' }}
-            >
-              <Input />
-            </Form.Item>
+            {relType === 'shop' ? (
+              <>
+                <Form.Item
+                  name={'prodSid'}
+                  style={{ padding: '0px', display: 'none' }}
+                >
+                  <Input />
+                </Form.Item>
+              </>
+            ) : (
+              <>
+                <Form.Item
+                  name={'actSid'}
+                  style={{ padding: '0px', display: 'none' }}
+                >
+                  <Input />
+                </Form.Item>
+              </>
+            )}
+
             <Form.Item
               name={'odSid'}
               style={{ padding: '0px', display: 'none' }}
