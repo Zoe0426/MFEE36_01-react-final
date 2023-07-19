@@ -1,10 +1,41 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import style from '@/styles/cartOrderdetail.module.css';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
 import OrderDetailShop from '@/components/ui/cards/orderDetailShop';
 import OrderDetailActivity from '@/components/ui/cards/orderDetailActivity';
+import AuthContext from '@/context/AuthContext';
+
 export default function OrderComplete() {
+  const { auth } = useContext(AuthContext);
+  const router = useRouter();
+  const { query } = router;
+  const [first, setFirst] = useState(false);
+  const [memberSid, setMemberSid] = useState(query.memberSid);
+  const [orderSid, setOrderSid] = useState(query.orderSid);
+  const [checkoutType, setCheckoutType] = useState(query.checkoutType);
+  const getOrderDetail = async () => {
+    // CONTINUE HERE！！！！！！！！！！！！！！
+  };
+  useEffect(() => {
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    setMemberSid(query.memberSid);
+    setOrderSid(query.orderSid);
+    setCheckoutType(query.setCheckoutType);
+
+    if (!auth.id && first) {
+      const from = router.asPath;
+      console.log(from);
+      router.push(`/member/sign-in?from=${from}`);
+    } else if (auth.id) {
+      auth.id === memberSid && getOrderDetail(orderSid, checkoutType);
+    }
+  }, [auth, query, first]);
+
   const orderNum = 'ORD000345';
   const orderType = 'shop';
   return (
