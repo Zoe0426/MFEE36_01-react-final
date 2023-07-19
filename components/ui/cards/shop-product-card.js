@@ -15,40 +15,43 @@ export default function ShopProductCard({
   sales_qty = 0,
 }) {
   return (
-    <Link
-      className={styles.normal_card}
-      href={`http://localhost:3000/product/${product_sid}`}
-    >
-      <div className={styles.card_head}>
-        {tag_display && !!sales_qty && (
-          <div className={styles.card_tag}>
-            <p>已銷售 </p>
-            <p>{sales_qty}</p>
-            <p> 組</p>
-          </div>
-        )}
-        <div>
-          <img src={`/product-img/${img}`} alt={name} />
-        </div>
-        <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />
-      </div>
-      <div className={styles.card_body}>
-        <p className={styles.card_title}>{name}</p>
-        <div className={styles.card_info}>
-          <div className={styles.icons}>
-            {avg_rating && <RateStarPill score={avg_rating} />}
-          </div>
+    <>
+      <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />
+      <Link
+        className={styles.normal_card}
+        href={`http://localhost:3000/product/${product_sid}`}
+      >
+        <div className={styles.card_head}>
+          {tag_display && !!sales_qty && (
+            <div className={styles.card_tag}>
+              <p>已銷售 </p>
+              <p>{sales_qty}</p>
+              <p> 組</p>
+            </div>
+          )}
           <div>
-            <span>{`$ ${min_price.toLocaleString('en-US')} `}</span>
-            <span className={styles.upto}>起</span>
-            {/* {max_price === min_price
+            <img src={`/product-img/${img}`} alt={name} />
+          </div>
+          {/* <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} /> */}
+        </div>
+        <div className={styles.card_body}>
+          <p className={styles.card_title}>{name}</p>
+          <div className={styles.card_info}>
+            <div className={styles.icons}>
+              {avg_rating && <RateStarPill score={avg_rating} />}
+            </div>
+            <div>
+              <span>{`$ ${min_price.toLocaleString('en-US')} `}</span>
+              <span className={styles.upto}>起</span>
+              {/* {max_price === min_price
               ? `$ ${max_price.toLocaleString('en-US')}`
               : `$ ${min_price.toLocaleString(
                   'en-US'
                 )} ~ ${max_price.toLocaleString('en-US')}`} */}
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </>
   );
 }

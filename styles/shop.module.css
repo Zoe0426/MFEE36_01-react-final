@@ -1,3 +1,16 @@
+.container_outer_shop{
+	min-height: 100%;
+	position: relative;
+  max-width: 1920px;
+  /* overflow-x: hidden; */
+  margin: auto;
+
+
+
+
+}
+
+
 .bgc_lightBrown {
   background-color: var(--lightBrown);
 }

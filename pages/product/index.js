@@ -4,7 +4,7 @@ import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
 import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration';
 import ShopSupplierCard from '@/components/ui/cards/shop-supplier-card';
-import SearchBar from '@/components/ui/buttons/SearchBar';
+import SearchBar from '@/components/ui/buttons/SearchBar1';
 import SubBtn from '@/components/ui/buttons/subBtn';
 
 import { Row, Col } from 'antd';
@@ -22,26 +22,30 @@ export default function ProdoctIndex() {
   const router = useRouter();
 
   const [cardPosition, setCardPosition] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCardPosition((prevPosition) => prevPosition - window.innerWidth);
-    }, 10000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCardPosition((prevPosition) => prevPosition - window.innerWidth);
+  //   }, 10000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-  useEffect(() => {
-    if (cardPosition <= -((5 - 1) * window.innerWidth)) {
-      setCardPosition(0);
-    }
-  }, [cardPosition]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
+  // useEffect(() => {
+  //   if (cardPosition <= -((5 - 1) * window.innerWidth)) {
+  //     setCardPosition(0);
+  //   }
+  // }, [cardPosition]);
 
   //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
   const [dataForDog, setDataForDog] = useState([]);
   const [dataForCat, setDataForCat] = useState([]);
   const [dataForBrand, setDataForBrand] = useState([]);
   const [dataForNew, setDataForNew] = useState([]);
+  const [keyword, setKeyword] = useState('');
+  const [keywordDatas, setKeywordDatats] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const [twotCatergoriesData, setTwotCatergoriesData] = useState([
     {
@@ -62,19 +66,34 @@ export default function ProdoctIndex() {
 
   useEffect(() => {
     (async function getData() {
-      //拿回汪星人24張卡片資訊
+      //拿回卡片資訊
       const res_cards = await fetch(
         `${process.env.API_SERVER}/shop-api/hompage-cards`,
         {
           method: 'GET',
         }
       );
-      const { dogDatas, catDatas, brandData, newData } = await res_cards.json();
+      const { dogDatas, catDatas, brandData, newData, keywords } =
+        await res_cards.json();
 
-      setDataForDog(dogDatas);
-      setDataForCat(catDatas);
-      setDataForBrand(brandData);
-      setDataForNew(newData);
+      if (dogDatas.length > 0) {
+        setDataForDog(dogDatas);
+      }
+      if (catDatas.length > 0) {
+        setDataForCat(catDatas);
+      }
+      if (brandData.length > 0) {
+        setDataForBrand(brandData);
+      }
+      if (newData.length > 0) {
+        setDataForNew(newData);
+      }
+      if (keywords.length > 0) {
+        const newKeywords = keywords.map((v) => {
+          return { name: v, count: 0 };
+        });
+        setKeywordDatats(newKeywords);
+      }
 
       setTwotCatergoriesData(
         twotCatergoriesData.map((v) => {
@@ -99,16 +118,94 @@ export default function ProdoctIndex() {
     });
   };
 
+  //searchBar相關的函式-------------------------------------------------------
+  const filterKeywordDatas = (datas, keyword, keyin) => {
+    if (!keyin) {
+      const searchWord = keyword.split('');
+
+      datas.forEach((v1) => {
+        v1.count = 0;
+        searchWord.forEach((v2) => {
+          if (v1.name.includes(v2)) {
+            v1.count += 1;
+          }
+        });
+      });
+      datas.sort((a, b) => b.count - a.count);
+
+      return datas.filter((v) => v.count >= searchWord.length);
+    }
+  };
+
+  const searchBarHandler = (e) => {
+    const searchText = e.target.value;
+
+    if (!searchText) {
+      const newKeywordDatas = [...keywordDatas];
+      setShowKeywordDatas(false);
+      setKeywordDatats(newKeywordDatas);
+    }
+
+    if (e.key === 'Enter' && searchText) {
+      setShowKeywordDatas(false);
+      let copyURL = { keyword: searchText };
+
+      router.push(
+        `http://localhost:3000/product/list?${new URLSearchParams(
+          copyURL
+        ).toString()}`
+      );
+    }
+  };
+
+  const searchBarClickHandler = () => {
+    router.push(
+      `http://localhost:3000/product/list?${new URLSearchParams({
+        keyword: keyword,
+      }).toString()}`
+    );
+  };
+
+  const autocompleteHandler = (selectkeyword) => {
+    setKeyword(selectkeyword);
+  };
+
   return (
     <>
       <div className="container-outer">
         <nav></nav>
       </div>
-      <div className="container-outer">
+      <div className={styles.container_outer_shop}>
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
             <div className={styles.search_bar}>
-              <SearchBar placeholder="搜尋你愛的東西" btn_text="尋找商品" />
+              <SearchBar
+                keywordDatas={filterKeywordDatas(
+                  keywordDatas,
+                  keyword,
+                  isTyping
+                )}
+                placeholder="搜尋你愛的東西"
+                btn_text="尋找商品"
+                inputText={keyword}
+                changeHandler={(e) => {
+                  setKeyword(e.target.value);
+                  setShowKeywordDatas(true);
+                  setIsTyping(true);
+                  setTimeout(() => {
+                    setIsTyping(false);
+                  }, 700);
+                }}
+                keyDownHandler={searchBarHandler}
+                clickHandler={searchBarClickHandler}
+                autocompleteHandler={autocompleteHandler}
+                showKeywordDatas={showKeywordDatas}
+                blurHandler={() => {
+                  setTimeout(() => {
+                    setShowKeywordDatas(false);
+                  }, 100);
+                }}
+              />
             </div>
             {/* 這邊應該要改用共用元件分類按鈕 */}
             <Row gutter={{ xs: 0, sm: 0, md: 16 }}>

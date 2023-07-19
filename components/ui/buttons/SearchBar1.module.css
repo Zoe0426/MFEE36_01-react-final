@@ -22,7 +22,7 @@
 
 .keyword_reminder {
   position: absolute;
-  z-index: 3;
+  z-index: 9;
   width: 632px;
   border: 1px solid var(--light-gray);
   margin-top: 4px;
@@ -31,6 +31,8 @@
   background-color: white;
   text-align: left;
   box-shadow: var(--shadow);
+  
+
 }
 
 .keyword_reminder li {

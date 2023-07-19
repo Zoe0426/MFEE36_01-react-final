@@ -42,6 +42,7 @@ export default function List() {
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
   const [copyFilters, setCopyFilters] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
   const [keywordDatas, setKeywordDatats] = useState([]);
   const [showKeywordDatas, setShowKeywordDatas] = useState(false);
 
@@ -244,21 +245,23 @@ export default function List() {
   };
 
   //searchBar相關的函式-------------------------------------------------------
+  const filterKeywordDatas = (datas, keyword, keyin) => {
+    if (!keyin) {
+      const searchWord = keyword.split('');
 
-  const filterKeywordDatas = (datas, keyword) => {
-    const searchWord = keyword.split('');
-    datas.forEach((v1) => {
-      v1.count = 0;
-      searchWord.forEach((v2) => {
-        if (v1.name.includes(v2)) {
-          v1.count += 1;
-        }
+      datas.forEach((v1) => {
+        v1.count = 0;
+        searchWord.forEach((v2) => {
+          if (v1.name.includes(v2)) {
+            v1.count += 1;
+          }
+        });
       });
-    });
 
-    datas.sort((a, b) => b.count - a.count); // 依 count 降序排列
+      datas.sort((a, b) => b.count - a.count);
 
-    return datas.filter((v) => v.count >= searchWord.length);
+      return datas.filter((v) => v.count >= searchWord.length);
+    }
   };
 
   const searchBarHandler = (e) => {
@@ -513,13 +516,17 @@ export default function List() {
         <nav className="container-inner">
           <div className={styles.search_bar}>
             <SearchBar
-              keywordDatas={filterKeywordDatas(keywordDatas, keyword)}
+              keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
               placeholder="搜尋你愛的東西"
               btn_text="尋找商品"
               inputText={keyword}
               changeHandler={(e) => {
                 setKeyword(e.target.value);
                 setShowKeywordDatas(true);
+                setIsTyping(true);
+                setTimeout(() => {
+                  setIsTyping(false);
+                }, 700);
               }}
               keyDownHandler={searchBarHandler}
               clickHandler={searchBarClickHandler}
