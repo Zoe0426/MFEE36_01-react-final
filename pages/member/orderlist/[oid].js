@@ -448,6 +448,9 @@ export default function OrderDetail() {
               return (
                 <OrderDetailCard
                   key={data.order_detail_sid}
+                  memberSid={data.member_sid}
+                  odSid={data.order_detail_sid}
+                  actSid={data.activity_sid}
                   relName={data.rel_name}
                   relSeqName={data.rel_seq_name}
                   productQty={data.product_qty}

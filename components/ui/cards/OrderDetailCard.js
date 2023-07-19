@@ -17,8 +17,16 @@ export default function OrderDetailCard({
   img,
   actImg,
   relType,
+  memberSid,
+  odSid,
+  actSid,
 }) {
   const [show, setShow] = useState(false);
+  const initialValues = {
+    memberSid: memberSid,
+    odSid: odSid,
+    actSid: actSid,
+  };
 
   const showReviewContent = () => {
     setShow(!show);
@@ -32,22 +40,15 @@ export default function OrderDetailCard({
   };
 
   const handleSubmit = (values) => {
-    // fetch(`${process.env.API_SERVER}/member-api/login`, {
-    //   method: 'POST',
-    //   body: JSON.stringify(values),
-    //   headers: { 'Content-Type': 'application/json' },
-    // })
-    //   .then((r) => r.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //     if (data.success) {
-    //       const obj = { ...data.data };
-    //       localStorage.setItem('petauth', JSON.stringify(obj));
-    //       setAuth(obj);
-    //     } else {
-    //       alert(data.error || '帳密錯誤');
-    //     }
-    //   });
+    fetch(`${process.env.API_SERVER}/member-api/reviews`, {
+      method: 'POST',
+      body: JSON.stringify(values),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        console.log(data);
+      });
   };
   return (
     <>
@@ -94,14 +95,33 @@ export default function OrderDetailCard({
       {show && (
         <div className={Style.reviewContent}>
           <Form
-            name="reviewForm"
-            onFinish={onFinish}
+            name={`review${odSid}`}
+            initialValues={initialValues}
+            onFinish={handleSubmit}
             onFinishFailed={onFinishFailed}
           >
+            <Form.Item
+              name={'memberSid'}
+              style={{ padding: '0px', display: 'none' }}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name={'actSid'}
+              style={{ padding: '0px', display: 'none' }}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              name={'odSid'}
+              style={{ padding: '0px', display: 'none' }}
+            >
+              <Input />
+            </Form.Item>
             <Form.Item name={'starts'} style={{ padding: '0px' }}>
               <Rate allowClear={false} style={{ color: 'red' }} />
             </Form.Item>
-            <Form.Item name={'reviews'} style={{ padding: '0px' }}>
+            <Form.Item name={'content'} style={{ padding: '0px' }}>
               <Input.TextArea
                 rows={4}
                 style={{ backgroundColor: 'transparent' }}
