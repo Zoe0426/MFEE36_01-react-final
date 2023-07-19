@@ -14,6 +14,7 @@ import NavDetailPage from '@/components/ui/cards/NavDetailPage';
 import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
+import CommentCard from '@/components/ui/cards/comment-card';
 import { Select } from 'antd';
 
 // import CommentCard from '@/componets/ui/cards/comment-card.js';
@@ -31,12 +32,16 @@ export default function ActivityDetail() {
     actImageRows: [],
     actDateRows: [],
     actFeatureRows: [],
+    actRatingRows: [],
   });
 
   const [actDetailRows, setActDetailRows] = useState([]);
   const [actImageRows, setActImageRows] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 初始索引為 0 // slider效果
+  //const [fadeIn, setFadeIn] = useState(false); // slider效果
   const [actDateRows, setActDateRows] = useState([]);
   const [actFeatureRows, setActFeatureRows] = useState([]);
+  const [actRatingRows, setActRatingRows] = useState([]);
 
   useEffect(() => {
     const { aid } = query;
@@ -45,8 +50,13 @@ export default function ActivityDetail() {
       fetch(`http://localhost:3002/activity-api/activity/${aid}`)
         .then((r) => r.json())
         .then((data) => {
-          const { actDetailRows, actImageRows, actDateRows, actFeatureRows } =
-            data;
+          const {
+            actDetailRows,
+            actImageRows,
+            actDateRows,
+            actFeatureRows,
+            actRatingRows,
+          } = data;
 
           // 更新 React 組件的狀態
           if (actDetailRows && actDetailRows.length > 0) {
@@ -59,7 +69,7 @@ export default function ActivityDetail() {
             setActImageRows(actImageRows[0].activity_pic.split(','));
           }
 
-          // console.log(actImageRows); //測試
+          console.log(actImageRows); //測試
           // console.log((actImageRows[0].activity_pic).split(',')[0])//測試
 
           if (actDateRows && actDateRows.length > 0) {
@@ -68,6 +78,10 @@ export default function ActivityDetail() {
 
           if (actFeatureRows && actFeatureRows.length > 0) {
             setActFeatureRows(actFeatureRows);
+          }
+
+          if (actRatingRows && actRatingRows.length > 0) {
+            setActRatingRows(actRatingRows);
           }
 
           // const initialActImageRows = actImageRows.map((v, index) => {
@@ -123,13 +137,36 @@ export default function ActivityDetail() {
           {/* -------右邊------- */}
 
           <div className={styles.left}>
-            {/* <img
-              // src={`/activity_img/${actImageRows[0]}`}
-              alt="Activity"
+            <button
+              onClick={() => {
+                setCurrentImageIndex((prevIndex) =>
+                  prevIndex === 0 ? actImageRows.length - 1 : prevIndex - 1
+                );
+              }}
+              className={styles.overlay_left}
+            >
+              上
+            </button>
+            <img
+              src={`/activity_img/${actImageRows[currentImageIndex]}`}
+              alt="Slider"
               className={styles.image}
-            /> */}
-            <div className={styles.overlay_left}></div>
-            <div className={styles.overlay_right}></div>
+            />
+            <button
+              onClick={() => {
+                setCurrentImageIndex(
+                  (prevIndex) => (prevIndex + 1) % actImageRows.length
+                );
+              }}
+              className={styles.overlay_right}
+            >
+              下
+            </button>
+
+            {/* <img src={`/activity_img/${actImageRows[0]}`}alt="Slider" className={styles.image}/> */}
+
+            {/* <div className={styles.overlay_left}></div>
+            <div className={styles.overlay_right}></div> */}
             <div className={styles.icon}></div>
           </div>
 
@@ -401,9 +438,41 @@ export default function ActivityDetail() {
       {/* ....銜接處圖片4.... */}
       <img src="/activity_img/detail_bg_1.jpg" alt="Activity" />
 
-      {/* .........為您推薦......... */}
+      {/* .........顧客評價......... */}
 
-      {/* <CommentCard  member_sid = 'mem0001' date='2023-01-10' rating='' content='' name='' profile='' /> */}
+      <div className="container-inner">
+        <div className={styles.content}>
+          <div>
+            <p className={styles.subtitle}>顧客評價：</p>
+
+            <div className={styles.comment_cards}>
+              {actRatingRows &&
+                actRatingRows.map((v) => {
+                  const {
+                    activity_rating_sid,
+                    member_sid,
+                    date,
+                    star,
+                    content,
+                    name,
+                    profile,
+                  } = v;
+                  return (
+                    <CommentCard
+                      key={activity_rating_sid}
+                      member_sid={member_sid}
+                      date={date}
+                      rating={star}
+                      content={content}
+                      name={name}
+                      profile={profile}
+                    />
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

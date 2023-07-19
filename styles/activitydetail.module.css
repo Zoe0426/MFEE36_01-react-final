@@ -67,6 +67,7 @@
   .left {
     position: relative;
     width: 60%;
+    height:550px;
 
   }
   
@@ -76,6 +77,7 @@
     height: 100%;
     object-fit: cover;
     border-radius: var(--br10) 0 0 var(--br10);
+
   }
 
   
@@ -242,4 +244,9 @@
     width: 45%;
     margin-right: 70px;
     border-radius: var(--br10);
+}
+
+.comment_cards{
+  display: flex;
+  flex-wrap: nowrap;
 }
