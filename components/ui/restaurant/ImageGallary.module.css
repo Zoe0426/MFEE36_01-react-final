@@ -22,8 +22,8 @@
 }
 
 .image {
-  width: 1080px;
-  height: auto;
+  width: auto;
+  height: 900px
 }
 .xmark{
   color: white;
