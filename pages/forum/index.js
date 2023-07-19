@@ -140,7 +140,8 @@ export default function Post() {
           <div className="container-inner">
           <PostNav postNav='熱門文章' optionCh='熱門文章' op1='最新文章'/>
           {data.map((v,i)=>(
-          <Link href={`/forum/${i+1}`}>
+          // <Link href={`/forum/${i+1}`}>
+          <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
           <PostCard key={v.post_sid}
           profile='./forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' 
           boardName={v.board_name} 
