@@ -14,9 +14,38 @@ export default function OrderComplete() {
   const [first, setFirst] = useState(false);
   const [memberSid, setMemberSid] = useState(query.memberSid);
   const [orderSid, setOrderSid] = useState(query.orderSid);
-  const [checkoutType, setCheckoutType] = useState(query.checkoutType);
-  const getOrderDetail = async () => {
-    // CONTINUE HERE！！！！！！！！！！！！！！
+  const [checkoutType, setCheckoutType] = useState('');
+  const [orderInfo, setOrderInfo] = useState({
+    order_sid: '',
+    checkoutType: '',
+    email: '',
+    create_dt: '',
+    coupon_amount: 0,
+    recipient: '',
+    recipient_phone: '',
+    post_type: '',
+    post_address: '',
+    post_store_name: '',
+    post_amount: 0,
+    orderDetailItems: [],
+  });
+  const getOrderDetail = async (orderSid, checkoutType) => {
+    const r = await fetch(
+      `${process.env.API_SERVER}/cart-api/get-orderDetail`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          order_sid: orderSid,
+          checkoutType: checkoutType,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const data = await r.json();
+    setOrderInfo(data);
+    console.log(data);
   };
   useEffect(() => {
     setFirst(true);
@@ -25,8 +54,7 @@ export default function OrderComplete() {
   useEffect(() => {
     setMemberSid(query.memberSid);
     setOrderSid(query.orderSid);
-    setCheckoutType(query.setCheckoutType);
-
+    setCheckoutType(query.checkoutType);
     if (!auth.id && first) {
       const from = router.asPath;
       console.log(from);
@@ -38,7 +66,9 @@ export default function OrderComplete() {
 
   const orderNum = 'ORD000345';
   const orderType = 'shop';
-  return (
+  return !auth.id && first ? (
+    <>沒東西</>
+  ) : (
     <>
       <BgCartHead text="完成結帳" />
       <div className="container-inner">
