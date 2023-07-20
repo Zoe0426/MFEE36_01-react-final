@@ -52,6 +52,9 @@ export default function FilterPage() {
 
   const [datePickerValue, setDatePickerValue] = useState(null);
 
+  const [showTimeError, setShowTimeError] = useState(false);
+  const [showTimeError1, setShowTimeError1] = useState(false);
+
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
     totalRows: 0,
@@ -173,6 +176,15 @@ export default function FilterPage() {
 
     console.log(selectedDate);
 
+    // 檢查是否填寫了開始時間和結束時間
+    if (startTime && !endTime) {
+      setShowTimeError(false);
+      setShowTimeError1(true);
+    } else if (!startTime && endTime) {
+      setShowTimeError(true);
+      setShowTimeError1(false);
+    }
+
     const checkedOptions = filterCate
       .filter((v) => v.checked === true)
       .map((v) => v.value);
@@ -206,6 +218,8 @@ export default function FilterPage() {
     setEndTime('');
     setStartTime('');
     setDatePickerValue(null);
+    setShowTimeError(false);
+    setShowTimeError1(false);
 
     // setStartTime('08:00');
 
@@ -341,6 +355,18 @@ export default function FilterPage() {
                   handlerChange2={handlerChange2}
                   onDateChange={handleDatePickerChange}
                   value={datePickerValue}
+                  alert_start={
+                    showTimeError && (
+                      <p style={{ color: 'red' }}>請填寫開始時間</p>
+                    )
+                  }
+                  status_start={showTimeError && 'error'}
+                  status_end={showTimeError1 && 'error'}
+                  alert_end={
+                    showTimeError1 && (
+                      <p style={{ color: 'red' }}>請填寫結束時間</p>
+                    )
+                  }
                 />
                 <RestaurantFilter
                   text="用餐類別"

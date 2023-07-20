@@ -1,6 +1,7 @@
 .total_pages_rank{
     margin:48px 0px 48px 0px;
     display: flex;
+    align-items: center;
     width: 100%;
 }
 .input_section{
@@ -10,6 +11,10 @@
 }
 .to{
     padding-top: 15px;
+}
+.alert{
+    padding-left: 8px;
+    padding-top: 6px;
 }
 .input_frame{
     width:210px;
@@ -24,14 +29,16 @@
     /* border: 1px solid var(--main); */
     outline: 0.2px solid var(--main);
 }
+.input_area{
+    display: flex;
+    flex-direction: column;
+}
 .total_pages_rank>div>p{
     font-size: var(--h6fs18);
 }
 .categor_area{
     display: flex;
     align-items: center;
-
-
 }
 .labels{
     font-size:var(--h6fs18) ;

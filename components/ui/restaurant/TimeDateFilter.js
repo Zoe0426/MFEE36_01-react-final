@@ -2,6 +2,7 @@ import React from 'react';
 import Styles from './TimeDateFilter.module.css';
 import { DownOutlined } from '@ant-design/icons';
 import moment from 'moment/moment';
+// import zh_TW from 'antd/es/locale/zh_TW';
 import {
   DatePicker,
   TimePicker,
@@ -22,6 +23,10 @@ export default function TimeDateFilter({
   handlerChange2,
   onDateChange = '',
   value,
+  alert_start,
+  alert_end,
+  status_end,
+  status_start,
 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
@@ -33,68 +38,12 @@ export default function TimeDateFilter({
   };
 
   const onChange = (date, dateString) => {
-    // console.log(date.$W);
-    // console.log(dateString);
-    onDateChange(date);
-  };
-
-  const items = [
-    {
-      label: '08:00~10:00',
-      key: '1',
-    },
-    {
-      label: '10:00~12:00',
-      key: '2',
-    },
-    {
-      label: '12:00~14:00',
-      key: '3',
-    },
-    {
-      label: '14:00~16:00',
-      key: '4',
-    },
-    {
-      label: '16:00~18:00',
-      key: '5',
-    },
-    {
-      label: '18:00~20:00',
-      key: '6',
-    },
-    {
-      label: '20:00~22:00',
-      key: '7',
-    },
-    {
-      label: '22:00~00:00',
-      key: '8',
-    },
-    {
-      label: '00:00~02:00',
-      key: '9',
-    },
-    {
-      label: '02:00~04:00',
-      key: '10',
-    },
-    {
-      label: '04:00~06:00',
-      key: '11',
-    },
-    {
-      label: '06:00~08:00',
-      key: '12',
-    },
-  ];
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
+    onDateChange(date); // 直接傳遞選擇的日期給父元件
   };
 
   return (
     <ConfigProvider
+      // locale={zh_TW}
       theme={{
         token: {
           colorBorder: '#DDDDDD',
@@ -112,39 +61,53 @@ export default function TimeDateFilter({
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <p className={Styles.labels}>用餐日期</p>
         </div>
-
-        <DatePicker
-          value={value}
-          onChange={onChange}
-          className={Styles.date}
-          placeholder="選擇日期"
-        />
+        <div className={Styles.input_area}>
+          <DatePicker
+            value={value}
+            onChange={onChange}
+            className={Styles.date}
+            placeholder="選擇日期"
+            disabledDate={(current) => {
+              return moment().add(-1, 'days') >= current;
+            }}
+          />
+        </div>
 
         <div className={Styles.categor_area}>
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <p className={Styles.labels}>用餐時間</p>
         </div>
         <div className={Styles.input_section}>
-          <TimePicker
-            placeholder="開始時間"
-            value={startTime ? moment(startTime, 'HH:mm') : null}
-            onChange={(time) =>
-              handlerChange1(time ? time.format('HH:mm') : null)
-            }
-            className={Styles.input_frame}
-            // onChange={handlerChange1}
-          />
-
-          <TimePicker
-            placeholder="結束時間"
-            value={endTime ? moment(endTime, 'HH:mm') : null}
-            // onChange={handlerChange2}
-            onChange={(time) =>
-              handlerChange2(time ? time.format('HH:mm') : null)
-            }
-            className={Styles.input_frame}
-          />
+          <div className={Styles.input_area}>
+            <TimePicker
+              placeholder="開始時間"
+              status={status_start}
+              value={startTime ? moment(startTime, 'HH:mm') : null}
+              onChange={(time) =>
+                handlerChange1(time ? time.format('HH:mm') : null)
+              }
+              className={Styles.input_frame}
+              // onChange={handlerChange1}
+            />
+            <div className={Styles.alert}>{alert_start}</div>
+            {/* <div>請填寫開始時間</div> */}
+          </div>
+          <div className={Styles.input_area}>
+            <TimePicker
+              placeholder="結束時間"
+              status={status_end}
+              value={endTime ? moment(endTime, 'HH:mm') : null}
+              // onChange={handlerChange2}
+              onChange={(time) =>
+                handlerChange2(time ? time.format('HH:mm') : null)
+              }
+              className={Styles.input_frame}
+            />
+            {/* <div>請填寫結束時間</div> */}
+            <div className={Styles.alert}>{alert_end}</div>
+          </div>
         </div>
+
         {/* <div className={Styles.input_section}>
           <input
             className={Styles.input_frame}
