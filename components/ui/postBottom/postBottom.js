@@ -1,6 +1,7 @@
 import React, {useEffect, useState } from 'react'
 import Style from './postBottom.module.css'
 import PostPhotoCard from '../postPhotoCard/postPhotoCard'
+import Link from 'next/link';
 
 export default function PostBottom() {
   const [data, setData] = useState([]);
@@ -13,14 +14,7 @@ export default function PostBottom() {
   useEffect(()=>{
     fetchData();
   }, []);
-  
-  // 用switch的方式判斷bg的顏色（在bg裡面塞function）
-  // let bgc = ()=>{
     
-    
-    // }
-    
-  
 
   return (
 <div className={Style.bottom}>
@@ -29,14 +23,15 @@ export default function PostBottom() {
     <div className={Style.bottomBlock}>
     <div className={Style.bottomContent}>
     {data.map((v)=>(
-
-      <PostPhotoCard key={v.post_sid} 
-      img={`http://localhost:3000/forum_img/post_img/${v.file}`} 
-      boardImg={`http://localhost:3000/forum_img/board_img/${v.board_img}`}
-      boardName={v.board_name} 
-      // bc= 'var(--main)'
-      title={v.post_title} 
-      content={v.post_content}/>
+    <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
+    <PostPhotoCard key={v.post_sid} 
+    img={`http://localhost:3000/forum_img/post_img/${v.file}`} 
+    boardImg={`http://localhost:3000/forum_img/board_img/${v.board_img}`}
+    boardName={v.board_name} 
+    // bc= 'var(--main)'
+    title={v.post_title} 
+    content={v.post_content}/>
+    </Link>
     ))}
 
     </div>

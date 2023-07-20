@@ -4,10 +4,11 @@ import BlogBanner from '@/components/ui/blogBanner/blogBanner'
 import { Col, Row } from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
 import PostNavPure from '@/components/ui/postNavPure/postNavPure';
-import BoardNav from '@/components/ui/BoardNav/boardNav';
+import BlogBoardNav from '@/components/ui/blogBoardNav/blogBoardNav';
 import BlogPost from '@/components/ui/blogPost/blogPost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faLayerGroup} from '@fortawesome/free-solid-svg-icons';
+// import SubBtn from '@/components/ui/'
 
 export default function Post() {
   const currentDateTime = new Date().toLocaleString(); // 取得現在的日期和時間
@@ -26,10 +27,11 @@ export default function Post() {
                 <div className={Style.postContent}>
                   <p>{currentDateTime}</p>
                   <div><FontAwesomeIcon icon={faLayerGroup} />選擇發文看板</div>
-                  <div><BoardNav/></div>
-
+                  <div><BlogBoardNav/><div/>             
                 </div>
             </div>
+            </div>
+
         </Col>
       </Row>
       </div>

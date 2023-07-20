@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Style from './blogPost.module.css'
 import PostCard from '../PostCard/postCard'
 
 export default function BlogPost({Date=''}) {
+  const [data, setData] = useState([]);
+  const fetchData = async()=>{
+    const response = await fetch(`${process.env.API_SERVER}/forum-api/blogPost`, {method:"GET"});
+    const data = await response.json();
+    setData(data);
+    console.log('data',data);
+  };
+  useEffect(()=>{
+    fetchData();
+  }, []);
   return (
     <div className={Style.blogCon}>
         <div className={Style.date}>{Date}</div>

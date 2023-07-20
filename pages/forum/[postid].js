@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
-import Style from '@/styles/post.module.css'
+import Style from '@/styles/postid.module.css'
 import PostBanner from '@/components/ui/postBanner/postBanner'
 import BoardNav from '@/components/ui/BoardNav/boardNav'
 import PostArticle from '@/components/ui/postArticle/postArticle';
@@ -26,6 +26,8 @@ export default function Post() {
     commentData:[],
     imgData:[]
   })
+
+
   // 文章
   const [postData, setPostData] = useState([]);
   // 話題
@@ -44,15 +46,16 @@ export default function Post() {
       const data = await response.json();
   
       // 從回傳的 data 物件中取得 postData、hashtagData 和 commentData，然後設定到對應的狀態
-      setPostData(data.data || []); //因為在node文章資料是叫data
+      setPostData(data.newData || []); //因為在node文章資料是叫data
       setHashtagData(data.tagData || []); //因為在node hashtag資料是叫tagData
-      setCommentData(data.commentData || []);
-      setImgData(data.imgData || []);
+      setCommentData(data.newCommentData || []);
+      const newImgData = data.imgData.map(v=>v.file)
+      setImgData(newImgData || []);
   
-      console.log('postData', data.data);
+      console.log('postData', data.newData);
       console.log('hashtagData', data.tagData);
-      console.log('commentData', data.commentData);
-      console.log('imgData', data.imgData);
+      console.log('commentData', data.newCommentData);
+      console.log('newImgData', newImgData);
   
       console.log(postid);
     } catch (error) {
@@ -71,14 +74,14 @@ export default function Post() {
     }, [postid]); // Fetch data when the post ID changes
   
 
-  const images = [
-    // '/forum_img/狗活動.jpeg',
-    // '/forum_img/狗活動.jpeg',
-    // '/forum_img/狗活動.jpeg',
-    // '/forum_img/狗活動.jpeg',
-    // '/forum_img/狗活動.jpeg',   
-    `${commentData}`
-  ];
+  // const images = [
+  //   // '/forum_img/狗活動.jpeg',
+  //   // '/forum_img/狗活動.jpeg',
+  //   // '/forum_img/狗活動.jpeg',
+  //   // '/forum_img/狗活動.jpeg',
+  //   // '/forum_img/狗活動.jpeg',   
+  //   `${imgData}`
+  // ];
 
   return (
     <div className="container-outer">
@@ -106,9 +109,8 @@ export default function Post() {
               
               </div>
                 <div className={Style.postImg}>
-                {imgData.map((v,i)=>(
-                  <PostImg images={images}/>
-                ))}
+
+                  <PostImg images={imgData}/>
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(

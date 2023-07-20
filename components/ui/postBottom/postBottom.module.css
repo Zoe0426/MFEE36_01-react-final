@@ -15,7 +15,7 @@
     position: relative;
 }
 .bottomContent{
-    max-width: 70%;
+    max-width: 65%;
     /* border: 1px solid purple; */
     margin: auto;
     display: flex;
