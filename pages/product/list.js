@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/shop.module.css';
 import { Pagination, Row, Col, ConfigProvider } from 'antd';
+import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/like-list';
@@ -30,8 +31,13 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function List() {
   const router = useRouter();
+  const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
+    'petProductHistory',
+    [],
+    true
+  );
 
-  //是否顯示總銷售數的tag
+  //商品卡是否顯示總銷售數的tag
   const [showFlag, setShowFlag] = useState(false);
 
   //換頁時要用的-類別/關鍵字/頁碼/排序
@@ -39,12 +45,13 @@ export default function List() {
   const [perPage, setPerPage] = useState(20);
   const [orderBy, setOrderBy] = useState('-- 請選擇 --');
   const [keyword, setKeyword] = useState('');
-  const [filtersReady, setFiltersReady] = useState(false);
-  const [filters, setFilters] = useState(filterDatas);
-  const [copyFilters, setCopyFilters] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [keywordDatas, setKeywordDatats] = useState([]);
   const [showKeywordDatas, setShowKeywordDatas] = useState(false);
+  const [showfilter, setShowFilter] = useState(false);
+  const [filtersReady, setFiltersReady] = useState(false);
+  const [filters, setFilters] = useState(filterDatas);
+  const [copyFilters, setCopyFilters] = useState([]);
 
   //管理價格條件的input
   const [showErrorMessage1, setShowErrorMessage1] = useState(false);
@@ -68,7 +75,7 @@ export default function List() {
 
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
-  const [showfilter, setShowFilter] = useState(false);
+
   //麵包屑寫得有點奇怪...
   const [breadCrubText, setBreadCrubText] = useState([
     {
@@ -296,6 +303,7 @@ export default function List() {
 
   const autocompleteHandler = (selectkeyword) => {
     setKeyword(selectkeyword);
+    setShowKeywordDatas(false);
   };
 
   //Pagination相關的函式-------------------------------------------------------
@@ -509,6 +517,12 @@ export default function List() {
     }
   };
 
+  //刪除瀏覽紀錄相關函式-----------
+  const clearHistoryViews = () => {
+    setLocalStorageHistory([]);
+    localStorage.removeItem('petProductHistory');
+  };
+
   return (
     <>
       {/* <div className="container-outer"> */}
@@ -535,7 +549,10 @@ export default function List() {
               blurHandler={() => {
                 setTimeout(() => {
                   setShowKeywordDatas(false);
-                }, 100);
+                }, 200);
+              }}
+              clearHandler={() => {
+                setKeyword('');
               }}
             />
           </div>
@@ -644,12 +661,12 @@ export default function List() {
       </div>
       <BGUpperDecoration />
       <div className="container-outer">
-        <ShopHistoryCard
-          data={[
-            { product_sid: 'CFCA0001', img: 'pro009.jpg' },
-            { product_sid: 'CFCA0002', img: 'pro010.jpg' },
-          ]}
-        />
+        {localStorageHistory.length > 0 && (
+          <ShopHistoryCard
+            data={localStorageHistory}
+            clearAllHandler={clearHistoryViews}
+          />
+        )}
       </div>
 
       {/* </div> */}

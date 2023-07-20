@@ -2,6 +2,7 @@ import styles from './shop-product-card.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
 import RateStarPill from '../rateStar/RateStarPill';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 export default function ShopProductCard({
@@ -14,6 +15,7 @@ export default function ShopProductCard({
   tag_display = false,
   sales_qty = 0,
 }) {
+  const router = useRouter();
   return (
     <>
       <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />

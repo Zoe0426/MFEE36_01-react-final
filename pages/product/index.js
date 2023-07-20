@@ -168,6 +168,7 @@ export default function ProdoctIndex() {
 
   const autocompleteHandler = (selectkeyword) => {
     setKeyword(selectkeyword);
+    setShowKeywordDatas(false);
   };
 
   return (
@@ -203,7 +204,10 @@ export default function ProdoctIndex() {
                 blurHandler={() => {
                   setTimeout(() => {
                     setShowKeywordDatas(false);
-                  }, 100);
+                  }, 200);
+                }}
+                clearHandler={() => {
+                  setKeyword('');
                 }}
               />
             </div>

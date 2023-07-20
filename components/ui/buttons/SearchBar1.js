@@ -2,6 +2,9 @@ import React from 'react';
 import Styles from './SearchBar1.module.css';
 import MainBtn from './MainBtn';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
 export default function SearchBar1({
   keywordDatas = [],
   showKeywordDatas = false,
@@ -13,20 +16,28 @@ export default function SearchBar1({
   clickHandler = () => {},
   keyDownHandler = () => {},
   autocompleteHandler = () => {},
+  clearHandler = () => {},
 }) {
   return (
     <>
       <div className={Styles.input_area}>
         <div>
-          <input
-            type="text"
-            className={Styles.search_input}
-            value={inputText}
-            placeholder={placeholder}
-            onChange={changeHandler}
-            onBlur={blurHandler}
-            onKeyUp={keyDownHandler}
-          />
+          <div className={Styles.input_box}>
+            <input
+              type="text"
+              className={Styles.search_input}
+              value={inputText}
+              placeholder={placeholder}
+              onChange={changeHandler}
+              onBlur={blurHandler}
+              onKeyUp={keyDownHandler}
+            />
+            <FontAwesomeIcon
+              icon={faXmark}
+              className={Styles.btn_clear_text}
+              onClick={clearHandler}
+            />
+          </div>
           {showKeywordDatas && keywordDatas.length > 0 && (
             <div className={Styles.keyword_reminder}>
               <ul>
