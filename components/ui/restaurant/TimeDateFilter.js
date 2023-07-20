@@ -129,14 +129,14 @@ export default function TimeDateFilter({
           </Button>
         </Dropdown> */}
         <input
-          type="text"
+          type="time"
           placeholder="開始時間"
           id="startTimeInput"
           value={startTime}
           onChange={handlerChange1}
         />
         <input
-          type="text"
+          type="time"
           placeholder="結束時間"
           id="endTimeInput"
           value={endTime}
