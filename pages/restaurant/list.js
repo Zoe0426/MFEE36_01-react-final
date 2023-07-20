@@ -52,8 +52,8 @@ export default function FilterPage() {
 
   const [datePickerValue, setDatePickerValue] = useState(null);
 
-  const [showTimeError, setShowTimeError] = useState(false);
-  const [showTimeError1, setShowTimeError1] = useState(false);
+  const [showStartTimeError, setStartShowTimeError] = useState(false);
+  const [showEndTimeError, setShowEndTimeError] = useState(false);
 
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
@@ -178,11 +178,11 @@ export default function FilterPage() {
 
     // 檢查是否填寫了開始時間和結束時間
     if (startTime && !endTime) {
-      setShowTimeError(false);
-      setShowTimeError1(true);
+      setStartShowTimeError(false);
+      setShowEndTimeError(true);
     } else if (!startTime && endTime) {
-      setShowTimeError(true);
-      setShowTimeError1(false);
+      setStartShowTimeError(true);
+      setShowEndTimeError(false);
     }
 
     const checkedOptions = filterCate
@@ -218,8 +218,8 @@ export default function FilterPage() {
     setEndTime('');
     setStartTime('');
     setDatePickerValue(null);
-    setShowTimeError(false);
-    setShowTimeError1(false);
+    setStartShowTimeError(false);
+    setShowEndTimeError(false);
 
     // setStartTime('08:00');
 
@@ -356,14 +356,14 @@ export default function FilterPage() {
                   onDateChange={handleDatePickerChange}
                   value={datePickerValue}
                   alert_start={
-                    showTimeError && (
+                    showStartTimeError && (
                       <p style={{ color: 'red' }}>請填寫開始時間</p>
                     )
                   }
-                  status_start={showTimeError && 'error'}
-                  status_end={showTimeError1 && 'error'}
+                  status_start={showStartTimeError && 'error'}
+                  status_end={showEndTimeError && 'error'}
                   alert_end={
-                    showTimeError1 && (
+                    showEndTimeError && (
                       <p style={{ color: 'red' }}>請填寫結束時間</p>
                     )
                   }
