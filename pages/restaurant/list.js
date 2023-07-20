@@ -24,7 +24,6 @@ export default function FilterPage() {
   // const { categorySid } = filterDatas;
   // console.log(categorySid);
   const [filters, setFilters] = useState(filterDatas);
-  console.log(filters.categorySid);
 
   // 儲存篩選條件
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -47,6 +46,9 @@ export default function FilterPage() {
   const [category, setCategory] = useState('');
 
   const [orderBy, setOrderBy] = useState('-- 排序條件 --');
+
+  const [startTime, setStartTime] = useState('08:00');
+  const [endTime, setEndTime] = useState('12:00');
 
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
@@ -130,6 +132,8 @@ export default function FilterPage() {
       });
   }, [router.query]);
 
+  //datefilter相關的函式-------------------------------------------------------
+
   //checkbox相關的函式-------------------------------------------------------
   const checkboxToggleHandler = (arr, name, id) => {
     // 在點擊checkbox 的選擇，並更新狀態
@@ -141,10 +145,15 @@ export default function FilterPage() {
       categorySid: updatedCategorySid,
     });
   };
-
+  //餐廳篩選條件
   const filterHandler = () => {
     const filterCate = filters.categorySid;
-    console.log(filterCate);
+    //console.log(filterCate);
+
+    //時間篩選
+    const start = startTime + ':00';
+    const end = endTime + ':00';
+
 
     const checkedOptions = filterCate
       .filter((v) => v.checked === true)
@@ -154,6 +163,13 @@ export default function FilterPage() {
     if (checkedOptions.length > 0) {
       query.category = checkedOptions;
     }
+
+    if (start && end) {
+      query.startTime = start;
+      query.endTime = end;
+    }
+    console.log(start);
+    console.log(end);
     console.log(checkedOptions);
     router.push(
       `?${new URLSearchParams({
@@ -291,7 +307,12 @@ export default function FilterPage() {
             <div className="container-inner">
               <div className={Styles.filter_box}>
                 <LocationFilter text="用餐地區" />
-                <TimeDateFilter />
+                <TimeDateFilter
+                  startTime={startTime}
+                  endTime={endTime}
+                  handlerChange1={(e) => setStartTime(e.target.value)}
+                  handlerChange2={(e) => setEndTime(e.target.value)}
+                />
                 <RestaurantFilter
                   text="用餐類別"
                   data={filters.categorySid}
