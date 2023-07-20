@@ -1,11 +1,10 @@
 import React from 'react';
 import Styles from './TimeDateFilter.module.css';
 import { DownOutlined } from '@ant-design/icons';
+import moment from 'moment/moment';
 import {
   DatePicker,
-  Button,
-  Dropdown,
-  Space,
+  TimePicker,
   message,
   ConfigProvider,
   Row,
@@ -19,8 +18,10 @@ export default function TimeDateFilter({
   totalItems = 0,
   startTime = '',
   endTime = '',
-  handlerChange1 = '',
-  handlerChange2 = '',
+  handlerChange1,
+  handlerChange2,
+  onDateChange = '',
+  value,
 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
@@ -32,7 +33,9 @@ export default function TimeDateFilter({
   };
 
   const onChange = (date, dateString) => {
-    console.log(date, dateString);
+    // console.log(date.$W);
+    // console.log(dateString);
+    onDateChange(date);
   };
 
   const items = [
@@ -111,6 +114,7 @@ export default function TimeDateFilter({
         </div>
 
         <DatePicker
+          value={value}
           onChange={onChange}
           className={Styles.date}
           placeholder="選擇日期"
@@ -120,28 +124,46 @@ export default function TimeDateFilter({
           <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
           <p className={Styles.labels}>用餐時間</p>
         </div>
-        {/* <Dropdown menu={menuProps} className={Styles.time}>
-          <Button>
-            <Space>
-              <p className={Styles.arrow}>時間</p>
-              <DownOutlined />
-            </Space>
-          </Button>
-        </Dropdown> */}
-        <input
-          type="time"
-          placeholder="開始時間"
-          id="startTimeInput"
-          value={startTime}
-          onChange={handlerChange1}
-        />
-        <input
-          type="time"
-          placeholder="結束時間"
-          id="endTimeInput"
-          value={endTime}
-          onChange={handlerChange2}
-        />
+        <div className={Styles.input_section}>
+          <TimePicker
+            placeholder="開始時間"
+            value={startTime ? moment(startTime, 'HH:mm') : null}
+            onChange={(time) =>
+              handlerChange1(time ? time.format('HH:mm') : null)
+            }
+            className={Styles.input_frame}
+            // onChange={handlerChange1}
+          />
+
+          <TimePicker
+            placeholder="結束時間"
+            value={endTime ? moment(endTime, 'HH:mm') : null}
+            // onChange={handlerChange2}
+            onChange={(time) =>
+              handlerChange2(time ? time.format('HH:mm') : null)
+            }
+            className={Styles.input_frame}
+          />
+        </div>
+        {/* <div className={Styles.input_section}>
+          <input
+            className={Styles.input_frame}
+            type="time"
+            placeholder="開始時間"
+            id="startTimeInput"
+            value={startTime}
+            onChange={handlerChange1}
+          />
+          <p className={Styles.to}>~</p>
+          <input
+            className={Styles.input_frame}
+            type="time"
+            placeholder="結束時間"
+            id="endTimeInput"
+            value={endTime}
+            onChange={handlerChange2}
+          />
+        </div> */}
       </div>
     </ConfigProvider>
   );

@@ -47,8 +47,10 @@ export default function FilterPage() {
 
   const [orderBy, setOrderBy] = useState('-- 排序條件 --');
 
-  const [startTime, setStartTime] = useState('08:00');
-  const [endTime, setEndTime] = useState('12:00');
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
+  const [datePickerValue, setDatePickerValue] = useState(null);
 
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
@@ -145,15 +147,31 @@ export default function FilterPage() {
       categorySid: updatedCategorySid,
     });
   };
+
+  const handleDatePickerChange = (dateValue) => {
+    setDatePickerValue(dateValue);
+  };
+  const handlerChange1 = (time) => {
+    setStartTime(time);
+  };
+
+  const handlerChange2 = (time) => {
+    setEndTime(time);
+  };
   //餐廳篩選條件
   const filterHandler = () => {
     const filterCate = filters.categorySid;
     //console.log(filterCate);
 
     //時間篩選
-    const start = startTime + ':00';
-    const end = endTime + ':00';
+    const start = startTime ? startTime + ':00' : null;
+    const end = endTime ? endTime + ':00' : null;
 
+    //日期篩選
+    const selectedDate = datePickerValue;
+    const selectedDayOfWeek = selectedDate ? selectedDate.$W : null;
+
+    console.log(selectedDate);
 
     const checkedOptions = filterCate
       .filter((v) => v.checked === true)
@@ -168,9 +186,13 @@ export default function FilterPage() {
       query.startTime = start;
       query.endTime = end;
     }
-    console.log(start);
-    console.log(end);
-    console.log(checkedOptions);
+
+    if (selectedDayOfWeek) {
+      query.weekly = selectedDayOfWeek;
+    }
+    // console.log(start);
+    // console.log(end);
+    // console.log(checkedOptions);
     router.push(
       `?${new URLSearchParams({
         ...query,
@@ -181,6 +203,11 @@ export default function FilterPage() {
   //重置篩選條件
   const clearAllFilter = () => {
     setFilters(filterDatas);
+    setEndTime('');
+    setStartTime('');
+    setDatePickerValue(null);
+
+    // setStartTime('08:00');
 
     const { keyword } = router.query;
     const query = { page: 1 };
@@ -310,8 +337,10 @@ export default function FilterPage() {
                 <TimeDateFilter
                   startTime={startTime}
                   endTime={endTime}
-                  handlerChange1={(e) => setStartTime(e.target.value)}
-                  handlerChange2={(e) => setEndTime(e.target.value)}
+                  handlerChange1={handlerChange1}
+                  handlerChange2={handlerChange2}
+                  onDateChange={handleDatePickerChange}
+                  value={datePickerValue}
                 />
                 <RestaurantFilter
                   text="用餐類別"
