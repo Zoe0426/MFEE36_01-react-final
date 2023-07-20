@@ -6,12 +6,48 @@ import { Row, Col } from 'antd';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 
 export default function ActivityMain() {
-  // 網址在這看 http://localhost:3000/activity/list?cid=類別的sid
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字
 
   const router = useRouter();
-  const [cidData, setCidData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(16);
   const [keyword, setKeyword] = useState('');
+  const [orderBy, setOrderBy] = useState('-- 請選擇 --');
+  // const [cidData, setCidData] = useState([]);
+
+
+  //取資料
+  const [datas, setDatas] = useState({
+    totalRows: 0,
+    perPage: 16,
+    totalPages: 0,
+    page: 1,
+    rows: [],
+  });
+
+  //排序
+  const rankOptions = {
+    1: 'new_DESC',
+    2: 'hot_DESC', // TODO: 需再確認cart的欄位名稱
+  };
+
+  const orderByHandler = (e) => {
+    const newSelect = orderByOptions.find((v) => v.key === e.key);
+
+    console.log(newSelect.label);
+    setOrderBy(newSelect.label);
+
+    const selectedRank = rankOptions[e.key];
+    // console.log(selectedRank);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: 1,
+        orderBy: selectedRank,
+      }).toString()}`
+    );
+  };
+
 
   useEffect(() => {
     const { cid, keyword } = router.query;
@@ -30,7 +66,12 @@ export default function ActivityMain() {
           throw new Error('Request failed');
         }
         const data = await response.json();
-        setCidData(data.cid_data);
+        setDatas((prevData) => ({
+          ...prevData,
+          totalRows: data.totalRows,
+          totalPages: data.totalPages,
+          rows: data.rows, // Set the array of activity data here
+        }));
       } catch (error) {
         console.error(error);
       }
@@ -39,53 +80,7 @@ export default function ActivityMain() {
     fetchData();
   }, [router.query]);
 
-  // 分類搜尋
-  // useEffect(() => {
-  //   const { cid } = router.query;
-  //   const activity_type_sid = cid ? encodeURIComponent(cid) : '';
-
-  //   fetch(`${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${activity_type_sid}`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setCidData(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, [router.query]);
-
-  // 關鍵字
-  //const [keyword, setKeyword] = useState("");
-
-  // useEffect(() => {
-  //   //取得用戶拜訪的類別選項
-  //   const { keyword } =router.query;
-  //   setKeyword(keyword || '');
-  // }, [router.query]);
-
-  // useEffect(() => {
-  //   setKeyword(router.query.keyword || "");
-  //   const usp = new URLSearchParams(router.query);
-
-  //   fetch(`${process.env.API_SERVER}/activity-api?${usp.toString()}`)
-  //     .then((r) => r.json())
-  //     .then((datakeyword) => {
-  //       console.log(datakeyword);
-  //       setKeyword(datakeyword);
-  //     });
-  // }, [router.query]);
-
-  //const [data, setData] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetch('http://localhost:3002/activity-api/:cid');
-  //     const data = await response.json();
-  //     setData(data);
-  //   };
-
-  //   fetchData();
-  // }, []);
+  
 
   return (
     <div>
@@ -124,7 +119,7 @@ export default function ActivityMain() {
 
         <div className={styles.section_card}>
           <Row gutter={[0, 106]} className={styles.card}>
-            {cidData.map((i) => {
+            {datas.rows.map((i) => {
                 const {
                   activity_sid,
                   type_name,
@@ -156,7 +151,7 @@ export default function ActivityMain() {
                     area={area}
                     address={address}
                     content={content}
-                    features={feature_names.split(',')}
+                    features={feature_names?.split(',') || []}                    
                     price={price_adult}
                   />
                 );

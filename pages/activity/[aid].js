@@ -64,10 +64,16 @@ export default function ActivityDetail() {
           }
 
           // 將圖片切成actImageRows的陣列
-          if (actImageRows && actImageRows.length > 0) {
-            // setActImageRows(actImageRows);
-            setActImageRows(actImageRows[0].activity_pic.split(','));
+
+          if (actImageRows.length > 0) {
+            const imageUrls = actImageRows[0].activity_pic.split(',');
+            setActImageRows(imageUrls);
           }
+
+          // if (actImageRows && actImageRows.length > 0) {
+          //   //setActImageRows(actImageRows);
+          //   setActImageRows(actImageRows[0].activity_pic.split(','));
+          // }
 
           console.log(actImageRows); //測試
           // console.log((actImageRows[0].activity_pic).split(',')[0])//測試
@@ -128,6 +134,7 @@ export default function ActivityDetail() {
   //   fetchData();
 
   // }, [query]);
+  console.log('actImageRows:', actImageRows);
 
   return (
     <div>
@@ -147,11 +154,13 @@ export default function ActivityDetail() {
             >
               上
             </button>
-            <img
-              src={`/activity_img/${actImageRows[currentImageIndex]}`}
-              alt="Slider"
-              className={styles.image}
-            />
+            {actImageRows.length > 0 && ( 
+              <img
+                src={`/activity_img/${actImageRows[currentImageIndex]}`}
+                alt="Slider"
+                className={styles.image}
+              />
+            )}
             <button
               onClick={() => {
                 setCurrentImageIndex(
@@ -162,9 +171,7 @@ export default function ActivityDetail() {
             >
               下
             </button>
-
-            {/* <img src={`/activity_img/${actImageRows[0]}`}alt="Slider" className={styles.image}/> */}
-
+            
             {/* <div className={styles.overlay_left}></div>
             <div className={styles.overlay_right}></div> */}
             <div className={styles.icon}></div>
@@ -387,6 +394,11 @@ export default function ActivityDetail() {
             <p> {actDetailRows.schedule}</p>
           </div>
 
+          {/* <img
+            className={styles.content_image}
+            src="/activity_img/24.jpg"
+            alt=""
+          /> */}
           <img
             className={styles.content_image}
             src={`/activity_img/${actImageRows[2]}`}
