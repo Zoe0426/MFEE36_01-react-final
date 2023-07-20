@@ -26,8 +26,6 @@ export default function FilterPage() {
   const [filters, setFilters] = useState(filterDatas);
   console.log(filters.categorySid);
 
-  //const [filters, setFilters] = useState(filterDatas);
-
   // 儲存篩選條件
   const [selectedCategories, setSelectedCategories] = useState([]);
 
@@ -134,7 +132,7 @@ export default function FilterPage() {
 
   //checkbox相關的函式-------------------------------------------------------
   const checkboxToggleHandler = (arr, name, id) => {
-    // 在點擊時處理 checkbox 的選擇，並更新狀態
+    // 在點擊checkbox 的選擇，並更新狀態
     const updatedCategorySid = arr.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
     );
@@ -143,35 +141,42 @@ export default function FilterPage() {
       categorySid: updatedCategorySid,
     });
   };
-  const filterHandler = (filters = {}) => {};
 
-  // const filterHandler = (filters = {}) => {
-  //   const { category } = filters.categorySid;
+  const filterHandler = () => {
+    const filterCate = filters.categorySid;
+    console.log(filterCate);
 
-  //   console.log(filters.categorySid);
+    const checkedOptions = filterCate
+      .filter((v) => v.checked === true)
+      .map((v) => v.value);
 
-  //   const checkedOptions = (filters) => {
-  //     return filters.filter((v) => v.checked === true).map((v) => v.value);
-  //   };
+    let query = {};
+    if (checkedOptions.length > 0) {
+      query.category = checkedOptions;
+    }
+    console.log(checkedOptions);
+    router.push(
+      `?${new URLSearchParams({
+        ...query,
+        page: 1,
+      }).toString()}`
+    );
+  };
+  //重置篩選條件
+  const clearAllFilter = () => {
+    setFilters(filterDatas);
 
-  //   const filtersToCheck = {
-  //     category: checkedOptions(category),
-  //   };
-  //   
-  //   for (const [key, value] of Object.entries(filtersToCheck)) {
-  //     if (value.length > 0) {
-  //       query[key] = value;
-  //     }
-  //   }
-  // let query = {};
-  //   router.push(
-  //     `?${new URLSearchParams({
-  //       ...query,
-  //       page: 1,
-  //     }).toString()}`
-  //   );
-  // };
-
+    const { keyword } = router.query;
+    const query = { page: 1 };
+    if (keyword) {
+      query.keyword = keyword;
+    }
+    router.push(
+      `?${new URLSearchParams({
+        ...query,
+      }).toString()}`
+    );
+  };
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
     setShowFilter(!showfilter);
@@ -294,13 +299,8 @@ export default function FilterPage() {
                 />
 
                 <div className={Styles.filter_btns}>
-                  <SecondaryBtn text="重置" />
-                  <MainBtn
-                    text="確定"
-                    clickHandler={() => {
-                      // filterHandler(filters);
-                    }}
-                  />
+                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
+                  <MainBtn text="確定" clickHandler={filterHandler} />
                 </div>
               </div>
             </div>
