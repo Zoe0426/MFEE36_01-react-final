@@ -1,7 +1,7 @@
 import React from 'react';
-import style from './postinfo.module.css';
+import style from './cartpostinfo.module.css';
 
-export default function PostInfo({
+export default function CartPostInfo({
   recipient = '',
   recipient_phone = '',
   post_type = '',

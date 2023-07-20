@@ -1,35 +1,36 @@
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import PostInfo from '@/components/ui/cart-orderDetail/postinfo';
+import CartPostInfo from '@/components/ui/cart-orderDetail/cartpostinfo';
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import style from '@/styles/cartOrderdetail.module.css';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
 import OrderDetailShop from '@/components/ui/cards/orderDetailShop';
 import OrderDetailActivity from '@/components/ui/cards/orderDetailActivity';
 import AuthContext from '@/context/AuthContext';
+import CartDetailTotalSection from '@/components/ui/cart-orderDetail/cartDetailTotalSection';
 
 export default function OrderComplete() {
   const { auth } = useContext(AuthContext);
   const router = useRouter();
   const { query } = router;
   const [first, setFirst] = useState(false);
-  const [memberSid, setMemberSid] = useState(query.memberSid);
-  const [orderSid, setOrderSid] = useState(query.orderSid);
-  const [checkoutType, setCheckoutType] = useState('shop');
+  const [checkoutType, setCheckoutType] = useState('');
   const [orderInfo, setOrderInfo] = useState({
     order_sid: '',
-    checkoutType: 'shop',
+    checkoutType: '',
     email: '',
     create_dt: '',
-    coupon_amount: 0,
     recipient: '',
     recipient_phone: '',
     post_type: 0,
     post_address: '',
     post_store_name: '',
+    subtotal_amount: 0,
     post_amount: 0,
+    coupon_amount: 0,
     orderDetailItems: [],
   });
+
   const getOrderDetail = async (orderSid, checkoutType) => {
     const r = await fetch(
       `${process.env.API_SERVER}/cart-api/get-orderDetail`,
@@ -46,24 +47,23 @@ export default function OrderComplete() {
     );
     const data = await r.json();
     setOrderInfo(data);
-    console.log(data);
   };
+
   useEffect(() => {
     setFirst(true);
   }, []);
 
   useEffect(() => {
-    setMemberSid(query.memberSid);
-    setOrderSid(query.orderSid);
-    setCheckoutType(query.checkoutType);
     if (!auth.id && first) {
       const from = router.asPath;
-      console.log(from);
       router.push(`/member/sign-in?from=${from}`);
-    } else if (auth.id) {
-      auth.id === memberSid && getOrderDetail(orderSid, checkoutType);
     }
-  }, [auth, query, first]);
+    if (auth.id && query.memberSid && query.orderSid) {
+      setCheckoutType(query.checkoutType);
+      auth.id === query.memberSid &&
+        getOrderDetail(query.orderSid, query.checkoutType);
+    }
+  }, [auth, first, query]);
 
   return !auth.id && first ? (
     <>沒東西</>
@@ -74,7 +74,7 @@ export default function OrderComplete() {
         <div className={style.orderDetail}>
           <CartSectionTitle text={'訂單編號： ' + orderInfo.order_sid} />
           {orderInfo.checkoutType === 'shop' ? (
-            <PostInfo
+            <CartPostInfo
               recipient={orderInfo.recipient}
               recipient_phone={orderInfo.recipient_phone}
               post_type={orderInfo.post_type}
@@ -98,7 +98,7 @@ export default function OrderComplete() {
             : orderInfo.orderDetailItems.map((v) => (
                 <OrderDetailActivity
                   key={v.order_detail_sid}
-                  img={`/product-img/${v.activity_pic}`}
+                  img={`/activity_img/${v.activity_pic}`}
                   prodtitle={v.rel_name}
                   prodSubtitle={v.rel_seq_name}
                   adPrice={v.adult_price}
@@ -107,28 +107,14 @@ export default function OrderComplete() {
                   kidQty={v.child_qty}
                 />
               ))}
-          <div className={style.totalSection}>
-            <div className={style.subtotals}>
-              <span>小計</span>
-              <span className={style.amount}>$5400</span>
-            </div>
-            {orderType === 'shop' ? (
-              <div className={style.subtotals}>
-                <span>運費</span>
-                <span className={style.amount}>$90</span>
-              </div>
-            ) : (
-              ''
-            )}
-            <div className={style.subtotals}>
-              <span>優惠券</span>
-              <span className={style.amount}>-$50</span>
-            </div>
-            <div className={style.total}>
-              <span>總計</span>
-              <span className={style.totalamount}>$50</span>
-            </div>
-          </div>
+          {
+            <CartDetailTotalSection
+              checkoutType={checkoutType}
+              coupon_amount={orderInfo.coupon_amount}
+              post_amount={orderInfo.post_amount}
+              subtotal_amount={orderInfo.subtotal_amount}
+            />
+          }
         </div>
       </div>
     </>

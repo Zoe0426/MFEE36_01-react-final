@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 
 export default function useLocalStorageJson(key, init = {}) {
+  console.log('key:', key);
+  console.log('init:', init);
+
   const [val, setVal] = useState(init);
 
   useEffect(() => {
