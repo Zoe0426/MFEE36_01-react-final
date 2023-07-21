@@ -11,7 +11,7 @@ export default function Post() {
   const [data, setData] = useState([]);
   // const [lateD, setlateD] = useState([]);
   const fetchData = async()=>{
-    const response = await fetch ('http://localhost:3002/forum-api', {method:"GET"});
+    const response = await fetch (`${process.env.API_SERVER}/forum-api`, {method:"GET"});
     const forumData = await response.json();
     setForumData(forumData);
     setData(forumData); //在 fetchData 函式中，將獲取的數據存入了 forumData 狀態變數，同時也將數據存入了 data 狀態變數
@@ -140,7 +140,8 @@ export default function Post() {
           <div className="container-inner">
           <PostNav postNav='熱門文章' optionCh='熱門文章' op1='最新文章'/>
           {data.map((v,i)=>(
-          <Link href={`/forum/${i+1}`}>
+          // <Link href={`/forum/${i+1}`}>
+          <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
           <PostCard key={v.post_sid}
           profile='./forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' 
           boardName={v.board_name} 
