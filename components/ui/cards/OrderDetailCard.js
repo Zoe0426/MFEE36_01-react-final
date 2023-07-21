@@ -148,7 +148,7 @@ export default function OrderDetailCard({
               <Input />
             </Form.Item>
             <Form.Item name={'starts'} style={{ padding: '0px' }}>
-              <Rate allowClear={false} style={{ color: 'red' }} />
+              <Rate allowClear={false} style={{ color: '#FCC917' }} />
             </Form.Item>
             <Form.Item name={'content'} style={{ padding: '0px' }}>
               <Input.TextArea

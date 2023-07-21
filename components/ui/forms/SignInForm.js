@@ -66,7 +66,7 @@ export default function SignInForm({ handleSubmit }) {
               忘記密碼？
             </Link>
             <div className={Styles.btns}>
-              <Link href="/shop" className={Styles.btn}>
+              <Link href="/member/sign-up" className={Styles.btn}>
                 <SecondaryBtn text="註冊" />
               </Link>
               <div className={Styles.btn}>
