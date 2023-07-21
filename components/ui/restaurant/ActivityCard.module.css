@@ -69,4 +69,10 @@
         margin-top: 20px;
         font-size: var( --h6fs18);
     }
+    .jill_h3{
+        padding: 0;
+    }
+    .activity_date{
+        flex-direction: column;
+    }
     }

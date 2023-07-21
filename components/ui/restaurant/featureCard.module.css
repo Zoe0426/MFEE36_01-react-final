@@ -46,12 +46,14 @@
     .feature_decorate{
         border-radius: var(--br10);
         background-color: transparent;
-        border: none
+        border: none;
+        
     }
     .feature_info{
         padding: 0;
     }
     .feature_card{
+        width: 100%;
         flex-direction: column;
         background-color: transparent;
         margin-bottom: 32px;
