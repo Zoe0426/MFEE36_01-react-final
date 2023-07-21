@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
 
-export default function useLocalStorageJson(key, init = {}) {
+export default function useLocalStorageJson(key, init, isArr = false) {
   const [val, setVal] = useState(init);
 
   useEffect(() => {
     const str = localStorage.getItem(key);
-    let data = {};
+    let data;
+    if (!isArr) {
+      data = {};
+    } else {
+      data = [];
+    }
     if (str) {
       try {
         data = JSON.parse(str);
-      } catch (ex) {}
+      } catch (ex) {
+        console.log(ex);
+      }
     }
     setVal(data);
   }, [key]);

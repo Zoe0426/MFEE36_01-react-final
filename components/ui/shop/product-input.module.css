@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   height: 50px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .labels {
   font-size: var(--h6fs18);

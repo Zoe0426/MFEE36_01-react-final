@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/shop.module.css';
 import { Pagination, Row, Col, ConfigProvider } from 'antd';
+import useLocalStorageJson from '@/hooks/useLocalStorageJson';
+import AuthContext from '@/context/AuthContext';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/like-list';
@@ -16,7 +18,7 @@ import ProductInput from '@/components/ui/shop/product-input';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
-import SearchBar from '@/components/ui/buttons/SearchBar';
+import SearchBar from '@/components/ui/buttons/SearchBar1';
 
 /*引用的背景+icon+圖示*/
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
@@ -30,8 +32,17 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function List() {
   const router = useRouter();
+  const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
+    'petProductHistory',
+    [],
+    true
+  );
 
-  //是否顯示總銷售數的tag
+  const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
+  const [memberJWT, setMemberJWT] = useState('');
+
+  //商品卡是否顯示總銷售數的tag
   const [showFlag, setShowFlag] = useState(false);
 
   //換頁時要用的-類別/關鍵字/頁碼/排序
@@ -39,9 +50,23 @@ export default function List() {
   const [perPage, setPerPage] = useState(20);
   const [orderBy, setOrderBy] = useState('-- 請選擇 --');
   const [keyword, setKeyword] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [keywordDatas, setKeywordDatats] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
+  const [showfilter, setShowFilter] = useState(false);
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
   const [copyFilters, setCopyFilters] = useState([]);
+
+  //管理價格條件的input
+  const [showErrorMessage1, setShowErrorMessage1] = useState(false);
+  const [showErrorMessage2, setShowErrorMessage2] = useState(false);
+  const [outlineStatus1, setOutlineStatus1] = useState('');
+  const [outlineStatus2, setOutlineStatus2] = useState('');
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [priceErrorText1, setPriceErrorText1] = useState('');
+  const [priceErrorText2, setPriceErrorText2] = useState('');
 
   const [datas, setDatas] = useState({
     totalRows: 0,
@@ -50,12 +75,12 @@ export default function List() {
     page: 1,
     rows: [],
     // like:[],
-    brand: [],
+    // brand: [],
   });
 
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
-  const [showfilter, setShowFilter] = useState(false);
+
   //麵包屑寫得有點奇怪...
   const [breadCrubText, setBreadCrubText] = useState([
     {
@@ -68,11 +93,16 @@ export default function List() {
     { id: 'pid', text: '', href: '', show: false },
   ]);
 
-  const getData = async (obj) => {
+  const getData = async (obj, token = '') => {
     const usp = new URLSearchParams(obj);
     const res = await fetch(
       `${process.env.API_SERVER}/shop-api/products?${usp.toString()}`,
-      { method: 'GET' }
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
     );
     const data = await res.json();
 
@@ -81,10 +111,13 @@ export default function List() {
     }
   };
 
-  const getBrandData = async () => {
-    const res = await fetch(`${process.env.API_SERVER}/shop-api/brand-list`, {
-      method: 'GET',
-    });
+  const getBrandKeywordData = async () => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/shop-api/search-brand-list`,
+      {
+        method: 'GET',
+      }
+    );
     const data = await res.json();
 
     if (Array.isArray(data.brand)) {
@@ -92,22 +125,26 @@ export default function List() {
         return { ...v, checked: false };
       });
       setFilters({ ...filters, brand: newBrand });
-      // setCopyFilters({ ...filters, brand: newBrand });
       setCopyFilters(
         JSON.parse(JSON.stringify({ ...filters, brand: newBrand }))
       );
+      const newKeywords = data.keywords.map((v) => {
+        return { name: v, count: 0 };
+      });
+      setKeywordDatats(newKeywords);
       setFiltersReady(true);
     }
   };
 
   useEffect(() => {
-    getBrandData().then(() => {
+    getBrandKeywordData().then(() => {
       const { category } = router.query;
       if (category) {
         resetCheckBox('category', category);
         setFiltersReady(true);
       }
     });
+    setFirst(true);
   }, []);
 
   useEffect(() => {
@@ -175,10 +212,12 @@ export default function List() {
       }
     }
 
-    if (router.query) {
-      getData(router.query);
+    if (router.query && first) {
+      setMemberJWT(auth.token);
+      getData(router.query, memberJWT);
     }
-  }, [router.query, filtersReady]);
+  }, [router.query, filtersReady, auth, first]);
+  console.log(memberJWT);
 
   //收藏列表相關的函式-------------------------------------------------------
   const toggleLikeList = () => {
@@ -225,13 +264,40 @@ export default function List() {
   };
 
   //searchBar相關的函式-------------------------------------------------------
+  const filterKeywordDatas = (datas, keyword, keyin) => {
+    if (!keyin) {
+      const searchWord = keyword.split('');
+
+      datas.forEach((v1) => {
+        v1.count = 0;
+        searchWord.forEach((v2) => {
+          if (v1.name.includes(v2)) {
+            v1.count += 1;
+          }
+        });
+      });
+
+      datas.sort((a, b) => b.count - a.count);
+
+      return datas.filter((v) => v.count >= searchWord.length);
+    }
+  };
+
   const searchBarHandler = (e) => {
     let copyURL = { page: 1 };
+    const searchText = e.target.value;
+
+    if (!searchText) {
+      const newKeywordDatas = [...keywordDatas];
+      setShowKeywordDatas(false);
+      setKeywordDatats(newKeywordDatas);
+    }
+
     if (e.key === 'Enter') {
+      setShowKeywordDatas(false);
       if (!keyword) {
         copyURL;
       } else {
-        const searchText = e.target.value;
         copyURL = { keyword: searchText, ...copyURL };
       }
       router.push(`?${new URLSearchParams(copyURL).toString()}`);
@@ -245,6 +311,11 @@ export default function List() {
         page: 1,
       }).toString()}`
     );
+  };
+
+  const autocompleteHandler = (selectkeyword) => {
+    setKeyword(selectkeyword);
+    setShowKeywordDatas(false);
   };
 
   //Pagination相關的函式-------------------------------------------------------
@@ -404,25 +475,18 @@ export default function List() {
     setPriceErrorText1('');
     setPriceErrorText2('');
     const { keyword } = router.query;
+    const query = { page: 1 };
+    if (keyword) {
+      query.keyword = keyword;
+    }
     router.push(
       `?${new URLSearchParams({
-        keyword,
-        page: 1,
+        ...query,
       }).toString()}`
     );
   };
 
   //管理價格條件的input
-
-  const [showErrorMessage1, setShowErrorMessage1] = useState(false);
-  const [showErrorMessage2, setShowErrorMessage2] = useState(false);
-  const [outlineStatus1, setOutlineStatus1] = useState('');
-  const [outlineStatus2, setOutlineStatus2] = useState('');
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
-  const [priceErrorText1, setPriceErrorText1] = useState('');
-  const [priceErrorText2, setPriceErrorText2] = useState('');
-
   const inputCheckHandler = (e, inputType) => {
     let isPass = true;
     let setPriceErrorText = null;
@@ -465,6 +529,12 @@ export default function List() {
     }
   };
 
+  //刪除瀏覽紀錄相關函式-----------
+  const clearHistoryViews = () => {
+    setLocalStorageHistory([]);
+    localStorage.removeItem('petProductHistory');
+  };
+
   return (
     <>
       {/* <div className="container-outer"> */}
@@ -472,16 +542,33 @@ export default function List() {
         <nav className="container-inner">
           <div className={styles.search_bar}>
             <SearchBar
+              keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
               placeholder="搜尋你愛的東西"
               btn_text="尋找商品"
               inputText={keyword}
               changeHandler={(e) => {
                 setKeyword(e.target.value);
+                setShowKeywordDatas(true);
+                setIsTyping(true);
+                setTimeout(() => {
+                  setIsTyping(false);
+                }, 700);
               }}
               keyDownHandler={searchBarHandler}
               clickHandler={searchBarClickHandler}
+              autocompleteHandler={autocompleteHandler}
+              showKeywordDatas={showKeywordDatas}
+              blurHandler={() => {
+                setTimeout(() => {
+                  setShowKeywordDatas(false);
+                }, 200);
+              }}
+              clearHandler={() => {
+                setKeyword('');
+              }}
             />
           </div>
+
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
             <div className={styles.btns}>
@@ -586,12 +673,12 @@ export default function List() {
       </div>
       <BGUpperDecoration />
       <div className="container-outer">
-        <ShopHistoryCard
-          data={[
-            { product_sid: 'CFCA0001', img: 'pro009.jpg' },
-            { product_sid: 'CFCA0002', img: 'pro010.jpg' },
-          ]}
-        />
+        {localStorageHistory.length > 0 && (
+          <ShopHistoryCard
+            data={localStorageHistory}
+            clearAllHandler={clearHistoryViews}
+          />
+        )}
       </div>
 
       {/* </div> */}
