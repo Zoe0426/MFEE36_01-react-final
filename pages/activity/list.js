@@ -10,8 +10,6 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
 
-ActivityLikeListCard;
-
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
 
@@ -26,7 +24,7 @@ export default function ActivityMain() {
   const [showLikeList, setShowLikeList] = useState(false);
 
   // 進階篩選
-  const [showfilter, setShowFilter] = useState(false);
+  // const [showfilter, setShowFilter] = useState(false);
 
   // 取資料
   const [datas, setDatas] = useState({
@@ -35,6 +33,7 @@ export default function ActivityMain() {
     totalPages: 0,
     page: 1,
     rows: [],
+    likeDatas:[],
   });
 
   // 排序
@@ -302,24 +301,6 @@ export default function ActivityMain() {
           </Row>
         </div>
 
-        {/* <Row gutter={[16, 32]}>
-          <ActivityCard4
-            image="/activity_img/asian-young-girl-holding-kittens-park.jpg"
-            type="市集展覽"
-            title="寵物瑜珈課"
-            rating={4.5}
-            date_begin="2023-04-09"
-            date_end="2023-05-09"
-            time="每週六 8:00-18:00"
-            content="寵物瑜珈可改善毛孩長期待在室內的壓力、情緒不穩、多吃少動的肥胖等問題外，飼主們也可與毛孩一起伸展肢體，增進人和毛孩之間的感情。"
-            city="台北市"
-            area="大安區"
-            address="大安路一段234號"
-            feature="寵物健康餐提供"
-            price={500}
-          />
-
-        </Row> */}
         {/* .........頁碼......... */}
         <div className={styles.pagination}>
           <ConfigProvider
