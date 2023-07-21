@@ -24,18 +24,18 @@ export default function BlogPost({Date=''}) {
       }catch(ex){
         ('');
       }
-      console.log(auth);
+      console.log(auth.id);
     }
 
     if(auth.token){
-      fetch(`${process.env.API_SERVER}/forum-api/blog`, {
+      fetch(`${process.env.API_SERVER}/forum-api/forum/blog`, {
         headers:{
-          Authorization: 'Bearer'+ auth.token,
+          Authorization: 'Bearer '+ auth.token,
         },
       })
       .then((r)=>r.json())
-      .then((blogPostData)=>{
-        console.log(blogPostData);
+      .then((data)=>{
+        console.log(data);
         setData(data);
       });
     }else{
