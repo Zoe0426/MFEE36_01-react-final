@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/shop.module.css';
 import { Pagination, Row, Col, ConfigProvider } from 'antd';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
+import AuthContext from '@/context/AuthContext';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/like-list';
@@ -36,6 +37,10 @@ export default function List() {
     [],
     true
   );
+
+  const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
+  const [memberJWT, setMemberJWT] = useState('');
 
   //商品卡是否顯示總銷售數的tag
   const [showFlag, setShowFlag] = useState(false);
@@ -88,11 +93,16 @@ export default function List() {
     { id: 'pid', text: '', href: '', show: false },
   ]);
 
-  const getData = async (obj) => {
+  const getData = async (obj, token = '') => {
     const usp = new URLSearchParams(obj);
     const res = await fetch(
       `${process.env.API_SERVER}/shop-api/products?${usp.toString()}`,
-      { method: 'GET' }
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
     );
     const data = await res.json();
 
@@ -122,7 +132,6 @@ export default function List() {
         return { name: v, count: 0 };
       });
       setKeywordDatats(newKeywords);
-      // setKeywordDatats(data.keywords);
       setFiltersReady(true);
     }
   };
@@ -135,6 +144,7 @@ export default function List() {
         setFiltersReady(true);
       }
     });
+    setFirst(true);
   }, []);
 
   useEffect(() => {
@@ -202,10 +212,12 @@ export default function List() {
       }
     }
 
-    if (router.query) {
-      getData(router.query);
+    if (router.query && first) {
+      setMemberJWT(auth.token);
+      getData(router.query, memberJWT);
     }
-  }, [router.query, filtersReady]);
+  }, [router.query, filtersReady, auth, first]);
+  console.log(memberJWT);
 
   //收藏列表相關的函式-------------------------------------------------------
   const toggleLikeList = () => {
