@@ -1,11 +1,28 @@
 import React, { useState } from 'react';
 import Styles from './LocationFilter.module.css';
 import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Menu, Space, message, ConfigProvider } from 'antd';
+import { Button, Dropdown, Space, message, ConfigProvider, Menu } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
-export default function LocationFilter({ text = '', totalItems = 0 }) {
+export default function LocationFilter({
+  text = '',
+  totalItems = 0,
+  handleCityClick,
+  handleAreaClick,
+  data = [],
+}) {
+  // const [selectedCity, setSelectedCity] = useState(null);
+  // const [selectedArea, setSelectedArea] = useState(null);
+
+  // const handleCityClick = ({ key }) => {
+  //   setSelectedCity(key);
+  //   setSelectedArea(null);
+  // };
+
+  // const handleAreaClick = ({ key }) => {
+  //   setSelectedArea(key);
+  // };
   const cities = {
     臺北市: [
       '中正區',
@@ -395,18 +412,6 @@ export default function LocationFilter({ text = '', totalItems = 0 }) {
     連江縣: ['南竿鄉', '北竿鄉', '莒光鄉', '東引鄉'],
   };
 
-  const [selectedCity, setSelectedCity] = useState(null);
-  const [selectedArea, setSelectedArea] = useState(null);
-
-  const handleCityClick = ({ key }) => {
-    setSelectedCity(key);
-    setSelectedArea(null);
-  };
-
-  const handleAreaClick = ({ key }) => {
-    setSelectedArea(key);
-  };
-
   return (
     <ConfigProvider
       theme={{
@@ -447,28 +452,27 @@ export default function LocationFilter({ text = '', totalItems = 0 }) {
               </Space>
             </Button>
           </Dropdown>
-          {selectedCity && (
-            <Dropdown
-              overlay={
-                <Menu onClick={handleAreaClick}>
-                  {cities[selectedCity].map((area) => (
+          <Dropdown
+            overlay={
+              <Menu onClick={handleAreaClick}>
+                {selectedCity &&
+                  cities[selectedCity].map((area) => (
                     <Menu.Item key={area}>{area}</Menu.Item>
                   ))}
-                </Menu>
-              }
-              className={Styles.section}
-              placement="bottomLeft"
-            >
-              <Button>
-                <Space>
-                  <p className={Styles.dropdown_arrow}>
-                    {selectedArea ? selectedArea : '地區'}
-                  </p>
-                  <DownOutlined />
-                </Space>
-              </Button>
-            </Dropdown>
-          )}
+              </Menu>
+            }
+            className={Styles.section}
+            placement="bottomLeft"
+          >
+            <Button>
+              <Space>
+                <p className={Styles.dropdown_arrow}>
+                  {selectedArea ? selectedArea : '地區'}
+                </p>
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>
         </div>
       </div>
     </ConfigProvider>

@@ -2,6 +2,8 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import SearchBar from '@/components/ui/buttons/SearchBar';
+
 import {
   faFire,
   faMap,
@@ -17,7 +19,6 @@ import { Col, Row } from 'antd';
 import RestTitle from '@/components/ui/restaurant/RestTitle';
 import LocationCard from '@/components/ui/restaurant/LocationCard';
 import Styles from './index.module.css';
-import SearchBar from '@/components/ui/buttons/SearchBar';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
@@ -91,6 +92,7 @@ export default function Restindex() {
       if (searchText) {
         copyURL = { keyword: searchText, ...copyURL };
       }
+      setShowFilter(false);
 
       router.push(
         `/restaurant/list?${new URLSearchParams(copyURL).toString()}`
@@ -102,6 +104,8 @@ export default function Restindex() {
     if (!keyword) {
       return;
     }
+    setShowFilter(false);
+
     router.push(
       `/restaurant/list?${new URLSearchParams({
         keyword: keyword,
@@ -372,7 +376,7 @@ export default function Restindex() {
               location="台北市"
               clickHandler={() => {
                 router.push(
-                  'http://localhost:3000/restaurant/list?city=taipei'
+                  'http://localhost:3000/restaurant/list?city=台北市'
                 );
               }}
             />
@@ -383,7 +387,7 @@ export default function Restindex() {
               location="新北市"
               clickHandler={() => {
                 router.push(
-                  'http://localhost:3000/restaurant/list?city=newtaipei'
+                  'http://localhost:3000/restaurant/list?city=新北市'
                 );
               }}
             />

@@ -1,0 +1,101 @@
+.search_input {
+    width: 600px;
+    height: 100%;
+    margin-right: 16px;
+    padding: var(--p16);
+    border-radius: var(--br8);
+    border: 1px solid transparent;
+    font-size: var(--pfs16);
+    outline: 1px solid var(--light-gray);
+  }
+  .search_input:focus {
+    border-radius: var(--br8);
+    border: 1px solid transparent;
+    outline: 1px solid var(--main);
+  }
+  .input_area {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .input_area>div{
+    height: 100%;
+  }
+  
+  .input_box{
+    height: 100%;
+    position: relative;
+  }
+  
+  .btn_clear_text{
+    position: absolute;
+    z-index: 4;
+    color:var(--light-gray);
+    font-size: var(--pfs14);
+    border: 1px solid var(--light-gray);
+    padding: 4px;
+    border-radius: 50%;
+    right: 24px;
+    top:50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .btn_clear_text:hover{
+    border: 1px solid var(--main);
+    color:var(--main);
+  }
+  
+  .keyword_reminder {
+    position: absolute;
+    z-index: 99;
+    width: 632px;
+    border: 1px solid var(--light-gray);
+    margin-top: 4px;
+    margin-right: 16px;
+    border-radius: var(--br8);
+    background-color: white;
+    text-align: left;
+    box-shadow: var(--shadow);
+    
+  
+  }
+  
+  .keyword_reminder li {
+    border-bottom: 1px solid var(--light-gray);
+    font-size: var(--pfs16);
+    color: var(--gray);
+    padding: var(--p16);
+  }
+  
+  .keyword_reminder li:hover {
+    background-color: #f1eeee;
+    cursor: pointer;
+  }
+  
+  @media screen and (max-width: 767px) {
+    .search_input {
+      width: 200px;
+      padding: 0.75rem;
+      margin-right: 8px;
+      border-radius: var(--br8);
+      font-size: var(--pfs14);
+      outline: 1px solid var(--light-gray);
+    }
+  
+    .keyword_reminder {
+      width: 228px;
+    }
+  
+    .keyword_reminder li{
+      font-size: var(--pfs14);
+      padding: 0 0.75rem;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+      overflow: hidden;
+      line-height: 2.8;
+    }
+  }
+  

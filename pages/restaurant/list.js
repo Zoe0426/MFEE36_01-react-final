@@ -1,9 +1,19 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import RestCard from '@/components/ui/cards/rest_card';
-import { Pagination, Col, Row, ConfigProvider, Breadcrumb } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import {
+  Pagination,
+  Col,
+  Row,
+  ConfigProvider,
+  Breadcrumb,
+  Button,
+  Dropdown,
+  Space,
+  Menu,
+} from 'antd';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
-import Banner from '@/components/ui/restaurant/Banner';
 import Styles from './list.module.css';
 import filterDatas from '@/data/restaurnt/categories.json';
 import IconBtn from '@/components/ui/buttons/IconBtn';
@@ -11,6 +21,7 @@ import {
   faFilter,
   faHeart,
   faMap,
+  faPaw,
   faCircleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
@@ -21,14 +32,18 @@ import LocationFilter from '@/components/ui/restaurant/LocationFilter';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
-import SearchBar from '@/components/ui/buttons/SearchBar';
+import SearchBar1 from '@/components/ui/buttons/SearchBar1';
 import orderByOptions from '@/data/restaurnt/orderby.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cityDatas from '@/data/restaurnt/location.json';
+import SearchBar from '@/components/ui/buttons/SearchBar';
 
 export default function FilterPage() {
   const router = useRouter();
+
+  // console.log(cityDatas);
   // const { categorySid } = filterDatas;
-  // console.log(categorySid);
+
   const [filters, setFilters] = useState(filterDatas);
 
   // 儲存篩選條件
@@ -45,6 +60,9 @@ export default function FilterPage() {
   const [perPage, setPerPage] = useState(15);
 
   const [keyword, setKeyword] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [keywordDatas, setKeywordDatats] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
 
   const [rule, setRule] = useState('');
   const [service, setService] = useState('');
@@ -61,6 +79,19 @@ export default function FilterPage() {
   const [showStartTimeError, setStartShowTimeError] = useState(false);
   const [showEndTimeError, setShowEndTimeError] = useState(false);
 
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+
+  const handleCityClick = ({ key }) => {
+    setSelectedCity(key);
+    setSelectedArea(null);
+  };
+
+  const handleAreaClick = ({ key }) => {
+    setSelectedArea(key);
+  };
+  //取台灣的地區
+  const cities = cityDatas;
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
     totalRows: 0,
@@ -94,54 +125,113 @@ export default function FilterPage() {
     );
   };
 
+  //這邊有點問題
+  useEffect(() => {
+    //取得用戶拜訪的類別選項
+    const { keyword, rule, service, city, area, orderBy, category } =
+      router.query;
+
+    console.log(router.query);
+
+    if (Object.keys(router.query).length !== 0) {
+      console.log(router.query);
+      setRule(rule || '');
+      setService(service || '');
+      setCity(city || '');
+      setCategory(category || '');
+      setKeyword(keyword || '');
+      // setOrderBy(orderBy);
+      const usp = new URLSearchParams(router.query);
+
+      fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (Array.isArray(data.rows)) {
+            setData(data);
+            console.log(data.rows);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      console.log(router.query);
+      fetch(`${process.env.API_SERVER}/restaurant-api/list`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (Array.isArray(data.rows)) {
+            setData(data);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [router.query]);
   //searchBar相關的函式-------------------------------------------------------
+  const filterKeywordDatas = (data, keyword, keyin) => {
+    if (!keyin) {
+      const searchWord = keyword.split('');
+
+      data.forEach((v1) => {
+        v1.count = 0;
+        searchWord.forEach((v2) => {
+          if (v1.name.includes(v2)) {
+            v1.count += 1;
+          }
+        });
+      });
+      console.log(searchWord);
+      console.log(data);
+
+      data.sort((a, b) => b.count - a.count);
+
+      return data.filter((v) => v.count >= searchWord.length);
+    }
+  };
   const searchBarHandler = (e) => {
-    let copyURL = { ...router.query, page: 1 };
+    const searchText = e.target.value;
+    if (!searchText) {
+      const newKeywordDatas = [...keywordDatas];
+      setKeywordDatats(false);
+      setShowKeywordDatas(newKeywordDatas);
+    }
     if (e.key === 'Enter') {
-      if (!keyword) {
-        delete copyURL.keyword;
-      } else {
-        const searchText = e.target.value;
-        copyURL = { ...copyURL, keyword: searchText };
+      if (!searchText.trim()) {
+        // 如果沒有填字，不執行換頁的動作
+        return;
       }
-      router.push(`?${new URLSearchParams(copyURL).toString()}`);
+
+      let copyURL = { page: 1 };
+      if (searchText) {
+        copyURL = { keyword: searchText, ...copyURL };
+      }
+      setShowFilter(false);
+
+      router.push(
+        `/restaurant/list?${new URLSearchParams(copyURL).toString()}`
+      );
     }
   };
 
   const searchBarClickHandler = () => {
+    if (!keyword) {
+      return;
+    }
+    setShowFilter(false);
+
     router.push(
-      `?${new URLSearchParams({
-        ...router.query,
+      `/restaurant/list?${new URLSearchParams({
         keyword: keyword,
         page: 1,
       }).toString()}`
     );
   };
 
-  useEffect(() => {
-    //取得用戶拜訪的類別選項
-    const { keyword, rule, service, city, orderBy, category } = router.query;
-    console.log(router.query);
-    setRule(rule || '');
-    setService(service || '');
-    setCity(city || '');
-    setCategory(category || '');
-    setKeyword(keyword || '');
-    // setOrderBy(orderBy);
-
-    const usp = new URLSearchParams(router.query);
-
-    fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data.rows)) {
-          setData(data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [router.query]);
+  const autocompleteHandler = (selectkeyword) => {
+    setKeyword(selectkeyword);
+    setShowKeywordDatas(false);
+  };
 
   //datefilter相關的函式-------------------------------------------------------
 
@@ -170,7 +260,7 @@ export default function FilterPage() {
   //餐廳篩選條件
   const filterHandler = () => {
     const filterCate = filters.categorySid;
-    //console.log(filterCate);
+    console.log(filterCate);
 
     //時間篩選
     const start = startTime ? startTime + ':00' : null;
@@ -196,6 +286,18 @@ export default function FilterPage() {
       .map((v) => v.value);
 
     let query = {};
+
+    if (selectedCity) {
+      query.city = selectedCity;
+    }
+
+    if (selectedArea) {
+      query.area = selectedArea;
+    }
+
+    console.log(selectedCity);
+    console.log(selectedArea);
+
     if (checkedOptions.length > 0) {
       query.category = checkedOptions;
     }
@@ -211,6 +313,9 @@ export default function FilterPage() {
     // console.log(start);
     // console.log(end);
     // console.log(checkedOptions);
+
+    //收起篩選區域
+    setShowFilter(false);
     router.push(
       `?${new URLSearchParams({
         ...query,
@@ -288,7 +393,7 @@ export default function FilterPage() {
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
-          <SearchBar
+          {/* <SearchBar
             placeholder="搜尋餐廳名稱"
             btn_text="尋找餐廳"
             inputText={keyword}
@@ -297,6 +402,32 @@ export default function FilterPage() {
             }}
             keyDownHandler={searchBarHandler}
             clickHandler={searchBarClickHandler}
+          /> */}
+          <SearchBar1
+            keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
+            placeholder="搜尋友善餐廳"
+            btn_text="尋找餐廳"
+            inputText={keyword}
+            changeHandler={(e) => {
+              setKeyword(e.target.value);
+              setShowKeywordDatas(true);
+              setIsTyping(true);
+              setTimeout(() => {
+                setIsTyping(false);
+              }, 700);
+            }}
+            keyDownHandler={searchBarHandler}
+            clickHandler={searchBarClickHandler}
+            autocompleteHandler={autocompleteHandler}
+            showKeywordDatas={showKeywordDatas}
+            blurHandler={() => {
+              setTimeout(() => {
+                setShowKeywordDatas(false);
+              }, 200);
+            }}
+            clearHandler={() => {
+              setKeyword('');
+            }}
           />
         </div>
       </div>
@@ -353,7 +484,75 @@ export default function FilterPage() {
             </div>
             <div className="container-inner">
               <div className={Styles.filter_box}>
-                <LocationFilter text="用餐地區" />
+                {/* <LocationFilter
+                  text="用餐地區"
+                  handleCityClick={handleCityClick}
+                  handleAreaClick={handleAreaClick}
+                /> */}
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorBorder: '#DDDDDD',
+                      colorPrimary: '#FD8C46',
+                      colorBgContainer: 'rgba(255,255,255)',
+                      borderRadius: 10,
+                      controlHeight: 50,
+                      fontSize: 16,
+                      borderRadiusOuter: 10,
+                    },
+                  }}
+                >
+                  {/* <LocationFilter text={'用餐地點'} /> */}
+                  <div className={Styles.location_search_area}>
+                    <div className={Styles.category_area}>
+                      <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
+                      <label className={Styles.labels}>用餐地點</label>
+                    </div>
+                    <div className={Styles.dropdowns}>
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleCityClick}>
+                            {Object.keys(cities).map((city) => (
+                              <Menu.Item key={city}>{city}</Menu.Item>
+                            ))}
+                          </Menu>
+                        }
+                        className={Styles.city}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={Styles.dropdown_arrow}>
+                              {selectedCity ? selectedCity : '城市'}
+                            </p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleAreaClick}>
+                            {selectedCity &&
+                              cities[selectedCity].map((area) => (
+                                <Menu.Item key={area}>{area}</Menu.Item>
+                              ))}
+                          </Menu>
+                        }
+                        className={Styles.section}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={Styles.dropdown_arrow}>
+                              {selectedArea ? selectedArea : '地區'}
+                            </p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                    </div>
+                  </div>
+                </ConfigProvider>
                 <TimeDateFilter
                   startTime={startTime}
                   endTime={endTime}
