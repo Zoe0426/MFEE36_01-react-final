@@ -7,14 +7,16 @@
 .input_section{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap:16px;
 }
-.to{
+/* .to{
     padding-top: 15px;
-}
+} */
 .alert{
     padding-left: 8px;
     padding-top: 6px;
+
 }
 .input_frame{
     width:210px;

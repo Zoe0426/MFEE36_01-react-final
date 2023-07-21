@@ -89,8 +89,12 @@ export default function TimeDateFilter({
               className={Styles.input_frame}
               // onChange={handlerChange1}
             />
-            <div className={Styles.alert}>{alert_start}</div>
-            {/* <div>請填寫開始時間</div> */}
+            <div
+              className={Styles.alert}
+              style={{ visibility: alert_start ? 'visible' : 'hidden' }}
+            >
+              {alert_start}
+            </div>
           </div>
           <div className={Styles.input_area}>
             <TimePicker
@@ -103,8 +107,12 @@ export default function TimeDateFilter({
               }
               className={Styles.input_frame}
             />
-            {/* <div>請填寫結束時間</div> */}
-            <div className={Styles.alert}>{alert_end}</div>
+            <div
+              className={Styles.alert}
+              style={{ visibility: alert_end ? 'visible' : 'hidden' }}
+            >
+              {alert_end}
+            </div>
           </div>
         </div>
 

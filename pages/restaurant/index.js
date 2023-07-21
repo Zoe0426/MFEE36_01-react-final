@@ -10,13 +10,14 @@ import {
   faFaceLaugh,
   faLocationDot,
   faThumbsUp,
+  faCircleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import RestCard from '@/components/ui/cards/rest_card';
 import { Col, Row } from 'antd';
 import RestTitle from '@/components/ui/restaurant/RestTitle';
 import LocationCard from '@/components/ui/restaurant/LocationCard';
 import Styles from './index.module.css';
-import Banner from '@/components/ui/restaurant/Banner';
+import SearchBar from '@/components/ui/buttons/SearchBar';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
@@ -41,6 +42,16 @@ export default function Restindex() {
   const [showLikeList, setShowLikeList] = useState(false);
 
   const [keyword, setKeyword] = useState('');
+
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
+  const [datePickerValue, setDatePickerValue] = useState(null);
+
+  const [showStartTimeError, setStartShowTimeError] = useState(false);
+  const [showEndTimeError, setShowEndTimeError] = useState(false);
+
+  const [filters, setFilters] = useState(filterDatas);
 
   const [data, setData] = useState({
     rows1: [],
@@ -67,7 +78,137 @@ export default function Restindex() {
         : prevIndex - itemsPerPage
     );
   };
+  //searchBar相關的函式-------------------------------------------------------
+  const searchBarHandler = (e) => {
+    if (e.key === 'Enter') {
+      const searchText = e.target.value;
+      if (!searchText.trim()) {
+        // 如果沒有填字，則不執行換頁的動作
+        return;
+      }
 
+      let copyURL = { page: 1 };
+      if (searchText) {
+        copyURL = { keyword: searchText, ...copyURL };
+      }
+
+      router.push(
+        `/restaurant/list?${new URLSearchParams(copyURL).toString()}`
+      );
+    }
+  };
+
+  const searchBarClickHandler = () => {
+    if (!keyword) {
+      return;
+    }
+    router.push(
+      `/restaurant/list?${new URLSearchParams({
+        keyword: keyword,
+        page: 1,
+      }).toString()}`
+    );
+  };
+  //checkbox相關的函式-------------------------------------------------------
+  const checkboxToggleHandler = (arr, name, id) => {
+    // 在點擊checkbox 的選擇，並更新狀態
+    const updatedCategorySid = arr.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setFilters({
+      ...filters,
+      categorySid: updatedCategorySid,
+    });
+  };
+
+  const handleDatePickerChange = (dateValue) => {
+    setDatePickerValue(dateValue);
+  };
+  const handlerChange1 = (time) => {
+    setStartTime(time);
+  };
+
+  const handlerChange2 = (time) => {
+    setEndTime(time);
+  };
+  //餐廳篩選條件
+  const filterHandler = () => {
+    const filterCate = filters.categorySid;
+    //console.log(filterCate);
+
+    //時間篩選
+    const start = startTime ? startTime + ':00' : null;
+    const end = endTime ? endTime + ':00' : null;
+
+    //日期篩選
+    const selectedDate = datePickerValue;
+    const selectedDayOfWeek = selectedDate ? selectedDate.$W : null;
+
+    console.log(selectedDate);
+
+    // 檢查是否填寫了開始時間和結束時間
+    if (startTime && !endTime) {
+      setStartShowTimeError(false);
+      setShowEndTimeError(true);
+    } else if (!startTime && endTime) {
+      setStartShowTimeError(true);
+      setShowEndTimeError(false);
+    }
+
+    const checkedOptions = filterCate
+      .filter((v) => v.checked === true)
+      .map((v) => v.value);
+
+    // 檢查是否所有篩選條件都沒有填寫
+    if (!checkedOptions.length && !selectedDayOfWeek && !start && !end) {
+      return;
+    }
+    let query = {};
+    if (checkedOptions.length > 0) {
+      query.category = checkedOptions;
+    }
+
+    if (start && end) {
+      query.startTime = start;
+      query.endTime = end;
+    }
+
+    if (selectedDayOfWeek) {
+      query.weekly = selectedDayOfWeek;
+    }
+
+    // console.log(start);
+    // console.log(end);
+    // console.log(checkedOptions);
+    router.push(
+      `/restaurant/list?${new URLSearchParams({
+        ...query,
+        page: 1,
+      }).toString()}`
+    );
+  };
+  //重置篩選條件
+  const clearAllFilter = () => {
+    setFilters(filterDatas);
+    setEndTime('');
+    setStartTime('');
+    setDatePickerValue(null);
+    setStartShowTimeError(false);
+    setShowEndTimeError(false);
+
+    // setStartTime('08:00');
+
+    const { keyword } = router.query;
+    const query = { page: 1 };
+    if (keyword) {
+      query.keyword = keyword;
+    }
+    router.push(
+      `/restaurant/${new URLSearchParams({
+        // ...query,
+      }).toString()}`
+    );
+  };
   // 根據目前的索引來顯示資料
   const displayData = data.rows1.slice(
     currentIndex,
@@ -117,7 +258,21 @@ export default function Restindex() {
 
   return (
     <>
-      <Banner />
+      <div className={Styles.banner}>
+        <div className={Styles.search}>
+          <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
+          <SearchBar
+            placeholder="搜尋餐廳名稱"
+            btn_text="尋找餐廳"
+            inputText={keyword}
+            changeHandler={(e) => {
+              setKeyword(e.target.value);
+            }}
+            keyDownHandler={searchBarHandler}
+            clickHandler={searchBarClickHandler}
+          />
+        </div>
+      </div>
       <div className={Styles.bgc}>
         <div className="container-inner">
           <div className={Styles.function_group}>
@@ -143,16 +298,41 @@ export default function Restindex() {
             <div className="container-inner">
               <div className={Styles.filter_box}>
                 <LocationFilter text="用餐地區" />
-                <TimeDateFilter />
+                <TimeDateFilter
+                  startTime={startTime}
+                  endTime={endTime}
+                  handlerChange1={handlerChange1}
+                  handlerChange2={handlerChange2}
+                  onDateChange={handleDatePickerChange}
+                  value={datePickerValue}
+                  alert_start={
+                    showStartTimeError && (
+                      <p style={{ color: 'red' }}>
+                        <FontAwesomeIcon icon={faCircleExclamation} />{' '}
+                        請填寫開始時間
+                      </p>
+                    )
+                  }
+                  status_start={showStartTimeError && 'error'}
+                  status_end={showEndTimeError && 'error'}
+                  alert_end={
+                    showEndTimeError && (
+                      <p style={{ color: 'red' }}>
+                        <FontAwesomeIcon icon={faCircleExclamation} />{' '}
+                        請填寫結束時間
+                      </p>
+                    )
+                  }
+                />
                 <RestaurantFilter
                   text="用餐類別"
-                  data={categorySid}
-                  onChange={() => {}}
+                  data={filters.categorySid}
+                  onChange={checkboxToggleHandler}
                 />
 
                 <div className={Styles.filter_btns}>
-                  <SecondaryBtn text="重置" />
-                  <MainBtn text="確定" />
+                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
+                  <MainBtn text="確定" clickHandler={filterHandler} />
                 </div>
               </div>
             </div>

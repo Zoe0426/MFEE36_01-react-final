@@ -7,7 +7,12 @@ import Banner from '@/components/ui/restaurant/Banner';
 import Styles from './list.module.css';
 import filterDatas from '@/data/restaurnt/categories.json';
 import IconBtn from '@/components/ui/buttons/IconBtn';
-import { faFilter, faHeart, faMap } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFilter,
+  faHeart,
+  faMap,
+  faCircleExclamation,
+} from '@fortawesome/free-solid-svg-icons';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
@@ -18,6 +23,7 @@ import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 import orderByOptions from '@/data/restaurnt/orderby.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -357,14 +363,20 @@ export default function FilterPage() {
                   value={datePickerValue}
                   alert_start={
                     showStartTimeError && (
-                      <p style={{ color: 'red' }}>請填寫開始時間</p>
+                      <p style={{ color: 'red' }}>
+                        <FontAwesomeIcon icon={faCircleExclamation} />{' '}
+                        請填寫開始時間
+                      </p>
                     )
                   }
                   status_start={showStartTimeError && 'error'}
                   status_end={showEndTimeError && 'error'}
                   alert_end={
                     showEndTimeError && (
-                      <p style={{ color: 'red' }}>請填寫結束時間</p>
+                      <p style={{ color: 'red' }}>
+                        <FontAwesomeIcon icon={faCircleExclamation} />{' '}
+                        請填寫結束時間
+                      </p>
                     )
                   }
                 />
