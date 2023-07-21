@@ -359,21 +359,21 @@ export default function FilterPage() {
     setShowLikeList(false);
   };
 
-  const removeAllLikeList = () => {
-    setLikeDatas([]);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB('all', 'mem00002');
-  };
+  // const removeAllLikeList = () => {
+  //   setLikeDatas([]);
+  //   //這邊需要再修改，要看怎麼得到會員的編號
+  //   removeLikeListToDB('all', 'mem00002');
+  // };
 
-  const removeLikeListItem = (pid) => {
-    const newLikeList = likeDatas.filter((arr) => {
-      return arr.product_sid !== pid;
-    });
+  // const removeLikeListItem = (pid) => {
+  //   const newLikeList = likeDatas.filter((arr) => {
+  //     return arr.product_sid !== pid;
+  //   });
 
-    setLikeDatas(newLikeList);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB(pid, 'mem00002');
-  };
+  //   setLikeDatas(newLikeList);
+  //   //這邊需要再修改，要看怎麼得到會員的編號
+  //   removeLikeListToDB(pid, 'mem00002');
+  // };
 
   //Pagination相關的函式-------------------------------------------------------
   const PageChangeHandler = (page, perpage) => {
@@ -606,8 +606,8 @@ export default function FilterPage() {
                 //   />
                 // }
                 closeHandler={closeShowLikeList}
-                removeAllHandler={removeAllLikeList}
-                removeLikeListItem={removeLikeListItem}
+                // removeAllHandler={removeAllLikeList}
+                // removeLikeListItem={removeLikeListItem}
               />
             )}
           </div>
