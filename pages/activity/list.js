@@ -4,6 +4,7 @@ import styles from '../../styles/activitymain.module.css';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
 import { Row, Col, Pagination, ConfigProvider } from 'antd';
 import SearchBar from '@/components/ui/buttons/SearchBar';
+import Likelist from '@/components/ui/like-list/like-list';
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
@@ -113,7 +114,7 @@ export default function ActivityMain() {
   //   fetchData();
   // }, [router.query, page, perPage]);
 
-  //searchBar相關的函式
+  //searchBar相關的函式--------------------
   const searchBarHandler = (e) => {
     let copyURL = { ...router.query, page: 1 };
     if (e.key === 'Enter') {
@@ -137,7 +138,32 @@ export default function ActivityMain() {
     );
   };
 
-  // Pagination相關的函式 (重整時頁碼不對-> kinda解決)
+  //收藏列表相關的函式--------------------
+  // const openShowLikeList = () => {
+  //   setShowLikeList(!showLikeList);
+  // };
+
+  // const closeShowLikeList = () => {
+  //   setShowLikeList(false);
+  // };
+
+  // const removeAllLikeList = () => {
+  //   setLikeDatas([]);
+  //   //這邊需要再修改，要看怎麼得到會員的編號
+  //   removeLikeListToDB('all', 'mem00002');
+  // };
+
+  // const removeLikeListItem = (pid) => {
+  //   const newLikeList = likeDatas.filter((arr) => {
+  //     return arr.product_sid !== pid;
+  //   });
+
+  //   setLikeDatas(newLikeList);
+  //   //這邊需要再修改，要看怎麼得到會員的編號
+  //   removeLikeListToDB(pid, 'mem00002');
+  // };
+
+  // Pagination相關的函式--------------------
   const PageChangeHandler = (page) => {
     setPage(page);
     router.push(
@@ -166,8 +192,27 @@ export default function ActivityMain() {
       </div>
 
       <div className="container-inner">
-        {/* .........小麵包屑+篩選btn+收藏btn......... */}
+
+      {/* .........收藏列表/進階篩選 btn......... */}
+      <div className={styles.selector}>
+        <div className="container-inner">
+          {/* <IconBtn
+            icon={faHeart}
+            text="收藏列表"
+            clickHandler={openShowLikeList}
+          />
+          <IconBtn
+            icon={faFilter}
+            text="進階篩選"
+            clickHandler={openShowLikeList}
+          /> */}
+        </div>
+      </div>
+
+
         {/* .........篩選btn展開......... */}
+
+
         {/* .........搜尋結果+篩選btn......... */}
         <div className={styles.quick_selector}>
           <div>

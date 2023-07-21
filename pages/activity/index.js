@@ -12,14 +12,10 @@ import ActivityCard3 from '@/components/ui/cards/ActivityCard3';
 import ActivityFormSelectors from '@/components/ui/cards/ActivityFormSelectors';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 
-
 export default function ActivityHome() {
   const [data, setData] = useState([]);
   const [topCityData, setTopCityData] = useState([]);
   const [wish, setWish] = useState([]);
-
-  
-
 
   // 下面卡片的資訊
   useEffect(() => {
@@ -42,25 +38,32 @@ export default function ActivityHome() {
     <div>
       {/* .........banner......... */}
       <div className={styles.banner}>
-      
         <div className={styles.search}>
           <h1>想找活動嗎？來這裡就對了！</h1>
-          <SearchBar placeholder="搜尋活動名稱" btn_text="尋找活動"/>
+          <SearchBar placeholder="搜尋活動名稱" btn_text="尋找活動" />
         </div>
-      
+
         {/* <img
           className={styles.banner_pic}
           src="/activity_img/index_banner.jpg"
           alt="banner"
         /> */}
-        
       </div>
 
       {/* .........收藏列表/進階篩選 btn......... */}
       <div className={styles.selector}>
         <div className="container-inner">
+          {/* <IconBtn
+            icon={faHeart}
+            text="收藏列表"
+            clickHandler={openShowLikeList}
+          />
+          <IconBtn
+            icon={faFilter}
+            text="進階篩選"
+            clickHandler={openShowLikeList}
+          /> */}
           <ActivityLikeWithSelector />
-
           <ActivityFormSelectors />
         </div>
       </div>
@@ -247,22 +250,15 @@ export default function ActivityHome() {
           </div>
           <Row gutter={[0, 64]} className={styles.section_card}>
             {wish.map((i) => {
-              const {
-                member_sid,
-                profile,
-                name,
-                city,
-                area,
-                vote_count,
-              } = i;
+              const { member_sid, profile, name, city, area, vote_count } = i;
               return (
                 <ActivityCard3
-                key={member_sid}
-                profile={profile}
-                title={name}
-                count={vote_count}
-                city={city}
-                area={area}
+                  key={member_sid}
+                  profile={profile}
+                  title={name}
+                  count={vote_count}
+                  city={city}
+                  area={area}
                 />
                 // <ActivityCard4
                 // key={activity_sid}
