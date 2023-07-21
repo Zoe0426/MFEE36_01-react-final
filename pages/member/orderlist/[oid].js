@@ -54,6 +54,10 @@ export default function OrderDetail() {
       case 5:
         statusName = '已完成';
         break;
+
+      case 6:
+        statusName = '已完成';
+        break;
     }
 
     //運送方式
@@ -354,7 +358,7 @@ export default function OrderDetail() {
                 >
                   <path
                     fill="#FFF"
-                    stroke="#DDDDDD"
+                    stroke={data[0].post_status >= 6 ? '#A1D429' : '#DDDDDD'}
                     strokeWidth="2"
                     d="M8,16.8C15.5,8.2,25,2.9,38,1.3c13-1.6,22.3,3.4,27,16.4c4.7,13,6.5,22,3.5,32.5c-3,10.5-13.5,16.9-36,16
 	c-22.5-0.9-29.6-14-31-23.5C0.2,33.2,1.1,24.7,8,16.8z"
@@ -372,7 +376,7 @@ export default function OrderDetail() {
                     <clipPath id="SVGID_00000042737315818605218800000000221362305816191631_"></clipPath>
 
                     <path
-                      fill="#DDDDDD"
+                      fill={data[0].post_status >= 6 ? '#A1D429' : '#DDDDDD'}
                       strokeWidth="2"
                       d="M51.2,30.5c0-0.3,0-0.5-0.1-0.8l0,0c-0.4-1.1-1.4-1.9-2.5-1.9H41l-2.3-7.1c-0.4-1.1-1.4-1.9-2.5-1.9
 			c-1.2,0-2.2,0.8-2.5,1.9l1.2,0.4l-1.2-0.4l-2.3,7.1h-7.5c-1.2,0-2.2,0.7-2.5,1.9l0,0c-0.1,0.3-0.1,0.5-0.1,0.8
@@ -387,7 +391,9 @@ export default function OrderDetail() {
                     />
                   </g>
                 </svg>
-                <div className={Style.statusTitle}>待評價</div>
+                <div className={Style.statusTitle}>
+                  {data[0].post_status >= 6 ? '已評價' : '待評價'}
+                </div>
                 <div className={Style.statusTime}>
                   {data[0].post_status >= 6 ? data[0].order_create_time : ''}
                 </div>
@@ -413,11 +419,14 @@ export default function OrderDetail() {
                   <div className={Style.infoItem}>
                     <div className={Style.infoText}>
                       <p>運送方式 ：</p>
-                      <p>{postType}</p>
+                      <p>
+                        {postType}
+                        {data[0].postStore}
+                      </p>
                     </div>
                     <div className={Style.infoText}>
                       <p>運送地址 ：</p>
-                      <p>{data[0].address}</p>
+                      <p>{data[0].postAddress}</p>
                     </div>
                   </div>
                 </>
@@ -473,6 +482,7 @@ export default function OrderDetail() {
                   actCommentSid={data.actCommentSid}
                   actStar={data.actStar}
                   actContent={data.actContent}
+                  status={data.post_status}
                 />
               );
             })}

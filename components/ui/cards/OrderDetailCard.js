@@ -30,7 +30,19 @@ export default function OrderDetailCard({
   actCommentSid,
   actStar,
   actContent,
+  status,
 }) {
+  const router = useRouter();
+  const from = router.asPath;
+
+  const today = new Date();
+  console.log(today);
+
+  const actday = new Date(relSeqName);
+  console.log(actday);
+
+  console.log(today > actday);
+
   const [show, setShow] = useState(false);
   const initialValues = {
     memberSid: memberSid,
@@ -76,6 +88,7 @@ export default function OrderDetailCard({
           console.log(data);
         });
     }
+    router.push(from);
   };
 
   return (
@@ -132,7 +145,23 @@ export default function OrderDetailCard({
         </div>
       </div>
       <div className={Style.btn}>
-        <MainBtn text="我要評價" clickHandler={showReviewContent} />
+        {relType === 'shop' ? (
+          status >= 5 ? (
+            <MainBtn
+              text={status <= 5 ? '去評價' : '我的評價'}
+              clickHandler={showReviewContent}
+            />
+          ) : (
+            ''
+          )
+        ) : today > actday ? (
+          <MainBtn
+            text={status <= 5 ? '去評價' : '我的評價'}
+            clickHandler={showReviewContent}
+          />
+        ) : (
+          ''
+        )}
       </div>
       {show && (
         <div className={Style.reviewContent}>
