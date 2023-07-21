@@ -143,8 +143,9 @@ export default function Cart() {
           process.env.API_SERVER +
           `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
       } else if (createOrderResult.paymentType === 2) {
-        console.log('linePay');
-        //TODO： LinePay;
+        window.location.href =
+          process.env.API_SERVER +
+          `/cart-api/linepay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
       }
     } else {
       //TODO: 訂單成立失敗不前往付款頁面
