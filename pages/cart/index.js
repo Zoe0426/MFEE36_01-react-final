@@ -16,15 +16,15 @@ import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
 
 export default function Cart() {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
+
   const [cartData, setCartData] = useState({
     shop: [],
     activity: [],
     postAddress: [],
     coupon: [],
   });
-
   const [checkoutType, setCheckoutType] = useState('shop');
   //商品選擇區
   const [shopData, setShopData] = useState([]);
@@ -49,10 +49,8 @@ export default function Cart() {
   useEffect(() => {
     if (!auth.id && first) {
       const from = router.asPath;
-      console.log(from);
       router.push(`/member/sign-in?from=${from}`);
     } else if (auth.id) {
-      console.log('getcart');
       getCart(auth.id);
     }
   }, [auth, first]);
@@ -125,7 +123,6 @@ export default function Cart() {
 
   const sendOrderRequest = async (data) => {
     console.log('sentData:', data);
-    console.log('sendOrderRequest');
     const r = await fetch(`${process.env.API_SERVER}/cart-api/create-order`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -133,14 +130,27 @@ export default function Cart() {
         'Content-Type': 'application/json',
       },
     });
-    const result = await r.json();
-    if (result.success && result.orderSid) {
-      const id = result.orderSid;
-      const total = result.finalTotal;
-      const checkoutType = result.checkoutType;
-      window.location.href =
-        process.env.API_SERVER +
-        `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}`;
+    const createOrderResult = await r.json();
+    console.log('createOrderResult:', createOrderResult);
+    //訂單若成立，前往結帳
+    if (createOrderResult.success) {
+      const id = createOrderResult.orderSid;
+      const total = createOrderResult.finalTotal;
+      const checkoutType = createOrderResult.checkoutType;
+      const memberSid = createOrderResult.memberSid;
+      if (createOrderResult.paymentType === 1) {
+        window.location.href =
+          process.env.API_SERVER +
+          `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
+      } else if (createOrderResult.paymentType === 2) {
+        window.location.href =
+          process.env.API_SERVER +
+          `/cart-api/linepay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
+      }
+    } else {
+      //TODO: 訂單成立失敗不前往付款頁面
+      alert('訂單成立失敗無法前往付款頁面');
+      console.log('訂單成立失敗不前往付款頁面');
     }
   };
 
@@ -173,12 +183,13 @@ export default function Cart() {
         checkoutType === 'shop'
           ? postAddData.filter((v) => v.default_status === 1 || v.selected)
           : [];
-      data.couponInfo = couponData.filter((v) => v.selected);
+      data.couponInfo =
+        couponData.length && couponData.filter((v) => v.selected);
       sendOrderRequest(data);
     }
   };
 
-  console.log(cartData);
+  //console.log(cartData);
   //console.log(postType);
 
   return !auth.id && first ? (

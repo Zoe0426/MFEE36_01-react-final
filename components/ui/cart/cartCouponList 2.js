@@ -8,10 +8,10 @@ export default function CartCouponList({
 }) {
   const originalSelectedSid = couponData.filter((v) => v.selected === true)[0]
     .coupon_send_sid;
-  console.log(originalSelectedSid);
+  //console.log(originalSelectedSid);
   const [selectedCoupon, setSelectedCoupon] = useState(originalSelectedSid);
   const onChange = (e) => {
-    console.log('radio checked', e.target.value);
+    //console.log('radio checked', e.target.value);
     setSelectedCoupon(e.target.value);
     setChosenCoupon(e.target.value);
   };

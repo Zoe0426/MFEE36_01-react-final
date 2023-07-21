@@ -17,7 +17,6 @@ export default function CartActivityCard({
   activityData = [],
   setActivityData = () => {},
   setSelectAll = () => {},
-  delHandler = () => {},
 }) {
   const [myAdQty, setMyAdQty] = useState(adQty);
   const [myKidQty, setMyKidQty] = useState(kidQty);
@@ -44,6 +43,23 @@ export default function CartActivityCard({
         v.cart_sid === cartSid ? { ...v, child_qty: qty } : { ...v }
       )
     );
+  };
+
+  const removeItemFromDb = async (sid) => {
+    console.log('remove cart_sid:', sid);
+    const r = await fetch(
+      `${process.env.API_SERVER}/cart-api/remove-cart-item`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ cart_sid: sid }),
+        headers: { 'Content-type': 'application/json' },
+      }
+    );
+    const result = await r.json();
+    console.log('remove-result:', result);
+    result === 'success'
+      ? setActivityData((old) => old.filter((v) => v.cart_sid !== sid))
+      : alert('remove from DB failed');
   };
   return (
     <div className={style.productCard}>
@@ -88,7 +104,11 @@ export default function CartActivityCard({
         </div>
       </div>
 
-      <CloseBtn closeHandler={delHandler} />
+      <CloseBtn
+        closeHandler={() => {
+          removeItemFromDb(cartSid);
+        }}
+      />
     </div>
   );
 }

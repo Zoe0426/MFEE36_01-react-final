@@ -11,7 +11,7 @@ export default function OrderDetailActivity({
 }) {
   return (
     <div className={style.productCard}>
-      <img src={img} alt="productimg" className={style.prodimg} />
+      <img src={img} alt="activityImg" className={style.prodimg} />
       <div className={style.forRwd}>
         <div className={style.prodname}>
           <p className={style.prodtitle}>{prodtitle}</p>

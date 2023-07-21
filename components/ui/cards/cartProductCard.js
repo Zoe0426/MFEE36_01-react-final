@@ -14,7 +14,6 @@ export default function CartProductCard({
   selected = false,
   shopData = [],
   setShopData = () => {},
-  delHandler = () => {},
   setSelectAll = () => {},
 }) {
   const [myQty, setMyQty] = useState(qty);
@@ -36,6 +35,22 @@ export default function CartProductCard({
     );
   };
 
+  const removeItemFromDb = async (sid) => {
+    console.log('remove cart_sid:', sid);
+    const r = await fetch(
+      `${process.env.API_SERVER}/cart-api/remove-cart-item`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ cart_sid: sid }),
+        headers: { 'Content-type': 'application/json' },
+      }
+    );
+    const result = await r.json();
+    console.log('remove-result:', result);
+    result === 'success'
+      ? setShopData((old) => old.filter((v) => v.cart_sid !== sid))
+      : alert('remove from DB failed');
+  };
   return (
     <div className={style.productCard}>
       <Checkbox
@@ -64,7 +79,11 @@ export default function CartProductCard({
         </div>
       </div>
 
-      <CloseBtn closeHandler={delHandler} />
+      <CloseBtn
+        closeHandler={() => {
+          removeItemFromDb(cartSid);
+        }}
+      />
     </div>
   );
 }
