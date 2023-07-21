@@ -24,7 +24,11 @@
     width:100%;
     padding:var(--p16) var(--p16);
     flex:1;
-    border:1px solid black
+    border:1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .brand_img{

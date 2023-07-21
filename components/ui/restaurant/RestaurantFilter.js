@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
 export default function RestaurantFilter({
   text = '',
+  name = '',
   data = [],
   needSpan = true,
   onChange = () => {},
@@ -26,7 +27,7 @@ export default function RestaurantFilter({
           <label className={Styles.labels}>{text}</label>
         </div>
         <div className={Styles.checkBoxs}>
-          <Checkbox.Group style={{ width: '100%' }} onChange={onChange} />
+          <Checkbox.Group style={{ width: '100%' }} />
           <Row gutter={[16, 16]}>
             {data.map((v) => {
               return (
@@ -36,7 +37,14 @@ export default function RestaurantFilter({
                   md={{ span: needSpan && 3 }}
                   key={v.value}
                 >
-                  <Checkbox value={v.value}>{v.label}</Checkbox>
+                  <Checkbox
+                    value={v.value}
+                    checked={v.checked}
+                    key={v.id}
+                    onChange={() => onChange(data, text, v.id)} // 在點擊時觸發 onChange 並傳遞相關資訊
+                  >
+                    {v.label}
+                  </Checkbox>
                 </Col>
               );
             })}

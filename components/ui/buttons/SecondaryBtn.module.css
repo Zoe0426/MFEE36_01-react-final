@@ -13,6 +13,11 @@
     cursor: pointer;
 }
 
+@media screen and (max-width:1300px) and (min-width:769px){
+    .secondary_btn{
+        padding: 0.75rem ;
+    }
+}
 
 @media screen and (max-width:767px){
     .secondary_btn{

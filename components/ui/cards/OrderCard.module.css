@@ -54,7 +54,8 @@
 }
 
 .items{
-  align-items: flex-start;
+  height: 100%;
+  align-items: center;
 }
 
 .btn,.totalPrice{
@@ -97,6 +98,15 @@
 .img{
 	width: 80px;
 	margin-right: 10px;
+}
+
+.getty{
+  margin-right: 3px;
+}
+
+.actAddress{
+  display: flex;
+  align-items: center;
 }
 
 @media screen and (max-width:1440px){

@@ -111,15 +111,20 @@ export default function RestInfo() {
   }, [query]);
 
   //圖片輪播取照片
-  const toggleDisplayForImg = (imageRows, id) => {
-    return imageRows.map((v) => {
-      if (v.rest_sid === id) {
-        return { ...v, display: true };
-      } else {
-        return { ...v, display: false };
-      }
-    });
-  };
+  // const toggleDisplayForImg = (imageRows, id) => {
+  //   return imageRows.map((v) => {
+  //     if (v.rest_sid === id) {
+  //       return { ...v, display: true };
+  //     } else {
+  //       return { ...v, display: false };
+  //     }
+  //   });
+  // };
+
+  function toggleDisplayForImg(imgUrl) {
+    let main = document.getElementById('imageBox');
+    main.src = imgUrl;
+  }
 
   //給他一個loading的時間
   if (!serviceRows || !restDetailRows) return <p>loading</p>;
@@ -135,39 +140,63 @@ export default function RestInfo() {
       </div>
       <div className="container-inner">
         <div className={Styles.rest_detail}>
-          {/* <div className={Styles.rest_image}>
+          <div className={Styles.rest_image}>
             <div className={Styles.rest_image_main}>
-              <img src={`/rest_image/image/${imageRows[0]?.img_name}`} alt="" />
+              <img
+                src={`/rest_image/image/${imageRows[0]?.img_name}`}
+                alt={imageRows[0]?.img_name}
+                id="imageBox"
+              />
             </div>
             <div className={Styles.rest_image_group}>
               <div className={Styles.rest_image_single}>
                 <img
+                  src={`/rest_image/image/${imageRows[0]?.img_name}`}
+                  alt={imageRows[0]?.img_name}
+                  onClick={() => {
+                    toggleDisplayForImg(
+                      `/rest_image/image/${imageRows[0]?.img_name}`
+                    );
+                  }}
+                />
+              </div>
+              <div className={Styles.rest_image_single}>
+                <img
                   src={`/rest_image/image/${imageRows[1]?.img_name}`}
-                  alt=""
+                  alt={imageRows[1]?.img_name}
+                  onClick={() => {
+                    toggleDisplayForImg(
+                      `/rest_image/image/${imageRows[1]?.img_name}`
+                    );
+                  }}
                 />
               </div>
               <div className={Styles.rest_image_single}>
                 <img
                   src={`/rest_image/image/${imageRows[2]?.img_name}`}
-                  alt=""
+                  alt={imageRows[2]?.img_name}
+                  onClick={() => {
+                    toggleDisplayForImg(
+                      `/rest_image/image/${imageRows[2]?.img_name}`
+                    );
+                  }}
                 />
               </div>
               <div className={Styles.rest_image_single}>
                 <img
                   src={`/rest_image/image/${imageRows[3]?.img_name}`}
-                  alt=""
-                />
-              </div>
-              <div className={Styles.rest_image_single}>
-                <img
-                  src={`/rest_image/image/${imageRows[4]?.img_name}`}
-                  alt=""
+                  alt={imageRows[3]?.img_name}
+                  onClick={() => {
+                    toggleDisplayForImg(
+                      `/rest_image/image/${imageRows[3]?.img_name}`
+                    );
+                  }}
                 />
               </div>
             </div>
-          </div> */}
+          </div>
 
-          <div className={Styles.rest_image}>
+          {/* <div className={Styles.rest_image}>
             <div className={Styles.rest_image_main}>
               {imageRows.map((v) => {
                 return (
@@ -206,7 +235,7 @@ export default function RestInfo() {
                   );
                 })}
             </div>
-          </div>
+          </div> */}
 
           <div className={Styles.rest_info}>
             <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>

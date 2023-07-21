@@ -2,7 +2,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import styles from './shop-history-card.module.css';
 
-export default function ShopHistoryCard({ data = [] }) {
+export default function ShopHistoryCard({
+  data = [],
+  clearAllHandler = () => {},
+}) {
   const router = useRouter();
   return (
     <div className={styles.history_box}>
@@ -20,12 +23,17 @@ export default function ShopHistoryCard({ data = [] }) {
               router.push(`http://localhost:3000/product/${product_sid}`);
             }}
           >
-            <img src={`http://localhost:3000/product-img/${img}`} />
+            {img && (
+              <img
+                src={`http://localhost:3000/product-img/${img}`}
+                alt={product_sid}
+              />
+            )}
           </div>
         );
       })}
-      <div className={styles.history_reset}>
-        <p>清除全部</p>
+      <div className={styles.history_reset} onClick={clearAllHandler}>
+        <span>清除全部</span>
       </div>
     </div>
   );

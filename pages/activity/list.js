@@ -2,90 +2,177 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../styles/activitymain.module.css';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
-import { Row, Col } from 'antd';
+import { Row, Col, Pagination, ConfigProvider } from 'antd';
 import SearchBar from '@/components/ui/buttons/SearchBar';
+import Likelist from '@/components/ui/like-list/like-list';
 
 export default function ActivityMain() {
-  // 網址在這看 http://localhost:3000/activity/list?cid=類別的sid
-  // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字
+  // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
 
   const router = useRouter();
-  const [cidData, setCidData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(16);
   const [keyword, setKeyword] = useState('');
+  const [orderBy, setOrderBy] = useState('-- 請選擇 --');
+  // const [cidData, setCidData] = useState([]);
+
+  //取資料
+  const [datas, setDatas] = useState({
+    totalRows: 0,
+    perPage: 16,
+    totalPages: 0,
+    page: 1,
+    rows: [],
+  });
+
+  //排序
+  const rankOptions = {
+    1: 'new_DESC',
+    2: 'hot_DESC', // TODO: 需再確認cart的欄位名稱
+  };
+
+  // const orderByHandler = (e) => {
+  //   const newSelect = orderByOptions.find((v) => v.key === e.key);
+
+  //   console.log(newSelect.label);
+  //   setOrderBy(newSelect.label);
+
+  //   const selectedRank = rankOptions[e.key];
+  //   // console.log(selectedRank);
+  //   router.push(
+  //     `?${new URLSearchParams({
+  //       ...router.query,
+  //       page: 1,
+  //       orderBy: selectedRank,
+  //     }).toString()}`
+  //   );
+  // };
 
   useEffect(() => {
-    const { cid, keyword } = router.query;
+    const { cid, keyword, page: urlPage } = router.query;
     const activity_type_sid = cid ? encodeURIComponent(cid) : '';
 
     setKeyword(keyword || '');
+    setPage(Number(urlPage) || 1); // 將url中的page值轉換為數字，如果為空或無效則設置為1
+    setPerPage(perPage || 16);
 
     const fetchData = async () => {
       try {
         const encodedCid = encodeURIComponent(cid || '');
         const encodedKeyword = encodeURIComponent(keyword || '');
         const response = await fetch(
-          `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}`
+          `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}&page=${page}&perPage=${perPage}`
         );
         if (!response.ok) {
           throw new Error('Request failed');
         }
         const data = await response.json();
-        setCidData(data.cid_data);
+        setDatas((prevData) => ({
+          ...prevData,
+          totalRows: data.totalRows,
+          totalPages: data.totalPages,
+          rows: data.rows,
+          page: data.page, // 更新 page 的設定
+        }));
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchData();
-  }, [router.query]);
+  }, [router.query, perPage, page]); // 這裡包含了page和perPage的依賴
 
-  // 分類搜尋
   // useEffect(() => {
-  //   const { cid } = router.query;
+  //   const { cid, keyword } = router.query;
   //   const activity_type_sid = cid ? encodeURIComponent(cid) : '';
 
-  //   fetch(`${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${activity_type_sid}`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setCidData(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, [router.query]);
-
-  // 關鍵字
-  //const [keyword, setKeyword] = useState("");
-
-  // useEffect(() => {
-  //   //取得用戶拜訪的類別選項
-  //   const { keyword } =router.query;
   //   setKeyword(keyword || '');
-  // }, [router.query]);
 
-  // useEffect(() => {
-  //   setKeyword(router.query.keyword || "");
-  //   const usp = new URLSearchParams(router.query);
-
-  //   fetch(`${process.env.API_SERVER}/activity-api?${usp.toString()}`)
-  //     .then((r) => r.json())
-  //     .then((datakeyword) => {
-  //       console.log(datakeyword);
-  //       setKeyword(datakeyword);
-  //     });
-  // }, [router.query]);
-
-  //const [data, setData] = useState([]);
-
-  // useEffect(() => {
   //   const fetchData = async () => {
-  //     const response = await fetch('http://localhost:3002/activity-api/:cid');
-  //     const data = await response.json();
-  //     setData(data);
+  //     try {
+  //       const encodedCid = encodeURIComponent(cid || '');
+  //       const encodedKeyword = encodeURIComponent(keyword || '');
+  //       const response = await fetch(
+  //         `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}&page=${page}&perPage=${perPage}`
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error('Request failed');
+  //       }
+  //       const data = await response.json();
+  //       setDatas((prevData) => ({
+  //         ...prevData,
+  //         totalRows: data.totalRows,
+  //         totalPages: data.totalPages,
+  //         rows: data.rows,
+  //         page: data.page,
+  //       }));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
   //   };
 
   //   fetchData();
-  // }, []);
+  // }, [router.query, page, perPage]);
+
+  //searchBar相關的函式--------------------
+  const searchBarHandler = (e) => {
+    let copyURL = { ...router.query, page: 1 };
+    if (e.key === 'Enter') {
+      if (!keyword) {
+        delete copyURL.keyword;
+      } else {
+        const searchText = e.target.value;
+        copyURL = { ...copyURL, keyword: searchText };
+      }
+      router.push(`?${new URLSearchParams(copyURL).toString()}`);
+    }
+  };
+
+  const searchBarClickHandler = () => {
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        keyword: keyword,
+        page: 1,
+      }).toString()}`
+    );
+  };
+
+  //收藏列表相關的函式--------------------
+  // const openShowLikeList = () => {
+  //   setShowLikeList(!showLikeList);
+  // };
+
+  // const closeShowLikeList = () => {
+  //   setShowLikeList(false);
+  // };
+
+  // const removeAllLikeList = () => {
+  //   setLikeDatas([]);
+  //   //這邊需要再修改，要看怎麼得到會員的編號
+  //   removeLikeListToDB('all', 'mem00002');
+  // };
+
+  // const removeLikeListItem = (pid) => {
+  //   const newLikeList = likeDatas.filter((arr) => {
+  //     return arr.product_sid !== pid;
+  //   });
+
+  //   setLikeDatas(newLikeList);
+  //   //這邊需要再修改，要看怎麼得到會員的編號
+  //   removeLikeListToDB(pid, 'mem00002');
+  // };
+
+  // Pagination相關的函式--------------------
+  const PageChangeHandler = (page) => {
+    setPage(page);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: page,
+      }).toString()}`
+    );
+  };
 
   return (
     <div>
@@ -97,19 +184,35 @@ export default function ActivityMain() {
             placeholder="搜尋活動名稱"
             btn_text="尋找活動"
             inputText={keyword}
-            changeHandler={(e) => {
-              setKeyword(e.target.value);
-              router.push(
-                `/?cid=${router.query.cid}&keyword=${e.target.value}`
-              );
-            }}
+            changeHandler={(e) => setKeyword(e.target.value)}
+            keyDownHandler={searchBarHandler}
+            clickHandler={searchBarClickHandler}
           />
         </div>
       </div>
 
       <div className="container-inner">
-        {/* .........小麵包屑+篩選btn+收藏btn......... */}
+
+      {/* .........收藏列表/進階篩選 btn......... */}
+      <div className={styles.selector}>
+        <div className="container-inner">
+          {/* <IconBtn
+            icon={faHeart}
+            text="收藏列表"
+            clickHandler={openShowLikeList}
+          />
+          <IconBtn
+            icon={faFilter}
+            text="進階篩選"
+            clickHandler={openShowLikeList}
+          /> */}
+        </div>
+      </div>
+
+
         {/* .........篩選btn展開......... */}
+
+
         {/* .........搜尋結果+篩選btn......... */}
         <div className={styles.quick_selector}>
           <div>
@@ -124,43 +227,43 @@ export default function ActivityMain() {
 
         <div className={styles.section_card}>
           <Row gutter={[0, 106]} className={styles.card}>
-            {cidData.map((i) => {
-                const {
-                  activity_sid,
-                  type_name,
-                  activity_pic,
-                  name,
-                  avg_star,
-                  recent_date,
-                  farthest_date,
-                  time,
-                  city,
-                  area,
-                  address,
-                  content,
-                  feature_names,
-                  price_adult,
-                } = i;
-                return (
-                  <ActivityCard4
-                    key={activity_sid}
-                    activity_sid={activity_sid}
-                    type={type_name}
-                    image={'/activity_img/' + activity_pic.split(',')[0]}
-                    title={name}
-                    rating={avg_star}
-                    date_begin={recent_date}
-                    date_end={farthest_date}
-                    time={time}
-                    city={city}
-                    area={area}
-                    address={address}
-                    content={content}
-                    features={feature_names.split(',')}
-                    price={price_adult}
-                  />
-                );
-              })}
+            {datas.rows.map((i) => {
+              const {
+                activity_sid,
+                type_name,
+                activity_pic,
+                name,
+                avg_star,
+                recent_date,
+                farthest_date,
+                time,
+                city,
+                area,
+                address,
+                content,
+                feature_names,
+                price_adult,
+              } = i;
+              return (
+                <ActivityCard4
+                  key={activity_sid}
+                  activity_sid={activity_sid}
+                  type={type_name}
+                  image={'/activity_img/' + activity_pic.split(',')[0]}
+                  title={name}
+                  rating={avg_star}
+                  date_begin={recent_date}
+                  date_end={farthest_date}
+                  time={time}
+                  city={city}
+                  area={area}
+                  address={address}
+                  content={content}
+                  features={feature_names?.split(',') || []}
+                  price={price_adult}
+                />
+              );
+            })}
           </Row>
         </div>
 
@@ -184,7 +287,26 @@ export default function ActivityMain() {
         </Row> */}
         {/* .........頁碼......... */}
         <div className={styles.pagination}>
-          <p>頁碼</p>
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: '#FD8C46',
+                colorBgContainer: 'transparent',
+                colorBgTextHover: '#FFEFE8',
+                colorBgTextActive: '#FFEFE8',
+                fontSize: 18,
+                controlHeight: 38,
+                lineWidthFocus: 1,
+              },
+            }}
+          >
+            <Pagination
+              current={datas.page}
+              total={datas.totalRows}
+              pageSize={datas.perPage}
+              onChange={PageChangeHandler}
+            />
+          </ConfigProvider>
         </div>
       </div>
     </div>

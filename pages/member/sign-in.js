@@ -7,11 +7,17 @@ import { useContext } from 'react';
 import { useRouter } from 'next/router';
 
 export default function SignIn() {
+  const { auth, setAuth } = useContext(AuthContext);
+
+
+  //回去哪一頁的路徑
   const router = useRouter();
   const fromPath = router.query.from || '/';
   console.log(fromPath);
   console.log(router.query.from);
-  const { auth, setAuth } = useContext(AuthContext);
+
+
+  //送出表單
   const handleSubmit = (values) => {
     fetch(`${process.env.API_SERVER}/member-api/login`, {
       method: 'POST',

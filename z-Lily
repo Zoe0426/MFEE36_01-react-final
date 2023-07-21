@@ -1,3 +1,25 @@
+急
+TODO: 更新預設地址
+TODO: 展示及選擇不同地址
+TODO: 新增常用地址
+TODO: 更換結帳類號時要跳警告
+TODO: 若產品小於COUPON金額，則COUPON不能被使用
+
+
+
+
+緩
+TODO: 若購物車內無東西
+TODO: 若沒有優惠券
+TODO: 把body 裡的資料去資料庫拿正式的價錢再create order
+TODO: 把購物車資料存在LOCALstorage, 若去check out, 要更新localstorage 的明細
+
+完成
+
+
+
+
+
 1. 如何導入fontfamily?
 
 https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
@@ -29,4 +51,23 @@ role= presentation
 ?. 如何在跳module 時, 其它部份沒有作用
 
 
+流程： 
+進購物車
+1. 不選任何東西無法結帳
+2. 選了結帳類別，會切換不同台的購物車介面，內容不同
+3. 有選商品，coupon or post 的統計金額才會顯示
+4. 商品全選功能，點掉其中一個，全選勾勾會消失，全選商品 
+5. 選擇商品時，變換數量時，更換coupon and post時，統計金額會變更
+6. //展示物流選擇器（7/11）選擇門市時，統計金額會變更
+7. //選擇預設地址，為第二次結帳做準備
+8. //選擇coupon, 即將過期的coupon 排前面，讓日期突出一些
+9. //可以選擇不要使用coupon 
+10. 選擇結帳種類，先展示line pay
+11. 結帳成功頁面，再回購物車
+12. 會預先顯示有物品的那一台，展示商城購物車沒東西的長相。結帳活動不用全選
+13. 再次提醒沒有出現寄件欄
+14. 選擇ecpay結帳，跳結帳失敗重付款畫面
+15. 重新付款，手機打驗證碼，付款成功，顯示成功頁面 
+16. //收郵件，看剛剛兩個發送時間。活動會有QR code. 
+17. 
 

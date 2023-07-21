@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import styles from '@/styles/shop.module.css';
 import Image from 'next/image';
 import { Row, Col } from 'antd';
+import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
@@ -30,6 +31,12 @@ import CorpLogo from '@/assets/corpLogo.svg';
 
 export default function Product() {
   const { query, asPath } = useRouter();
+  const [first, setFrist] = useState(false);
+  const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
+    'petProductHistory',
+    [],
+    true
+  );
 
   const [datatForProductMain, setDataForProductMain] = useState({
     product_sid: '',
@@ -89,8 +96,14 @@ export default function Product() {
   ]);
 
   useEffect(() => {
+    setFrist(true);
+  }, [localStorageHistory]);
+
+  useEffect(() => {
     //取得用戶拜訪的特定商品編號
     const { pid } = query;
+
+    // console.log(query);
 
     if (pid) {
       (async function getData() {
@@ -111,6 +124,27 @@ export default function Product() {
         const description = innitDescription.replace(/\n/g, '<br/>');
 
         if (shopMainData) {
+          //將進入頁面的都存在localStorage，作為瀏覽紀錄的資料
+          if (shopMainData[0].img && first) {
+            if (
+              localStorageHistory.length &&
+              localStorageHistory[0].product_sid === pid
+            ) {
+              setLocalStorageHistory(localStorageHistory);
+            } else {
+              if (localStorageHistory.length >= 3) {
+                localStorageHistory.pop();
+              }
+              setLocalStorageHistory([
+                {
+                  product_sid: pid,
+                  img: shopMainData[0].img,
+                },
+                ...localStorageHistory,
+              ]);
+            }
+          }
+
           setDataForProductMain({ ...shopMainData[0], description });
         }
 
@@ -152,7 +186,7 @@ export default function Product() {
         setCount(1);
       })();
     }
-  }, [query]);
+  }, [query, first]);
 
   //轉換圖片顯示
   const toggleDisplayForImg = (datatForProductDetail, id) => {
@@ -193,7 +227,7 @@ export default function Product() {
   const removeLikeListToDB = async (pid = '', mid = '') => {
     try {
       const removeAll = await fetch(
-        `http://localhost:3002/shop-api/likelist/${pid}/${mid}`,
+        `${process.env.API_SERVER}/shop-api/likelist/${pid}/${mid}`,
         {
           method: 'DELETE',
         }
@@ -303,6 +337,20 @@ export default function Product() {
                   score={datatForProductMain.avg_rating}
                   text={`( 已有99人購買，這邊需要再拉API資料 )`}
                 />
+                <div className={styles.detail_price_box}>
+                  <h5 className={styles.detail_spec_title}>價格</h5>
+                  {datatForProductDetail.map((v, i) => {
+                    return (
+                      <div
+                        className={styles.detail_price}
+                        key={v.product_detail_sid}
+                      >
+                        ${v.price}
+                      </div>
+                    );
+                  })}
+                </div>
+
                 <div className={styles.detail_spec_box}>
                   <h5 className={styles.detail_spec_title}>規格選擇</h5>
                   {datatForProductDetail.map((v, i) => {

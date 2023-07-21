@@ -1,4 +1,5 @@
-import React from 'react';
+import { React } from 'react';
+import { useRouter } from 'next/router';
 import MainBtn from '../buttons/MainBtn';
 import Style from '@/components/ui/cards/OrderCard.module.css';
 export default function OrderCard({
@@ -15,7 +16,13 @@ export default function OrderCard({
   statusName,
   length,
   type,
+  actAddress,
 }) {
+  const router = useRouter();
+  const toOrderDetail = () => {
+    router.push(`/member/orderlist/${orderSid}`);
+  };
+
   switch (status) {
     case 1:
       statusName = '備貨中';
@@ -76,6 +83,14 @@ export default function OrderCard({
                   <>
                     <p>{`大人x${adultQty}`}</p>
                     <p>{`小孩x${childQty}`}</p>
+                    <div className={Style.actAddress}>
+                      <img
+                        src="/member-center-images/Icon/getty.svg"
+                        alt=""
+                        className={Style.getty}
+                      />
+                      <p>{actAddress}</p>
+                    </div>
                   </>
                 )}
               </div>
@@ -366,7 +381,7 @@ export default function OrderCard({
               </div>
             </div>
             <div className={Style.btn}>
-              <MainBtn text="詳細內容" />
+              <MainBtn text="詳細內容" clickHandler={toOrderDetail} />
             </div>
           </div>
         </div>

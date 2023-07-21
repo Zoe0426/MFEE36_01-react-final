@@ -55,10 +55,16 @@
 .heart_icon{
     position: absolute;
     right:var(--p16);
-    top:var(--p16);
-    font-size: var(--h4fs24);
+    font-size: var(--h3fs28);
     color:var(--light-gray);
     cursor: pointer;
+    z-index: 9;
+    padding: var(--p24) var(--p24) var(--p16) var(--p16);
+    padding: var(--p16);
+}
+
+.heart_icon:hover{
+    color:var(--heartRed)
 }
 
 .card_body{
@@ -71,7 +77,6 @@
 
 .card_title{
     font-size: var(--h6fs18);
-    /* font-weight: var(--fwbold); */
     text-align: justify;
     line-height: 1.3;
     display: -webkit-box;
@@ -88,6 +93,14 @@
     align-items: center;
 }
 
+.card_info span:first-child{
+    font-weight: var(--fwbold);
+}
+
+.upto{
+    font-size: var(--pfs14);
+}
+
 
 @media screen and (max-width:767px){
     .card_title{
@@ -101,6 +114,13 @@
     .card_info{
         font-size: var(--pfs14);
     }
+    .upto{
+        font-size: var(--pfs12);
+    }
 
+    .heart_icon{
+        padding: var(--p16);
+        font-size: var(--h5fs20);
+    }
 
     }

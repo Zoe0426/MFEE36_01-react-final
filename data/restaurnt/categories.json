@@ -1,52 +1,76 @@
 {
   "categorySid": [
     {
+      "id":1,
       "label": "早午餐",
-      "value": "brunch"
+      "value": "brunch",
+      "checked": false
     },
     {
+      "id":2,
       "label": "下午茶",
-      "value": "afternoon_tea"
+      "value": "afternoon_tea",
+      "checked": false
     },
     {
+      "id":3,
       "label": "餐酒館",
-      "value": "bistro"
+      "value": "bistro",
+      "checked": false
     },
     {
+      "id":4,
       "label": "烤肉/燒烤",
-      "value": "hot_pot"
+      "value": "barbecue",
+      "checked": false
     },
     {
+      "id":5,
       "label": "火鍋",
-      "value": "barbecue"
+      "value": "hot_pot",
+      "checked": false
     },
     {
+      "id":6,
       "label": "咖啡與茶",
-      "value": "coffee_tea"
+      "value": "coffee_tea",
+      "checked": false
     },
     {
+      "id":7,
       "label": "中式料理",
-      "value": "chinese_cuisine"
+      "value": "chinese_cuisine",
+      "checked": false
     },
     {
+      "id":8,
       "label": "日式料理",
-      "value": "japan_cuisine"
+      "value": "japan_cuisine",
+      "checked": false
     },
     {
+      "id":9,
       "label": "韓式料理",
-      "value": "koren_cuisine"
+      "value": "koren_cuisine",
+      "checked": false
     },
     {
+      "id":10,
       "label": "美式料理",
-      "value": "us_cuisine"
+      "value": "us_cuisine",
+      "checked": false
     },
     {
+      "id":11,
       "label": "義式料理",
-      "value": "italian_cuisine"
+      "value": "italian_cuisine",
+      "checked": false
     },
     {
+      "id":12,
       "label": "冰品",
-      "value": "ice"
+      "value": "ice",
+      "checked": false
     }
   ]
 }

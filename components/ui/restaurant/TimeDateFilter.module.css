@@ -1,16 +1,46 @@
 .total_pages_rank{
-    margin:48px 12px 48px 0px;
+    margin:48px 0px 48px 0px;
     display: flex;
+    align-items: center;
+    width: 100%;
 }
+.input_section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:16px;
+}
+/* .to{
+    padding-top: 15px;
+} */
+.alert{
+    padding-left: 8px;
+    padding-top: 6px;
 
+}
+.input_frame{
+    width:210px;
+    border: 0;
+    border: 1px solid var(--light-gray);
+    border-radius: 10px;
+    font-size: var(--pfs16);
+    color: var(--dark-gra);
+}
+.input_frame:focus{
+    border: 0;
+    /* border: 1px solid var(--main); */
+    outline: 0.2px solid var(--main);
+}
+.input_area{
+    display: flex;
+    flex-direction: column;
+}
 .total_pages_rank>div>p{
     font-size: var(--h6fs18);
 }
 .categor_area{
     display: flex;
     align-items: center;
-    justify-content: center;
-
 }
 .labels{
     font-size:var(--h6fs18) ;

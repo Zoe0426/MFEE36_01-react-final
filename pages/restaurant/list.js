@@ -7,7 +7,12 @@ import Banner from '@/components/ui/restaurant/Banner';
 import Styles from './list.module.css';
 import filterDatas from '@/data/restaurnt/categories.json';
 import IconBtn from '@/components/ui/buttons/IconBtn';
-import { faFilter, faHeart, faMap } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFilter,
+  faHeart,
+  faMap,
+  faCircleExclamation,
+} from '@fortawesome/free-solid-svg-icons';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
@@ -18,10 +23,16 @@ import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 import orderByOptions from '@/data/restaurnt/orderby.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function FilterPage() {
   const router = useRouter();
-  const { categorySid } = filterDatas;
+  // const { categorySid } = filterDatas;
+  // console.log(categorySid);
+  const [filters, setFilters] = useState(filterDatas);
+
+  // 儲存篩選條件
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   //進階篩選------------------------------------------------------------
   const [showfilter, setShowFilter] = useState(false);
@@ -38,8 +49,17 @@ export default function FilterPage() {
   const [rule, setRule] = useState('');
   const [service, setService] = useState('');
   const [city, setCity] = useState('');
+  const [category, setCategory] = useState('');
 
   const [orderBy, setOrderBy] = useState('-- 排序條件 --');
+
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+
+  const [datePickerValue, setDatePickerValue] = useState(null);
+
+  const [showStartTimeError, setStartShowTimeError] = useState(false);
+  const [showEndTimeError, setShowEndTimeError] = useState(false);
 
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
@@ -100,11 +120,12 @@ export default function FilterPage() {
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { keyword, rule, service, city, orderBy } = router.query;
+    const { keyword, rule, service, city, orderBy, category } = router.query;
     console.log(router.query);
     setRule(rule || '');
     setService(service || '');
     setCity(city || '');
+    setCategory(category || '');
     setKeyword(keyword || '');
     // setOrderBy(orderBy);
 
@@ -122,6 +143,103 @@ export default function FilterPage() {
       });
   }, [router.query]);
 
+  //datefilter相關的函式-------------------------------------------------------
+
+  //checkbox相關的函式-------------------------------------------------------
+  const checkboxToggleHandler = (arr, name, id) => {
+    // 在點擊checkbox 的選擇，並更新狀態
+    const updatedCategorySid = arr.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setFilters({
+      ...filters,
+      categorySid: updatedCategorySid,
+    });
+  };
+
+  const handleDatePickerChange = (dateValue) => {
+    setDatePickerValue(dateValue);
+  };
+  const handlerChange1 = (time) => {
+    setStartTime(time);
+  };
+
+  const handlerChange2 = (time) => {
+    setEndTime(time);
+  };
+  //餐廳篩選條件
+  const filterHandler = () => {
+    const filterCate = filters.categorySid;
+    //console.log(filterCate);
+
+    //時間篩選
+    const start = startTime ? startTime + ':00' : null;
+    const end = endTime ? endTime + ':00' : null;
+
+    //日期篩選
+    const selectedDate = datePickerValue;
+    const selectedDayOfWeek = selectedDate ? selectedDate.$W : null;
+
+    console.log(selectedDate);
+
+    // 檢查是否填寫了開始時間和結束時間
+    if (startTime && !endTime) {
+      setStartShowTimeError(false);
+      setShowEndTimeError(true);
+    } else if (!startTime && endTime) {
+      setStartShowTimeError(true);
+      setShowEndTimeError(false);
+    }
+
+    const checkedOptions = filterCate
+      .filter((v) => v.checked === true)
+      .map((v) => v.value);
+
+    let query = {};
+    if (checkedOptions.length > 0) {
+      query.category = checkedOptions;
+    }
+
+    if (start && end) {
+      query.startTime = start;
+      query.endTime = end;
+    }
+
+    if (selectedDayOfWeek) {
+      query.weekly = selectedDayOfWeek;
+    }
+    // console.log(start);
+    // console.log(end);
+    // console.log(checkedOptions);
+    router.push(
+      `?${new URLSearchParams({
+        ...query,
+        page: 1,
+      }).toString()}`
+    );
+  };
+  //重置篩選條件
+  const clearAllFilter = () => {
+    setFilters(filterDatas);
+    setEndTime('');
+    setStartTime('');
+    setDatePickerValue(null);
+    setStartShowTimeError(false);
+    setShowEndTimeError(false);
+
+    // setStartTime('08:00');
+
+    const { keyword } = router.query;
+    const query = { page: 1 };
+    if (keyword) {
+      query.keyword = keyword;
+    }
+    router.push(
+      `?${new URLSearchParams({
+        ...query,
+      }).toString()}`
+    );
+  };
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
     setShowFilter(!showfilter);
@@ -236,16 +354,41 @@ export default function FilterPage() {
             <div className="container-inner">
               <div className={Styles.filter_box}>
                 <LocationFilter text="用餐地區" />
-                <TimeDateFilter />
+                <TimeDateFilter
+                  startTime={startTime}
+                  endTime={endTime}
+                  handlerChange1={handlerChange1}
+                  handlerChange2={handlerChange2}
+                  onDateChange={handleDatePickerChange}
+                  value={datePickerValue}
+                  alert_start={
+                    showStartTimeError && (
+                      <p style={{ color: 'red' }}>
+                        <FontAwesomeIcon icon={faCircleExclamation} />{' '}
+                        請填寫開始時間
+                      </p>
+                    )
+                  }
+                  status_start={showStartTimeError && 'error'}
+                  status_end={showEndTimeError && 'error'}
+                  alert_end={
+                    showEndTimeError && (
+                      <p style={{ color: 'red' }}>
+                        <FontAwesomeIcon icon={faCircleExclamation} />{' '}
+                        請填寫結束時間
+                      </p>
+                    )
+                  }
+                />
                 <RestaurantFilter
                   text="用餐類別"
-                  data={categorySid}
-                  onChange={() => {}}
+                  data={filters.categorySid}
+                  onChange={checkboxToggleHandler}
                 />
 
                 <div className={Styles.filter_btns}>
-                  <SecondaryBtn text="重置" />
-                  <MainBtn text="確定" />
+                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
+                  <MainBtn text="確定" clickHandler={filterHandler} />
                 </div>
               </div>
             </div>

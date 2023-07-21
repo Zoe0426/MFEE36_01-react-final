@@ -9,7 +9,7 @@ import MainBtn from '@/components/ui/buttons/MainBtn';
 import Image from 'next/image';
 import HomeResCard from '@/components/ui/cards/homeResCard';
 // import { Inter } from 'next/font/google'
-
+//import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 // const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
@@ -66,6 +66,7 @@ export default function Home() {
     '服飾',
     '戶外用品',
   ];
+
   const hashActivity = [
     '狗狗健行趣',
     '寵物瑜伽',
