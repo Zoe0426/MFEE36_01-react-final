@@ -28,6 +28,8 @@ export default function OrderDetail() {
     }
   }, [query]);
 
+  console.log('data', data);
+
   //運送狀態
   if (data.length > 0) {
     console.log(data[0].post_status);
@@ -465,6 +467,12 @@ export default function OrderDetail() {
                   actImg={data.activity_pic}
                   relType={data.rel_type}
                   actAddress={data.actAddress}
+                  prodCommentSid={data.prodCommentSid}
+                  shopStar={data.shopStar}
+                  shopContent={data.shopContent}
+                  actCommentSid={data.actCommentSid}
+                  actStar={data.actStar}
+                  actContent={data.actContent}
                 />
               );
             })}
