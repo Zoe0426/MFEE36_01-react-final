@@ -14,11 +14,17 @@ export default function ShopProductCard({
   avg_rating = 0,
   tag_display = false,
   sales_qty = 0,
+  like = false,
+  clickHandler = () => {},
 }) {
   const router = useRouter();
   return (
     <>
-      <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} />
+      <FontAwesomeIcon
+        icon={faHeart}
+        className={`${styles.heart_icon} ${like && styles.active}`}
+        onClick={clickHandler}
+      />
       <Link
         className={styles.normal_card}
         href={`http://localhost:3000/product/${product_sid}`}

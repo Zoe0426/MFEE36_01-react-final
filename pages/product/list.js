@@ -41,6 +41,8 @@ export default function List() {
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
   const [memberJWT, setMemberJWT] = useState('');
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [isClickingLike, setIsClickingLike] = useState(false);
 
   //商品卡是否顯示總銷售數的tag
   const [showFlag, setShowFlag] = useState(false);
@@ -74,7 +76,7 @@ export default function List() {
     totalPages: 0,
     page: 1,
     rows: [],
-    // like:[],
+    // like: false,
     // brand: [],
   });
 
@@ -133,6 +135,25 @@ export default function List() {
       });
       setKeywordDatats(newKeywords);
       setFiltersReady(true);
+    }
+  };
+
+  const sendLikeList = async (arr, token = '') => {
+    // const usp = new URLSearchParams(obj);
+    const res = await fetch(
+      `${process.env.API_SERVER}/shop-api/handle-like-list`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify(arr),
+      }
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      console.log(data);
     }
   };
 
@@ -701,6 +722,7 @@ export default function List() {
                 min_price,
                 avg_rating,
                 sales_qty,
+                like,
               } = v;
               return (
                 <Col
@@ -719,6 +741,30 @@ export default function List() {
                     avg_rating={avg_rating}
                     tag_display={showFlag}
                     sales_qty={sales_qty}
+                    like={like}
+                    clickHandler={() => {
+                      setIsClickingLike(true);
+                      const newData = datas.rows.map((v) => {
+                        if (v.product_sid === product_sid) {
+                          if (addLikeList.includes(product_sid)) {
+                            const newLikeList = addLikeList.filter(
+                              (v2) => v2 !== product_sid
+                            );
+                            setAddLikeList(newLikeList);
+                          } else {
+                            setAddLikeList([...addLikeList, product_sid]);
+                          }
+                          return { ...v, like: !v.like };
+                        } else return { ...v };
+                      });
+                      setDatas({ ...datas, rows: newData });
+                      setTimeout(() => {
+                        setIsClickingLike(false);
+                      }, 5000);
+                      if (isClickingLike) {
+                        sendLikeList(addLikeList, memberJWT);
+                      }
+                    }}
                   />
                 </Col>
               );

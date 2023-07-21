@@ -63,8 +63,8 @@
     padding: var(--p16);
 }
 
-.heart_icon:hover{
-    color:var(--heartRed)
+.active{
+    color:var(--heartRed);
 }
 
 .card_body{

@@ -109,7 +109,7 @@ export default function Product() {
       (async function getData() {
         //拿回特定商品的相關資訊 與評價
         const res_productInfo = await fetch(
-          `http://localhost:3002/shop-api/product/${pid}`,
+          `${process.env.API_SERVER}/shop-api/product/${pid}`,
           { method: 'GET' }
         );
         const {
