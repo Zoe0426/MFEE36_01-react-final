@@ -6,7 +6,7 @@ import { Row, Col, Pagination, ConfigProvider } from 'antd';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 
 export default function ActivityMain() {
-  // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字
+  // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
 
   const router = useRouter();
   const [page, setPage] = useState(1);
@@ -48,11 +48,13 @@ export default function ActivityMain() {
   // };
 
   useEffect(() => {
-    const { cid, keyword } = router.query;
+    const { cid, keyword, page: urlPage } = router.query;
     const activity_type_sid = cid ? encodeURIComponent(cid) : '';
-  
+
     setKeyword(keyword || '');
-  
+    setPage(Number(urlPage) || 1); // 將url中的page值轉換為數字，如果為空或無效則設置為1
+    setPerPage(perPage || 16);
+
     const fetchData = async () => {
       try {
         const encodedCid = encodeURIComponent(cid || '');
@@ -69,15 +71,47 @@ export default function ActivityMain() {
           totalRows: data.totalRows,
           totalPages: data.totalPages,
           rows: data.rows,
-          page: data.page, // 這裡添加更新 page 的設定
+          page: data.page, // 更新 page 的設定
         }));
       } catch (error) {
         console.error(error);
       }
     };
-  
+
     fetchData();
-  }, [router.query, page, perPage]);
+  }, [router.query, perPage, page]); // 這裡包含了page和perPage的依賴
+
+  // useEffect(() => {
+  //   const { cid, keyword } = router.query;
+  //   const activity_type_sid = cid ? encodeURIComponent(cid) : '';
+
+  //   setKeyword(keyword || '');
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const encodedCid = encodeURIComponent(cid || '');
+  //       const encodedKeyword = encodeURIComponent(keyword || '');
+  //       const response = await fetch(
+  //         `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}&page=${page}&perPage=${perPage}`
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error('Request failed');
+  //       }
+  //       const data = await response.json();
+  //       setDatas((prevData) => ({
+  //         ...prevData,
+  //         totalRows: data.totalRows,
+  //         totalPages: data.totalPages,
+  //         rows: data.rows,
+  //         page: data.page,
+  //       }));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [router.query, page, perPage]);
 
   //searchBar相關的函式
   const searchBarHandler = (e) => {
@@ -103,7 +137,7 @@ export default function ActivityMain() {
     );
   };
 
-  // Pagination相關的函式
+  // Pagination相關的函式 (重整時頁碼不對-> kinda解決)
   const PageChangeHandler = (page) => {
     setPage(page);
     router.push(
@@ -113,7 +147,6 @@ export default function ActivityMain() {
       }).toString()}`
     );
   };
-
 
   return (
     <div>
@@ -125,12 +158,7 @@ export default function ActivityMain() {
             placeholder="搜尋活動名稱"
             btn_text="尋找活動"
             inputText={keyword}
-            changeHandler={(e) => {
-              setKeyword(e.target.value);
-              router.push(
-                `/?cid=${router.query.cid}&keyword=${e.target.value}`
-              );
-            }}
+            changeHandler={(e) => setKeyword(e.target.value)}
             keyDownHandler={searchBarHandler}
             clickHandler={searchBarClickHandler}
           />
@@ -231,7 +259,7 @@ export default function ActivityMain() {
               current={datas.page}
               total={datas.totalRows}
               pageSize={datas.perPage}
-              onChange={(page) => PageChangeHandler(page)}
+              onChange={PageChangeHandler}
             />
           </ConfigProvider>
         </div>
