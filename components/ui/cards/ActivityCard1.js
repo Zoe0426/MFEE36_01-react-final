@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar,faCalendarDays,faClock,faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import styles from './ActivityCard1.module.css';
 import ActivityFeature from './ActivityFeature';
-import { Row, Col } from 'antd';
+import { Row } from 'antd';
 
 
 const ActivityCard1 = ({

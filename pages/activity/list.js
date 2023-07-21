@@ -2,9 +2,15 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../styles/activitymain.module.css';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
+import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
 import { Row, Col, Pagination, ConfigProvider } from 'antd';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 import Likelist from '@/components/ui/like-list/like-list';
+import IconBtn from '@/components/ui/buttons/IconBtn';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
+
+ActivityLikeListCard;
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
@@ -14,9 +20,15 @@ export default function ActivityMain() {
   const [perPage, setPerPage] = useState(16);
   const [keyword, setKeyword] = useState('');
   const [orderBy, setOrderBy] = useState('-- 請選擇 --');
-  // const [cidData, setCidData] = useState([]);
 
-  //取資料
+  // 收藏清單
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
+
+  // 進階篩選
+  const [showfilter, setShowFilter] = useState(false);
+
+  // 取資料
   const [datas, setDatas] = useState({
     totalRows: 0,
     perPage: 16,
@@ -25,7 +37,7 @@ export default function ActivityMain() {
     rows: [],
   });
 
-  //排序
+  // 排序
   const rankOptions = {
     1: 'new_DESC',
     2: 'hot_DESC', // TODO: 需再確認cart的欄位名稱
@@ -138,10 +150,15 @@ export default function ActivityMain() {
     );
   };
 
-  //收藏列表相關的函式--------------------
-  // const openShowLikeList = () => {
-  //   setShowLikeList(!showLikeList);
+  //篩選filter相關的函式 (TODO: 待確認)-------------------------------------------------------
+  // const toggleFilter = () => {
+  //   setShowFilter(!showfilter);
   // };
+
+  // //收藏列表相關的函式--------------------
+  const openShowLikeList = () => {
+    setShowLikeList(!showLikeList);
+  };
 
   // const closeShowLikeList = () => {
   //   setShowLikeList(false);
@@ -150,7 +167,7 @@ export default function ActivityMain() {
   // const removeAllLikeList = () => {
   //   setLikeDatas([]);
   //   //這邊需要再修改，要看怎麼得到會員的編號
-  //   removeLikeListToDB('all', 'mem00002');
+  //   removeLikeListToDB('all', 'mem00300');
   // };
 
   // const removeLikeListItem = (pid) => {
@@ -192,26 +209,43 @@ export default function ActivityMain() {
       </div>
 
       <div className="container-inner">
+        <div className={styles.nav_head}>
 
-      {/* .........收藏列表/進階篩選 btn......... */}
-      <div className={styles.selector}>
-        <div className="container-inner">
-          {/* <IconBtn
-            icon={faHeart}
-            text="收藏列表"
-            clickHandler={openShowLikeList}
-          />
-          <IconBtn
-            icon={faFilter}
-            text="進階篩選"
-            clickHandler={openShowLikeList}
-          /> */}
+          <p>TODO: BreadCrumb</p>
+          {/* <BreadCrumb breadCrubText={breadCrubText} /> */}
+
+          {/* .........收藏列表/進階篩選 btn......... */}
+          <div className={styles.btns}>
+            <IconBtn
+              icon={faHeart}
+              text="收藏列表"
+              clickHandler={openShowLikeList}
+            />
+            <IconBtn
+              icon={faFilter}
+              text="進階篩選"
+              // clickHandler={toggleFilter}
+            />
+          </div>
         </div>
-      </div>
-
+        <div className="like_list">
+          {showLikeList && (
+              <Likelist
+                datas={likeDatas}
+                customCard={
+                  <ActivityLikeListCard
+                    datas={likeDatas}
+                    // removeLikeListItem={removeLikeListItem}
+                  />
+                }
+                // closeHandler={toggleLikeList}
+                // removeAllHandler={removeAllLikeList}
+                // removeLikeListItem={removeLikeListItem}
+              />
+            )}
+        </div>
 
         {/* .........篩選btn展開......... */}
-
 
         {/* .........搜尋結果+篩選btn......... */}
         <div className={styles.quick_selector}>
@@ -223,6 +257,7 @@ export default function ActivityMain() {
             <button>最新</button>
           </div>
         </div>
+
         {/* .........section1......... */}
 
         <div className={styles.section_card}>
