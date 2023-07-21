@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
-import Style from '@/styles/wallet.module.css';
 import PageTag from '@/components/ui/pageTag/PageTag';
 import OrderSearchBar from '@/components/ui/buttons/OrderSearchBar';
 import OrderCard from '@/components/ui/cards/OrderCard';
 import MemberCenterLayout from '@/components/layout/member-center-layout';
-import MainBtn from '@/components/ui/buttons/MainBtn';
 import AuthContext from '@/context/AuthContext';
-import Link from 'next/link';
 
 export default function OrderList() {
   const [pageTag, setPageTag] = useState('shop');
@@ -34,22 +31,22 @@ export default function OrderList() {
       console.log(auth);
     }
 
-    // if (auth.token) {
-    fetch(`${process.env.API_SERVER}/member-api/order/mem00001`, {
-      headers: {
-        Authorization: 'Bearer ' + auth.token,
-      },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        console.log(data);
-        const firstData = data.filter((data) => data.rel_type === 'shop');
-        setData(firstData);
-        setAllData(data);
-      });
-    // } else {
-    //   console.log('User is not logged in. Cannot fetch');
-    // }
+    if (auth.token) {
+      fetch(`${process.env.API_SERVER}/member-api/order`, {
+        headers: {
+          Authorization: 'Bearer ' + auth.token,
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          console.log(data);
+          const firstData = data.filter((data) => data.rel_type === 'shop');
+          setData(firstData);
+          setAllData(data);
+        });
+    } else {
+      console.log('User is not logged in. Cannot fetch');
+    }
   }, []);
 
   const shopOrder = () => {
@@ -108,6 +105,7 @@ export default function OrderList() {
               actImg={data.activity_pic}
               length={data.order_product}
               type={data.rel_type}
+              actAddress={data.actAddress}
             />
           );
         })}
