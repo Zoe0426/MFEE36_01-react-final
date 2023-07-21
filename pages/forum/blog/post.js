@@ -1,5 +1,5 @@
 import React from 'react'
-import Style from './postcollection.module.css'
+import Style from './post.module.css'
 import BlogBanner from '@/components/ui/blogBanner/blogBanner'
 import { Col, Row } from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
