@@ -1,7 +1,12 @@
 import React from 'react';
 import Style from './CouponCard.module.css';
 
-export default function CouponCard({ title, text, expire }) {
+export default function CouponCard({
+  title,
+  text,
+  expire,
+  coupon_send_sid = 0,
+}) {
   return (
     <>
       <div className={Style.coupon}>

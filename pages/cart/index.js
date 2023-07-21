@@ -14,6 +14,7 @@ import CartCouponList from '@/components/ui/cart/cartCouponList';
 import Modal from '@/components/ui/modal/modal';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
+import CouponCard from '@/components/ui/cards/CouponCard';
 
 export default function Cart() {
   const { auth } = useContext(AuthContext);
@@ -189,7 +190,7 @@ export default function Cart() {
     }
   };
 
-  //console.log(cartData);
+  console.log(cartData);
   //console.log(postType);
 
   return !auth.id && first ? (

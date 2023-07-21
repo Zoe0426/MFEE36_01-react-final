@@ -87,9 +87,9 @@ h1, h2, h3, h4, h5, h6{
   font-weight: normal;
 }
 
-/* a:hover,a:link,a:visited,a:active{
+a:hover,a:link,a:visited,a:active{
   color: var(--dark-gray);
-} */
+}
 
 
 
@@ -105,8 +105,6 @@ body {
   letter-spacing: 1px;
   font-size: 16px;
 }
-
-
 
 ol, ul {
   list-style: none;
