@@ -464,6 +464,7 @@ export default function OrderDetail() {
                   img={data.img}
                   actImg={data.activity_pic}
                   relType={data.rel_type}
+                  actAddress={data.actAddress}
                 />
               );
             })}

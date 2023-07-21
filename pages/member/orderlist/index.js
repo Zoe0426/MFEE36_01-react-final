@@ -105,6 +105,7 @@ export default function OrderList() {
               actImg={data.activity_pic}
               length={data.order_product}
               type={data.rel_type}
+              actAddress={data.actAddress}
             />
           );
         })}

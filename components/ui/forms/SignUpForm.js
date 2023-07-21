@@ -514,7 +514,7 @@ export default function SignUpForm() {
           name="signUpForm"
           initialValues={initialValues}
           className={Styles.signUpForm}
-          onFinish={onFinish}
+          onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
         >
           <Row gutter={16}>

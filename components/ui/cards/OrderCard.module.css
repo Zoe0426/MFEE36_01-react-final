@@ -100,6 +100,15 @@
 	margin-right: 10px;
 }
 
+.getty{
+  margin-right: 3px;
+}
+
+.actAddress{
+  display: flex;
+  align-items: center;
+}
+
 @media screen and (max-width:1440px){
 	.icons{
 			display: none;

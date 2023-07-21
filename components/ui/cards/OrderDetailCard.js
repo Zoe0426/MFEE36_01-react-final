@@ -21,6 +21,7 @@ export default function OrderDetailCard({
   odSid,
   actSid,
   prodSid,
+  actAddress,
 }) {
   const [show, setShow] = useState(false);
   const initialValues = {
@@ -83,6 +84,20 @@ export default function OrderDetailCard({
               <div className={Style.itemInfo}>
                 <div className={Style.itemTitle}>{relName}</div>
                 <p>{relSeqName}</p>
+                {relType === 'activity' ? (
+                  <>
+                    <div className={Style.actAddress}>
+                      <img
+                        src="/member-center-images/Icon/getty.svg"
+                        alt=""
+                        className={Style.getty}
+                      />
+                      <p>{actAddress}</p>
+                    </div>
+                  </>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
           </div>

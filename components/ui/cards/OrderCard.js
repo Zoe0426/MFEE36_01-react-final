@@ -16,6 +16,7 @@ export default function OrderCard({
   statusName,
   length,
   type,
+  actAddress,
 }) {
   const router = useRouter();
   const toOrderDetail = () => {
@@ -82,6 +83,14 @@ export default function OrderCard({
                   <>
                     <p>{`大人x${adultQty}`}</p>
                     <p>{`小孩x${childQty}`}</p>
+                    <div className={Style.actAddress}>
+                      <img
+                        src="/member-center-images/Icon/getty.svg"
+                        alt=""
+                        className={Style.getty}
+                      />
+                      <p>{actAddress}</p>
+                    </div>
                   </>
                 )}
               </div>
