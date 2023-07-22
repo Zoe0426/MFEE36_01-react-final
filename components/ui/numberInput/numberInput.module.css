@@ -25,7 +25,7 @@
 
 .addBtn:hover,
 .minusBtn:hover {
-  color: var(--main);
+  color: var(--dark-gray);
   cursor: pointer;
 }
 .minusBtn{
