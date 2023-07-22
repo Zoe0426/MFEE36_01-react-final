@@ -35,14 +35,22 @@
   color: white;
 }
 
-.icon {
+.heart_icon {
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 24px;
-  height: 24px;
-  background-color: #000000;
+  bottom: 15px;
+  right: 15px; 
+  z-index: 9;
+  font-size: var(--h3fs28);
+  cursor: pointer;
+  color:var(--light-gray);
+
 }
+
+.heart_icon:hover{
+  color:var(--heartRed)
+}
+
+
 
 /* -------右邊------- */
 .right {

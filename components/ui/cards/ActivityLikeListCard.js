@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 const ActivityLikeListCard = ({
     datas = [], //需要渲染的陣列資料
-    //   removeLikeListItem = () => {}, //用來清除某一項蒐藏清單的函式
+    removeLikeListItem = () => {}, //用來清除某一項蒐藏清單的函式
   }) => {
     const router = useRouter();
     return datas.map((v) => {
@@ -17,9 +17,9 @@ const ActivityLikeListCard = ({
                 <FontAwesomeIcon
                     icon={faTrashCan}
                     className={styles.trash_icon}
-                    // onClick={() => {
-                    // removeLikeListItem(product_sid);
-                    // }}
+                    onClick={() => {
+                    removeLikeListItem(activity_sid);
+                    }}
                 />
             </div>
           {/* -------左邊------- */}

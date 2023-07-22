@@ -175,28 +175,46 @@ export default function ActivityMain() {
   const openShowLikeList = () => {
     setShowLikeList(!showLikeList);
   };
-
   // console.log(showLikeList);
 
-  // const closeShowLikeList = () => {
-  //   setShowLikeList(false);
-  // };
+  const removeAllLikeList = () => {
+    if (likeDatas.length > 0) {
+      setLikeDatas([]);
+      //這邊需要再修改，要看怎麼得到會員的編號
+      removeLikeListToDB('all', 'mem00300');
+    }
+  };
 
-  // const removeAllLikeList = () => {
-  //   setLikeDatas([]);
-  //   //這邊需要再修改，要看怎麼得到會員的編號
-  //   removeLikeListToDB('all', 'mem00300');
-  // };
+  const removeLikeListItem = (aid) => {
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.activity_sid !== aid;
+    });
 
-  // const removeLikeListItem = (pid) => {
-  //   const newLikeList = likeDatas.filter((arr) => {
-  //     return arr.product_sid !== pid;
-  //   });
+    setLikeDatas(newLikeList);
+    //這邊需要再修改，要看怎麼得到會員的編號
+    removeLikeListToDB(aid, 'mem00300');
+  };
 
-  //   setLikeDatas(newLikeList);
-  //   //這邊需要再修改，要看怎麼得到會員的編號
-  //   removeLikeListToDB(pid, 'mem00002');
-  // };
+  const removeLikeListToDB = async (aid = '', mid = '') => {
+    try {
+      const removeAll = await fetch(
+        `${process.env.API_SERVER}/activity-api/likelist/${aid}/${mid}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+      if (aid === 'all') {
+        setTimeout(() => {
+          toggleLikeList();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Pagination相關的函式--------------------
   const PageChangeHandler = (page) => {
@@ -252,12 +270,12 @@ export default function ActivityMain() {
               customCard={
                 <ActivityLikeListCard
                   datas={likeDatas}
-                  // removeLikeListItem={removeLikeListItem}
+                  removeLikeListItem={removeLikeListItem}
                 />
               }
-              // closeHandler={toggleLikeList}
-              // removeAllHandler={removeAllLikeList}
-              // removeLikeListItem={removeLikeListItem}
+              closeHandler={openShowLikeList}
+              removeAllHandler={removeAllLikeList}
+              removeLikeListItem={removeLikeListItem}
             />
           )}
         </div>
