@@ -110,37 +110,6 @@ export default function ActivityMain() {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const { cid, keyword } = router.query;
-  //   const activity_type_sid = cid ? encodeURIComponent(cid) : '';
-
-  //   setKeyword(keyword || '');
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const encodedCid = encodeURIComponent(cid || '');
-  //       const encodedKeyword = encodeURIComponent(keyword || '');
-  //       const response = await fetch(
-  //         `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}&page=${page}&perPage=${perPage}`
-  //       );
-  //       if (!response.ok) {
-  //         throw new Error('Request failed');
-  //       }
-  //       const data = await response.json();
-  //       setDatas((prevData) => ({
-  //         ...prevData,
-  //         totalRows: data.totalRows,
-  //         totalPages: data.totalPages,
-  //         rows: data.rows,
-  //         page: data.page,
-  //       }));
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [router.query, page, perPage]);
 
   //searchBar相關的函式--------------------
   const searchBarHandler = (e) => {
@@ -171,6 +140,19 @@ export default function ActivityMain() {
   //   setShowFilter(!showfilter);
   // };
 
+
+// 更新收藏清單
+const updateLikeList = (activitySid, isLiked) => {
+  if (isLiked) {
+    // 新增至收藏清單
+    setLikeDatas((prevLikeDatas) => [...prevLikeDatas, { activity_sid: activitySid }]);
+  } else {
+    // 從收藏清單中移除
+    setLikeDatas((prevLikeDatas) => prevLikeDatas.filter((item) => item.activity_sid !== activitySid));
+  }
+};
+
+
   // //收藏列表相關的函式--------------------
   const openShowLikeList = () => {
     setShowLikeList(!showLikeList);
@@ -186,15 +168,15 @@ export default function ActivityMain() {
   };
 
   const removeLikeListItem = (aid) => {
+    // 移除收藏列表中的項目
     const newLikeList = likeDatas.filter((arr) => {
       return arr.activity_sid !== aid;
     });
-
     setLikeDatas(newLikeList);
-    //這邊需要再修改，要看怎麼得到會員的編號
     removeLikeListToDB(aid, 'mem00300');
   };
 
+  
   const removeLikeListToDB = async (aid = '', mid = '') => {
     try {
       const removeAll = await fetch(
@@ -215,6 +197,60 @@ export default function ActivityMain() {
       console.log(error);
     }
   };
+
+
+  // 給faheart的 新增與刪除
+  const handleLikeClick = async (activitySid) => {
+    try {
+      if (isInLikeList(activitySid)) {
+        // Perform the delete action to remove from the like list
+        const response = await fetch(
+          `${process.env.API_SERVER}/activity-api/likelist/${activitySid}/mem00300`,
+          {
+            method: 'DELETE',
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('刪除收藏失敗');
+        }
+
+        updateLikeList(activitySid, false); // Successfully removed from like list
+        console.log('刪除收藏成功');
+      } else {
+        // Perform the post action to add to the like list
+        const response = await fetch(
+          `${process.env.API_SERVER}/activity-api/addlikelist/${activitySid}/mem00300`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              aid: activitySid,
+              mid: 'mem00300', // TODO: 會員ID待修改
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('新增收藏失敗');
+        }
+
+        updateLikeList(activitySid, true); // Successfully added to like list
+        console.log('新增收藏成功');
+      }
+    } catch (error) {
+      console.error('操作收藏失敗:', error);
+    }
+  };
+
+
+  // 判斷活動是否在收藏列表中
+  const isInLikeList = (activitySid) => {
+    return likeDatas.some((item) => item.activity_sid === activitySid);
+  };
+
 
   // Pagination相關的函式--------------------
   const PageChangeHandler = (page) => {
@@ -314,7 +350,9 @@ export default function ActivityMain() {
                 feature_names,
                 price_adult,
               } = i;
+              const liked = isInLikeList(activity_sid);
               return (
+                <Col key={activity_sid} span={12}>
                 <ActivityCard4
                   key={activity_sid}
                   activity_sid={activity_sid}
@@ -331,7 +369,10 @@ export default function ActivityMain() {
                   content={content}
                   features={feature_names?.split(',') || []}
                   price={price_adult}
+                  isInLikeList={liked}
+                  handleLikeClick={() => handleLikeClick(activity_sid)} // 傳遞handleLikeClick函式給子組件
                 />
+                </Col>
               );
             })}
           </Row>

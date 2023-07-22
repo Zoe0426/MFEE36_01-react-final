@@ -11,6 +11,7 @@ const ActivityLikeListCard = ({
     const router = useRouter();
     return datas.map((v) => {
       const { activity_sid, activity_pic, name, recent_date, farthest_date, city, area, price_adult } = v;
+      const pic = activity_pic && activity_pic[0];
       return (
         <div className={styles.card} key={activity_sid}>
             <div>
@@ -27,7 +28,7 @@ const ActivityLikeListCard = ({
           role="presentation"
           className={styles.left}>
             <img
-            src={`/activity_img/${activity_pic[0]}`}
+            src={`/activity_img/${pic}`}
             alt="activity" 
             className={styles.image} />
           </div>
