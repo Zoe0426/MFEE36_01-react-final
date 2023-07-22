@@ -7,7 +7,6 @@ import MemberCenterLayout from '@/components/layout/member-center-layout';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import CryptoJS from 'crypto-js';
 
 export default function Wallet() {
   const [pageTag, setPageTag] = useState('coupon');
@@ -26,11 +25,6 @@ export default function Wallet() {
     if (authStr) {
       try {
         auth = JSON.parse(authStr);
-        let petauthId = auth.id;
-        petauthId = CryptoJS.AES.decrypt(petauthId, 'GoWithMe').toString(
-          CryptoJS.enc.Utf8
-        );
-        auth.id = petauthId;
       } catch (ex) {
         ('');
       }

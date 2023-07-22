@@ -31,16 +31,15 @@ export default function OrderDetailCard({
   actStar,
   actContent,
   status,
+  pcSid,
+  acRaSid,
 }) {
+  console.log(pcSid);
   const router = useRouter();
   const from = router.asPath;
 
   const today = new Date();
-  console.log(today);
-
   const actday = new Date(relSeqName);
-  console.log(actday);
-
   console.log(today > actday);
 
   const [show, setShow] = useState(false);
@@ -148,7 +147,7 @@ export default function OrderDetailCard({
         {relType === 'shop' ? (
           status >= 5 ? (
             <MainBtn
-              text={status <= 5 ? '去評價' : '我的評價'}
+              text={!pcSid ? '去評價' : '我的評價'}
               clickHandler={showReviewContent}
             />
           ) : (
@@ -156,7 +155,7 @@ export default function OrderDetailCard({
           )
         ) : today > actday ? (
           <MainBtn
-            text={status <= 5 ? '去評價' : '我的評價'}
+            text={!acRaSid ? '去評價' : '我的評價'}
             clickHandler={showReviewContent}
           />
         ) : (

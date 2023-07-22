@@ -1,13 +1,25 @@
 import React from 'react';
 import Styles from './navbar.module.css';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
 import NavRoundBtn from '../ui/buttons/NavRoundBtn';
 export default function Navbar({ classTitle }) {
   const { auth, setAuth, logout } = useContext(AuthContext);
   const router = useRouter();
+  const [isActive, setIsActive] = useState(false);
+
+  // const toggleLine = document.querySelector('.line');
+  // const toggleMenu = document.querySelector('.link-menu');
+  // const navbar = document.querySelector('.navbar');
+  // toggleLine.addEventListener('click', () => {
+  //   toggleLine.classList.toggle('active');
+  //   toggleMenu.classList.toggle('active');
+  // });
+  const handleClick = () => {
+    setIsActive(!isActive);
+  };
 
   return (
     <>
@@ -16,10 +28,12 @@ export default function Navbar({ classTitle }) {
           classTitle === 'bigNone' ? Styles.bigNone : ''
         }`}
       >
-        <nav className={Styles.navbar}>
+        <nav className={`${Styles.navbar} ${isActive ? Styles.active : ''}`}>
           <div className={Styles.logoMenu}>
-            <button className={Styles.navbarToggler}>
-              <div className={Styles.line}></div>
+            <button className={Styles.navbarToggler} onClick={handleClick}>
+              <div
+                className={`${Styles.line} ${isActive ? Styles.active : ''}`}
+              ></div>
             </button>
             {/* <Image
               src={logo}
@@ -32,7 +46,9 @@ export default function Navbar({ classTitle }) {
               alt=""
             />
           </div>
-          <div className={Styles.linkMenu}>
+          <div
+            className={`${Styles.linkMenu} ${isActive ? Styles.active : ''}`}
+          >
             <div className={Styles.linkItem}>
               <Link href="/shop" className={Styles.link}>
                 商城

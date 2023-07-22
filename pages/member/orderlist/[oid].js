@@ -483,6 +483,8 @@ export default function OrderDetail() {
                   actStar={data.actStar}
                   actContent={data.actContent}
                   status={data.post_status}
+                  pcSid={data.pcSid}
+                  acRaSid={data.acRaSid}
                 />
               );
             })}
