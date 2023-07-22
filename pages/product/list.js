@@ -40,7 +40,7 @@ export default function List() {
 
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
-  const [memberJWT, setMemberJWT] = useState('');
+  // const [memberJWT, setMemberJWT] = useState('');
   const [addLikeList, setAddLikeList] = useState([]);
   const [isClickingLike, setIsClickingLike] = useState(false);
 
@@ -76,8 +76,6 @@ export default function List() {
     totalPages: 0,
     page: 1,
     rows: [],
-    // like: false,
-    // brand: [],
   });
 
   const [likeDatas, setLikeDatas] = useState([]);
@@ -95,7 +93,7 @@ export default function List() {
     { id: 'pid', text: '', href: '', show: false },
   ]);
 
-  const getData = async (obj, token = '') => {
+  const getData = async (obj = {}, token = '') => {
     const usp = new URLSearchParams(obj);
     const res = await fetch(
       `${process.env.API_SERVER}/shop-api/products?${usp.toString()}`,
@@ -138,22 +136,27 @@ export default function List() {
     }
   };
 
-  const sendLikeList = async (arr, token = '') => {
+  const sendLikeList = (arr, token = '', isClickingLike = false) => {
     // const usp = new URLSearchParams(obj);
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/handle-like-list`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-        body: JSON.stringify(arr),
-      }
-    );
-    const data = await res.json();
 
-    if (data.success) {
-      console.log(data);
+    if (!isClickingLike) {
+      console.log(JSON.stringify({ data: arr }));
+
+      // const res = await fetch(
+      //   `${process.env.API_SERVER}/shop-api/handle-like-list`,
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       Authorization: 'Bearer ' + token,
+      //     },
+      //     body: JSON.stringify({ data: arr }),
+      //   }
+      // );
+      // const data = await res.json();
+
+      // if (data.success) {
+      //   console.log(data);
+      // }
     }
   };
 
@@ -163,9 +166,10 @@ export default function List() {
       if (category) {
         resetCheckBox('category', category);
         setFiltersReady(true);
+      } else {
+        setFirst(true);
       }
     });
-    setFirst(true);
   }, []);
 
   useEffect(() => {
@@ -232,13 +236,22 @@ export default function List() {
         setFilters(copyFilters);
       }
     }
+    if (
+      (filtersReady || first) &&
+      auth.token
+      // &&
+      // Object.keys(router.query).length !== 0
+    ) {
+      console.log({ 1: router.query });
 
-    if (router.query && first) {
-      setMemberJWT(auth.token);
-      getData(router.query, memberJWT);
+      // setMemberJWT(auth.token);
+      getData(router.query, auth.token);
     }
-  }, [router.query, filtersReady, auth, first]);
-  console.log(memberJWT);
+    // if (filtersReady && auth.token && first) {
+    //   setMemberJWT(auth.token);
+    //   getData(router.query, memberJWT);
+    // }
+  }, [router.query, filtersReady, first]);
 
   //收藏列表相關的函式-------------------------------------------------------
   const toggleLikeList = () => {
@@ -747,23 +760,22 @@ export default function List() {
                       const newData = datas.rows.map((v) => {
                         if (v.product_sid === product_sid) {
                           if (addLikeList.includes(product_sid)) {
-                            const newLikeList = addLikeList.filter(
-                              (v2) => v2 !== product_sid
+                            setAddLikeList((preV) =>
+                              preV.filter((v2) => v2 !== product_sid)
                             );
-                            setAddLikeList(newLikeList);
                           } else {
-                            setAddLikeList([...addLikeList, product_sid]);
+                            setAddLikeList((preV) => [...preV, product_sid]);
                           }
                           return { ...v, like: !v.like };
                         } else return { ...v };
                       });
+
                       setDatas({ ...datas, rows: newData });
+
                       setTimeout(() => {
                         setIsClickingLike(false);
                       }, 5000);
-                      if (isClickingLike) {
-                        sendLikeList(addLikeList, memberJWT);
-                      }
+                      sendLikeList(addLikeList, auth.token, isClickingLike);
                     }}
                   />
                 </Col>
