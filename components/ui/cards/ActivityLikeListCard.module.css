@@ -1,36 +1,36 @@
 .card {
     display: flex;
-    width: 48%;
-    /* justify-content: space-between; */
-    /* height: 262px; */
+    height:120px;
+    align-items: center;
+    padding: var(--p16);
+    border-bottom: 0.5px solid var(--light-gray);
+    /* margin-bottom: 34px; */
   }
+
+    /*垃圾桶*/
+    .trash_icon{
+      font-size:var(--h5fs20) ;
+      color:var(--light-gray);
+      margin-right: var(--p16);
+    }
+  
+    .trash_icon:hover{
+      color:var(--gray);
+      cursor: pointer;
+    }
   
   /* -------左邊------- */
   .left {
-    position: relative;
-    width: 90%;
-    /* height: 262px; */
+    width: 40%;
   }
   
   .image {
-    border-radius: var(--br10) 0 0 var(--br10);
+    border-radius: var(--br10);
     width: 100%;
-    height: 100%;
     object-fit: cover;
+    height:100px;
   }
   
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 88px;
-    height: 32px;
-    background-color: var(--main);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius:var(--br10) 0 var(--br8) 0 ;
-  }
   
   .text {
     font-size: var(--pfs14);
@@ -50,8 +50,8 @@
   .right {
     width: 90%;
     margin-left: 1rem; /*左右間距*/
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     justify-content: space-between;
   }
   
@@ -65,33 +65,20 @@
   .rowTextTitle {
     font-weight: var(--fwbold);
     margin-right: 8px;
-  }
-  
-  .review{
-    display: flex;
-  }
-  
-  .star_icon{
-    margin-right: 5px;
-    color: var(--starYellow);
+    color: var(--dark);
     font-size: var(--h6fs18);
   }
+
   
   /* 地址 */
   .rowTextAddress {
     color: var(--gray);
   }
-  
-  .rowTextLarge {
-    color: var(--dark);
-    font-size: var(--h6fs18);
-  }
-  
-  
+
   
   .row_icon {
-    margin-right:8px;
-    font-size: var(--h6fs18);
+    margin-right:5px;
+    font-size: var(--pfs14);
     color: var(--main);
   }
   

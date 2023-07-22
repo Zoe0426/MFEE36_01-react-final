@@ -33,7 +33,7 @@ export default function ActivityMain() {
     totalPages: 0,
     page: 1,
     rows: [],
-    likeDatas:[],
+    // likeDatas:[],
   });
 
   // 排序
@@ -78,6 +78,7 @@ export default function ActivityMain() {
           throw new Error('Request failed');
         }
         const data = await response.json();
+
         setDatas((prevData) => ({
           ...prevData,
           totalRows: data.totalRows,
@@ -92,6 +93,22 @@ export default function ActivityMain() {
 
     fetchData();
   }, [router.query, perPage, page]); // 這裡包含了page和perPage的依賴
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:3002/activity-api/activity'
+        );
+        const { likeDatas } = await response.json();
+        setLikeDatas(likeDatas);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // useEffect(() => {
   //   const { cid, keyword } = router.query;
@@ -159,6 +176,8 @@ export default function ActivityMain() {
     setShowLikeList(!showLikeList);
   };
 
+  // console.log(showLikeList);
+
   // const closeShowLikeList = () => {
   //   setShowLikeList(false);
   // };
@@ -209,7 +228,6 @@ export default function ActivityMain() {
 
       <div className="container-inner">
         <div className={styles.nav_head}>
-
           <p>TODO: BreadCrumb</p>
           {/* <BreadCrumb breadCrubText={breadCrubText} /> */}
 
@@ -227,21 +245,21 @@ export default function ActivityMain() {
             />
           </div>
         </div>
-        <div className="like_list">
+        <div>
           {showLikeList && (
-              <Likelist
-                datas={likeDatas}
-                customCard={
-                  <ActivityLikeListCard
-                    datas={likeDatas}
-                    // removeLikeListItem={removeLikeListItem}
-                  />
-                }
-                // closeHandler={toggleLikeList}
-                // removeAllHandler={removeAllLikeList}
-                // removeLikeListItem={removeLikeListItem}
-              />
-            )}
+            <Likelist
+              datas={likeDatas}
+              customCard={
+                <ActivityLikeListCard
+                  datas={likeDatas}
+                  // removeLikeListItem={removeLikeListItem}
+                />
+              }
+              // closeHandler={toggleLikeList}
+              // removeAllHandler={removeAllLikeList}
+              // removeLikeListItem={removeLikeListItem}
+            />
+          )}
         </div>
 
         {/* .........篩選btn展開......... */}

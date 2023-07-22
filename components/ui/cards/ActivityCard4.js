@@ -82,7 +82,7 @@ const ActivityCard4 = ({
           </div>
         </div>
 
-        <Row className={styles.row}>
+        <Row>
         
           {features.map((feature, i) => (
             <div className={styles.row} key={i}>
