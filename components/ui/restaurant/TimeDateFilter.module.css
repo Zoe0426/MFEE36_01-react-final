@@ -14,8 +14,9 @@
     padding-top: 15px;
 } */
 .alert{
-    padding-left: 8px;
-    padding-top: 6px;
+    position: absolute;
+    padding-left: 4px;
+    top: 120%;
 
 }
 .input_frame{
@@ -32,6 +33,7 @@
     outline: 0.2px solid var(--main);
 }
 .input_area{
+    position: relative;
     display: flex;
     flex-direction: column;
 }
