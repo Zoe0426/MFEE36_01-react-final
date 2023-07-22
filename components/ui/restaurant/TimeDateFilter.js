@@ -27,6 +27,7 @@ export default function TimeDateFilter({
   alert_end,
   status_end,
   status_start,
+  onBlur,
 }) {
   const handleButtonClick = (e) => {
     message.info('Click on left button.');
@@ -38,8 +39,9 @@ export default function TimeDateFilter({
   };
 
   const onChange = (date, dateString) => {
-    onDateChange(date); // 直接傳遞選擇的日期給父元件
+    onDateChange(date, dateString); // 直接傳遞選擇的日期給父元件
   };
+  const format = 'HH:mm';
 
   return (
     <ConfigProvider
@@ -82,12 +84,14 @@ export default function TimeDateFilter({
             <TimePicker
               placeholder="開始時間"
               status={status_start}
+              onBlur={onBlur}
               value={startTime ? moment(startTime, 'HH:mm') : null}
               onChange={(time) =>
                 handlerChange1(time ? time.format('HH:mm') : null)
               }
               className={Styles.input_frame}
               // onChange={handlerChange1}
+              format={format}
             />
             <div
               className={Styles.alert}
@@ -100,12 +104,14 @@ export default function TimeDateFilter({
             <TimePicker
               placeholder="結束時間"
               status={status_end}
+              onBlur={onBlur}
               value={endTime ? moment(endTime, 'HH:mm') : null}
               // onChange={handlerChange2}
               onChange={(time) =>
                 handlerChange2(time ? time.format('HH:mm') : null)
               }
               className={Styles.input_frame}
+              format={format}
             />
             <div
               className={Styles.alert}

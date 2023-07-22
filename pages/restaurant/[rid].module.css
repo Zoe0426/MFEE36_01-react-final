@@ -7,7 +7,7 @@
   font-size: var(--h4fs24);
   font-weight: var(--fwbold);
   padding-bottom: var(--p8);
-  margin-bottom: var(--p32);
+  margin-bottom: 28px;
   margin-top: 80px;
   color: var(--dark-gray);
 }
@@ -16,7 +16,7 @@
   font-size: var(--h4fs24);
   font-weight: var(--fwbold);
   padding-bottom: var(--p8);
-  margin-bottom: var(--p32);
+  margin-bottom: 28px;
   color: var(--dark-gray);
 }
 
@@ -148,6 +148,15 @@
 .CloudTop {
   height: 70px;
   overflow: hidden;
+  position: relative;
+}
+.cat_section{
+  position: relative;
+}
+.cat_section img{
+  position: absolute;
+  right: -8%;
+  top: -200%;
 }
 .comment_cards {
   display: flex;
@@ -266,6 +275,9 @@
     padding: 24px;
     font-size: var(--pfs14);
     line-height: 1.8;
+  }
+  .cat_section img{
+    display: none;
   }
   .rest_image_main {
     border-radius: 8px;

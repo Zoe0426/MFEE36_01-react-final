@@ -410,7 +410,7 @@ export default function Restindex() {
               location="台中市"
               clickHandler={() => {
                 router.push(
-                  'http://localhost:3000/restaurant/list?city=taichung'
+                  'http://localhost:3000/restaurant/list?city=台中市'
                 );
               }}
             />

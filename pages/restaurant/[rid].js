@@ -28,6 +28,7 @@ import PinkBtn from '@/components/ui/restaurant/PinkBtn';
 import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
+import catJump from '@/assets/jump_cat.svg';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
@@ -358,7 +359,10 @@ export default function RestInfo() {
       </div>
       <div className={Styles.notion_bgc}>
         <div className="container-inner">
-          <h2 className={Styles.jill_h2_notion}>預約叮嚀</h2>
+          <div className={Styles.cat_section}>
+            <h2 className={Styles.jill_h2_notion}>預約叮嚀</h2>
+            <Image src={catJump} alt="catJump" />
+          </div>
           <div className={Styles.notion_frame}>
             <p>
               1. 事先了解店家規範：不論是去任何餐廳都應該先詳細了解店內規範。

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import RestCard from '@/components/ui/cards/rest_card';
 import { DownOutlined } from '@ant-design/icons';
 import {
@@ -42,7 +42,7 @@ export default function FilterPage() {
   const router = useRouter();
 
   // console.log(cityDatas);
-  // const { categorySid } = filterDatas;
+  // const { category } = filterDatas;
 
   const [filters, setFilters] = useState(filterDatas);
 
@@ -61,12 +61,13 @@ export default function FilterPage() {
 
   const [keyword, setKeyword] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [keywordDatas, setKeywordDatats] = useState([]);
+  const [keywordDatas, setKeywordDatas] = useState([]);
   const [showKeywordDatas, setShowKeywordDatas] = useState(false);
 
   const [rule, setRule] = useState('');
   const [service, setService] = useState('');
   const [city, setCity] = useState('');
+  const [area, setArea] = useState('');
   const [category, setCategory] = useState('');
 
   const [orderBy, setOrderBy] = useState('-- 排序條件 --');
@@ -125,11 +126,20 @@ export default function FilterPage() {
     );
   };
 
-  //這邊有點問題
+  // 這邊有點問題;
   useEffect(() => {
     //取得用戶拜訪的類別選項
-    const { keyword, rule, service, city, area, orderBy, category } =
-      router.query;
+    const {
+      keyword,
+      rule,
+      service,
+      city,
+      area,
+      category,
+      startTime,
+      endTime,
+      selectedDate,
+    } = router.query;
 
     console.log(router.query);
 
@@ -137,7 +147,29 @@ export default function FilterPage() {
       console.log(router.query);
       setRule(rule || '');
       setService(service || '');
-      setCity(city || '');
+      if (city) {
+        setSelectedCity(city);
+      }
+      if (area) {
+        setSelectedArea(area);
+      }
+
+      if (startTime) {
+        setStartTime(startTime);
+      }
+
+      if (endTime) {
+        setEndTime(endTime);
+      }
+
+      if (selectedDate) {
+        setDatePickerValue(selectedDate); // 設置日期狀態
+      }
+      if (category) {
+        resetCheckBox('category', category);
+      }
+
+      setArea(area || '');
       setCategory(category || '');
       setKeyword(keyword || '');
       // setOrderBy(orderBy);
@@ -148,27 +180,59 @@ export default function FilterPage() {
         .then((data) => {
           if (Array.isArray(data.rows)) {
             setData(data);
-            console.log(data.rows);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      console.log(router.query);
-      fetch(`${process.env.API_SERVER}/restaurant-api/list`)
-        .then((r) => r.json())
-        .then((data) => {
-          if (Array.isArray(data.rows)) {
-            setData(data);
           }
         })
         .catch((error) => {
           console.error(error);
         });
     }
+    // if (Object.keys(router.query).length === 0) {
+    //   console.log(router.query);
+    //   fetch(`${process.env.API_SERVER}/restaurant-api/list`)
+    //     .then((r) => r.json())
+    //     .then((data) => {
+    //       if (Array.isArray(data.rows)) {
+    //         setData(data);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // }
   }, [router.query]);
+
+  console.log(data.rows);
+
+  //進入畫面時將checkbox依據queryString設定勾選狀態
+  const resetCheckBox = (key, str) => {
+    const selectedValues = str.split(',');
+    const newCheckBox = filters[key].map((v) => {
+      if (selectedValues.includes(String(v.value))) {
+        return { ...v, checked: true };
+      }
+      return { ...v, checked: false };
+    });
+    setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
+  };
+
   //searchBar相關的函式-------------------------------------------------------
+
+  // const getRestKeywordData = async () => {
+  //   try {
+  //     const res = await fetch(`${process.env.API_SERVER}/restaurant-api/list`);
+  //     const responseData = await res.json();
+  //     if (Array.isArray(responseData.rows)) {
+  //       setData(responseData);
+  //     }
+  //     console.log(responseData.rows);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getRestKeywordData().then(() => {});
+  // }, []);
+
   const filterKeywordDatas = (data, keyword, keyin) => {
     if (!keyin) {
       const searchWord = keyword.split('');
@@ -193,7 +257,7 @@ export default function FilterPage() {
     const searchText = e.target.value;
     if (!searchText) {
       const newKeywordDatas = [...keywordDatas];
-      setKeywordDatats(false);
+      setKeywordDatas(false);
       setShowKeywordDatas(newKeywordDatas);
     }
     if (e.key === 'Enter') {
@@ -233,8 +297,6 @@ export default function FilterPage() {
     setShowKeywordDatas(false);
   };
 
-  //datefilter相關的函式-------------------------------------------------------
-
   //checkbox相關的函式-------------------------------------------------------
   const checkboxToggleHandler = (arr, name, id) => {
     // 在點擊checkbox 的選擇，並更新狀態
@@ -243,7 +305,7 @@ export default function FilterPage() {
     );
     setFilters({
       ...filters,
-      categorySid: updatedCategorySid,
+      category: updatedCategorySid,
     });
   };
 
@@ -257,9 +319,31 @@ export default function FilterPage() {
   const handlerChange2 = (time) => {
     setEndTime(time);
   };
+
+  
   //餐廳篩選條件
+  const handleBlur = () => {
+    // 檢查是否填寫了開始時間和結束時間
+    if (startTime && !endTime) {
+      setStartShowTimeError(false);
+      setShowEndTimeError(true);
+      setShowFilter(true);
+    } else if (!startTime && endTime) {
+      setStartShowTimeError(true);
+      setShowEndTimeError(false);
+      setShowFilter(true);
+    } else if (startTime && endTime) {
+      setStartShowTimeError(false); // 將開始時間警告框框隱藏
+      setShowEndTimeError(false); // 將結束時間警告框框隱藏
+    } else if (!startTime && !endTime) {
+      setStartShowTimeError(false); // 將開始時間警告框框隱藏
+      setShowEndTimeError(false); // 將結束時間警告框框隱藏
+    }
+  };
+
+  //篩選的部分
   const filterHandler = () => {
-    const filterCate = filters.categorySid;
+    const filterCate = filters.category;
     console.log(filterCate);
 
     //時間篩選
@@ -276,9 +360,11 @@ export default function FilterPage() {
     if (startTime && !endTime) {
       setStartShowTimeError(false);
       setShowEndTimeError(true);
+      // setShowFilter(true);
     } else if (!startTime && endTime) {
       setStartShowTimeError(true);
       setShowEndTimeError(false);
+      // setShowFilter(true);
     }
 
     const checkedOptions = filterCate
@@ -331,6 +417,8 @@ export default function FilterPage() {
     setDatePickerValue(null);
     setStartShowTimeError(false);
     setShowEndTimeError(false);
+    setSelectedCity(null);
+    setSelectedArea(null);
 
     // setStartTime('08:00');
 
@@ -560,6 +648,7 @@ export default function FilterPage() {
                   handlerChange2={handlerChange2}
                   onDateChange={handleDatePickerChange}
                   value={datePickerValue}
+                  onBlur={handleBlur}
                   alert_start={
                     showStartTimeError && (
                       <p style={{ color: 'red' }}>
@@ -581,7 +670,7 @@ export default function FilterPage() {
                 />
                 <RestaurantFilter
                   text="用餐類別"
-                  data={filters.categorySid}
+                  data={filters.category}
                   onChange={checkboxToggleHandler}
                 />
 
@@ -618,7 +707,7 @@ export default function FilterPage() {
       <div className="container-inner">
         <div className={Styles.second_area}>
           <div className={Styles.search_title}>
-            <h2 className={Styles.jill_h2}>餐廳進階篩選結果</h2>
+            <h2 className={Styles.jill_h2}>餐廳列表</h2>
             <p>
               {data.totalRows != 0 ? `共${data.totalRows}間餐廳` : '查無餐廳'}
             </p>
