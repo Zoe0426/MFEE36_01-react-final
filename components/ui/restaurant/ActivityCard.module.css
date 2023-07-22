@@ -56,9 +56,12 @@
     .feature_decorate{
         border-radius: var(--br10);
         background-color: transparent;
-        border: none
+        border: none;
+        width: 100%;
     }
+    
     .feature_info{
+        width: 100%;
         padding: 0;
     }
     .feature_card{
@@ -74,5 +77,8 @@
     }
     .activity_date{
         flex-direction: column;
+    }
+    .information{
+        margin-bottom: 0px;
     }
     }

@@ -121,7 +121,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
+  
 }
 .labels{
   font-size:var(--h6fs18) ;
@@ -218,5 +218,39 @@
   }
   .breadcrumb{
     display: none;
+    
   }
+  .category_area{
+    width: 100%;
+    padding-bottom: 16px;
+  }
+  .location_img{
+    height: 88px;
+    width: 88px;
+    margin-bottom: 6px;
+
+}
+.city {
+  width: 100%;
+  padding: 0 ;
+}
+.section {
+  width: 100%;
+  padding: 0 ;
+}
+.location_search_area{
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 0;
+}
+.location_name{
+  font-size: var(--pfs12);
+}
+.dropdowns{
+  width: 100%;
+  display: flex;
+}
+.dropdown_arrow{
+  margin-right: 70px;
+}
 }

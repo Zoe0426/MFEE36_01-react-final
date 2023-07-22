@@ -1,13 +1,13 @@
 .total_pages_rank{
     margin:48px 0px 48px 0px;
     display: flex;
-    align-items: center;
+
     width: 100%;
 }
 .input_section{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+
     gap:16px;
 }
 /* .to{
@@ -89,6 +89,15 @@
         margin-bottom: 20px;
     }
     .date{
+        width: 100%;
+    }
+    .input_area{
+        width: 100%;
+    }
+    .input_section{
+        width: 100%;
+    }
+    .input_frame{
         width: 100%;
     }
     }
