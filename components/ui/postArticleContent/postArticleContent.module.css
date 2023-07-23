@@ -20,30 +20,39 @@
 .postCom{
     width:800px;
 }
-.like{
+.likeRed{
     width:30px;
     height:30px;
-    color: var(--heartRed);
     padding-right: 5px;
-}
+    color: red; /* 或者你喜欢的实心图标颜色 */
+  }
+  
+  .likeGray {
+    width:30px;
+    height:30px;
+    padding-right: 5px;
+    color: gray; /* 或者你喜欢的空心图标颜色 */
+  }
+
 .comment{
     width:30px;
     height:30px;
     color:rgb(88, 88, 125);
     padding-right: 5px;
 }
-.likeGray, .favoriteGray{
+.shareGray, .favoriteGray{
     width:30px;
     height:30px;
     color: var(--gray);
     margin-right: 15px;
 }
-.favorite{
-    width:30px;
-    height:30px;
+/* .favoriteGray:hover{
     color:rgb(72, 105, 72);
-    padding-right: 5px;
 }
+.shareGray:hover{
+    color:rgb(56, 56, 159)
+} */
+
 .postNum{
     font-size: var(--h6fs18);
     padding: 5px;

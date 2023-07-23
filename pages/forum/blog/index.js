@@ -24,23 +24,23 @@ export default function BlogIndex() {
   const [perPage, setPerPage] = useState(15);
 
   const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    let auth = {};
-    const authStr = localStorage.getItem('petauth');
-    if (authStr) {
-      try {
-        auth = JSON.parse(authStr);
-      } catch (ex) {
-        console.error(ex);
-      }
-      console.log(auth.id);
-    }
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    console.log('token',auth.token);
+    console.log('first', first);
     // 從 URL 中讀取 page 參數，若不存在，預設為 1
   const currentPage = router.query.page ? parseInt(router.query.page) : 1;
 
-    if (auth.token) {
+  if (!auth.id && first) {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=${from}`);
+  }else if (auth.token) {
       fetch(`${process.env.API_SERVER}/forum-api/forum/blog?page=${currentPage}`, {
         headers: {
           Authorization: 'Bearer ' + auth.token,
@@ -57,7 +57,7 @@ export default function BlogIndex() {
     } else {
       console.log('User is not logged in. Cannot fetch posts.');
     }
-  }, []);
+  }, [auth,first]);
 
   // Pagination
   const PageChangeHandler = (page, perpage) => {

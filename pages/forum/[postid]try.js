@@ -1,6 +1,7 @@
+// [postid]原本的東西都放這邊
 import React, {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
-import Style from '@/styles/post.module.css'
+import Style from '@/styles/postid.module.css'
 import PostBanner from '@/components/ui/postBanner/postBanner'
 import BoardNav from '@/components/ui/BoardNav/boardNav'
 import PostArticle from '@/components/ui/postArticle/postArticle';
@@ -23,38 +24,19 @@ export default function Post() {
   const [data, setData] =useState({
     postData:[],
     hashtagData:[],
-    commentData:[]
+    commentData:[],
+    imgData:[]
   })
-  // 文章
-  // const [postData, setPostData] = useState(
-  //   {
-  //   post_title:'',
-  //   post_content:'',
-  //   nickname:'',
-  //   member_ID:'',
-  //   profile:'',
-  //   board_name:'',
-  //   board_img:'',
-  //   post_date:'',
-  //   update_date:'',
-  //   postLike:'',
-  //   postComment:''
-  // });
-  const [postData, setPostData] = useState([]); // 初始值設為空陣列
 
+
+  // 文章
+  const [postData, setPostData] = useState([]);
   // 話題
-  // const [hashtagData, setHashtagData] = useState({
-  //   hashtag_name:''
-  // });
   const [hashtagData, setHashtagData] = useState([]);
   // 留言
-  // const [commentData, setCommentData] = useState({
-  //   comment_content:'',
-  //   comment_date:'',
-  //   nickname:'',
-  //   profile:''
-  // });
   const [commentData, setCommentData] = useState([]);
+  // 圖片
+  const [imgData, setImgData] = useState([]);
 
   const fetchData = async (postid) => {
     try {
@@ -63,52 +45,25 @@ export default function Post() {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      console.log('data', data);
-    setData(data); // 將整個回應的 JSON 物件設定到 data 狀態變數中
-    console.log('data', setData);
-
-      // 然後分別將相關資料設定到對應的狀態變數中
-    setPostData(data.postData);
-    setHashtagData(data.hashtagData);
-    setCommentData(data.commentData);
-
-    console.log('data', data);
-    console.log('postData', data.postData);
-    console.log('hashtagData', data.hashtagData);
-    console.log('commentData', data.commentData);
-
-    // 確保 data.postData 是陣列後再設定狀態
-    if (Array.isArray(data.postData)) {
-      setPostData(data.postData);
+  
+      // 從回傳的 data 物件中取得 postData、hashtagData 和 commentData，然後設定到對應的狀態
+      setPostData(data.newData || []); //因為在node文章資料是叫data
+      setHashtagData(data.tagData || []); //因為在node hashtag資料是叫tagData
+      setCommentData(data.newCommentData || []);
+      const newImgData = data.imgData.map(v=>v.file)
+      setImgData(newImgData || []);
+  
+      console.log('postData', data.newData);
+      console.log('hashtagData', data.tagData);
+      console.log('commentData', data.newCommentData);
+      console.log('newImgData', newImgData);
+  
+      console.log(postid);
+    } catch (error) {
+      console.error('Error fetching data:', error);
     }
-    // 確保 data.hashtagData 是陣列後再設定狀態
-    if (Array.isArray(data.hashtagData)) {
-      setHashtagData(data.hashtagData);
-    }
-
-    // 確保 data.commentData 是陣列後再設定狀態
-    if (Array.isArray(data.commentData)) {
-      setCommentData(data.commentData);
-    }
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-
-
-    // const postData = await response.json();
-    // setPostData(postData);
-    // console.log('postData', postData);
-
-    // const hashtagData = await response.json();
-    // setHashtagData(hashtagData);
-    // console.log('hashtagData', hashtagData);
-
-    // const commentData = await response.json();
-    // setCommentData(commentData);
-    // console.log("commentData", commentData);
-
-    console.log(postid);
   };
+  
   
 
   useEffect(()=>{
@@ -116,26 +71,18 @@ export default function Post() {
     console.log(postid);
     if (postid){
       fetchData(postid);
-    //   fetchData(`${process.env.API_SERVER}/forum-api/${postid}`)
-    //   .then((r)=>r.json())
-    //   .then((data)=>{
-    //     const {
-    //       postData,
-    //       hashtagData,
-    //       commentData
-    //     } = data;
-    //   })
     }
     }, [postid]); // Fetch data when the post ID changes
   
 
-  const images = [
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',   
-  ];
+  // const images = [
+  //   // '/forum_img/狗活動.jpeg',
+  //   // '/forum_img/狗活動.jpeg',
+  //   // '/forum_img/狗活動.jpeg',
+  //   // '/forum_img/狗活動.jpeg',
+  //   // '/forum_img/狗活動.jpeg',   
+  //   `${imgData}`
+  // ];
 
   return (
     <div className="container-outer">
@@ -144,8 +91,7 @@ export default function Post() {
             <BoardNav/>
             <div className={Style.postAll}>
               <div className="container-inner">
-              {postData && Array.isArray(postData) && (
-                postData.map((v, i) => (
+              {postData.map((v,i)=>(
                 <PostArticle key={v.post_sid} className={Style.title} 
                 navTitle={v.post_title} 
                 profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' 
@@ -156,19 +102,16 @@ export default function Post() {
                 boardImg= {v.board_img}
                 board={v.board_name} 
                 time={v.post_date}/>        
-                ))
-                )}
-
+                ))}
                 <div className={Style.hashtag}>
-                {hashtagData && Array.isArray(hashtagData) && (
-                  hashtagData.map((v, i) => (
+                {hashtagData.map((v,i)=>(
                   <PostHashtag text={v.hashtag_name}/>
-                  ))
-                  )}
-                </div>
-
+                ))}
+              
+              </div>
                 <div className={Style.postImg}>
-                  <PostImg images={images}/>
+
+                  <PostImg images={imgData}/>
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
@@ -182,13 +125,15 @@ export default function Post() {
                     <PostCommentBtn text="由舊至新" bc='white'/>
                     <PostCommentBtn text="由舊至新" bc='var(--secondary)'/>
                   </div>
-                  <div className={Style.commentNum}>共 200 則留言</div>
+                  {postData.map((v,i)=>(
+                    <div className={Style.commentNum}>{`共 ${v.postComment} 則留言`}</div>
+                  ))}
                   <div className={Style.line}>
                     <img className={Style.commentLine} src='/forum_img/commentLine.png'/>
                   </div>
                   <div className={Style.comments}>
                   {commentData.map((v,i)=>(
-                    <PostComment profile={v.profile} author={v.nickname} comment={v.comment_content} floor='B1' date={v.comment_date} moreComments=''/>
+                    <PostComment profile={v.profile} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
                   ))}
                   </div>
                 </div>
