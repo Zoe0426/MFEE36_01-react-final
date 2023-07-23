@@ -6,6 +6,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+.loginbox{
+    position:absolute;
+    top:0;
+    left: 300px;
 }
 .comment{
     /* padding:10px; */

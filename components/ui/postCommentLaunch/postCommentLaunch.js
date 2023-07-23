@@ -10,14 +10,30 @@ import { check } from 'prettier';
 const { TextArea } = Input;
 
 
-export default function PostCommentLaunch({profile='',commentData=[], setCommentData=()=>{}}) {
+export default function PostCommentLaunch({profile='',commentData=[], setCommentData=()=>{}, postSid='', memberId='',commentContent=''}) {
   const router = useRouter();
   const [value, setValue] = useState('');
+  console.log(value);
 
   //留言登入
   const [showLogin, setShowLogin] = useState(false);
   const sendComment = (e) =>{
     if(e.key === 'Enter'){
+      const r = fetch(`${process.env.API_SERVER}/forum-api/forum/addcomment`, {
+        method:'POST',
+        body:JSON.stringify(
+          {post_sid:postSid,
+          member_sid:memberId,
+          comment_content:commentContent
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .then((r) => r.json())
+        .then((data)=>{
+          console.log(data);
+        })
       console.log('Send Comment')
     }
   }
@@ -39,6 +55,7 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
     setShowLogin(false)
   }
   return (
+    <>
     <div className={Style.comments}>
         <div className={Style.commentBody}>
             <div className={Style.author}>
@@ -54,15 +71,16 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                     maxRows: 6,
                   }}
                 />
-                {showLogin && (
-                  <CommentLogin goLogin={goLogin} cancel={cancel}/>
-                  )}
                 <div className={Style.icon}>
                 <FontAwesomeIcon icon={faHeart} className={Style.likeGray}/>
                 <FontAwesomeIcon icon={faBookmark} className={Style.favoriteGray}/>
                 </div>
-            </div>
-        </div>
-    </div>
+                </div>
+                </div>
+                </div>
+                {showLogin && (
+                  <CommentLogin className={Style.loginbox} goLogin={goLogin} cancel={cancel}/>
+                  )}
+    </>
   )
 }
