@@ -44,6 +44,9 @@ export default function ActivityMain() {
 
   //會員是否登入
   useEffect(() => {
+    let auth = {};
+    const authStr = localStorage.getItem('petauth');
+    
     if (auth.token) {
       const fetchData = async () => {
         try {

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { Row, Col } from 'antd';
+import Link from 'next/link';
 
 import styles from '../../styles/activityindex.module.css';
 import ActivityLikeWithSelector from '@/components/ui/cards/ActivityLikeWithSelector';
@@ -78,24 +79,24 @@ export default function ActivityHome() {
               src="./activity_img/decoration1.png"
               alt=""
             />
-            <div>
-              <SubBtn img="./activity_img/subicon_1.png" text="主題派對" />
-            </div>
-            <div>
+            <Link href="http://localhost:3000/activity/list?cid=1" className={styles.custom_link} >
+                <SubBtn img="./activity_img/subicon_1.png" text="主題派對" />
+            </Link>
+            <Link href="http://localhost:3000/activity/list?cid=2" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_2.png" text="在地活動" />
-            </div>
-            <div>
+            </Link>
+            <Link href="http://localhost:3000/activity/list?cid=3" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_3.png" text="市集展覽" />
-            </div>
-            <div>
+            </Link>
+            <Link href="http://localhost:3000/activity/list?cid=4" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_4.png" text="毛孩講座" />
-            </div>
-            <div>
+            </Link>
+            <Link href="http://localhost:3000/activity/list?cid=5" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_5.png" text="寵物學校" />
-            </div>
-            <div>
-              <SubBtn img="./activity_img/subicon_6.png" text="願望實現清單" />
-            </div>
+            </Link>
+            <Link href="http://localhost:3000/activity/list?cid=6" className={styles.custom_link} >
+              <SubBtn img="./activity_img/subicon_6.png" text="願望清單" />
+            </Link>
             <img
               className={styles.type_decoration}
               src="./activity_img/decoration1.png"
@@ -196,8 +197,8 @@ export default function ActivityHome() {
                 price_adult,
               } = i;
               return (
+                <Col key={activity_sid} span={12}>
                 <ActivityCard1
-                  key={activity_sid}
                   activity_sid={activity_sid}
                   type={type_name}
                   image={'/activity_img/' + activity_pic.split(',')[0]}
@@ -212,6 +213,7 @@ export default function ActivityHome() {
                   features={feature_names.split(',')}
                   price={price_adult}
                 />
+                </Col>
               );
             })}
 
@@ -252,41 +254,17 @@ export default function ActivityHome() {
             {wish.map((i) => {
               const { member_sid, profile, name, city, area, vote_count } = i;
               return (
+                <Col key={member_sid} span={8}>
                 <ActivityCard3
-                  key={member_sid}
                   profile={profile}
                   title={name}
                   count={vote_count}
                   city={city}
                   area={area}
                 />
-                // <ActivityCard4
-                // key={activity_sid}
-                //   activity_sid={activity_sid}
-                //   type={type_name}
-                //   image={'/activity_img/'+activity_pic.split(',')[0]}
-                //   title={name}
-                //   rating={avg_star}
-                //   date_begin={recent_date}
-                //   date_end={farthest_date}
-                //   time={time}
-                //   city={city}
-                //   area={area}
-                //   address={address}
-                //   content={content}
-                //   features={feature_names.split(',')}
-                //   price={price_adult}
-                // />
+               </Col>
               );
             })}
-
-            {/* <ActivityCard3
-              image="/activity_img/asian-young-girl-holding-kittens-park.jpg"
-              title="2022台北與毛家庭有約"
-              count={10}
-              city="台北市"
-              area="大安區"
-            /> */}
           </Row>
         </div>
       </div>
