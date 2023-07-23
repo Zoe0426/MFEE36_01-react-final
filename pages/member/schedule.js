@@ -3,14 +3,15 @@ import React, { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import MemberCenterLayout from '@/components/layout/member-center-layout';
 import AuthContext from '@/context/AuthContext';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Styles from '@/styles/schedule.module.css';
 import { Calendar, Badge } from 'antd';
-import Modal from '@/components/ui/modal/modal';
+import AlertModal from '@/components/ui/modal/AlertModal';
+import AlertInfo from '@/components/ui/infos/AlertInfo';
 
 export default function Schedule() {
+  const { auth, setAuth } = useContext(AuthContext);
+
   const [data, setData] = useState();
-  const [modal, setModal] = useState(false);
   const [name, setName] = useState(null);
   const [notice, setNotice] = useState(null);
   const [type, setType] = useState(null);
@@ -36,9 +37,10 @@ export default function Schedule() {
       }
     }
     console.log(auth.id);
+    console.log(auth.token);
 
     if (auth.token) {
-      fetch(`${process.env.API_SERVER}/member-api/schedule/mem00300`, {
+      fetch(`${process.env.API_SERVER}/member-api/schedule`, {
         headers: {
           Authorization: 'Bearer ' + auth.token,
         },
@@ -107,26 +109,31 @@ export default function Schedule() {
       const listData = getListData(value, data);
 
       return (
-        <ul className="events">
+        <ul className={Styles.events}>
           {listData.map((item, index) => (
             <li key={index} onClick={() => info(item)}>
-              <Badge status={item.type} />
-              <Modal
+              <Badge status={item.type} className={Styles.badge} />
+              <AlertModal
                 btnType="text"
                 btnText={item.content}
-                // name={name}
-                // notice={notice}
-                // type={type}
-                // date={date}
-                // peopleNum={peopleNum}
-                // petNum={petNum}
-                // phone={phone}
-                // city={city}
-                // area={area}
-                // address={address}
-                // adultQty={adultQty}
-                // childQty={childQty}
-                // sectionTime={sectionTime}
+                title={name}
+                type={type}
+                content={
+                  <AlertInfo
+                    notice={notice}
+                    type={type}
+                    date={date}
+                    peopleNum={peopleNum}
+                    petNum={petNum}
+                    phone={phone}
+                    city={city}
+                    area={area}
+                    address={address}
+                    adultQty={adultQty}
+                    childQty={childQty}
+                    sectionTime={sectionTime}
+                  />
+                }
               />
             </li>
           ))}
@@ -136,15 +143,11 @@ export default function Schedule() {
 
     return (
       <>
-        <div className="content">
-          <div className="title">我的行程</div>
-          <div className="calendar">
+        <div className={Styles.content}>
+          <div className={Styles.title}>我的預約</div>
+          <div className={Styles.calendar}>
             <Calendar cellRender={dateCellRender} />
-            <Modal />
           </div>
-        </div>
-        <div className="test">
-          為了確保寵物活動的順利進行，我們制定了以下活動規範。請確保您的寵物已接受基本訓練並保持良好的行為，以確保場內其他參與者的安全。請攜帶寵物的食物和水，並隨時清理寵物的排泄物。請綁牢狗狗的狗繩，讓他們在市集內保持受控制的狀態。禁止攜帶其他非寵物動物進入市集範圍。最後，請尊重其他參與者和攤位的隱私和財物安全。謝謝您的合作，讓我們一起享受這個難忘的寵物盛會！
         </div>
       </>
     );

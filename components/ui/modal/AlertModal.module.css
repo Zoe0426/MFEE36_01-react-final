@@ -25,7 +25,7 @@
 }
 .modal_card {
   position: absolute;
-  width: 60%;
+  width: 45%;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -33,7 +33,7 @@
   background: #ffffff;
   padding: 14px 0;
   border-radius: 10px;
-  max-width: 600px;
+  max-width: 450px;
   min-width: 300px;
 }
 
@@ -52,26 +52,15 @@
   border-bottom: 1px solid rgb(203, 203, 203);
 }
 
-.btn_group {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 12px;
-  height: 50px;
+.modal_colse{
+  position: absolute;
+  right: 0;
 }
 
-.btn_group > button {
-  margin-right: 16px;
-  padding-top: 0;
-  padding-bottom: 0;
-  line-height: 100%;
-  text-align: center;
+.badge{
+  margin-right: 5px;
 }
 
-.modal_notice{
-	overflow: scroll; 
-	word-wrap: break-word;
-  overflow-wrap: break-word;
-}
 
 
 @media screen and (max-width: 767px) {
@@ -86,14 +75,4 @@
     padding-bottom: 12px;
   }
   
-  .btn_group > button {
-    margin-right: 0;
-    width: 100%;
-    line-height: 100%;
-  }
-  .btn_group {
-    gap: 16px;
-    justify-content: space-around;
-    padding: 0 16px;
-  }
 }

@@ -149,41 +149,6 @@ body{
 
 /* ---------------- */
 
-.order{
-  height: 1200px;
-}
-
-.content{
-  background-color: var(--light1);
-  padding: var(--p32) var(--p8) 64px var(--p8);
-  border-radius: var(--br10);
-}
-
-.title{
-  font-size: var(--h2fs32);
-  color: var(--dark);
-  margin-bottom: 30px;
-  font-weight: var(--fwbold);
-  letter-spacing: 2px;
-  text-align: center;
-}
-
-.events {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.events{
-  width: 100%;
-  overflow: hidden;
-  font-size: var(--pfs12);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.ant-badge.ant-badge-status .ant-badge-status-text{
-  font-size: var(--pfs12);
-}
 
 /* -------------------- */
 
