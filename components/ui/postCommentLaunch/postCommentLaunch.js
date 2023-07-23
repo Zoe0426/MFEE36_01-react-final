@@ -35,12 +35,12 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
       })
       .then((r) => r.json())
       .then((data)=>{
-          console.log(data);
+          console.log(data.newCommentData);
+          setCommentData(data.newCommentData)
         })
       console.log('Send Comment')
-
-      // 更新commentData
-      const newComment = {comment_content:value, comment_date:'',  member_sid:memberId}
+  
+      
       }
     // 登入狀態
   const { auth, setAuth } = useContext(AuthContext);
