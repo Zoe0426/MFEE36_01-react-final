@@ -7,36 +7,41 @@ import { Input } from 'antd';
 import CommentLogin from '../post_login/login';
 import Router, { useRouter } from 'next/router';
 import { check } from 'prettier';
+import MainBtn from '../buttons/MainBtn';
 const { TextArea } = Input;
 
 
-export default function PostCommentLaunch({profile='',commentData=[], setCommentData=()=>{}, postSid='', memberId='',commentContent=''}) {
+export default function PostCommentLaunch({profile='',commentData=[], setCommentData=()=>{}, postSid='', memberId=''}) {
   const router = useRouter();
   const [value, setValue] = useState('');
   console.log(value);
 
   //留言登入
   const [showLogin, setShowLogin] = useState(false);
-  const sendComment = (e) =>{
-    if(e.key === 'Enter'){
+  const sendComment = () =>{
+    // console.log('clicked');
+    //   console.log(postSid);
+    //   console.log(memberId);
       const r = fetch(`${process.env.API_SERVER}/forum-api/forum/addcomment`, {
         method:'POST',
         body:JSON.stringify(
           {post_sid:postSid,
           member_sid:memberId,
-          comment_content:commentContent
+          comment_content:value
         }),
         headers: {
           'Content-Type': 'application/json',
         },
       })
       .then((r) => r.json())
-        .then((data)=>{
+      .then((data)=>{
           console.log(data);
         })
       console.log('Send Comment')
-    }
-  }
+
+      // 更新commentData
+      const newComment = {comment_content:value, comment_date:'',  member_sid:memberId}
+      }
     // 登入狀態
   const { auth, setAuth } = useContext(AuthContext);
   console.log(auth);
@@ -64,13 +69,16 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                 <TextArea className={Style.comment}
                   placeholder="撰寫留言..."
                   onChange={(e) => setValue(e.target.value)}
-                  onKeyDown={sendComment}
+                  // onKeyDown={sendComment}
                   onFocus={checkLogin}
                   autoSize={{
                     minRows: 1,
                     maxRows: 6,
                   }}
-                />
+                  />
+                  <MainBtn
+                  text = '送出'
+                  clickHandler = {sendComment} />
                 <div className={Style.icon}>
                 <FontAwesomeIcon icon={faHeart} className={Style.likeGray}/>
                 <FontAwesomeIcon icon={faBookmark} className={Style.favoriteGray}/>
@@ -84,3 +92,4 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
     </>
   )
 }
+

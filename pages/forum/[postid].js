@@ -135,7 +135,7 @@ fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${pos
 
                 <div className={Style.commentBlock}>
                   <div className={Style.PostCommentLaunch}>
-                  <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' commentData={commentData} setCommentData={setCommentData}/>
+                  <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
                 </div>
                   <div className={Style.commentBTN}>
                     <PostCommentBtn text="由舊至新" bc='white'/>
