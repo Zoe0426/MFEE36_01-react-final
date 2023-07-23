@@ -10,6 +10,7 @@ import Likelist from '@/components/ui/like-list/like-list';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
@@ -42,7 +43,24 @@ export default function ActivityMain() {
   });
 
 
-  //會員是否登入
+
+  // 小麵包屑--------------------
+  const [breadCrubText, setBreadCrubText] = useState([
+    {
+      id: 'activity',
+      text: '活動',
+      href: 'http://localhost:3000/activity',
+      show: true,
+    },
+    { id: 'search', text: '/ 活動列表', href: '', show: true },
+    { id: 'aid', text: '', href: '', show: false },
+  ]);
+
+
+
+
+
+  // 會員是否登入--------------------
   useEffect(() => {
     
     if (auth.token) {
@@ -66,6 +84,8 @@ export default function ActivityMain() {
       fetchData();
     }
   }, [auth.token]);
+
+  
   // 進階篩選
   // const [showfilter, setShowFilter] = useState(false);
 
@@ -316,8 +336,8 @@ export default function ActivityMain() {
 
       <div className="container-inner">
         <div className={styles.nav_head}>
-          <p>TODO: BreadCrumb</p>
-          {/* <BreadCrumb breadCrubText={breadCrubText} /> */}
+          {/* <p>TODO: BreadCrumb</p> */}
+          <BreadCrumb breadCrubText={breadCrubText} />
 
           {/* .........收藏列表/進階篩選 btn......... */}
           <div className={styles.btns}>
@@ -357,8 +377,8 @@ export default function ActivityMain() {
         {/* .........搜尋結果+篩選btn......... */}
         <div className={styles.quick_selector}>
           <div>
-            <p className={styles.text_large}>搜尋活動「游泳課」</p>
-            <p>50項活動</p>
+            <p className={styles.text_large}>TODO: 搜尋活動「游泳課」</p>
+            <p>TODO: 50項活動</p>
           </div>
           <div>
             <button>最新</button>
