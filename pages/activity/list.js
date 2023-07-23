@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
+import AuthContext from '@/context/AuthContext';
 import styles from '../../styles/activitymain.module.css';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
 import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
@@ -21,10 +22,14 @@ export default function ActivityMain() {
 
   // 收藏清單
   const [likeDatas, setLikeDatas] = useState([]);
-  const [showLikeList, setShowLikeList] = useState(false);
+  const [showLikeList, setShowLikeList] = useState(true);
 
-  // 進階篩選
-  // const [showfilter, setShowFilter] = useState(false);
+  const { auth } = useContext(AuthContext);
+
+  const toSignIn = () => {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=${from}`);
+  };
 
   // 取資料
   const [datas, setDatas] = useState({
@@ -35,6 +40,33 @@ export default function ActivityMain() {
     rows: [],
     // likeDatas:[],
   });
+
+
+  //會員是否登入
+  useEffect(() => {
+    if (auth.token) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            'http://localhost:3002/activity-api/activity',
+            {
+              headers: {
+                Authorization: `Bearer ${auth.token}`,
+              },
+            }
+          );
+          const { likeDatas } = await response.json();
+          setLikeDatas(likeDatas);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+  
+      fetchData();
+    }
+  }, [auth.token]);
+  // 進階篩選
+  // const [showfilter, setShowFilter] = useState(false);
 
   // 排序
   const rankOptions = {
@@ -94,22 +126,21 @@ export default function ActivityMain() {
     fetchData();
   }, [router.query, perPage, page]); // 這裡包含了page和perPage的依賴
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          'http://localhost:3002/activity-api/activity'
-        );
-        const { likeDatas } = await response.json();
-        setLikeDatas(likeDatas);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         'http://localhost:3002/activity-api/activity'
+  //       );
+  //       const { likeDatas } = await response.json();
+  //       setLikeDatas(likeDatas);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
-
+  //   fetchData();
+  // }, []);
 
   //searchBar相關的函式--------------------
   const searchBarHandler = (e) => {
@@ -140,18 +171,21 @@ export default function ActivityMain() {
   //   setShowFilter(!showfilter);
   // };
 
-
-// 更新收藏清單
-const updateLikeList = (activitySid, isLiked) => {
-  if (isLiked) {
-    // 新增至收藏清單
-    setLikeDatas((prevLikeDatas) => [...prevLikeDatas, { activity_sid: activitySid }]);
-  } else {
-    // 從收藏清單中移除
-    setLikeDatas((prevLikeDatas) => prevLikeDatas.filter((item) => item.activity_sid !== activitySid));
-  }
-};
-
+  // 更新收藏清單
+  const updateLikeList = (activitySid, isLiked) => {
+    if (isLiked) {
+      // 新增至收藏清單
+      setLikeDatas((prevLikeDatas) => [
+        ...prevLikeDatas,
+        { activity_sid: activitySid },
+      ]);
+    } else {
+      // 從收藏清單中移除
+      setLikeDatas((prevLikeDatas) =>
+        prevLikeDatas.filter((item) => item.activity_sid !== activitySid)
+      );
+    }
+  };
 
   // //收藏列表相關的函式--------------------
   const openShowLikeList = () => {
@@ -176,7 +210,6 @@ const updateLikeList = (activitySid, isLiked) => {
     removeLikeListToDB(aid, 'mem00300');
   };
 
-  
   const removeLikeListToDB = async (aid = '', mid = '') => {
     try {
       const removeAll = await fetch(
@@ -197,7 +230,6 @@ const updateLikeList = (activitySid, isLiked) => {
       console.log(error);
     }
   };
-
 
   // 給faheart的 新增與刪除
   const handleLikeClick = async (activitySid) => {
@@ -245,12 +277,10 @@ const updateLikeList = (activitySid, isLiked) => {
     }
   };
 
-
   // 判斷活動是否在收藏列表中
   const isInLikeList = (activitySid) => {
     return likeDatas.some((item) => item.activity_sid === activitySid);
   };
-
 
   // Pagination相關的函式--------------------
   const PageChangeHandler = (page) => {
@@ -262,6 +292,9 @@ const updateLikeList = (activitySid, isLiked) => {
       }).toString()}`
     );
   };
+
+ 
+
 
   return (
     <div>
@@ -300,20 +333,22 @@ const updateLikeList = (activitySid, isLiked) => {
           </div>
         </div>
         <div>
-          {showLikeList && (
-            <Likelist
-              datas={likeDatas}
-              customCard={
-                <ActivityLikeListCard
-                  datas={likeDatas}
-                  removeLikeListItem={removeLikeListItem}
-                />
-              }
-              closeHandler={openShowLikeList}
-              removeAllHandler={removeAllLikeList}
-              removeLikeListItem={removeLikeListItem}
-            />
-          )}
+          <>
+            {auth.id && showLikeList && (
+              <Likelist
+                datas={likeDatas}
+                customCard={
+                  <ActivityLikeListCard
+                    datas={likeDatas}
+                    removeLikeListItem={removeLikeListItem}
+                  />
+                }
+                closeHandler={openShowLikeList}
+                removeAllHandler={removeAllLikeList}
+                removeLikeListItem={removeLikeListItem}
+              />
+            )}
+          </>
         </div>
 
         {/* .........篩選btn展開......... */}
@@ -353,25 +388,25 @@ const updateLikeList = (activitySid, isLiked) => {
               const liked = isInLikeList(activity_sid);
               return (
                 <Col key={activity_sid} span={12}>
-                <ActivityCard4
-                  key={activity_sid}
-                  activity_sid={activity_sid}
-                  type={type_name}
-                  image={'/activity_img/' + activity_pic.split(',')[0]}
-                  title={name}
-                  rating={avg_star}
-                  date_begin={recent_date}
-                  date_end={farthest_date}
-                  time={time}
-                  city={city}
-                  area={area}
-                  address={address}
-                  content={content}
-                  features={feature_names?.split(',') || []}
-                  price={price_adult}
-                  isInLikeList={liked}
-                  handleLikeClick={() => handleLikeClick(activity_sid)} // 傳遞handleLikeClick函式給子組件
-                />
+                  <ActivityCard4
+                    key={activity_sid}
+                    activity_sid={activity_sid}
+                    type={type_name}
+                    image={'/activity_img/' + activity_pic.split(',')[0]}
+                    title={name}
+                    rating={avg_star}
+                    date_begin={recent_date}
+                    date_end={farthest_date}
+                    time={time}
+                    city={city}
+                    area={area}
+                    address={address}
+                    content={content}
+                    features={feature_names?.split(',') || []}
+                    price={price_adult}
+                    isInLikeList={liked}
+                    handleLikeClick={() => handleLikeClick(activity_sid)} // 傳遞handleLikeClick函式給子組件
+                  />
                 </Col>
               );
             })}
