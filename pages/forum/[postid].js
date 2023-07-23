@@ -27,6 +27,7 @@ export default function Post() {
     commentData:[],
     imgData:[]
   })
+  
 
 
   // 文章
@@ -41,8 +42,9 @@ export default function Post() {
   // 按讚
   const [isLiked, setIsLiked] = useState(false);
   // 登入狀態
-  // const [first, setFirst] = useState(false);
   const { auth, setAuth } = useContext(AuthContext);
+
+
 
   const fetchData = async (postid) => {
     try {
@@ -56,6 +58,7 @@ export default function Post() {
       setPostData(data.newData || []); //因為在node文章資料是叫data
       setHashtagData(data.tagData || []); //因為在node hashtag資料是叫tagData
       setCommentData(data.newCommentData || []);
+      console.log(commentData);
       const newImgData = data.imgData.map(v=>v.file)
       setImgData(newImgData || []);
   
@@ -131,6 +134,9 @@ fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${pos
 
 
                 <div className={Style.commentBlock}>
+                  <div className={Style.PostCommentLaunch}>
+                  <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' commentData={commentData} setCommentData={setCommentData}/>
+                </div>
                   <div className={Style.commentBTN}>
                     <PostCommentBtn text="由舊至新" bc='white'/>
                     <PostCommentBtn text="由舊至新" bc='var(--secondary)'/>
@@ -138,6 +144,7 @@ fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${pos
                   {postData.map((v,i)=>(
                     <div className={Style.commentNum}>{`共 ${v.postComment} 則留言`}</div>
                   ))}
+
                   <div className={Style.line}>
                     <img className={Style.commentLine} src='/forum_img/commentLine.png'/>
                   </div>
@@ -147,9 +154,7 @@ fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${pos
                   ))}
                   </div>
                 </div>
-                <div className={Style.PostCommentLaunch}>
-                  <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg'/>
-                </div>
+
                   
               </div>
             </div>

@@ -7,12 +7,33 @@ import {faHeart, faCommentDots, faBookmark, faShareNodes} from '@fortawesome/fre
 
 export default function PostArticleContent({postContent='', likes=0, comments=0, isLiked=false, setIsLiked=()=>{}, postSid='', memberId=''}) {
 
+  const [likeAmount, setLikeAmount] = useState(likes);
+  
+  
   // 按讚與取消讚的處理函數
   const handleLikeClick = () => {
     setIsLiked(!isLiked); // 切換按讚狀態
-    if(isLiked){
-      const r = fetch(`${process.env.API_SERVER}/forum/postLike`, {
+    if(isLiked==false){
+      setLikeAmount(likeAmount+1);
+      const r = fetch(`${process.env.API_SERVER}/forum-api/forum/postLike`, {
         method:'POST',
+        body:JSON.stringify(
+          {post_sid:postSid,
+          member_sid:memberId,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+  
+        })
+        .then((r) => r.json())
+        .then((data)=>{
+          console.log(data);
+        })
+      }else{
+        setLikeAmount(likeAmount-1);
+        const delR = fetch(`${process.env.API_SERVER}/forum-api/forum/likeDel`,{
+          method:'DELETE',
         body:JSON.stringify(
           {post_sid:postSid,
           member_sid:memberId,
@@ -43,7 +64,7 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
                   icon={faHeart} // 使用 faHeart 圖示作為愛心圖示
                   className={isLiked ? Style.likeRed : Style.likeGray} // 根據按讚狀態切換愛心的顏色
                 />
-                <p className={Style.postNum}>{likes}</p>                        
+                <p className={Style.postNum}>{likeAmount}</p>                        
             </div>
             <div className={Style.postCom}>
                 <FontAwesomeIcon icon={faCommentDots} className={Style.comment}/>
