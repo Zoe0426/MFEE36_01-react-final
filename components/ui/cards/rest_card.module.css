@@ -53,11 +53,15 @@
 .icon_inImage{
     position: absolute;
     top: 12px;
-    right: 12px;
+    right: 30px;
     font-size: 30px;
     color: var(--light-gray);
+    z-index: 1;
+    cursor: pointer;
 }
-
+.active{
+    color:var(--heartRed);
+}
 
 @media screen and (max-width:767px){
     .rest_name{

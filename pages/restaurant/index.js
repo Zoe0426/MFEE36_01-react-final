@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SearchBar from '@/components/ui/buttons/SearchBar';
-
+import { DownOutlined } from '@ant-design/icons';
 import {
   faFire,
   faMap,
@@ -13,9 +13,10 @@ import {
   faLocationDot,
   faThumbsUp,
   faCircleExclamation,
+  faPaw,
 } from '@fortawesome/free-solid-svg-icons';
 import RestCard from '@/components/ui/cards/rest_card';
-import { Col, Row } from 'antd';
+import { Col, Row, ConfigProvider, Button, Dropdown, Space, Menu } from 'antd';
 import RestTitle from '@/components/ui/restaurant/RestTitle';
 import LocationCard from '@/components/ui/restaurant/LocationCard';
 import Styles from './index.module.css';
@@ -33,6 +34,7 @@ import filterDatas from '@/data/restaurnt/categories.json';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import friendlyCondition from '@/data/restaurnt/firendly-condition.json';
+import cityDatas from '@/data/restaurnt/location.json';
 
 export default function Restindex() {
   const router = useRouter();
@@ -52,6 +54,9 @@ export default function Restindex() {
   const [showStartTimeError, setStartShowTimeError] = useState(false);
   const [showEndTimeError, setShowEndTimeError] = useState(false);
 
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+
   const [filters, setFilters] = useState(filterDatas);
 
   const [data, setData] = useState({
@@ -62,6 +67,16 @@ export default function Restindex() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
 
+  const handleCityClick = ({ key }) => {
+    setSelectedCity(key);
+    setSelectedArea(null);
+  };
+
+  const handleAreaClick = ({ key }) => {
+    setSelectedArea(key);
+  };
+
+  const cities = cityDatas;
   // 點擊右邊箭頭
   const rightArrow1 = () => {
     setCurrentIndex((prevIndex) =>
@@ -113,18 +128,7 @@ export default function Restindex() {
       }).toString()}`
     );
   };
-  //checkbox相關的函式-------------------------------------------------------
-  const checkboxToggleHandler = (arr, name, id) => {
-    // 在點擊checkbox 的選擇，並更新狀態
-    const updatedCategorySid = arr.map((item) =>
-      item.id === id ? { ...item, checked: !item.checked } : item
-    );
-    setFilters({
-      ...filters,
-      categorySid: updatedCategorySid,
-    });
-  };
-
+  
   const handleDatePickerChange = (dateValue) => {
     setDatePickerValue(dateValue);
   };
@@ -135,10 +139,29 @@ export default function Restindex() {
   const handlerChange2 = (time) => {
     setEndTime(time);
   };
-  //餐廳篩選條件
+  //輸入時間的框框是否成為焦點
+  const handleBlur = () => {
+    // 檢查是否填寫了開始時間和結束時間
+    if (startTime && !endTime) {
+      setStartShowTimeError(false);
+      setShowEndTimeError(true);
+      setShowFilter(true);
+    } else if (!startTime && endTime) {
+      setStartShowTimeError(true);
+      setShowEndTimeError(false);
+      setShowFilter(true);
+    } else if (startTime && endTime) {
+      setStartShowTimeError(false); // 將開始時間警告框框隱藏
+      setShowEndTimeError(false); // 將結束時間警告框框隱藏
+    } else if (!startTime && !endTime) {
+      setStartShowTimeError(false); // 將開始時間警告框框隱藏
+      setShowEndTimeError(false); // 將結束時間警告框框隱藏
+    }
+  };
+  //篩選的部分
   const filterHandler = () => {
-    const filterCate = filters.categorySid;
-    //console.log(filterCate);
+    const filterCate = filters.category;
+    console.log(filterCate);
 
     //時間篩選
     const start = startTime ? startTime + ':00' : null;
@@ -154,20 +177,30 @@ export default function Restindex() {
     if (startTime && !endTime) {
       setStartShowTimeError(false);
       setShowEndTimeError(true);
+      // setShowFilter(true);
     } else if (!startTime && endTime) {
       setStartShowTimeError(true);
       setShowEndTimeError(false);
+      // setShowFilter(true);
     }
 
     const checkedOptions = filterCate
       .filter((v) => v.checked === true)
       .map((v) => v.value);
 
-    // 檢查是否所有篩選條件都沒有填寫
-    if (!checkedOptions.length && !selectedDayOfWeek && !start && !end) {
-      return;
-    }
     let query = {};
+
+    if (selectedCity) {
+      query.city = selectedCity;
+    }
+
+    if (selectedArea) {
+      query.area = selectedArea;
+    }
+
+    console.log(selectedCity);
+    console.log(selectedArea);
+
     if (checkedOptions.length > 0) {
       query.category = checkedOptions;
     }
@@ -199,6 +232,8 @@ export default function Restindex() {
     setDatePickerValue(null);
     setStartShowTimeError(false);
     setShowEndTimeError(false);
+    setSelectedCity(null);
+    setSelectedArea(null);
 
     // setStartTime('08:00');
 
@@ -223,7 +258,17 @@ export default function Restindex() {
   const toggleFilter = () => {
     setShowFilter(!showfilter);
   };
-
+  //checkbox相關的函式-------------------------------------------------------
+  const checkboxToggleHandler = (arr, name, id) => {
+    // 在點擊checkbox 的選擇，並更新狀態
+    const updatedCategorySid = arr.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    );
+    setFilters({
+      ...filters,
+      category: updatedCategorySid,
+    });
+  };
   //收藏列表相關的函式-------------------------------------------------------
   const openShowLikeList = () => {
     setShowLikeList(!showLikeList);
@@ -301,7 +346,70 @@ export default function Restindex() {
             </div>
             <div className="container-inner">
               <div className={Styles.filter_box}>
-                <LocationFilter text="用餐地區" />
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorBorder: '#DDDDDD',
+                      colorPrimary: '#FD8C46',
+                      colorBgContainer: 'rgba(255,255,255)',
+                      borderRadius: 10,
+                      controlHeight: 50,
+                      fontSize: 16,
+                      borderRadiusOuter: 10,
+                    },
+                  }}
+                >
+                  {/* <LocationFilter text={'用餐地點'} /> */}
+                  <div className={Styles.location_search_area}>
+                    <div className={Styles.category_area}>
+                      <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
+                      <label className={Styles.labels}>用餐地點</label>
+                    </div>
+                    <div className={Styles.dropdowns}>
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleCityClick}>
+                            {Object.keys(cities).map((city) => (
+                              <Menu.Item key={city}>{city}</Menu.Item>
+                            ))}
+                          </Menu>
+                        }
+                        className={Styles.city}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={Styles.dropdown_arrow}>
+                              {selectedCity ? selectedCity : '城市'}
+                            </p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleAreaClick}>
+                            {selectedCity &&
+                              cities[selectedCity].map((area) => (
+                                <Menu.Item key={area}>{area}</Menu.Item>
+                              ))}
+                          </Menu>
+                        }
+                        className={Styles.section}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={Styles.dropdown_arrow}>
+                              {selectedArea ? selectedArea : '地區'}
+                            </p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                    </div>
+                  </div>
+                </ConfigProvider>
                 <TimeDateFilter
                   startTime={startTime}
                   endTime={endTime}
@@ -309,6 +417,7 @@ export default function Restindex() {
                   handlerChange2={handlerChange2}
                   onDateChange={handleDatePickerChange}
                   value={datePickerValue}
+                  onBlur={handleBlur}
                   alert_start={
                     showStartTimeError && (
                       <p style={{ color: 'red' }}>
@@ -330,7 +439,7 @@ export default function Restindex() {
                 />
                 <RestaurantFilter
                   text="用餐類別"
-                  data={filters.categorySid}
+                  data={filters.category}
                   onChange={checkboxToggleHandler}
                 />
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import AuthContext from '@/context/AuthContext';
 import RestCard from '@/components/ui/cards/rest_card';
 import { DownOutlined } from '@ant-design/icons';
 import {
@@ -28,7 +29,6 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
-import LocationFilter from '@/components/ui/restaurant/LocationFilter';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
@@ -37,6 +37,7 @@ import orderByOptions from '@/data/restaurnt/orderby.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cityDatas from '@/data/restaurnt/location.json';
 import SearchBar from '@/components/ui/buttons/SearchBar';
+import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -55,6 +56,9 @@ export default function FilterPage() {
   //收藏清單------------------------------------------------------------
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
+
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [isClickingLike, setIsClickingLike] = useState(false);
 
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(15);
@@ -82,6 +86,26 @@ export default function FilterPage() {
 
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
+
+  const { auth, setAuth } = useContext(AuthContext);
+
+  const getData = async (obj = {}, token = '') => {
+    const usp = new URLSearchParams(obj);
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+
+    if (Array.isArray(data.rows)) {
+      setData(data);
+    }
+  };
 
   const handleCityClick = ({ key }) => {
     setSelectedCity(key);
@@ -186,6 +210,8 @@ export default function FilterPage() {
           console.error(error);
         });
     }
+
+    getData(router.query, auth.token);
     // if (Object.keys(router.query).length === 0) {
     //   console.log(router.query);
     //   fetch(`${process.env.API_SERVER}/restaurant-api/list`)
@@ -297,6 +323,29 @@ export default function FilterPage() {
     setShowKeywordDatas(false);
   };
 
+  const sendLikeList = (arr, token = '', isClickingLike = false) => {
+    // const usp = new URLSearchParams(obj);
+
+    if (!isClickingLike) {
+      console.log(JSON.stringify({ data: arr }));
+
+      // const res = await fetch(
+      //   `${process.env.API_SERVER}/shop-api/handle-like-list`,
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       Authorization: 'Bearer ' + token,
+      //     },
+      //     body: JSON.stringify({ data: arr }),
+      //   }
+      // );
+      // const data = await res.json();
+
+      // if (data.success) {
+      //   console.log(data);
+      // }
+    }
+  };
   //checkbox相關的函式-------------------------------------------------------
   const checkboxToggleHandler = (arr, name, id) => {
     // 在點擊checkbox 的選擇，並更新狀態
@@ -320,8 +369,7 @@ export default function FilterPage() {
     setEndTime(time);
   };
 
-  
-  //餐廳篩選條件
+  //輸入時間的框框是否成為焦點
   const handleBlur = () => {
     // 檢查是否填寫了開始時間和結束時間
     if (startTime && !endTime) {
@@ -478,6 +526,7 @@ export default function FilterPage() {
 
   return (
     <>
+
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
@@ -688,12 +737,7 @@ export default function FilterPage() {
             {showLikeList && (
               <Likelist
                 datas={likeDatas}
-                // customCard={
-                //   <ShopLikelistCard
-                //     datas={likeDatas}
-                //     removeLikeListItem={removeLikeListItem}
-                //   />
-                // }
+                customCard={<LikeListCard />}
                 closeHandler={closeShowLikeList}
                 // removeAllHandler={removeAllLikeList}
                 // removeLikeListItem={removeLikeListItem}
@@ -733,6 +777,7 @@ export default function FilterPage() {
               rule_names,
               service_names,
               average_friendly,
+              like,
             } = v;
 
             return (
@@ -746,6 +791,29 @@ export default function FilterPage() {
                   rule_names={rule_names}
                   service_names={service_names}
                   average_friendly={average_friendly}
+                  like={like}
+                  clickHandler={() => {
+                    setIsClickingLike(true);
+                    const newData = data.rows.map((v) => {
+                      if (v.rest_sid === rest_sid) {
+                        if (addLikeList.includes(rest_sid)) {
+                          setAddLikeList((preV) =>
+                            preV.filter((v2) => v2 !== rest_sid)
+                          );
+                        } else {
+                          setAddLikeList((preV) => [...preV, rest_sid]);
+                        }
+                        return { ...v, like: !v.like };
+                      } else return { ...v };
+                    });
+
+                    setData({ ...data, rows: newData });
+
+                    setTimeout(() => {
+                      setIsClickingLike(false);
+                    }, 5000);
+                    sendLikeList(addLikeList, auth.token, isClickingLike);
+                  }}
                 />
               </Col>
             );

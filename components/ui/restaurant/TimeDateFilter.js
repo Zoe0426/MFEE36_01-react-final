@@ -29,15 +29,6 @@ export default function TimeDateFilter({
   status_start,
   onBlur,
 }) {
-  const handleButtonClick = (e) => {
-    message.info('Click on left button.');
-    console.log('click left button', e);
-  };
-  const handleMenuClick = (e) => {
-    message.info('Click on menu item.');
-    console.log('click', e);
-  };
-
   const onChange = (date, dateString) => {
     onDateChange(date, dateString); // 直接傳遞選擇的日期給父元件
   };

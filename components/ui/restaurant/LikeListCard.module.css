@@ -1,0 +1,40 @@
+.card {
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.rest_img {
+  width: 100%;
+  height: 0;
+  padding-bottom: 64%;
+  background-color: bisque;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.rest_img img {
+  width: 100%;
+  height: auto;
+  transition: 0.5s;
+}
+.info {
+  width: 100%;
+}
+.rest_name{
+    margin-top: var(--p16);
+    margin-bottom: 10px;
+    font-size: var(--h5fs20);
+    font-weight: var(--fwbold);
+}
+.rest_location{
+    font-size: var(--pfs16);
+    color: #909090;
+}
+.rest_title{
+    display: flex;
+    margin-top: 8px;
+    align-items: center; 
+    justify-content: space-between; 
+}
