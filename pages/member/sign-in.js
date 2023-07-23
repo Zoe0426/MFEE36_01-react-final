@@ -9,13 +9,12 @@ import { useRouter } from 'next/router';
 export default function SignIn() {
   const { auth, setAuth } = useContext(AuthContext);
 
-
   //回去哪一頁的路徑
   const router = useRouter();
   const fromPath = router.query.from || '/';
+  const fromPath2 = router.asPath.split('from=')[1] || '/';
   console.log(fromPath);
-  console.log(router.query.from);
-
+  console.log({ mem: router.asPath.split('from=')[1] });
 
   //送出表單
   const handleSubmit = (values) => {
@@ -32,7 +31,7 @@ export default function SignIn() {
           localStorage.setItem('petauth', JSON.stringify(obj));
           setAuth(obj);
           // window.location.href = 'http://localhost:3000/member/wallet';
-          router.push(fromPath);
+          router.push(fromPath2);
         } else {
           alert(data.error || '帳密錯誤');
         }

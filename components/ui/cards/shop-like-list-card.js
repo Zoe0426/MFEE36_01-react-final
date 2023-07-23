@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 
 export default function ShopLikelistCard({
   datas = [], //需要渲染的陣列資料
+  token = '',
   removeLikeListItem = () => {}, //用來清除某一項蒐藏清單的函式
 }) {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function ShopLikelistCard({
             icon={faTrashCan}
             className={styles.trash_icon}
             onClick={() => {
-              removeLikeListItem(product_sid);
+              removeLikeListItem(product_sid, token);
             }}
           />
         </div>

@@ -4,6 +4,8 @@ import { faStar, faHeart } from '@fortawesome/free-solid-svg-icons';
 import RateStarPill from '../rateStar/RateStarPill';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Modal from '@/components/ui/modal/modal';
+import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 
 export default function ShopProductCard({
   product_sid = '',
@@ -15,16 +17,29 @@ export default function ShopProductCard({
   tag_display = false,
   sales_qty = 0,
   like = false,
+  token = '',
   clickHandler = () => {},
+  singinHandler = () => {},
 }) {
   const router = useRouter();
   return (
     <>
-      <FontAwesomeIcon
-        icon={faHeart}
-        className={`${styles.heart_icon} ${like && styles.active}`}
-        onClick={clickHandler}
-      />
+      {token ? (
+        <FontAwesomeIcon
+          icon={faHeart}
+          className={`${styles.heart_icon} ${like && styles.active}`}
+          onClick={clickHandler}
+        />
+      ) : (
+        <Modal
+          btnType="heart"
+          title="貼心提醒"
+          content={<ModoalReminder text="登入會員，才能收藏商品喔~" />}
+          mainBtnText="前往登入"
+          subBtnText="暫時不要"
+          confirmHandler={singinHandler}
+        />
+      )}
       <Link
         className={styles.normal_card}
         href={`http://localhost:3000/product/${product_sid}`}

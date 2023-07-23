@@ -14,11 +14,13 @@ import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
 import ProductFilter from '@/components/ui/shop/product-filter';
 import ProductInput from '@/components/ui/shop/product-input';
 
-/*引用的按鈕*/
+/*引用的按鈕+modal*/
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SearchBar from '@/components/ui/buttons/SearchBar1';
+import Modal from '@/components/ui/modal/modal';
+import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 
 /*引用的背景+icon+圖示*/
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
@@ -41,9 +43,18 @@ export default function List() {
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
   // const [memberJWT, setMemberJWT] = useState('');
+  const [datas, setDatas] = useState({
+    totalRows: 0,
+    perPage: 16,
+    totalPages: 0,
+    page: 1,
+    rows: [],
+  });
+
   const [addLikeList, setAddLikeList] = useState([]);
   const [isClickingLike, setIsClickingLike] = useState(false);
-
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
   //商品卡是否顯示總銷售數的tag
   const [showFlag, setShowFlag] = useState(false);
 
@@ -69,17 +80,6 @@ export default function List() {
   const [maxPrice, setMaxPrice] = useState(0);
   const [priceErrorText1, setPriceErrorText1] = useState('');
   const [priceErrorText2, setPriceErrorText2] = useState('');
-
-  const [datas, setDatas] = useState({
-    totalRows: 0,
-    perPage: 16,
-    totalPages: 0,
-    page: 1,
-    rows: [],
-  });
-
-  const [likeDatas, setLikeDatas] = useState([]);
-  const [showLikeList, setShowLikeList] = useState(false);
 
   //麵包屑寫得有點奇怪...
   const [breadCrubText, setBreadCrubText] = useState([
@@ -136,30 +136,6 @@ export default function List() {
     }
   };
 
-  const sendLikeList = (arr, token = '', isClickingLike = false) => {
-    // const usp = new URLSearchParams(obj);
-
-    if (!isClickingLike) {
-      console.log(JSON.stringify({ data: arr }));
-
-      // const res = await fetch(
-      //   `${process.env.API_SERVER}/shop-api/handle-like-list`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       Authorization: 'Bearer ' + token,
-      //     },
-      //     body: JSON.stringify({ data: arr }),
-      //   }
-      // );
-      // const data = await res.json();
-
-      // if (data.success) {
-      //   console.log(data);
-      // }
-    }
-  };
-
   useEffect(() => {
     getBrandKeywordData().then(() => {
       const { category } = router.query;
@@ -201,6 +177,7 @@ export default function List() {
       setOrderBy(selectedOrderBy.label);
     } else {
       setOrderBy('-- 請選擇 --');
+      setShowFlag(false);
     }
 
     if (minPrice) {
@@ -236,55 +213,165 @@ export default function List() {
         setFilters(copyFilters);
       }
     }
-    if (
-      (filtersReady || first) &&
-      auth.token
-      // &&
-      // Object.keys(router.query).length !== 0
-    ) {
-      console.log({ 1: router.query });
 
-      // setMemberJWT(auth.token);
-      getData(router.query, auth.token);
+    if (filtersReady || first) {
+      if (auth.token) {
+        getData(router.query, auth.token);
+      } else {
+        getData(router.query);
+      }
     }
+
     // if (filtersReady && auth.token && first) {
     //   setMemberJWT(auth.token);
     //   getData(router.query, memberJWT);
     // }
   }, [router.query, filtersReady, first]);
 
-  //收藏列表相關的函式-------------------------------------------------------
-  const toggleLikeList = () => {
-    setShowLikeList(!showLikeList);
+  //監看點擊愛心收藏的相關控制
+  useEffect(() => {
+    if (!isClickingLike && addLikeList.length > 0) {
+      sendLikeList(addLikeList, auth.token).then(() => {
+        //在成功送資料到後端後重置addLikeList
+        setAddLikeList([]);
+      });
+    }
+  }, [isClickingLike, addLikeList]);
+
+  //若未登入會員而點擊收藏，要跳轉至會員登入
+  const toSingIn = () => {
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=http://localhost:3000/product/list?${new URLSearchParams(
+        from
+      ).toString()}`
+    );
   };
 
-  const removeAllLikeList = () => {
-    if (likeDatas.length > 0) {
-      setLikeDatas([]);
-      //這邊需要再修改，要看怎麼得到會員的編號
-      removeLikeListToDB('all', 'mem00002');
+  //卡片愛心收藏的相關函式-------------------------------------------------------
+  const clickHeartHandler = (id) => {
+    setIsClickingLike(true);
+    const timeClick = new Date().getTime();
+    const newData = datas.rows.map((v) => {
+      if (v.product_sid === id) {
+        const insideInLikeList = addLikeList.find(
+          (item) => item.product_sid === id
+        );
+        if (insideInLikeList) {
+          setAddLikeList((preV) => preV.filter((v2) => v2.product_sid !== id));
+        } else {
+          setAddLikeList((preV) => [
+            ...preV,
+            { product_sid: id, time: timeClick },
+          ]);
+        }
+        return { ...v, like: !v.like };
+      } else return { ...v };
+    });
+    setDatas({ ...datas, rows: newData });
+    setTimeout(() => {
+      setIsClickingLike(false);
+    }, 3000);
+  };
+
+  //將資料送到後端
+  const sendLikeList = async (obj, token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/shop-api/handle-like-list`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: obj }),
+      }
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      console.log(data);
     }
   };
 
-  const removeLikeListItem = (pid) => {
+  //收藏列表相關的函式-------------------------------------------------------
+  //取得蒐藏列表資料
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/shop-api/show-like-list`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+    }
+  };
+
+  //控制展開收藏列表
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    console.log(newShowLikeList);
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      //將列表顯示為空的
+      setLikeDatas([]);
+      //將畫面上的愛心清除
+      const newData = datas.rows.map((v) => {
+        return { ...v, like: false };
+      });
+      setDatas({ ...datas, rows: newData });
+      //將請求送到後端作業
+      removeLikeListToDB('all', token);
+    }
+  };
+
+  // 刪除單一收藏
+  const removeLikeListItem = (pid, token = '') => {
+    //將列表該項目刪除
     const newLikeList = likeDatas.filter((arr) => {
       return arr.product_sid !== pid;
     });
-
     setLikeDatas(newLikeList);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB(pid, 'mem00002');
+    //將若取消的為畫面上的，則須將愛心清除
+    const newData = datas.rows.map((v) => {
+      if (v.product_sid === pid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+    setDatas({ ...datas, rows: newData });
+    //將請求送到後端作業
+    removeLikeListToDB(pid, token);
   };
 
-  const removeLikeListToDB = async (pid = '', mid = '') => {
+  //將刪除收藏的請求送到後端作業
+  const removeLikeListToDB = async (pid = '', token = '') => {
     try {
       const removeAll = await fetch(
-        `${process.env.API_SERVER}/shop-api/likelist/${pid}/${mid}`,
+        `${process.env.API_SERVER}/shop-api/likelist/${pid}`,
         {
           method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
         }
       );
-
       const result = await removeAll.json();
       console.log(JSON.stringify(result, null, 4));
       if (pid === 'all') {
@@ -602,15 +689,29 @@ export default function List() {
               }}
             />
           </div>
-
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
             <div className={styles.btns}>
-              <IconBtn
-                icon={faHeart}
-                text={'收藏列表'}
-                clickHandler={toggleLikeList}
-              />
+              {auth.token ? (
+                <IconBtn
+                  icon={faHeart}
+                  text={'收藏列表'}
+                  clickHandler={toggleLikeList}
+                />
+              ) : (
+                <Modal
+                  btnType="iconBtn"
+                  btnText="收藏列表"
+                  title="貼心提醒"
+                  content={
+                    <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
+                  }
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                  icon={faHeart}
+                />
+              )}
               <IconBtn
                 icon={faFilter}
                 text={'進階篩選'}
@@ -625,17 +726,18 @@ export default function List() {
                 customCard={
                   <ShopLikelistCard
                     datas={likeDatas}
+                    token={auth.token}
                     removeLikeListItem={removeLikeListItem}
                   />
                 }
                 closeHandler={toggleLikeList}
-                removeAllHandler={removeAllLikeList}
-                removeLikeListItem={removeLikeListItem}
+                removeAllHandler={() => {
+                  removeAllLikeList(auth.token);
+                }}
               />
             )}
           </div>
           <div className={styles.filter_box}>
-            {/* 要記得補上onChange的function給子元件 */}
             {showfilter && (
               <>
                 <ProductFilter
@@ -755,28 +857,11 @@ export default function List() {
                     tag_display={showFlag}
                     sales_qty={sales_qty}
                     like={like}
+                    token={auth.token}
                     clickHandler={() => {
-                      setIsClickingLike(true);
-                      const newData = datas.rows.map((v) => {
-                        if (v.product_sid === product_sid) {
-                          if (addLikeList.includes(product_sid)) {
-                            setAddLikeList((preV) =>
-                              preV.filter((v2) => v2 !== product_sid)
-                            );
-                          } else {
-                            setAddLikeList((preV) => [...preV, product_sid]);
-                          }
-                          return { ...v, like: !v.like };
-                        } else return { ...v };
-                      });
-
-                      setDatas({ ...datas, rows: newData });
-
-                      setTimeout(() => {
-                        setIsClickingLike(false);
-                      }, 5000);
-                      sendLikeList(addLikeList, auth.token, isClickingLike);
+                      clickHeartHandler(product_sid);
                     }}
+                    singinHandler={toSingIn}
                   />
                 </Col>
               );

@@ -43,7 +43,8 @@
   /*收藏的內文*/
 
   .like_content_box{
-    height:80%;
+    /* height:80%; */
+    height: 100%;
     flex:1;
     display: flex;
     flex-direction: column;
@@ -52,14 +53,16 @@
   }
 
   .like_title{
-    font-size: var(--h5fs20);
-    font-weight: var(--fwbold);
+    font-size: var(--h6fs18);
+    /* font-weight: var(--fwbold); */
+    line-height: 1.4;
     flex:1;
   
   }
 
   .like_detail{
     font-size:var( --h6fs18) ;
+    /* font-weight: var(--fwbold); */
   }
 
 
