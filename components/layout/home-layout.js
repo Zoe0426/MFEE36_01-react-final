@@ -1,11 +1,11 @@
-import HomeNavbar from './home-navbar';
+import Navbar from './navbar';
 import Footer from './footer';
 
 export default function HomeLayout({ children }) {
   return (
     <>
       <div className="container-outer">
-        <HomeNavbar />
+        <Navbar type="home" />
         <main>{children}</main>
         <Footer />
       </div>

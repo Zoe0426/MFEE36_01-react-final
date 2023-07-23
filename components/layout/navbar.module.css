@@ -8,14 +8,13 @@
   background-color: var(--light2);
   box-shadow: var(--shadow);
 }
-
-/* 根據classTitle傳入參數決定rwd順序 */
-.bigNone{
-  display: none;
+.homeHeader {
+  width: 100%;
+  padding-top: var(--p24);
+  padding-bottom: var(--p16);
 }
 
 .navbar {
-  /* border: 1px solid purple; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24,7 +23,13 @@
   padding: 10px;
   margin: 0 auto;
 }
-
+.homeNavbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  margin: 0 auto;
+}
 .logoMenu {
   display: flex;
   min-width: 100px;
@@ -33,6 +38,9 @@
 
 .logo{
   width: 85px;
+}
+.homeLogo{
+  width: 90px;
 }
 
 .linkMenu{
@@ -70,7 +78,6 @@
 }
 
 .link:hover{
-  /* background-color: var(--lightBrown); */
   font-size: 20px;
   font-weight: bold;
 }
@@ -80,7 +87,7 @@
   min-width: 115px;
   width: 15%;
   justify-content: flex-end;
-  /* border: 1px solid green; */
+
 }
 
 .cartBtn{
@@ -125,17 +132,29 @@
 .alertbox p{
   cursor: pointer;
   font-size: var(--pfs16);
+  z-index: 100;
 }
 .alertbox p:hover{
   color: var(--dark);
   font-weight: bold;
 }
+
 .memBtn{
   position: relative;
   border-radius: 50%;
 
 }
+.profileBtn{
+  border-radius: 50%;
+}
+.profileImg{
+  width: 40px; 
+  height: 40px; 
+  border-radius: 50%;
+  border: 1px solid var(--secondary);
+}
 .memList{
+  z-index: 100;
   position: absolute;
   right: 0;
   top: 45px;
@@ -170,18 +189,23 @@
   .header{
     padding-bottom: 0;
   }
-
-  .bigNone{
-    display: block;
+  .homeHeader{
+    padding-bottom: 0;
   }
-
   .navbar {
     justify-content: space-between;
     padding: 10px;
     width: 100%;
   }
-
+  .homeNavbar {
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+  }
   .logo{
+    width: 60px;
+  }
+  .homeLogo{
     width: 60px;
   }
 
@@ -268,26 +292,30 @@
 
   .cartBtn{
   margin-right: 0.7rem;
-}
+  }
 
-.cartItemNum{
-  position: absolute;
-  bottom: -3px;
-  left: 25px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background-color: var(--heartRed); 
-  cursor: pointer;
-}
-.cartItemNum p{
-  line-height: 14px;
-  text-align: center;
-  width: 16px;
-  font-size: 8px;
-  font-weight: bold;
-  color: white;
-  /* pointer-events: none; */
-  cursor: pointer;
-}
+  .cartItemNum{
+    position: absolute;
+    bottom: -3px;
+    left: 25px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--heartRed); 
+    cursor: pointer;
+  }
+  .cartItemNum p{
+    line-height: 14px;
+    text-align: center;
+    width: 16px;
+    font-size: 8px;
+    font-weight: bold;
+    color: white;
+    /* pointer-events: none; */
+    cursor: pointer;
+  }
+  .profileImg{
+    width: 30px; 
+    height: 30px; 
+  }
 }

@@ -5,13 +5,15 @@ import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
 import NavRoundBtn from '../ui/buttons/NavRoundBtn';
 import CloseBtn from '../ui/buttons/closeBtn';
-export default function Navbar({ classTitle }) {
+
+export default function Navbar({ type = '' }) {
   const { auth, logout } = useContext(AuthContext);
   const router = useRouter();
   const [cartItemAmount, setCartItemAmount] = useState(0);
   const [showMemList, setShowMemList] = useState(false);
   const [showCartBox, setShowCartBox] = useState(false);
-  const [memProfileImg, setMemProfileImg] = useState('');
+  const [showLoginBox, setShowLoginBox] = useState(false);
+  const [memProfileImg, setMemProfileImg] = useState('/product-img/pro001.jpg');
   const [login, setLogin] = useState(false);
   const getCartTotalItems = async (id) => {
     const r = await fetch(`${process.env.API_SERVER}/cart-api/count-item`, {
@@ -29,7 +31,17 @@ export default function Navbar({ classTitle }) {
       headers: { 'Content-Type': 'application/json' },
     });
     const memImg = await r.json();
-    setMemProfileImg(memImg.profile);
+    if (memImg.profile) {
+      setMemProfileImg(memImg.profile);
+    } else {
+      setMemProfileImg('/product-img/pro001.jpg');
+    }
+  };
+  const signOut = () => {
+    logout();
+    setShowMemList(false);
+    setCartItemAmount(0);
+    setLogin(false);
   };
 
   useEffect(() => {
@@ -40,10 +52,7 @@ export default function Navbar({ classTitle }) {
     }
   }, [auth]);
 
-  //若有2. 要改頭相
-  //mem btn on click, 開關選項
-  //登出狀態＝》選項（登入）
-  //登入狀態＝》選項（登出/前往會員頁面）
+  //======redirect======
   const redirectToCart = () => {
     if (auth.token) {
       router.push('/cart');
@@ -51,39 +60,45 @@ export default function Navbar({ classTitle }) {
       setShowCartBox(true);
     }
   };
-  const memberBtnhandler = () => {
-    setShowMemList(!showMemList);
-  };
   const toMemberCenter = () => {
     router.push('/member/orderlist');
+  };
+  const toSigninPage = () => {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=${from}`);
   };
   const signIntoCart = () => {
     router.push('/cart');
   };
-  const signOut = () => {
-    logout();
-    setShowMemList(false);
-    setCartItemAmount(0);
-    setLogin(false);
-  };
+
+  //=====toggle roundBtn boxes=====
   const closeCartLoginBox = () => {
     setShowCartBox(false);
+  };
+  const closeLoginBox = () => {
+    setShowLoginBox(false);
+  };
+  const toggleLoginBox = () => {
+    setShowLoginBox(!showLoginBox);
+  };
+  const toggleMemList = () => {
+    setShowMemList(!showMemList);
   };
   return (
     <>
       <header
-        className={`${Styles.header} ${
-          classTitle === 'bigNone' ? Styles.bigNone : ''
-        }`}
+        className={`${type === 'home' ? Styles.homeHeader : Styles.header}`}
       >
-        <nav className={Styles.navbar}>
+        <nav
+          className={`${type === 'home' ? Styles.homeNavbar : Styles.navbar}`}
+        >
           <div className={Styles.logoMenu}>
             <button className={Styles.navbarToggler}>
               <div className={Styles.line}></div>
             </button>
             <Link href="/">
               <img
-                className={Styles.logo}
+                className={`${type === 'home' ? Styles.homeLogo : Styles.logo}`}
                 src="/layout-images/h-logo.svg"
                 alt=""
               />
@@ -131,11 +146,28 @@ export default function Navbar({ classTitle }) {
             </div>
 
             <div className={Styles.memBtn}>
-              <NavRoundBtn
-                icon="/layout-images/h-user.png"
-                clickHandler={memberBtnhandler}
-              ></NavRoundBtn>
-              {login && showMemList && (
+              {!login && (
+                <NavRoundBtn
+                  icon="/layout-images/h-user.png"
+                  clickHandler={toggleLoginBox}
+                ></NavRoundBtn>
+              )}
+              {showLoginBox && (
+                <div className={Styles.alertbox}>
+                  <p onClick={toSigninPage}>登入</p>
+                  <CloseBtn closeHandler={closeLoginBox} />
+                </div>
+              )}
+              {login && (
+                <div className={Styles.profileBtn} onClick={toggleMemList}>
+                  <img
+                    src={memProfileImg}
+                    alt="profilePic"
+                    className={Styles.profileImg}
+                  />
+                </div>
+              )}
+              {showMemList && (
                 <div className={Styles.memList}>
                   <div className={Styles.memListBtn} onClick={toMemberCenter}>
                     會員中心
@@ -145,10 +177,6 @@ export default function Navbar({ classTitle }) {
                   </div>
                 </div>
               )}
-              <div className={Styles.alertbox}>
-                <p onClick={signIntoCart}>登入</p>
-                <CloseBtn closeHandler={closeCartLoginBox} />
-              </div>
             </div>
           </div>
         </nav>
