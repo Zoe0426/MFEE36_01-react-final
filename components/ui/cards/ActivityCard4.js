@@ -36,20 +36,24 @@ const ActivityCard4 = ({
     setIsLiked(isInLikeList);
   }, [isInLikeList]);
 
+
   const handleLikeIconClick = (e) => {
     e.preventDefault();
-    handleLikeClick(activity_sid); // Call the handleLikeClick function with the activity_sid
-    setIsLiked((prevIsLiked) => !prevIsLiked); // Toggle the like state directly in the click handler
+    if (isLiked) {
+      removeItemFromLikeList();
+    } else {
+      addItemToLikeList();
+    }
   };
 
   const addItemToLikeList = () => {
     setIsLiked(true);
-    handleLikeClick(activity_sid); // Notify the parent component about the like action
+    handleLikeClick(activity_sid, true); 
   };
 
   const removeItemFromLikeList = () => {
     setIsLiked(false);
-    handleLikeClick(activity_sid); // Notify the parent component about the unlike action
+    handleLikeClick(activity_sid, false); 
   };
 
   return (
