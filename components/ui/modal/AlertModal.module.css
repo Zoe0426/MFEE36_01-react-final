@@ -43,6 +43,7 @@
   text-align: center;
   padding-bottom: 16px;
   border-bottom: 1px solid rgb(203, 203, 203);
+
 }
 .modal_content{
   padding: var(--p16);

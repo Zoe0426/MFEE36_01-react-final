@@ -112,7 +112,10 @@ export default function Schedule() {
         <ul className={Styles.events}>
           {listData.map((item, index) => (
             <li key={index} onClick={() => info(item)}>
-              <Badge status={item.type} className={Styles.badge} />
+              <Badge
+                status={item.type}
+                className={Styles.badge}
+              />
               <AlertModal
                 btnType="text"
                 btnText={item.content}
