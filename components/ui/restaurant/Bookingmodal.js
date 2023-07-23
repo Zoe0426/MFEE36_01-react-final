@@ -16,8 +16,15 @@ export default function BookingModal() {
 
   return (
     <>
-      <MainBtn clickHandler={toggleModal} text="預約的時間區塊" />
-
+      {/* <MainBtn clickHandler={toggleModal} text="預約的時間區塊" /> */}
+      <div className={Styles.time_section}>
+        <div className={Styles.booking_card} onClick={toggleModal}>
+          <div className={Styles.time_range}>10:00~12:00</div>
+          <div className={Styles.rest_people}>
+            剩餘<p className={Styles.rest_num}>12</p>人
+          </div>
+        </div>
+      </div>
       {modal && (
         <>
           <div onClick={toggleModal} className={Styles.overlay}></div>

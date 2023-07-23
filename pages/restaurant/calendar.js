@@ -1,91 +1,144 @@
-// export default App
 import { useState } from 'react';
+import Styles from './calendar.module.css';
+import BookingModal from '@/components/ui/restaurant/BookingModal';
+import IconBtn from '@/components/ui/buttons/IconBtn';
+import { Col, Row } from 'antd';
+import {
+  faHeart,
+  faArrowLeft,
+  faArrowRight,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-// chunk - 依size分成子陣列，ex. chunk([1, 2, 3, 4, 5], 2) -> [[1,2],[3,4],[5]]
-// https://stackoverflow.com/questions/8495687/split-array-into-chunks
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
     arr.slice(i * size, i * size + size)
   );
-//console.log(chunk([1, 2, 3, 4, 5], 2));
 
-function App() {
-  const [myYear, setMyYear] = useState(2023);
-  const [myMonth, setMyMonth] = useState(7);
+function WeekCalendar() {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [currentWeek, setCurrentWeek] = useState(0);
 
-  // 一開始未選中日期
-  const [myDate, setMyDate] = useState(0);
-
-  // 呈現yearAndMonth
   const now = new Date();
-
-  // 要得到今天的西元年使用Date物件的getFullYear()，要得到月份使用getMonth()(注意回傳為 0~11)
-  const nowY = myYear ? myYear : now.getFullYear();
-
-  // nowM =1-12
-  const nowM = myMonth ? myMonth : now.getMonth() + 1; //注意回傳為 0~11
-
-  // 呈現標題
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  const currentDay = now.getDate();
   const weekDayList = ['日', '一', '二', '三', '四', '五', '六'];
 
-  // 本月有幾天
-  // (上個月的最後一天是幾號)
-  const days = new Date(nowY, nowM, 0).getDate();
-
-  // 這個月的第一天是星期幾(0-6) (月份為0-11)
-  const firstDay = new Date(nowY, nowM - 1, 1).getDay();
-
-  // 本月所有日期的陣列資料
   const daysDataArray = [];
-
-  // 補前面的空白資料
-  for (let i = 0; i < firstDay; i++) {
-    daysDataArray.push('');
+  for (let i = 1; i <= 7; i++) {
+    const date = new Date(
+      currentYear,
+      currentMonth,
+      currentDay + currentWeek * 7 + i
+    );
+    daysDataArray.push({
+      date: date.getDate(),
+      dayOfWeek: weekDayList[date.getDay()],
+      month: date.getMonth() + 1,
+    });
   }
 
-  // 加入本月所有的日期資料
-  for (let i = 0; i < days; i++) {
-    daysDataArray.push(i + 1);
-  }
+  const goToPreviousWeek = () => {
+    setCurrentWeek((prevWeek) => prevWeek - 1);
+  };
 
-  // 準備要呈現在網頁上
-  const daysDisplayArray = chunk(daysDataArray, 7);
+  const goToNextWeek = () => {
+    setCurrentWeek((prevWeek) => prevWeek + 1);
+  };
 
   return (
-    <>
-      <h1>日曆</h1>
-      <h2 id="yearAndMonth">{nowY + '/' + nowM}</h2>
-      <table border="1">
-        <thead id="title">
-          <tr>
-            {weekDayList.map(function (v, i) {
-              return <th key={i}>{v}</th>;
-            })}
-          </tr>
-        </thead>
-        <tbody id="data">
-          {daysDisplayArray.map((v, i) => {
-            return (
-              <tr key={i}>
-                {v.map((item, idx) => (
-                  <td key={idx}>
-                    <a
-                      href="#/"
-                      onClick={() => {
-                        setMyDate(item);
-                      }}
-                    >
-                      {item}
-                    </a>
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </>
+    <div>
+      <div className={Styles.abc}>
+        <div className="container-inner">
+          <div className={Styles.bgc}>
+            <div className="breadcrumb">餐廳列表/我們家有農場</div>
+            <IconBtn icon={faHeart} text="收藏列表" />
+          </div>
+        </div>
+      </div>
+      <div className="container-inner">
+        <h1 className={Styles.timetable}>我們的家休閒農場預約時間表</h1>
+      </div>
+      <div className="container-inner">
+        <div className={Styles.week_calendar}>
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            className={Styles.arrow_left}
+            onClick={goToPreviousWeek}
+          />
+          <div className={Styles.dates_container}>
+            {daysDataArray.map((item, idx) => (
+              <div key={idx} className={Styles.date}>
+                <p
+                  onClick={() => {
+                    setSelectedDate(item.date);
+                  }}
+                >
+                  {item.month}/{item.date}({item.dayOfWeek})
+                </p>
+              </div>
+            ))}
+          </div>
+          {/* <div>{selectedDate && <p>你選擇的日期是：{selectedDate}日</p>}</div> */}
+          <FontAwesomeIcon
+            icon={faArrowRight}
+            className={Styles.arrow_right}
+            onClick={goToNextWeek}
+          />
+        </div>
+
+        {/* 時間的部分 */}
+        <div className="container-inner">
+          <BookingModal />
+          <div className={Styles.time_section}>
+            <div className={Styles.booking_card}>
+              <div className={Styles.time_range}>10:00~12:00</div>
+              <div className={Styles.rest_people}>
+                剩餘<p className={Styles.rest_num}>12</p>人
+              </div>
+            </div>
+            <div className={Styles.booking_card}>
+              <div className={Styles.time_range}>10:00~12:00</div>
+              <div className={Styles.rest_people}>
+                剩餘<p className={Styles.rest_num}>12</p>人
+              </div>
+            </div>
+            <div className={Styles.booking_card}>
+              <div className={Styles.time_range}>10:00~12:00</div>
+              <div className={Styles.rest_people}>
+                剩餘<p className={Styles.rest_num}>12</p>人
+              </div>
+            </div>
+            <div className={Styles.booking_card}>
+              <div className={Styles.time_range}>10:00~12:00</div>
+              <div className={Styles.rest_people}>
+                剩餘<p className={Styles.rest_num}>12</p>人
+              </div>
+            </div>
+            <div className={Styles.booking_card}>
+              <div className={Styles.time_range}>10:00~12:00</div>
+              <div className={Styles.rest_people}>
+                剩餘<p className={Styles.rest_num}>12</p>人
+              </div>
+            </div>
+            <div className={Styles.booking_card}>
+              <div className={Styles.time_range}>10:00~12:00</div>
+              <div className={Styles.rest_people}>
+                剩餘<p className={Styles.rest_num}>12</p>人
+              </div>
+            </div>
+            <div className={Styles.booking_card}>
+              <div className={Styles.time_range}>10:00~12:00</div>
+              <div className={Styles.rest_people}>
+                剩餘<p className={Styles.rest_num}>12</p>人
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default App;
+export default WeekCalendar;

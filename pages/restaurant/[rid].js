@@ -41,12 +41,17 @@ export default function RestInfo() {
     serviceRows: [],
     commentRows: [],
     activityRows: [],
+    likeDatas: [],
+    menuRows: [],
   });
   const [imageRows, setImageRows] = useState([]);
   const [ruleRows, setRuleRows] = useState([]);
   const [serviceRows, setServiceRows] = useState([]);
   const [commentRows, setCommentRows] = useState([]);
   const [activityRows, setActivityRows] = useState([]);
+
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [menuRows, setMenuRows] = useState([]);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -68,6 +73,8 @@ export default function RestInfo() {
             serviceRows,
             commentRows,
             activityRows,
+            likeDatas,
+            menuRows,
           } = data;
 
           // 更新 React 組件的狀態
@@ -82,6 +89,12 @@ export default function RestInfo() {
             setRuleRows(ruleRows);
           }
 
+          if (menuRows && menuRows.length > 0) {
+            setMenuRows(menuRows);
+          }
+
+   
+          console.log(menuRows);
           // if (imageRows && imageRows.length > 0) {
           //   setImageRows(imageRows);
           // }
@@ -281,7 +294,7 @@ export default function RestInfo() {
             {/* button */}
             <div className={Styles.detail_main_buttom}>
               <IconSeconBtn icon={faHeart} text="收藏餐廳" />
-              <ImageGallary />
+              <ImageGallary data={menuRows} />
               <IconMainBtn
                 icon={faCalendar}
                 text="我要預約"

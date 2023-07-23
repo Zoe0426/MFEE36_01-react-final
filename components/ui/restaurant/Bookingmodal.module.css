@@ -1,12 +1,46 @@
+.time_range {
+  margin-bottom: 12px;
+}
+.booking_card {
+  background-color: #fff;
+  padding: 24px 32px;
+  border-radius: 8px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--pfs14);
+  border: 1px solid var(--light-gray);
+  cursor: pointer;
+}
+.time_section {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.time_range {
+  font-weight: var(--fwbold);
+}
+.rest_people {
+  display: flex;
+  align-items: center;
+}
+.rest_num {
+  font-size: var(--h6fs18);
+  color: var(--main);
+  margin: 0 6px;
+}
+
 .overlay {
   z-index: 999;
   background: rgba(49, 49, 49, 0.6);
 }
-.modal {
+/* .modal {
   z-index: 9999;
   font-size: var(--pfs16);
-}
-.modal,
+} */
+
 .overlay {
   width: 100vw;
   height: 100vh;
@@ -18,6 +52,8 @@
 }
 
 .modal_card {
+  z-index: 9999;
+  font-size: var(--pfs16);
   position: absolute;
   width: 60%;
   top: 40%;

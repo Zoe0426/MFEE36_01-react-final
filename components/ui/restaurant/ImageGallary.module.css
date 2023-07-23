@@ -1,9 +1,10 @@
 .overlay {
   z-index: 999;
   background: rgba(49, 49, 49, 0.6);
+
 }
 
-.overlay,.slider {
+.overlay {
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -13,19 +14,33 @@
   position: fixed;
 }
 
-.slider{
+.slider {
+  /* ... */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: center; /* 將內容置中 */
+  justify-content: center; /* 將內容置中 */
+  position: absolute;
+  width: 60%;
+  top: 2%;
+  left: 20%; /* 調整置中的位置 */
   z-index: 9999;
-  /* pointer-events: none;  */
+}
+
+.image_container {
+
+  flex: 1; /* 讓圖片佔滿剩餘空間 */
+  display: flex;
+  align-items: center; /* 將圖片置中 */
+  justify-content: center; /* 將圖片置中 */
 }
 
 .image {
-  width: auto;
-  height: 900px
+  /* ... */
+  max-height: 900px; /* 使用 max-height 避免圖片變形 */
+  max-width: 100%; /* 使用 max-width 避免圖片變形 */
 }
-.xmark{
+
+/* .xmark{
   color: white;
   position: absolute;
   right: 22%;
@@ -34,12 +49,13 @@
   cursor: pointer;
   user-select: none;
   opacity: 0.8;
-}
+} */
 
 .right_arrow {
   color: white;
   position: absolute;
-  right: 15%;
+  right: -20%;
+  top: 40%;
   font-size: 2.75rem;
   z-index: 10;
   cursor: pointer;
@@ -59,7 +75,8 @@
 .left_arrow {
   color: white;
   position: absolute;
-  left: 15%;
+  left: -20%;
+  top: 40%;
   font-size: 2.75rem;
   z-index: 10;
   cursor: pointer;

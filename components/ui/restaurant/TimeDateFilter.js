@@ -32,6 +32,7 @@ export default function TimeDateFilter({
   const onChange = (date, dateString) => {
     onDateChange(date, dateString); // 直接傳遞選擇的日期給父元件
   };
+
   const format = 'HH:mm';
 
   return (
@@ -40,6 +41,7 @@ export default function TimeDateFilter({
       theme={{
         token: {
           colorBorder: '#DDDDDD',
+          colorLink: '#FD8C46',
           colorPrimary: '#FD8C46',
           colorBgContainer: 'rgba(255,255,255)',
           borderRadius: 10,
@@ -112,26 +114,6 @@ export default function TimeDateFilter({
             </div>
           </div>
         </div>
-
-        {/* <div className={Styles.input_section}>
-          <input
-            className={Styles.input_frame}
-            type="time"
-            placeholder="開始時間"
-            id="startTimeInput"
-            value={startTime}
-            onChange={handlerChange1}
-          />
-          <p className={Styles.to}>~</p>
-          <input
-            className={Styles.input_frame}
-            type="time"
-            placeholder="結束時間"
-            id="endTimeInput"
-            value={endTime}
-            onChange={handlerChange2}
-          />
-        </div> */}
       </div>
     </ConfigProvider>
   );

@@ -78,7 +78,7 @@ export default function FilterPage() {
 
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-
+  const [errorMsg, setErrorMsg] = useState();
   const [datePickerValue, setDatePickerValue] = useState(null);
 
   const [showStartTimeError, setStartShowTimeError] = useState(false);
@@ -375,17 +375,25 @@ export default function FilterPage() {
     if (startTime && !endTime) {
       setStartShowTimeError(false);
       setShowEndTimeError(true);
-      setShowFilter(true);
     } else if (!startTime && endTime) {
       setStartShowTimeError(true);
       setShowEndTimeError(false);
-      setShowFilter(true);
     } else if (startTime && endTime) {
-      setStartShowTimeError(false); // 將開始時間警告框框隱藏
-      setShowEndTimeError(false); // 將結束時間警告框框隱藏
-    } else if (!startTime && !endTime) {
-      setStartShowTimeError(false); // 將開始時間警告框框隱藏
-      setShowEndTimeError(false); // 將結束時間警告框框隱藏
+      // 如果開始時間和結束時間相同，顯示相同時間錯誤提示訊息
+      if (startTime === endTime) {
+        setStartShowTimeError(true);
+        setShowEndTimeError(true);
+        setErrorMsg('不可填寫相同時間');
+      } else {
+        setStartShowTimeError(false);
+        setShowEndTimeError(false);
+        setErrorMsg(null);
+      }
+    } else {
+      // 時間填寫正確，清除錯誤提示訊息
+      setStartShowTimeError(false);
+      setShowEndTimeError(false);
+      setErrorMsg(null);
     }
   };
 
@@ -408,13 +416,33 @@ export default function FilterPage() {
     if (startTime && !endTime) {
       setStartShowTimeError(false);
       setShowEndTimeError(true);
-      // setShowFilter(true);
+      setShowFilter(true);
     } else if (!startTime && endTime) {
       setStartShowTimeError(true);
       setShowEndTimeError(false);
-      // setShowFilter(true);
+      setShowFilter(true);
+    } else if (startTime && endTime) {
+      // 如果開始時間和結束時間相同，顯示相同時間錯誤提示訊息
+      if (startTime === endTime) {
+        setStartShowTimeError(true);
+        setShowEndTimeError(true);
+        setErrorMsg('不可填寫相同時間');
+      } else {
+        setStartShowTimeError(false);
+        setShowEndTimeError(false);
+        setErrorMsg(null);
+      }
+    } else {
+      // 時間填寫正確，清除錯誤提示訊息
+      setStartShowTimeError(false);
+      setShowEndTimeError(false);
+      setErrorMsg(null);
     }
 
+    //如果有錯誤訊息就不送出篩選
+    if (errorMsg && showStartTimeError && showEndTimeError) {
+      return;
+    }
     const checkedOptions = filterCate
       .filter((v) => v.checked === true)
       .map((v) => v.value);
@@ -449,7 +477,7 @@ export default function FilterPage() {
     // console.log(checkedOptions);
 
     //收起篩選區域
-    setShowFilter(false);
+    //setShowFilter(false);
     router.push(
       `?${new URLSearchParams({
         ...query,
@@ -526,7 +554,6 @@ export default function FilterPage() {
 
   return (
     <>
-
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
@@ -702,7 +729,7 @@ export default function FilterPage() {
                     showStartTimeError && (
                       <p style={{ color: 'red' }}>
                         <FontAwesomeIcon icon={faCircleExclamation} />{' '}
-                        請填寫開始時間
+                        {errorMsg || '請填寫開始時間'}
                       </p>
                     )
                   }
@@ -712,7 +739,7 @@ export default function FilterPage() {
                     showEndTimeError && (
                       <p style={{ color: 'red' }}>
                         <FontAwesomeIcon icon={faCircleExclamation} />{' '}
-                        請填寫結束時間
+                        {errorMsg || '請填寫結束時間'}
                       </p>
                     )
                   }
