@@ -10,6 +10,8 @@ export default function Modal({
   mainBtnText = '確認', //確認btn的文字
   subBtnText = '取消', //取消btn的文字
   content = <></>,
+  name,
+  notice,
   confirmHandler = () => {},
 }) {
   const [modal, setModal] = useState(false);
@@ -38,8 +40,8 @@ export default function Modal({
           <div onClick={toggleModal} className={Styles.overlay}></div>
           <div className={Styles.modal}>
             <div className={Styles.modal_card}>
-              <h2 className={Styles.modal_title}>{title}</h2>
-              <div className={Styles.modal_content}>{content}</div>
+              <h2 className={Styles.modal_title}>{name}</h2>
+              <div className={Styles.modal_content}>{notice}</div>
 
               <div className={Styles.line}></div>
               <div className={Styles.btn_group}>
