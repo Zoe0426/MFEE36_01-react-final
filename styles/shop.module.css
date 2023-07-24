@@ -1,11 +1,10 @@
-.container_outer_shop{
-	min-height: 100%;
-	position: relative;
+.container_outer_shop {
+  min-height: 100%;
+  position: relative;
   max-width: 1920px;
   /* overflow-x: hidden; */
   margin: auto;
 }
-
 
 .bgc_lightBrown {
   background-color: var(--lightBrown);
@@ -16,7 +15,6 @@
   padding: var(--p32) 0;
 }
 
-
 .nav_head {
   display: flex;
   justify-content: space-between;
@@ -24,36 +22,19 @@
   padding-top: var(--p32);
 }
 
-.eight_icons{
-  border: 1px solid pink;
-}
-
-
-.eight_icons>div{
+.eight_icons > div {
   width: 100%;
-display:flex;
-justify-content: center;
-  background-color: black;
+  display: flex;
+  justify-content: center;
 }
 
-.eight_icons>div>svg{
-  background-color: green;
+.eight_icons > div > svg {
   width: 100%;
 }
 
-.eight_icons>div>img{
-  width: 100%;
+.eight_icons > div > img {
+  width: 70%;
 }
-.eight_icons>div>img>svg{
-  width: 100%;
-}
-/* .eight_icons_box{
-  border:1px solid pink
-}
-.eight_icons>div>svg{
-  border: 1px solid;
-  width:100%;
-} */
 
 /*篩選按鈕，不可刪除*/
 .btns > button:last-child {
@@ -483,6 +464,12 @@ justify-content: center;
   margin-left: var(--p16);
   font-size: var(--h3fs28);
   font-weight: var(--fwbold);
+}
+
+@media screen and (max-width: 1200px) {
+  .eight_icons > div {
+    margin-bottom: 8px;
+  }
 }
 
 @media screen and (max-width: 767px) {
