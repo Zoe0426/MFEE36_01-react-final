@@ -13,12 +13,14 @@ export default function ShopSupplierCard({
     <>
       <Col flex={col} xs={12} className={styles.card}>
         <div className={styles.normal_card}>
-          <Image src={shed} className={styles.shed} />
+          <div className={styles.shed_box}>
+            <Image src={shed} className={styles.shed} />
+          </div>
 
           {/* <div className={styles.card_img}> */}
           <img
             src={`/product-img/${img}`}
-            alt=""
+            alt={img}
             className={styles.brand_img}
           />
           {/* </div> */}

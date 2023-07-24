@@ -11,8 +11,6 @@
 }
 
 
-
-
 /*蒐藏列表外框*/
     .like_list_box{
     width:550px;   
@@ -30,7 +28,8 @@
     .like_items{
       overflow-x: hidden;
       overflow-y: scroll; 
-      max-height:758px;
+      /* max-height:758px; */
+      max-height:500px;
     }
 
 

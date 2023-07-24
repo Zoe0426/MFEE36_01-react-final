@@ -24,6 +24,29 @@
   padding-top: var(--p32);
 }
 
+.eight_icons{
+  border: 1px solid pink;
+}
+
+
+.eight_icons>div{
+  width: 100%;
+display:flex;
+justify-content: center;
+  background-color: black;
+}
+
+.eight_icons>div>svg{
+  background-color: green;
+  width: 100%;
+}
+
+.eight_icons>div>img{
+  width: 100%;
+}
+.eight_icons>div>img>svg{
+  width: 100%;
+}
 /* .eight_icons_box{
   border:1px solid pink
 }
