@@ -9,8 +9,11 @@ export default function Test() {
     <div className={styles.box}>
       <img className={styles.logo} src="/layout-images/h-logo.svg" alt="" />
       <div className={styles.loadingSection}>
-        <p className={styles.loadingText}>LOADING</p>{' '}
         <div className={styles.detail_paw_walking_box}>
+          <FontAwesomeIcon
+            icon={faPaw}
+            className={styles.detail_paw_up_walking}
+          />
           <FontAwesomeIcon
             icon={faPaw}
             className={styles.detail_paw_up_walking}

@@ -19,13 +19,12 @@
   background-color: transparent;
   transition: 0.3s;
   color: var(--gray);
-  /* min-width: 24px; */
-  /* border: 1px solid red; */
+
 }
 
 .addBtn:hover,
 .minusBtn:hover {
-  color: var(--dark-gray);
+  color: var(--main);
   cursor: pointer;
 }
 .minusBtn{
