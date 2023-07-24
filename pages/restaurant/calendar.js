@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Styles from './calendar.module.css';
-import BookingModal from '@/components/ui/restaurant/BookingModal';
+import BookingModal from '@/components/ui/restaurant/Bookingmodal';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import {
   faHeart,
@@ -17,7 +17,9 @@ const chunk = (arr, size) =>
 function WeekCalendar() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentWeek, setCurrentWeek] = useState(0);
-  const [resetBookingModal, setResetBookingModal] = useState(false);
+  const [showPreviousWeek, setShowPreviousWeek] = useState(false);
+  const [showNextWeek, setShowNextWeek] = useState(true);
+  const [clickCount, setClickCount] = useState(0);
 
   const now = new Date();
   const currentYear = now.getFullYear();
@@ -54,14 +56,31 @@ function WeekCalendar() {
     };
   });
   const goToPreviousWeek = () => {
-    setCurrentWeek((prevWeek) => prevWeek - 1);
-    setResetBookingModal(true);
+    setCurrentWeek((prevWeek) => prevWeek + 1);
+    setShowPreviousWeek(true);
   };
 
   const goToNextWeek = () => {
-    setCurrentWeek((prevWeek) => prevWeek + 1);
-    setResetBookingModal(true);
+    if (clickCount <= 2) {
+      setCurrentWeek((prevWeek) => prevWeek - 1);
+      setClickCount((prevClick) => prevClick + 1);
+    }
   };
+  useEffect(() => {
+    if (currentWeek < 0) {
+      setShowPreviousWeek(true);
+    } else {
+      setShowPreviousWeek(false);
+    }
+
+    if (clickCount >= 2) {
+      setShowNextWeek(false);
+    } else {
+      setShowNextWeek(true);
+    }
+  }, [currentWeek, clickCount]);
+
+
 
   const [data, setData] = useState([]);
 
@@ -93,11 +112,14 @@ function WeekCalendar() {
       </div>
       <div className="container-inner">
         <div className={Styles.week_calendar}>
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            className={Styles.arrow_left}
-            onClick={goToPreviousWeek}
-          />
+          {showPreviousWeek && (
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className={Styles.arrow_left}
+              onClick={goToPreviousWeek}
+            />
+          )}
+
           <div className={Styles.dates_container}>
             {daysDataArray.map((item, idx) => (
               <div key={idx} className={Styles.date}>
@@ -111,12 +133,14 @@ function WeekCalendar() {
               </div>
             ))}
           </div>
-          {/* <div>{selectedDate && <p>你選擇的日期是：{selectedDate}日</p>}</div> */}
-          <FontAwesomeIcon
-            icon={faArrowRight}
-            className={Styles.arrow_right}
-            onClick={goToNextWeek}
-          />
+
+          {showNextWeek && (
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              className={Styles.arrow_right}
+              onClick={goToNextWeek}
+            />
+          )}
         </div>
 
         {/* 時間的部分 */}
@@ -124,53 +148,128 @@ function WeekCalendar() {
           {/* <BookingModal /> */}
           <div className={Styles.time_section}>
             <div className={Styles.column}>
-              <BookingModal time={data[0].time} people={data[0].people_max} />
-              <BookingModal time={data[1].time} people={data[1].people_max} />
-              <BookingModal time={data[2].time} people={data[2].people_max} />
-              <BookingModal time={data[3].time} people={data[3].people_max} />
-              <BookingModal time={data[4].time} people={data[4].people_max} />
+              <BookingModal time={data[0]?.time} people={data[0]?.people_max} />
+              <BookingModal time={data[1]?.time} people={data[1]?.people_max} />
+              <BookingModal time={data[2]?.time} people={data[2]?.people_max} />
+              <BookingModal time={data[3]?.time} people={data[3]?.people_max} />
+              <BookingModal time={data[4]?.time} people={data[4]?.people_max} />
             </div>
             <div className={Styles.column}>
-              <BookingModal time={data[5].time} people={data[5].people_max} />
-              <BookingModal time={data[6].time} people={data[6].people_max} />
-              <BookingModal time={data[7].time} people={data[7].people_max} />
-              <BookingModal time={data[8].time} people={data[8].people_max} />
-              <BookingModal time={data[9].time} people={data[9].people_max} />
+              <BookingModal time={data[5]?.time} people={data[5]?.people_max} />
+              <BookingModal time={data[6]?.time} people={data[6]?.people_max} />
+              <BookingModal time={data[7]?.time} people={data[7]?.people_max} />
+              <BookingModal time={data[8]?.time} people={data[8]?.people_max} />
+              <BookingModal time={data[9]?.time} people={data[9]?.people_max} />
             </div>
             <div className={Styles.column}>
-              <BookingModal time={data[10].time} people={data[10].people_max} />
-              <BookingModal time={data[11].time} people={data[11].people_max} />
-              <BookingModal time={data[12].time} people={data[12].people_max} />
-              <BookingModal time={data[13].time} people={data[13].people_max} />
-              <BookingModal time={data[14].time} people={data[14].people_max} />
+              <BookingModal
+                time={data[10]?.time}
+                people={data[10]?.people_max}
+              />
+              <BookingModal
+                time={data[11]?.time}
+                people={data[11]?.people_max}
+              />
+              <BookingModal
+                time={data[12]?.time}
+                people={data[12]?.people_max}
+              />
+              <BookingModal
+                time={data[13]?.time}
+                people={data[13]?.people_max}
+              />
+              <BookingModal
+                time={data[14]?.time}
+                people={data[14]?.people_max}
+              />
             </div>
             <div className={Styles.column}>
-              <BookingModal time={data[15].time} people={data[15].people_max} />
-              <BookingModal time={data[16].time} people={data[16].people_max} />
-              <BookingModal time={data[17].time} people={data[17].people_max} />
-              <BookingModal time={data[18].time} people={data[18].people_max} />
-              <BookingModal time={data[19].time} people={data[19].people_max} />
+              <BookingModal
+                time={data[15]?.time}
+                people={data[15]?.people_max}
+              />
+              <BookingModal
+                time={data[16]?.time}
+                people={data[16]?.people_max}
+              />
+              <BookingModal
+                time={data[17]?.time}
+                people={data[17]?.people_max}
+              />
+              <BookingModal
+                time={data[18]?.time}
+                people={data[18]?.people_max}
+              />
+              <BookingModal
+                time={data[19]?.time}
+                people={data[19]?.people_max}
+              />
             </div>
             <div className={Styles.column}>
-              <BookingModal time={data[20].time} people={data[20].people_max} />
-              <BookingModal time={data[21].time} people={data[21].people_max} />
-              <BookingModal time={data[22].time} people={data[22].people_max} />
-              <BookingModal time={data[23].time} people={data[23].people_max} />
-              <BookingModal time={data[24].time} people={data[24].people_max} />
+              <BookingModal
+                time={data[20]?.time}
+                people={data[20]?.people_max}
+              />
+              <BookingModal
+                time={data[21]?.time}
+                people={data[21]?.people_max}
+              />
+              <BookingModal
+                time={data[22]?.time}
+                people={data[22]?.people_max}
+              />
+              <BookingModal
+                time={data[23]?.time}
+                people={data[23]?.people_max}
+              />
+              <BookingModal
+                time={data[24]?.time}
+                people={data[24]?.people_max}
+              />
             </div>
             <div className={Styles.column}>
-              <BookingModal time={data[25].time} people={data[25].people_max} />
-              <BookingModal time={data[26].time} people={data[26].people_max} />
-              <BookingModal time={data[27].time} people={data[27].people_max} />
-              <BookingModal time={data[28].time} people={data[28].people_max} />
-              <BookingModal time={data[29].time} people={data[29].people_max} />
+              <BookingModal
+                time={data[25]?.time}
+                people={data[25]?.people_max}
+              />
+              <BookingModal
+                time={data[26]?.time}
+                people={data[26]?.people_max}
+              />
+              <BookingModal
+                time={data[27]?.time}
+                people={data[27]?.people_max}
+              />
+              <BookingModal
+                time={data[28]?.time}
+                people={data[28]?.people_max}
+              />
+              <BookingModal
+                time={data[29]?.time}
+                people={data[29]?.people_max}
+              />
             </div>
             <div className={Styles.column}>
-              <BookingModal time={data[30].time} people={data[30].people_max} />
-              <BookingModal time={data[31].time} people={data[31].people_max} />
-              <BookingModal time={data[32].time} people={data[32].people_max} />
-              <BookingModal time={data[33].time} people={data[33].people_max} />
-              <BookingModal time={data[34].time} people={data[34].people_max} />
+              <BookingModal
+                time={data[30]?.time}
+                people={data[30]?.people_max}
+              />
+              <BookingModal
+                time={data[31]?.time}
+                people={data[31]?.people_max}
+              />
+              <BookingModal
+                time={data[32]?.time}
+                people={data[32]?.people_max}
+              />
+              <BookingModal
+                time={data[33]?.time}
+                people={data[33]?.people_max}
+              />
+              <BookingModal
+                time={data[34]?.time}
+                people={data[34]?.people_max}
+              />
             </div>
           </div>
         </div>
