@@ -42,6 +42,7 @@ export default function ActivityDetail() {
   const [actDateRows, setActDateRows] = useState([]);
   const [actFeatureRows, setActFeatureRows] = useState([]);
   const [actRatingRows, setActRatingRows] = useState([]);
+  const totalPrice=(actDetailRows.price_adult)*countAdult+(actDetailRows.price_adult/2)*countChild;
 
   useEffect(() => {
     const { aid } = query;
@@ -134,7 +135,7 @@ export default function ActivityDetail() {
   //   fetchData();
 
   // }, [query]);
-  console.log('actImageRows:', actImageRows);
+  // console.log('actImageRows:', actImageRows);
 
   return (
     <div>
@@ -202,7 +203,7 @@ export default function ActivityDetail() {
               </div>
 
               <div>
-                <p className={styles.row_text_medium}>(30人參加過)</p>
+                <p className={styles.row_text_medium}>(TODO: 30人參加過)</p>
               </div>
             </div>
 
@@ -346,7 +347,7 @@ export default function ActivityDetail() {
             {/* 第九行 */}
             <div className={styles.row_total_price}>
               <p className={styles.total_price}>總金額：</p>
-              <p className={styles.total_price}>$123</p>
+              <p className={styles.total_price}>${totalPrice}</p>
             </div>
 
             {/* 第十行 */}
