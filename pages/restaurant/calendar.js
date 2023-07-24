@@ -19,7 +19,6 @@ function WeekCalendar() {
   const [currentWeek, setCurrentWeek] = useState(0);
   const [showPreviousWeek, setShowPreviousWeek] = useState(false);
   const [showNextWeek, setShowNextWeek] = useState(true);
-  const [clickCount, setClickCount] = useState(0);
 
   const now = new Date();
   const currentYear = now.getFullYear();
@@ -55,32 +54,46 @@ function WeekCalendar() {
       month: date.getMonth() + 1,
     };
   });
+  // 初始化每個週份的點擊次數為 0
+  const [clickCounts, setClickCounts] = useState(Array(10).fill(0));
+
   const goToPreviousWeek = () => {
     setCurrentWeek((prevWeek) => prevWeek + 1);
-    setShowPreviousWeek(true);
+
+    // 更新當前週份的點擊次數並重置為 0
+    const updatedClickCounts = [...clickCounts];
+    updatedClickCounts[currentWeek + 1] = 0;
+    setClickCounts(updatedClickCounts);
   };
 
   const goToNextWeek = () => {
-    if (clickCount <= 2) {
-      setCurrentWeek((prevWeek) => prevWeek - 1);
-      setClickCount((prevClick) => prevClick + 1);
-    }
+    setCurrentWeek((prevWeek) => prevWeek - 1);
+
+    // 更新當前週份的點擊次數並重置為 0
+    const updatedClickCounts = [...clickCounts];
+    updatedClickCounts[currentWeek - 1] = 0;
+    setClickCounts(updatedClickCounts);
   };
+
   useEffect(() => {
     if (currentWeek < 0) {
       setShowPreviousWeek(true);
     } else {
       setShowPreviousWeek(false);
     }
+  }, [currentWeek]);
 
-    if (clickCount >= 2) {
+  useEffect(() => {
+    // 判斷是否超過兩次點擊，更新對應週份的點擊次數
+    if (clickCounts[currentWeek] >= 2) {
+      const updatedClickCounts = [...clickCounts];
+      updatedClickCounts[currentWeek] = 2;
+      setClickCounts(updatedClickCounts);
       setShowNextWeek(false);
     } else {
       setShowNextWeek(true);
     }
-  }, [currentWeek, clickCount]);
-
-
+  }, [currentWeek, clickCounts]);
 
   const [data, setData] = useState([]);
 
