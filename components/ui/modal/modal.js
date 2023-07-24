@@ -3,16 +3,18 @@ import Styles from './modal.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import IconBtn from '@/components/ui/buttons/IconBtn';
+import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Input, ConfigProvider } from 'antd';
 export default function Modal({
-  btnType = 'main', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn)、input(ant d input)、text(純文字)五種
-  icon = '', //選擇iconBtn的，請先把要用的icon引入到主頁面，並傳給此參數
+  btnType = 'main', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn-RWD後只剩icon)、iconSeconBtn(iconSeconBtn-RWD後還有文字)、input(ant d input)、text(純文字)六種
+  icon = '', //選擇iconBtn與iconSeconBtn的，請先把要用的icon引入到主頁面，並傳給此參數
   btnText = '點我展開modal', // 選點了展開modal的Btn文字內容
   title = '標題', //Modal標題
   mainBtnText = '確認', //確認btn的文字
   subBtnText = '取消', //取消btn的文字
+  showSubBtn = true, //是否需要顯示取消的按鈕
   content = <></>,
   confirmHandler = () => {},
 }) {
@@ -39,6 +41,8 @@ export default function Modal({
         />
       ) : btnType === 'iconBtn' ? (
         <IconBtn icon={icon} text={btnText} clickHandler={toggleModal} />
+      ) : btnType === 'iconSeconBtn' ? (
+        <IconSeconBtn icon={icon} text={btnText} clickHandler={toggleModal} />
       ) : btnType === 'input' ? (
         <ConfigProvider
           theme={{
@@ -70,7 +74,9 @@ export default function Modal({
 
               <div className={Styles.line}></div>
               <div className={Styles.btn_group}>
-                <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />
+                {showSubBtn && (
+                  <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />
+                )}
                 <MainBtn clickHandler={confirmBtn} text={mainBtnText} />
               </div>
             </div>

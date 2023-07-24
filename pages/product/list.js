@@ -271,11 +271,11 @@ export default function List() {
     setDatas({ ...datas, rows: newData });
     setTimeout(() => {
       setIsClickingLike(false);
-    }, 3000);
+    }, 1500);
   };
 
   //將資料送到後端
-  const sendLikeList = async (obj, token = '') => {
+  const sendLikeList = async (arr, token = '') => {
     const res = await fetch(
       `${process.env.API_SERVER}/shop-api/handle-like-list`,
       {
@@ -284,7 +284,7 @@ export default function List() {
           Authorization: 'Bearer ' + token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ data: obj }),
+        body: JSON.stringify({ data: arr }),
       }
     );
     const data = await res.json();
@@ -316,7 +316,6 @@ export default function List() {
   //控制展開收藏列表
   const toggleLikeList = () => {
     const newShowLikeList = !showLikeList;
-    console.log(newShowLikeList);
     setShowLikeList(newShowLikeList);
     if (newShowLikeList) {
       document.body.classList.add('likeList-open');
