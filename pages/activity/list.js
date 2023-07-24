@@ -58,33 +58,6 @@ export default function ActivityMain() {
 
 
 
-
-
-  // 會員是否登入--------------------
-  useEffect(() => {
-    
-    if (auth.token) {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(
-            'http://localhost:3002/activity-api/activity',
-            {
-              headers: {
-                Authorization: `Bearer ${auth.token}`,
-              },
-            }
-          );
-          const { likeDatas } = await response.json();
-          setLikeDatas(likeDatas);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-  
-      fetchData();
-    }
-  }, [auth.token]);
-
   
   // 進階篩選
   // const [showfilter, setShowFilter] = useState(false);
@@ -147,21 +120,7 @@ export default function ActivityMain() {
     fetchData();
   }, [router.query, perPage, page]); // 這裡包含了page和perPage的依賴
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(
-  //         'http://localhost:3002/activity-api/activity'
-  //       );
-  //       const { likeDatas } = await response.json();
-  //       setLikeDatas(likeDatas);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
+  
 
   //searchBar相關的函式--------------------
   const searchBarHandler = (e) => {
@@ -209,37 +168,83 @@ export default function ActivityMain() {
   };
 
   // //收藏列表相關的函式--------------------
-  const openShowLikeList = () => {
-    setShowLikeList(!showLikeList);
-  };
-  // console.log(showLikeList);
+  //取得蒐藏列表資料
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/activity-api/show-like-list`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
 
-  const removeAllLikeList = () => {
-    if (likeDatas.length > 0) {
-      setLikeDatas([]);
-      //這邊需要再修改，要看怎麼得到會員的編號
-      removeLikeListToDB('all', 'mem00300');
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
     }
   };
 
-  const removeLikeListItem = (aid) => {
-    // 移除收藏列表中的項目
-    const newLikeList = likeDatas.filter((arr) => {
-      return arr.activity_sid !== aid;
-    });
-    setLikeDatas(newLikeList);
-    removeLikeListToDB(aid, 'mem00300');
+  //控制展開收藏列表
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    console.log(newShowLikeList);
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      //將列表顯示為空的
+      setLikeDatas([]);
+      //將畫面上的愛心清除
+      const newData = datas.rows.map((v) => {
+        return { ...v, like: false };
+      });
+      setDatas({ ...datas, rows: newData });
+      //將請求送到後端作業
+      removeLikeListToDB('all', token);
+    }
   };
 
-  const removeLikeListToDB = async (aid = '', mid = '') => {
+  // 刪除單一收藏
+  const removeLikeListItem = (aid, token = '') => {
+    //將列表該項目刪除
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.acitvity_sid !== aid;
+    });
+    setLikeDatas(newLikeList);
+    //將若取消的為畫面上的，則須將愛心清除
+    const newData = datas.rows.map((v) => {
+      if (v.activity_sid === aid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+    setDatas({ ...datas, rows: newData });
+    //將請求送到後端作業
+    removeLikeListToDB(aid, token);
+  };
+
+  //將刪除收藏的請求送到後端作業
+  const removeLikeListToDB = async (aid = '', token = '') => {
     try {
       const removeAll = await fetch(
-        `${process.env.API_SERVER}/activity-api/likelist/${aid}/${mid}`,
+        `${process.env.API_SERVER}/activity-api/likelist/${aid}`,
         {
           method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
         }
       );
-
       const result = await removeAll.json();
       console.log(JSON.stringify(result, null, 4));
       if (aid === 'all') {
@@ -252,7 +257,7 @@ export default function ActivityMain() {
     }
   };
 
-  // 給faheart的 新增與刪除
+  // 給faheart的 新增與刪除--------------------
   const handleLikeClick = async (activitySid) => {
     try {
       if (isInLikeList(activitySid)) {
@@ -344,29 +349,31 @@ export default function ActivityMain() {
             <IconBtn
               icon={faHeart}
               text="收藏列表"
-              clickHandler={openShowLikeList}
+              clickHandler={toggleLikeList}
             />
             <IconBtn
               icon={faFilter}
               text="進階篩選"
-              // clickHandler={toggleFilter}
+              
             />
           </div>
         </div>
         <div>
           <>
-            {auth.id && showLikeList && (
+            {showLikeList && (
               <Likelist
                 datas={likeDatas}
                 customCard={
                   <ActivityLikeListCard
                     datas={likeDatas}
+                    token={auth.token}
                     removeLikeListItem={removeLikeListItem}
                   />
                 }
-                closeHandler={openShowLikeList}
-                removeAllHandler={removeAllLikeList}
-                removeLikeListItem={removeLikeListItem}
+                closeHandler={toggleLikeList}
+                removeAllHandler={() => {
+                  removeAllLikeList(auth.token);
+                }}
               />
             )}
           </>
