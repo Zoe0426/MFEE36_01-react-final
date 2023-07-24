@@ -24,23 +24,23 @@ export default function BlogIndex() {
   const [perPage, setPerPage] = useState(15);
 
   const { auth, setAuth } = useContext(AuthContext);
-  const [first, setFirst] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    setFirst(true);
-  }, []);
-
-  useEffect(() => {
-    console.log('token',auth.token);
-    console.log('first', first);
+    let auth = {};
+    const authStr = localStorage.getItem('petauth');
+    if (authStr) {
+      try {
+        auth = JSON.parse(authStr);
+      } catch (ex) {
+        console.error(ex);
+      }
+      console.log(auth.id);
+    }
     // 從 URL 中讀取 page 參數，若不存在，預設為 1
   const currentPage = router.query.page ? parseInt(router.query.page) : 1;
 
-  if (!auth.id && first) {
-    const from = router.asPath;
-    router.push(`/member/sign-in?from=${from}`);
-  }else if (auth.token) {
+    if (auth.token) {
       fetch(`${process.env.API_SERVER}/forum-api/forum/blog?page=${currentPage}`, {
         headers: {
           Authorization: 'Bearer ' + auth.token,
@@ -57,46 +57,42 @@ export default function BlogIndex() {
     } else {
       console.log('User is not logged in. Cannot fetch posts.');
     }
-  }, [auth,first]);
+  }, []);
 
   // Pagination
   const PageChangeHandler = (page, perpage) => {
     setPerPage(perpage);
     setPage(page);
     router.push(
-      {
-        pathname: router.pathname,
-        query: {
-          ...router.query,
-          page: page,
-        },
-      },
-      undefined,
-      { shallow: true } // 使用 shallow 選項來進行無刷新頁面轉換
-    ).then(() => {
-      // 呼叫後端 API 來獲取新的資料
-      const authStr = localStorage.getItem('petauth');
-      if (authStr) {
-        try {
-          const auth = JSON.parse(authStr);
-          if (auth.token) {
-            fetch(`${process.env.API_SERVER}/forum-api/forum/blog?page=${page}`, {
-              headers: {
-                Authorization: 'Bearer ' + auth.token,
-              },
-            })
-              .then((r) => r.json())
-              .then((data) => {
-                setData(data);
-              });
-          } else {
-            console.log('User is not logged in. Cannot fetch posts.');
-          }
-        } catch (ex) {
-          console.error(ex);
-        }
+      `
+      ?${new URLSearchParams({
+        ...router.query,
+        page: page,
+      }).toString()}
+      `
+    );
+    // 呼叫後端 API 來獲取新的資料
+  const authStr = localStorage.getItem('petauth');
+  if (authStr) {
+    try {
+      const auth = JSON.parse(authStr);
+      if (auth.token) {
+        fetch(`${process.env.API_SERVER}/forum-api/forum/blog?page=${page}`, {
+          headers: {
+            Authorization: 'Bearer ' + auth.token,
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            setData(data);
+          });
+      } else {
+        console.log('User is not logged in. Cannot fetch posts.');
       }
-    });
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
   };
 
   return (

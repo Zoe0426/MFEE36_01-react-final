@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { useRouter } from 'next/router'
+import AuthContext from '@/context/AuthContext'
 import Style from '@/styles/postid.module.css'
 import PostBanner from '@/components/ui/postBanner/postBanner'
 import BoardNav from '@/components/ui/BoardNav/boardNav'
@@ -26,6 +27,7 @@ export default function Post() {
     commentData:[],
     imgData:[]
   })
+  
 
 
   // 文章
@@ -36,6 +38,13 @@ export default function Post() {
   const [commentData, setCommentData] = useState([]);
   // 圖片
   const [imgData, setImgData] = useState([]);
+
+  // 按讚
+  const [isLiked, setIsLiked] = useState(false);
+  // 登入狀態
+  const { auth, setAuth } = useContext(AuthContext);
+
+
 
   const fetchData = async (postid) => {
     try {
@@ -49,6 +58,7 @@ export default function Post() {
       setPostData(data.newData || []); //因為在node文章資料是叫data
       setHashtagData(data.tagData || []); //因為在node hashtag資料是叫tagData
       setCommentData(data.newCommentData || []);
+      console.log(commentData);
       const newImgData = data.imgData.map(v=>v.file)
       setImgData(newImgData || []);
   
@@ -63,25 +73,29 @@ export default function Post() {
     }
   };
   
-  
-
   useEffect(()=>{
-    console.log("postid in useEffect");
-    console.log(postid);
     if (postid){
       fetchData(postid);
     }
     }, [postid]); // Fetch data when the post ID changes
-  
 
-  // const images = [
-  //   // '/forum_img/狗活動.jpeg',
-  //   // '/forum_img/狗活動.jpeg',
-  //   // '/forum_img/狗活動.jpeg',
-  //   // '/forum_img/狗活動.jpeg',
-  //   // '/forum_img/狗活動.jpeg',   
-  //   `${imgData}`
-  // ];
+
+  useEffect(() => {
+    console.log(auth);
+
+  if (auth.id) {
+fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${postid}&member_sid=${auth.id}`, {
+        headers: {
+          Authorization: 'Bearer ' + auth.token,
+        },
+      }) .then((r) => r.json())
+      .then((data) => {
+        data.length===0 ? setIsLiked(false) : setIsLiked(true)
+        console.log('data',data);
+      });
+
+  }
+  },[auth]);
 
   return (
     <div className="container-outer">
@@ -114,12 +128,15 @@ export default function Post() {
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
-                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}/>
+                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} postSid={postid} memberId={auth.id}/>
                 ))}
                 </div>
 
 
                 <div className={Style.commentBlock}>
+                  <div className={Style.PostCommentLaunch}>
+                  <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
+                </div>
                   <div className={Style.commentBTN}>
                     <PostCommentBtn text="由舊至新" bc='white'/>
                     <PostCommentBtn text="由舊至新" bc='var(--secondary)'/>
@@ -127,6 +144,7 @@ export default function Post() {
                   {postData.map((v,i)=>(
                     <div className={Style.commentNum}>{`共 ${v.postComment} 則留言`}</div>
                   ))}
+
                   <div className={Style.line}>
                     <img className={Style.commentLine} src='/forum_img/commentLine.png'/>
                   </div>
@@ -136,9 +154,7 @@ export default function Post() {
                   ))}
                   </div>
                 </div>
-                <div className={Style.PostCommentLaunch}>
-                  <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg'/>
-                </div>
+
                   
               </div>
             </div>
