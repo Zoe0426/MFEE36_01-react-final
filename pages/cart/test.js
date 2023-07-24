@@ -1,57 +1,34 @@
 import { useEffect, useState } from 'react';
-import { Checkbox } from 'antd';
+import styles from '@/styles/cartTest.module.css';
+//import PawWalking from '@/components/ui/shop/pawWalking';
 
-import CartProductCard from '@/components/ui/cards/cartProductCard';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaw } from '@fortawesome/free-solid-svg-icons';
 export default function Test() {
-  const [shopData, setShopData] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
-  //從db拿購物車資料
-  const getCart = async () => {
-    const r = await fetch(`${process.env.API_SERVER}/cart-api/get-cart-items`, {
-      method: 'POST',
-      body: JSON.stringify({ member_sid: 'mem00471' }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await r.json();
-    const myShopData = data.shop.map((v) => {
-      return { ...v, selected: false };
-    });
-    console.log(myShopData);
-    setShopData(myShopData);
-  };
-
-  const checkAllHandler = () => {
-    setSelectAll((old) => !old);
-    const newData = shopData.map((v) => ({ ...v, selected: !selectAll }));
-    console.log('newData:', newData);
-
-    setShopData(newData);
-  };
-  useEffect(() => {
-    getCart();
-  }, []);
   return (
-    <div>
-      <Checkbox onChange={checkAllHandler} checked={selectAll}>
-        Checkbox
-      </Checkbox>
-      {shopData.map((v) => (
-        <CartProductCard
-          key={v.cart_sid}
-          cartSid={v.cart_sid}
-          selected={v.selected}
-          img={'/product-img/' + v.img}
-          prodtitle={v.rel_name}
-          prodSubtitle={v.rel_seq_name}
-          price={v.prod_price}
-          qty={v.prod_qty}
-          shopData={shopData}
-          setShopData={setShopData}
-        />
-      ))}
+    <div className={styles.box}>
+      <img className={styles.logo} src="/layout-images/h-logo.svg" alt="" />
+      <div className={styles.loadingSection}>
+        <p className={styles.loadingText}>LOADING</p>{' '}
+        <div className={styles.detail_paw_walking_box}>
+          <FontAwesomeIcon
+            icon={faPaw}
+            className={styles.detail_paw_up_walking}
+          />
+          <FontAwesomeIcon
+            icon={faPaw}
+            className={styles.detail_paw_up_walking}
+          />
+          <FontAwesomeIcon
+            icon={faPaw}
+            className={styles.detail_paw_up_walking}
+          />
+          <FontAwesomeIcon
+            icon={faPaw}
+            className={styles.detail_paw_up_walking}
+          />
+        </div>
+      </div>
     </div>
   );
 }
