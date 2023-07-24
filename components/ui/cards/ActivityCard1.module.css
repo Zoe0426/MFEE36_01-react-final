@@ -1,19 +1,19 @@
 .card {
   display: flex;
-  width: 48%;
+  /* width: 48%; */
   /* justify-content: space-between; */
-  /* height: 262px; */
+  height: 262px;
 }
 
 /* -------左邊------- */
 .left {
   position: relative;
-  width: 90%;
+  width: 40%;
   /* height: 262px; */
 }
 
 .image {
-  border-radius: var(--br10) 0 0 var(--br10);
+  border-radius: var(--br10);
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -37,6 +37,31 @@
   color: white;
 }
 
+.heart_icon {
+  position: absolute;
+  bottom: 15px;
+  right: 15px; 
+  z-index: 9;
+  font-size: var(--h3fs28);
+  cursor: pointer;
+  color:var(--light-gray);
+
+}
+
+.heart_icon_liked{
+  position: absolute;
+  bottom: 15px;
+  right: 15px; 
+  z-index: 9;
+  font-size: var(--h3fs28);
+  cursor: pointer;
+  color:var(--heartRed);
+}
+
+.heart_icon:hover{
+  color:var(--heartRed)
+}
+
 .icon {
   position: absolute;
   bottom: 0;
@@ -48,7 +73,7 @@
 
 /* -------右邊------- */
 .right {
-  width: 90%;
+  width: 60%;
   margin-left: 1rem; /*左右間距*/
   display: flex;
   flex-direction: column;
@@ -58,7 +83,7 @@
 .row {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 13px;
 }
 
 /* 標題 */

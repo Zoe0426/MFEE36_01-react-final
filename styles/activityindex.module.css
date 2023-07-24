@@ -56,6 +56,11 @@
     height: 100%;
 }
 
+
+.custom_link {
+    text-decoration: none;
+  }
+
 .section1{
     height: 602px;
     background: var(--light1);
