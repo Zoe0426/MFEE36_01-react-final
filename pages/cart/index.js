@@ -15,6 +15,7 @@ import Modal from '@/components/ui/modal/modal';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
 import CouponCard from '@/components/ui/cards/CouponCard';
+import Loading from '@/components/ui/loading/Loading';
 
 export default function Cart() {
   const { auth } = useContext(AuthContext);
@@ -194,7 +195,7 @@ export default function Cart() {
   //console.log(postType);
 
   return !auth.id && first ? (
-    <>沒東西</>
+    <Loading />
   ) : (
     <>
       <BgCartHead text="購物車" />
