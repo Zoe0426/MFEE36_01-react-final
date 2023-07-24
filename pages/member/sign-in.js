@@ -5,16 +5,13 @@ import SignInForm from '@/components/ui/forms/SignInForm';
 import AuthContext from '@/context/AuthContext';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
-import CryptoJS from 'crypto-js';
 
 export default function SignIn() {
   const { auth, setAuth } = useContext(AuthContext);
 
   //回去哪一頁的路徑
   const router = useRouter();
-  const fromPath = router.query.from || '/';
   const fromPath2 = router.asPath.split('from=')[1] || '/';
-  console.log(fromPath);
   console.log({ mem: router.asPath.split('from=')[1] });
 
   //送出表單
@@ -29,27 +26,6 @@ export default function SignIn() {
         console.log(data);
         if (data.success) {
           const obj = { ...data.data };
-
-          //加密petauth id
-          let petauthId = obj.id;
-          petauthId = CryptoJS.AES.encrypt(petauthId, 'GoWithMe').toString();
-          obj.id = petauthId;
-
-          //加密email
-          let petauthEmail = obj.email;
-          petauthEmail = CryptoJS.AES.encrypt(
-            petauthEmail,
-            'GoWithMe'
-          ).toString();
-          obj.email = petauthEmail;
-
-          //加密nickname
-          let petauthNickname = obj.nickname;
-          petauthNickname = CryptoJS.AES.encrypt(
-            petauthNickname,
-            'GoWithMe'
-          ).toString();
-          obj.nickname = petauthNickname;
 
           localStorage.setItem('petauth', JSON.stringify(obj));
           setAuth(obj);

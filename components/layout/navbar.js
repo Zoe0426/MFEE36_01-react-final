@@ -15,6 +15,8 @@ export default function Navbar({ type = '' }) {
   const [showLoginBox, setShowLoginBox] = useState(false);
   const [memProfileImg, setMemProfileImg] = useState('/product-img/pro001.jpg');
   const [login, setLogin] = useState(false);
+
+  console.log(auth);
   const getCartTotalItems = async (id) => {
     const r = await fetch(`${process.env.API_SERVER}/cart-api/count-item`, {
       method: 'POST',
@@ -50,7 +52,7 @@ export default function Navbar({ type = '' }) {
       getMemberImage(auth.id);
       setLogin(true);
     }
-  }, [auth]);
+  }, []);
 
   //======redirect======
   const redirectToCart = () => {
