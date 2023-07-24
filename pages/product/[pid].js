@@ -349,7 +349,7 @@ export default function Product() {
                 <div className={styles.detail_price_box}>
                   <h5 className={styles.detail_spec_title}>價格</h5>
                   <div className={styles.detail_price}>
-                    {purchaseInfo.unitPrice}
+                    {`$${purchaseInfo.unitPrice.toLocaleString('en-US')}`}
                   </div>
                 </div>
 
