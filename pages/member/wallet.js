@@ -18,7 +18,6 @@ export default function Wallet() {
     const from = router.asPath;
     router.push(`/member/sign-in?from=${from}`);
   };
-  console.log(auth.token);
 
   useEffect(() => {
     let auth = {};
@@ -29,8 +28,8 @@ export default function Wallet() {
       } catch (ex) {
         ('');
       }
-      console.log(auth);
     }
+    console.log(auth.id);
 
     if (auth.token) {
       fetch(`${process.env.API_SERVER}/member-api/coupon`, {

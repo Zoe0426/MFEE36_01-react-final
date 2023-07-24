@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
 import Style from '@/components/ui/cards/OrderDetailCard.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { Rate, Form, Input } from 'antd';
+import AuthContext from '@/context/AuthContext';
 
 export default function OrderDetailCard({
   relName,
@@ -22,13 +24,34 @@ export default function OrderDetailCard({
   actSid,
   prodSid,
   actAddress,
+  prodCommentSid,
+  shopStar,
+  shopContent,
+  actCommentSid,
+  actStar,
+  actContent,
+  status,
+  pcSid,
+  acRaSid,
 }) {
+  console.log(pcSid);
+  const router = useRouter();
+  const from = router.asPath;
+
+  const today = new Date();
+  const actday = new Date(relSeqName);
+  console.log(today > actday);
+
   const [show, setShow] = useState(false);
   const initialValues = {
     memberSid: memberSid,
     odSid: odSid,
     actSid: actSid,
     prodSid: prodSid,
+    shopStar: shopStar,
+    shopContent: shopContent,
+    actStar: actStar,
+    actContent: actContent,
   };
 
   const showReviewContent = () => {
@@ -64,6 +87,7 @@ export default function OrderDetailCard({
           console.log(data);
         });
     }
+    router.push(from);
   };
 
   return (
@@ -120,7 +144,23 @@ export default function OrderDetailCard({
         </div>
       </div>
       <div className={Style.btn}>
-        <MainBtn text="我要評價" clickHandler={showReviewContent} />
+        {relType === 'shop' ? (
+          status >= 5 ? (
+            <MainBtn
+              text={!pcSid ? '去評價' : '我的評價'}
+              clickHandler={showReviewContent}
+            />
+          ) : (
+            ''
+          )
+        ) : today > actday ? (
+          <MainBtn
+            text={!acRaSid ? '去評價' : '我的評價'}
+            clickHandler={showReviewContent}
+          />
+        ) : (
+          ''
+        )}
       </div>
       {show && (
         <div className={Style.reviewContent}>
@@ -162,23 +202,58 @@ export default function OrderDetailCard({
             >
               <Input />
             </Form.Item>
-            <Form.Item name={'starts'} style={{ padding: '0px' }}>
-              <Rate allowClear={false} style={{ color: '#FCC917' }} />
-            </Form.Item>
-            <Form.Item name={'content'} style={{ padding: '0px' }}>
-              <Input.TextArea
-                rows={4}
-                style={{ backgroundColor: 'transparent' }}
-              />
-            </Form.Item>
-            <div className={Style.btns}>
-              <div className={Style.secondaryBtn}>
-                <SecondaryBtn text="取消" htmltype="reset" />
+            {relType === 'shop' ? (
+              <>
+                <Form.Item name={'shopStar'} style={{ padding: '0px' }}>
+                  <Rate
+                    allowClear={false}
+                    style={{ color: '#FCC917' }}
+                    disabled={shopStar}
+                  />
+                </Form.Item>
+              </>
+            ) : (
+              <>
+                <Form.Item name={'actStar'} style={{ padding: '0px' }}>
+                  <Rate
+                    allowClear={false}
+                    style={{ color: '#FCC917' }}
+                    disabled={actStar}
+                  />
+                </Form.Item>
+              </>
+            )}
+            {relType === 'shop' ? (
+              <>
+                <Form.Item name={'shopContent'} style={{ padding: '0px' }}>
+                  <Input.TextArea
+                    rows={4}
+                    style={{ backgroundColor: 'transparent' }}
+                    readOnly={shopContent}
+                  />
+                </Form.Item>
+              </>
+            ) : (
+              <>
+                <Form.Item name={'actContent'} style={{ padding: '0px' }}>
+                  <Input.TextArea
+                    rows={4}
+                    style={{ backgroundColor: 'transparent' }}
+                    readOnly={actContent}
+                  />
+                </Form.Item>
+              </>
+            )}
+            {!prodCommentSid && !actCommentSid && (
+              <div className={Style.btns}>
+                <div className={Style.secondaryBtn}>
+                  <SecondaryBtn text="取消" htmltype="reset" />
+                </div>
+                <div className={Style.mainBtn}>
+                  <MainBtn text="確定" htmltype="submit" />
+                </div>
               </div>
-              <div className={Style.mainBtn}>
-                <MainBtn text="確定" htmltype="submit" />
-              </div>
-            </div>
+            )}
           </Form>
         </div>
       )}

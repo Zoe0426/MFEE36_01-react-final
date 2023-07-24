@@ -70,6 +70,18 @@ export default function Navbar({ type = '' }) {
   const signIntoCart = () => {
     router.push('/cart');
   };
+  const [isActive, setIsActive] = useState(false);
+
+  // const toggleLine = document.querySelector('.line');
+  // const toggleMenu = document.querySelector('.link-menu');
+  // const navbar = document.querySelector('.navbar');
+  // toggleLine.addEventListener('click', () => {
+  //   toggleLine.classList.toggle('active');
+  //   toggleMenu.classList.toggle('active');
+  // });
+  const handleClick = () => {
+    setIsActive(!isActive);
+  };
 
   //=====toggle roundBtn boxes=====
   const closeCartLoginBox = () => {
@@ -93,8 +105,10 @@ export default function Navbar({ type = '' }) {
           className={`${type === 'home' ? Styles.homeNavbar : Styles.navbar}`}
         >
           <div className={Styles.logoMenu}>
-            <button className={Styles.navbarToggler}>
-              <div className={Styles.line}></div>
+            <button className={Styles.navbarToggler} onClick={handleClick}>
+              <div
+                className={`${Styles.line} ${isActive ? Styles.active : ''}`}
+              ></div>
             </button>
             <Link href="/">
               <img
@@ -104,7 +118,9 @@ export default function Navbar({ type = '' }) {
               />
             </Link>
           </div>
-          <div className={Styles.linkMenu}>
+          <div
+            className={`${Styles.linkMenu} ${isActive ? Styles.active : ''}`}
+          >
             <div className={Styles.linkItem}>
               <Link href="/product" className={Styles.link}>
                 商城
