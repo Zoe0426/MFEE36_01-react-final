@@ -3,7 +3,7 @@
     text-align: center;
 }
 
-.shed{    
+.shed_box{
     padding:0 var(--p16);
     width: 100%;
     position:absolute;
@@ -11,6 +11,13 @@
     left:50%;
     transform: translate(-50%, -50%);
     z-index: 3;
+    object-fit: fill;
+}
+
+
+.shed{ 
+    height: 100%;
+    width: 100%;   
 }
 .normal_card:hover{
     box-shadow:  2px 6px 8px rgba(0, 0, 0, 0.1);

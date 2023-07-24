@@ -37,6 +37,18 @@
   min-width: 300px;
 }
 
+.heart{
+  position: absolute;
+  right:var(--p16);
+  font-size: var(--h3fs28);
+  color:var(--light-gray);
+  cursor: pointer;
+  z-index: 9;
+  padding: var(--p24) var(--p24) var(--p16) var(--p16);
+  padding: var(--p16);
+
+}
+
 .modal_title {
   font-size: var(--h5fs20);
   font-weight: 600;

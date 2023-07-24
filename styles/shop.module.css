@@ -4,10 +4,6 @@
   max-width: 1920px;
   /* overflow-x: hidden; */
   margin: auto;
-
-
-
-
 }
 
 
@@ -28,8 +24,39 @@
   padding-top: var(--p32);
 }
 
+.eight_icons{
+  border: 1px solid pink;
+}
+
+
+.eight_icons>div{
+  width: 100%;
+display:flex;
+justify-content: center;
+  background-color: black;
+}
+
+.eight_icons>div>svg{
+  background-color: green;
+  width: 100%;
+}
+
+.eight_icons>div>img{
+  width: 100%;
+}
+.eight_icons>div>img>svg{
+  width: 100%;
+}
+/* .eight_icons_box{
+  border:1px solid pink
+}
+.eight_icons>div>svg{
+  border: 1px solid;
+  width:100%;
+} */
+
 /*篩選按鈕，不可刪除*/
-.btns > button:nth-child(2) {
+.btns > button:last-child {
   margin-left: var(--p16);
 }
 

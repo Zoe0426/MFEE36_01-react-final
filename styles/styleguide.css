@@ -127,6 +127,10 @@ body{
   background-color: var(--light2);
 }
 
+.likeList-open{
+  overflow: hidden;
+}
+
 .container-outer{
 	min-height: 100%;
 	position: relative;
@@ -161,5 +165,8 @@ body{
 .container-inner{
     width: 85%;
 }
+/* .likeList-open{
+  overflow: auto;
+} */
 } 
 
