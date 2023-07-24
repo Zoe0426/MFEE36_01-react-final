@@ -23,11 +23,7 @@ export default function Navbar({ classTitle }) {
 
   return (
     <>
-      <header
-        className={`${Styles.header} ${
-          classTitle === 'bigNone' ? Styles.bigNone : ''
-        }`}
-      >
+      <header className={Styles.header}>
         <nav className={`${Styles.navbar} ${isActive ? Styles.active : ''}`}>
           <div className={Styles.logoMenu}>
             <button className={Styles.navbarToggler} onClick={handleClick}>

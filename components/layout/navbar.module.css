@@ -9,10 +9,6 @@
   box-shadow: var(--shadow);
 }
 
-/* 根據classTitle傳入參數決定rwd順序 */
-.bigNone{
-  display: none;
-}
 
 .navbar {
   /* border: 1px solid purple; */
@@ -89,10 +85,6 @@
 @media screen and (max-width: 767px) {
   .header{
     padding-bottom: 0;
-  }
-
-  .bigNone{
-    display: block;
   }
 
   .navbar {

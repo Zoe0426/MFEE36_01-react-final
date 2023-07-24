@@ -1,10 +1,18 @@
 .alet_card{
 	background-color: #fff;
+
 }
 
-.alet_date,.alet_time,.alet_adult,.alet_child,.alet_place,.alet_phone,.alet_people,.alet_pet{
+.alet_date,.alet_time,.alet_adult,.alet_child,.alet_place,.alet_phone,.alet_people,.alet_pet,.alet_content{
 	display: flex;
 	margin-bottom: 10px;
+}
+
+.alet_notice {
+    white-space: pre-wrap;      
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+		line-height: 1.5;
 }
 
 
