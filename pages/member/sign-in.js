@@ -11,9 +11,7 @@ export default function SignIn() {
 
   //回去哪一頁的路徑
   const router = useRouter();
-  const fromPath = router.query.from || '/';
   const fromPath2 = router.asPath.split('from=')[1] || '/';
-  console.log(fromPath);
   console.log({ mem: router.asPath.split('from=')[1] });
 
   //送出表單
