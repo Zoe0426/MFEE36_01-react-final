@@ -7,7 +7,7 @@
 /* -------左邊------- */
 .left {
   position: relative;
-  width: 40%;
+  width: 50%;
   /* height: 100%; */
 }
 
@@ -65,7 +65,7 @@
 
 /* -------右邊------- */
 .right {
-  width: 60%;
+  width: 50%;
   margin-left: 1.5rem; /*左右間距*/
   display: flex;
   flex-direction: column;

@@ -23,7 +23,7 @@ export default function ActivityMain() {
 
   // 收藏清單
   const [likeDatas, setLikeDatas] = useState([]);
-  const [showLikeList, setShowLikeList] = useState(true);
+  const [showLikeList, setShowLikeList] = useState(false);
 
   const { auth } = useContext(AuthContext);
 
