@@ -136,7 +136,7 @@ export default function FilterPage() {
   const orderByHandler = (e) => {
     const newSelect = orderByOptions.find((v) => v.key === e.key);
 
-    console.log(newSelect.label);
+    // console.log(newSelect.label);
     setOrderBy(newSelect.label);
 
     const selectedRank = rankOptions[e.key];
@@ -211,7 +211,7 @@ export default function FilterPage() {
         });
     }
 
-    getData(router.query, auth.token);
+    // getData(router.query, auth.token);
     // if (Object.keys(router.query).length === 0) {
     //   console.log(router.query);
     //   fetch(`${process.env.API_SERVER}/restaurant-api/list`)
@@ -258,20 +258,49 @@ export default function FilterPage() {
   // useEffect(() => {
   //   getRestKeywordData().then(() => {});
   // }, []);
+  const restKeywordData = async () => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/search-name`,
+      {
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+
+    if (Array.isArray(data.keywords)) {
+      const newKeywords = data.keywords.map((v) => {
+        return { name: v, count: 0 };
+      });
+      setKeywordDatas(newKeywords);
+    }
+  };
+
+  useEffect(() => {
+    restKeywordData();
+  }, []);
 
   const filterKeywordDatas = (data, keyword, keyin) => {
     if (!keyin) {
       const searchWord = keyword.split('');
 
-      data.forEach((v1) => {
-        v1.count = 0;
-        searchWord.forEach((v2) => {
-          if (v1.name.includes(v2)) {
-            v1.count += 1;
-          }
-        });
-      });
+      if (searchWord.length === 0) {
+        return data;
+      }
+
       console.log(searchWord);
+
+      if (Array.isArray(data)) {
+        // 確保 data 是陣列
+        data.forEach((v1) => {
+          v1.count = 0;
+          searchWord.forEach((v2) => {
+            if (v1.name.includes(v2)) {
+              v1.count += 1;
+            }
+          });
+        });
+      }
+
       console.log(data);
 
       data.sort((a, b) => b.count - a.count);
@@ -280,27 +309,19 @@ export default function FilterPage() {
     }
   };
   const searchBarHandler = (e) => {
+    let copyURL = { page: 1 };
     const searchText = e.target.value;
-    if (!searchText) {
-      const newKeywordDatas = [...keywordDatas];
-      setKeywordDatas(false);
-      setShowKeywordDatas(newKeywordDatas);
-    }
-    if (e.key === 'Enter') {
-      if (!searchText.trim()) {
-        // 如果沒有填字，不執行換頁的動作
-        return;
-      }
 
-      let copyURL = { page: 1 };
+    if (!searchText) {
+      setShowKeywordDatas(false);
+    }
+
+    if (e.key === 'Enter') {
+      setShowKeywordDatas(false);
       if (searchText) {
         copyURL = { keyword: searchText, ...copyURL };
       }
-      setShowFilter(false);
-
-      router.push(
-        `/restaurant/list?${new URLSearchParams(copyURL).toString()}`
-      );
+      router.push(`?${new URLSearchParams(copyURL).toString()}`);
     }
   };
 
@@ -410,7 +431,7 @@ export default function FilterPage() {
     const selectedDate = datePickerValue;
     const selectedDayOfWeek = selectedDate ? selectedDate.$W : null;
 
-    console.log(selectedDate);
+    //console.log(selectedDate);
 
     // 檢查是否填寫了開始時間和結束時間
     if (startTime && !endTime) {
@@ -457,8 +478,8 @@ export default function FilterPage() {
       query.area = selectedArea;
     }
 
-    console.log(selectedCity);
-    console.log(selectedArea);
+    // console.log(selectedCity);
+    // console.log(selectedArea);
 
     if (checkedOptions.length > 0) {
       query.category = checkedOptions;
@@ -523,6 +544,15 @@ export default function FilterPage() {
     setShowLikeList(false);
   };
 
+  //沒登入會員收藏，跳轉登入
+  const toSingIn = () => {
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=http://localhost:3000/restaurant/list?${new URLSearchParams(
+        from
+      ).toString()}`
+    );
+  };
   // const removeAllLikeList = () => {
   //   setLikeDatas([]);
   //   //這邊需要再修改，要看怎麼得到會員的編號
@@ -567,6 +597,7 @@ export default function FilterPage() {
             keyDownHandler={searchBarHandler}
             clickHandler={searchBarClickHandler}
           /> */}
+          {/* <div className={Styles.search_bar}> */}
           <SearchBar1
             keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
             placeholder="搜尋友善餐廳"
@@ -593,6 +624,7 @@ export default function FilterPage() {
               setKeyword('');
             }}
           />
+          {/* </div> */}
         </div>
       </div>
 
