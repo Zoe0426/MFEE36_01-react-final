@@ -1,5 +1,6 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import Styles from './booking.module.css';
+import BookingModal from '@/components/ui/restaurant/Bookingmodal';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import {
   faHeart,
@@ -7,12 +8,110 @@ import {
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import BookingModal from '@/components/ui/restaurant/BookingModal';
 
-export default function RestBooking() {
-  // 彈跳視窗
+const chunk = (arr, size) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+
+function WeekCalendar() {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [currentWeek, setCurrentWeek] = useState(0);
+  const [showPreviousWeek, setShowPreviousWeek] = useState(false);
+  const [showNextWeek, setShowNextWeek] = useState(true);
+
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+  const currentDay = now.getDate();
+  const weekDayList = ['日', '一', '二', '三', '四', '五', '六'];
+
+  // const daysDataArray = [];
+  // for (let i = 1; i <= 7; i++) {
+  //   const date = new Date(
+  //     currentYear,
+  //     currentMonth,
+  //     currentDay + currentWeek * 7 + i
+  //   );
+  //   daysDataArray.push({
+  //     date: date.getDate(),
+  //     dayOfWeek: weekDayList[date.getDay()],
+  //     month: date.getMonth() + 1,
+  //   });
+  // }
+
+  const firstDay = new Date(
+    currentYear,
+    currentMonth,
+    currentDay - (currentWeek * 7 + 1) + 1
+  );
+  const daysDataArray = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(firstDay);
+    date.setDate(firstDay.getDate() + i);
+    return {
+      date: date.getDate(),
+      dayOfWeek: weekDayList[date.getDay()],
+      month: date.getMonth() + 1,
+    };
+  });
+  // 初始化每個週份的點擊次數為 0
+  const [clickCounts, setClickCounts] = useState(Array(10).fill(0));
+
+  const goToPreviousWeek = () => {
+    setCurrentWeek((prevWeek) => prevWeek + 1);
+
+    // 更新當前週份的點擊次數並重置為 0
+    const updatedClickCounts = [...clickCounts];
+    updatedClickCounts[currentWeek + 1] = 0;
+    setClickCounts(updatedClickCounts);
+  };
+
+  const goToNextWeek = () => {
+    setCurrentWeek((prevWeek) => prevWeek - 1);
+
+    // 更新當前週份的點擊次數並重置為 0
+    const updatedClickCounts = [...clickCounts];
+    updatedClickCounts[currentWeek - 1] = 0;
+    setClickCounts(updatedClickCounts);
+  };
+
+  useEffect(() => {
+    if (currentWeek < 0) {
+      setShowPreviousWeek(true);
+    } else {
+      setShowPreviousWeek(false);
+    }
+  }, [currentWeek]);
+
+  useEffect(() => {
+    // 判斷是否超過兩次點擊，更新對應週份的點擊次數
+    if (clickCounts[currentWeek] >= 2) {
+      const updatedClickCounts = [...clickCounts];
+      updatedClickCounts[currentWeek] = 2;
+      setClickCounts(updatedClickCounts);
+      setShowNextWeek(false);
+    } else {
+      setShowNextWeek(true);
+    }
+  }, [currentWeek, clickCounts]);
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch(`${process.env.API_SERVER}/restaurant-api/booking`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && data.length > 0) {
+          setData(data);
+        }
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   return (
-    <>
+    <div>
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>
@@ -21,316 +120,175 @@ export default function RestBooking() {
           </div>
         </div>
       </div>
-      <BookingModal />
       <div className="container-inner">
-        <div className={Styles.booking_title}>
-          <h1 className={Styles.timetable}>我們的家休閒農場預約時間表</h1>
-          {/* <div className={Styles.hint_group}>
-            <div className={Styles.hint}>
-              <div className={Styles.can_book_square}></div>
-              <p>可預約</p>
+        <h1 className={Styles.timetable}>{data.name}預約時間表</h1>
+      </div>
+      <div className="container-inner">
+        <div className={Styles.week_calendar}>
+          {showPreviousWeek && (
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className={Styles.arrow_left}
+              onClick={goToPreviousWeek}
+            />
+          )}
+
+          <div className={Styles.dates_container}>
+            {daysDataArray.map((item, idx) => (
+              <div key={idx} className={Styles.date}>
+                <p
+                  onClick={() => {
+                    setSelectedDate(item.date);
+                  }}
+                >
+                  {item.month}/{item.date}({item.dayOfWeek})
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {showNextWeek && (
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              className={Styles.arrow_right}
+              onClick={goToNextWeek}
+            />
+          )}
+        </div>
+
+        {/* 時間的部分 */}
+        <div className="container-inner">
+          {/* <BookingModal /> */}
+          <div className={Styles.time_section}>
+            <div className={Styles.column}>
+              <BookingModal time={data[0]?.time} people={data[0]?.people_max} />
+              <BookingModal time={data[1]?.time} people={data[1]?.people_max} />
+              <BookingModal time={data[2]?.time} people={data[2]?.people_max} />
+              <BookingModal time={data[3]?.time} people={data[3]?.people_max} />
+              <BookingModal time={data[4]?.time} people={data[4]?.people_max} />
             </div>
-            <div className={Styles.hint}>
-              <div className={Styles.almost_full_square}></div>
-              <p>即將額滿</p>
+            <div className={Styles.column}>
+              <BookingModal time={data[5]?.time} people={data[5]?.people_max} />
+              <BookingModal time={data[6]?.time} people={data[6]?.people_max} />
+              <BookingModal time={data[7]?.time} people={data[7]?.people_max} />
+              <BookingModal time={data[8]?.time} people={data[8]?.people_max} />
+              <BookingModal time={data[9]?.time} people={data[9]?.people_max} />
             </div>
-            <div className={Styles.hint}>
-              <div className={Styles.cannot_book_square}></div>
-              <p>額滿</p>
+            <div className={Styles.column}>
+              <BookingModal
+                time={data[10]?.time}
+                people={data[10]?.people_max}
+              />
+              <BookingModal
+                time={data[11]?.time}
+                people={data[11]?.people_max}
+              />
+              <BookingModal
+                time={data[12]?.time}
+                people={data[12]?.people_max}
+              />
+              <BookingModal
+                time={data[13]?.time}
+                people={data[13]?.people_max}
+              />
+              <BookingModal
+                time={data[14]?.time}
+                people={data[14]?.people_max}
+              />
             </div>
-            <div className={Styles.hint}>
-              <div className={Styles.rest_square}></div>
-              <p>公休</p>
+            <div className={Styles.column}>
+              <BookingModal
+                time={data[15]?.time}
+                people={data[15]?.people_max}
+              />
+              <BookingModal
+                time={data[16]?.time}
+                people={data[16]?.people_max}
+              />
+              <BookingModal
+                time={data[17]?.time}
+                people={data[17]?.people_max}
+              />
+              <BookingModal
+                time={data[18]?.time}
+                people={data[18]?.people_max}
+              />
+              <BookingModal
+                time={data[19]?.time}
+                people={data[19]?.people_max}
+              />
             </div>
-          </div> */}
+            <div className={Styles.column}>
+              <BookingModal
+                time={data[20]?.time}
+                people={data[20]?.people_max}
+              />
+              <BookingModal
+                time={data[21]?.time}
+                people={data[21]?.people_max}
+              />
+              <BookingModal
+                time={data[22]?.time}
+                people={data[22]?.people_max}
+              />
+              <BookingModal
+                time={data[23]?.time}
+                people={data[23]?.people_max}
+              />
+              <BookingModal
+                time={data[24]?.time}
+                people={data[24]?.people_max}
+              />
+            </div>
+            <div className={Styles.column}>
+              <BookingModal
+                time={data[25]?.time}
+                people={data[25]?.people_max}
+              />
+              <BookingModal
+                time={data[26]?.time}
+                people={data[26]?.people_max}
+              />
+              <BookingModal
+                time={data[27]?.time}
+                people={data[27]?.people_max}
+              />
+              <BookingModal
+                time={data[28]?.time}
+                people={data[28]?.people_max}
+              />
+              <BookingModal
+                time={data[29]?.time}
+                people={data[29]?.people_max}
+              />
+            </div>
+            <div className={Styles.column}>
+              <BookingModal
+                time={data[30]?.time}
+                people={data[30]?.people_max}
+              />
+              <BookingModal
+                time={data[31]?.time}
+                people={data[31]?.people_max}
+              />
+              <BookingModal
+                time={data[32]?.time}
+                people={data[32]?.people_max}
+              />
+              <BookingModal
+                time={data[33]?.time}
+                people={data[33]?.people_max}
+              />
+              <BookingModal
+                time={data[34]?.time}
+                people={data[34]?.people_max}
+              />
+            </div>
+          </div>
         </div>
       </div>
-
-      <div className="container-inner">
-        <div className={Styles.time_group}>
-          <FontAwesomeIcon icon={faArrowLeft} className={Styles.arrow} />
-          <div className={Styles.monday}>
-            <div className={Styles.date}>7/10 (一)</div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>10:00~12:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>12:00~14:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>14:00~16:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>16:00~18:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>18:00~20:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>20:00~22:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-          </div>
-          <div className={Styles.tuesday}>
-            <div className={Styles.date}>7/11 (二)</div>
-
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>10:00~12:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>12:00~14:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>14:00~16:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>16:00~18:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>18:00~20:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>20:00~22:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-          </div>
-          <div className={Styles.tuesday}>
-            <div className={Styles.date}>7/12 (三)</div>
-
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>10:00~12:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>12:00~14:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>14:00~16:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>16:00~18:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>18:00~20:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>20:00~22:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-          </div>
-          <div className={Styles.tuesday}>
-            <div className={Styles.date}>7/13 (四)</div>
-
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>10:00~12:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>12:00~14:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>14:00~16:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>16:00~18:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>18:00~20:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>20:00~22:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-          </div>
-          <div className={Styles.tuesday}>
-            <div className={Styles.date}>7/14 (五)</div>
-
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>10:00~12:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>12:00~14:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>14:00~16:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>16:00~18:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>18:00~20:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>20:00~22:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-          </div>
-          <div className={Styles.tuesday}>
-            <div className={Styles.date}>7/15 (六)</div>
-
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>10:00~12:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>12:00~14:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>14:00~16:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>16:00~18:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>18:00~20:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>20:00~22:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-          </div>
-          <div className={Styles.tuesday}>
-            <div className={Styles.date}>7/16 (日)</div>
-
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>10:00~12:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>12:00~14:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>14:00~16:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>16:00~18:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>18:00~20:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-            <div className={Styles.booking_card}>
-              <div className={Styles.time_range}>20:00~22:00</div>
-              <div className={Styles.rest_people}>
-                剩餘<p className={Styles.rest_num}>12</p>人
-              </div>
-            </div>
-          </div>
-          <FontAwesomeIcon icon={faArrowRight} className={Styles.arrow} />
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
+
+export default WeekCalendar;
