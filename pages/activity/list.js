@@ -26,6 +26,7 @@ export default function ActivityMain() {
   const [showLikeList, setShowLikeList] = useState(false);
 
   const { auth } = useContext(AuthContext);
+  const authId=auth.id;
 
   const toSignIn = () => {
     const from = router.asPath;
@@ -258,43 +259,52 @@ export default function ActivityMain() {
   };
 
   // 給faheart的 新增與刪除--------------------
-  const handleLikeClick = async (activitySid) => {
+  const handleLikeClick = async (activitySid, token,authId) => {
     try {
+      if (!token) {
+        throw new Error('未找到會員ID');
+      }
+  
       if (isInLikeList(activitySid)) {
         // Perform the delete action to remove from the like list
         const response = await fetch(
-          `${process.env.API_SERVER}/activity-api/likelist/${activitySid}/mem00300`,
+          `${process.env.API_SERVER}/activity-api/likelist/${activitySid}`,
           {
             method: 'DELETE',
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
           }
         );
-
+        console.log('會員ID:', token.id);
+  
         if (!response.ok) {
           throw new Error('刪除收藏失敗');
         }
-
+  
         updateLikeList(activitySid, false); // Successfully removed from like list
         console.log('刪除收藏成功');
       } else {
         // Perform the post action to add to the like list
         const response = await fetch(
-          `${process.env.API_SERVER}/activity-api/addlikelist/${activitySid}/mem00300`,
+          `${process.env.API_SERVER}/activity-api/addlikelist/${activitySid}`,
           {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + token,
             },
             body: JSON.stringify({
               aid: activitySid,
-              mid: 'mem00300', // TODO: 會員ID待修改
+              mid: authId,
             }),
           }
         );
-
+  
         if (!response.ok) {
           throw new Error('新增收藏失敗');
         }
-
+  
         updateLikeList(activitySid, true); // Successfully added to like list
         console.log('新增收藏成功');
       }
@@ -302,6 +312,7 @@ export default function ActivityMain() {
       console.error('操作收藏失敗:', error);
     }
   };
+  
 
   // 判斷活動是否在收藏列表中
   const isInLikeList = (activitySid) => {
@@ -433,7 +444,7 @@ export default function ActivityMain() {
                     features={feature_names?.split(',') || []}
                     price={price_adult}
                     isInLikeList={liked}
-                    handleLikeClick={() => handleLikeClick(activity_sid)} // 傳遞handleLikeClick函式給子組件
+                    handleLikeClick={() => handleLikeClick(activity_sid, auth.token)} // 傳遞handleLikeClick函式給子組件
                   />
                 </Col>
               );

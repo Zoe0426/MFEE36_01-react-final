@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 
 const ActivityLikeListCard = ({
     datas = [], //需要渲染的陣列資料
+    token = '',
     removeLikeListItem = () => {}, //用來清除某一項蒐藏清單的函式
   }) => {
     const router = useRouter();
@@ -19,7 +20,7 @@ const ActivityLikeListCard = ({
                     icon={faTrashCan}
                     className={styles.trash_icon}
                     onClick={() => {
-                    removeLikeListItem(activity_sid);
+                    removeLikeListItem(activity_sid, token);
                     }}
                 />
             </div>
@@ -30,11 +31,19 @@ const ActivityLikeListCard = ({
             <img
             src={`/activity_img/${pic}`}
             alt="activity" 
-            className={styles.image} />
+            className={styles.image} 
+            onClick={() => {
+              router.push(`http://localhost:3000/activity/${activity_sid}`);
+            }}
+            />
           </div>
   
           {/* -------右邊------- */}
-          <div className={styles.right} role="presentation">
+          <div className={styles.right} role="presentation"
+           onClick={() => {
+            router.push(`http://localhost:3000/activity/${activity_sid}`);
+          }}
+          >
             <div className={styles.row}>
               <div className={styles.rowTextTitle}>
                 <p>{name}</p>
