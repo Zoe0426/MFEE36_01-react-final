@@ -83,10 +83,12 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                   <MainBtn
                   text = '送出'
                   clickHandler = {sendComment} />
+                  {/* 
                 <div className={Style.icon}>
                 <FontAwesomeIcon icon={faHeart} className={Style.likeGray}/>
                 <FontAwesomeIcon icon={faBookmark} className={Style.favoriteGray}/>
                 </div>
+              */}
                 </div>
                 </div>
                 </div>

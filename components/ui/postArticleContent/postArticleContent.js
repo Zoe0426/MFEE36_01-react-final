@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart, faCommentDots, faBookmark, faShareNodes} from '@fortawesome/free-solid-svg-icons';
 
 
-export default function PostArticleContent({postContent='', likes=0, comments=0, isLiked=false, setIsLiked=()=>{}, postSid='', memberId=''}) {
+export default function PostArticleContent({postContent='', likes=0, comments=0, isLiked=false, setIsLiked=()=>{}, postSid='', memberId='', Fav=false, setFav=()=>{}}) {
 
   const [likeAmount, setLikeAmount] = useState(likes);
   
@@ -34,7 +34,7 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
         setLikeAmount(likeAmount-1);
         const delR = fetch(`${process.env.API_SERVER}/forum-api/forum/likeDel`,{
           method:'DELETE',
-        body:JSON.stringify(
+          body:JSON.stringify(
           {post_sid:postSid,
           member_sid:memberId,
         }),
@@ -47,6 +47,45 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
         .then((data)=>{
           console.log(data);
         })
+      }
+    }
+
+    // 收藏及取消收藏的函數
+    const handleFavClick = ()=>{
+      setFav(!Fav); // 切換收藏狀態
+      if(Fav==false){
+        const r = fetch(`${process.env.API_SERVER}/forum-api/forum/addFav`, {
+          method:'POST',
+          body:JSON.stringify(
+            {post_sid:postSid,
+            member_sid:memberId,
+          }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        })
+        .then((r) => r.json())
+        .then((data)=>{
+          console.log(data);
+        })
+      }else{
+        const delR = fetch(`${process.env.API_SERVER}/forum-api/forum/delFav`, {
+          method:'DELETE',
+          body:JSON.stringify(
+          {post_sid:postSid,
+          member_sid:memberId,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+
+        })
+        .then((r) => r.json())
+        .then((data)=>{
+          console.log(data);
+        })
+
       }
     }
 
@@ -71,7 +110,8 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
                 <p className={Style.postNum}>{comments}</p>                        
             </div>
         
-        <FontAwesomeIcon icon={faBookmark} className={Style.favoriteGray}/>
+        <FontAwesomeIcon onClick={handleFavClick} icon={faBookmark} className={ Fav ? Style.favoriteGreen : Style.favoriteGray } // 根據收藏狀態切換顏色
+        />
         <FontAwesomeIcon icon={faShareNodes} className={Style.shareGray}/>
     </div>
     </div>

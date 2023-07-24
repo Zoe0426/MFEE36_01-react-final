@@ -16,9 +16,10 @@
 .comment{
     /* padding:10px; */
     margin-left:20px;
+    padding-right: 10px;
     /* position: absolute; */
     /* left:20px; */
-    width:100%
+    width:95%
 }
 .commentBody{
     background-color: #fff;
