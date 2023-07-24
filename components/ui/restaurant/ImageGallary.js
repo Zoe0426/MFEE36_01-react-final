@@ -1,41 +1,34 @@
 import { useState } from 'react';
 import Styles from './ImageGallary.module.css';
-import { SlideImage } from './ImageSample';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowLeft,
   faArrowRight,
   faFileLines,
-  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 import IconSeconBtn from '../buttons/IconSeconBtn';
 
-export default function ImageGallary() {
-  const [modal, setModal] = useState(false);
+export default function ImageGallary({ data = [] }) {
+  const [modalOpen, setModalOpen] = useState(false);
   const [current, setCurrent] = useState(0);
-  const length = SlideImage.length;
+  const length = data.length;
 
-  //控制開關
+  // 控制開關
   const toggleModal = () => {
-    setModal(!modal);
+    setModalOpen(!modalOpen);
+    setCurrent(0); // 關閉 Modal 時重置 current 的值
   };
 
-  //下一張照片
+  // 切換到下一張圖片
   const nextSlide = () => {
-    setCurrent(current === length - 1 ? 0 : current + 1);
+    setCurrent((current) => (current + 1) % length);
   };
 
-  //上一張照片
+  // 切換到上一張圖片
   const prevSlide = () => {
-    setCurrent(current === 0 ? length - 1 : current - 1);
+    setCurrent((current) => (current - 1 + length) % length);
   };
-
-  console.log(current);
-
-  if (!Array.isArray(SlideImage) || SlideImage.length <= 0) {
-    return null;
-  }
 
   return (
     <>
@@ -44,22 +37,24 @@ export default function ImageGallary() {
         text="餐廳菜單"
         icon={faFileLines}
       />
-      {modal && (
+      {modalOpen && (
         <>
-          <div onClick={toggleModal} className={Styles.overlay}></div>
-          <div className={Styles.slider}>
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              className={Styles.left_arrow}
-              onClick={prevSlide}
-            />
-            <FontAwesomeIcon
-              icon={faArrowRight}
-              className={Styles.right_arrow}
-              onClick={nextSlide}
-            />
-            {SlideImage.map((slide, index) => {
-              return (
+          <div className={Styles.overlay} onClick={toggleModal}></div>
+          <div className={Styles.modal}>
+            <div className={Styles.slider}>
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                className={Styles.left_arrow}
+                onClick={prevSlide}
+                style={{ display: current === 0 ? 'none' : 'block' }} // 控制上一張箭頭顯示或隱藏
+              />
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                className={Styles.right_arrow}
+                onClick={nextSlide}
+                style={{ display: current === length - 1 ? 'none' : 'block' }} // 控制下一張箭頭顯示或隱藏
+              />
+              {data.map((v, index) => (
                 <div
                   key={index}
                   className={
@@ -67,20 +62,17 @@ export default function ImageGallary() {
                   }
                 >
                   {index === current && (
-                    <img
-                      src={slide.image}
-                      alt="travel"
-                      className={Styles.image}
-                    />
+                    <div className={Styles.image_container}>
+                      <img
+                        src={`/rest_image/menu/${v.menu_name}`}
+                        alt="travel"
+                        className={Styles.image}
+                      />
+                    </div>
                   )}
                 </div>
-              );
-            })}
-            <FontAwesomeIcon
-              icon={faXmark}
-              className={Styles.xmark}
-              onClick={toggleModal}
-            />
+              ))}
+            </div>
           </div>
         </>
       )}

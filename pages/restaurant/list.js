@@ -1,9 +1,20 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import AuthContext from '@/context/AuthContext';
 import RestCard from '@/components/ui/cards/rest_card';
-import { Pagination, Col, Row, ConfigProvider, Breadcrumb } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import {
+  Pagination,
+  Col,
+  Row,
+  ConfigProvider,
+  Breadcrumb,
+  Button,
+  Dropdown,
+  Space,
+  Menu,
+} from 'antd';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
-import Banner from '@/components/ui/restaurant/Banner';
 import Styles from './list.module.css';
 import filterDatas from '@/data/restaurnt/categories.json';
 import IconBtn from '@/components/ui/buttons/IconBtn';
@@ -11,24 +22,29 @@ import {
   faFilter,
   faHeart,
   faMap,
+  faPaw,
   faCircleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
-import LocationFilter from '@/components/ui/restaurant/LocationFilter';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
-import SearchBar from '@/components/ui/buttons/SearchBar';
+import SearchBar1 from '@/components/ui/buttons/SearchBar1';
 import orderByOptions from '@/data/restaurnt/orderby.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cityDatas from '@/data/restaurnt/location.json';
+import SearchBar from '@/components/ui/buttons/SearchBar';
+import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 
 export default function FilterPage() {
   const router = useRouter();
-  // const { categorySid } = filterDatas;
-  // console.log(categorySid);
+
+  // console.log(cityDatas);
+  // const { category } = filterDatas;
+
   const [filters, setFilters] = useState(filterDatas);
 
   // 儲存篩選條件
@@ -41,26 +57,66 @@ export default function FilterPage() {
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
 
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [isClickingLike, setIsClickingLike] = useState(false);
+
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(15);
 
   const [keyword, setKeyword] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [keywordDatas, setKeywordDatas] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
 
   const [rule, setRule] = useState('');
   const [service, setService] = useState('');
   const [city, setCity] = useState('');
+  const [area, setArea] = useState('');
   const [category, setCategory] = useState('');
 
   const [orderBy, setOrderBy] = useState('-- 排序條件 --');
 
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-
+  const [errorMsg, setErrorMsg] = useState();
   const [datePickerValue, setDatePickerValue] = useState(null);
 
   const [showStartTimeError, setStartShowTimeError] = useState(false);
   const [showEndTimeError, setShowEndTimeError] = useState(false);
 
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+
+  const { auth, setAuth } = useContext(AuthContext);
+
+  const getData = async (obj = {}, token = '') => {
+    const usp = new URLSearchParams(obj);
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+
+    if (Array.isArray(data.rows)) {
+      setData(data);
+    }
+  };
+
+  const handleCityClick = ({ key }) => {
+    setSelectedCity(key);
+    setSelectedArea(null);
+  };
+
+  const handleAreaClick = ({ key }) => {
+    setSelectedArea(key);
+  };
+  //取台灣的地區
+  const cities = cityDatas;
   //取資料相關的函式-------------------------------------------------------
   const [data, setData] = useState({
     totalRows: 0,
@@ -94,57 +150,202 @@ export default function FilterPage() {
     );
   };
 
-  //searchBar相關的函式-------------------------------------------------------
-  const searchBarHandler = (e) => {
-    let copyURL = { ...router.query, page: 1 };
-    if (e.key === 'Enter') {
-      if (!keyword) {
-        delete copyURL.keyword;
-      } else {
-        const searchText = e.target.value;
-        copyURL = { ...copyURL, keyword: searchText };
+  // 這邊有點問題;
+  useEffect(() => {
+    //取得用戶拜訪的類別選項
+    const {
+      keyword,
+      rule,
+      service,
+      city,
+      area,
+      category,
+      startTime,
+      endTime,
+      selectedDate,
+    } = router.query;
+
+    console.log(router.query);
+
+    if (Object.keys(router.query).length !== 0) {
+      console.log(router.query);
+      setRule(rule || '');
+      setService(service || '');
+      if (city) {
+        setSelectedCity(city);
       }
-      router.push(`?${new URLSearchParams(copyURL).toString()}`);
+      if (area) {
+        setSelectedArea(area);
+      }
+
+      if (startTime) {
+        setStartTime(startTime);
+      }
+
+      if (endTime) {
+        setEndTime(endTime);
+      }
+
+      if (selectedDate) {
+        setDatePickerValue(selectedDate); // 設置日期狀態
+      }
+      if (category) {
+        resetCheckBox('category', category);
+      }
+
+      setArea(area || '');
+      setCategory(category || '');
+      setKeyword(keyword || '');
+      // setOrderBy(orderBy);
+      const usp = new URLSearchParams(router.query);
+
+      fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (Array.isArray(data.rows)) {
+            setData(data);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+    getData(router.query, auth.token);
+    // if (Object.keys(router.query).length === 0) {
+    //   console.log(router.query);
+    //   fetch(`${process.env.API_SERVER}/restaurant-api/list`)
+    //     .then((r) => r.json())
+    //     .then((data) => {
+    //       if (Array.isArray(data.rows)) {
+    //         setData(data);
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // }
+  }, [router.query]);
+
+  console.log(data.rows);
+
+  //進入畫面時將checkbox依據queryString設定勾選狀態
+  const resetCheckBox = (key, str) => {
+    const selectedValues = str.split(',');
+    const newCheckBox = filters[key].map((v) => {
+      if (selectedValues.includes(String(v.value))) {
+        return { ...v, checked: true };
+      }
+      return { ...v, checked: false };
+    });
+    setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
+  };
+
+  //searchBar相關的函式-------------------------------------------------------
+
+  // const getRestKeywordData = async () => {
+  //   try {
+  //     const res = await fetch(`${process.env.API_SERVER}/restaurant-api/list`);
+  //     const responseData = await res.json();
+  //     if (Array.isArray(responseData.rows)) {
+  //       setData(responseData);
+  //     }
+  //     console.log(responseData.rows);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getRestKeywordData().then(() => {});
+  // }, []);
+
+  const filterKeywordDatas = (data, keyword, keyin) => {
+    if (!keyin) {
+      const searchWord = keyword.split('');
+
+      data.forEach((v1) => {
+        v1.count = 0;
+        searchWord.forEach((v2) => {
+          if (v1.name.includes(v2)) {
+            v1.count += 1;
+          }
+        });
+      });
+      console.log(searchWord);
+      console.log(data);
+
+      data.sort((a, b) => b.count - a.count);
+
+      return data.filter((v) => v.count >= searchWord.length);
+    }
+  };
+  const searchBarHandler = (e) => {
+    const searchText = e.target.value;
+    if (!searchText) {
+      const newKeywordDatas = [...keywordDatas];
+      setKeywordDatas(false);
+      setShowKeywordDatas(newKeywordDatas);
+    }
+    if (e.key === 'Enter') {
+      if (!searchText.trim()) {
+        // 如果沒有填字，不執行換頁的動作
+        return;
+      }
+
+      let copyURL = { page: 1 };
+      if (searchText) {
+        copyURL = { keyword: searchText, ...copyURL };
+      }
+      setShowFilter(false);
+
+      router.push(
+        `/restaurant/list?${new URLSearchParams(copyURL).toString()}`
+      );
     }
   };
 
   const searchBarClickHandler = () => {
+    if (!keyword) {
+      return;
+    }
+    setShowFilter(false);
+
     router.push(
-      `?${new URLSearchParams({
-        ...router.query,
+      `/restaurant/list?${new URLSearchParams({
         keyword: keyword,
         page: 1,
       }).toString()}`
     );
   };
 
-  useEffect(() => {
-    //取得用戶拜訪的類別選項
-    const { keyword, rule, service, city, orderBy, category } = router.query;
-    console.log(router.query);
-    setRule(rule || '');
-    setService(service || '');
-    setCity(city || '');
-    setCategory(category || '');
-    setKeyword(keyword || '');
-    // setOrderBy(orderBy);
+  const autocompleteHandler = (selectkeyword) => {
+    setKeyword(selectkeyword);
+    setShowKeywordDatas(false);
+  };
 
-    const usp = new URLSearchParams(router.query);
+  const sendLikeList = (arr, token = '', isClickingLike = false) => {
+    // const usp = new URLSearchParams(obj);
 
-    fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data.rows)) {
-          setData(data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [router.query]);
+    if (!isClickingLike) {
+      console.log(JSON.stringify({ data: arr }));
 
-  //datefilter相關的函式-------------------------------------------------------
+      // const res = await fetch(
+      //   `${process.env.API_SERVER}/shop-api/handle-like-list`,
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       Authorization: 'Bearer ' + token,
+      //     },
+      //     body: JSON.stringify({ data: arr }),
+      //   }
+      // );
+      // const data = await res.json();
 
+      // if (data.success) {
+      //   console.log(data);
+      // }
+    }
+  };
   //checkbox相關的函式-------------------------------------------------------
   const checkboxToggleHandler = (arr, name, id) => {
     // 在點擊checkbox 的選擇，並更新狀態
@@ -153,7 +354,7 @@ export default function FilterPage() {
     );
     setFilters({
       ...filters,
-      categorySid: updatedCategorySid,
+      category: updatedCategorySid,
     });
   };
 
@@ -167,10 +368,39 @@ export default function FilterPage() {
   const handlerChange2 = (time) => {
     setEndTime(time);
   };
-  //餐廳篩選條件
+
+  //輸入時間的框框是否成為焦點
+  const handleBlur = () => {
+    // 檢查是否填寫了開始時間和結束時間
+    if (startTime && !endTime) {
+      setStartShowTimeError(false);
+      setShowEndTimeError(true);
+    } else if (!startTime && endTime) {
+      setStartShowTimeError(true);
+      setShowEndTimeError(false);
+    } else if (startTime && endTime) {
+      // 如果開始時間和結束時間相同，顯示相同時間錯誤提示訊息
+      if (startTime === endTime) {
+        setStartShowTimeError(true);
+        setShowEndTimeError(true);
+        setErrorMsg('不可填寫相同時間');
+      } else {
+        setStartShowTimeError(false);
+        setShowEndTimeError(false);
+        setErrorMsg(null);
+      }
+    } else {
+      // 時間填寫正確，清除錯誤提示訊息
+      setStartShowTimeError(false);
+      setShowEndTimeError(false);
+      setErrorMsg(null);
+    }
+  };
+
+  //篩選的部分
   const filterHandler = () => {
-    const filterCate = filters.categorySid;
-    //console.log(filterCate);
+    const filterCate = filters.category;
+    console.log(filterCate);
 
     //時間篩選
     const start = startTime ? startTime + ':00' : null;
@@ -186,16 +416,50 @@ export default function FilterPage() {
     if (startTime && !endTime) {
       setStartShowTimeError(false);
       setShowEndTimeError(true);
+      setShowFilter(true);
     } else if (!startTime && endTime) {
       setStartShowTimeError(true);
       setShowEndTimeError(false);
+      setShowFilter(true);
+    } else if (startTime && endTime) {
+      // 如果開始時間和結束時間相同，顯示相同時間錯誤提示訊息
+      if (startTime === endTime) {
+        setStartShowTimeError(true);
+        setShowEndTimeError(true);
+        setErrorMsg('不可填寫相同時間');
+      } else {
+        setStartShowTimeError(false);
+        setShowEndTimeError(false);
+        setErrorMsg(null);
+      }
+    } else {
+      // 時間填寫正確，清除錯誤提示訊息
+      setStartShowTimeError(false);
+      setShowEndTimeError(false);
+      setErrorMsg(null);
     }
 
+    //如果有錯誤訊息就不送出篩選
+    if (errorMsg && showStartTimeError && showEndTimeError) {
+      return;
+    }
     const checkedOptions = filterCate
       .filter((v) => v.checked === true)
       .map((v) => v.value);
 
     let query = {};
+
+    if (selectedCity) {
+      query.city = selectedCity;
+    }
+
+    if (selectedArea) {
+      query.area = selectedArea;
+    }
+
+    console.log(selectedCity);
+    console.log(selectedArea);
+
     if (checkedOptions.length > 0) {
       query.category = checkedOptions;
     }
@@ -211,6 +475,9 @@ export default function FilterPage() {
     // console.log(start);
     // console.log(end);
     // console.log(checkedOptions);
+
+    //收起篩選區域
+    //setShowFilter(false);
     router.push(
       `?${new URLSearchParams({
         ...query,
@@ -226,6 +493,8 @@ export default function FilterPage() {
     setDatePickerValue(null);
     setStartShowTimeError(false);
     setShowEndTimeError(false);
+    setSelectedCity(null);
+    setSelectedArea(null);
 
     // setStartTime('08:00');
 
@@ -254,21 +523,21 @@ export default function FilterPage() {
     setShowLikeList(false);
   };
 
-  const removeAllLikeList = () => {
-    setLikeDatas([]);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB('all', 'mem00002');
-  };
+  // const removeAllLikeList = () => {
+  //   setLikeDatas([]);
+  //   //這邊需要再修改，要看怎麼得到會員的編號
+  //   removeLikeListToDB('all', 'mem00002');
+  // };
 
-  const removeLikeListItem = (pid) => {
-    const newLikeList = likeDatas.filter((arr) => {
-      return arr.product_sid !== pid;
-    });
+  // const removeLikeListItem = (pid) => {
+  //   const newLikeList = likeDatas.filter((arr) => {
+  //     return arr.product_sid !== pid;
+  //   });
 
-    setLikeDatas(newLikeList);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB(pid, 'mem00002');
-  };
+  //   setLikeDatas(newLikeList);
+  //   //這邊需要再修改，要看怎麼得到會員的編號
+  //   removeLikeListToDB(pid, 'mem00002');
+  // };
 
   //Pagination相關的函式-------------------------------------------------------
   const PageChangeHandler = (page, perpage) => {
@@ -288,7 +557,7 @@ export default function FilterPage() {
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
-          <SearchBar
+          {/* <SearchBar
             placeholder="搜尋餐廳名稱"
             btn_text="尋找餐廳"
             inputText={keyword}
@@ -297,6 +566,32 @@ export default function FilterPage() {
             }}
             keyDownHandler={searchBarHandler}
             clickHandler={searchBarClickHandler}
+          /> */}
+          <SearchBar1
+            keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
+            placeholder="搜尋友善餐廳"
+            btn_text="尋找餐廳"
+            inputText={keyword}
+            changeHandler={(e) => {
+              setKeyword(e.target.value);
+              setShowKeywordDatas(true);
+              setIsTyping(true);
+              setTimeout(() => {
+                setIsTyping(false);
+              }, 700);
+            }}
+            keyDownHandler={searchBarHandler}
+            clickHandler={searchBarClickHandler}
+            autocompleteHandler={autocompleteHandler}
+            showKeywordDatas={showKeywordDatas}
+            blurHandler={() => {
+              setTimeout(() => {
+                setShowKeywordDatas(false);
+              }, 200);
+            }}
+            clearHandler={() => {
+              setKeyword('');
+            }}
           />
         </div>
       </div>
@@ -353,7 +648,75 @@ export default function FilterPage() {
             </div>
             <div className="container-inner">
               <div className={Styles.filter_box}>
-                <LocationFilter text="用餐地區" />
+                {/* <LocationFilter
+                  text="用餐地區"
+                  handleCityClick={handleCityClick}
+                  handleAreaClick={handleAreaClick}
+                /> */}
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorBorder: '#DDDDDD',
+                      colorPrimary: '#FD8C46',
+                      colorBgContainer: 'rgba(255,255,255)',
+                      borderRadius: 10,
+                      controlHeight: 50,
+                      fontSize: 16,
+                      borderRadiusOuter: 10,
+                    },
+                  }}
+                >
+                  {/* <LocationFilter text={'用餐地點'} /> */}
+                  <div className={Styles.location_search_area}>
+                    <div className={Styles.category_area}>
+                      <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
+                      <label className={Styles.labels}>用餐地點</label>
+                    </div>
+                    <div className={Styles.dropdowns}>
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleCityClick}>
+                            {Object.keys(cities).map((city) => (
+                              <Menu.Item key={city}>{city}</Menu.Item>
+                            ))}
+                          </Menu>
+                        }
+                        className={Styles.city}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={Styles.dropdown_arrow}>
+                              {selectedCity ? selectedCity : '城市'}
+                            </p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleAreaClick}>
+                            {selectedCity &&
+                              cities[selectedCity].map((area) => (
+                                <Menu.Item key={area}>{area}</Menu.Item>
+                              ))}
+                          </Menu>
+                        }
+                        className={Styles.section}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={Styles.dropdown_arrow}>
+                              {selectedArea ? selectedArea : '地區'}
+                            </p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                    </div>
+                  </div>
+                </ConfigProvider>
                 <TimeDateFilter
                   startTime={startTime}
                   endTime={endTime}
@@ -361,11 +724,12 @@ export default function FilterPage() {
                   handlerChange2={handlerChange2}
                   onDateChange={handleDatePickerChange}
                   value={datePickerValue}
+                  onBlur={handleBlur}
                   alert_start={
                     showStartTimeError && (
                       <p style={{ color: 'red' }}>
                         <FontAwesomeIcon icon={faCircleExclamation} />{' '}
-                        請填寫開始時間
+                        {errorMsg || '請填寫開始時間'}
                       </p>
                     )
                   }
@@ -375,14 +739,14 @@ export default function FilterPage() {
                     showEndTimeError && (
                       <p style={{ color: 'red' }}>
                         <FontAwesomeIcon icon={faCircleExclamation} />{' '}
-                        請填寫結束時間
+                        {errorMsg || '請填寫結束時間'}
                       </p>
                     )
                   }
                 />
                 <RestaurantFilter
                   text="用餐類別"
-                  data={filters.categorySid}
+                  data={filters.category}
                   onChange={checkboxToggleHandler}
                 />
 
@@ -400,15 +764,10 @@ export default function FilterPage() {
             {showLikeList && (
               <Likelist
                 datas={likeDatas}
-                // customCard={
-                //   <ShopLikelistCard
-                //     datas={likeDatas}
-                //     removeLikeListItem={removeLikeListItem}
-                //   />
-                // }
+                customCard={<LikeListCard />}
                 closeHandler={closeShowLikeList}
-                removeAllHandler={removeAllLikeList}
-                removeLikeListItem={removeLikeListItem}
+                // removeAllHandler={removeAllLikeList}
+                // removeLikeListItem={removeLikeListItem}
               />
             )}
           </div>
@@ -419,7 +778,7 @@ export default function FilterPage() {
       <div className="container-inner">
         <div className={Styles.second_area}>
           <div className={Styles.search_title}>
-            <h2 className={Styles.jill_h2}>餐廳進階篩選結果</h2>
+            <h2 className={Styles.jill_h2}>餐廳列表</h2>
             <p>
               {data.totalRows != 0 ? `共${data.totalRows}間餐廳` : '查無餐廳'}
             </p>
@@ -445,6 +804,7 @@ export default function FilterPage() {
               rule_names,
               service_names,
               average_friendly,
+              like,
             } = v;
 
             return (
@@ -458,6 +818,29 @@ export default function FilterPage() {
                   rule_names={rule_names}
                   service_names={service_names}
                   average_friendly={average_friendly}
+                  like={like}
+                  clickHandler={() => {
+                    setIsClickingLike(true);
+                    const newData = data.rows.map((v) => {
+                      if (v.rest_sid === rest_sid) {
+                        if (addLikeList.includes(rest_sid)) {
+                          setAddLikeList((preV) =>
+                            preV.filter((v2) => v2 !== rest_sid)
+                          );
+                        } else {
+                          setAddLikeList((preV) => [...preV, rest_sid]);
+                        }
+                        return { ...v, like: !v.like };
+                      } else return { ...v };
+                    });
+
+                    setData({ ...data, rows: newData });
+
+                    setTimeout(() => {
+                      setIsClickingLike(false);
+                    }, 5000);
+                    sendLikeList(addLikeList, auth.token, isClickingLike);
+                  }}
                 />
               </Col>
             );

@@ -15,6 +15,8 @@ export default function RestCard({
   rule_names = '',
   service_names = '',
   average_friendly = '',
+  like = false,
+  clickHandler = () => {},
 }) {
   const rules = rule_names.split(',');
   const services = service_names.split(',');
@@ -23,11 +25,15 @@ export default function RestCard({
 
   return (
     <>
+      <FontAwesomeIcon
+        icon={faHeart}
+        onClick={clickHandler}
+        className={`${Styles.icon_inImage} ${like && Styles.active}`}
+      />
       <Link href={`http://localhost:3000/restaurant/${rest_sid}`}>
         <div className={Styles.card}>
           <div className={Styles.rest_img}>
             <img src={image} alt="rest_image" />
-            <FontAwesomeIcon icon={faHeart} className={Styles.icon_inImage} />
           </div>
           <h3 className={Styles.rest_name}>{name}</h3>
 

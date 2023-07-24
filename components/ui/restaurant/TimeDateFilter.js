@@ -27,19 +27,13 @@ export default function TimeDateFilter({
   alert_end,
   status_end,
   status_start,
+  onBlur,
 }) {
-  const handleButtonClick = (e) => {
-    message.info('Click on left button.');
-    console.log('click left button', e);
-  };
-  const handleMenuClick = (e) => {
-    message.info('Click on menu item.');
-    console.log('click', e);
+  const onChange = (date, dateString) => {
+    onDateChange(date, dateString); // 直接傳遞選擇的日期給父元件
   };
 
-  const onChange = (date, dateString) => {
-    onDateChange(date); // 直接傳遞選擇的日期給父元件
-  };
+  const format = 'HH:mm';
 
   return (
     <ConfigProvider
@@ -47,6 +41,7 @@ export default function TimeDateFilter({
       theme={{
         token: {
           colorBorder: '#DDDDDD',
+          colorLink: '#FD8C46',
           colorPrimary: '#FD8C46',
           colorBgContainer: 'rgba(255,255,255)',
           borderRadius: 10,
@@ -82,12 +77,14 @@ export default function TimeDateFilter({
             <TimePicker
               placeholder="開始時間"
               status={status_start}
+              onBlur={onBlur}
               value={startTime ? moment(startTime, 'HH:mm') : null}
               onChange={(time) =>
                 handlerChange1(time ? time.format('HH:mm') : null)
               }
               className={Styles.input_frame}
               // onChange={handlerChange1}
+              format={format}
             />
             <div
               className={Styles.alert}
@@ -100,12 +97,14 @@ export default function TimeDateFilter({
             <TimePicker
               placeholder="結束時間"
               status={status_end}
+              onBlur={onBlur}
               value={endTime ? moment(endTime, 'HH:mm') : null}
               // onChange={handlerChange2}
               onChange={(time) =>
                 handlerChange2(time ? time.format('HH:mm') : null)
               }
               className={Styles.input_frame}
+              format={format}
             />
             <div
               className={Styles.alert}
@@ -115,26 +114,6 @@ export default function TimeDateFilter({
             </div>
           </div>
         </div>
-
-        {/* <div className={Styles.input_section}>
-          <input
-            className={Styles.input_frame}
-            type="time"
-            placeholder="開始時間"
-            id="startTimeInput"
-            value={startTime}
-            onChange={handlerChange1}
-          />
-          <p className={Styles.to}>~</p>
-          <input
-            className={Styles.input_frame}
-            type="time"
-            placeholder="結束時間"
-            id="endTimeInput"
-            value={endTime}
-            onChange={handlerChange2}
-          />
-        </div> */}
       </div>
     </ConfigProvider>
   );

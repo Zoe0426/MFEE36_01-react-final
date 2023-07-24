@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-
 const cities = {
-  臺北市: [
+  台北市: [
     '中正區',
     '大同區',
     '中山區',
@@ -106,7 +104,7 @@ const cities = {
     '獅潭鄉',
     '泰安鄉',
   ],
-  臺中市: [
+  台中市: [
     '中區',
     '東區',
     '南區',
@@ -194,7 +192,7 @@ const cities = {
     '崙背鄉',
     '二崙鄉',
     '麥寮鄉',
-    '臺西鄉',
+    '台西鄉',
     '東勢鄉',
     '褒忠鄉',
     '四湖鄉',
@@ -223,7 +221,7 @@ const cities = {
     '阿里山鄉',
   ],
   嘉義市: ['東區', '西區'],
-  臺南市: [
+  台南市: [
     '中西區',
     '東區',
     '南區',
@@ -366,8 +364,8 @@ const cities = {
     '富里鄉',
     '卓溪鄉',
   ],
-  臺東縣: [
-    '臺東市',
+  台東縣: [
+    '台東市',
     '成功鎮',
     '關山鎮',
     '長濱鄉',
@@ -388,57 +386,3 @@ const cities = {
   金門縣: ['金城鎮', '金湖鎮', '金沙鎮', '金寧鄉', '烈嶼鄉', '烏坵鄉'],
   連江縣: ['南竿鄉', '北竿鄉', '莒光鄉', '東引鄉'],
 };
-
-const TwoLevelSelect = () => {
-  const defaultCity = '臺北市'; // 設定預設城市
-  const [selectedCity, setSelectedCity] = useState(defaultCity); // 紀錄選擇的城市
-  const [selectedDistrict, setSelectedDistrict] = useState(''); // 紀錄選擇的區域
-  const [districts, setDistricts] = useState(cities[defaultCity] || []); // 儲存根據預設城市選擇的區域選項
-
-  // 當選擇的城市改變時，更新對應的區域選項
-  const handleCityChange = (event) => {
-    const city = event.target.value;
-    setSelectedCity(city);
-    setSelectedDistrict('');
-    setDistricts(cities[city] || []);
-  };
-
-  // 當選擇的區域改變時，更新對應的區域值
-  const handleDistrictChange = (event) => {
-    setSelectedDistrict(event.target.value);
-  };
-
-  return (
-    <div>
-      <label>
-        {/* 選擇城市： */}
-        <select value={selectedCity} onChange={handleCityChange}>
-          {Object.keys(cities).map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <label>
-        {/* 選擇區域： */}
-        <select value={selectedDistrict} onChange={handleDistrictChange}>
-          {districts.map((district) => (
-            <option key={district} value={district}>
-              {district}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      {/* <div>
-        已選擇城市：{selectedCity}
-        <br />
-        已選擇區域：{selectedDistrict}
-      </div> */}
-    </div>
-  );
-};
-
-export default TwoLevelSelect;

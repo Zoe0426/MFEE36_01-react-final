@@ -46,18 +46,25 @@
     .feature_decorate{
         border-radius: var(--br10);
         background-color: transparent;
-        border: none
+        border: none;
+        width: 100%;
+        
     }
     .feature_info{
-        padding: 0;
+        width: 100%;
+        padding: 0px;
     }
     .feature_card{
+        width: 100%;
         flex-direction: column;
         background-color: transparent;
-        margin-bottom: 32px;
+        margin-bottom: 64px;
     }
     .jill_h2{
         margin-top: 20px;
         font-size: var( --h6fs18);
+    }
+    .information{
+        margin-bottom: 0px;
     }
     }

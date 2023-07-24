@@ -28,6 +28,7 @@ import PinkBtn from '@/components/ui/restaurant/PinkBtn';
 import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
+import catJump from '@/assets/jump_cat.svg';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
@@ -40,12 +41,17 @@ export default function RestInfo() {
     serviceRows: [],
     commentRows: [],
     activityRows: [],
+    likeDatas: [],
+    menuRows: [],
   });
   const [imageRows, setImageRows] = useState([]);
   const [ruleRows, setRuleRows] = useState([]);
   const [serviceRows, setServiceRows] = useState([]);
   const [commentRows, setCommentRows] = useState([]);
   const [activityRows, setActivityRows] = useState([]);
+
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [menuRows, setMenuRows] = useState([]);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
@@ -67,6 +73,8 @@ export default function RestInfo() {
             serviceRows,
             commentRows,
             activityRows,
+            likeDatas,
+            menuRows,
           } = data;
 
           // 更新 React 組件的狀態
@@ -81,6 +89,12 @@ export default function RestInfo() {
             setRuleRows(ruleRows);
           }
 
+          if (menuRows && menuRows.length > 0) {
+            setMenuRows(menuRows);
+          }
+
+   
+          console.log(menuRows);
           // if (imageRows && imageRows.length > 0) {
           //   setImageRows(imageRows);
           // }
@@ -280,7 +294,7 @@ export default function RestInfo() {
             {/* button */}
             <div className={Styles.detail_main_buttom}>
               <IconSeconBtn icon={faHeart} text="收藏餐廳" />
-              <ImageGallary />
+              <ImageGallary data={menuRows} />
               <IconMainBtn
                 icon={faCalendar}
                 text="我要預約"
@@ -358,7 +372,10 @@ export default function RestInfo() {
       </div>
       <div className={Styles.notion_bgc}>
         <div className="container-inner">
-          <h2 className={Styles.jill_h2_notion}>預約叮嚀</h2>
+          <div className={Styles.cat_section}>
+            <h2 className={Styles.jill_h2_notion}>預約叮嚀</h2>
+            <Image src={catJump} alt="catJump" />
+          </div>
           <div className={Styles.notion_frame}>
             <p>
               1. 事先了解店家規範：不論是去任何餐廳都應該先詳細了解店內規範。
