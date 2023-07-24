@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from 'react';
-import CryptoJS from 'crypto-js';
 
 const AuthContext = createContext({});
 export default AuthContext;
@@ -23,32 +22,9 @@ export const AuthContextProvider = function ({ children }) {
     if (str) {
       try {
         const obj = JSON.parse(str);
-
-        //解密id
-        let petauthId = obj.id;
-        petauthId = CryptoJS.AES.decrypt(petauthId, 'GoWithMe').toString(
-          CryptoJS.enc.Utf8
-        );
-        obj.id = petauthId;
-
-        //解密email
-        let petauthEmail = obj.email;
-        petauthEmail = CryptoJS.AES.decrypt(petauthEmail, 'GoWithMe').toString(
-          CryptoJS.enc.Utf8
-        );
-        obj.email = petauthEmail;
-
-        //解密email
-        let petauthNickname = obj.nickname;
-        petauthNickname = CryptoJS.AES.decrypt(
-          petauthNickname,
-          'GoWithMe'
-        ).toString(CryptoJS.enc.Utf8);
-        obj.nickname = petauthNickname;
-
         setAuth(obj);
       } catch (ex) {
-        ('reeor');
+        ('error');
       }
     }
   }, []);

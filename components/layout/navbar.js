@@ -8,29 +8,38 @@ import CloseBtn from '../ui/buttons/closeBtn';
 
 export default function Navbar({ type = '' }) {
   const { auth, logout } = useContext(AuthContext);
+  console.log('auth,navbar:', auth);
   const router = useRouter();
+  const [first, setFirst] = useState(false);
   const [cartItemAmount, setCartItemAmount] = useState(0);
   const [showMemList, setShowMemList] = useState(false);
   const [showCartBox, setShowCartBox] = useState(false);
   const [showLoginBox, setShowLoginBox] = useState(false);
   const [memProfileImg, setMemProfileImg] = useState('/product-img/pro001.jpg');
   const [login, setLogin] = useState(false);
+  const [isActive, setIsActive] = useState(false);
+
   const getCartTotalItems = async (id) => {
+    console.log('id-countitem', id);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/count-item`, {
       method: 'POST',
       body: JSON.stringify({ member_sid: id }),
       headers: { 'Content-Type': 'application/json' },
     });
     const itemAmount = await r.json();
+    console.log({ itemAmount });
     setCartItemAmount(itemAmount.itemInCart);
   };
+
   const getMemberImage = async (id) => {
+    console.log('id', id);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/get-mem-img`, {
       method: 'POST',
       body: JSON.stringify({ member_sid: id }),
       headers: { 'Content-Type': 'application/json' },
     });
     const memImg = await r.json();
+    console.log('memImg:', memImg);
     if (memImg.profile) {
       setMemProfileImg(memImg.profile);
     } else {
@@ -43,14 +52,17 @@ export default function Navbar({ type = '' }) {
     setCartItemAmount(0);
     setLogin(false);
   };
+  useEffect(() => {
+    setFirst(true);
+  }, []);
 
   useEffect(() => {
-    if (auth.token) {
+    if (auth.token && first) {
       getCartTotalItems(auth.id);
       getMemberImage(auth.id);
       setLogin(true);
     }
-  }, [auth]);
+  }, [auth, first]);
 
   //======redirect======
   const redirectToCart = () => {
@@ -70,7 +82,6 @@ export default function Navbar({ type = '' }) {
   const signIntoCart = () => {
     router.push('/cart');
   };
-  const [isActive, setIsActive] = useState(false);
 
   // const toggleLine = document.querySelector('.line');
   // const toggleMenu = document.querySelector('.link-menu');
