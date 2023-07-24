@@ -78,6 +78,7 @@
 .pet_type_cards {
   margin-left: 5%;
   width: 7000px;
+  
 }
 
 .pet_type_btns {
@@ -252,6 +253,11 @@
   height: 48px;
   line-height: 100%;
   text-align: center;
+}
+
+.active_detail_spec_btn{
+  border:1px solid var(--main);
+  color:var(--main)
 }
 
 .detail_spec_btn:hover {

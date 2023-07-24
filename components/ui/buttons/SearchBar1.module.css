@@ -1,8 +1,25 @@
-.search_input {
-  min-width: 600px;
-  /* width: 100%; */
+.input_area {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.input_area>div{
+  max-width: 632px;
+  width: 100%;
   height: 100%;
   margin-right: 16px;
+}
+
+.input_box{
+  height: 100%;
+  position: relative;
+  margin-bottom:5px;
+}
+.search_input {
+  max-width: 600px;
+  width: 100%;
+  height: 100%;
   padding: var(--p16);
   border-radius: var(--br8);
   border: 1px solid transparent;
@@ -14,22 +31,7 @@
   border: 1px solid transparent;
   outline: 1px solid var(--main);
 }
-.input_area {
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-.input_area>div{
-  height: 100%;
-  /* flex:1 */
-}
 
-
-.input_box{
-  height: 100%;
-  position: relative;
-}
 
 .btn_clear_text{
   position: absolute;
@@ -39,7 +41,7 @@
   border: 1px solid var(--light-gray);
   padding: 2px 4px;
   border-radius: 50%;
-  right: 24px;
+  right: 16px;
   top:50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -61,7 +63,7 @@
   background-color: white;
   text-align: left;
   box-shadow: var(--shadow);
-  }
+}
 
 .keyword_reminder li {
   border-bottom: 1px solid var(--light-gray);
@@ -75,18 +77,39 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 767px) {
-  .search_input {
-    width: 200px;
-    padding: 0.75rem;
+@media screen and (max-width:1300px) and (min-width:769px){
+  .input_area>div{
+    flex:1;
     margin-right: 8px;
+  }
+
+  .search_input{
+    height: 100%;
+    width:calc(100% - 0.75rem * 2 );
+    padding: 0.75rem ;
+  }
+
+}
+
+
+@media screen and (max-width: 767px) {
+  .input_area>div{
+    width: 248px;
+    margin-right: 0px;
+    ;
+  }
+  .search_input {
+    width:calc(200px + 0.75rem * 2 );
+    box-sizing: border-box;
+    padding: 0.75rem;
     border-radius: var(--br8);
     font-size: var(--pfs14);
     outline: 1px solid var(--light-gray);
   }
 
   .keyword_reminder {
-    width: 228px;
+    margin-left:0.75rem ;
+    width:calc(200px + 0.75rem * 2 );
   }
 
   .keyword_reminder li{

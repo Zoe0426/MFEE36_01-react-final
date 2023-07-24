@@ -121,7 +121,10 @@ export default function Product() {
           likeDatas,
         } = await res_productInfo.json();
         const innitDescription = shopMainData[0].description;
-        const description = innitDescription.replace(/\n/g, '<br/>');
+        // const description = innitDescription.replace(/\n/g, '<br/>');
+        const description = innitDescription
+          .replace(/\n/g, '<br/>')
+          .replace(/amp;/g, '&');
 
         if (shopMainData) {
           //將進入頁面的都存在localStorage，作為瀏覽紀錄的資料
@@ -156,10 +159,11 @@ export default function Product() {
           setDataForProductDetail(
             shopDetailData.map((v, i) => {
               if (i === 0) {
-                return { ...v, count: 0, display: true };
-              } else return { ...v, count: 0, display: false };
+                return { ...v, count: 0, display: true, active: false };
+              } else return { ...v, count: 0, display: false, active: false };
             })
           );
+          setPurchaseInfo({ unitPrice: shopDetailData[0].price });
         }
 
         if (commentEachQty) {
@@ -198,6 +202,11 @@ export default function Product() {
       }
     });
   };
+  const [purchaseInfo, setPurchaseInfo] = useState({
+    spec: '',
+    unitPrice: 0,
+    qty: 0,
+  });
 
   //收藏列表相關的函式-------------------------------------------------------
   const openShowLikeList = () => {
@@ -335,20 +344,13 @@ export default function Product() {
                 </h2>
                 <RateStar
                   score={datatForProductMain.avg_rating}
-                  text={`( 已有99人購買，這邊需要再拉API資料 )`}
+                  text={`( 已有${datatForProductMain.sales_qty}人購買 )`}
                 />
                 <div className={styles.detail_price_box}>
                   <h5 className={styles.detail_spec_title}>價格</h5>
-                  {datatForProductDetail.map((v, i) => {
-                    return (
-                      <div
-                        className={styles.detail_price}
-                        key={v.product_detail_sid}
-                      >
-                        ${v.price}
-                      </div>
-                    );
-                  })}
+                  <div className={styles.detail_price}>
+                    {purchaseInfo.unitPrice}
+                  </div>
                 </div>
 
                 <div className={styles.detail_spec_box}>
@@ -359,10 +361,16 @@ export default function Product() {
                         className={
                           i === 0
                             ? styles.detail_spec_btn_none
+                            : purchaseInfo.spec === v.product_detail_sid
+                            ? `${styles.active_detail_spec_btn} ${styles.detail_spec_btn}`
                             : styles.detail_spec_btn
                         }
                         key={v.product_detail_sid}
                         onClick={() => {
+                          setPurchaseInfo({
+                            spec: v.product_detail_sid,
+                            unitPrice: v.price,
+                          });
                           v.img &&
                             setDataForProductDetail(
                               toggleDisplayForImg(
