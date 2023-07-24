@@ -5,7 +5,7 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-export default function BookingModal() {
+export default function BookingModal({ time, people }) {
   const [modal, setModal] = useState(false);
   const [countPeople, setCountPeople] = useState(1);
   const [countPet, setCountPet] = useState(1);
@@ -19,9 +19,9 @@ export default function BookingModal() {
       {/* <MainBtn clickHandler={toggleModal} text="預約的時間區塊" /> */}
       <div className={Styles.time_section}>
         <div className={Styles.booking_card} onClick={toggleModal}>
-          <div className={Styles.time_range}>10:00~12:00</div>
+          <div className={Styles.time_range}>{time}</div>
           <div className={Styles.rest_people}>
-            剩餘<p className={Styles.rest_num}>12</p>人
+            剩餘<p className={Styles.rest_num}>{people}</p>人
           </div>
         </div>
       </div>
