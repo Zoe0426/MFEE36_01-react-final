@@ -211,19 +211,13 @@ export default function ProdoctIndex() {
                 }}
               />
             </div>
-            {/* 這邊應該要改用共用元件分類按鈕 */}
-            <Row
-              gutter={{ xs: 0, sm: 0, md: 8 }}
-              className={styles.eight_icons_box}
-            >
+            <Row gutter={{ xs: 0, sm: 0, xl: 8 }}>
               {eightCatergoriesData.map((e) => {
                 return (
                   <Col
                     xs={{ span: 6 }}
                     sm={{ span: 6 }}
-                    md={{ span: 3 }}
-                    // xl={3}
-                    // xs={6}
+                    xl={{ span: 3 }}
                     key={e.id}
                     className={styles.eight_icons}
                   >
