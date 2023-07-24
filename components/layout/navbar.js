@@ -59,7 +59,9 @@ export default function Navbar({ type = '' }) {
   useEffect(() => {
     if (auth.token && first) {
       getCartTotalItems(auth.id);
+      console.log('getcartitem');
       getMemberImage(auth.id);
+      console.log('getImg');
       setLogin(true);
     }
   }, [auth, first]);
