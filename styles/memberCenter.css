@@ -12,6 +12,19 @@
   position: static;
 }
 
+/* antd sm calendar */
+
+:where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-panel {
+  border-radius: 0;
+}
+
+:where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-calendar-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  padding: 12px 8px;
+}
+
 
 .pageTag{
   width: 100%;

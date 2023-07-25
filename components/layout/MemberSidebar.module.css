@@ -3,11 +3,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+margin: 0 auto;
+  width: 300px;
 }
 
 .memberInfo{
-  height: 325px;
-  width: 325px;
+  height: 300px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -21,19 +23,19 @@
 
 .calendarInfo{
   width: 300px;
-  height: 400px;
-  padding: var(--p24) 0 var(--p16) 0;
+  height: 380px;
+  padding: 0 0 var(--p16) 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: var(--secondary);
-  /* border: 1px solid red; */
+  border: 1px solid var(--secondary);
   border-radius: var(--br20);
   margin-bottom: 30px;
   overflow: hidden;
 }
 
-.gameInfo{
+/* .gameInfo{
   width: 17vw;
   height: 16vw;
   display: flex;
@@ -45,7 +47,7 @@
   border-radius: var(--br20);
   margin-bottom: 30px;
   overflow: hidden;
-}
+} */
 
 .orderCard{
   height: 390px;
@@ -119,17 +121,18 @@
   font-size: var(--pfs14);
 }
 
-.gameImg{
+/* .gameImg{
   width: 15vw;
   height: 9vw;
   border-radius: var(--br20);
-}
+} */
 
-.gameImg img{
+/* .gameImg img{
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
+} */
+
 
 @media screen and (max-width:1200px) and (min-width:768px){
 
@@ -144,11 +147,20 @@
   font-size: var(--pfs12);
 }
 
-.memberInfo,.calendarInfo,.gameInfo,.gameImg{
+.memberInfo{
   border-radius: 15px;
+  width: 260px;
+  height: 260px;
+}
+
+.calendarInfo{
+  border-radius: 15px;
+  width: 260px;
+  height: 380px;
 }
 
 .text{
   font-size: var(--pfs12);
 }
+
 }

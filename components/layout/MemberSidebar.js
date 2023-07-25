@@ -1,27 +1,100 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import Styles from './MemberSidebar.module.css';
-import { Calendar, theme, ConfigProvider } from 'antd';
+import { Calendar, ConfigProvider } from 'antd';
 
 export default function MemberSidebar() {
-  const wrapperStyle = {
-    width: 300,
-  };
-  return (
-    <>
-      <div className={Styles.sideBar}>
-        <div className={Styles.memberInfo}>
-          <div className={Styles.profile}>
-            <img src="/member-center-images/nn.jpg" alt="" />
+  const [data, setData] = useState();
+  useEffect(() => {
+    let auth = {};
+    const authStr = localStorage.getItem('petauth');
+    if (authStr) {
+      try {
+        auth = JSON.parse(authStr);
+      } catch (ex) {
+        ('');
+      }
+    }
+    console.log(auth.id);
+    console.log(auth.token);
+
+    if (auth.token) {
+      fetch(`${process.env.API_SERVER}/member-api/schedule`, {
+        headers: {
+          Authorization: 'Bearer ' + auth.token,
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          console.log(data);
+          setData(data);
+        });
+    } else {
+      console.log('User is not logged in. Cannot fetch coupons.');
+    }
+  }, []);
+
+  if (data != undefined) {
+    const getListData = (value, data) => {
+      // 將calendar日期轉換為字符串格式的日期（只包含年月日）
+      const valueStr = value.format('YYYY-MM-DD');
+
+      // 根據 valueStr 過濾出對應日期的數據
+      const filteredData = data.filter(
+        (item) => item.date.split('T')[0] === valueStr
+      );
+
+      // 將過濾得到的數據映射為 getListData 所需的格式
+      const listData = filteredData.map((item) => ({
+        //type: 'error',
+
+        //TODO 思考怎麼辨別活動餐廳
+        type: item.type,
+      }));
+
+      return listData;
+    };
+
+    // 定義 dateCellRender 函數
+    const dateCellRender = (value) => {
+      const listData = getListData(value, data);
+
+      return (
+        <ul className={Styles.events}>
+          {listData.map((item, index) => (
+            <div
+              className="ant-picker-cell-inner ant-picker-calendar-date ant-picker-calendar-date-today"
+              key={index}
+              style={{
+                backgroundColor: item.type === 'activity' ? 'green' : 'red',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                opacity: 0.3,
+                borderRadius: '50%',
+              }}
+            >
+              {/* {item.type} */}
+            </div>
+          ))}
+        </ul>
+      );
+    };
+
+    return (
+      <>
+        <div className={Styles.sideBar}>
+          <div className={Styles.memberInfo}>
+            <div className={Styles.profile}>
+              <img src="/member-center-images/nn.jpg" alt="" />
+            </div>
+            <div className={Styles.memberName}>鍾沛怡</div>
+            <div className={Styles.level}>
+              <img src="/member-center-images/Icon/crown.svg" alt="" />
+              <div className={Styles.levelTitle}>金牌會員</div>
+            </div>
           </div>
-          <div className={Styles.memberName}>鍾沛怡</div>
-          <div className={Styles.level}>
-            <img src="/member-center-images/Icon/crown.svg" alt="" />
-            <div className={Styles.levelTitle}>金牌會員</div>
-          </div>
-        </div>
-        <div className={Styles.calendarInfo}>
-          <div className={Styles.calendar}>
-            <div style={wrapperStyle}>
+          <div className={Styles.calendarInfo}>
+            <div className={Styles.calendar}>
               <ConfigProvider
                 theme={{
                   token: {
@@ -32,42 +105,27 @@ export default function MemberSidebar() {
                   },
                 }}
               >
-                <Calendar fullscreen={false} />
+                <Calendar fullscreen={false} cellRender={dateCellRender} />
               </ConfigProvider>
             </div>
-          </div>
 
-          <div className={Styles.calendarCircle}>
-            <div className={Styles.red}>
-              <div className={Styles.redCircle}></div>
-              <div className={Styles.text}>餐廳</div>
-            </div>
-            <div className={Styles.green}>
-              <div className={Styles.greenCircle}></div>
-              <div className={Styles.text}>活動</div>
-            </div>
-            <div className={Styles.blue}>
-              <div className={Styles.blueCircle}></div>
-              <div className={Styles.text}>兩者</div>
+            <div className={Styles.calendarCircle}>
+              <div className={Styles.red}>
+                <div className={Styles.redCircle}></div>
+                <div className={Styles.text}>餐廳</div>
+              </div>
+              <div className={Styles.green}>
+                <div className={Styles.greenCircle}></div>
+                <div className={Styles.text}>活動</div>
+              </div>
+              <div className={Styles.blue}>
+                <div className={Styles.blueCircle}></div>
+                <div className={Styles.text}>兩者</div>
+              </div>
             </div>
           </div>
         </div>
-
-        {/* <div className={Styles.gameInfo}>
-          <div className={Styles.gameImg}>
-            <img
-              src="/member-center-images/nn.jpg"
-              alt=""
-              className={Styles.gameImg}
-            />
-          </div>
-          <div className={Styles.gameName}>爆擊小狗狗</div>
-          <div className={Styles.gameLevel}>
-            <img src="/member-center-images/Icon/crown.svg" alt="" />
-            <div className={Styles.gameTitle}>Lv. 10</div>
-          </div>
-        </div> */}
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }

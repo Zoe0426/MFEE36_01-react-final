@@ -17,6 +17,11 @@
   /* background-color: powderblue; */
 }
 
+.antCol:nth-child(2){
+	width: 300px;
+	/* background-color: lavender; */
+}
+
 @media screen and (max-width:1200px) and (min-width:769px){
 	/* .container-inner{
 			width: 68%;
