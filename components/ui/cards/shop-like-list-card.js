@@ -8,6 +8,7 @@ export default function ShopLikelistCard({
   datas = [], //需要渲染的陣列資料
   token = '',
   removeLikeListItem = () => {}, //用來清除某一項蒐藏清單的函式
+  closeLikeList = () => {}, //典籍前往某一項商品細節頁時，收藏列表需要關閉
 }) {
   const router = useRouter();
   return datas.map((v) => {
@@ -27,6 +28,7 @@ export default function ShopLikelistCard({
           role="presentation"
           className={styles.like_img}
           onClick={() => {
+            closeLikeList();
             router.push(`http://localhost:3000/product/${product_sid}`);
           }}
         >
@@ -36,6 +38,7 @@ export default function ShopLikelistCard({
           role="presentation"
           className={styles.like_content_box}
           onClick={() => {
+            closeLikeList();
             router.push(`http://localhost:3000/product/${product_sid}`);
           }}
         >

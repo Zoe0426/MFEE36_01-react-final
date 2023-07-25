@@ -34,6 +34,7 @@
 
 .eight_icons > div > img {
   width: 70%;
+  
 }
 
 /*篩選按鈕，不可刪除*/
@@ -78,6 +79,7 @@
 .pet_type_cards {
   margin-left: 5%;
   width: 7000px;
+  
 }
 
 .pet_type_btns {
@@ -254,6 +256,8 @@
   text-align: center;
 }
 
+
+
 .detail_spec_btn:hover {
   background-color: var(--light-gray);
   cursor: pointer;
@@ -334,8 +338,13 @@
   margin-right: 16px;
 }
 
+/* .detail_main_bottom > button:nth-child(2) {
+  margin: 0 16px;
+} */
+
+
 .detail_main_bottom > button:last-child {
-  margin-right: 0px;
+  /* margin-right: 0px; */
 }
 
 /*產品詳述區*/
@@ -445,6 +454,11 @@
 .comment_btn:hover {
   background-color: var(--light-gray);
   cursor: pointer;
+}
+
+.active_comment_btn, .active_detail_spec_btn{
+  border:1px solid var(--main);
+  color:var(--main);
 }
 
 .comment_cards {

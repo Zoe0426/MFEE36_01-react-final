@@ -33,6 +33,7 @@ export default function SearchBar1({
               onKeyUp={keyDownHandler}
             />
             <FontAwesomeIcon
+              style={{ maxWidth: '16px', maxHeight: '16px' }}
               icon={faXmark}
               className={Styles.btn_clear_text}
               onClick={clearHandler}

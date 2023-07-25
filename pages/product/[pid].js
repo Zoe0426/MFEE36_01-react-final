@@ -1,9 +1,10 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import styles from '@/styles/shop.module.css';
 import Image from 'next/image';
 import { Row, Col } from 'antd';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
+import AuthContext from '@/context/AuthContext';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
@@ -11,10 +12,12 @@ import Likelist from '@/components/ui/like-list/like-list';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 
-/*引用的按鈕*/
+/*引用的按鈕+modal*/
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
+import Modal from '@/components/ui/modal/modal';
+import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 
 /*引用的背景*/
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
@@ -30,7 +33,8 @@ import { faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import CorpLogo from '@/assets/corpLogo.svg';
 
 export default function Product() {
-  const { query, asPath } = useRouter();
+  const router = useRouter();
+  const { auth, setAuth } = useContext(AuthContext);
   const [first, setFrist] = useState(false);
   const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
     'petProductHistory',
@@ -47,11 +51,13 @@ export default function Product() {
     avg_rating: null,
     catergory_chinese_name: '',
     catergory_english_name: '',
+    like: false,
   });
   const [datatForProductDetail, setDataForProductDetail] = useState([]);
   const [dataForRecomand, setDataForRecomand] = useState([]);
   const [dataForComment, setDataForComment] = useState([]);
   const [dataForCommentQty, setDataForCommentQty] = useState([
+    { rating: 6, count: 0 },
     { rating: 5, count: 0 },
     { rating: 4, count: 0 },
     { rating: 3, count: 0 },
@@ -59,7 +65,22 @@ export default function Product() {
     { rating: 1, count: 0 },
   ]);
   const [likeDatas, setLikeDatas] = useState([]);
+  //用來存放將放入購物車的資料
+  const [purchaseInfo, setPurchaseInfo] = useState({
+    pid: '',
+    spec: '',
+    unitPrice: 0,
+    qty: 0,
+  });
   const [showLikeList, setShowLikeList] = useState(false);
+
+  //控制主商品照片放大的
+  const [isMouseOverOnMainPic, setIsMouseOverOnMainPic] = useState(false);
+  const [mousePositionrOnMainPic, setMousePositionrOnMainPic] = useState({
+    x: 0,
+    y: 0,
+  });
+
   //評論篩選，6為全部，其他為5~1
   const [commentFilter, setCommentFilter] = useState(6);
   const [count, setCount] = useState(1);
@@ -95,98 +116,107 @@ export default function Product() {
     },
   ]);
 
+  const getData = async (pid = '', token = '') => {
+    //拿回特定商品的相關資訊 與評價
+    const res_productInfo = await fetch(
+      `${process.env.API_SERVER}/shop-api/product/${pid}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const {
+      shopMainData,
+      shopDetailData,
+      commentDatas,
+      // commentEachQty,
+      reccomandData,
+    } = await res_productInfo.json();
+
+    if (Array.isArray(shopMainData)) {
+      //將進入頁面的都存在localStorage，作為瀏覽紀錄的資料
+      if (shopMainData[0].img && first) {
+        if (
+          localStorageHistory.length &&
+          localStorageHistory[0].product_sid === pid
+        ) {
+          setLocalStorageHistory(localStorageHistory);
+        } else {
+          if (localStorageHistory.length >= 3) {
+            localStorageHistory.pop();
+          }
+          setLocalStorageHistory([
+            {
+              product_sid: pid,
+              img: shopMainData[0].img,
+            },
+            ...localStorageHistory,
+          ]);
+        }
+      }
+      const innitDescription = shopMainData[0].description;
+      const description = innitDescription
+        .replace(/\n/g, '<br/>')
+        .replace(/amp;/g, '&');
+      setDataForProductMain({ ...shopMainData[0], description });
+    }
+
+    if (Array.isArray(commentDatas)) {
+      setDataForComment(commentDatas);
+
+      let newCommentEachQty = dataForCommentQty.map((v) => {
+        const eachCommentQty =
+          v.rating === 6
+            ? commentDatas.length
+            : commentDatas.filter((c) => parseInt(c.rating) === v.rating)
+                .length;
+
+        return { ...v, count: eachCommentQty };
+      });
+
+      setDataForCommentQty(newCommentEachQty);
+    }
+
+    if (Array.isArray(shopDetailData)) {
+      setDataForProductDetail(
+        shopDetailData.map((v, i) => {
+          if (i === 0) {
+            return { ...v, count: 0, display: true, active: false };
+          } else return { ...v, count: 0, display: false, active: false };
+        })
+      );
+      setPurchaseInfo({
+        ...purchaseInfo,
+        pid: shopMainData[0].product_sid,
+        unitPrice: shopDetailData[0].price,
+      });
+    }
+
+    if (Array.isArray(reccomandData)) {
+      setDataForRecomand(reccomandData);
+    }
+
+    setCount(1);
+  };
+
   useEffect(() => {
     setFrist(true);
   }, [localStorageHistory]);
 
   useEffect(() => {
     //取得用戶拜訪的特定商品編號
-    const { pid } = query;
-
-    // console.log(query);
+    const { pid } = router.query;
 
     if (pid) {
-      (async function getData() {
-        //拿回特定商品的相關資訊 與評價
-        const res_productInfo = await fetch(
-          `${process.env.API_SERVER}/shop-api/product/${pid}`,
-          { method: 'GET' }
-        );
-        const {
-          shopMainData,
-          shopDetailData,
-          commentDatas,
-          commentEachQty,
-          reccomandData,
-          likeDatas,
-        } = await res_productInfo.json();
-        const innitDescription = shopMainData[0].description;
-        const description = innitDescription.replace(/\n/g, '<br/>');
-
-        if (shopMainData) {
-          //將進入頁面的都存在localStorage，作為瀏覽紀錄的資料
-          if (shopMainData[0].img && first) {
-            if (
-              localStorageHistory.length &&
-              localStorageHistory[0].product_sid === pid
-            ) {
-              setLocalStorageHistory(localStorageHistory);
-            } else {
-              if (localStorageHistory.length >= 3) {
-                localStorageHistory.pop();
-              }
-              setLocalStorageHistory([
-                {
-                  product_sid: pid,
-                  img: shopMainData[0].img,
-                },
-                ...localStorageHistory,
-              ]);
-            }
-          }
-
-          setDataForProductMain({ ...shopMainData[0], description });
-        }
-
-        if (commentDatas) {
-          setDataForComment(commentDatas);
-        }
-
-        if (shopDetailData) {
-          setDataForProductDetail(
-            shopDetailData.map((v, i) => {
-              if (i === 0) {
-                return { ...v, count: 0, display: true };
-              } else return { ...v, count: 0, display: false };
-            })
-          );
-        }
-
-        if (commentEachQty) {
-          let newCommentEachQty = dataForCommentQty.map((v) => {
-            const comment = commentEachQty.find(
-              (c) => v.rating === parseInt(c.rating)
-            );
-            if (comment) {
-              return { ...v, count: comment.count };
-            } else return { ...v };
-          });
-
-          setDataForCommentQty(newCommentEachQty);
-        }
-
-        if (reccomandData) {
-          setDataForRecomand(reccomandData);
-        }
-
-        if (likeDatas) {
-          setLikeDatas(likeDatas);
-        }
-
-        setCount(1);
-      })();
+      if (auth.token) {
+        getData(pid, auth.token);
+      } else {
+        getData(pid);
+      }
     }
-  }, [query, first]);
+  }, [router.query, first]);
 
   //轉換圖片顯示
   const toggleDisplayForImg = (datatForProductDetail, id) => {
@@ -199,50 +229,202 @@ export default function Product() {
     });
   };
 
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [isClickingLike, setIsClickingLike] = useState(false);
+  //監看點擊愛心收藏的相關控制
+  useEffect(() => {
+    if (!isClickingLike && addLikeList.length > 0) {
+      sendLike(addLikeList, auth.token).then(() => {
+        //在成功送資料到後端後重置addLikeList
+        setAddLikeList([]);
+      });
+    }
+  }, [isClickingLike, addLikeList]);
+
   //收藏列表相關的函式-------------------------------------------------------
-  const openShowLikeList = () => {
-    setShowLikeList(true);
+  //若未登入會員而點擊收藏，要跳轉至會員登入
+  const toSingIn = () => {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
   };
 
-  const closeShowLikeList = () => {
-    setShowLikeList(false);
+  //愛心收藏的並將資料送到後端相關函式-------------------------------------------------------
+  const clickHeartHandler = (id) => {
+    setIsClickingLike(true);
+    const timeClick = new Date().getTime();
+    const newData = dataForRecomand.map((v) => {
+      if (v.product_sid === id) {
+        const insideInLikeList = addLikeList.find(
+          (item) => item.product_sid === id
+        );
+        if (insideInLikeList) {
+          setAddLikeList((preV) => preV.filter((v2) => v2.product_sid !== id));
+        } else {
+          setAddLikeList((preV) => [
+            ...preV,
+            { product_sid: id, time: timeClick },
+          ]);
+        }
+        return { ...v, like: !v.like };
+      } else return { ...v };
+    });
+    setDataForRecomand(newData);
+    setTimeout(() => {
+      setIsClickingLike(false);
+    }, 1500);
   };
 
-  const removeAllLikeList = () => {
-    setLikeDatas([]);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB('all', 'mem00002');
+  const addLikeListHandler = () => {
+    const timeClick = new Date().getTime();
+    const data = [
+      {
+        product_sid: router.query.pid,
+        time: timeClick,
+      },
+    ];
+    sendLike(data, auth.token);
+    setDataForProductMain({
+      ...datatForProductMain,
+      like: true,
+    });
   };
 
-  const removeLikeListItem = (pid) => {
+  //將資料送到後端
+  const sendLike = async (arr, token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/shop-api/handle-like-list`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: arr }),
+      }
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      console.log(data);
+    }
+  };
+
+  //取得蒐藏列表資料
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/shop-api/show-like-list`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+    }
+  };
+
+  //控制展開收藏列表
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      //將畫面的BTN顯示改為加入收藏
+      const newData = likeDatas.map((v) => {
+        if (router.query.pid === v.product_sid) {
+          setDataForProductMain({ ...datatForProductMain, like: false });
+        }
+      });
+
+      //將列表顯示為空的
+      setLikeDatas([]);
+
+      //將請求送到後端作業
+      removeLikeListToDB('all', token);
+    }
+  };
+
+  // 刪除單一收藏
+  const removeLikeListItem = (pid, token = '') => {
+    //將列表該項目刪除
     const newLikeList = likeDatas.filter((arr) => {
       return arr.product_sid !== pid;
     });
-
     setLikeDatas(newLikeList);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB(pid, 'mem00002');
+    //將若取消的為畫面上的，則BTN顯示改為加入收藏
+
+    if (router.query.pid === pid) {
+      setDataForProductMain({ ...datatForProductMain, like: false });
+    }
+    //將請求送到後端作業
+    removeLikeListToDB(pid, token);
   };
 
-  const removeLikeListToDB = async (pid = '', mid = '') => {
+  //將刪除收藏的請求送到後端作業
+  const removeLikeListToDB = async (pid = '', token = '') => {
     try {
       const removeAll = await fetch(
-        `${process.env.API_SERVER}/shop-api/likelist/${pid}/${mid}`,
+        `${process.env.API_SERVER}/shop-api/likelist/${pid}`,
         {
           method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
         }
       );
-
       const result = await removeAll.json();
       console.log(JSON.stringify(result, null, 4));
       if (pid === 'all') {
         setTimeout(() => {
-          closeShowLikeList();
+          toggleLikeList();
         }, 1000);
       }
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const [countEnterMainPic, setCoutEnterMainPic] = useState(1);
+
+  //控制主商品照片放大的函式
+  const mouseOnMainPicHandler = () => {
+    if (isMouseOverOnMainPic) {
+      setCoutEnterMainPic(countEnterMainPic + 1);
+    }
+
+    setIsMouseOverOnMainPic(!isMouseOverOnMainPic);
+  };
+
+  const mouseOnMainPicMoveHandler = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    setMousePositionrOnMainPic({ x: mouseX, y: mouseY });
+  };
+
+  const imageStyle = {
+    width: '100%',
+    height: '100%',
+    transform:
+      isMouseOverOnMainPic && countEnterMainPic > 1
+        ? `translate(${-(mousePositionrOnMainPic.x - 256) * 0.5}px, ${
+            -(mousePositionrOnMainPic.y - 256) * 0.5
+          }px) scale(1.5)`
+        : 'none',
+    transition: 'transform 0.2s',
   };
 
   return (
@@ -254,11 +436,26 @@ export default function Product() {
             <div className={styles.nav_head}>
               <BreadCrumb breadCrubText={breadCrubText} />
               <div className={styles.btns}>
-                <IconBtn
-                  icon={faHeart}
-                  text={'收藏列表'}
-                  clickHandler={openShowLikeList}
-                />
+                {auth.token ? (
+                  <IconBtn
+                    icon={faHeart}
+                    text={'收藏列表'}
+                    clickHandler={toggleLikeList}
+                  />
+                ) : (
+                  <Modal
+                    btnType="iconBtn"
+                    btnText="收藏列表"
+                    title="貼心提醒"
+                    content={
+                      <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
+                    }
+                    mainBtnText="前往登入"
+                    subBtnText="暫時不要"
+                    confirmHandler={toSingIn}
+                    icon={faHeart}
+                  />
+                )}
               </div>
             </div>
             <div className="like">
@@ -268,12 +465,15 @@ export default function Product() {
                   customCard={
                     <ShopLikelistCard
                       datas={likeDatas}
+                      token={auth.token}
                       removeLikeListItem={removeLikeListItem}
+                      closeLikeList={toggleLikeList}
                     />
                   }
-                  closeHandler={closeShowLikeList}
-                  removeAllHandler={removeAllLikeList}
-                  removeLikeListItem={removeLikeListItem}
+                  closeHandler={toggleLikeList}
+                  removeAllHandler={() => {
+                    removeAllLikeList(auth.token);
+                  }}
                 />
               )}
             </div>
@@ -283,7 +483,12 @@ export default function Product() {
         <div className="container-inner">
           <section className={styles.detail_main_box}>
             <div className={styles.detail_img_box}>
-              <div className={styles.detail_big_img}>
+              <div
+                className={styles.detail_big_img}
+                onMouseEnter={mouseOnMainPicHandler}
+                onMouseLeave={mouseOnMainPicHandler}
+                onMouseMove={mouseOnMainPicMoveHandler}
+              >
                 {datatForProductDetail.map((v) => {
                   return (
                     v.display && (
@@ -291,6 +496,7 @@ export default function Product() {
                         key={v.product_detail_sid}
                         src={`http://localhost:3000/product-img/${v.img}`}
                         alt={v.img}
+                        style={imageStyle}
                       />
                     )
                   );
@@ -335,20 +541,15 @@ export default function Product() {
                 </h2>
                 <RateStar
                   score={datatForProductMain.avg_rating}
-                  text={`( 已有99人購買，這邊需要再拉API資料 )`}
+                  text={`( 已有${parseInt(
+                    datatForProductMain.sales_qty
+                  )?.toLocaleString('en-US')}人購買 )`}
                 />
                 <div className={styles.detail_price_box}>
                   <h5 className={styles.detail_spec_title}>價格</h5>
-                  {datatForProductDetail.map((v, i) => {
-                    return (
-                      <div
-                        className={styles.detail_price}
-                        key={v.product_detail_sid}
-                      >
-                        ${v.price}
-                      </div>
-                    );
-                  })}
+                  <div className={styles.detail_price}>
+                    {`$${purchaseInfo.unitPrice.toLocaleString('en-US')}`}
+                  </div>
                 </div>
 
                 <div className={styles.detail_spec_box}>
@@ -359,10 +560,17 @@ export default function Product() {
                         className={
                           i === 0
                             ? styles.detail_spec_btn_none
+                            : purchaseInfo.spec === v.product_detail_sid
+                            ? `${styles.active_detail_spec_btn} ${styles.detail_spec_btn}`
                             : styles.detail_spec_btn
                         }
                         key={v.product_detail_sid}
                         onClick={() => {
+                          setPurchaseInfo({
+                            ...purchaseInfo,
+                            spec: v.product_detail_sid,
+                            unitPrice: v.price,
+                          });
                           v.img &&
                             setDataForProductDetail(
                               toggleDisplayForImg(
@@ -425,10 +633,67 @@ export default function Product() {
                 </div>
               </div>
               <div className={styles.detail_main_bottom}>
-                {/* <SecondaryBtn icon={faHeart} text={'收藏列表'} /> */}
-                <IconSeconBtn icon={faHeart} text={'加入收藏'} />
-                <IconSeconBtn icon={faCartShopping} text={'加入購物車'} />
-                <MainBtn text={'立即購買'} />
+                {!auth.token ? (
+                  <Modal
+                    btnType="iconSeconBtn"
+                    btnText="加入收藏"
+                    title="貼心提醒"
+                    content={
+                      <ModoalReminder text="登入會員，才能收藏商品喔~" />
+                    }
+                    mainBtnText="前往登入"
+                    subBtnText="暫時不要"
+                    confirmHandler={toSingIn}
+                    icon={faHeart}
+                  />
+                ) : datatForProductMain.like ? (
+                  <Modal
+                    btnType="iconSeconBtn"
+                    btnText="已收藏"
+                    title="貼心提醒"
+                    content={<ModoalReminder text="已經收藏過囉~" />}
+                    mainBtnText="我知道了"
+                    showSubBtn={false}
+                    icon={faHeart}
+                  />
+                ) : (
+                  <IconSeconBtn
+                    icon={faHeart}
+                    text={'加入收藏'}
+                    clickHandler={addLikeListHandler}
+                  />
+                )}
+                {!auth.token ? (
+                  <Modal
+                    btnType="iconSeconBtn"
+                    btnText="加入購物車"
+                    title="貼心提醒"
+                    content={
+                      <ModoalReminder text="登入會員，才能加入購物車喔~" />
+                    }
+                    mainBtnText="前往登入"
+                    subBtnText="暫時不要"
+                    confirmHandler={toSingIn}
+                    icon={faCartShopping}
+                  />
+                ) : (
+                  <IconSeconBtn icon={faCartShopping} text={'加入購物車'} />
+                )}
+                {!auth.token ? (
+                  <Modal
+                    btnType="main"
+                    btnText="立即購買"
+                    title="貼心提醒"
+                    content={
+                      <ModoalReminder text="登入會員，才能購買商品喔~" />
+                    }
+                    mainBtnText="前往登入"
+                    subBtnText="暫時不要"
+                    confirmHandler={toSingIn}
+                  />
+                ) : (
+                  <MainBtn text={'立即購買'} />
+                )}
               </div>
             </div>
           </section>
@@ -492,26 +757,24 @@ export default function Product() {
         <div className="container-inner">
           <div className={styles.comment_section}>
             <h4 className={styles.comment_title}>商品評論</h4>
-            <p>{`(共 ${datatForProductMain.comment_count} 則相關評論)`}</p>
+            <p>{`(共 ${dataForCommentQty[0].count} 則相關評論)`}</p>
             <div className={styles.comment_btns}>
-              <button
-                className={styles.comment_btn}
-                onClick={() => {
-                  setCommentFilter(6);
-                }}
-              >
-                全部評論
-              </button>
               {dataForCommentQty.map((v) => {
                 const { rating, count } = v;
                 return (
                   <button
                     key={rating}
-                    className={styles.comment_btn}
+                    className={
+                      commentFilter === rating
+                        ? `${styles.comment_btn} ${styles.active_comment_btn}`
+                        : styles.comment_btn
+                    }
                     onClick={() => {
                       setCommentFilter(rating);
                     }}
-                  >{`${rating}星 (${count})`}</button>
+                  >
+                    {rating === 6 ? '全部評論' : `${rating}星 (${count})`}
+                  </button>
                 );
               })}
             </div>
@@ -525,7 +788,7 @@ export default function Product() {
                       date,
                       rating,
                       content,
-                      name,
+                      nickname,
                       profile,
                     } = v;
                     return (
@@ -535,7 +798,7 @@ export default function Product() {
                         date={date}
                         rating={rating}
                         content={content}
-                        name={name}
+                        name={nickname}
                         profile={profile}
                       />
                     );
@@ -559,7 +822,11 @@ export default function Product() {
             <section className="container-outer recommand-products">
               {/* 推薦商品顯示區 頁碼要看怎麼用迴圈產生*/}
               <div className={styles.reconmand_products_box}>
-                <Image src={CorpLogo} className={styles.recomand_img}></Image>
+                <Image
+                  src={CorpLogo}
+                  className={styles.recomand_img}
+                  alt="corpLogo"
+                ></Image>
                 <p className={styles.reconmand_products_title}>
                   毛孩可能會喜歡...
                 </p>
@@ -570,15 +837,12 @@ export default function Product() {
                   {dataForRecomand.map((v) => {
                     const {
                       product_sid,
-                      category_detail_sid,
-                      for_pet_type,
                       name,
                       img,
-                      update_date,
-                      supplier,
                       max_price,
                       min_price,
                       avg_rating,
+                      like,
                     } = v;
                     return (
                       <Col
@@ -590,15 +854,17 @@ export default function Product() {
                       >
                         <ShopProductCard
                           product_sid={product_sid}
-                          category_detail_sid={category_detail_sid}
-                          for_pet_type={for_pet_type}
                           name={name}
                           img={img}
-                          update_date={update_date}
-                          supplier={supplier}
                           max_price={max_price}
                           min_price={min_price}
                           avg_rating={avg_rating}
+                          like={like}
+                          token={auth.token}
+                          clickHandler={() => {
+                            clickHeartHandler(product_sid);
+                          }}
+                          singinHandler={toSingIn}
                         />
                       </Col>
                     );

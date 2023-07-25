@@ -257,12 +257,7 @@ export default function ProdoctIndex() {
             );
           })}
         </div>
-        <div
-          style={{
-            transform: `translateX(${cardPosition}px)`,
-            transition: 'transform 0.3s ease-in-out',
-          }}
-        >
+        <div>
           <div className={styles.pet_type_cards}>
             <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
               {twotCatergoriesData.map((v) => {
