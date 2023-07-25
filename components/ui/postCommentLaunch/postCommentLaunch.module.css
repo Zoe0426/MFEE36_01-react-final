@@ -19,7 +19,10 @@
     padding-right: 10px;
     /* position: absolute; */
     /* left:20px; */
-    width:95%
+    width:90%
+}
+.subBtn{
+    width:50px;
 }
 .commentBody{
     background-color: #fff;

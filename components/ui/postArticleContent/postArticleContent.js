@@ -1,93 +1,134 @@
-import React, {useState} from 'react'
+import React, {useState,useContext,useEffect} from 'react'
+import { useRouter } from 'next/router'
+import AuthContext from '@/context/AuthContext'
 import Style from './postArticleContent.module.css';
 // import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart, faCommentDots, faBookmark, faShareNodes} from '@fortawesome/free-solid-svg-icons';
 
 
-export default function PostArticleContent({postContent='', likes=0, comments=0, isLiked=false, setIsLiked=()=>{}, postSid='', memberId='', Fav=false, setFav=()=>{}}) {
+export default function PostArticleContent({postContent='', likes=0, comments=0, isLiked={setIsLiked}, setIsLiked=()=>{}, postSid='', memberId='', listName='', Fav={setFav}, setFav=()=>{}}) {
 
+  // 判斷登入
+  const { auth, setAuth } = useContext(AuthContext);
+  const router = useRouter();
+  const from = router.asPath;
+  const { pathname } = router; //看路徑
+  const {query} = router;
+
+  // 記錄讚（+-1）
   const [likeAmount, setLikeAmount] = useState(likes);
+
+  console.log(auth);
   
-  
+  // 按讚功能
+  useEffect(()=>{
+    console.log(auth);
+  // 判斷這個會員有沒有按過這篇文章讚
+  if(auth.id){
+    fetch(`${process.env.API_SERVER}/forum-api/forum/favStatus?post_sid=${postSid}&member_sid=${auth.id}`, {
+      headers: {
+        Authorization: 'Bearer ' + auth.token,
+      },
+    })
+    .then((r) => r.json())
+    .then((data)=>{
+      data.length==0 ? setIsLiked(false):setIsLiked(true)
+      console.log('data',data);
+    });
+  }
+  },[auth]);
   // 按讚與取消讚的處理函數
-  const handleLikeClick = () => {
-    setIsLiked(!isLiked); // 切換按讚狀態
-    if(isLiked==false){
-      setLikeAmount(likeAmount+1);
-      const r = fetch(`${process.env.API_SERVER}/forum-api/forum/postLike`, {
-        method:'POST',
-        body:JSON.stringify(
-          {post_sid:postSid,
-          member_sid:memberId,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-  
-        })
-        .then((r) => r.json())
-        .then((data)=>{
-          console.log(data);
-        })
-      }else{
-        setLikeAmount(likeAmount-1);
-        const delR = fetch(`${process.env.API_SERVER}/forum-api/forum/likeDel`,{
-          method:'DELETE',
-          body:JSON.stringify(
-          {post_sid:postSid,
-          member_sid:memberId,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-  
-        })
-        .then((r) => r.json())
-        .then((data)=>{
-          console.log(data);
-        })
-      }
-    }
+    const handleLikeClick = () => {
+      if(auth.id){
+        setIsLiked(!isLiked); // 切換按讚狀態
+        if(isLiked==false){
+          setLikeAmount(likeAmount+1);
+          const r = fetch(`${process.env.API_SERVER}/forum-api/forum/postLike`, {
+            method:'POST',
+            body:JSON.stringify(
+              {post_sid:postSid,
+              member_sid:memberId,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+      
+            })
+            .then((r) => r.json())
+            .then((data)=>{
+              console.log(data);
+            })
+          }else{
+            setLikeAmount(likeAmount-1);
+            const delR = fetch(`${process.env.API_SERVER}/forum-api/forum/likeDel`,{
+              method:'DELETE',
+              body:JSON.stringify(
+              {post_sid:postSid,
+              member_sid:memberId,
+            }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+      
+            })
+            .then((r) => r.json())
+            .then((data)=>{
+              console.log(data);
+            })
+          }
 
+      }else{
+        router.push(`/member/sign-in?from=${from}`);
+      }
+      }
+
+    // 收藏功能
+    useEffect(() => {
+      console.log(auth);
+
+      // 判斷此會員有沒有收藏過文章    
+      if (auth.id) {
+        fetch(`${process.env.API_SERVER}/forum-api/forum/favStatus?post_sid=${postSid}&member_sid=${auth.id}`, {
+          headers: {
+            Authorization: 'Bearer ' + auth.token,
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            data.length === 0 ? setFav(false) : setFav(true);
+            console.log('data', data);
+          });
+      }
+    }, [auth]);
     // 收藏及取消收藏的函數
-    const handleFavClick = ()=>{
-      setFav(!Fav); // 切換收藏狀態
-      if(Fav==false){
-        const r = fetch(`${process.env.API_SERVER}/forum-api/forum/addFav`, {
-          method:'POST',
-          body:JSON.stringify(
-            {post_sid:postSid,
-            member_sid:memberId,
-          }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-
+    const handleFavClick = () => {
+      if (auth.id) {
+        setFav(!Fav); // 切換收藏狀態
+        const apiEndpoint = Fav ? '/forum-api/forum/delFav' : '/forum-api/forum/addFav';
+        const requestData = {
+          post_sid: postSid,
+          member_sid: memberId,
+          list_name: listName,
+        };
+    
+        fetch(`${process.env.API_SERVER}${apiEndpoint}`, {
+          method: Fav ? 'DELETE' : 'POST',
+          body: JSON.stringify(requestData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
         })
-        .then((r) => r.json())
-        .then((data)=>{
-          console.log(data);
-        })
-      }else{
-        const delR = fetch(`${process.env.API_SERVER}/forum-api/forum/delFav`, {
-          method:'DELETE',
-          body:JSON.stringify(
-          {post_sid:postSid,
-          member_sid:memberId,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-
-        })
-        .then((r) => r.json())
-        .then((data)=>{
-          console.log(data);
-        })
-
+          .then((r) => r.json())
+          .then((data) => {
+            console.log(data);
+          });
+      } else {
+        router.push(`/member/sign-in?from=${from}`);
       }
-    }
+    };
+    
+
 
   
 

@@ -80,9 +80,12 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                     maxRows: 6,
                   }}
                   />
+                  <div className={Style.subBtn} >
                   <MainBtn
                   text = '送出'
-                  clickHandler = {sendComment} />
+                  clickHandler = {sendComment}
+                  />
+                  </div>
                   {/* 
                 <div className={Style.icon}>
                 <FontAwesomeIcon icon={faHeart} className={Style.likeGray}/>

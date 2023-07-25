@@ -82,22 +82,6 @@ export default function Post() {
     }, [postid]); // Fetch data when the post ID changes
 
 
-  useEffect(() => {
-    console.log(auth);
-
-  if (auth.id) {
-fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${postid}&member_sid=${auth.id}`, {
-        headers: {
-          Authorization: 'Bearer ' + auth.token,
-        },
-      }) .then((r) => r.json())
-      .then((data) => {
-        data.length===0 ? setIsLiked(false) : setIsLiked(true)
-        console.log('data',data);
-      });
-
-  }
-  },[auth]);
 
   useEffect(()=>{
     console.log(auth);
@@ -147,7 +131,7 @@ fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${pos
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
-                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid} memberId={auth.id}/>
+                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid} memberId={auth.id} listName={''}/>
                 ))}
                 </div>
 
