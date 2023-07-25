@@ -57,6 +57,7 @@ export default function Product() {
   const [dataForRecomand, setDataForRecomand] = useState([]);
   const [dataForComment, setDataForComment] = useState([]);
   const [dataForCommentQty, setDataForCommentQty] = useState([
+    { rating: 6, count: 0 },
     { rating: 5, count: 0 },
     { rating: 4, count: 0 },
     { rating: 3, count: 0 },
@@ -131,7 +132,6 @@ export default function Product() {
       commentDatas,
       commentEachQty,
       reccomandData,
-      likeDatas,
     } = await res_productInfo.json();
 
     if (Array.isArray(shopMainData)) {
@@ -164,6 +164,18 @@ export default function Product() {
 
     if (Array.isArray(commentDatas)) {
       setDataForComment(commentDatas);
+
+      let newCommentEachQty = dataForCommentQty.map((v) => {
+        const eachCommentQty =
+          v.rating === 6
+            ? commentDatas.length
+            : commentDatas.filter((c) => parseInt(c.rating) === v.rating)
+                .length;
+
+        return { ...v, count: eachCommentQty };
+      });
+
+      setDataForCommentQty(newCommentEachQty);
     }
 
     if (Array.isArray(shopDetailData)) {
@@ -175,19 +187,6 @@ export default function Product() {
         })
       );
       setPurchaseInfo({ unitPrice: shopDetailData[0].price });
-    }
-
-    if (Array.isArray(commentEachQty)) {
-      let newCommentEachQty = dataForCommentQty.map((v) => {
-        const comment = commentEachQty.find(
-          (c) => v.rating === parseInt(c.rating)
-        );
-        if (comment) {
-          return { ...v, count: comment.count };
-        } else return { ...v };
-      });
-
-      setDataForCommentQty(newCommentEachQty);
     }
 
     if (Array.isArray(reccomandData)) {
@@ -225,6 +224,18 @@ export default function Product() {
     });
   };
 
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [isClickingLike, setIsClickingLike] = useState(false);
+  //監看點擊愛心收藏的相關控制
+  useEffect(() => {
+    if (!isClickingLike && addLikeList.length > 0) {
+      sendLike(addLikeList, auth.token).then(() => {
+        //在成功送資料到後端後重置addLikeList
+        setAddLikeList([]);
+      });
+    }
+  }, [isClickingLike, addLikeList]);
+
   //收藏列表相關的函式-------------------------------------------------------
   //若未登入會員而點擊收藏，要跳轉至會員登入
   const toSingIn = () => {
@@ -233,6 +244,31 @@ export default function Product() {
   };
 
   //愛心收藏的並將資料送到後端相關函式-------------------------------------------------------
+  const clickHeartHandler = (id) => {
+    setIsClickingLike(true);
+    const timeClick = new Date().getTime();
+    const newData = dataForRecomand.map((v) => {
+      if (v.product_sid === id) {
+        const insideInLikeList = addLikeList.find(
+          (item) => item.product_sid === id
+        );
+        if (insideInLikeList) {
+          setAddLikeList((preV) => preV.filter((v2) => v2.product_sid !== id));
+        } else {
+          setAddLikeList((preV) => [
+            ...preV,
+            { product_sid: id, time: timeClick },
+          ]);
+        }
+        return { ...v, like: !v.like };
+      } else return { ...v };
+    });
+    setDataForRecomand(newData);
+    setTimeout(() => {
+      setIsClickingLike(false);
+    }, 1500);
+  };
+
   const addLikeListHandler = () => {
     const timeClick = new Date().getTime();
     const data = [
@@ -356,8 +392,14 @@ export default function Product() {
     }
   };
 
+  const [countEnterMainPic, setCoutEnterMainPic] = useState(1);
+
   //控制主商品照片放大的函式
   const mouseOnMainPicHandler = () => {
+    if (isMouseOverOnMainPic) {
+      setCoutEnterMainPic(countEnterMainPic + 1);
+    }
+
     setIsMouseOverOnMainPic(!isMouseOverOnMainPic);
   };
 
@@ -371,11 +413,12 @@ export default function Product() {
   const imageStyle = {
     width: '100%',
     height: '100%',
-    transform: isMouseOverOnMainPic
-      ? `translate(${-(mousePositionrOnMainPic.x - 256)}px, ${-(
-          mousePositionrOnMainPic.y - 256
-        )}px) scale(2)`
-      : 'none',
+    transform:
+      isMouseOverOnMainPic && countEnterMainPic > 1
+        ? `translate(${-(mousePositionrOnMainPic.x - 256) * 0.5}px, ${
+            -(mousePositionrOnMainPic.y - 256) * 0.5
+          }px) scale(1.5)`
+        : 'none',
     transition: 'transform 0.2s',
   };
 
@@ -706,20 +749,8 @@ export default function Product() {
         <div className="container-inner">
           <div className={styles.comment_section}>
             <h4 className={styles.comment_title}>商品評論</h4>
-            <p>{`(共 ${datatForProductMain.comment_count} 則相關評論)`}</p>
+            <p>{`(共 ${dataForCommentQty[0].count} 則相關評論)`}</p>
             <div className={styles.comment_btns}>
-              <button
-                className={
-                  commentFilter == 6
-                    ? `${styles.comment_btn} ${styles.active_comment_btn}`
-                    : styles.comment_btn
-                }
-                onClick={() => {
-                  setCommentFilter(6);
-                }}
-              >
-                全部評論
-              </button>
               {dataForCommentQty.map((v) => {
                 const { rating, count } = v;
                 return (
@@ -733,7 +764,9 @@ export default function Product() {
                     onClick={() => {
                       setCommentFilter(rating);
                     }}
-                  >{`${rating}星 (${count})`}</button>
+                  >
+                    {rating === 6 ? '全部評論' : `${rating}星 (${count})`}
+                  </button>
                 );
               })}
             </div>
@@ -781,7 +814,11 @@ export default function Product() {
             <section className="container-outer recommand-products">
               {/* 推薦商品顯示區 頁碼要看怎麼用迴圈產生*/}
               <div className={styles.reconmand_products_box}>
-                <Image src={CorpLogo} className={styles.recomand_img}></Image>
+                <Image
+                  src={CorpLogo}
+                  className={styles.recomand_img}
+                  alt="corpLogo"
+                ></Image>
                 <p className={styles.reconmand_products_title}>
                   毛孩可能會喜歡...
                 </p>
@@ -816,12 +853,9 @@ export default function Product() {
                           avg_rating={avg_rating}
                           like={like}
                           token={auth.token}
-                          clickHandler={
-                            () => {}
-                            //   () => {
-                            //   clickHeartHandler(product_sid);
-                            // }
-                          }
+                          clickHandler={() => {
+                            clickHeartHandler(product_sid);
+                          }}
                           singinHandler={toSingIn}
                         />
                       </Col>
