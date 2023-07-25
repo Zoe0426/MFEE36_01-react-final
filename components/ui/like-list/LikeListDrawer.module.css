@@ -73,6 +73,7 @@
     padding-right: 20px;
     font-size: var(--h6fs18);
     text-decoration: underline;
+    cursor: pointer;
 }
 .btns {
   border: 1px solid var(--light-gray);

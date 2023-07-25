@@ -284,41 +284,6 @@
   text-align: center;
 }
 
-.detail_qty_sub_btn,
-.detail_qty_add_btn {
-  border: none;
-  padding: 0 20px;
-  font-size: var(--h5fs20);
-  background-color: transparent;
-  transition: 0.3s;
-}
-
-.detail_qty_sub_btn {
-  border-right: 1px solid var(--dark-gray);
-}
-
-.detail_qty_add_btn {
-  border-left: 1px solid var(--dark-gray);
-}
-
-.detail_qty_add_btn:hover,
-.detail_qty_sub_btn:hover {
-  background-color: var(--light-gray);
-  cursor: pointer;
-}
-
-.detail_qty_input {
-  width: 30px;
-  text-align: center;
-  border: none;
-  outline: none;
-  padding: var(--p16) 0;
-  border: 0;
-  font-size: var(--pfs16);
-  color: var(--dark-gray);
-  background-color: transparent;
-}
-
 /*付款方式*/
 
 .detail_spec_text,
@@ -603,12 +568,6 @@
     height: 42px;
     border-radius: var(--br8);
     font-size: var(--pfs14);
-  }
-  .detail_qty_sub_btn,
-  .detail_qty_add_btn,
-  .detail_qty_input {
-    font-size: var(--pfs14);
-    padding: 0 12px;
   }
 
   .detail_spec_text,
