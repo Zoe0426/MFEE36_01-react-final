@@ -1,3 +1,4 @@
+
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Styles from './navbar.module.css';

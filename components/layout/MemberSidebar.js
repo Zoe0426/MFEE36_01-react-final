@@ -1,7 +1,11 @@
 import React from 'react';
 import Styles from './MemberSidebar.module.css';
+import { Calendar, theme, ConfigProvider } from 'antd';
 
 export default function MemberSidebar() {
+  const wrapperStyle = {
+    width: 300,
+  };
   return (
     <>
       <div className={Styles.sideBar}>
@@ -16,7 +20,23 @@ export default function MemberSidebar() {
           </div>
         </div>
         <div className={Styles.calendarInfo}>
-          <div className={Styles.calendar}></div>
+          <div className={Styles.calendar}>
+            <div style={wrapperStyle}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    colorText: 'rgb(81, 81, 81)',
+                    fontSize: 14,
+                    controlInteractiveSize: 14,
+                  },
+                }}
+              >
+                <Calendar fullscreen={false} />
+              </ConfigProvider>
+            </div>
+          </div>
+
           <div className={Styles.calendarCircle}>
             <div className={Styles.red}>
               <div className={Styles.redCircle}></div>
@@ -32,7 +52,8 @@ export default function MemberSidebar() {
             </div>
           </div>
         </div>
-        <div className={Styles.gameInfo}>
+
+        {/* <div className={Styles.gameInfo}>
           <div className={Styles.gameImg}>
             <img
               src="/member-center-images/nn.jpg"
@@ -45,7 +66,7 @@ export default function MemberSidebar() {
             <img src="/member-center-images/Icon/crown.svg" alt="" />
             <div className={Styles.gameTitle}>Lv. 10</div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );

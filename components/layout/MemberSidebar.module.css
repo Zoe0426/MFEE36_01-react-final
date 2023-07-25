@@ -6,8 +6,8 @@
 }
 
 .memberInfo{
-  width: 17vw;
-  height: 16vw;
+  height: 325px;
+  width: 325px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -20,13 +20,14 @@
 
 
 .calendarInfo{
-  width: 17vw;
-  height: 18.5vw;
+  width: 300px;
+  height: 400px;
+  padding: var(--p24) 0 var(--p16) 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   background-color: var(--secondary);
-  border: 1px solid red;
+  /* border: 1px solid red; */
   border-radius: var(--br20);
   margin-bottom: 30px;
   overflow: hidden;
@@ -52,8 +53,8 @@
 }
 
 .profile{
-  width: 50%;
-  height: 53%;
+  width: 65%;
+  height: 65%; /* Add this line */
   border-radius: 50%;
   border: 1px solid red;
   overflow: hidden;
@@ -82,11 +83,7 @@
   margin-left: 5px;
 }
 
-.calendar{
-  width: 17vw;
-  height: 12.5vw;
-  background-color: #fff;
-}
+
 
 .calendarCircle{
   width: 100%;
