@@ -5,6 +5,10 @@ export default function Test() {
   return (
     <>
       <Loading />
+      <div className="box">
+        <div className="info">Info</div>
+        <img src="" alt="" className="img" />
+      </div>
     </>
   );
 }

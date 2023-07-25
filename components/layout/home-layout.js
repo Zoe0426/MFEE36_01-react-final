@@ -7,7 +7,7 @@ export default function HomeLayout({ children }) {
       <div className="container-outer">
         <Navbar type="home" />
         <main>{children}</main>
-        <Footer />
+        <Footer type="home" />
       </div>
     </>
   );

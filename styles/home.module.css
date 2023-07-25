@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid pink;
+    /* border: 1px solid pink; */
 }
 .gwmphoto{
     width: 95%;
@@ -27,8 +27,7 @@
     top: -28%;
     left: 1%;
     width: 15%;
-  
-    border: 1px solid green;
+    /* border: 1px solid green; */
 }
 
 .mainBtnSection{
@@ -48,13 +47,26 @@
     display: flex;
     justify-content: space-between;
 }
-
+.productbg{
+    background-color: var(--light4);
+}
+.activitybg{
+    background-color: white;
+}
+.restaurantbg{
+    background-color: var(--lightBrown);
+}
+.forumbg{}
 .hSection{
 /* border: 1px solid green; */
     align-items: center;
     padding: 50px 0;
 } 
-
+.hSection{
+/* border: 1px solid green; */
+    align-items: center;
+    padding: 50px 0;
+} 
 
 .hlCards{
     /* border: 1px solid red; */

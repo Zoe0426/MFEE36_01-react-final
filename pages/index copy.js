@@ -128,6 +128,7 @@ export default function Home() {
           ></HomeMainBtn>
         </div>
       </Row>
+
       <Row className={style.productbg}>
         <Col span={2}></Col>
         <Col span={20}>
@@ -171,11 +172,7 @@ export default function Home() {
               </article>
             </Col>
           </Row>
-        </Col>
-      </Row>
-      <Row className={style.activitybg}>
-        <Col span={2}></Col>
-        <Col span={20}>
+
           <Row className={style.hSection}>
             <Col className={style.hInfo} xs={24} sm={24} md={10}>
               <article>
@@ -199,11 +196,6 @@ export default function Home() {
             </Col>
             <Col className={style.hrCards} xs={24} sm={24} md={14}></Col>
           </Row>
-        </Col>
-      </Row>
-      <Row className={style.restaurantbg}>
-        <Col span={2}></Col>
-        <Col span={20}>
           <Row className={style.hSection}>
             <Col className={style.hlCards} xs={24} sm={24} md={14}>
               <HomeResCard
@@ -241,11 +233,6 @@ export default function Home() {
               </article>
             </Col>
           </Row>
-        </Col>
-      </Row>
-      <Row className={style.forumbg}>
-        <Col span={2}></Col>
-        <Col span={20}>
           <Row className={style.hSection}>
             <Col className={style.hInfo} xs={24} sm={24} md={10}>
               <article>
@@ -271,7 +258,11 @@ export default function Home() {
             </Col>
             <Col className={style.hrCards} xs={24} sm={24} md={14}></Col>
           </Row>
+          <section className={style.shopSection}>
+            <div className={style.hSCards}></div>
+          </section>
         </Col>
+        <Col span={2}></Col>
       </Row>
     </>
   );

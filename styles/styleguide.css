@@ -9,6 +9,7 @@
     --light1: #FFEFE8;/* footer背景色 */
     --light2: #fffaf6;/* 主背景色 */
     --light3:#FFE8D6;/* 論壇背景色 */
+    --light4:#fAF7f4;/*首頁商城背景*/
     --light-gray:#DDDDDD;
     --gray:#909090;
     --dark-gray: #515151;
@@ -145,11 +146,6 @@ body{
     /* border: 1px solid purple; */
     margin: auto;
 }
-
-
-
-
-/* ---------------- */
 
 
 /* -------------------- */
