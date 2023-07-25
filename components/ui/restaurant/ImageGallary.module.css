@@ -35,7 +35,7 @@
 
 .image {
   /* ... */
-  max-height: 900px; /* 使用 max-height 避免圖片變形 */
+  max-height: 760px; /* 使用 max-height 避免圖片變形 */
   max-width: 100%; /* 使用 max-width 避免圖片變形 */
 }
 
@@ -53,8 +53,8 @@
 .right_arrow {
   color: white;
   position: fixed; 
-  right: 20%;
-  top: 40%;
+  right: 14%;
+  top: 50%;
   font-size: 2.75rem;
   z-index: 10;
   cursor: pointer;
@@ -74,8 +74,8 @@
 .left_arrow {
   color: white;
   position: fixed;
-  left: 20%;
-  top: 40%;
+  left: 14%;
+  top: 50%;
   font-size: 2.75rem;
   z-index: 10;
   cursor: pointer;
