@@ -25,7 +25,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: var(--p32);
+    padding: var(--p32) 0 var(--p32) 0;
 }
 
 

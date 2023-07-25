@@ -11,6 +11,7 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
@@ -49,7 +50,7 @@ export default function ActivityMain() {
   const [breadCrubText, setBreadCrubText] = useState([
     {
       id: 'activity',
-      text: '活動',
+      text: '活動首頁',
       href: 'http://localhost:3000/activity',
       show: true,
     },
@@ -365,14 +366,13 @@ export default function ActivityMain() {
             <IconBtn
               icon={faFilter}
               text="進階篩選"
-              
             />
           </div>
         </div>
         <div>
           <>
             {showLikeList && (
-              <Likelist
+              <LikeListDrawer
                 datas={likeDatas}
                 customCard={
                   <ActivityLikeListCard

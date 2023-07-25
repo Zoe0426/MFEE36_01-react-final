@@ -9,6 +9,7 @@ import {
   faLocationDot,
   faHeart,
   faUserPlus,
+  faFilter
 } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../styles/activitydetail.module.css';
 import NavDetailPage from '@/components/ui/cards/NavDetailPage';
@@ -17,6 +18,9 @@ import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import CommentCard from '@/components/ui/cards/comment-card';
 import { Button, Select } from 'antd';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import IconBtn from '@/components/ui/buttons/IconBtn';
+import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 
 // import CommentCard from '@/componets/ui/cards/comment-card.js';
 
@@ -54,6 +58,25 @@ export default function ActivityDetail() {
   const totalPrice =
     actDetailRows.price_adult * countAdult +
     (actDetailRows.price_adult / 2) * countChild;
+
+
+
+  // 小麵包屑
+  const [breadCrubText, setBreadCrubText] = useState([
+    {
+      id: 'activity',
+      text: '活動首頁',
+      href: 'http://localhost:3000/activity',
+      show: true,
+    },
+    { id: 'search', text: '/ 活動列表/', href: '', show: true },
+    {
+      id: 'aid',
+      text: '',
+      href: '',
+      show: true,
+    },
+  ]);
 
   // 取得頁面資訊
   useEffect(() => {
@@ -189,6 +212,26 @@ export default function ActivityDetail() {
     <div>
       {/* .........上方資訊......... */}
       <div className="container-inner">
+
+      <div className={styles.nav_head}>
+          {/* <p>TODO: BreadCrumb</p> */}
+          <BreadCrumb breadCrubText={breadCrubText} />
+
+          {/* .........收藏列表/進階篩選 btn......... */}
+          <div className={styles.btns}>
+            <IconBtn
+              icon={faHeart}
+              text="收藏列表"
+              // clickHandler={toggleLikeList}
+            />
+            <IconBtn
+              icon={faFilter}
+              text="進階篩選"
+            />
+          </div>
+        </div>
+
+
         <div className={styles.card}>
           {/* -------右邊------- */}
 
@@ -419,14 +462,18 @@ export default function ActivityDetail() {
                 <IconSeconBtn icon={faHeart} text="加入收藏" />
               </div>
 
-              <Button
+              {/* <Button
                 icon={<FontAwesomeIcon icon={faUserPlus} />}
                 onClick={handleOrderActivityClick}
               >
                 我要報名
-              </Button>
+              </Button> */}
 
-              {/* <IconMainBtn icon={faUserPlus} text="我要報名" /> */}
+              <IconMainBtn 
+              icon={faUserPlus} 
+              text="我要報名"
+              clickHandler={handleOrderActivityClick}
+              />
             </div>
           </div>
         </div>
