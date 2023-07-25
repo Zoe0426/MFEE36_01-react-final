@@ -1,46 +1,57 @@
 .box{
-    position:relative;
+    z-index: 50;
+    position:fixed;
+    top:60px;
     width: 100vw;
-    height: 80vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center;  
+    background-color: #fffaf699;
+
+}
+.centerBox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;  
+  padding: 20px;
+  border-radius: var(--br20);
+  transform: translateY(-120px);
+  /* background-color: var(--light2); */
 }
 .logo{
-    width: 130px;
+    width: 120px;
     margin-bottom: 10px;
-    animation: float 6s ease-in-out infinite;
+    /* animation: float 6s ease-in-out infinite; */
 
 }
 .trafficLight{
   width: 8px; 
   margin-left: 1px;
-  transform: translateY(1px);
+  transform: translateY(5px);
 }
 .tree{
   width: 40px;
-  transform: translateY(-7px);
+  transform: translateY(-3px);
 
 }
 .loadingSection{
-    /* border: 1px solid purple; */
     padding-left: 50px;
     width: 400px;
     display: flex;
     align-items: center;
 }
 .loadingText{
-  /* border:1px solid green; */
   display: flex;
   align-items: center;
   padding-left: 20px;
   padding-right: 15px;
-  /* margin-right:20px; */
 }
 .loadingText span{
     display: block;
-    font-size: var(--h4fs24);
+    font-size: 1.625rem;
     color: var(--dark);
     font-weight: bold;
     letter-spacing: 7px;
@@ -56,15 +67,14 @@
 }
 .detail_paw_up_walking{
   position: absolute;
-    font-size: var(--h5fs20);
-    -webkit-animation: 10s pawAnimation ease-in-out infinite;
-    animation: 2.5s pawAnimation ease-in-out infinite;
+  -webkit-animation: 10s pawAnimation ease-in-out infinite;
+  animation: 2.5s pawAnimation ease-in-out infinite;
 }
 .detail_paw_up_walking:nth-child(odd){
   transform: rotate(80deg);
 }
 .detail_paw_up_walking:nth-child(even){
-  transform: rotate(95deg);
+  transform: rotate(100deg);
 }
 
 .detail_paw_up_walking:nth-child(1){
@@ -73,7 +83,7 @@
 }
 
 .detail_paw_up_walking:nth-child(2){
-  top:50%;
+  top:70%;
   left:30%;
 }
 
@@ -83,7 +93,7 @@
 }
 
 .detail_paw_up_walking:nth-child(4){
-  top:40%;
+  top:60%;
   left:90%;
 } 
 
@@ -112,22 +122,19 @@
           animation-delay: 1.8s;
 }
 
-.detail_paw_up_walking:nth-child(1) {
+.detail_paw_up_walking:nth-child(2) {
   -webkit-animation-delay: 0.5s;
           animation-delay: 0.5s;
 }
-.detail_paw_up_walking:nth-child(2) {
+.detail_paw_up_walking:nth-child(3) {
   -webkit-animation-delay: 1s;
           animation-delay: 1s;
 }
-.detail_paw_up_walking:nth-child(3) {
+.detail_paw_up_walking:nth-child(4) {
   -webkit-animation-delay: 1.5s;
           animation-delay: 1.5s;
 }
-.detail_paw_up_walking:nth-child(4) {
-  -webkit-animation-delay: 2s;
-          animation-delay: 2s;
-}
+
 
 
   @keyframes pawAnimation {
