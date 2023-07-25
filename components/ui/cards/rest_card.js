@@ -6,7 +6,6 @@ import HashTag from '../hashtag/hashtag';
 import RateStarPill from '../rateStar/RateStarPill';
 import Link from 'next/link';
 import Modal from '../modal/modal';
-import ModalReminder from '../restaurant/ModalReminder';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
 
 export default function RestCard({
