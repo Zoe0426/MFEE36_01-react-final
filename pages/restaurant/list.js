@@ -169,39 +169,46 @@ export default function FilterPage() {
 
     console.log(router.query);
 
-    if (Object.keys(router.query).length !== 0) {
-      console.log(router.query);
-      setRule(rule || '');
-      setService(service || '');
-      if (city) {
-        setSelectedCity(city);
-      }
-      if (area) {
-        setSelectedArea(area);
+    setRule(rule || '');
+    setService(service || '');
+    if (city) {
+      setSelectedCity(city);
+    }
+    if (area) {
+      setSelectedArea(area);
+    }
+
+    if (startTime) {
+      setStartTime(startTime);
+    }
+
+    if (endTime) {
+      setEndTime(endTime);
+    }
+
+    if (selectedDate) {
+      setDatePickerValue(selectedDate); // 設置日期狀態
+    }
+    if (category) {
+      resetCheckBox('category', category);
+    }
+
+    setArea(area || '');
+    setCategory(category || '');
+    setKeyword(keyword || '');
+
+    // 處理 fetch 資料的函式
+    const fetchData = () => {
+      let apiURL = `${process.env.API_SERVER}/restaurant-api/list`;
+
+      // 確認是否有任何 query string
+      if (Object.keys(router.query).length !== 0) {
+        console.log(router.query);
+        const usp = new URLSearchParams(router.query);
+        apiURL += `?${usp.toString()}`;
       }
 
-      if (startTime) {
-        setStartTime(startTime);
-      }
-
-      if (endTime) {
-        setEndTime(endTime);
-      }
-
-      if (selectedDate) {
-        setDatePickerValue(selectedDate); // 設置日期狀態
-      }
-      if (category) {
-        resetCheckBox('category', category);
-      }
-
-      setArea(area || '');
-      setCategory(category || '');
-      setKeyword(keyword || '');
-      // setOrderBy(orderBy);
-      const usp = new URLSearchParams(router.query);
-
-      fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
+      fetch(apiURL)
         .then((r) => r.json())
         .then((data) => {
           if (Array.isArray(data.rows)) {
@@ -211,25 +218,10 @@ export default function FilterPage() {
         .catch((error) => {
           console.error(error);
         });
-    }
+    };
 
-    // getData(router.query, auth.token);
-    // if (Object.keys(router.query).length === 0) {
-    //   console.log(router.query);
-    //   fetch(`${process.env.API_SERVER}/restaurant-api/list`)
-    //     .then((r) => r.json())
-    //     .then((data) => {
-    //       if (Array.isArray(data.rows)) {
-    //         setData(data);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // }
+    fetchData(); // 執行 fetch 資料的函式
   }, [router.query]);
-
-  console.log(data.rows);
 
   //進入畫面時將checkbox依據queryString設定勾選狀態
   const resetCheckBox = (key, str) => {

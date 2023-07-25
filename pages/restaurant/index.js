@@ -688,7 +688,7 @@ export default function Restindex() {
         />
       </div>
       <div className="container-inner">
-        <div className={Styles.hot_card_group}>
+        <div className={Styles.friendly_card_group}>
           <div className={Styles.hot_card}>
             {/* <RestCard
               name="我家休閒農場"
