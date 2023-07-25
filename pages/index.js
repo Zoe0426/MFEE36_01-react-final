@@ -204,7 +204,7 @@ export default function Home() {
           </Row>
         </Col>
       </Row>
-      <div className={style.cutbottomLine1}>
+      <div className={style.cutbottomLine2}>
         <img src="/home-images/h-wave2.jpg" alt="" className={style.wave} />
       </div>
       <Row className={style.restaurantbg}>
@@ -249,6 +249,9 @@ export default function Home() {
           </Row>
         </Col>
       </Row>
+      <div className={style.cutbottomLine3}>
+        <img src="/home-images/h-wave3.jpg" alt="" className={style.wave} />
+      </div>
       <Row className={style.forumbg}>
         <Col span={2}></Col>
         <Col span={20}>

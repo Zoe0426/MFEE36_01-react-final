@@ -54,11 +54,17 @@
     background-color: white;
 }
 .restaurantbg{
-    background-color: var(--lightBrown);
+    background-color: var(--light5);
 }
 .forumbg{}
-.cutbottomLine{
+.cutbottomLine1{
     background-color: white;
+}
+.cutbottomLine2{
+    background-color: var(--light5);
+}
+.cutbottomLine3{
+    background-color: var(--light2);
 }
 .wave{
     width: 100%;
