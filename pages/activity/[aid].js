@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
+import AuthContext from '@/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faStar,
@@ -15,7 +16,7 @@ import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import CommentCard from '@/components/ui/cards/comment-card';
-import { Select } from 'antd';
+import { Button, Select } from 'antd';
 
 // import CommentCard from '@/componets/ui/cards/comment-card.js';
 
@@ -26,6 +27,14 @@ export default function ActivityDetail() {
 
   const { query, asPath } = useRouter();
   const router = useRouter();
+
+  // 會員登入相關
+  const { auth } = useContext(AuthContext);
+  const authId = auth.id;
+
+  // 新增活動相關
+  const [activitySid, setActivitySid] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const [data, setData] = useState({
     actDetailRows: [],
@@ -42,12 +51,16 @@ export default function ActivityDetail() {
   const [actDateRows, setActDateRows] = useState([]);
   const [actFeatureRows, setActFeatureRows] = useState([]);
   const [actRatingRows, setActRatingRows] = useState([]);
-  const totalPrice=(actDetailRows.price_adult)*countAdult+(actDetailRows.price_adult/2)*countChild;
+  const totalPrice =
+    actDetailRows.price_adult * countAdult +
+    (actDetailRows.price_adult / 2) * countChild;
 
+  // 取得頁面資訊
   useEffect(() => {
     const { aid } = query;
 
     if (aid) {
+      setActivitySid(aid);
       fetch(`http://localhost:3002/activity-api/activity/${aid}`)
         .then((r) => r.json())
         .then((data) => {
@@ -91,14 +104,6 @@ export default function ActivityDetail() {
             setActRatingRows(actRatingRows);
           }
 
-          // const initialActImageRows = actImageRows.map((v, index) => {
-          //   return {
-          //     ...v,
-          //     display: index === 0, // 第一張照片設為預設顯示
-          //   };
-          // });
-          // setActImageRows(initialActImageRows);
-
           setData(data);
         })
         .catch((error) => {
@@ -107,35 +112,73 @@ export default function ActivityDetail() {
     }
   }, [query]);
 
-  //const [firstActivity, setFirstActivity] = useState(null);
-
-  // useEffect(() => {
-  //   //取得特定活動編號
-  //   const { aid } = query;
-  //   const activity_sid = aid ? encodeURIComponent(aid) : '';
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(`${process.env.API_SERVER}/activity-api/activity/${activity_sid}`,
-  //         { method: 'GET' }
-  //       );
-  //       const data = await response.json();
-  //       setActivity_sid_data(data.activity_sid_data);
-
-  //       const firstActivity = data.activity_sid_data
-  //         ? Object.values(data.activity_sid_data)[0]
-  //         : null;
-
-  //       setFirstActivity(firstActivity);
-  //     } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //     }
-  //   };
-
-  //   fetchData();
-
-  // }, [query]);
-  // console.log('actImageRows:', actImageRows);
+  // 新增活動
+  const orderActivityClick = async (
+    activitySid,
+    token,
+    authId,
+    countAdult,
+    countChild,
+    selectedDate
+  ) => {
+    console.log('Order activity button clicked!');
+  console.log('selectedDate:', selectedDate);
+  console.log('actDateRows:', actDateRows);
+   
+    try {
+      if (!authId) {
+        const from = router.asPath;
+        router.push(`/member/sign-in?from=${from}`);
+        return;
+      }
+  
+      if (!token) throw new Error('未找到會員ID');
+  
+      // Find the corresponding activity_group_sid for the selectedDate
+      const selectedDateObj = actDateRows.find(
+        (dateRow) => dateRow.date === selectedDate
+      );
+  
+      if (!selectedDateObj) throw new Error('無效的活動日期');
+  
+      const response = await fetch(
+        `${process.env.API_SERVER}/activity-api/order-activity/${activitySid}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+          body: JSON.stringify({
+            aid: activitySid,
+            member_sid: authId,
+            rel_seq_sid: selectedDateObj.activity_group_sid,
+            adult_qty: countAdult,
+            child_qty: countChild,
+          }),
+        }
+      );
+  
+      if (!response.ok) throw new Error('報名失敗');
+  
+      console.log('報名成功');
+    } catch (error) {
+      console.error('操作報名失敗:', error);
+    }
+  };
+  
+  const handleOrderActivityClick = async () => {
+    await orderActivityClick(
+      activitySid,
+      auth.token,
+      authId,
+      countAdult,
+      countChild,
+      selectedDate
+    );
+  };
+  
+  
 
   return (
     <div>
@@ -155,7 +198,7 @@ export default function ActivityDetail() {
             >
               上
             </button>
-            {actImageRows.length > 0 && ( 
+            {actImageRows.length > 0 && (
               <img
                 src={`/activity_img/${actImageRows[currentImageIndex]}`}
                 alt="Slider"
@@ -172,7 +215,7 @@ export default function ActivityDetail() {
             >
               下
             </button>
-            
+
             {/* <div className={styles.overlay_left}></div>
             <div className={styles.overlay_right}></div> */}
             <div className={styles.icon}></div>
@@ -248,7 +291,22 @@ export default function ActivityDetail() {
               <div className={styles.row_date}>
                 <p className={styles.row_text_small}>選擇日期：</p>
 
-                <Select defaultValue="選擇活動日期">
+                <Select
+                  defaultValue="選擇活動日期"
+                  onChange={(value) => setSelectedDate(value)}
+                >
+                  {actDateRows.map((row, index) => (
+                    <Select.Option
+                      className={styles.dateSelect}
+                      key={index}
+                      value={row.activity_group_sid}
+                    >
+                      {row.date}
+                    </Select.Option>
+                  ))}
+                </Select>
+
+                {/* <Select defaultValue="選擇活動日期">
                   {actDateRows.map((row, index) => (
                     <Select.Option
                       className={styles.dateSelect}
@@ -258,7 +316,7 @@ export default function ActivityDetail() {
                       {row.date}
                     </Select.Option>
                   ))}
-                </Select>
+                </Select> */}
               </div>
             </div>
 
@@ -356,7 +414,14 @@ export default function ActivityDetail() {
                 <IconSeconBtn icon={faHeart} text="加入收藏" />
               </div>
 
-              <IconMainBtn icon={faUserPlus} text="我要報名" />
+              <Button
+                icon={<FontAwesomeIcon icon={faUserPlus} />}
+                onClick={handleOrderActivityClick}
+              >
+                我要報名
+              </Button>
+
+              {/* <IconMainBtn icon={faUserPlus} text="我要報名" /> */}
             </div>
           </div>
         </div>

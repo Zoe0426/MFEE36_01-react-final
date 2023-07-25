@@ -276,7 +276,7 @@ export default function ActivityMain() {
             },
           }
         );
-        console.log('會員ID:', token.id);
+        //console.log('會員ID:', token.id);
   
         if (!response.ok) {
           throw new Error('刪除收藏失敗');
