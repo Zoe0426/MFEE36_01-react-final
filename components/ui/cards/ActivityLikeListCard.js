@@ -12,7 +12,7 @@ const ActivityLikeListCard = ({
     const router = useRouter();
     return datas.map((v) => {
       const { activity_sid, activity_pic, name, recent_date, farthest_date, city, area, price_adult } = v;
-      const pic = activity_pic && activity_pic[0];
+      const pic = (activity_pic && activity_pic[0]) || <>placeholder</>;
       return (
         <div className={styles.card} key={activity_sid}>
             <div>
