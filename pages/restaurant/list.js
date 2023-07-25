@@ -38,6 +38,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cityDatas from '@/data/restaurnt/location.json';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
+import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -877,7 +878,7 @@ export default function FilterPage() {
         <div className="container-inner">
           <div className={Styles.like_list}>
             {showLikeList && (
-              <Likelist
+              <LikeListDrawer
                 datas={likeDatas}
                 customCard={
                   <LikeListCard
