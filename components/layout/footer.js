@@ -53,7 +53,7 @@ export default function Footer({ classTitle, type = '' }) {
           </div>
         </div>
         <img
-          src="home-images/h-footer.svg"
+          src="/home-images/h-footer.svg"
           alt="footerbg"
           className={Styles.footerbg}
         />

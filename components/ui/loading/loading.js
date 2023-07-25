@@ -35,18 +35,22 @@ export default function Loading() {
           <div className={styles.detail_paw_walking_box}>
             <FontAwesomeIcon
               icon={faPaw}
+              style={{ maxHeight: 16, maxWidth: 16 }}
               className={styles.detail_paw_up_walking}
             />
             <FontAwesomeIcon
               icon={faPaw}
+              style={{ maxHeight: 16, maxWidth: 16 }}
               className={styles.detail_paw_up_walking}
             />
             <FontAwesomeIcon
               icon={faPaw}
+              style={{ maxHeight: 16, maxWidth: 16 }}
               className={styles.detail_paw_up_walking}
             />
             <FontAwesomeIcon
               icon={faPaw}
+              style={{ maxHeight: 16, maxWidth: 16 }}
               className={styles.detail_paw_up_walking}
             />
           </div>

@@ -17,8 +17,9 @@
   display: block;
 }
 .footerbg{
+
   position:absolute;
-  top: 0;
+  top:0;
 }
 .footerInfo{
   transform: translateY(15px);
