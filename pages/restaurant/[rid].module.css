@@ -162,6 +162,9 @@
   display: flex;
   flex-wrap: nowrap;
   margin-bottom: 40px;
+  padding-bottom: 30px;
+  margin-top: 30px;
+  overflow-y: auto;
 }
 .detail_main_buttom {
   margin-top: 50px;
@@ -238,12 +241,24 @@
   user-select: none;
   opacity: 0.8;
 }
-
+.star{
+  color: var(--main);
+  padding-right: 6px;
+  padding-left: 8px;
+}
 .slide {
   opacity: 0;
   transition-duration: 1s ease;
 }
 
+.avg{
+  font-size: var(--h6fs18);
+  display: flex;
+}
+.comment_title{
+  font-weight: 600;
+  color: var(--dark);
+}
 .slide_active{
   opacity: 1;
   transition-duration: 1s;
@@ -255,8 +270,34 @@
   border: 1px solid black;
 }
 
+.section_rating{
+  display: flex;
+  padding-bottom: 20px;
+  gap: 24px;
+}
 
+/* width */
+.comment_cards::-webkit-scrollbar {
+  height: 10px;
+}
 
+/* Track */
+.comment_cards::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background: var(--light-gray); 
+  
+}
+ 
+/* Handle */
+.comment_cards::-webkit-scrollbar-thumb {
+  background: var(--secondary); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.comment_cards::-webkit-scrollbar-thumb:hover {
+  background: #ffbfb4; 
+}
 
 @media screen and (max-width: 767px) {
   .jill_h1 {

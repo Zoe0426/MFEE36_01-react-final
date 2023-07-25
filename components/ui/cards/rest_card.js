@@ -5,6 +5,8 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import HashTag from '../hashtag/hashtag';
 import RateStarPill from '../rateStar/RateStarPill';
 import Link from 'next/link';
+import Modal from '../modal/modal';
+import AlertModal from '@/components/ui/restaurant/AlertModal';
 
 export default function RestCard({
   rest_sid = '',
@@ -16,6 +18,8 @@ export default function RestCard({
   service_names = '',
   average_friendly = '',
   like = false,
+  token = '',
+  singinHandler = () => {},
   clickHandler = () => {},
 }) {
   const rules = rule_names.split(',');
@@ -25,11 +29,23 @@ export default function RestCard({
 
   return (
     <>
-      <FontAwesomeIcon
-        icon={faHeart}
-        onClick={clickHandler}
-        className={`${Styles.icon_inImage} ${like && Styles.active}`}
-      />
+      {token ? (
+        <FontAwesomeIcon
+          icon={faHeart}
+          onClick={clickHandler}
+          className={`${Styles.icon_inImage} ${like && Styles.active}`}
+        />
+      ) : (
+        <AlertModal
+          btnType="heart"
+          title="貼心提醒"
+          content="收藏餐廳" 
+          mainBtnText="前往登入"
+          subBtnText="暫時不要"
+          confirmHandler={singinHandler}
+        />
+      )}
+
       <Link href={`http://localhost:3000/restaurant/${rest_sid}`}>
         <div className={Styles.card}>
           <div className={Styles.rest_img}>

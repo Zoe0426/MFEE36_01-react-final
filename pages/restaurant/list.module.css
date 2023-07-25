@@ -7,15 +7,17 @@
 
 .search{
   width: 100%;
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center; 
   align-items: center; 
 }
-
+.search_bar{
+  position: absolute;
+  top: 60%;
+}
 .banner{
-  position: relative;
   height: 280px;
   display: flex;
   justify-content: center; 
@@ -27,7 +29,6 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-
 }
 
 .banner img {
@@ -102,6 +103,7 @@
 
 .bgc {
   background-color: var(--lightBrown);
+
 }
 .pagination{
   margin:70px 0;

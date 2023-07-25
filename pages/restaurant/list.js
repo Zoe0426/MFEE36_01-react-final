@@ -38,6 +38,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cityDatas from '@/data/restaurnt/location.json';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
+import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -53,16 +54,17 @@ export default function FilterPage() {
   //進階篩選------------------------------------------------------------
   const [showfilter, setShowFilter] = useState(false);
 
-  //收藏清單------------------------------------------------------------
+  //收藏清單
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
-
   const [addLikeList, setAddLikeList] = useState([]);
   const [isClickingLike, setIsClickingLike] = useState(false);
 
+  //分頁相關
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(15);
 
+  //search bar相關
   const [keyword, setKeyword] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [keywordDatas, setKeywordDatas] = useState([]);
@@ -136,7 +138,7 @@ export default function FilterPage() {
   const orderByHandler = (e) => {
     const newSelect = orderByOptions.find((v) => v.key === e.key);
 
-    console.log(newSelect.label);
+    // console.log(newSelect.label);
     setOrderBy(newSelect.label);
 
     const selectedRank = rankOptions[e.key];
@@ -211,7 +213,7 @@ export default function FilterPage() {
         });
     }
 
-    getData(router.query, auth.token);
+    // getData(router.query, auth.token);
     // if (Object.keys(router.query).length === 0) {
     //   console.log(router.query);
     //   fetch(`${process.env.API_SERVER}/restaurant-api/list`)
@@ -241,37 +243,28 @@ export default function FilterPage() {
     setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
   };
 
-  //searchBar相關的函式-------------------------------------------------------
-
-  // const getRestKeywordData = async () => {
-  //   try {
-  //     const res = await fetch(`${process.env.API_SERVER}/restaurant-api/list`);
-  //     const responseData = await res.json();
-  //     if (Array.isArray(responseData.rows)) {
-  //       setData(responseData);
-  //     }
-  //     console.log(responseData.rows);
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getRestKeywordData().then(() => {});
-  // }, []);
-
   const filterKeywordDatas = (data, keyword, keyin) => {
     if (!keyin) {
       const searchWord = keyword.split('');
 
-      data.forEach((v1) => {
-        v1.count = 0;
-        searchWord.forEach((v2) => {
-          if (v1.name.includes(v2)) {
-            v1.count += 1;
-          }
-        });
-      });
+      if (searchWord.length === 0) {
+        return data;
+      }
+
       console.log(searchWord);
+
+      if (Array.isArray(data)) {
+        // 確保 data 是陣列
+        data.forEach((v1) => {
+          v1.count = 0;
+          searchWord.forEach((v2) => {
+            if (v1.name.includes(v2)) {
+              v1.count += 1;
+            }
+          });
+        });
+      }
+
       console.log(data);
 
       data.sort((a, b) => b.count - a.count);
@@ -279,28 +272,42 @@ export default function FilterPage() {
       return data.filter((v) => v.count >= searchWord.length);
     }
   };
-  const searchBarHandler = (e) => {
-    const searchText = e.target.value;
-    if (!searchText) {
-      const newKeywordDatas = [...keywordDatas];
-      setKeywordDatas(false);
-      setShowKeywordDatas(newKeywordDatas);
-    }
-    if (e.key === 'Enter') {
-      if (!searchText.trim()) {
-        // 如果沒有填字，不執行換頁的動作
-        return;
+  //searchBar相關的函式
+  const restKeywordData = async () => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/search-name`,
+      {
+        method: 'GET',
       }
+    );
+    const data = await res.json();
 
-      let copyURL = { page: 1 };
+    if (Array.isArray(data.keywords)) {
+      const newKeywords = data.keywords.map((v) => {
+        return { name: v, count: 0 };
+      });
+      setKeywordDatas(newKeywords);
+    }
+  };
+
+  useEffect(() => {
+    restKeywordData();
+  }, []);
+
+  const searchBarHandler = (e) => {
+    let copyURL = { page: 1 };
+    const searchText = e.target.value;
+
+    if (!searchText) {
+      setShowKeywordDatas(false);
+    }
+
+    if (e.key === 'Enter') {
+      setShowKeywordDatas(false);
       if (searchText) {
         copyURL = { keyword: searchText, ...copyURL };
       }
-      setShowFilter(false);
-
-      router.push(
-        `/restaurant/list?${new URLSearchParams(copyURL).toString()}`
-      );
+      router.push(`?${new URLSearchParams(copyURL).toString()}`);
     }
   };
 
@@ -323,29 +330,6 @@ export default function FilterPage() {
     setShowKeywordDatas(false);
   };
 
-  const sendLikeList = (arr, token = '', isClickingLike = false) => {
-    // const usp = new URLSearchParams(obj);
-
-    if (!isClickingLike) {
-      console.log(JSON.stringify({ data: arr }));
-
-      // const res = await fetch(
-      //   `${process.env.API_SERVER}/shop-api/handle-like-list`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       Authorization: 'Bearer ' + token,
-      //     },
-      //     body: JSON.stringify({ data: arr }),
-      //   }
-      // );
-      // const data = await res.json();
-
-      // if (data.success) {
-      //   console.log(data);
-      // }
-    }
-  };
   //checkbox相關的函式-------------------------------------------------------
   const checkboxToggleHandler = (arr, name, id) => {
     // 在點擊checkbox 的選擇，並更新狀態
@@ -410,7 +394,7 @@ export default function FilterPage() {
     const selectedDate = datePickerValue;
     const selectedDayOfWeek = selectedDate ? selectedDate.$W : null;
 
-    console.log(selectedDate);
+    //console.log(selectedDate);
 
     // 檢查是否填寫了開始時間和結束時間
     if (startTime && !endTime) {
@@ -457,8 +441,8 @@ export default function FilterPage() {
       query.area = selectedArea;
     }
 
-    console.log(selectedCity);
-    console.log(selectedArea);
+    // console.log(selectedCity);
+    // console.log(selectedArea);
 
     if (checkedOptions.length > 0) {
       query.category = checkedOptions;
@@ -515,29 +499,159 @@ export default function FilterPage() {
   };
 
   //收藏列表相關的函式-------------------------------------------------------
-  const openShowLikeList = () => {
-    setShowLikeList(!showLikeList);
+  //取得收藏列表
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/show-like`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+    }
   };
 
-  const closeShowLikeList = () => {
-    setShowLikeList(false);
+  useEffect(() => {
+    if (!isClickingLike && addLikeList.length > 0) {
+      sendLikeList(addLikeList, auth.token).then(() => {
+        //在成功送資料到後端後重置addLikeList
+        setAddLikeList([]);
+      });
+    }
+  }, [isClickingLike, addLikeList]);
+
+  //沒登入會員收藏，跳轉登入
+  const toSingIn = () => {
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=http://localhost:3000/restaurant/list?${new URLSearchParams(
+        from
+      ).toString()}`
+    );
   };
 
-  // const removeAllLikeList = () => {
-  //   setLikeDatas([]);
-  //   //這邊需要再修改，要看怎麼得到會員的編號
-  //   removeLikeListToDB('all', 'mem00002');
-  // };
+  //卡片愛心收藏的相關函式-------------------------------------------------------
+  const clickHeartHandler = (id) => {
+    setIsClickingLike(true);
+    const timeClick = new Date().getTime();
+    const newData = data.rows.map((v) => {
+      if (v.rest_sid === id) {
+        const insideInLikeList = addLikeList.find(
+          (item) => item.rest_sid === id
+        );
+        if (insideInLikeList) {
+          setAddLikeList((preV) => preV.filter((v2) => v2.rest_sid !== id));
+        } else {
+          setAddLikeList((preV) => [
+            ...preV,
+            { rest_sid: id, time: timeClick },
+          ]);
+        }
+        return { ...v, like: !v.like };
+      } else return { ...v };
+    });
+    setData({ ...data, rows: newData });
+    setTimeout(() => {
+      setIsClickingLike(false);
+    }, 3000);
+  };
 
-  // const removeLikeListItem = (pid) => {
-  //   const newLikeList = likeDatas.filter((arr) => {
-  //     return arr.product_sid !== pid;
-  //   });
+  //將資料送到後端
+  const sendLikeList = async (obj, token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: obj }),
+      }
+    );
+    const data = await res.json();
 
-  //   setLikeDatas(newLikeList);
-  //   //這邊需要再修改，要看怎麼得到會員的編號
-  //   removeLikeListToDB(pid, 'mem00002');
-  // };
+    if (data.success) {
+      console.log(data);
+    }
+  };
+
+  //控制愛心紅色
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    console.log(newShowLikeList);
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      //將列表顯示為空的
+      setLikeDatas([]);
+      //將畫面上的愛心清除
+      const newData = data.rows.map((v) => {
+        return { ...v, like: false };
+      });
+      setData({ ...data, rows: newData });
+      //將請求送到後端作業
+      removeLikeListToDB('all', token);
+    }
+  };
+
+  // 刪除單一收藏
+  const removeLikeListItem = (rid, token = '') => {
+    //將列表該項目刪除
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.rest_sid !== rid;
+    });
+    setLikeDatas(newLikeList);
+    //將若取消的為畫面上的，則須將愛心清除
+    const newData = data.rows.map((v) => {
+      if (v.rest_sid === rid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+    setData({ ...data, rows: newData });
+    //將請求送到後端作業
+    removeLikeListToDB(rid, token);
+  };
+
+  const removeLikeListToDB = async (rid = '', token = '') => {
+    try {
+      const removeAll = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/likelist/${rid}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+      if (rid === 'all') {
+        setTimeout(() => {
+          toggleLikeList();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //Pagination相關的函式-------------------------------------------------------
   const PageChangeHandler = (page, perpage) => {
@@ -567,6 +681,7 @@ export default function FilterPage() {
             keyDownHandler={searchBarHandler}
             clickHandler={searchBarClickHandler}
           /> */}
+          {/* <div className={Styles.search_bar}> */}
           <SearchBar1
             keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
             placeholder="搜尋友善餐廳"
@@ -593,6 +708,7 @@ export default function FilterPage() {
               setKeyword('');
             }}
           />
+          {/* </div> */}
         </div>
       </div>
 
@@ -629,7 +745,7 @@ export default function FilterPage() {
               <IconBtn
                 icon={faHeart}
                 text="收藏列表"
-                clickHandler={openShowLikeList}
+                clickHandler={toggleLikeList}
               />
               <IconBtn
                 icon={faFilter}
@@ -762,10 +878,19 @@ export default function FilterPage() {
         <div className="container-inner">
           <div className={Styles.like_list}>
             {showLikeList && (
-              <Likelist
+              <LikeListDrawer
                 datas={likeDatas}
-                customCard={<LikeListCard />}
-                closeHandler={closeShowLikeList}
+                customCard={
+                  <LikeListCard
+                    datas={likeDatas}
+                    token={auth.token}
+                    removeLikeListItem={removeLikeListItem}
+                  />
+                }
+                closeHandler={toggleLikeList}
+                removeAllHandler={() => {
+                  removeAllLikeList(auth.token);
+                }}
                 // removeAllHandler={removeAllLikeList}
                 // removeLikeListItem={removeLikeListItem}
               />
@@ -819,27 +944,10 @@ export default function FilterPage() {
                   service_names={service_names}
                   average_friendly={average_friendly}
                   like={like}
+                  token={auth.token}
+                  singinHandler={toSingIn}
                   clickHandler={() => {
-                    setIsClickingLike(true);
-                    const newData = data.rows.map((v) => {
-                      if (v.rest_sid === rest_sid) {
-                        if (addLikeList.includes(rest_sid)) {
-                          setAddLikeList((preV) =>
-                            preV.filter((v2) => v2 !== rest_sid)
-                          );
-                        } else {
-                          setAddLikeList((preV) => [...preV, rest_sid]);
-                        }
-                        return { ...v, like: !v.like };
-                      } else return { ...v };
-                    });
-
-                    setData({ ...data, rows: newData });
-
-                    setTimeout(() => {
-                      setIsClickingLike(false);
-                    }, 5000);
-                    sendLikeList(addLikeList, auth.token, isClickingLike);
+                    clickHeartHandler(rest_sid);
                   }}
                 />
               </Col>
