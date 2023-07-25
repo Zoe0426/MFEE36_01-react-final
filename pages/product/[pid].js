@@ -67,6 +67,7 @@ export default function Product() {
   const [likeDatas, setLikeDatas] = useState([]);
   //用來存放將放入購物車的資料
   const [purchaseInfo, setPurchaseInfo] = useState({
+    pid: '',
     spec: '',
     unitPrice: 0,
     qty: 0,
@@ -130,7 +131,7 @@ export default function Product() {
       shopMainData,
       shopDetailData,
       commentDatas,
-      commentEachQty,
+      // commentEachQty,
       reccomandData,
     } = await res_productInfo.json();
 
@@ -186,7 +187,11 @@ export default function Product() {
           } else return { ...v, count: 0, display: false, active: false };
         })
       );
-      setPurchaseInfo({ unitPrice: shopDetailData[0].price });
+      setPurchaseInfo({
+        ...purchaseInfo,
+        pid: shopMainData[0].product_sid,
+        unitPrice: shopDetailData[0].price,
+      });
     }
 
     if (Array.isArray(reccomandData)) {
@@ -536,7 +541,9 @@ export default function Product() {
                 </h2>
                 <RateStar
                   score={datatForProductMain.avg_rating}
-                  text={`( 已有${datatForProductMain.sales_qty}人購買 )`}
+                  text={`( 已有${parseInt(
+                    datatForProductMain.sales_qty
+                  )?.toLocaleString('en-US')}人購買 )`}
                 />
                 <div className={styles.detail_price_box}>
                   <h5 className={styles.detail_spec_title}>價格</h5>
@@ -560,6 +567,7 @@ export default function Product() {
                         key={v.product_detail_sid}
                         onClick={() => {
                           setPurchaseInfo({
+                            ...purchaseInfo,
                             spec: v.product_detail_sid,
                             unitPrice: v.price,
                           });
