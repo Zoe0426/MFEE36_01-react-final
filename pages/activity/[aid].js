@@ -121,25 +121,30 @@ export default function ActivityDetail() {
     countChild,
     selectedDate
   ) => {
-    console.log('Order activity button clicked!');
-  console.log('selectedDate:', selectedDate);
-  console.log('actDateRows:', actDateRows);
+  //   console.log('Order activity button clicked!');
+  // console.log('selectedDate:', selectedDate);
+  // console.log('actDateRows:', actDateRows);
    
     try {
-      if (!authId) {
-        const from = router.asPath;
-        router.push(`/member/sign-in?from=${from}`);
-        return;
+      if (!token) {
+        throw new Error('未找到會員ID');
+        // const from = router.asPath;
+        // router.push(`/member/sign-in?from=${from}`);
+        // return;
       }
   
-      if (!token) throw new Error('未找到會員ID');
-  
       // Find the corresponding activity_group_sid for the selectedDate
-      const selectedDateObj = actDateRows.find(
-        (dateRow) => dateRow.date === selectedDate
-      );
+
+      console.log('Order activity button clicked!');
+  console.log('selectedDate:', selectedDate);
+  console.log('actDateRows:', actDateRows);
+    //   const selectedDateObj = actDateRows.find(
+    //     (dateRow) => dateRow.date === selectedDate
+    //   );
+    //   console.log(selectedDateObj);
+    // console.log(selectedDateObj.date);
   
-      if (!selectedDateObj) throw new Error('無效的活動日期');
+      if (!selectedDate) throw new Error('無效的活動日期');
   
       const response = await fetch(
         `${process.env.API_SERVER}/activity-api/order-activity/${activitySid}`,
@@ -152,7 +157,7 @@ export default function ActivityDetail() {
           body: JSON.stringify({
             aid: activitySid,
             member_sid: authId,
-            rel_seq_sid: selectedDateObj.activity_group_sid,
+            rel_seq_sid: selectedDate,
             adult_qty: countAdult,
             child_qty: countChild,
           }),
@@ -174,7 +179,7 @@ export default function ActivityDetail() {
       authId,
       countAdult,
       countChild,
-      selectedDate
+      selectedDate,
     );
   };
   
@@ -370,7 +375,7 @@ export default function ActivityDetail() {
                     <button
                       className={styles.detail_qty_sub_btn}
                       onClick={() => {
-                        if (countChild > 1) {
+                        if (countChild > 0) {
                           setCountChild(countChild - 1);
                         }
                       }}
