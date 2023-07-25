@@ -24,7 +24,9 @@ export default function LikeListDrawer({
             className={styles.arrow}
           />
           {/* {<MainBtn text="關閉視窗" clickHandler={closeHandler} />} */}
-          <p onClick={removeAllHandler} className={styles.clean_all}>清除所有</p>
+          <p onClick={removeAllHandler} className={styles.clean_all}>
+            清除所有
+          </p>
           {/* {<SecondaryBtn text="清除所有" clickHandler={removeAllHandler} />} */}
         </div>
         <div className={styles.like_items}>
