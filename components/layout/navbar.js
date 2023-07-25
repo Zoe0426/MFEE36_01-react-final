@@ -27,19 +27,16 @@ export default function Navbar({ type = '' }) {
       headers: { 'Content-Type': 'application/json' },
     });
     const itemAmount = await r.json();
-    console.log({ itemAmount });
     setCartItemAmount(itemAmount.itemInCart);
   };
 
   const getMemberImage = async (id) => {
-    console.log('id', id);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/get-mem-img`, {
       method: 'POST',
       body: JSON.stringify({ member_sid: id }),
       headers: { 'Content-Type': 'application/json' },
     });
     const memImg = await r.json();
-    console.log('memImg:', memImg);
     if (memImg.profile) {
       setMemProfileImg(memImg.profile);
     } else {
@@ -59,9 +56,7 @@ export default function Navbar({ type = '' }) {
   useEffect(() => {
     if (auth.token && first) {
       getCartTotalItems(auth.id);
-      console.log('getcartitem');
       getMemberImage(auth.id);
-      console.log('getImg');
       setLogin(true);
     }
   }, [auth, first]);
