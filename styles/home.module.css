@@ -19,8 +19,15 @@
 .gwmtitle{
     position: absolute;
     top: 25%;
-    right: 4%;
+    right: 3%;
     width: 32%;
+}
+.shoutgwm{
+    position: absolute;
+    width: 18%;
+    top: 14%;
+    left: 14%;
+    transform: rotateY(20deg) rotate(-15deg);
 }
 .cat{
     position: absolute;
@@ -49,14 +56,28 @@
 }
 .productbg{
     background-color: var(--light4);
+    padding: 30px 0;
 }
+.shopBtnArea{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.catJump{
+    width: 50%;
+}
+
 .activitybg{
     background-color: white;
+     padding: 30px 0;
 }
 .restaurantbg{
     background-color: var(--light5);
+    padding: 80px 0 20px 0;
 }
-.forumbg{}
+.forumbg{
+    padding: 30px 0 70px 0;
+}
 .cutbottomLine1{
     background-color: white;
 }
@@ -79,7 +100,9 @@
     align-items: center;
     padding: 50px 0;
 } 
-
+.Info{
+    position: relative;
+}
 .hlCards{
     /* border: 1px solid red; */
     padding-right: 4%;
@@ -97,7 +120,7 @@
 
 
 
-/* SHOPINFO */
+/* INFO */
 
 .hstitle{
     font-size: var(--h1fs36);
@@ -105,7 +128,7 @@
     font-weight: bold;
     letter-spacing: 4px;
     padding-top : var(--p16);
-    padding-bottom : var(--p8);
+    padding-bottom : var(--p16);
 }
 .hetitle{
     font-size: var(--h5fs20);
