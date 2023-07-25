@@ -8,7 +8,7 @@ import CloseBtn from '../ui/buttons/closeBtn';
 
 export default function Navbar({ type = '' }) {
   const { auth, logout } = useContext(AuthContext);
-  console.log('auth,navbar:', auth);
+  // console.log('auth,navbar:', auth);
   const router = useRouter();
   const [first, setFirst] = useState(false);
   const [cartItemAmount, setCartItemAmount] = useState(0);
