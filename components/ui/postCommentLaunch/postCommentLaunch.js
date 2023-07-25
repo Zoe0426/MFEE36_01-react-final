@@ -36,10 +36,13 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
       .then((r) => r.json())
       .then((data)=>{
           console.log(data.newCommentData);
-          setCommentData(data.newCommentData)
+          setCommentData(data.newCommentData);
+          // 清空留言
+          setValue('');
         })
-      console.log('Send Comment')
-  
+      console.log('Send Comment');
+
+      
       
       }
     // 登入狀態
@@ -69,20 +72,26 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                 <TextArea className={Style.comment}
                   placeholder="撰寫留言..."
                   onChange={(e) => setValue(e.target.value)}
-                  // onKeyDown={sendComment}
+                  // onKeyDown={sendComment}                 
+                  value={value}  //為了要清空留言的內容
                   onFocus={checkLogin}
                   autoSize={{
                     minRows: 1,
                     maxRows: 6,
                   }}
                   />
+                  <div className={Style.subBtn} >
                   <MainBtn
                   text = '送出'
-                  clickHandler = {sendComment} />
+                  clickHandler = {sendComment}
+                  />
+                  </div>
+                  {/* 
                 <div className={Style.icon}>
                 <FontAwesomeIcon icon={faHeart} className={Style.likeGray}/>
                 <FontAwesomeIcon icon={faBookmark} className={Style.favoriteGray}/>
                 </div>
+              */}
                 </div>
                 </div>
                 </div>

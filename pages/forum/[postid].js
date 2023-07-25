@@ -5,7 +5,7 @@ import Style from '@/styles/postid.module.css'
 import PostBanner from '@/components/ui/postBanner/postBanner'
 import BoardNav from '@/components/ui/BoardNav/boardNav'
 import PostArticle from '@/components/ui/postArticle/postArticle';
-import PostHashtag from '@/components/ui/postHashtag/postHashtag';
+import PostHashtag from '@/components/ui/postHashtag/postHashtag'
 import PostArticleContent from '@/components/ui/postArticleContent/postArticleContent';
 import PostImg from '@/components/ui/postImg/postImg';
 import PostCommentBtn from '@/components/ui/postCommentBtn/postCommentBtn';
@@ -41,6 +41,8 @@ export default function Post() {
 
   // 按讚
   const [isLiked, setIsLiked] = useState(false);
+  // 收藏
+  const [Fav, setFav] = useState(false);
   // 登入狀態
   const { auth, setAuth } = useContext(AuthContext);
 
@@ -80,20 +82,21 @@ export default function Post() {
     }, [postid]); // Fetch data when the post ID changes
 
 
-  useEffect(() => {
+
+  useEffect(()=>{
     console.log(auth);
 
-  if (auth.id) {
-fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${postid}&member_sid=${auth.id}`, {
-        headers: {
-          Authorization: 'Bearer ' + auth.token,
-        },
-      }) .then((r) => r.json())
-      .then((data) => {
-        data.length===0 ? setIsLiked(false) : setIsLiked(true)
-        console.log('data',data);
-      });
+  if(auth.id){
+    fetch(`${process.env.API_SERVER}/forum-api/forum/favStatus?post_sid=${postid}&member_sid=${auth.id}`, {
+      headers: {
+        Authorization: 'Bearer ' + auth.token,
+      },
+    }).then((r) => r.json())
+    .then((data)=>{
+      data.length==0 ? setFav(false):setFav(true)
+      console.log('data',data);
 
+    })
   }
   },[auth]);
 
@@ -128,7 +131,7 @@ fetch(`${process.env.API_SERVER}/forum-api/forum/forum/likeStatus?post_sid=${pos
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
-                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} postSid={postid} memberId={auth.id}/>
+                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid} memberId={auth.id} listName={''}/>
                 ))}
                 </div>
 

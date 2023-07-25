@@ -60,3 +60,8 @@ padding:10px 15px 0 15px;
     padding-left: 10px;
     margin: 0;
   }
+.hashtagField{
+    width: 100%;
+    height:300px;
+    background-color: #eea7a7;
+}

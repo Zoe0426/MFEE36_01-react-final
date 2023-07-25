@@ -8,7 +8,7 @@ import PostBottom from '@/components/ui/postBottom/postBottom'
 import Link from 'next/link'
 export default function Post() {
   const [forumData, setForumData] = useState([]);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); //儲存篩選後的資料
   // const [lateD, setlateD] = useState([]);
   const fetchData = async()=>{
     const response = await fetch (`${process.env.API_SERVER}/forum-api`, {method:"GET"});
