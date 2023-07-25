@@ -5,7 +5,7 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { Input, ConfigProvider } from 'antd';
+import { Input, ConfigProvider, Button } from 'antd';
 export default function Modal({
   btnType = 'main', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn)、input(ant d input)、text(純文字)五種
   icon = '', //選擇iconBtn的，請先把要用的icon引入到主頁面，並傳給此參數

@@ -31,10 +31,11 @@
   transform: translate(-50%, -50%);
   line-height: 1.4;
   background: #ffffff;
-  padding: 14px 0;
+  padding: 14px 0 0 0;
   border-radius: 10px;
   max-width: 450px;
   min-width: 300px;
+  overflow: hidden;
 }
 
 .modal_title {
@@ -47,7 +48,15 @@
 }
 .modal_content{
   padding: var(--p16);
+  position: relative;
 }
+
+.modal_button{
+position: absolute;
+top: 10px;
+right: 20px;
+}
+
 .line {
   height: 1px;
   border-bottom: 1px solid rgb(203, 203, 203);
@@ -55,13 +64,27 @@
 
 .modal_colse{
   position: absolute;
-  right: 0;
+  right: 10px;
 }
 
 .badge{
   margin-right: 5px;
 }
 
+.reviewContent{
+  padding: var(--p16);
+  background-color: var(--light1);
+  
+}
+
+.btns{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.secondaryBtn{
+  margin-right: 10px;
+}
 
 
 @media screen and (max-width: 767px) {

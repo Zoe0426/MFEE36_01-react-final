@@ -4,9 +4,9 @@ import { useState, useContext } from 'react';
 import MemberCenterLayout from '@/components/layout/member-center-layout';
 import AuthContext from '@/context/AuthContext';
 import Styles from '@/styles/schedule.module.css';
-import { Calendar, Badge } from 'antd';
 import AlertModal from '@/components/ui/modal/AlertModal';
 import AlertInfo from '@/components/ui/infos/AlertInfo';
+import { Badge, Calendar } from 'antd';
 
 export default function Schedule() {
   const { auth, setAuth } = useContext(AuthContext);
@@ -25,6 +25,11 @@ export default function Schedule() {
   const [adultQty, setAdultQty] = useState(null);
   const [childQty, setChildQty] = useState(null);
   const [sectionTime, setSectionTime] = useState(null);
+  const [odSid, setOdSid] = useState(null);
+  const [memberSid, setMemberSid] = useState(null);
+  const [actSid, setActSid] = useState(null);
+  const [bkSid, setBkSid] = useState(null);
+  const [restSid, setrestSid] = useState(null);
 
   useEffect(() => {
     let auth = {};
@@ -83,10 +88,43 @@ export default function Schedule() {
         adultQty: item.adultQty,
         childQty: item.childQty,
         sectionTime: item.sectionTime,
+        odSid: item.odSid,
+        memberSid: item.memberSid,
+        actSid: item.actSid,
+        bkSid: item.bkSid,
+        restSid: item.restSid,
       }));
 
       return listData;
     };
+
+    console.log(odSid);
+    console.log(memberSid);
+
+    // const handleSubmit = (values) => {
+    //   if (relType === 'activity') {
+    //     fetch(`${process.env.API_SERVER}/member-api/actReviews`, {
+    //       method: 'POST',
+    //       body: JSON.stringify(values),
+    //       headers: { 'Content-Type': 'application/json' },
+    //     })
+    //       .then((r) => r.json())
+    //       .then((data) => {
+    //         console.log(data);
+    //       });
+    //   } else if (relType === 'shop') {
+    //     fetch(`${process.env.API_SERVER}/member-api/prodReviews`, {
+    //       method: 'POST',
+    //       body: JSON.stringify(values),
+    //       headers: { 'Content-Type': 'application/json' },
+    //     })
+    //       .then((r) => r.json())
+    //       .then((data) => {
+    //         console.log(data);
+    //       });
+    //   }
+    //   router.push(from);
+    // };
 
     const info = (item) => {
       setName(item.content);
@@ -102,6 +140,11 @@ export default function Schedule() {
       setAdultQty(item.adultQty);
       setChildQty(item.childQty);
       setSectionTime(item.sectionTime);
+      setOdSid(item.odSid);
+      setMemberSid(item.memberSid);
+      setActSid(item.actSid);
+      setBkSid(item.bkSid);
+      setrestSid(item.restSid);
     };
 
     // 定義 dateCellRender 函數
@@ -112,15 +155,17 @@ export default function Schedule() {
         <ul className={Styles.events}>
           {listData.map((item, index) => (
             <li key={index} onClick={() => info(item)}>
-              <Badge
-                status={item.type}
-                className={Styles.badge}
-              />
+              <Badge status={item.type} className={Styles.badge} size="small" />
               <AlertModal
                 btnType="text"
                 btnText={item.content}
                 title={name}
                 type={type}
+                odSid={odSid}
+                memberSid={memberSid}
+                actSid={actSid}
+                bkSid={bkSid}
+                restSid={restSid}
                 content={
                   <AlertInfo
                     notice={notice}

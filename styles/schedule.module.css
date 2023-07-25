@@ -6,7 +6,7 @@
 .events{
   width: 100%;
   overflow: hidden;
-  font-size: 12px;
+  font-size: var(--pfs12);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -29,6 +29,23 @@
 .badge{
   margin-right: 5px;
 }
+
+.button{
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: var(--pfs14);
+}
+
+/* ------------------------ */
+
+
+
+
+
+
+
+/* -------------------------- */
 
 @media screen and (max-width:768px){
     
