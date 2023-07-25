@@ -17,6 +17,7 @@ import {
   faClock,
   faPaw,
   faCalendar,
+  faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import Tab from '@/components/ui/restaurant/Tab';
 import FeatureCard from '@/components/ui/restaurant/featureCard';
@@ -29,6 +30,8 @@ import { Col, Row } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
 import catJump from '@/assets/jump_cat.svg';
+import LikeListCard from '@/components/ui/restaurant/LikeListCard';
+import Likelist from '@/components/ui/like-list/like-list';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
@@ -40,6 +43,7 @@ export default function RestInfo() {
     ruleRows: [],
     serviceRows: [],
     commentRows: [],
+    commentAvgRows: [],
     activityRows: [],
     likeDatas: [],
     menuRows: [],
@@ -48,9 +52,11 @@ export default function RestInfo() {
   const [ruleRows, setRuleRows] = useState([]);
   const [serviceRows, setServiceRows] = useState([]);
   const [commentRows, setCommentRows] = useState([]);
+  const [commentAvgRows, setCommentAvgRows] = useState([]);
   const [activityRows, setActivityRows] = useState([]);
 
   const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
   const [menuRows, setMenuRows] = useState([]);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -72,6 +78,7 @@ export default function RestInfo() {
             ruleRows,
             serviceRows,
             commentRows,
+            commentAvgRows,
             activityRows,
             likeDatas,
             menuRows,
@@ -93,7 +100,6 @@ export default function RestInfo() {
             setMenuRows(menuRows);
           }
 
-   
           console.log(menuRows);
           // if (imageRows && imageRows.length > 0) {
           //   setImageRows(imageRows);
@@ -108,9 +114,12 @@ export default function RestInfo() {
           setImageRows(initialImageRows);
 
           if (commentRows && commentRows.length > 0) {
-            setCommentRows(...commentRows);
+            setCommentRows(commentRows);
           }
 
+          if (commentAvgRows && commentAvgRows.length > 0) {
+            setCommentAvgRows(...commentAvgRows);
+          }
           if (activityRows && activityRows.length > 0) {
             setActivityRows(...activityRows);
           }
@@ -134,6 +143,14 @@ export default function RestInfo() {
   //     }
   //   });
   // };
+  //收藏列表相關的函式-------------------------------------------------------
+  const openShowLikeList = () => {
+    setShowLikeList(true);
+  };
+
+  const closeShowLikeList = () => {
+    setShowLikeList(false);
+  };
 
   function toggleDisplayForImg(imgUrl) {
     let main = document.getElementById('imageBox');
@@ -254,7 +271,7 @@ export default function RestInfo() {
           <div className={Styles.rest_info}>
             <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
             <RateStar
-              score={commentRows.avg_friendly}
+              score={commentAvgRows.avg_friendly}
               className={Styles.rate_star}
             />
             <p className={Styles.information}>{restDetailRows.info}</p>
@@ -293,7 +310,21 @@ export default function RestInfo() {
 
             {/* button */}
             <div className={Styles.detail_main_buttom}>
-              <IconSeconBtn icon={faHeart} text="收藏餐廳" />
+              <IconSeconBtn
+                icon={faHeart}
+                text="收藏餐廳"
+                clickHandler={openShowLikeList}
+              />
+              <div className="like">
+                {showLikeList && (
+                  <Likelist
+                    datas={likeDatas}
+                    customCard={<LikeListCard datas={likeDatas} />}
+                    closeHandler={closeShowLikeList}
+                  />
+                )}
+              </div>
+
               <ImageGallary data={menuRows} />
               <IconMainBtn
                 icon={faCalendar}
@@ -406,14 +437,39 @@ export default function RestInfo() {
       <NotionAreaBgc />
       <div className="container-inner">
         <h2 className={Styles.jill_h2}>饕客評價</h2>
+        <div className={Styles.section_rating}>
+          <div className={Styles.avg}>
+            <p className={Styles.comment_title}>用餐環境</p>
+            <FontAwesomeIcon icon={faStar} className={Styles.star} />
+            {commentAvgRows.avg_environment}
+          </div>
+          <div className={Styles.avg}>
+            <p className={Styles.comment_title}>服務</p>
+            <FontAwesomeIcon icon={faStar} className={Styles.star} />
+            {commentAvgRows.avg_food}
+          </div>
+          <div className={Styles.avg}>
+            <p className={Styles.comment_title}>友善程度</p>
+            <FontAwesomeIcon icon={faStar} className={Styles.star} />
+            {commentAvgRows.avg_friendly}
+          </div>
+        </div>
       </div>
+
       <div className="container-inner">
         <div className={Styles.comment_cards}>
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
-          <CommentCard />
+          {commentRows.map((v) => {
+            return (
+              <CommentCard
+                key={v.rest_commtent_id}
+                name={v.name}
+                rating={v.avg_rating}
+                content={v.content}
+                date={v.created_at}
+                profile={v.profile}
+              />
+            );
+          })}
         </div>
       </div>
     </>

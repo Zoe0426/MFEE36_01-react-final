@@ -54,9 +54,10 @@
 
 /*垃圾桶*/
 .trash_icon {
-  font-size: var(--h5fs20);
+  font-size: var(--h4fs24);
   color: var(--light-gray);
   margin-right: var(--p16);
+  transition: 0.4s;
 }
 
 .trash_icon:hover {
@@ -67,6 +68,7 @@
 /*照片*/
 .like_img {
   height: 100px;
+  width: 160px;
   border: 1px solid var(--light-gray);
   border-radius: var(--br8);
   overflow: hidden;
@@ -76,9 +78,16 @@
 
 .like_img > img {
   height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 /*收藏的內文*/
+.like_rest{
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+}
 
 .like_content_box {
   /* height:80%; */
@@ -91,13 +100,14 @@
 }
 
 .like_title {
-  font-size: var(--h6fs18);
-  /* font-weight: var(--fwbold); */
+  font-size: var(--h5fs20);
+  padding-bottom: 8px;
+  font-weight: var(--fwbold);
   line-height: 1.4;
   flex: 1;
 }
 
 .like_detail {
   font-size: var(--h6fs18);
-  /* font-weight: var(--fwbold); */
+  color: var(--gray);
 }

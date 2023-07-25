@@ -1,6 +1,6 @@
 import React from 'react';
 import Styles from './LikeListCard.module.css';
-import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import HashTag from '../hashtag/hashtag';
@@ -13,12 +13,14 @@ export default function LikeListCard({
 }) {
   const router = useRouter();
   return datas.map((v) => {
-    const { rest_sid, name, image, city, area, rule_names, service_names } = v;
+    const { rest_sid, name, img_name, city, area, rule_names, service_names } =
+      v;
+
     return (
       <div className={Styles.like_rest} key={rest_sid}>
         <div>
           <FontAwesomeIcon
-            icon={faTrashCan}
+            icon={faXmark}
             className={Styles.trash_icon}
             onClick={() => {
               removeLikeListItem(rest_sid, token);
@@ -32,7 +34,7 @@ export default function LikeListCard({
             router.push(`http://localhost:3000/restaurant/${rest_sid}`);
           }}
         >
-          <img src={`http://localhost:3000/rest-img/image/${img}`} alt="" />
+          <img src={`/rest_image/image/${img_name}`} alt="" />
         </div>
         <div
           role="presentation"

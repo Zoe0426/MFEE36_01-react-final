@@ -39,7 +39,6 @@ import cityDatas from '@/data/restaurnt/location.json';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 
-
 export default function FilterPage() {
   const router = useRouter();
 
@@ -506,7 +505,7 @@ export default function FilterPage() {
       {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer' + token,
+          Authorization: 'Bearer ' + token,
         },
       }
     );
@@ -516,7 +515,6 @@ export default function FilterPage() {
       setLikeDatas(data.likeDatas);
     }
   };
-
 
   useEffect(() => {
     if (!isClickingLike && addLikeList.length > 0) {
