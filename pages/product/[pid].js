@@ -43,13 +43,12 @@ export default function Product() {
     true
   );
 
-  //評論篩選，6為全部，其他為5~1
-  const [commentFilter, setCommentFilter] = useState(6);
-
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
+  const [isClickingLike, setIsClickingLike] = useState(false);
   const [purchaseQty, setPurchaseQty] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
-  const [addLikeList, setAddLikeList] = useState([]);
-  const [isClickingLike, setIsClickingLike] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   //後端資料存放
   const [datatForProductMain, setDataForProductMain] = useState({
@@ -63,8 +62,6 @@ export default function Product() {
     catergory_english_name: '',
     like: false,
   });
-
-  const [likeDatas, setLikeDatas] = useState([]);
   const [datatForProductDetail, setDataForProductDetail] = useState([]);
   const [dataForRecomand, setDataForRecomand] = useState([]);
   const [dataForComment, setDataForComment] = useState([]);
@@ -76,6 +73,14 @@ export default function Product() {
     { rating: 2, count: 0 },
     { rating: 1, count: 0 },
   ]);
+  const [likeDatas, setLikeDatas] = useState([]);
+  //用來存放將放入購物車的資料
+  const [purchaseInfo, setPurchaseInfo] = useState({
+    pid: '',
+    spec: '',
+    unitPrice: 0,
+    qty: 1,
+  });
 
   //控制主商品照片放大的
   const [countEnterMainPic, setCoutEnterMainPic] = useState(1);
@@ -83,14 +88,6 @@ export default function Product() {
   const [mousePositionrOnMainPic, setMousePositionrOnMainPic] = useState({
     x: 0,
     y: 0,
-  });
-
-  //用來存放將放入購物車的資料
-  const [purchaseInfo, setPurchaseInfo] = useState({
-    pid: '',
-    spec: '',
-    unitPrice: 0,
-    qty: 0,
   });
 
   /*用來過濾評價星的，要保持原本的dataForComment*/
@@ -199,6 +196,7 @@ export default function Product() {
         ...purchaseInfo,
         pid: shopMainData[0].product_sid,
         unitPrice: shopDetailData[0].price,
+        qty: 1,
       });
     }
 
@@ -570,14 +568,21 @@ export default function Product() {
                   )?.toLocaleString('en-US')}人購買 )`}
                 />
                 <div className={styles.detail_price_box}>
-                  <h5 className={styles.detail_spec_title}>價格</h5>
+                  <h5 className={styles.detail_spec_title}>商品價格</h5>
                   <div className={styles.detail_price}>
                     {`$${purchaseInfo.unitPrice.toLocaleString('en-US')}`}
                   </div>
                 </div>
 
                 <div className={styles.detail_spec_box}>
-                  <h5 className={styles.detail_spec_title}>規格選擇</h5>
+                  <h5 className={styles.detail_spec_title}>
+                    <span>規格選項</span>
+                    {showWarning && (
+                      <span className={styles.detail_spec_warning}>
+                        &nbsp;※請選擇※
+                      </span>
+                    )}
+                  </h5>
                   {datatForProductDetail.map((v, i) => {
                     return (
                       <button
@@ -595,6 +600,7 @@ export default function Product() {
                             spec: v.product_detail_sid,
                             unitPrice: v.price,
                           });
+                          setShowWarning(false);
                           v.img &&
                             setDataForProductDetail(
                               toggleDisplayForImg(
@@ -610,7 +616,7 @@ export default function Product() {
                   })}
                 </div>
                 <div className={styles.detail_qty_box}>
-                  <h5 className={styles.detail_title}>購買數量</h5>
+                  <h5 className={styles.detail_title}>數量</h5>
                   <div className={styles.detail_qty}>
                     <NumberInput handleNumber={setPurchaseQty} />
                   </div>
@@ -677,7 +683,11 @@ export default function Product() {
                     icon={faCartShopping}
                     text={'加入購物車'}
                     clickHandler={() => {
-                      sendToCart(purchaseInfo, auth.token);
+                      if (purchaseInfo.spec) {
+                        sendToCart(purchaseInfo, auth.token);
+                      } else {
+                        setShowWarning(true);
+                      }
                     }}
                   />
                 )}
@@ -694,7 +704,17 @@ export default function Product() {
                     confirmHandler={toSingIn}
                   />
                 ) : (
-                  <MainBtn text={'立即購買'} />
+                  <MainBtn
+                    text={'立即購買'}
+                    clickHandler={() => {
+                      if (purchaseInfo.spec) {
+                        sendToCart(purchaseInfo, auth.token);
+                        router.push('/cart');
+                      } else {
+                        setShowWarning(true);
+                      }
+                    }}
+                  />
                 )}
               </div>
             </div>

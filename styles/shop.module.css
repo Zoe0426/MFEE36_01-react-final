@@ -180,13 +180,17 @@
 .detail_spec_title,
 .detail_title {
   font-size: var(--h5fs20);
-  /* font-weight: bolder; */
   margin-bottom: 16px;
   margin-top: 32px;
 }
 
 .detail_spec_title {
   margin-top: 24px;
+}
+
+.detail_spec_warning{
+  font-size: var(--h6fs18);
+  color:var(--main);
 }
 
 /* 照片區 */
@@ -243,7 +247,7 @@
 /*規格按鈕*/
 .detail_spec_btn {
   margin-right: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   padding: var(--p16) 20px;
   border-radius: var(--br10);
   border: 0;
@@ -542,6 +546,11 @@
   .detail_spec_title,
   .detail_title {
     font-size: var(--h6fs18);
+  }
+
+  .detail_spec_warning{
+    font-size: var(--pfs14);
+    line-height: var(--h6fs18);
   }
 
   /* 照片區 */
