@@ -173,6 +173,9 @@ export default function Home() {
           </Row>
         </Col>
       </Row>
+      <div className={style.cutbottomLine}>
+        <img src="/home-images/h-wave1.jpg" alt="" className={style.wave} />
+      </div>
       <Row className={style.activitybg}>
         <Col span={2}></Col>
         <Col span={20}>

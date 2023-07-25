@@ -57,6 +57,12 @@
     background-color: var(--lightBrown);
 }
 .forumbg{}
+.cutbottomLine{
+    background-color: white;
+}
+.wave{
+    width: 100%;
+}
 .hSection{
 /* border: 1px solid green; */
     align-items: center;
@@ -146,10 +152,11 @@
 .hresCard{
     width: 100%;
 }
-}
 
+}
 @media screen and (max-width:575px){
 .hlCards{ 
     justify-content: center;
 }
+
 }
