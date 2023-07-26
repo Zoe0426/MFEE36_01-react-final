@@ -1,12 +1,14 @@
 import Head from 'next/head';
 import { Col, Row } from 'antd';
-import HomeShopCard from '@/components/ui/cards/homeShopCard';
+import HomeShopCard from '@/components/ui/home/homeShopCard';
 import style from '@/styles/home.module.css';
 import HomeLayout from '@/components/layout/home-layout';
 import HomeMainBtn from '@/components/ui/buttons/homeMainBtn';
 import HashTag from '@/components/ui/hashtag/hashtag';
 import MainBtn from '@/components/ui/buttons/MainBtn';
-import HomeResCard from '@/components/ui/cards/homeResCard';
+import HomeResCard from '@/components/ui/home/homeResCard';
+import HomeEventPhoto from '@/components/ui/home/homeEventPhoto';
+
 //import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
 export default function Home() {
@@ -189,7 +191,17 @@ export default function Home() {
         <Col span={2}></Col>
         <Col span={20}>
           <Row className={style.hSection}>
-            <Col className={style.hInfo} xs={24} sm={24} md={10}>
+            <img
+              src="/home-images/h-Lflag.png"
+              alt=""
+              className={style.lflag}
+            />
+            <img
+              src="/home-images/h-Rflag.png"
+              alt=""
+              className={style.rflag}
+            />
+            <Col className={style.hInfo} xs={24} sm={24} md={9}>
               <article>
                 <p className={style.hstitle}>寵物活動</p>
                 <p className={style.hetitle}>PLAY WITH ME</p>
@@ -209,7 +221,9 @@ export default function Home() {
                 <MainBtn text="看更多活動" />
               </article>
             </Col>
-            <Col className={style.hrCards} xs={24} sm={24} md={14}></Col>
+            <Col className={style.hrCards} xs={24} sm={24} md={15}>
+              <HomeEventPhoto />
+            </Col>
           </Row>
         </Col>
       </Row>

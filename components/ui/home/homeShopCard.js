@@ -1,5 +1,5 @@
-import React from 'react'
-import styles from '@/components/ui/cards/homeShopCard.module.css'
+import React from 'react';
+import styles from '@/components/ui/home/homeShopCard.module.css';
 export default function HomeShopCard({
   img = '',
   type = '',
@@ -24,5 +24,5 @@ export default function HomeShopCard({
         <p className={styles.hsprodprice}>${price}</p>
       </div>
     </div>
-  )
+  );
 }

@@ -54,6 +54,13 @@
     display: flex;
     justify-content: space-between;
 }
+.wave{
+    width: 100%;
+}
+/* PRODUCT */
+.cutbottomLine1{
+    background-color: white;
+}
 .productbg{
     background-color: var(--light4);
     padding: 30px 0;
@@ -66,32 +73,43 @@
 .catJump{
     width: 50%;
 }
-
+/* ACTIVITY */
+.cutbottomLine2{
+    background-color: var(--light5);
+}
 .activitybg{
     background-color: white;
-     padding: 30px 0;
+    padding: 60px 0;
+}
+.lflag{
+    position: absolute;
+    width: 18%;
+    top: -80px;
+    left: -10%;
+}
+.rflag{
+    position: absolute;
+    width: 13%;
+    top:-10px;
+    right: -60px;
+}
+
+/* RESTAURANT */
+.cutbottomLine3{
+    background-color: var(--light2);
 }
 .restaurantbg{
     background-color: var(--light5);
     padding: 80px 0 20px 0;
 }
+/* FORUM */
 .forumbg{
     padding: 30px 0 70px 0;
 }
-.cutbottomLine1{
-    background-color: white;
-}
-.cutbottomLine2{
-    background-color: var(--light5);
-}
-.cutbottomLine3{
-    background-color: var(--light2);
-}
-.wave{
-    width: 100%;
-}
+
 .hSection{
 /* border: 1px solid green; */
+    position: relative;
     align-items: center;
     padding: 50px 0;
 } 
@@ -112,7 +130,7 @@
 }
 .hrCards{
     /* border: 1px solid red; */
-    padding-left: 4%;
+    padding-left: 6%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -161,7 +179,7 @@
     margin-bottom: var(--p8);
 }
 
-@media screen and (max-width:767px) and (max-width:576px){
+@media screen and (max-width:767px) and (min-width:576px){
 .hSection{
     padding: 0;
 }
@@ -182,10 +200,40 @@
     width: 100%;
 }
 
+.activitybg{
+    padding: 40px 0;
+}
+.lflag{
+    position: absolute;
+    width: 18%;
+    top: -60px;
+    left: -10%;
+}
+.rflag{
+    position: absolute;
+    width: 13%;
+    top:-10px;
+    right: -60px;
+}
+
 }
 @media screen and (max-width:575px){
 .hlCards{ 
     justify-content: center;
 }
-
+.activitybg{
+    padding: 20px 0;
+}
+.lflag{
+    position: absolute;
+    width: 25%;
+    top: -10px;
+    left: -10%;
+}
+.rflag{
+    position: absolute;
+    width: 18%;
+    top:13px;
+    right: -10px;
+}
 }
