@@ -1,12 +1,11 @@
-import HomeEventPhoto from '@/components/ui/home/homeEventPhoto';
-import MainText from '@/components/ui/home/mainText';
+import HomeMainBtns from '@/components/ui/home/homeMainBtns';
+
 import React from 'react';
 
 export default function Test() {
   return (
     <>
-      <MainText />
-      <HomeEventPhoto />
+      <HomeMainBtns />
     </>
   );
 }

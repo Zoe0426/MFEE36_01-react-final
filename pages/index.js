@@ -1,13 +1,13 @@
-import Head from 'next/head';
 import { Col, Row } from 'antd';
 import HomeShopCard from '@/components/ui/home/homeShopCard';
 import style from '@/styles/home.module.css';
 import HomeLayout from '@/components/layout/home-layout';
-import HomeMainBtn from '@/components/ui/buttons/homeMainBtn';
 import HashTag from '@/components/ui/hashtag/hashtag';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import HomeResCard from '@/components/ui/home/homeResCard';
 import HomeEventPhoto from '@/components/ui/home/homeEventPhoto';
+import HomeMainText from '@/components/ui/home/homeMainText';
+import HomeMainBtns from '@/components/ui/home/homeMainBtns';
 
 //import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
@@ -89,11 +89,9 @@ export default function Home() {
               className={style.gwmphoto}
               alt="gwmphoto"
             />
-            <img
-              src="/home-images/h-title.png"
-              className={style.gwmtitle}
-              alt="title"
-            />
+            <div className={style.gwmtitle}>
+              <HomeMainText />
+            </div>
             <img
               src="/home-images/h-gowithme.png"
               className={style.shoutgwm}
@@ -103,34 +101,7 @@ export default function Home() {
         </main>
       </header>
       <Row className={style.mainBtnSection}>
-        <img
-          src="/home-images/h-walkingCat.png"
-          className={style.cat}
-          alt="walkingCat"
-        />
-        <img
-          src="/home-images/h-btnbg.jpg"
-          alt="btnbg"
-          className={style.btnbg}
-        />
-        <div className={style.mainBtns}>
-          <HomeMainBtn
-            src="/home-images/h-shopBtn.svg"
-            margintop="mainBtn1"
-          ></HomeMainBtn>
-          <HomeMainBtn
-            src="/home-images/h-actbtn.svg"
-            margintop="mainBtn2"
-          ></HomeMainBtn>
-          <HomeMainBtn
-            src="/home-images/h-resbtn.svg"
-            margintop="mainBtn3"
-          ></HomeMainBtn>
-          <HomeMainBtn
-            src="/home-images/h-forumbtn.svg"
-            margintop="mainBtn4"
-          ></HomeMainBtn>
-        </div>
+        <HomeMainBtns />
       </Row>
       <Row className={style.productbg}>
         <Col span={2}></Col>

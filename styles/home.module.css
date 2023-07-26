@@ -1,10 +1,4 @@
 
-.d-center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-}
 .headSection{
     position: relative;
     display: flex;
@@ -29,31 +23,12 @@
     left: 14%;
     transform: rotateY(20deg) rotate(-15deg);
 }
-.cat{
-    position: absolute;
-    top: -28%;
-    left: 1%;
-    width: 15%;
-    /* border: 1px solid green; */
-}
 
 .mainBtnSection{
     padding-top: 60px;
     position:relative;
-    justify-content: center;
 }
 
-.btnbg{
-    width: 100%;
-    /* border: 1px solid black; */
-}
-.mainBtns{
-    width: 83%;
-    /* border: 1px solid purple; */
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-}
 .wave{
     width: 100%;
 }

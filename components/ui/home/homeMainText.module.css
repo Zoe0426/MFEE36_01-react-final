@@ -1,6 +1,6 @@
 .box{
     position: relative;
-    width: 50%;
+    width: 100%;
 
 }
 .baseText{
@@ -13,7 +13,6 @@
     left: 0;
     width: 14%;
     animation: 1s jump ;
-    animation-delay: .2s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
@@ -23,7 +22,7 @@
     left: 15%;
     width: 12%;
     animation: 1s jump ;
-    animation-delay: .4s;
+    animation-delay: .1s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
@@ -33,7 +32,7 @@
     left: 28.5%;
     width: 14%;
     animation: 1s jump ;
-    animation-delay: .6s;
+    animation-delay: .2s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
@@ -43,7 +42,7 @@
     left: 44%;
     width: 14%;
     animation: 1s jump ;
-    animation-delay: .8s;
+    animation-delay: .3s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
@@ -53,7 +52,7 @@
     left: 60%;
     width: 12%;
     animation: 1s jump ;
-    animation-delay: 1s;
+    animation-delay: .4s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
@@ -64,7 +63,7 @@
     width: 31%;
     visibility:hidden;
     animation: 1s heartBeat;
-    animation-delay: 1.2s;
+    animation-delay: .5s;
     animation-fill-mode: forwards;
 }
 .bt2{
@@ -74,7 +73,7 @@
     width: 32%;
     visibility:hidden;
     animation: 1s heartBeat ;
-    animation-delay: 1.4s;
+    animation-delay: .6s;
     animation-fill-mode: forwards;
 }
 .L3t1{
@@ -84,7 +83,7 @@
     width: 13%;
     visibility:hidden;
     animation: 1s jump ;
-    animation-delay: 1.6s;
+    animation-delay: .7s;
     animation-fill-mode: forwards;
 }
 .L3t2{
@@ -93,7 +92,7 @@
     left: 57%;
     width: 15%;
     animation: 1s jump ;
-    animation-delay: 1.8s;
+    animation-delay: .8s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
@@ -103,7 +102,7 @@
     left: 73%;
     width: 13%;
     animation: 1s jump ;
-    animation-delay: 2s;
+    animation-delay: .9s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
@@ -113,7 +112,7 @@
     right: 0%;
     width: 9%;
     animation: 1s jump ;
-    animation-delay: 2.2s;
+    animation-delay: 1s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
@@ -130,7 +129,7 @@
     top:32%;
     right: -5%;
     animation: 0.4s dogjump ;
-    animation-delay: 2.4s;
+    animation-delay: 1.1s;
     visibility:hidden;
     animation-fill-mode: forwards;
 }
