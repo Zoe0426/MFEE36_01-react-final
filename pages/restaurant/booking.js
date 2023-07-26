@@ -158,7 +158,7 @@ function WeekCalendar() {
 
         {/* 時間的部分 */}
         <div className="container-inner">
-          {/* <BookingModal /> */}
+          {/* time_section week 1*/}
           <div className={Styles.time_section}>
             <div className={Styles.column}>
               <BookingModal time={data[0]?.time} people={data[0]?.people_max} />

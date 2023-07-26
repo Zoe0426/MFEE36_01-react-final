@@ -15,7 +15,7 @@ export default function IconBtn({
         <FontAwesomeIcon
           icon={icon}
           className={Styles.icon}
-          style={{ maxWidth: '16px', maxHeight: '16px' }}
+          style={{ maxWidth: '18px', maxHeight: '18px' }}
         />
         <p className={Styles.icon_text}>{text}</p>
       </button>
