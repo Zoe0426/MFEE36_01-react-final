@@ -6,6 +6,13 @@
     width: 100%;
     visibility: hidden;
 }
+.cat{
+    position: absolute;
+    width: 16%;
+    left: 1%;
+    top:-50%;
+
+}
 .road{
     position: absolute;
     left: 0;

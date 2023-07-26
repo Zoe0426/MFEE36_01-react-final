@@ -10,7 +10,11 @@ export default function HomeMainBtns() {
         alt="demo"
         className={style.demo}
       />
-
+      <img
+        src="/home-images/h-walkingCat.png"
+        alt="demo"
+        className={style.cat}
+      />
       <img
         src="/home-images/mainBtnArea/h-road.svg"
         alt="demo"
