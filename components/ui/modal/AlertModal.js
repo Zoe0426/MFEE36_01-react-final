@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import Styles from '@/components/ui/modal/AlertModal.module.css';
 import { Badge, Rate, Form, Input } from 'antd';
 import MainBtn from '../buttons/MainBtn';
@@ -22,12 +22,13 @@ export default function AlertModal({
   const [modal, setModal] = useState(false);
   const [data, setData] = useState([]);
   const [show, setShow] = useState(false);
+  const [review, setReview] = useState(false);
   const router = useRouter();
   const from = router.asPath;
   const [form] = Form.useForm();
   const today = new Date();
   const actday = new Date(date);
-  console.log(today > actday);
+  //console.log(today > actday);
 
   const toggleModal = () => {
     setModal(!modal);
@@ -91,7 +92,8 @@ export default function AlertModal({
       })
         .then((r) => r.json())
         .then((data) => {
-          //console.log(data);
+          console.log(data);
+          setReview(true);
         });
     } else if (type === 'error') {
       fetch(`${process.env.API_SERVER}/member-api/restReviews`, {
@@ -102,6 +104,7 @@ export default function AlertModal({
         .then((r) => r.json())
         .then((data) => {
           //console.log(data);
+          setReview(true);
         });
     }
     router.push(from);

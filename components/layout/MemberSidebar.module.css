@@ -107,7 +107,7 @@ margin: 0 auto;
 }
 
 .blueCircle{
-  background-color: #5CAAF3;
+  background-color: #1677ff;
 }
 
 .redCircle,.greenCircle,.blueCircle{
@@ -132,6 +132,8 @@ margin: 0 auto;
   height: 100%;
   object-fit: cover;
 } */
+
+
 
 
 @media screen and (max-width:1200px) and (min-width:768px){

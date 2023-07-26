@@ -49,6 +49,9 @@ export default function MemberSidebar() {
 
         //TODO 思考怎麼辨別活動餐廳
         type: item.type,
+        restSid: item.restSid,
+        actSid: item.actSid,
+        date: item.date,
       }));
 
       return listData;
@@ -60,22 +63,37 @@ export default function MemberSidebar() {
 
       return (
         <ul className={Styles.events}>
-          {listData.map((item, index) => (
-            <div
-              className="ant-picker-cell-inner ant-picker-calendar-date ant-picker-calendar-date-today"
-              key={index}
-              style={{
-                backgroundColor: item.type === 'activity' ? 'green' : 'red',
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                opacity: 0.3,
-                borderRadius: '50%',
-              }}
-            >
-              {/* {item.type} */}
-            </div>
-          ))}
+          {listData.map((item, index) => {
+            const sameDate = (date) => {
+              return listData.filter((item) => item.date === date);
+            };
+            let sameDayProjects = sameDate(item.date);
+            console.log('samesameDayProjectsDate', sameDayProjects);
+            let backgroundColor;
+            if (sameDayProjects.length > 1) {
+              backgroundColor = '#1677ff';
+            } else if (item.type === 'activity') {
+              backgroundColor = '#317F46';
+            } else {
+              backgroundColor = '#EC5353';
+            }
+
+            return (
+              <div
+                className="ant-picker-cell-inner ant-picker-calendar-date ant-picker-calendar-date-today"
+                key={index}
+                style={{
+                  backgroundColor: backgroundColor,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  opacity: 0.3,
+                  borderRadius: '50%',
+                }}
+              >
+              </div>
+            );
+          })}
         </ul>
       );
     };
