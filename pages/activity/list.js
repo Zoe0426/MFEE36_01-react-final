@@ -8,10 +8,14 @@ import { Row, Col, Pagination, ConfigProvider } from 'antd';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 import Likelist from '@/components/ui/like-list/like-list';
 import IconBtn from '@/components/ui/buttons/IconBtn';
+import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
+import MainBtn from '@/components/ui/buttons/MainBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
+import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+import ActivityFilter from '@/components/ui/cards/ActivityFilter';
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
@@ -20,14 +24,31 @@ export default function ActivityMain() {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(16);
   const [keyword, setKeyword] = useState('');
+  const [activity_type_sid,setActivity_type_sid]=useState(0);
   const [orderBy, setOrderBy] = useState('-- 請選擇 --');
+
 
   // 收藏清單
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
 
+  // 進階篩選
+  const [showfilter, setShowFilter] = useState(false);
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(0);
+  const [city, setCity] = useState('');
+  const [area, setArea] = useState('');
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedArea, setSelectedArea] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [selectedStartDate, setSelectedStartDate] = useState(null);
+  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [filtersReady, setFiltersReady] = useState(false);
+
+
   const { auth } = useContext(AuthContext);
-  const authId=auth.id;
+  const authId = auth.id;
 
   const toSignIn = () => {
     const from = router.asPath;
@@ -44,9 +65,7 @@ export default function ActivityMain() {
     // likeDatas:[],
   });
 
-
-
-  // 小麵包屑--------------------
+  // 小麵包屑------------------------------------------------------------
   const [breadCrubText, setBreadCrubText] = useState([
     {
       id: 'activity',
@@ -58,73 +77,133 @@ export default function ActivityMain() {
     { id: 'aid', text: '', href: '', show: false },
   ]);
 
-
-
-  
-  // 進階篩選
-  // const [showfilter, setShowFilter] = useState(false);
-
   // 排序
   const rankOptions = {
     1: 'new_DESC',
-    2: 'hot_DESC', // TODO: 需再確認cart的欄位名稱
+    // 2: 'hot_DESC', // TODO: 需再確認cart的欄位名稱
   };
 
-  // const orderByHandler = (e) => {
-  //   const newSelect = orderByOptions.find((v) => v.key === e.key);
 
-  //   console.log(newSelect.label);
-  //   setOrderBy(newSelect.label);
+  // useEffect(() => {
+  //   const { cid, keyword, page: urlPage } = router.query;
+  //   const activity_type_sid = cid ? encodeURIComponent(cid) : '';
 
-  //   const selectedRank = rankOptions[e.key];
-  //   // console.log(selectedRank);
-  //   router.push(
-  //     `?${new URLSearchParams({
-  //       ...router.query,
-  //       page: 1,
-  //       orderBy: selectedRank,
-  //     }).toString()}`
-  //   );
-  // };
+  //   setKeyword(keyword || '');
+  //   setPage(Number(urlPage) || 1); // 將url中的page值轉換為數字，如果為空或無效則設置為1
+  //   setPerPage(perPage || 16);
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const encodedCid = encodeURIComponent(cid || '');
+  //       const encodedKeyword = encodeURIComponent(keyword || '');
+  //       const response = await fetch(
+  //         `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}&page=${page}&perPage=${perPage}`
+  //       );
+  //       if (!response.ok) {
+  //         throw new Error('Request failed');
+  //       }
+  //       const data = await response.json();
+
+  //       setDatas((prevData) => ({
+  //         ...prevData,
+  //         totalRows: data.totalRows,
+  //         totalPages: data.totalPages,
+  //         rows: data.rows,
+  //         page: data.page, // 更新 page 的設定
+  //       }));
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [router.query, perPage, page]); // 這裡包含了page和perPage的依賴
+
+
+  const orderByHandler = (e) => {
+    const newSelect = orderByOptions.find((v) => v.key === e.key);
+
+    // console.log(newSelect.label);
+    setOrderBy(newSelect.label);
+
+    const selectedRank = rankOptions[e.key];
+    // console.log(selectedRank);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: 1,
+        orderBy: selectedRank,
+      }).toString()}`
+    );
+  };
+
 
   useEffect(() => {
-    const { cid, keyword, page: urlPage } = router.query;
-    const activity_type_sid = cid ? encodeURIComponent(cid) : '';
+    //取得用戶拜訪的類別選項
+    const {
+      activity_type_sid,
+      keyword,
+      orderBy,
+      minPrice,
+      maxPrice,
+      recent_date,
+      farthest_date,
+      city,
+      area,
+    } = router.query;
 
-    setKeyword(keyword || '');
-    setPage(Number(urlPage) || 1); // 將url中的page值轉換為數字，如果為空或無效則設置為1
-    setPerPage(perPage || 16);
+    console.log(router.query);
 
-    const fetchData = async () => {
-      try {
-        const encodedCid = encodeURIComponent(cid || '');
-        const encodedKeyword = encodeURIComponent(keyword || '');
-        const response = await fetch(
-          `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}&page=${page}&perPage=${perPage}`
-        );
-        if (!response.ok) {
-          throw new Error('Request failed');
-        }
-        const data = await response.json();
-
-        setDatas((prevData) => ({
-          ...prevData,
-          totalRows: data.totalRows,
-          totalPages: data.totalPages,
-          rows: data.rows,
-          page: data.page, // 更新 page 的設定
-        }));
-      } catch (error) {
-        console.error(error);
+    if (Object.keys(router.query).length !== 0) {
+      console.log(router.query);
+      setRule(rule || '');
+      setService(service || '');
+      if (city) {
+        setSelectedCity(city);
       }
-    };
+      if (area) {
+        setSelectedArea(area);
+      }
 
-    fetchData();
-  }, [router.query, perPage, page]); // 這裡包含了page和perPage的依賴
+      if (startDate) {
+        setSelectedStartDate(startDate);
+      }
 
-  
+      if (endDate) {
+        setSelectedEndDate(endDate);
+      }
 
-  //searchBar相關的函式--------------------
+      // if (selectedDate) {
+      //   setDatePickerValue(selectedDate); // 設置日期狀態
+      // }
+      if (activity_type_sid) {
+        resetCheckBox('activity_type_sid', activity_type_sid);
+      }
+
+      setArea(area || '');
+      setActivity_type_sid(activity_type_sid || 0);
+      setKeyword(keyword || '');
+      // setOrderBy(orderBy);
+      const usp = new URLSearchParams(router.query);
+
+      fetch(`${process.env.API_SERVER}/activity-api/activity?${usp.toString()}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (Array.isArray(data.rows)) {
+            setDatas(data);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+  }, [router.query]);
+
+
+ 
+
+  //searchBar相關的函式------------------------------------------------------------
   const searchBarHandler = (e) => {
     let copyURL = { ...router.query, page: 1 };
     if (e.key === 'Enter') {
@@ -148,10 +227,26 @@ export default function ActivityMain() {
     );
   };
 
-  //篩選filter相關的函式 (TODO: 待確認)-------------------------------------------------------
-  // const toggleFilter = () => {
-  //   setShowFilter(!showfilter);
-  // };
+  //進階篩選------------------------------------------------------------
+  const toggleFilter = () => {
+    setShowFilter(!showfilter);
+  };
+
+  //篩選
+  const filterHandler = () => {
+    //收起篩選區域
+    router.push(
+      `?${new URLSearchParams({
+        ...query,
+        page: 1,
+      }).toString()}`
+    );
+  };
+
+  //重置篩選條件
+  const clearAllFilter = () => {};
+
+  //收藏列表相關的函式------------------------------------------------------------
 
   // 更新收藏清單
   const updateLikeList = (activitySid, isLiked) => {
@@ -169,7 +264,6 @@ export default function ActivityMain() {
     }
   };
 
-  // //收藏列表相關的函式--------------------
   //取得蒐藏列表資料
   const getLikeList = async (token = '') => {
     const res = await fetch(
@@ -259,13 +353,13 @@ export default function ActivityMain() {
     }
   };
 
-  // 給faheart的 新增與刪除--------------------
-  const handleLikeClick = async (activitySid, token,authId) => {
+  // 給faheart的 新增與刪除------------------------------------------------------------
+  const handleLikeClick = async (activitySid, token, authId) => {
     try {
       if (!token) {
         throw new Error('未找到會員ID');
       }
-  
+
       if (isInLikeList(activitySid)) {
         // Perform the delete action to remove from the like list
         const response = await fetch(
@@ -278,11 +372,11 @@ export default function ActivityMain() {
           }
         );
         //console.log('會員ID:', token.id);
-  
+
         if (!response.ok) {
           throw new Error('刪除收藏失敗');
         }
-  
+
         updateLikeList(activitySid, false); // Successfully removed from like list
         console.log('刪除收藏成功');
       } else {
@@ -301,11 +395,11 @@ export default function ActivityMain() {
             }),
           }
         );
-  
+
         if (!response.ok) {
           throw new Error('新增收藏失敗');
         }
-  
+
         updateLikeList(activitySid, true); // Successfully added to like list
         console.log('新增收藏成功');
       }
@@ -313,14 +407,13 @@ export default function ActivityMain() {
       console.error('操作收藏失敗:', error);
     }
   };
-  
 
   // 判斷活動是否在收藏列表中
   const isInLikeList = (activitySid) => {
     return likeDatas.some((item) => item.activity_sid === activitySid);
   };
 
-  // Pagination相關的函式--------------------
+  // Pagination相關的函式------------------------------------------------------------
   const PageChangeHandler = (page) => {
     setPage(page);
     router.push(
@@ -330,9 +423,6 @@ export default function ActivityMain() {
       }).toString()}`
     );
   };
-
- 
-
 
   return (
     <div>
@@ -351,25 +441,54 @@ export default function ActivityMain() {
         </div>
       </div>
 
-      <div className="container-inner">
-        <div className={styles.nav_head}>
-          {/* <p>TODO: BreadCrumb</p> */}
-          <BreadCrumb breadCrubText={breadCrubText} />
+      <div className={styles.bgc}>
+        <div className="container-inner">
+          <div className={styles.nav_head}>
+            <BreadCrumb breadCrubText={breadCrubText} />
 
-          {/* .........收藏列表/進階篩選 btn......... */}
-          <div className={styles.btns}>
-            <IconBtn
-              icon={faHeart}
-              text="收藏列表"
-              clickHandler={toggleLikeList}
-            />
-            <IconBtn
-              icon={faFilter}
-              text="進階篩選"
-            />
+            <div className={styles.btns}>
+              <IconBtn
+                icon={faHeart}
+                text="收藏列表"
+                clickHandler={toggleLikeList}
+              />
+              <IconBtn
+                icon={faFilter}
+                text="進階篩選"
+                clickHandler={toggleFilter}
+              />
+            </div>
           </div>
         </div>
-        <div>
+
+        {/* .........進階篩選......... */}
+        {showfilter && (
+          <>
+            <div className="container-outer">
+              <div className={styles.line}></div>
+            </div>
+            <div className="container-inner">
+              <div className={styles.filter_box}>
+                <ActivityFilter 
+                // text="活動類別:"
+                // name="activityType"
+                // data={filters.typeForPet}
+                // changeHandler={checkboxToggleHandler}
+                />
+
+
+
+                <div className={styles.filter_btns}>
+                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
+                  <MainBtn text="確定" clickHandler={filterHandler} />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* .........收藏列表......... */}
+        <div className="container-inner">
           <>
             {showLikeList && (
               <LikeListDrawer
@@ -389,10 +508,11 @@ export default function ActivityMain() {
             )}
           </>
         </div>
+      </div>
+      <BGUpperDecoration />
 
-        {/* .........篩選btn展開......... */}
-
-        {/* .........搜尋結果+篩選btn......... */}
+      {/* .........搜尋結果......... */}
+      <div className="container-inner">
         <div className={styles.quick_selector}>
           <div>
             <p className={styles.text_large}>TODO: 搜尋活動「游泳課」</p>
@@ -402,9 +522,9 @@ export default function ActivityMain() {
             <button>最新</button>
           </div>
         </div>
-
-        {/* .........section1......... */}
-
+      </div>
+      {/* .........section1......... */}
+      <div className="container-inner">
         <div className={styles.section_card}>
           <Row gutter={[0, 106]} className={styles.card}>
             {datas.rows.map((i) => {
@@ -444,7 +564,9 @@ export default function ActivityMain() {
                     features={feature_names?.split(',') || []}
                     price={price_adult}
                     isInLikeList={liked}
-                    handleLikeClick={() => handleLikeClick(activity_sid, auth.token)} // 傳遞handleLikeClick函式給子組件
+                    handleLikeClick={() =>
+                      handleLikeClick(activity_sid, auth.token)
+                    } // 傳遞handleLikeClick函式給子組件
                   />
                 </Col>
               );
