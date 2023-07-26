@@ -128,7 +128,7 @@ export default function Restindex() {
       }).toString()}`
     );
   };
-  
+
   const handleDatePickerChange = (dateValue) => {
     setDatePickerValue(dateValue);
   };
@@ -276,22 +276,6 @@ export default function Restindex() {
 
   const closeShowLikeList = () => {
     setShowLikeList(false);
-  };
-
-  const removeAllLikeList = () => {
-    setLikeDatas([]);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB('all', 'mem00002');
-  };
-
-  const removeLikeListItem = (pid) => {
-    const newLikeList = likeDatas.filter((arr) => {
-      return arr.product_sid !== pid;
-    });
-
-    setLikeDatas(newLikeList);
-    //這邊需要再修改，要看怎麼得到會員的編號
-    removeLikeListToDB(pid, 'mem00002');
   };
 
   useEffect(() => {
@@ -464,8 +448,8 @@ export default function Restindex() {
                 //   />
                 // }
                 closeHandler={closeShowLikeList}
-                removeAllHandler={removeAllLikeList}
-                removeLikeListItem={removeLikeListItem}
+                // removeAllHandler={removeAllLikeList}
+                // removeLikeListItem={removeLikeListItem}
               />
             )}
           </div>
@@ -475,7 +459,11 @@ export default function Restindex() {
 
       <div className="container-inner">
         <div className={Styles.explore_title}>
-          <FontAwesomeIcon icon={faLocationDot} className={Styles.title_icon} />
+          <FontAwesomeIcon
+            icon={faLocationDot}
+            className={Styles.title_icon}
+            style={{ maxWidth: '33px', maxHeight: '44px' }}
+          />
           <h2 className={Styles.jill_h2}>探索各地友善餐廳</h2>
         </div>
         <Row gutter={{ xs: 16, xl: 32 }}>

@@ -5,7 +5,12 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-export default function BookingModal({ time, people }) {
+export default function BookingModal({
+  datas = [],
+  clickHandler = () => {},
+  time,
+  people,
+}) {
   const [modal, setModal] = useState(false);
   const [countPeople, setCountPeople] = useState(1);
   const [countPet, setCountPet] = useState(1);
@@ -135,7 +140,7 @@ export default function BookingModal({ time, people }) {
               <div className={Styles.line}></div>
               <div className={Styles.btn_group}>
                 <SecondaryBtn text="取消" clickHandler={toggleModal} />
-                <MainBtn clickHandler={toggleModal} text="確定" />
+                <MainBtn clickHandler={clickHandler} text="確定" />
               </div>
             </div>
           </div>

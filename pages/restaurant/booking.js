@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import Styles from './booking.module.css';
 import BookingModal from '@/components/ui/restaurant/Bookingmodal';
 import IconBtn from '@/components/ui/buttons/IconBtn';
-import {
-  faHeart,
-  faArrowLeft,
-  faArrowRight,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
+import arrowRight from '@/assets/arrow-right.svg';
+import faArrowLeft from '@/assets/arrow-left.svg';
+import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 
 const chunk = (arr, size) =>
   Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
@@ -115,21 +115,50 @@ function WeekCalendar() {
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>
-            <div className="breadcrumb">餐廳列表/我們家有農場</div>
+            <div className={Styles.breadcrumb}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    colorBgContainer: 'transparent',
+                    colorPrimaryTextHover: '#FFEFE8',
+                    colorBgTextActive: '#FD8C46',
+                    fontSize: 18,
+                  },
+                }}
+              >
+                <Breadcrumb
+                  items={[
+                    {
+                      title: '餐廳列表',
+                      href: 'http://localhost:3000/restaurant/list',
+                    },
+                    {
+                      title: `曜日義式餐酒館`,
+                      href: 'http://localhost:3000/restaurant/4',
+                    },
+                    {
+                      title: `某某某餐廳的預約時間表`,
+                    },
+                  ]}
+                />
+              </ConfigProvider>
+            </div>
             <IconBtn icon={faHeart} text="收藏列表" />
           </div>
         </div>
       </div>
       <div className="container-inner">
-        <h1 className={Styles.timetable}>{data.name}預約時間表</h1>
+        <h1 className={Styles.timetable}>{data[0].name}預約時間表</h1>
       </div>
       <div className="container-inner">
         <div className={Styles.week_calendar}>
           {showPreviousWeek && (
-            <FontAwesomeIcon
-              icon={faArrowLeft}
+            <Image
+              src={faArrowLeft}
               className={Styles.arrow_left}
               onClick={goToPreviousWeek}
+              alt="faArrowLeft"
             />
           )}
 
@@ -148,10 +177,11 @@ function WeekCalendar() {
           </div>
 
           {showNextWeek && (
-            <FontAwesomeIcon
-              icon={faArrowRight}
+            <Image
+              src={arrowRight}
               className={Styles.arrow_right}
               onClick={goToNextWeek}
+              alt="arrowRight"
             />
           )}
         </div>

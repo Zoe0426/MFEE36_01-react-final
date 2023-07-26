@@ -10,9 +10,9 @@ export default function NotionAreaBgc() {
   return (
     <>
       <div className={Styles.top_area_bgc}>
-        <Image src={topAreaBgc} />
-        <Image src={cans} />
-        <Image src={tree} />
+        <Image src={topAreaBgc} alt="topAreaBgc" />
+        <Image src={cans} alt="cans" />
+        <Image src={tree} alt="tree" />
       </div>
     </>
   );

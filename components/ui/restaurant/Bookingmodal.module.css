@@ -79,6 +79,7 @@
   padding: 24px;
 }
 
+
 .btn-modal {
   padding: 10px 20px;
   display: block;
@@ -190,7 +191,11 @@
   border-radius: var(--br10);
   padding: 0 12px;
   border: 0;
-  border: 1px solid var(--gray);
+  outline: 1px solid var(--gray);
+}
+.note_input:focus {
+  border: 0;
+  outline: 2px solid var(--gray);
 }
 
 .close_modal {

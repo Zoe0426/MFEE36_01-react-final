@@ -35,11 +35,11 @@
 }
 
 .arrow_left {
-  top: 24%;
+  top: 20%;
   left: -6%;
 }
 .arrow_right {
-  top: 24%;
+  top: 20%;
   right: -6%;
 }
 .arrow_right:hover,
