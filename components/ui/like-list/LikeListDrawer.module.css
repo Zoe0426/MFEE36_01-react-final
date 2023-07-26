@@ -22,6 +22,8 @@
   top: 0;
   right: 0;
   height: 100vh;
+  bottom: 0;
+  position: fixed;
   /* transform:translateX(-110%);     */
   border: 1px solid var(--light-gray);
   background-color: white;

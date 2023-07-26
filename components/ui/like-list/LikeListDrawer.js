@@ -15,7 +15,9 @@ export default function LikeListDrawer({
 }) {
   return (
     <>
-      <div className={styles.like_list_bgc}> </div>
+      <div className={styles.like_list_bgc} onClick={closeHandler}>
+        {' '}
+      </div>
       <div className={styles.like_list_box}>
         <div className={styles.btns}>
           <FontAwesomeIcon
