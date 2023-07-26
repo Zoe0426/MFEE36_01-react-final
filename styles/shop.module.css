@@ -1,10 +1,87 @@
-.container_outer_shop {
+/*首頁廣告輪播牆*/
+
+.shop_sliders {
+  width: 100%;
+  position: relative;
+}
+
+.shop_sliders_box {
+  display: flex;
+  width: calc(100% * 3);
+  position: relative
+}
+
+.shop_sliders_box > li {
+  display: inline;
+}
+
+.shop_sliders_box > li > img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/*輪播牆的左右邊按鈕*/
+.slider_left_box,
+.slider_right_box {
+  position: absolute;
+  font-size: var(--h4fs24);
+  color: white;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+
+.slider_right_box {
+  top:0px;
+  right:0
+}
+
+.slider_left,
+.slider_right {
+  opacity: 0.6;
+  padding: var(--p16);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: var(--br8);
+  cursor: pointer;
+}
+
+.slider_left:hover,
+.slider_right:hover {
+  opacity: 1;
+}
+
+/*輪播牆的分頁按鈕*/
+.shop_sliders_pages {
+  background-color: var(--lightBrown);
+  padding-top: var(--p16);
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.shop_sliders_pages_bttn {
+  width: 50px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 10px;
+  border-radius: var(--br10);
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.shop_sliders_pages_active {
+  background-color: var(--secondary);
+}
+
+/* .container_outer_shop {
   min-height: 100%;
   position: relative;
   max-width: 1920px;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
   margin: auto;
-}
+} */
 
 .bgc_lightBrown {
   background-color: var(--lightBrown);
@@ -80,7 +157,6 @@
 .pet_type_cards {
   margin-left: 5%;
   width: 7000px;
-  
 }
 
 .pet_type_btns {
@@ -188,9 +264,9 @@
   margin-top: 24px;
 }
 
-.detail_spec_warning{
+.detail_spec_warning {
   font-size: var(--h6fs18);
-  color:var(--main);
+  color: var(--main);
 }
 
 /* 照片區 */
@@ -261,8 +337,6 @@
   text-align: center;
 }
 
-
-
 .detail_spec_btn:hover {
   background-color: var(--light-gray);
   cursor: pointer;
@@ -311,7 +385,6 @@
 /* .detail_main_bottom > button:nth-child(2) {
   margin: 0 16px;
 } */
-
 
 .detail_main_bottom > button:last-child {
   /* margin-right: 0px; */
@@ -426,9 +499,10 @@
   cursor: pointer;
 }
 
-.active_comment_btn, .active_detail_spec_btn{
-  border:1px solid var(--main);
-  color:var(--main);
+.active_comment_btn,
+.active_detail_spec_btn {
+  border: 1px solid var(--main);
+  color: var(--main);
 }
 
 .comment_cards {
@@ -457,6 +531,17 @@
 }
 
 @media screen and (max-width: 767px) {
+  /*首頁廣告輪播牆*/
+  .slider_left_box,
+  .slider_right_box {
+    display: none;
+  }
+
+  .shop_sliders_pages_bttn {
+    width: 30px;
+    height: 6px;
+  }
+
   /*貓狗大類別的圖示按鈕*/
   .pet_type_tabs {
     /* margin:56px auto; */
@@ -548,7 +633,7 @@
     font-size: var(--h6fs18);
   }
 
-  .detail_spec_warning{
+  .detail_spec_warning {
     font-size: var(--pfs14);
     line-height: var(--h6fs18);
   }

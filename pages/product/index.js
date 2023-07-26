@@ -6,10 +6,14 @@ import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration';
 import ShopSupplierCard from '@/components/ui/cards/shop-supplier-card';
 import SearchBar from '@/components/ui/buttons/SearchBar1';
 import SubBtn from '@/components/ui/buttons/subBtn';
-
 import { Row, Col } from 'antd';
 import Image from 'next/image';
 import styles from '@/styles/shop.module.css';
+import { faFontAwesome } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronRight,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
 
 //二大類圖示
 import dog from '@/assets/logo-dog.svg';
@@ -17,6 +21,7 @@ import cat from '@/assets/logo-cat.svg';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 //載入八大類icon資料
 import eightCatergoriesData from '@/data/product/eight-catergories-data.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function ProdoctIndex() {
   const router = useRouter();
@@ -170,11 +175,96 @@ export default function ProdoctIndex() {
     setKeyword(selectkeyword);
     setShowKeywordDatas(false);
   };
+  //banner資料
+  const [bannerCurrent, setBannerCurrent] = useState(0);
+  const bannerPicDatas = ['banner01.jpg', 'banner02.jpg', 'banner03.jpg'];
+  const bannerPlayStyle = {
+    left: `calc(-100% * ${bannerCurrent})`,
+  };
+  const [isMouseOverOnSlider, setIsMouseOverOnSliver] = useState(false);
+  useEffect(() => {
+    const bannerPics = bannerPicDatas.length - 1;
+    let timer;
+    if (!isMouseOverOnSlider) {
+      timer = setInterval(() => {
+        if (bannerCurrent >= bannerPics) {
+          setBannerCurrent(0);
+        } else {
+          setBannerCurrent((preV) => preV + 1);
+        }
+      }, 3000);
+    }
+
+    return () => clearInterval(timer);
+  }, [bannerCurrent, isMouseOverOnSlider]);
 
   return (
     <>
       <div className="container-outer">
-        <nav></nav>
+        <nav className={styles.shop_sliders}>
+          <div className={styles.slider_left_box}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className={styles.slider_left}
+              onClick={() => {
+                if (bannerCurrent === 0) {
+                  setBannerCurrent(bannerPicDatas.length - 1);
+                } else {
+                  setBannerCurrent(bannerCurrent - 1);
+                }
+              }}
+            />
+          </div>
+
+          <ul
+            className={styles.shop_sliders_box}
+            style={bannerPlayStyle}
+            onMouseEnter={() => {
+              setIsMouseOverOnSliver(true);
+            }}
+            onMouseLeave={() => {
+              setIsMouseOverOnSliver(false);
+            }}
+          >
+            {bannerPicDatas.map((v) => {
+              return (
+                <li key={v}>
+                  <img src={`./product-img/${v}`} alt={v} />
+                </li>
+              );
+            })}
+          </ul>
+          <div className={styles.slider_right_box}>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className={styles.slider_right}
+              onClick={() => {
+                if (bannerCurrent === bannerPicDatas.length - 1) {
+                  setBannerCurrent(0);
+                } else {
+                  setBannerCurrent(bannerCurrent + 1);
+                }
+              }}
+            />
+          </div>
+        </nav>
+        <ul className={styles.shop_sliders_pages}>
+          {bannerPicDatas.map((v, i) => {
+            return (
+              <li
+                key={v}
+                className={
+                  i === bannerCurrent
+                    ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
+                    : styles.shop_sliders_pages_bttn
+                }
+                onClick={() => {
+                  setBannerCurrent(i);
+                }}
+              ></li>
+            );
+          })}
+        </ul>
       </div>
       <div className={styles.container_outer_shop}>
         <div className={styles.bgc_lightBrown}>
@@ -251,7 +341,7 @@ export default function ProdoctIndex() {
                 }}
               >
                 {' '}
-                <Image src={v.icon} />
+                <Image src={v.icon} alt={v.id} />
                 <span>{v.text}</span>
               </div>
             );
