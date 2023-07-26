@@ -136,76 +136,23 @@ export default function FilterPage() {
   };
 
   // 這邊有點問題;
-  // const getData = async (obj = {}, token = '') => {
-  //   const usp = new URLSearchParams(obj);
-  //   const res = await fetch(
-  //     `${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`,
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: 'Bearer ' + token,
-  //       },
-  //     }
-  //   );
-  //   const data = await res.json();
+  const getData = async (obj = {}, token = '') => {
+    const usp = new URLSearchParams(obj);
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
 
-  //   if (Array.isArray(data.rows)) {
-  //     setData(data);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   //取得用戶拜訪的類別選項
-  //   const {
-  //     keyword,
-  //     rule,
-  //     service,
-  //     city,
-  //     area,
-  //     category,
-  //     startTime,
-  //     endTime,
-  //     selectedDate,
-  //   } = router.query;
-
-  //   console.log(router.query);
-
-  //   console.log(router.query);
-  //   setRule(rule || '');
-  //   setService(service || '');
-  //   if (city) {
-  //     setSelectedCity(city);
-  //   }
-  //   if (area) {
-  //     setSelectedArea(area);
-  //   }
-
-  //   if (startTime) {
-  //     setStartTime(startTime);
-  //   }
-
-  //   if (endTime) {
-  //     setEndTime(endTime);
-  //   }
-
-  //   if (selectedDate) {
-  //     setDatePickerValue(selectedDate); // 設置日期狀態
-  //   }
-  //   if (category) {
-  //     resetCheckBox('category', category);
-  //   }
-
-  //   setArea(area || '');
-  //   setCategory(category || '');
-  //   setKeyword(keyword || '');
-  //   // setOrderBy(orderBy);
-  //   getData(router.query);
-  //   // if (auth.token) {
-  //   //   getData(router.query, auth.token);
-  //   // } else {
-  //   //   getData(router.query);
-  //   // }
-  // }, [router.query]);
+    if (Array.isArray(data.rows)) {
+      setData(data);
+    }
+  };
 
   useEffect(() => {
     //取得用戶拜訪的類別選項
@@ -222,64 +169,118 @@ export default function FilterPage() {
     } = router.query;
 
     console.log(router.query);
-    if (Object.keys(router.query).length === 0) {
-      console.log(router.query);
-      fetch(`${process.env.API_SERVER}/restaurant-api/list`)
-        .then((r) => r.json())
-        .then((data) => {
-          if (Array.isArray(data.rows)) {
-            setData(data);
-            console.log(data);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else if (Object.keys(router.query).length !== 0) {
-      console.log(router.query);
-      setRule(rule || '');
-      setService(service || '');
-      if (city) {
-        setSelectedCity(city);
-      }
-      if (area) {
-        setSelectedArea(area);
-      }
 
-      if (startTime) {
-        setStartTime(startTime);
-      }
+    setRule(rule || '');
+    setService(service || '');
+    if (city) {
+      setSelectedCity(city);
+    }
+    if (area) {
+      setSelectedArea(area);
+    }
 
-      if (endTime) {
-        setEndTime(endTime);
-      }
+    if (startTime) {
+      setStartTime(startTime);
+    }
 
-      if (selectedDate) {
-        setDatePickerValue(selectedDate); // 設置日期狀態
-      }
-      if (category) {
-        resetCheckBox('category', category);
-      }
+    if (endTime) {
+      setEndTime(endTime);
+    }
 
-      setArea(area || '');
-      setCategory(category || '');
-      setKeyword(keyword || '');
-      // setOrderBy(orderBy);
-      const usp = new URLSearchParams(router.query);
+    if (selectedDate) {
+      setDatePickerValue(selectedDate); // 設置日期狀態
+    }
+    if (category) {
+      resetCheckBox('category', category);
+    }
 
-      fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
-        .then((r) => r.json())
-        .then((data) => {
-          if (Array.isArray(data.rows)) {
-            setData(data);
-            console.log(data);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    setArea(area || '');
+    setCategory(category || '');
+    setKeyword(keyword || '');
+    // setOrderBy(orderBy);
+    getData(router.query);
+
+    if (auth.token) {
+      getData(router.query, auth.token);
+      console.log(auth.token);
+    } else {
+      getData(router.query);
     }
   }, [router.query]);
+
+  // useEffect(() => {
+  //   //取得用戶拜訪的類別選項
+  //   const {
+  //     keyword,
+  //     rule,
+  //     service,
+  //     city,
+  //     area,
+  //     category,
+  //     startTime,
+  //     endTime,
+  //     selectedDate,
+  //   } = router.query;
+
+  //   console.log(router.query);
+  //   if (Object.keys(router.query).length === 0) {
+  //     console.log(router.query);
+  //     fetch(`${process.env.API_SERVER}/restaurant-api/list`)
+  //       .then((r) => r.json())
+  //       .then((data) => {
+  //         if (Array.isArray(data.rows)) {
+  //           setData(data);
+  //           console.log(data);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   } else if (Object.keys(router.query).length !== 0) {
+  //     console.log(router.query);
+  //     setRule(rule || '');
+  //     setService(service || '');
+  //     if (city) {
+  //       setSelectedCity(city);
+  //     }
+  //     if (area) {
+  //       setSelectedArea(area);
+  //     }
+
+  //     if (startTime) {
+  //       setStartTime(startTime);
+  //     }
+
+  //     if (endTime) {
+  //       setEndTime(endTime);
+  //     }
+
+  //     if (selectedDate) {
+  //       setDatePickerValue(selectedDate); // 設置日期狀態
+  //     }
+  //     if (category) {
+  //       resetCheckBox('category', category);
+  //     }
+
+  //     setArea(area || '');
+  //     setCategory(category || '');
+  //     setKeyword(keyword || '');
+  //     // setOrderBy(orderBy);
+  //     const usp = new URLSearchParams(router.query);
+
+  //     fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
+  //       .then((r) => r.json())
+  //       .then((data) => {
+  //         if (Array.isArray(data.rows)) {
+  //           setData(data);
+  //           console.log(data);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }, [router.query]);
 
   //進入畫面時將checkbox依據queryString設定勾選狀態
   const resetCheckBox = (key, str) => {
@@ -618,7 +619,7 @@ export default function FilterPage() {
   };
 
   //將資料送到後端
-  const sendLikeList = async (obj, token = '') => {
+  const sendLikeList = async (arr, token = '') => {
     const res = await fetch(
       `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
       {
@@ -627,7 +628,7 @@ export default function FilterPage() {
           Authorization: 'Bearer ' + token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ data: obj }),
+        body: JSON.stringify({ data: arr }),
       }
     );
     const data = await res.json();
