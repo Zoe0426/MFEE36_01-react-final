@@ -551,7 +551,7 @@ export default function FilterPage() {
     setData({ ...data, rows: newData });
     setTimeout(() => {
       setIsClickingLike(false);
-    }, 3000);
+    }, 1500);
   };
 
   //將資料送到後端

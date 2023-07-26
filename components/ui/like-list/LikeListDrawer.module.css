@@ -34,12 +34,14 @@
   overflow-x: hidden;
   overflow-y: scroll;
   /* max-height:758px; */
-  max-height: 900px;
+  max-height:94vh;
+  /* height: 100%; */
 }
 
 /* 卷軸 */
 .like_items::-webkit-scrollbar {
-  width: 14px;
+  width: 10px;
+  /* height: 100%; */
 }
 
 /* 不是目前位置的剩下卷軸 */
@@ -61,7 +63,7 @@
 
 /*沒有收藏時...*/
 .no_like_item {
-  height: 120px;
+  height: 180px;
   font-size: var(--h5fs20);
   font-weight: var(--fwbold);
   line-height: 100px;
