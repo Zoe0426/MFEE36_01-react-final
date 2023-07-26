@@ -26,7 +26,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function ProdoctIndex() {
   const router = useRouter();
 
-  const [cardPosition, setCardPosition] = useState(0);
+  // const [cardPosition, setCardPosition] = useState(0);
   // useEffect(() => {
   //   const interval = setInterval(() => {
   //     setCardPosition((prevPosition) => prevPosition - window.innerWidth);
@@ -45,13 +45,6 @@ export default function ProdoctIndex() {
   //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
   const [dataForDog, setDataForDog] = useState([]);
   const [dataForCat, setDataForCat] = useState([]);
-  const [dataForBrand, setDataForBrand] = useState([]);
-  const [dataForNew, setDataForNew] = useState([]);
-  const [keyword, setKeyword] = useState('');
-  const [keywordDatas, setKeywordDatats] = useState([]);
-  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-
   const [twotCatergoriesData, setTwotCatergoriesData] = useState([
     {
       id: 'dog',
@@ -68,6 +61,30 @@ export default function ProdoctIndex() {
       data: dataForCat,
     },
   ]);
+
+  const [dataForBrand, setDataForBrand] = useState([]);
+  const [dataForNew, setDataForNew] = useState([]);
+  const [keyword, setKeyword] = useState('');
+  const [keywordDatas, setKeywordDatats] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+
+  //banner資料
+  const [isMouseOverOnSlider, setIsMouseOverOnSliver] = useState(false);
+  const [bannerCurrent, setBannerCurrent] = useState(0);
+  const bannerPicDatas = ['banner01.jpg', 'banner02.jpg', 'banner03.jpg'];
+  const bannerPlayStyle = {
+    width: `calc(100% * ${bannerPicDatas.length})`,
+    left: `calc(-100% * ${bannerCurrent})`,
+  };
+
+  //貓狗專區
+  const [catDogCurrent, setCatDogCurrent] = useState(0);
+  const catDogStyle = {
+    position: 'relative',
+    left: `calc(-96.5% * ${catDogCurrent})`,
+    transition: '0.3s',
+  };
 
   useEffect(() => {
     (async function getData() {
@@ -111,6 +128,22 @@ export default function ProdoctIndex() {
       );
     })();
   }, []);
+
+  useEffect(() => {
+    const bannerPics = bannerPicDatas.length - 1;
+    let timer;
+    if (!isMouseOverOnSlider) {
+      timer = setInterval(() => {
+        if (bannerCurrent >= bannerPics) {
+          setBannerCurrent(0);
+        } else {
+          setBannerCurrent((preV) => preV + 1);
+        }
+      }, 3000);
+    }
+
+    return () => clearInterval(timer);
+  }, [bannerCurrent, isMouseOverOnSlider]);
 
   //轉換貓狗卡片顯示
   const toggleDisplayForDogCat = (twotCatergoriesData, id) => {
@@ -175,28 +208,6 @@ export default function ProdoctIndex() {
     setKeyword(selectkeyword);
     setShowKeywordDatas(false);
   };
-  //banner資料
-  const [bannerCurrent, setBannerCurrent] = useState(0);
-  const bannerPicDatas = ['banner01.jpg', 'banner02.jpg', 'banner03.jpg'];
-  const bannerPlayStyle = {
-    left: `calc(-100% * ${bannerCurrent})`,
-  };
-  const [isMouseOverOnSlider, setIsMouseOverOnSliver] = useState(false);
-  useEffect(() => {
-    const bannerPics = bannerPicDatas.length - 1;
-    let timer;
-    if (!isMouseOverOnSlider) {
-      timer = setInterval(() => {
-        if (bannerCurrent >= bannerPics) {
-          setBannerCurrent(0);
-        } else {
-          setBannerCurrent((preV) => preV + 1);
-        }
-      }, 3000);
-    }
-
-    return () => clearInterval(timer);
-  }, [bannerCurrent, isMouseOverOnSlider]);
 
   return (
     <>
@@ -215,7 +226,6 @@ export default function ProdoctIndex() {
               }}
             />
           </div>
-
           <ul
             className={styles.shop_sliders_box}
             style={bannerPlayStyle}
@@ -347,53 +357,78 @@ export default function ProdoctIndex() {
             );
           })}
         </div>
-        <div>
-          <div className={styles.pet_type_cards}>
-            <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
-              {twotCatergoriesData.map((v) => {
-                return (
-                  v.display &&
-                  v.data.map((v) => {
-                    const {
-                      product_sid,
-                      name,
-                      img,
-                      max_price,
-                      min_price,
-                      avg_rating,
-                      sales_qty,
-                    } = v;
-                    return (
-                      <Col
-                        xs={12}
-                        sm={12}
-                        md={1}
-                        className={styles.product_card}
-                        key={product_sid}
-                      >
-                        <ShopProductCard
-                          product_sid={product_sid}
-                          name={name}
-                          img={img}
-                          max_price={max_price}
-                          min_price={min_price}
-                          avg_rating={avg_rating}
-                          tag_display={true}
-                          sales_qty={sales_qty}
-                        />
-                      </Col>
-                    );
-                  })
-                );
-              })}
-            </Row>
+        <div className={styles.pet_type_cards_box}>
+          <div className={styles.catDog_left_box}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className={styles.catDog_left}
+              onClick={() => {
+                if (catDogCurrent === 0) {
+                  setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
+                } else {
+                  setCatDogCurrent(catDogCurrent - 1);
+                }
+              }}
+            />
           </div>
-        </div>
-        <div className={styles.pet_type_btns}>
-          <button className={styles.circle_btn_active}></button>
-          <button></button>
-          <button></button>
-          <button></button>
+          <div className={styles.try}>
+            <div className={styles.pet_type_cards} style={catDogStyle}>
+              <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
+                {twotCatergoriesData.map((v) => {
+                  return (
+                    v.display &&
+                    v.data.map((v) => {
+                      const {
+                        product_sid,
+                        name,
+                        img,
+                        max_price,
+                        min_price,
+                        avg_rating,
+                        sales_qty,
+                      } = v;
+                      return (
+                        <Col
+                          xs={12}
+                          sm={12}
+                          md={1}
+                          className={styles.product_card}
+                          key={product_sid}
+                        >
+                          <ShopProductCard
+                            product_sid={product_sid}
+                            name={name}
+                            img={img}
+                            max_price={max_price}
+                            min_price={min_price}
+                            avg_rating={avg_rating}
+                            tag_display={true}
+                            sales_qty={sales_qty}
+                          />
+                        </Col>
+                      );
+                    })
+                  );
+                })}
+              </Row>
+            </div>
+          </div>
+          <div className={styles.catDog_right_box}>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className={styles.catDog_right}
+              onClick={() => {
+                if (
+                  catDogCurrent ===
+                  twotCatergoriesData[0].data.length / 6 - 1
+                ) {
+                  setCatDogCurrent(0);
+                } else {
+                  setCatDogCurrent(catDogCurrent + 1);
+                }
+              }}
+            />
+          </div>
         </div>
         <BGMiddleDecoration />
       </section>
