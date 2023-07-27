@@ -8,10 +8,10 @@ import NumberInput from '../numberInput/numberInput1';
 
 export default function BookingModal({
   datas = [],
+  memberDatas = [],
   clickHandler = () => {},
   time,
   people,
-  able = true,
 }) {
   const [modal, setModal] = useState(false);
   const [countPeople, setCountPeople] = useState(1);
@@ -32,6 +32,9 @@ export default function BookingModal({
           className={`${
             restPeople === 0 ? Styles.no_people_card : Styles.booking_card
           }`}
+          style={{
+            backgroundColor: restPeople === 0 ? 'transparent' : 'white',
+          }}
         >
           <div className={Styles.time_range}>{time}</div>
           <div className={Styles.rest_people}>
@@ -62,17 +65,16 @@ export default function BookingModal({
                   <div className={Styles.time}>
                     <p className={Styles.booking_title}>預約時間</p>
                     <p>
-                      2023/{datas.date}
-                      {datas.time}
+                      2023/{datas.date} {datas.time}
                     </p>
                   </div>
                   <div className={Styles.member}>
                     <p className={Styles.booking_title}>預約會員</p>
-                    <p>潘彥廷</p>
+                    <p>{memberDatas.name}</p>
                   </div>
                   <div className={Styles.phone}>
                     <p className={Styles.booking_title}>聯絡資訊</p>
-                    <p>0957860732</p>
+                    <p>{memberDatas.mobile}</p>
                   </div>
                 </div>
                 <div className={Styles.line}></div>

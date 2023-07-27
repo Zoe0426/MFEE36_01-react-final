@@ -5,7 +5,7 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
-import arrowRight from '@/assets/arrow-right.svg';
+import faArrowRight from '@/assets/arrow-right.svg';
 import faArrowLeft from '@/assets/arrow-left.svg';
 import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 
@@ -14,6 +14,26 @@ function WeekCalendar() {
   const [data, setData] = useState({ bookingRows: [], memberRows: [] });
   const [bookingRows, setBookingRows] = useState();
   const [memberRows, setMemberRows] = useState();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [startDateIndex, setStartDateIndex] = useState(0); // 添加這個狀態變量
+
+  // 新增處理下一個七天預約資訊的函式
+  const goToNextWeek = () => {
+    const nextIndex = startDateIndex + 35;
+    if (nextIndex < bookingRows.length) {
+      setStartDateIndex(nextIndex);
+    }
+  };
+
+  // 新增處理返回前一個七天預約資訊的函式
+  const goToPreviousWeek = () => {
+    const previousIndex = startDateIndex - 35;
+    if (previousIndex >= 0) {
+      setStartDateIndex(previousIndex);
+    }
+  };
+
+
 
   useEffect(() => {
     fetch(`${process.env.API_SERVER}/restaurant-api/booking`)
@@ -74,59 +94,65 @@ function WeekCalendar() {
           </div>
         </div>
       </div>
-      <div className="container-inner">
-        <h1 className={Styles.timetable}>{}預約時間表</h1>
-
+      <div>
         {/* <Image
           src={faArrowLeft}
           className={Styles.arrow_left}
+          onClick={goToPreviousWeek}
           alt="faArrowLeft"
         />
-
         <Image
-          src={arrowRight}
+          src={faArrowRight}
           className={Styles.arrow_right}
+          onClick={goToNextWeek}
           alt="arrowRight"
         /> */}
       </div>
       <div className="container-inner">
-        <div className={Styles.week_calendar}>
-          <div className={Styles.dates_modal}>
-            {bookingRows?.map((v) => {
-              if (!uniqueDates.has(v.date)) {
-                uniqueDates.add(v.date);
-                return (
-                  <div key={v.section_sid}>
-                    <div>{v.date}</div>
-                    {bookingRows
-                      .filter((item) => item.date === v.date)
-                      .map((item) => (
-                        <>
-                          <div key={item.section_sid}>
-                            <BookingModal
-                              time={item.time}
-                              people={item.remaining_slots}
-                              datas={item}
-                            />
-                          </div>
-                        </>
-                      ))}
-                  </div>
-                );
-              } else {
-                return null;
-              }
-            })}
+        <div className={Styles.head}>
+          <h1 className={Styles.timetable}>曜日義式餐酒館預約時間表</h1>
+          <div className={Styles.btn_group}>
+            <button onClick={goToPreviousWeek}>後</button>
+            <button onClick={goToNextWeek}>前</button>
           </div>
-
-          {/* {showNextWeek && (
-            <Image
-              src={arrowRight}
-              className={Styles.arrow_right}
-              onClick={goToNextWeek}
-              alt="arrowRight"
-            />
-          )} */}
+        </div>
+      </div>
+      <div className="container-inner">
+        <div className={Styles.dates_container}>
+          <div className={Styles.dates_modal}>
+            {bookingRows
+              ?.slice(startDateIndex, startDateIndex + 35)
+              .map((v) => {
+                {
+                  /* const currentDate = new Date(v.date); */
+                }
+                if (!uniqueDates.has(v.date)) {
+                  uniqueDates.add(v.date);
+                  return (
+                    <div key={v.section_sid}>
+                      <div className={Styles.date_date}>{v.date}</div>
+                      {bookingRows
+                        .filter((item) => item.date === v.date)
+                        .map((item) => (
+                          <>
+                            <div key={item.section_sid}>
+                              <BookingModal
+                                time={item.time}
+                                people={item.remaining_slots}
+                                datas={item}
+                                memberDatas={memberRows}
+                                
+                              />
+                            </div>
+                          </>
+                        ))}
+                    </div>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+          </div>
         </div>
       </div>
     </div>
