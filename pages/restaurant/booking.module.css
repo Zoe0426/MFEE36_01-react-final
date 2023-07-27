@@ -5,7 +5,15 @@
   padding-top: var(--p8);
   padding-bottom: var(--p8);
 }
+.dates_modal{
+  display: flex;
+  gap:20px;
+  padding-bottom: 120px;
+  padding-top: 10px;
+  align-items: center;
+  text-align: center;
 
+}
 .abc {
   background-color: var(--lightBrown);
 }
@@ -27,11 +35,6 @@
   font-size: var(--h5fs20);
   cursor: pointer;
   transition: 0.5s all;
-}
-.column{
-  display: flex;
-  flex-direction: column;
-  
 }
 
 .arrow_left {
@@ -84,6 +87,12 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  padding-bottom: 80px;
+}
+
+.column{
+  display: flex;
+  flex-direction: column;
 }
 .time_range {
   font-weight: var(--fwbold);

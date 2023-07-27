@@ -19,6 +19,8 @@ export default function BookingModal({
     setModal(!modal);
   };
 
+  console.log(datas);
+
   return (
     <>
       {/* <MainBtn clickHandler={toggleModal} text="預約的時間區塊" /> */}
@@ -40,15 +42,18 @@ export default function BookingModal({
                 <div className={Styles.booking_info}>
                   <div className={Styles.time}>
                     <p className={Styles.booking_title}>預約時間</p>
-                    <p>2023/08/16 14:00</p>
+                    <p>
+                      2023/{datas.date}
+                      {datas.time}
+                    </p>
                   </div>
                   <div className={Styles.member}>
                     <p className={Styles.booking_title}>預約會員</p>
-                    <p>王小美</p>
+                    <p>潘彥廷</p>
                   </div>
                   <div className={Styles.phone}>
                     <p className={Styles.booking_title}>聯絡資訊</p>
-                    <p>0963037941</p>
+                    <p>0957860732</p>
                   </div>
                 </div>
                 <div className={Styles.line}></div>

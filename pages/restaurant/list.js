@@ -198,7 +198,7 @@ export default function FilterPage() {
     setCategory(category || '');
     setKeyword(keyword || '');
     // setOrderBy(orderBy);
-    getData(router.query);
+    // getData(router.query);
 
     if (auth.token) {
       getData(router.query, auth.token);

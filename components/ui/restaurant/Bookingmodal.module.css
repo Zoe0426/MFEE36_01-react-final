@@ -3,7 +3,7 @@
 }
 .booking_card {
   background-color: #fff;
-  padding: 24px 32px;
+  padding: 24px 40px;
   border-radius: 8px;
   margin-top: 20px;
   display: flex;
@@ -121,6 +121,7 @@
 .detail_pet_box {
   margin-top: 30px;
   width: 48%;
+  text-align: left;
 }
 
 .detail_qty {
@@ -181,6 +182,7 @@
   margin-top: 30px;
   display: flex;
   flex-direction: column;
+  text-align: left;
 }
 .note_content {
   margin-bottom: 4px;
