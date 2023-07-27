@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import Styles from '@/components/ui/modal/AlertModal.module.css';
 import { Badge, Rate, Form, Input } from 'antd';
 import MainBtn from '../buttons/MainBtn';
@@ -17,13 +17,22 @@ export default function AlertModal({
   actSid,
   bkSid,
   restSid,
+  date,
 }) {
   const [modal, setModal] = useState(false);
   const [data, setData] = useState([]);
   const [show, setShow] = useState(false);
+  const [review, setReview] = useState(false);
   const router = useRouter();
   const from = router.asPath;
   const [form] = Form.useForm();
+  let today = new Date();
+  let formatToday = today.toISOString().slice(0, 10);
+  let actday = new Date(date);
+  let formatActday = actday.toISOString().slice(0, 10);
+  //console.log(today > actday);
+  // console.log('formatActday', formatActday);
+  // console.log('formatToday', formatToday);
 
   const toggleModal = () => {
     setModal(!modal);
@@ -44,7 +53,7 @@ export default function AlertModal({
       })
         .then((r) => r.json())
         .then((data) => {
-          console.log(data[0].star);
+          console.log(data[0]?.star);
           setData(data);
           form.setFieldsValue({
             actStar: data[0]?.star,
@@ -52,7 +61,7 @@ export default function AlertModal({
           });
         });
     } else if (type === 'error') {
-      fetch(`${process.env.API_SERVER}/member-api/getRestReview/${odSid}`, {
+      fetch(`${process.env.API_SERVER}/member-api/getRestReview/${bkSid}`, {
         // headers: {
         //   Authorization: 'Bearer ' + auth.token,
         // },
@@ -62,8 +71,6 @@ export default function AlertModal({
           console.log(data);
           setData(data);
           form.setFieldsValue({
-            actStar: data[0]?.star,
-            actContent: data[0]?.content,
             environment: data[0]?.environment,
             food: data[0]?.food,
             friendly: data[0]?.friendly,
@@ -71,10 +78,8 @@ export default function AlertModal({
           });
         });
     }
+    router.push(from);
   };
-
-  console.log('data', data);
-  console.log('star', data[0]?.star);
 
   const onFinish = (values) => {
     console.log('Success:', values);
@@ -93,6 +98,7 @@ export default function AlertModal({
         .then((r) => r.json())
         .then((data) => {
           console.log(data);
+          setReview(true);
         });
     } else if (type === 'error') {
       fetch(`${process.env.API_SERVER}/member-api/restReviews`, {
@@ -102,7 +108,8 @@ export default function AlertModal({
       })
         .then((r) => r.json())
         .then((data) => {
-          console.log(data);
+          //console.log(data);
+          setReview(true);
         });
     }
     router.push(from);
@@ -143,10 +150,9 @@ export default function AlertModal({
               <div className={Styles.modal_content}>
                 {content}
                 <div className={Styles.modal_button}>
-                  <MainBtn
-                    text={!data.acRaSid ? '去評價' : '我的評價'}
-                    clickHandler={getReviews}
-                  />
+                  {formatToday > formatActday ? (
+                    <MainBtn text={'評價'} clickHandler={getReviews} />
+                  ) : null}
                 </div>
               </div>
 
@@ -211,7 +217,7 @@ export default function AlertModal({
                           <Rate
                             allowClear={false}
                             style={{ color: '#FCC917' }}
-                            //disabled={shopStar}
+                            disabled={data[0]?.environment}
                           />
                         </Form.Item>
                         <Form.Item
@@ -222,7 +228,7 @@ export default function AlertModal({
                           <Rate
                             allowClear={false}
                             style={{ color: '#FCC917' }}
-                            //disabled={shopStar}
+                            disabled={data[0]?.food}
                           />
                         </Form.Item>
                         <Form.Item
@@ -233,7 +239,7 @@ export default function AlertModal({
                           <Rate
                             allowClear={false}
                             style={{ color: '#FCC917' }}
-                            //disabled={shopStar}
+                            disabled={data[0]?.friendly}
                           />
                         </Form.Item>
                       </>
@@ -257,7 +263,7 @@ export default function AlertModal({
                           <Input.TextArea
                             rows={4}
                             style={{ backgroundColor: 'transparent' }}
-                            //readOnly={data[0]?.content}
+                            readOnly={data[0]?.content}
                           />
                         </Form.Item>
                       </>
