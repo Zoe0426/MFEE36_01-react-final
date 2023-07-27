@@ -1,10 +1,92 @@
-.container_outer_shop {
+/*首頁廣告輪播牆*/
+
+.shop_sliders {
+  width: 100%;
+  position: relative;
+}
+
+.shop_sliders_box {
+  display: flex;
+
+  position: relative
+}
+
+.shop_sliders_box > li {
+  display: inline;
+}
+
+.shop_sliders_box > li > img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/*輪播牆的左右邊按鈕*/
+.slider_left_box,
+.slider_right_box,
+.catDog_left_box,
+.catDog_right_box {
+  position: absolute;
+  font-size: var(--h4fs24);
+  color: white;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+
+.slider_right_box,.catDog_right_box {
+  top:0px;
+  right:0
+}
+.catDog_left_box{
+  left:20px
+}
+
+.slider_left,
+.slider_right,.catDog_left,.catDog_right {
+  opacity: 0.6;
+  padding: var(--p16);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: var(--br8);
+  cursor: pointer;
+}
+
+.slider_left:hover,
+.slider_right:hover,.catDog_left:hover,.catDog_right:hover {
+  opacity: 1;
+}
+
+/*輪播牆的分頁按鈕*/
+.shop_sliders_pages {
+  background-color: var(--lightBrown);
+  padding-top: var(--p16);
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.shop_sliders_pages_bttn {
+  width: 50px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 10px;
+  border-radius: var(--br10);
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.shop_sliders_pages_active {
+  background-color: var(--secondary);
+}
+
+/* .container_outer_shop {
   min-height: 100%;
   position: relative;
   max-width: 1920px;
-  /* overflow-x: hidden; */
+  overflow-x: hidden;
   margin: auto;
-}
+} */
 
 .bgc_lightBrown {
   background-color: var(--lightBrown);
@@ -75,11 +157,27 @@
 /*主頁滑動卡片的排版*/
 .product_card {
   display: flex;
+  /* border:1px solid red */
+}
+
+.pet_type_cards_box{
+  width: 100%;
+  padding-left:5%;
+  position: relative;
+  /* border:1px solid pink */
+}
+
+.pet_type_cards_display{
+  position: relative;
+  overflow: hidden;
+  /* border:1px solid pink; */
+  
 }
 
 .pet_type_cards {
-  margin-left: 5%;
   width: 7000px;
+  /* border:1px solid green;
+  transform: translateX(-100px); */
   
 }
 
@@ -180,13 +278,17 @@
 .detail_spec_title,
 .detail_title {
   font-size: var(--h5fs20);
-  /* font-weight: bolder; */
   margin-bottom: 16px;
   margin-top: 32px;
 }
 
 .detail_spec_title {
   margin-top: 24px;
+}
+
+.detail_spec_warning {
+  font-size: var(--h6fs18);
+  color: var(--main);
 }
 
 /* 照片區 */
@@ -243,7 +345,7 @@
 /*規格按鈕*/
 .detail_spec_btn {
   margin-right: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   padding: var(--p16) 20px;
   border-radius: var(--br10);
   border: 0;
@@ -256,8 +358,6 @@
   line-height: 100%;
   text-align: center;
 }
-
-
 
 .detail_spec_btn:hover {
   background-color: var(--light-gray);
@@ -284,41 +384,6 @@
   text-align: center;
 }
 
-.detail_qty_sub_btn,
-.detail_qty_add_btn {
-  border: none;
-  padding: 0 20px;
-  font-size: var(--h5fs20);
-  background-color: transparent;
-  transition: 0.3s;
-}
-
-.detail_qty_sub_btn {
-  border-right: 1px solid var(--dark-gray);
-}
-
-.detail_qty_add_btn {
-  border-left: 1px solid var(--dark-gray);
-}
-
-.detail_qty_add_btn:hover,
-.detail_qty_sub_btn:hover {
-  background-color: var(--light-gray);
-  cursor: pointer;
-}
-
-.detail_qty_input {
-  width: 30px;
-  text-align: center;
-  border: none;
-  outline: none;
-  padding: var(--p16) 0;
-  border: 0;
-  font-size: var(--pfs16);
-  color: var(--dark-gray);
-  background-color: transparent;
-}
-
 /*付款方式*/
 
 .detail_spec_text,
@@ -342,7 +407,6 @@
 /* .detail_main_bottom > button:nth-child(2) {
   margin: 0 16px;
 } */
-
 
 .detail_main_bottom > button:last-child {
   /* margin-right: 0px; */
@@ -457,9 +521,10 @@
   cursor: pointer;
 }
 
-.active_comment_btn, .active_detail_spec_btn{
-  border:1px solid var(--main);
-  color:var(--main);
+.active_comment_btn,
+.active_detail_spec_btn {
+  border: 1px solid var(--main);
+  color: var(--main);
 }
 
 .comment_cards {
@@ -488,6 +553,17 @@
 }
 
 @media screen and (max-width: 767px) {
+  /*首頁廣告輪播牆*/
+  .slider_left_box,
+  .slider_right_box {
+    display: none;
+  }
+
+  .shop_sliders_pages_bttn {
+    width: 30px;
+    height: 6px;
+  }
+
   /*貓狗大類別的圖示按鈕*/
   .pet_type_tabs {
     /* margin:56px auto; */
@@ -517,13 +593,6 @@
     font-size: var(--h5fs20);
     margin: 36px 0 36px 36px;
     text-align: left;
-  }
-
-  .pet_type_cards,
-  .new_cards,
-  .recomand_cards {
-    width: 390px;
-    overflow-y: hidden;
   }
 
   .pet_type_cards::-webkit-scrollbar,
@@ -579,6 +648,11 @@
     font-size: var(--h6fs18);
   }
 
+  .detail_spec_warning {
+    font-size: var(--pfs14);
+    line-height: var(--h6fs18);
+  }
+
   /* 照片區 */
   .detail_img_box {
     width: 100%;
@@ -603,12 +677,6 @@
     height: 42px;
     border-radius: var(--br8);
     font-size: var(--pfs14);
-  }
-  .detail_qty_sub_btn,
-  .detail_qty_add_btn,
-  .detail_qty_input {
-    font-size: var(--pfs14);
-    padding: 0 12px;
   }
 
   .detail_spec_text,
