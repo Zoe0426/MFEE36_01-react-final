@@ -161,6 +161,11 @@
 }
 .hot_card_group {
   overflow-x: auto;
+
+}
+.friendly_card_group{
+  overflow-x: auto;
+  margin-bottom: 80px;
 }
 .hot_card {
   display: flex;
@@ -169,6 +174,10 @@
   gap: 20px;
 }
 .hot_card_group::-webkit-scrollbar {
+  display: none;
+}
+
+.friendly_card_group::-webkit-scrollbar {
   display: none;
 }
 /* 地區樣式 */

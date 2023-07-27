@@ -39,6 +39,7 @@ import cityDatas from '@/data/restaurnt/location.json';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
+import AlertModal from '@/components/ui/restaurant/AlertModal';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -91,24 +92,6 @@ export default function FilterPage() {
 
   const { auth, setAuth } = useContext(AuthContext);
 
-  const getData = async (obj = {}, token = '') => {
-    const usp = new URLSearchParams(obj);
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
-
-    if (Array.isArray(data.rows)) {
-      setData(data);
-    }
-  };
-
   const handleCityClick = ({ key }) => {
     setSelectedCity(key);
     setSelectedArea(null);
@@ -153,6 +136,24 @@ export default function FilterPage() {
   };
 
   // 這邊有點問題;
+  const getData = async (obj = {}, token = '') => {
+    const usp = new URLSearchParams(obj);
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+
+    if (Array.isArray(data.rows)) {
+      setData(data);
+    }
+  };
+
   useEffect(() => {
     //取得用戶拜訪的類別選項
     const {
@@ -169,67 +170,117 @@ export default function FilterPage() {
 
     console.log(router.query);
 
-    if (Object.keys(router.query).length !== 0) {
-      console.log(router.query);
-      setRule(rule || '');
-      setService(service || '');
-      if (city) {
-        setSelectedCity(city);
-      }
-      if (area) {
-        setSelectedArea(area);
-      }
-
-      if (startTime) {
-        setStartTime(startTime);
-      }
-
-      if (endTime) {
-        setEndTime(endTime);
-      }
-
-      if (selectedDate) {
-        setDatePickerValue(selectedDate); // 設置日期狀態
-      }
-      if (category) {
-        resetCheckBox('category', category);
-      }
-
-      setArea(area || '');
-      setCategory(category || '');
-      setKeyword(keyword || '');
-      // setOrderBy(orderBy);
-      const usp = new URLSearchParams(router.query);
-
-      fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
-        .then((r) => r.json())
-        .then((data) => {
-          if (Array.isArray(data.rows)) {
-            setData(data);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    setRule(rule || '');
+    setService(service || '');
+    if (city) {
+      setSelectedCity(city);
+    }
+    if (area) {
+      setSelectedArea(area);
     }
 
-    // getData(router.query, auth.token);
-    // if (Object.keys(router.query).length === 0) {
-    //   console.log(router.query);
-    //   fetch(`${process.env.API_SERVER}/restaurant-api/list`)
-    //     .then((r) => r.json())
-    //     .then((data) => {
-    //       if (Array.isArray(data.rows)) {
-    //         setData(data);
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // }
+    if (startTime) {
+      setStartTime(startTime);
+    }
+
+    if (endTime) {
+      setEndTime(endTime);
+    }
+
+    if (selectedDate) {
+      setDatePickerValue(selectedDate); // 設置日期狀態
+    }
+    if (category) {
+      resetCheckBox('category', category);
+    }
+
+    setArea(area || '');
+    setCategory(category || '');
+    setKeyword(keyword || '');
+    // setOrderBy(orderBy);
+    // getData(router.query);
+
+    if (auth.token) {
+      getData(router.query, auth.token);
+      console.log(auth.token);
+    } else {
+      getData(router.query);
+    }
   }, [router.query]);
 
-  console.log(data.rows);
+  // useEffect(() => {
+  //   //取得用戶拜訪的類別選項
+  //   const {
+  //     keyword,
+  //     rule,
+  //     service,
+  //     city,
+  //     area,
+  //     category,
+  //     startTime,
+  //     endTime,
+  //     selectedDate,
+  //   } = router.query;
+
+  //   console.log(router.query);
+  //   if (Object.keys(router.query).length === 0) {
+  //     console.log(router.query);
+  //     fetch(`${process.env.API_SERVER}/restaurant-api/list`)
+  //       .then((r) => r.json())
+  //       .then((data) => {
+  //         if (Array.isArray(data.rows)) {
+  //           setData(data);
+  //           console.log(data);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   } else if (Object.keys(router.query).length !== 0) {
+  //     console.log(router.query);
+  //     setRule(rule || '');
+  //     setService(service || '');
+  //     if (city) {
+  //       setSelectedCity(city);
+  //     }
+  //     if (area) {
+  //       setSelectedArea(area);
+  //     }
+
+  //     if (startTime) {
+  //       setStartTime(startTime);
+  //     }
+
+  //     if (endTime) {
+  //       setEndTime(endTime);
+  //     }
+
+  //     if (selectedDate) {
+  //       setDatePickerValue(selectedDate); // 設置日期狀態
+  //     }
+  //     if (category) {
+  //       resetCheckBox('category', category);
+  //     }
+
+  //     setArea(area || '');
+  //     setCategory(category || '');
+  //     setKeyword(keyword || '');
+  //     // setOrderBy(orderBy);
+  //     const usp = new URLSearchParams(router.query);
+
+  //     fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
+  //       .then((r) => r.json())
+  //       .then((data) => {
+  //         if (Array.isArray(data.rows)) {
+  //           setData(data);
+  //           console.log(data);
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }, [router.query]);
 
   //進入畫面時將checkbox依據queryString設定勾選狀態
   const resetCheckBox = (key, str) => {
@@ -500,6 +551,7 @@ export default function FilterPage() {
 
   //收藏列表相關的函式-------------------------------------------------------
   //取得收藏列表
+
   const getLikeList = async (token = '') => {
     const res = await fetch(
       `${process.env.API_SERVER}/restaurant-api/show-like`,
@@ -512,9 +564,11 @@ export default function FilterPage() {
     );
     const data = await res.json();
     console.log(data);
+
     if (data.likeDatas.length > 0) {
       setLikeDatas(data.likeDatas);
     }
+    console.log(likeDatas);
   };
 
   useEffect(() => {
@@ -553,17 +607,19 @@ export default function FilterPage() {
             { rest_sid: id, time: timeClick },
           ]);
         }
+
         return { ...v, like: !v.like };
       } else return { ...v };
     });
     setData({ ...data, rows: newData });
+
     setTimeout(() => {
       setIsClickingLike(false);
-    }, 3000);
+    }, 1500);
   };
 
   //將資料送到後端
-  const sendLikeList = async (obj, token = '') => {
+  const sendLikeList = async (arr, token = '') => {
     const res = await fetch(
       `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
       {
@@ -572,7 +628,7 @@ export default function FilterPage() {
           Authorization: 'Bearer ' + token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ data: obj }),
+        body: JSON.stringify({ data: arr }),
       }
     );
     const data = await res.json();
@@ -582,7 +638,7 @@ export default function FilterPage() {
     }
   };
 
-  //控制愛心紅色
+  //展開收藏列表
   const toggleLikeList = () => {
     const newShowLikeList = !showLikeList;
     console.log(newShowLikeList);
@@ -742,11 +798,23 @@ export default function FilterPage() {
             </div>
             <div className={Styles.function_group}>
               <IconBtn icon={faMap} text="餐廳地圖" />
-              <IconBtn
-                icon={faHeart}
-                text="收藏列表"
-                clickHandler={toggleLikeList}
-              />
+              {auth.token ? (
+                <IconBtn
+                  icon={faHeart}
+                  text="收藏列表"
+                  clickHandler={toggleLikeList}
+                />
+              ) : (
+                <AlertModal
+                  btnType="iconBtn"
+                  btnText="收藏列表"
+                  icon={faHeart}
+                  content="才可查看收藏列表"
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                />
+              )}
               <IconBtn
                 icon={faFilter}
                 text="進階篩選"

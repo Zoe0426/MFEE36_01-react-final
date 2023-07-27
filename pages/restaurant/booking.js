@@ -2,20 +2,15 @@ import { useState, useEffect } from 'react';
 import Styles from './booking.module.css';
 import BookingModal from '@/components/ui/restaurant/Bookingmodal';
 import IconBtn from '@/components/ui/buttons/IconBtn';
-import {
-  faHeart,
-  faArrowLeft,
-  faArrowRight,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-const chunk = (arr, size) =>
-  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
-    arr.slice(i * size, i * size + size)
-  );
+import Image from 'next/image';
+import arrowRight from '@/assets/arrow-right.svg';
+import faArrowLeft from '@/assets/arrow-left.svg';
+import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 
 function WeekCalendar() {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const uniqueDates = new Set();
   const [currentWeek, setCurrentWeek] = useState(0);
   const [showPreviousWeek, setShowPreviousWeek] = useState(false);
   const [showNextWeek, setShowNextWeek] = useState(true);
@@ -26,19 +21,15 @@ function WeekCalendar() {
   const currentDay = now.getDate();
   const weekDayList = ['日', '一', '二', '三', '四', '五', '六'];
 
-  // const daysDataArray = [];
-  // for (let i = 1; i <= 7; i++) {
-  //   const date = new Date(
-  //     currentYear,
-  //     currentMonth,
-  //     currentDay + currentWeek * 7 + i
-  //   );
-  //   daysDataArray.push({
-  //     date: date.getDate(),
-  //     dayOfWeek: weekDayList[date.getDay()],
-  //     month: date.getMonth() + 1,
-  //   });
-  // }
+  const [selectedDateData, setSelectedDateData] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const clickHandler = (sectionSid) => {
+    setSelectedDate(sectionSid);
+
+    const selectedData = data.find((item) => item.section_sid === sectionSid);
+    setSelectedDateData(selectedData);
+  };
 
   const firstDay = new Date(
     currentYear,
@@ -95,16 +86,24 @@ function WeekCalendar() {
     }
   }, [currentWeek, clickCounts]);
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({ bookingRows: [], memberRows: [] });
+  const [bookingRows, setBookingRows] = useState();
+  const [memberRows, setMemberRows] = useState();
 
   useEffect(() => {
     fetch(`${process.env.API_SERVER}/restaurant-api/booking`)
       .then((r) => r.json())
       .then((data) => {
-        if (data && data.length > 0) {
-          setData(data);
+        const { bookingRows, memberRows } = data;
+
+        if (bookingRows && bookingRows.length > 0) {
+          setBookingRows(bookingRows);
         }
-        console.log(data);
+
+        if (memberRows && memberRows.length > 0) {
+          setMemberRows(...memberRows);
+        }
+        console.log(bookingRows);
       })
       .catch((error) => {
         console.error(error);
@@ -115,25 +114,67 @@ function WeekCalendar() {
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>
-            <div className="breadcrumb">餐廳列表/我們家有農場</div>
+            <div className={Styles.breadcrumb}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    colorBgContainer: 'transparent',
+                    colorPrimaryTextHover: '#FFEFE8',
+                    colorBgTextActive: '#FD8C46',
+                    fontSize: 18,
+                  },
+                }}
+              >
+                <Breadcrumb
+                  items={[
+                    {
+                      title: '餐廳列表',
+                      href: 'http://localhost:3000/restaurant/list',
+                    },
+                    {
+                      title: `曜日義式餐酒館`,
+                      href: 'http://localhost:3000/restaurant/4',
+                    },
+                    {
+                      title: `曜日義式餐酒館預約時間表`,
+                    },
+                  ]}
+                />
+              </ConfigProvider>
+            </div>
             <IconBtn icon={faHeart} text="收藏列表" />
           </div>
         </div>
       </div>
       <div className="container-inner">
-        <h1 className={Styles.timetable}>{data.name}預約時間表</h1>
+        <h1 className={Styles.timetable}>曜日義式餐酒館預約時間表</h1>
+
+        <Image
+          src={faArrowLeft}
+          className={Styles.arrow_left}
+          onClick={goToPreviousWeek}
+          alt="faArrowLeft"
+        />
+
+        <Image
+          src={arrowRight}
+          className={Styles.arrow_right}
+          onClick={goToNextWeek}
+          alt="arrowRight"
+        />
       </div>
       <div className="container-inner">
         <div className={Styles.week_calendar}>
-          {showPreviousWeek && (
-            <FontAwesomeIcon
-              icon={faArrowLeft}
+          {/* {showPreviousWeek && (
+            <Image
+              src={faArrowLeft}
               className={Styles.arrow_left}
               onClick={goToPreviousWeek}
+              alt="faArrowLeft"
             />
-          )}
-
-          <div className={Styles.dates_container}>
+          )} */}
+          {/* <div className={Styles.dates_container}>
             {daysDataArray.map((item, idx) => (
               <div key={idx} className={Styles.date}>
                 <p
@@ -145,146 +186,43 @@ function WeekCalendar() {
                 </p>
               </div>
             ))}
+          </div> */}
+          <div className={Styles.dates_modal}>
+            {bookingRows?.map((v) => {
+              if (!uniqueDates.has(v.date)) {
+                uniqueDates.add(v.date);
+                return (
+                  <div key={v.section_sid}>
+                    <div>{v.date}</div>
+                    {bookingRows
+                      .filter((item) => item.date === v.date)
+                      .map((item) => (
+                        <>
+                          <div key={item.section_sid}>
+                            <BookingModal
+                              time={item.time}
+                              people={item.people_max}
+                              datas={bookingRows[item.section_sid - 1]}
+                            />
+                          </div>
+                        </>
+                      ))}
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
           </div>
 
-          {showNextWeek && (
-            <FontAwesomeIcon
-              icon={faArrowRight}
+          {/* {showNextWeek && (
+            <Image
+              src={arrowRight}
               className={Styles.arrow_right}
               onClick={goToNextWeek}
+              alt="arrowRight"
             />
-          )}
-        </div>
-
-        {/* 時間的部分 */}
-        <div className="container-inner">
-          {/* <BookingModal /> */}
-          <div className={Styles.time_section}>
-            <div className={Styles.column}>
-              <BookingModal time={data[0]?.time} people={data[0]?.people_max} />
-              <BookingModal time={data[1]?.time} people={data[1]?.people_max} />
-              <BookingModal time={data[2]?.time} people={data[2]?.people_max} />
-              <BookingModal time={data[3]?.time} people={data[3]?.people_max} />
-              <BookingModal time={data[4]?.time} people={data[4]?.people_max} />
-            </div>
-            <div className={Styles.column}>
-              <BookingModal time={data[5]?.time} people={data[5]?.people_max} />
-              <BookingModal time={data[6]?.time} people={data[6]?.people_max} />
-              <BookingModal time={data[7]?.time} people={data[7]?.people_max} />
-              <BookingModal time={data[8]?.time} people={data[8]?.people_max} />
-              <BookingModal time={data[9]?.time} people={data[9]?.people_max} />
-            </div>
-            <div className={Styles.column}>
-              <BookingModal
-                time={data[10]?.time}
-                people={data[10]?.people_max}
-              />
-              <BookingModal
-                time={data[11]?.time}
-                people={data[11]?.people_max}
-              />
-              <BookingModal
-                time={data[12]?.time}
-                people={data[12]?.people_max}
-              />
-              <BookingModal
-                time={data[13]?.time}
-                people={data[13]?.people_max}
-              />
-              <BookingModal
-                time={data[14]?.time}
-                people={data[14]?.people_max}
-              />
-            </div>
-            <div className={Styles.column}>
-              <BookingModal
-                time={data[15]?.time}
-                people={data[15]?.people_max}
-              />
-              <BookingModal
-                time={data[16]?.time}
-                people={data[16]?.people_max}
-              />
-              <BookingModal
-                time={data[17]?.time}
-                people={data[17]?.people_max}
-              />
-              <BookingModal
-                time={data[18]?.time}
-                people={data[18]?.people_max}
-              />
-              <BookingModal
-                time={data[19]?.time}
-                people={data[19]?.people_max}
-              />
-            </div>
-            <div className={Styles.column}>
-              <BookingModal
-                time={data[20]?.time}
-                people={data[20]?.people_max}
-              />
-              <BookingModal
-                time={data[21]?.time}
-                people={data[21]?.people_max}
-              />
-              <BookingModal
-                time={data[22]?.time}
-                people={data[22]?.people_max}
-              />
-              <BookingModal
-                time={data[23]?.time}
-                people={data[23]?.people_max}
-              />
-              <BookingModal
-                time={data[24]?.time}
-                people={data[24]?.people_max}
-              />
-            </div>
-            <div className={Styles.column}>
-              <BookingModal
-                time={data[25]?.time}
-                people={data[25]?.people_max}
-              />
-              <BookingModal
-                time={data[26]?.time}
-                people={data[26]?.people_max}
-              />
-              <BookingModal
-                time={data[27]?.time}
-                people={data[27]?.people_max}
-              />
-              <BookingModal
-                time={data[28]?.time}
-                people={data[28]?.people_max}
-              />
-              <BookingModal
-                time={data[29]?.time}
-                people={data[29]?.people_max}
-              />
-            </div>
-            <div className={Styles.column}>
-              <BookingModal
-                time={data[30]?.time}
-                people={data[30]?.people_max}
-              />
-              <BookingModal
-                time={data[31]?.time}
-                people={data[31]?.people_max}
-              />
-              <BookingModal
-                time={data[32]?.time}
-                people={data[32]?.people_max}
-              />
-              <BookingModal
-                time={data[33]?.time}
-                people={data[33]?.people_max}
-              />
-              <BookingModal
-                time={data[34]?.time}
-                people={data[34]?.people_max}
-              />
-            </div>
-          </div>
+          )} */}
         </div>
       </div>
     </div>

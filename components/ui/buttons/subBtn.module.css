@@ -32,7 +32,7 @@
   z-index: 1;
 }
 .text {
-  font-size: 18px;
+  font-size: var(--pfs16);
   z-index: 1;
   pointer-events: none;
 }

@@ -23,14 +23,14 @@ export default function MemberCenterLayout(children) {
           }}
         >
           <Row className={Styles.antRow}>
-            <Col className={Styles.antCol} lg={2} md={1} sm={1} xs={1}></Col>
-            <Col className={Styles.antCol} lg={6} md={8} sm={0} xs={0}>
+            <Col className={Styles.antCol} lg={1} md={1} sm={1} xs={1}></Col>
+            <Col className={Styles.antCol} lg={7} md={0} sm={0} xs={0}>
               <MemberSidebar />
             </Col>
-            <Col className={Styles.antCol} lg={12} md={14} sm={22} xs={22}>
+            <Col className={Styles.antCol} lg={13} md={22} sm={22} xs={22}>
               <main className={Styles.main}>{children}</main>
             </Col>
-            <Col className={Styles.antCol} lg={4} md={1} sm={1} xs={1}></Col>
+            <Col className={Styles.antCol} lg={3} md={1} sm={1} xs={1}></Col>
           </Row>
           <Footer classTitle="smallNone" />
         </ConfigProvider>

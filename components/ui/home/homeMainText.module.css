@@ -1,0 +1,201 @@
+.box{
+    position: relative;
+    width: 100%;
+}
+.baseText{
+    width: 100%;
+    visibility:hidden;
+}
+.t1{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 14%;
+    animation: 1s jump ;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+.t2{
+    position: absolute;
+    top:1.5%;
+    left: 15%;
+    width: 12%;
+    animation: 1s jump ;
+    animation-delay: .1s;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+.t3{
+    position: absolute;
+    top: 1%;
+    left: 28.5%;
+    width: 14%;
+    animation: 1s jump ;
+    animation-delay: .2s;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+.t4{
+    position: absolute;
+    top: 1%;
+    left: 44%;
+    width: 14%;
+    animation: 1s jump ;
+    animation-delay: .3s;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+.t5{
+    position: absolute;
+    top: 0.5%;
+    left: 60%;
+    width: 12%;
+    animation: 1s jump ;
+    animation-delay: .4s;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+.bt1{
+    position: absolute;
+    top: 22%;
+    left: 12%;
+    width: 31%;
+    visibility:hidden;
+    animation: 1s heartBeat;
+    animation-delay: .5s;
+    animation-fill-mode: forwards;
+}
+.bt2{
+    position: absolute;
+    top: 22%;
+    left: 45%;
+    width: 32%;
+    visibility:hidden;
+    animation: 1s heartBeat ;
+    animation-delay: .6s;
+    animation-fill-mode: forwards;
+}
+.L3t1{
+    position: absolute;
+    top: 60%;
+    left: 42%;
+    width: 13%;
+    visibility:hidden;
+    animation: 1s jump ;
+    animation-delay: .7s;
+    animation-fill-mode: forwards;
+}
+.L3t2{
+    position: absolute;
+    top: 62%;
+    left: 57%;
+    width: 15%;
+    animation: 1s jump ;
+    animation-delay: .8s;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+.L3t3{
+    position: absolute;
+    top: 60%;
+    left: 73%;
+    width: 13%;
+    animation: 1s jump ;
+    animation-delay: .9s;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+.L3t4{
+    position: absolute;
+    top: 60%;
+    right: 0%;
+    width: 9%;
+    animation: 1s jump ;
+    animation-delay: 1s;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+.tree{
+    position: absolute;
+    bottom: 0%;
+    right:6%;
+    width: 11%;
+}
+.dog{
+    position:absolute;
+    transform: scaleX(-1) rotate(20deg);
+    width: 30%;
+    top:32%;
+    right: -5%;
+    animation: 0.4s dogjump ;
+    animation-delay: 1.1s;
+    visibility:hidden;
+    animation-fill-mode: forwards;
+}
+
+@keyframes jump {
+  0%, 100% {
+    transform:  translateY(0);
+    visibility: visible;
+  }
+  5% {
+    transform: translateY(-.4em);
+  }
+
+  15% {
+    transform:  translateY(-.5em);
+  }
+  
+  25% {
+    transform: translateY(-.4em);
+  }
+  
+  30% {
+    transform:  translateY(0);
+  }
+}
+
+@keyframes heartBeat {
+  0%,100%{
+    transform:  scale(1);
+    visibility: visible;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes dogjump {
+  
+  0% {
+    right: 25%;
+    top:25%;
+    visibility: visible;
+  }
+  
+  40% {
+    right: 12%;
+    top:45%;
+    width: 20%;
+  }
+  
+  90%, 100% {
+    right: -5%;
+    top:32%;
+    visibility: visible;
+  }
+  
+}
+
+@media screen and (max-width:575px){
+  .tree{
+    display:none;
+}
+.dog{
+    position:absolute;
+    transform: scaleX(-1) rotate(20deg);
+    width: 22%;
+    top:0%;
+    right: -5%;
+}
+}

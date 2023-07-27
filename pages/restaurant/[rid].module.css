@@ -171,15 +171,16 @@
   display: flex;
   justify-content: space-between;
   margin-top: auto; /* 將按鈕推到最下面 */
+
 }
 
 .detail_main_buttom > button{
   flex: 1;
-  margin-right: 16px;
+  margin-left: 16px; 
 }
 
-.detail_main_buttom > button:last-child {
-  margin-right: 0px;
+.detail_main_buttom > button:first-child {
+  margin-left: 0px;
 }
 /* 輪播菜單*/
 
