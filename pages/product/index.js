@@ -26,22 +26,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 export default function ProdoctIndex() {
   const router = useRouter();
 
-  // const [cardPosition, setCardPosition] = useState(0);
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCardPosition((prevPosition) => prevPosition - window.innerWidth);
-  //   }, 10000);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
-  // useEffect(() => {
-  //   if (cardPosition <= -((5 - 1) * window.innerWidth)) {
-  //     setCardPosition(0);
-  //   }
-  // }, [cardPosition]);
-
   //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
   const [dataForDog, setDataForDog] = useState([]);
   const [dataForCat, setDataForCat] = useState([]);
@@ -82,7 +66,7 @@ export default function ProdoctIndex() {
   const [catDogCurrent, setCatDogCurrent] = useState(0);
   const catDogStyle = {
     position: 'relative',
-    left: `calc(-96.5% * ${catDogCurrent})`,
+    left: `calc(-97% * ${catDogCurrent})`,
     transition: '0.3s',
   };
 
@@ -371,7 +355,7 @@ export default function ProdoctIndex() {
               }}
             />
           </div>
-          <div className={styles.try}>
+          <div className={styles.pet_type_cards_display}>
             <div className={styles.pet_type_cards} style={catDogStyle}>
               <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
                 {twotCatergoriesData.map((v) => {

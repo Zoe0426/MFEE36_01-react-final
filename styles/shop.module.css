@@ -164,15 +164,21 @@
   width: 100%;
   padding-left:5%;
   position: relative;
+  /* border:1px solid pink */
 }
 
-.try{
+.pet_type_cards_display{
   position: relative;
   overflow: hidden;
+  /* border:1px solid pink; */
+  
 }
 
 .pet_type_cards {
   width: 7000px;
+  /* border:1px solid green;
+  transform: translateX(-100px); */
+  
 }
 
 .pet_type_btns {
@@ -587,13 +593,6 @@
     font-size: var(--h5fs20);
     margin: 36px 0 36px 36px;
     text-align: left;
-  }
-
-  .pet_type_cards,
-  .new_cards,
-  .recomand_cards {
-    width: 390px;
-    overflow-y: hidden;
   }
 
   .pet_type_cards::-webkit-scrollbar,
