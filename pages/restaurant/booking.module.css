@@ -24,7 +24,6 @@
   margin-bottom: 40px;
 }
 .week_calendar {
-  position: relative;
   align-items: center;
   gap: 20px;
   justify-content: space-between;
@@ -42,7 +41,7 @@
   left: -6%;
 }
 .arrow_right {
-  top: 20%;
+  top: 0;
   right: -6%;
 }
 .arrow_right:hover,

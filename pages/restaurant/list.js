@@ -137,6 +137,7 @@ export default function FilterPage() {
 
   // 這邊有點問題;
   const getData = async (obj = {}, token = '') => {
+    console.log('getData:', obj);
     const usp = new URLSearchParams(obj);
     const res = await fetch(
       `${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`,
@@ -147,11 +148,14 @@ export default function FilterPage() {
         },
       }
     );
-    const data = await res.json();
+    const data1 = await res.json();
 
-    if (Array.isArray(data.rows)) {
-      setData(data);
-    }
+    //if (Array.isArray(data.rows)) {
+    setData((old) => {
+      console.log(data1);
+      return data1;
+    });
+    //}
   };
 
   useEffect(() => {
@@ -202,11 +206,13 @@ export default function FilterPage() {
 
     if (auth.token) {
       getData(router.query, auth.token);
-      console.log(auth.token);
     } else {
       getData(router.query);
     }
-  }, [router.query]);
+    return ()=>{
+      
+    }
+  }, [router.query, auth.token]);
 
   // useEffect(() => {
   //   //取得用戶拜訪的類別選項

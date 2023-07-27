@@ -14,6 +14,22 @@
   border: 1px solid var(--light-gray);
   cursor: pointer;
 }
+.no_people_card{
+  background-color:transparent;
+  padding: 24px 40px;
+  border-radius: 8px;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--pfs14);
+  border: 1px solid var(--light-gray);
+  cursor: pointer;
+}
+.no_rest_num{
+  color: red;
+}
 .time_section {
   width: 100%;
   display: flex;
@@ -54,7 +70,7 @@
 .modal_card {
   z-index: 9999;
   font-size: var(--pfs16);
-  position: absolute;
+  position: fixed;
   width: 60%;
   top: 40%;
   left: 50%;
@@ -65,6 +81,11 @@
   border-radius: 10px;
   max-width: 600px;
   min-width: 300px;
+}
+
+.input_height{
+  height: 50px;
+  padding: 0;
 }
 
 .modal_title {
@@ -113,70 +134,22 @@
 }
 
 /* 購買數量 */
+.detail_title{
+  font-size: 16px;
+  padding-bottom: 4px;
+}
 .detail_qty_area {
   display: flex;
   gap: 40px;
 }
 .detail_people_box,
 .detail_pet_box {
+  display: flex;
+  flex-direction: column;
   margin-top: 30px;
-  width: 48%;
   text-align: left;
 }
 
-.detail_qty {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  border-radius: var(--br10);
-  font-size: var(--h5fs20);
-  color: var(--dark-gray);
-  background-color: transparent;
-  border: 1px solid var(--gray);
-  overflow: hidden;
-  height: 46px;
-  line-height: 100%;
-  text-align: center;
-}
-
-.detail_qty_sub_btn,
-.detail_qty_add_btn {
-  border: none;
-  padding: 0 20px;
-  font-size: var(--h5fs20);
-  background-color: transparent;
-  transition: 0.3s;
-}
-
-.detail_qty_sub_btn {
-  border-right: 1px solid var(--dark-gray);
-}
-
-.detail_qty_add_btn {
-  border-left: 1px solid var(--dark-gray);
-}
-
-.detail_qty_add_btn:hover,
-.detail_qty_sub_btn:hover {
-  background-color: var(--light-gray);
-  cursor: pointer;
-}
-.detail_title {
-  font-size: var(--pfs16);
-  padding-bottom: 4px;
-}
-
-.detail_qty_input {
-  width: 30px;
-  text-align: center;
-  border: none;
-  outline: none;
-  padding: var(--p16) 0;
-  border: 0;
-  font-size: var(--pfs16);
-  color: var(--dark-gray);
-  background-color: transparent;
-}
 
 .note {
   margin-top: 30px;
@@ -189,7 +162,7 @@
 }
 
 .note_input {
-  height: 46px;
+  height: 40px;
   border-radius: var(--br10);
   padding: 0 12px;
   border: 0;
