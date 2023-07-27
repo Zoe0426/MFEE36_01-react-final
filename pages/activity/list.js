@@ -27,6 +27,7 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ActivityFilter from '@/components/ui/cards/ActivityFilter';
+import ActivityFilterPrice from '@/components/ui/cards/ActivityFilterPrice';
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 
@@ -109,11 +110,21 @@ export default function ActivityMain() {
 
   useEffect(() => {
     console.log('router.query:', router.query);
-    const { activity_type_sid, keyword, orderBy, minPrice, maxPrice, startDate, endDate, city, area } = router.query;
-  
+    const {
+      activity_type_sid,
+      keyword,
+      orderBy,
+      minPrice,
+      maxPrice,
+      startDate,
+      endDate,
+      city,
+      area,
+    } = router.query;
+
     if (Object.keys(router.query).length !== 0) {
       console.log(router.query);
-  
+
       if (minPrice) {
         setMinPrice(minPrice);
       }
@@ -121,7 +132,7 @@ export default function ActivityMain() {
       if (maxPrice) {
         setMaxPrice(maxPrice);
       }
-  
+
       if (activity_type_sid) {
         setActivity_type_sid(activity_type_sid);
       }
@@ -131,28 +142,28 @@ export default function ActivityMain() {
       if (area) {
         setSelectedArea(area);
       }
-  
+
       if (startDate) {
         setSelectedStartDate(startDate);
       }
-  
+
       if (endDate) {
         setSelectedEndDate(endDate);
       }
-  
+
       //到頁面時 將type勾選回來
       if (activity_type_sid) {
         resetCheckBox('activity_type_sid', activity_type_sid);
       }
-  
+
       setArea(area || '');
       setActivity_type_sid(activity_type_sid || 0);
       setKeyword(keyword || '');
       setMinPrice(minPrice || '');
       setMaxPrice(maxPrice || '');
-  
+
       const usp = new URLSearchParams(router.query);
-  
+
       fetch(`${process.env.API_SERVER}/activity-api/activity?${usp.toString()}`)
         .then((r) => r.json())
         .then((data) => {
@@ -165,7 +176,6 @@ export default function ActivityMain() {
         });
     }
   }, [router.query]);
-  
 
   // const handleActivityTypeSelection = (activityTypeSid) => {
   //   setActivity_type_sid(activityTypeSid);
@@ -250,30 +260,30 @@ export default function ActivityMain() {
   //篩選
   const filterHandler = () => {
     let query = {};
-  
+
     // Retrieve the selected activity_type_sid from the filters state
-    const selectedActivityTypeSid = filters.activity_type_sid.filter(
-      (item) => item.checked
-    ).map((item) => item.value);
-    
+    const selectedActivityTypeSid = filters.activity_type_sid
+      .filter((item) => item.checked)
+      .map((item) => item.value);
+
     if (selectedActivityTypeSid.length > 0) {
       query.activity_type_sid = selectedActivityTypeSid.join(',');
     }
-  
+
     if (selectedCity) {
       query.city = selectedCity;
     }
-  
+
     if (selectedArea) {
       query.area = selectedArea;
     }
-  
+
     if (minPrice) {
       query.minPrice = minPrice;
     }
-    
+
     console.log(minPrice);
-  
+
     // Assuming 'router' is available in the component (which is imported from 'next/router')
     router.push(
       `?${new URLSearchParams({
@@ -282,7 +292,7 @@ export default function ActivityMain() {
       }).toString()}`
     );
   };
-  
+
   //重置篩選條件
   const clearAllFilter = () => {
     setFilters(filterDatas);
@@ -311,19 +321,19 @@ export default function ActivityMain() {
     const arrLength = arr.length;
     let countTrue = 0;
     let newFilters = [];
-  
+
     newFilters = arr.map((v) => {
       if (v.label === id) {
         return { ...v, checked: !v.checked };
       } else return { ...v };
     });
-  
+
     for (let a of newFilters) {
       if (a.checked) {
         countTrue++;
       }
     }
-  
+
     if (countTrue === arrLength) {
       // All filters are selected, so set the last filter's value as minPrice
       setMinPrice(newFilters[arrLength - 1].value);
@@ -331,15 +341,12 @@ export default function ActivityMain() {
       // Some filters are selected, so reset minPrice
       setMinPrice('');
     }
-  
+
     setFilters((prevFilters) => ({
       ...prevFilters,
       [name]: newFilters,
     }));
   };
-  
-
-
 
   //收藏列表相關的函式------------------------------------------------------------
 
@@ -571,11 +578,13 @@ export default function ActivityMain() {
                   changeHandler={checkboxToggleHandler}
                 />
 
-                <ActivityFilter
+                <ActivityFilterPrice
                   text="活動價格:"
                   name="minPrice"
-                  data={filters.minPrice}
+                  data={filters.minPrice} 
                   changeHandler={checkboxToggleHandler}
+                  minPrice={minPrice} 
+                  setMinPrice={setMinPrice} 
                 />
 
                 <div>
