@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from 'react'
+import React,{ useState, useEffect, useContext } from 'react'
 import Style from './post.module.css'
 import BlogBanner from '@/components/ui/blogBanner/blogBanner'
 import { Col, Row } from 'antd';
@@ -11,8 +11,9 @@ import {faLayerGroup, faFileLines, faImage, faHashtag} from '@fortawesome/free-s
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import PostHashtag from '@/components/ui/postHashtag/postHashtag';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
+import AuthContext from '@/context/AuthContext';
 // Ant design 輸入文字
-import { Input, Form } from 'antd';
+import { Input, Form, Select, Space } from 'antd';
 const { TextArea } = Input;
 
 // Ant design 上傳圖片
@@ -28,6 +29,8 @@ const getBase64 = (file) =>
 
 export default function Post({postSid='', memberId=''}
 ) {
+
+  const {auth, setAuth} = useContext(AuthContext);
   //紀錄body要放的東西：
   // 看板 (已做)
   const [boardSid, setBoardSid] = useState(1);
@@ -51,27 +54,66 @@ export default function Post({postSid='', memberId=''}
 
   // const currentDateTime = new Date().toLocaleString(); // 取得現在的日期和時間
 
+  //form 表單驗證
+  const [form] = Form.useForm();
+  const onFinish = (values) => {
+    console.log('選中的值:', values);
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+
+
+  const id =auth.id;
+
+  console.log("auth.id",id)
+
+  // 給會員一個初始值
+  const initialValues = {
+    memberSid: id}
+
   //發布文章
-  const sendPost = ()=> {
+  // const sendPost = ()=> {
+  //   console.log('clicked');
+  //   const r = fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
+  //     method:'POST',
+  //     body:JSON.stringify(
+  //       {
+  //       member_sid:memberId,
+  //       board_sid:boardSid,
+  //       post_title:title,
+  //       post_content:content,
+  //       // hashtag_name:choseHashtag,
+  //     }),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   })
+  //   .then((r) => r.json())
+  //   .then((data)=>{
+  //     console.log('data', data);
+  //   })
+  // }
+  const handleSubmit = (values) => {
     console.log('clicked');
-    const r = fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
+    fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
       method:'POST',
-      body:JSON.stringify(
-        {
-        member_sid:memberId,
-        board_sid:boardSid,
-        post_title:title,
-        post_content:content,
-        // hashtag_name:choseHashtag,
-      }),
+      body:JSON.stringify(values),
+      //   {
+      //   member_sid:memberId,
+      //   board_sid:boardSid,
+      //   post_title:title,
+      //   post_content:content,
+      //   // hashtag_name:choseHashtag,
+      // }),
       headers: {
         'Content-Type': 'application/json',
       },
     })
     .then((r) => r.json())
-      .then((data)=>{
-        console.log('data', data);
-      })
+    .then((data)=>{
+      console.log('data', data);
+    })
   }
 
   
@@ -251,6 +293,18 @@ export default function Post({postSid='', memberId=''}
     setBoardSid(6);
   }
 
+  // 選擇話題
+  const options = [];
+  for (let i = 10; i < 36; i++) {
+    options.push({
+      label: i.toString(36) + i,
+      value: i.toString(36) + i,
+    });
+  }
+  const handleChangeTag = (value) => {
+    console.log(`selected ${value}`);
+  };
+
   
   return (
     
@@ -263,77 +317,125 @@ export default function Post({postSid='', memberId=''}
         </Col>
         <Col span={16}>
             <div className={Style.blogContent}>
-                <PostNavPure postNav='發佈文章'/>
-                <div className={Style.postContent}>
-                  {/*<p>{currentDateTime}</p>*/}
-                  <div><FontAwesomeIcon icon={faLayerGroup} />選擇發文看板</div>
-                  <div><BlogBoardNav
-                  doctor={()=>{
-                    doctor();
-                  }}
-                  home={()=>{
-                    home();
-                  }}
-                  site={()=>{
-                    site();
-                  }}
-                  restaurant={()=>{
-                    restaurant();
-                  }}
-                  salon={()=>{
-                    salon();
-                  }}
-                  school={()=>{
-                    school();
-                  }}
-                  hang={()=>{
-                    hang();
-                  }}
-                  young={()=>{
-                    young();
-                  }}
-                  old={()=>{
-                    old();
-                  }}
-                  product={()=>{
-                    product();
-                  }}
-                  diary={()=>{
-                    diary()
-                  }}/><div/>
-                  <div><FontAwesomeIcon icon={faFileLines} />發佈文章內容</div>
-                  <Input placeholder="文章標題" onChange={handleTitleChange} value={title}/>
-                  <br/>
-                  <TextArea rows={20} placeholder="撰寫新文章內容" maxLength={50} onChange={handleContentChange} value={content}/>  
-                  <div><FontAwesomeIcon icon={faImage} />新增相片</div>
-                  <Upload
-                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    listType="picture-card"
-                    fileList={fileList}
-                    onPreview={handlePreview}
-                    onChange={handleChange}
-                  >
-                    {fileList.length >= 8 ? null : uploadButton}
-                  </Upload>
-                  <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-                    <img
-                      alt="example"
-                      style={{
-                        width: '100%',
-                      }}
-                      src={previewImage}
-                    />
-                  </Modal>
-                  <div><FontAwesomeIcon icon={faHashtag} />新增話題</div>
-                  <div className={Style.hashtagField}>
-                  {data.map((v,i)=>(
-                    <PostHashtag key={i} text={v.hashtag_name}/>
-                  ))}
-                  </div>
-                  <MainBtn className={Style.subBtn} text='發佈文章' clickHandler={sendPost}/> 
-                  <SecondaryBtn text = '取消'/>    
-                </div>
+            <Form
+            form={form}
+            onFinish={handleSubmit}
+            onFinishFailed={onFinishFailed}
+            >
+            <PostNavPure postNav='發佈文章'/>
+            <div className={Style.postContent}>
+              {/*<p>{currentDateTime}</p>*/}
+              <div><FontAwesomeIcon icon={faLayerGroup} />選擇發文看板</div>
+              <div><BlogBoardNav
+              doctor={()=>{
+                doctor();
+              }}
+              home={()=>{
+                home();
+              }}
+              site={()=>{
+                site();
+              }}
+              restaurant={()=>{
+                restaurant();
+              }}
+              salon={()=>{
+                salon();
+              }}
+              school={()=>{
+                school();
+              }}
+              hang={()=>{
+                hang();
+              }}
+              young={()=>{
+                young();
+              }}
+              old={()=>{
+                old();
+              }}
+              product={()=>{
+                product();
+              }}
+              diary={()=>{
+                diary()
+              }}/><div/>
+              <Form.Item
+              name={'memberSid'}
+              style={{ padding: '0px', display: 'none' }}
+            >
+              <Input />
+            </Form.Item>
+              <div><FontAwesomeIcon icon={faFileLines} />發佈文章內容</div>
+              <Form.Item>
+                <Input placeholder="文章標題" onChange={handleTitleChange} value={title}/>
+              </Form.Item>
+              <Form.Item>
+                <TextArea rows={20} placeholder="撰寫新文章內容" maxLength={50} onChange={handleContentChange} value={content}/>  
+              </Form.Item>
+              <div><FontAwesomeIcon icon={faImage} />新增相片</div>
+              <Form.Item>
+                <Upload
+                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                >
+                  {fileList.length >= 8 ? null : uploadButton}
+                </Upload>
+                <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+                  <img
+                    alt="example"
+                    style={{
+                      width: '100%',
+                    }}
+                    src={previewImage}
+                  />
+                </Modal>
+              </Form.Item>
+              <div><FontAwesomeIcon icon={faHashtag} />新增話題</div>
+              <div className={Style.hashtagField}>
+              {data.map((v,i)=>(
+                <PostHashtag key={i} text={v.hashtag_name}/>
+              ))}
+              </div>
+              <Space
+    style={{
+      width: '100%',
+    }}
+    direction="vertical"
+  >
+    <Select
+      mode="multiple"
+      allowClear
+      style={{
+        width: '100%',
+      }}
+      placeholder="Please select"
+      defaultValue={['a10', 'c12']}
+      onChange={handleChange}
+      options={options}
+    />
+    <Select
+      mode="multiple"
+      disabled
+      style={{
+        width: '100%',
+      }}
+      placeholder="Please select"
+      defaultValue={['a10', 'c12']}
+      onChange={handleChange}
+      options={options}
+    />
+  </Space>
+              <MainBtn className={Style.subBtn} text='發佈文章' htmltype="submit"
+              //clickHandler={sendPost}
+              /> 
+              <SecondaryBtn text = '取消'/>    
             </div>
+            </div>
+            </Form>
             </div>
 
         </Col>
