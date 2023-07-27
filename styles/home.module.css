@@ -4,11 +4,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border: 1px solid pink; */
+    padding-bottom: 30px;
 }
 .gwmphoto{
     width: 95%;
-    padding: 0
+    padding: 0;
+    animation: showup .3s ease-in, scale 8s;
+
 }
 .gwmtitle{
     position: absolute;
@@ -20,12 +22,12 @@
     position: absolute;
     width: 18%;
     top: 14%;
-    left: 14%;
-    transform: rotateY(20deg) rotate(-15deg);
+    left: 16%;
+    animation: heartBeat 1.5 ease-in 1.5;
 }
 
 .mainBtnSection{
-    padding-top: 60px;
+    padding-top: 30px;
     position:relative;
 }
 
@@ -83,13 +85,11 @@
 }
 
 .hSection{
-/* border: 1px solid green; */
     position: relative;
     align-items: center;
     padding: 50px 0;
 } 
 .hSection{
-/* border: 1px solid green; */
     align-items: center;
     padding: 50px 0;
 } 
@@ -97,14 +97,12 @@
     position: relative;
 }
 .hlCards{
-    /* border: 1px solid red; */
     padding-right: 4%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 .hrCards{
-    /* border: 1px solid red; */
     padding-left: 6%;
     display: flex;
     flex-wrap: wrap;
@@ -211,4 +209,38 @@
     top:13px;
     right: -10px;
 }
+}
+
+@keyframes heartBeat {
+  0%,100%{
+    transform:  scale(1);
+    visibility: visible;
+  }
+  25%{
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(.5);
+  }
+  75%{
+    transform: scale(1.1);
+  }
+}
+
+@keyframes showup {
+  0%{
+    opacity: 0;
+  }
+   100%{
+    opacity:1;
+  }
+ 
+}
+@keyframes scale {
+  0%{
+    transform: scale(0.95);
+  }
+   100%{
+    transform: scale(1);
+  }
 }

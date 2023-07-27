@@ -130,6 +130,13 @@
     top:46%;
     left:91.5%;
 }
+.dog{
+    position: absolute;
+    width: 10%;
+    top:7%;
+    left:70%;
+    transform: scaleX(-1)rotate(-10deg);
+}
 @keyframes float {
 	0% {
 		transform: translatey(0%);
@@ -141,3 +148,4 @@
 		transform: translatey(0%);
 	}
 }
+

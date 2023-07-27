@@ -2,13 +2,13 @@ import React from 'react';
 import style from './homeEventPhoto.module.css';
 export default function HomeEventPhoto() {
   return (
-    <div class={style.photobox}>
+    <div className={style.photobox}>
       <img
         src="/home-images/h-shapeClip.svg"
         alt="background"
-        class={style.bg}
+        className={style.bg}
       />
-      <div class={style.svgclipPhoto}>
+      <div className={style.svgclipPhoto}>
         <svg viewBox="0 0 863 673">
           <image
             width="1100"
@@ -25,8 +25,16 @@ export default function HomeEventPhoto() {
           </defs>
         </svg>
       </div>
-      <img src="/home-images/h-tree.png" alt="background" class={style.tree1} />
-      <img src="/home-images/h-tree.png" alt="background" class={style.tree2} />
+      <img
+        src="/home-images/h-tree.png"
+        alt="background"
+        className={style.tree1}
+      />
+      <img
+        src="/home-images/h-tree.png"
+        alt="background"
+        className={style.tree2}
+      />
     </div>
   );
 }

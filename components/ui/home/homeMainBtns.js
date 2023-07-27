@@ -96,6 +96,11 @@ export default function HomeMainBtns() {
         alt="demo"
         className={style.dbtree2}
       />
+      <img
+        src="/home-images/running-dog.svg"
+        alt="demo"
+        className={style.dog}
+      />
     </div>
   );
 }
