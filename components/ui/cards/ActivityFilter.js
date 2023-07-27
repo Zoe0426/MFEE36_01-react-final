@@ -38,7 +38,7 @@ export default function ActivityFilter({
                     value={v.value}
                     checked={v.checked}
                     onChange={() => {
-                    //   changeHandler(data, name, v.label);
+                      changeHandler(data, name, v.label);
                     }}
                   >
                     {v.label}
