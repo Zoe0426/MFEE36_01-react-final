@@ -78,6 +78,17 @@ export default function Home() {
       <header>
         <main className="container-outer">
           <div className={style.headSection}>
+            <div className={style.nextbg}></div>
+            <img
+              src="/home-images/mainBtnArea/h-road.svg"
+              alt=""
+              className={style.road}
+            />
+            <img
+              src="/home-images/h-walkingCat.png"
+              alt="cat"
+              className={style.cat}
+            />
             <img
               src="/home-images/h-header-photo.png"
               className={style.gwmphoto}

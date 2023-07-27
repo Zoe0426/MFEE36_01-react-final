@@ -1,7 +1,7 @@
 .box{
     position: relative;
     width: 100%;
-
+    border: 1px solid pink;
 }
 .baseText{
     width: 100%;
@@ -186,4 +186,17 @@
     visibility: visible;
   }
   
+}
+
+@media screen and (max-width:575px){
+  .tree{
+    display:none;
+}
+.dog{
+    position:absolute;
+    transform: scaleX(-1) rotate(20deg);
+    width: 22%;
+    top:0%;
+    right: -5%;
+}
 }
