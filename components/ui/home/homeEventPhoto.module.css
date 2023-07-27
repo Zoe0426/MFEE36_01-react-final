@@ -1,0 +1,39 @@
+.photobox{
+    position: relative;
+    z-index:3;
+    width: 100%;
+    padding-left: 20px;
+}
+.svgclipPhoto{
+    width: 97%;
+}
+.bg{
+    position:absolute;
+    left:-3px;
+    top:3px;
+    width: 100%;
+    z-index: -1;
+    padding-left: 20px;
+}
+.tree1{
+    position:absolute;
+    left:10px;
+    bottom:10px;
+    width: 7%;
+    transform: rotate(-2deg);
+}
+.tree2{
+    position:absolute;
+    right:10px;
+    bottom:-8%;
+    width: 8%;
+    transform: rotate(-2deg);
+}
+@media screen and (max-width:767px){
+.photobox{
+    padding-left: 0px;
+}
+.bg{
+     padding-left: 0px;
+}
+} 

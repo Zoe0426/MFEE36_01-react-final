@@ -1,95 +1,111 @@
 
-.d-center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-}
 .headSection{
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* border: 1px solid pink; */
+    padding-bottom: 30px;
 }
 .gwmphoto{
     width: 95%;
-    padding: 0
+    padding: 0;
+    animation: showup .3s ease-in, scale 8s;
 }
 .gwmtitle{
     position: absolute;
     top: 25%;
-    right: 4%;
+    right: 3%;
     width: 32%;
 }
-.cat{
+.shoutgwm{
     position: absolute;
-    top: -28%;
-    left: 1%;
-    width: 15%;
-    /* border: 1px solid green; */
+    width: 18%;
+    top: 14%;
+    left: 16%;
+    animation: heartBeat 1.5s ease-in 1.6s;
+}
+.road,.cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
+    display:none;
 }
 
 .mainBtnSection{
-    padding-top: 60px;
+    padding-top: 30px;
     position:relative;
-    justify-content: center;
 }
 
-.btnbg{
-    width: 100%;
-    /* border: 1px solid black; */
-}
-.mainBtns{
-    width: 83%;
-    /* border: 1px solid purple; */
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-}
-.productbg{
-    background-color: var(--light4);
-}
-.activitybg{
-    background-color: white;
-}
-.restaurantbg{
-    background-color: var(--light5);
-}
-.forumbg{}
-.cutbottomLine1{
-    background-color: white;
-}
-.cutbottomLine2{
-    background-color: var(--light5);
-}
-.cutbottomLine3{
-    background-color: var(--light2);
-}
 .wave{
     width: 100%;
 }
-.hSection{
-/* border: 1px solid green; */
-    align-items: center;
-    padding: 50px 0;
-} 
-.hSection{
-/* border: 1px solid green; */
-    align-items: center;
-    padding: 50px 0;
-} 
+/* PRODUCT */
+.cutbottomLine1{
+    background-color: white;
+}
+.productbg{
+    background-color: var(--light4);
+    padding: 30px 0;
+}
+.shopBtnArea{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.catJump{
+    width: 50%;
+}
+/* ACTIVITY */
+.cutbottomLine2{
+    background-color: var(--light5);
+}
+.activitybg{
+    background-color: white;
+    padding: 60px 0;
+}
+.lflag{
+    position: absolute;
+    width: 18%;
+    top: -80px;
+    left: -10%;
+}
+.rflag{
+    position: absolute;
+    width: 13%;
+    top:-10px;
+    right: -60px;
+}
 
+/* RESTAURANT */
+.cutbottomLine3{
+    background-color: var(--light2);
+}
+.restaurantbg{
+    background-color: var(--light5);
+    padding: 80px 0 20px 0;
+}
+/* FORUM */
+.forumbg{
+    padding: 30px 0 70px 0;
+}
+
+.hSection{
+    position: relative;
+    align-items: center;
+    padding: 50px 0;
+} 
+.hSection{
+    align-items: center;
+    padding: 50px 0;
+} 
+.Info{
+    position: relative;
+}
 .hlCards{
-    /* border: 1px solid red; */
     padding-right: 4%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 .hrCards{
-    /* border: 1px solid red; */
-    padding-left: 4%;
+    padding-left: 6%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -97,7 +113,7 @@
 
 
 
-/* SHOPINFO */
+/* INFO */
 
 .hstitle{
     font-size: var(--h1fs36);
@@ -105,7 +121,7 @@
     font-weight: bold;
     letter-spacing: 4px;
     padding-top : var(--p16);
-    padding-bottom : var(--p8);
+    padding-bottom : var(--p16);
 }
 .hetitle{
     font-size: var(--h5fs20);
@@ -138,7 +154,9 @@
     margin-bottom: var(--p8);
 }
 
-@media screen and (max-width:767px) and (max-width:576px){
+@media screen and (max-width:767px) and (min-width:576px){
+
+
 .hSection{
     padding: 0;
 }
@@ -159,10 +177,206 @@
     width: 100%;
 }
 
+.activitybg{
+    padding: 40px 0;
+}
+.lflag{
+    position: absolute;
+    width: 18%;
+    top: -60px;
+    left: -10%;
+}
+.rflag{
+    position: absolute;
+    width: 13%;
+    top:-10px;
+    right: -60px;
+}
+
 }
 @media screen and (max-width:575px){
+.headSection{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 300px;
+}
+.gwmtitle{
+    position: relative;
+    margin-left: 10%;
+    width: 60%;
+
+}
+.shoutgwm{
+   display:none;
+}
+.road, .cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
+    display:block;
+    position:absolute;
+}
+.smGwm{
+    top:36%;
+    left: 78%;
+    width: 17%;
+}
+.smShop,.smEvent,.smRes,.smForum{
+    animation: float 5s ease-in-out infinite;
+}
+
+.road{
+    top:47%;
+    left: -40%;
+    width: 190%;
+}
+.pinkroad{
+    top:115%;
+    left: -40%;
+    width: 190%;
+}
+.cat{
+    top: 53%;
+    left:2%;
+    width: 28%;
+}
+.trafficlight1{
+    width: 2%;
+    top: 92%;
+    left: 40%;
+}
+.tree1{
+    width: 5%;
+    top: 74%;
+    left: 83%;
+}
+.tree2{
+    width: 8%;
+    top: 125%;
+    left: 12%;
+}
+.tree3{
+    width: 7%;
+    top: 143%;
+    left: 90%;
+}
+.smShop{
+    top:82%;
+    left: 15%;
+    width: 24%;
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+}
+.smEvent{
+    top:88%;
+    left: 59%;
+    width: 24%;
+    -webkit-animation-delay: 1.3s;
+    animation-delay: 1.3s;
+}
+.smRes{
+    top:115%;
+    left: 21%;
+    width: 24%;
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+.smForum{
+    top:125%;
+    left: 65%;
+    width: 24%;
+    -webkit-animation-delay: 2.6s;
+    animation-delay: 2.6s;
+}
+.r1{
+    width: 11%;
+    top:95%;
+    left:44%;
+    transform: rotate(-10deg);
+}
+.r2{
+    width: 11%;
+    top:112%;
+    left:46%;
+    transform: rotate(-70deg);
+}
+.r3{
+    width: 11%;
+    top:130%;
+    left:50%;
+}
+.nextbg{
+    width: 100%;
+    height: 400px;
+    background-color: var(--light4);
+    top: 80%;
+    left:0;
+}
+.mainBtnSection{
+    display: none;
+}
 .hlCards{ 
     justify-content: center;
 }
+.activitybg{
+    padding: 20px 0;
+}
+.lflag{
+    position: absolute;
+    width: 25%;
+    top: -10px;
+    left: -10%;
+}
+.rflag{
+    position: absolute;
+    width: 18%;
+    top:13px;
+    right: -10px;
+}
+}
 
+@keyframes heartBeat {
+  0%,100%{
+    transform:  scale(1);
+    visibility: visible;
+  }
+  25%{
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(.5);
+  }
+  75%{
+    transform: scale(1.1);
+  }
+}
+
+@keyframes showup {
+  0%{
+    opacity: 0;
+  }
+   100%{
+    opacity:1;
+  }
+ 
+}
+@keyframes scale {
+  0%{
+    transform: scale(0.96);
+  }
+   100%{
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0%);
+	}
+	50% {
+		transform: translatey(-5%);
+	}
+	100% {
+		transform: translatey(0%);
+	}
 }
