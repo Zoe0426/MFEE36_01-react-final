@@ -414,7 +414,7 @@ export default function Post({postSid='', memberId=''}
       }}
       placeholder="Please select"
       defaultValue={['a10', 'c12']}
-      onChange={handleChange}
+      onChange={handleChangeTag}
       options={options}
     />
     <Select
@@ -425,7 +425,7 @@ export default function Post({postSid='', memberId=''}
       }}
       placeholder="Please select"
       defaultValue={['a10', 'c12']}
-      onChange={handleChange}
+      onChange={handleChangeTag}
       options={options}
     />
   </Space>
