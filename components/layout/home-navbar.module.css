@@ -1,0 +1,174 @@
+.header {
+  width: 100%;
+  padding-top: var(--p24);
+  padding-bottom: var(--p16);
+  /* border: 1px solid red; */
+}
+
+.navbar {
+  /* border: 1px solid purple; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.logoMenu {
+  display: flex;
+  min-width: 100px;
+  width: 15%;
+}
+
+.logo{
+  width: 90px;
+}
+
+.linkMenu{
+  display: flex;
+  flex-grow: 1;
+}
+
+.linkMenu a {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  color: var(--dark);
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.linkItem {
+  width: 25%;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  border-left: 1px dashed #5f231b;
+}
+
+.linkItem:last-child {
+  border-right: 1px dashed #5f231b;
+}
+
+.link{
+  width: 100%;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.link:hover{
+  background-color: var(--lightBrown);
+  font-size: 20px;
+}
+
+.iconMenu {
+  display: flex;
+  min-width: 115px;
+  width: 15%;
+  justify-content: flex-end;
+  /* border: 1px solid green; */
+}
+
+.navbarToggler{
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .header{
+    padding-bottom: 0;
+  }
+
+  .navbar {
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+  }
+
+  .logo{
+    width: 60px;
+  }
+
+  .navbarToggler {
+    display: block;
+    padding: 0px;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background-color: transparent;
+    border: none;
+  }
+
+
+  .linkMenu {
+    position: fixed;
+    display: block;
+    top: 10px;
+    left: -100%;
+    margin-top: 65px;
+    width: 100%;
+    background-color: var(--light2);
+    transition: all 1s ease;
+  } 
+  .linkMenu.active {
+    top: 0;
+  }
+
+  .linkItem{
+    border: 0;
+    width: 100%;
+    height: 50px;
+    border-bottom: 1px dashed var(--dark);
+  }
+  .linkItem:last-child{
+    border: 0;
+    border-bottom: 1px dashed var(--dark);
+  }
+
+   .line {
+    position: relative;
+    width: 20px;
+    height: 2px;
+    background-color: #fd8c46;
+    margin: 0 auto;
+  }
+
+  .line::before,
+  .line::after {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 2px;
+    display: block;
+    background-color: #fd8c46;
+  }
+
+  .line::before {
+    top: 5px;
+  }
+
+  .line::after {
+    bottom: 5px;
+  }
+
+
+  .line,
+  .line::before,
+  .line::after {
+    transition: all 0.3s ease;
+  }
+
+  .line.active {
+    transform: rotate(45deg);
+  }
+
+  .line.active::after {
+    top: 0;
+  }
+
+  .line.active::before {
+    transform: rotate(90deg);
+    top: 0;
+  }
+}

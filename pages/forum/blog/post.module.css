@@ -2,7 +2,7 @@
     width:100%;
     /* background-color: #FFFAF6; */
     padding: 0;
-    margin: 0;
+    margin-bottom:100px;
 }
 .blogContent{
     width:85%;
@@ -64,4 +64,14 @@ padding:10px 15px 0 15px;
     width: 100%;
     height:300px;
     background-color: #eea7a7;
+}
+.subBtn{
+    padding-bottom:100px;
+}
+/* 選擇hashtag */
+.choseTag{
+    background-color:rgb(227, 79, 103);
+}
+.noTag{
+    background-color:var(--light1);
 }
