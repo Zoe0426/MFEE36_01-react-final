@@ -28,6 +28,8 @@ import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ActivityFilter from '@/components/ui/cards/ActivityFilter';
 import ActivityFilterPrice from '@/components/ui/cards/ActivityFilterPrice';
+import ActivityFilterDate from '@/components/ui/cards/ActivityFilterDate';
+
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 
@@ -160,8 +162,10 @@ export default function ActivityMain() {
       setArea(area || '');
       setActivity_type_sid(activity_type_sid || 0);
       setKeyword(keyword || '');
-      setMinPrice(minPrice ||'');
+      setMinPrice(minPrice || '');
       setMaxPrice(maxPrice || '');
+      setStartDate(startDate || '');
+      setEndDate(endDate || '');
 
       const usp = new URLSearchParams(router.query);
 
@@ -193,41 +197,6 @@ export default function ActivityMain() {
     });
     setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
   };
-
-  // useEffect(() => {
-  //   const { cid, keyword, page: urlPage } = router.query;
-  //   const activity_type_sid = cid ? encodeURIComponent(cid) : '';
-
-  //   setKeyword(keyword || '');
-  //   setPage(Number(urlPage) || 1); // 將url中的page值轉換為數字，如果為空或無效則設置為1
-  //   setPerPage(perPage || 16);
-
-  //   const fetchData = async () => {
-  //     try {
-  //       const encodedCid = encodeURIComponent(cid || '');
-  //       const encodedKeyword = encodeURIComponent(keyword || '');
-  //       const response = await fetch(
-  //         `${process.env.API_SERVER}/activity-api/activity?activity_type_sid=${encodedCid}&keyword=${encodedKeyword}&page=${page}&perPage=${perPage}`
-  //       );
-  //       if (!response.ok) {
-  //         throw new Error('Request failed');
-  //       }
-  //       const data = await response.json();
-
-  //       setDatas((prevData) => ({
-  //         ...prevData,
-  //         totalRows: data.totalRows,
-  //         totalPages: data.totalPages,
-  //         rows: data.rows,
-  //         page: data.page, // 更新 page 的設定
-  //       }));
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [router.query, perPage, page]); // 這裡包含了page和perPage的依賴
 
   //searchBar相關的函式------------------------------------------------------------
   const searchBarHandler = (e) => {
@@ -262,7 +231,7 @@ export default function ActivityMain() {
   const filterHandler = () => {
     let query = {};
 
-    // Retrieve the selected activity_type_sid from the filters state
+    // 將activity_type_sid設定回來
     const selectedActivityTypeSid = filters.activity_type_sid
       .filter((item) => item.checked)
       .map((item) => item.value);
@@ -286,10 +255,17 @@ export default function ActivityMain() {
       query.maxPrice = maxPrice;
     }
 
+    if (setSelectedStartDate) {
+      query.area = setSelectedStartDate;
+    }
+    if (setSelectedEndDate) {
+      query.area = setSelectedEndDate;
+    }
+   
+
     console.log(minPrice);
     console.log('query:', query);
 
-    
     router.push(
       `?${new URLSearchParams({
         ...query,
@@ -299,85 +275,26 @@ export default function ActivityMain() {
   };
 
   //重置篩選條件
-  const clearAllFilter = () => {
-    setFilters(filterDatas);
-    // setEndDate('');
-    // setStartDate('');
-    // setDatePickerValue(null);
-    setSelectedCity(null);
-    setSelectedArea(null);
-    setMinPrice('');
+  // const clearAllFilter = () => {
+  //   setFilters(filterDatas);
+  //   // setEndDate('');
+  //   // setStartDate('');
+  //   // setDatePickerValue(null);
+  //   setSelectedCity(null);
+  //   setSelectedArea(null);
+  //   setMinPrice('');
 
-    const { keyword } = router.query;
-    const query = { page: 1 };
-    if (keyword) {
-      query.keyword = keyword;
-    }
-    router.push(
-      `?${new URLSearchParams({
-        ...query,
-      }).toString()}`
-    );
-  };
-
-  //管理checkbox勾選的狀態
-
-  const checkboxToggleHandler = (arr, name, id) => {
-    
-    const arrLength = arr.length;
-    let countTrue = 0;
-    let newFilters = [];
-
-    newFilters = arr.map((v) => {
-      if (v.label === id) {
-        return { ...v, checked: !v.checked };
-      } else return { ...v };
-    });
-
-    for (let a of newFilters) {
-      if (a.checked) {
-        countTrue++;
-      }
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: newFilters,
-    }));
-  };
-
-
-  const PriceToggleHandler = (arr, name, id) => {
-   
-    const arrLength = arr.length;
-    let countTrue = 0;
-    let newFilters = [];
-
-    newFilters = arr.map((v) => {
-      if (v.label === id) {
-        return { ...v, checked: !v.checked };
-      } else return { ...v };
-    });
-
-    for (let a of newFilters) {
-      if (a.checked) {
-        countTrue++;
-      }
-    }
-
-    if (countTrue === arrLength) {
-      // All filters are selected, so set the last filter's value as minPrice
-      setMinPrice(newFilters[arrLength - 1].value);
-    } else {
-      // Some filters are selected, so reset minPrice
-      setMinPrice('');
-    }
-
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: newFilters,
-    }));
-  };
+  //   const { keyword } = router.query;
+  //   const query = { page: 1 };
+  //   if (keyword) {
+  //     query.keyword = keyword;
+  //   }
+  //   router.push(
+  //     `?${new URLSearchParams({
+  //       ...query,
+  //     }).toString()}`
+  //   );
+  // };
 
   //收藏列表相關的函式------------------------------------------------------------
 
@@ -606,11 +523,11 @@ export default function ActivityMain() {
                   text="活動類別:"
                   name="activity_type_sid"
                   data={filters.activity_type_sid}
-                  changeHandler={checkboxToggleHandler}
+                  // changeHandler={checkboxToggleHandler}
                 />
 
-                <ActivityFilterPrice/>
-
+                <ActivityFilterPrice />
+                <ActivityFilterDate />
                 <div>
                   <div>
                     <label>活動地點</label>
@@ -656,7 +573,7 @@ export default function ActivityMain() {
                 </div>
 
                 <div className={styles.filter_btns}>
-                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
+                  {/* <SecondaryBtn text="重置" clickHandler={clearAllFilter} /> */}
                   <MainBtn text="確定" clickHandler={filterHandler} />
                 </div>
               </div>
