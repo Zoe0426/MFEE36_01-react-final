@@ -73,27 +73,6 @@ export default function Post({postSid='', memberId=''}
     memberSid: id}
 
   //發布文章
-  // const sendPost = ()=> {
-  //   console.log('clicked');
-  //   const r = fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
-  //     method:'POST',
-  //     body:JSON.stringify(
-  //       {
-  //       member_sid:memberId,
-  //       board_sid:boardSid,
-  //       post_title:title,
-  //       post_content:content,
-  //       // hashtag_name:choseHashtag,
-  //     }),
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   })
-  //   .then((r) => r.json())
-  //   .then((data)=>{
-  //     console.log('data', data);
-  //   })
-  // }
   const handleSubmit = (values) => {
     console.log('clicked');
     fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
@@ -294,13 +273,16 @@ export default function Post({postSid='', memberId=''}
   }
 
   // 選擇話題
+  // const options = {options};
+
+  // for (let i = 10; i < 36; i++) {
+  //   options.push({
+  //     label: i.toString(36) + i,
+  //     value: i.toString(36) + i,
+  //   });
+  // }
+  // options.push(hashtag_name);
   const options = [];
-  for (let i = 10; i < 36; i++) {
-    options.push({
-      label: i.toString(36) + i,
-      value: i.toString(36) + i,
-    });
-  }
   const handleChangeTag = (value) => {
     console.log(`selected ${value}`);
   };
@@ -400,38 +382,78 @@ export default function Post({postSid='', memberId=''}
                 <PostHashtag key={i} text={v.hashtag_name}/>
               ))}
               </div>
-              <Space
-    style={{
-      width: '100%',
-    }}
-    direction="vertical"
-  >
-    <Select
-      mode="multiple"
-      allowClear
-      style={{
-        width: '100%',
-      }}
-      placeholder="Please select"
-      defaultValue={['a10', 'c12']}
-      onChange={handleChangeTag}
-      options={options}
-    />
-  </Space>
-        <MainBtn className={Style.subBtn} text='發佈文章' htmltype="submit"
-        //clickHandler={sendPost}
-        /> 
-        <SecondaryBtn text = '取消'/>    
-      </div>
-      </div>
-      </Form>
-      </div>
+              {/*<Space
+                style={{
+                  width: '100%',
+                }}
+                direction="vertical"
+              >
+              {data.map((v,i)=>(
+                <Select key={i}
+                  mode="multiple"
+                  allowClear
+                  style={{
+                    width: '100%',
+                  }}
+                  placeholder="選擇話題"
+                  // defaultValue={['a10', 'c12']}
+                  onChange={handleChangeTag}
+                  options={v.hashtag_name}
+                />
 
-        </Col>
-      </Row>
+              ))}
+                </Space>*/}
+                {/* 在 return 內部使用 options 變數 */}
+      {options.map((option, i) => (
+        <Select
+          key={i}
+          mode="multiple"
+          allowClear
+          style={{
+            width: '100%',
+          }}
+          placeholder="選擇話題"
+          // defaultValue={['a10', 'c12']}
+          onChange={handleChangeTag}
+          options={option}
+        />
+      ))}
+      {/* 使用 data 來設定選項 */}
+      <Space
+        style={{
+          width: '100%',
+        }}
+        direction="vertical"
+      >
+        {data.map((v, i) => (
+          <Select
+            key={i}
+            mode="multiple"
+            allowClear
+            style={{
+              width: '100%',
+            }}
+            placeholder="選擇話題"
+            // defaultValue={['a10', 'c12']}
+            onChange={handleChangeTag}
+            options={v.hashtag_name}
+          />
+        ))}
+      </Space>
+            <MainBtn className={Style.subBtn} text='發佈文章' htmltype="submit"
+            //clickHandler={sendPost}
+            /> 
+            <SecondaryBtn text = '取消'/>    
+          </div>
+          </div>
+        </Form>
+        </div>
+
+          </Col>
+        </Row>
+        </div>
+        
       </div>
-      
-    </div>
   )
 }
 
