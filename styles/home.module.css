@@ -24,7 +24,7 @@
     left: 16%;
     animation: heartBeat 1.5s ease-in 1.6s;
 }
-.road,.cat,.nextbg{
+.road,.cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
     display:none;
 }
 
@@ -201,7 +201,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-bottom: 150px;
+    margin-bottom: 300px;
 }
 .gwmtitle{
     position: relative;
@@ -212,19 +212,98 @@
 .shoutgwm{
    display:none;
 }
-.road, .cat,.nextbg{
+.road, .cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
     display:block;
     position:absolute;
 }
+.smGwm{
+    top:36%;
+    left: 78%;
+    width: 17%;
+}
+.smShop,.smEvent,.smRes,.smForum{
+    animation: float 5s ease-in-out infinite;
+}
+
 .road{
     top:47%;
     left: -40%;
-    width: 180%;
+    width: 190%;
+}
+.pinkroad{
+    top:115%;
+    left: -40%;
+    width: 190%;
 }
 .cat{
     top: 53%;
     left:2%;
-    width: 27%;
+    width: 28%;
+}
+.trafficlight1{
+    width: 2%;
+    top: 92%;
+    left: 40%;
+}
+.tree1{
+    width: 5%;
+    top: 74%;
+    left: 83%;
+}
+.tree2{
+    width: 8%;
+    top: 125%;
+    left: 12%;
+}
+.tree3{
+    width: 7%;
+    top: 143%;
+    left: 90%;
+}
+.smShop{
+    top:82%;
+    left: 15%;
+    width: 24%;
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+}
+.smEvent{
+    top:88%;
+    left: 59%;
+    width: 24%;
+    -webkit-animation-delay: 1.3s;
+    animation-delay: 1.3s;
+}
+.smRes{
+    top:115%;
+    left: 21%;
+    width: 24%;
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+.smForum{
+    top:125%;
+    left: 65%;
+    width: 24%;
+    -webkit-animation-delay: 2.6s;
+    animation-delay: 2.6s;
+}
+.r1{
+    width: 11%;
+    top:95%;
+    left:44%;
+    transform: rotate(-10deg);
+}
+.r2{
+    width: 11%;
+    top:112%;
+    left:46%;
+    transform: rotate(-70deg);
+}
+.r3{
+    width: 11%;
+    top:130%;
+    left:50%;
 }
 .nextbg{
     width: 100%;
@@ -288,4 +367,16 @@
    100%{
     transform: scale(1);
   }
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0%);
+	}
+	50% {
+		transform: translatey(-5%);
+	}
+	100% {
+		transform: translatey(0%);
+	}
 }

@@ -85,6 +85,11 @@ export default function Home() {
               className={style.road}
             />
             <img
+              src="/home-images/mainBtnArea/h-pinkRoad.svg"
+              alt=""
+              className={style.pinkroad}
+            />
+            <img
               src="/home-images/h-walkingCat.png"
               alt="cat"
               className={style.cat}
@@ -101,6 +106,67 @@ export default function Home() {
               src="/home-images/h-gwm.png"
               className={style.shoutgwm}
               alt="gowithme"
+            />
+            <img
+              src="/home-images/mainBtnArea/h-smGwm.png"
+              className={style.smGwm}
+              alt="smShop"
+            />
+
+            <img
+              src="/home-images/mainBtnArea/h-smShopBtn.svg"
+              className={style.smShop}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/h-smEventBtn.svg"
+              className={style.smEvent}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/h-smResBtn.svg"
+              className={style.smRes}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/h-smforumBtn.svg"
+              className={style.smForum}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/road1.svg"
+              className={style.r1}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/road1.svg"
+              className={style.r2}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/road1.svg"
+              className={style.r3}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/trafficLight.png"
+              className={style.trafficlight1}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/h-dbTree.png"
+              className={style.tree1}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/h-trees1.png"
+              className={style.tree2}
+              alt="smShop"
+            />
+            <img
+              src="/home-images/mainBtnArea/h-tree3.png"
+              className={style.tree3}
+              alt="smShop"
             />
           </div>
         </main>
