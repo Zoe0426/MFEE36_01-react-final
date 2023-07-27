@@ -4,7 +4,7 @@
     padding: 28px;
     border-radius: var(--br20);
     box-shadow: var(--shadow);
-    width: 45%;
+    width: 47%;
 }
 .stickerbox{
     position: absolute;
@@ -53,6 +53,6 @@
 
 @media screen and (max-width:767px) and (max-width:576px){
 .hresCard{
-    width: 100%;
+    width: 90%;
 }
 }

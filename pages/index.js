@@ -294,7 +294,7 @@ export default function Home() {
                 reshash={res1}
               />
             </Col>
-            <Col sxs={24} sm={24} md={9}>
+            <Col className={style.hInfo} sxs={24} sm={24} md={9}>
               <article>
                 <p className={style.hstitle}>寵物餐廳</p>
                 <p className={style.hetitle}>EAT WITH ME</p>
@@ -315,6 +315,7 @@ export default function Home() {
         </Col>
       </Row>
       <div className={style.cutbottomLine3}>
+        <img src="/home-images/dog.svg" alt="" className={style.dog} />
         <img src="/home-images/h-wave3.jpg" alt="" className={style.wave} />
       </div>
       <Row className={style.forumbg}>

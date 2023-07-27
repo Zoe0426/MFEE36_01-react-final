@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 30px;
+    z-index: 2;
 }
 .gwmphoto{
     width: 95%;
@@ -32,7 +33,6 @@
     padding-top: 30px;
     position:relative;
 }
-
 .wave{
     width: 100%;
 }
@@ -43,6 +43,7 @@
 .productbg{
     background-color: var(--light4);
     padding: 30px 0;
+    z-index: 1;
 }
 .shopBtnArea{
     display: flex;
@@ -75,26 +76,32 @@
 
 /* RESTAURANT */
 .cutbottomLine3{
+    position: relative;
     background-color: var(--light2);
 }
 .restaurantbg{
     background-color: var(--light5);
     padding: 80px 0 20px 0;
 }
+.dog{
+    position:absolute;
+    top:-50%;
+    right: 8%;
+    width: 18%;
+    transform: rotate(-5deg);
+}
 /* FORUM */
 .forumbg{
     padding: 30px 0 70px 0;
 }
+
 
 .hSection{
     position: relative;
     align-items: center;
     padding: 50px 0;
 } 
-.hSection{
-    align-items: center;
-    padding: 50px 0;
-} 
+
 .Info{
     position: relative;
 }
@@ -103,6 +110,13 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: flex-start;
+}
+.hlCards>div:nth-child(2){
+    margin-top: 40px;
+}
+.hlCards>div:nth-child(5){
+    margin-top: 40px;
 }
 .hrCards{
     padding-left: 6%;
@@ -149,190 +163,197 @@
     flex-wrap: wrap;
     padding: var(--p32) 0;
 }
-
 .hhashes p{
     margin-bottom: var(--p8);
 }
+@media screen and (max-width:1200px) {
+    .hlCards>div:nth-child(2){
+    margin-top: 20px;
+    }
+    .hlCards>div:nth-child(5){
+        margin-top: 20px;
+    }
+}
+/* @media screen and (max-width:767px) and (min-width:576px){ */
+@media screen and (max-width:767px) {
 
-@media screen and (max-width:767px) and (min-width:576px){
-
-
-.hSection{
-    padding: 0;
-}
-.hInfo{
-    order: -1;
-    padding: 20px 0;
-}
-.hlCards{ 
-    padding-right: 0;
-    padding: 20px 0;
-}
-.hrCards{ 
-    padding-left: 0;
-    padding: 20px 0;
-}
-
-.hresCard{
-    width: 100%;
-}
-
-.activitybg{
-    padding: 40px 0;
-}
-.lflag{
-    position: absolute;
-    width: 18%;
-    top: -60px;
-    left: -10%;
-}
-.rflag{
-    position: absolute;
-    width: 13%;
-    top:-10px;
-    right: -60px;
-}
-
+    .hSection{
+        padding: 0;
+    }
+    .hInfo{
+        order: -1;
+        padding: 20px 0;
+    }
+    .hlCards{ 
+        padding-right: 0;
+        padding: 20px 0;
+    }
+    .hrCards{ 
+        padding-left: 0;
+        padding: 20px 0;
+    }
+    .hresCard{
+        width: 100%;
+    }
+    .activitybg{
+        padding: 40px 0;
+    }
+    .lflag{
+        position: absolute;
+        width: 18%;
+        top: -60px;
+        left: -10%;
+    }
+    .rflag{
+        position: absolute;
+        width: 13%;
+        top:-10px;
+        right: -60px;
+    }
 }
 @media screen and (max-width:575px){
-.headSection{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 300px;
-}
-.gwmtitle{
-    position: relative;
-    margin-left: 10%;
-    width: 60%;
+    .headSection{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 250px;
+        border: 1px solid red;
+    }
+    .gwmtitle{
+        position: relative;
+        margin-left: 10%;
+        width: 60%;
 
-}
-.shoutgwm{
-   display:none;
-}
-.road, .cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
-    display:block;
-    position:absolute;
-}
-.smGwm{
-    top:36%;
-    left: 78%;
-    width: 17%;
-}
-.smShop,.smEvent,.smRes,.smForum{
-    animation: float 5s ease-in-out infinite;
-}
-
-.road{
-    top:47%;
-    left: -40%;
-    width: 190%;
-}
-.pinkroad{
-    top:115%;
-    left: -40%;
-    width: 190%;
-}
-.cat{
-    top: 53%;
-    left:2%;
-    width: 28%;
-}
-.trafficlight1{
-    width: 2%;
-    top: 92%;
-    left: 40%;
-}
-.tree1{
-    width: 5%;
-    top: 74%;
-    left: 83%;
-}
-.tree2{
-    width: 8%;
-    top: 125%;
-    left: 12%;
-}
-.tree3{
-    width: 7%;
-    top: 143%;
-    left: 90%;
-}
-.smShop{
-    top:82%;
-    left: 15%;
-    width: 24%;
-    -webkit-animation-delay: 0.1s;
-    animation-delay: 0.1s;
-}
-.smEvent{
-    top:88%;
-    left: 59%;
-    width: 24%;
-    -webkit-animation-delay: 1.3s;
-    animation-delay: 1.3s;
-}
-.smRes{
-    top:115%;
-    left: 21%;
-    width: 24%;
-    -webkit-animation-delay: 0.6s;
-    animation-delay: 0.6s;
-}
-.smForum{
-    top:125%;
-    left: 65%;
-    width: 24%;
-    -webkit-animation-delay: 2.6s;
-    animation-delay: 2.6s;
-}
-.r1{
-    width: 11%;
-    top:95%;
-    left:44%;
-    transform: rotate(-10deg);
-}
-.r2{
-    width: 11%;
-    top:112%;
-    left:46%;
-    transform: rotate(-70deg);
-}
-.r3{
-    width: 11%;
-    top:130%;
-    left:50%;
-}
-.nextbg{
-    width: 100%;
-    height: 400px;
-    background-color: var(--light4);
-    top: 80%;
-    left:0;
-}
-.mainBtnSection{
-    display: none;
-}
-.hlCards{ 
-    justify-content: center;
-}
-.activitybg{
-    padding: 20px 0;
-}
-.lflag{
-    position: absolute;
-    width: 25%;
-    top: -10px;
-    left: -10%;
-}
-.rflag{
-    position: absolute;
-    width: 18%;
-    top:13px;
-    right: -10px;
-}
+    }
+    .shoutgwm{
+    display:none;
+    }
+    .road, .cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
+        display:block;
+        position:absolute;
+        
+    }
+    .smGwm{
+        top:36%;
+        left: 78%;
+        width: 17%;
+    }
+    .smShop,.smEvent,.smRes,.smForum{
+        animation: float 5s ease-in-out infinite;
+        z-index: 2;
+    }
+    .road{
+        top:47%;
+        left: -40%;
+        width: 190%;
+    }
+    .pinkroad{
+        top:115%;
+        left: -40%;
+        width: 190%;
+        z-index: 2;
+    }
+    .cat{
+        top: 53%;
+        left:2%;
+        width: 28%;
+    }
+    .trafficlight1{
+        width: 2%;
+        top: 92%;
+        left: 40%;
+    }
+    .tree1{
+        width: 5%;
+        top: 74%;
+        left: 83%;
+    }
+    .tree2{
+        width: 8%;
+        top: 125%;
+        left: 12%;
+        z-index: 2;
+    }
+    .tree3{
+        width: 7%;
+        top: 143%;
+        left: 90%;
+        z-index: 2;
+    }
+    .smShop{
+        top:82%;
+        left: 15%;
+        width: 24%;
+        -webkit-animation-delay: 0.1s;
+        animation-delay: 0.1s;
+    }
+    .smEvent{
+        top:88%;
+        left: 59%;
+        width: 24%;
+        -webkit-animation-delay: 1.3s;
+        animation-delay: 1.3s;
+    }
+    .smRes{
+        top:115%;
+        left: 21%;
+        width: 24%;
+        -webkit-animation-delay: 0.6s;
+        animation-delay: 0.6s;
+    }
+    .smForum{
+        top:125%;
+        left: 65%;
+        width: 24%;
+        -webkit-animation-delay: 2.6s;
+        animation-delay: 2.6s;
+    }
+    .r1{
+        width: 11%;
+        top:95%;
+        left:44%;
+        transform: rotate(-10deg);
+    }
+    .r2{
+        width: 11%;
+        top:112%;
+        left:46%;
+        transform: rotate(-70deg);
+        z-index: 2;
+    }
+    .r3{
+        width: 11%;
+        top:130%;
+        left:50%;
+        z-index: 2;
+    }
+    .nextbg{
+        width: 100%;
+        height: 400px;
+        background-color: var(--light4);
+        top: 80%;
+        left:0;
+    }
+    .mainBtnSection{
+        display: none;
+    }
+    .activitybg{
+        padding: 20px 0;
+    }
+    .lflag{
+        position: absolute;
+        width: 25%;
+        top: -10px;
+        left: -10%;
+    }
+    .rflag{
+        position: absolute;
+        width: 18%;
+        top:13px;
+        right: -10px;
+    }
 }
 
 @keyframes heartBeat {
@@ -350,7 +371,6 @@
     transform: scale(1.1);
   }
 }
-
 @keyframes showup {
   0%{
     opacity: 0;
@@ -368,7 +388,6 @@
     transform: scale(1);
   }
 }
-
 @keyframes float {
 	0% {
 		transform: translatey(0%);
