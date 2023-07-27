@@ -14,8 +14,8 @@ export default function MemberSidebar() {
         ('');
       }
     }
-    console.log(auth.id);
-    console.log(auth.token);
+    // console.log(auth.id);
+    // console.log(auth.token);
 
     if (auth.token) {
       fetch(`${process.env.API_SERVER}/member-api/schedule`, {
@@ -68,7 +68,6 @@ export default function MemberSidebar() {
               return listData.filter((item) => item.date === date);
             };
             let sameDayProjects = sameDate(item.date);
-            console.log('samesameDayProjectsDate', sameDayProjects);
             let backgroundColor;
             if (sameDayProjects.length > 1) {
               backgroundColor = '#1677ff';
@@ -88,10 +87,9 @@ export default function MemberSidebar() {
                   top: 0,
                   left: 0,
                   opacity: 0.3,
-                  borderRadius: '50%',
+                  // borderRadius: '50%',
                 }}
-              >
-              </div>
+              ></div>
             );
           })}
         </ul>

@@ -26,9 +26,13 @@ export default function AlertModal({
   const router = useRouter();
   const from = router.asPath;
   const [form] = Form.useForm();
-  const today = new Date();
-  const actday = new Date(date);
+  let today = new Date();
+  let formatToday = today.toISOString().slice(0, 10);
+  let actday = new Date(date);
+  let formatActday = actday.toISOString().slice(0, 10);
   //console.log(today > actday);
+  // console.log('formatActday', formatActday);
+  // console.log('formatToday', formatToday);
 
   const toggleModal = () => {
     setModal(!modal);
@@ -74,6 +78,7 @@ export default function AlertModal({
           });
         });
     }
+    router.push(from);
   };
 
   const onFinish = (values) => {
@@ -145,7 +150,7 @@ export default function AlertModal({
               <div className={Styles.modal_content}>
                 {content}
                 <div className={Styles.modal_button}>
-                  {today > actday ? (
+                  {formatToday > formatActday ? (
                     <MainBtn text={'評價'} clickHandler={getReviews} />
                   ) : null}
                 </div>

@@ -9,7 +9,6 @@ import CloseBtn from '../ui/buttons/closeBtn';
 
 export default function Navbar({ type = '' }) {
   const { auth, logout } = useContext(AuthContext);
-  console.log('auth,navbar:', auth);
   const router = useRouter();
   const [first, setFirst] = useState(false);
   const [cartItemAmount, setCartItemAmount] = useState(0);
@@ -21,7 +20,7 @@ export default function Navbar({ type = '' }) {
   const [isActive, setIsActive] = useState(false);
 
   const getCartTotalItems = async (id) => {
-    console.log('id-countitem', id);
+
     const r = await fetch(`${process.env.API_SERVER}/cart-api/count-item`, {
       method: 'POST',
       body: JSON.stringify({ member_sid: id }),
