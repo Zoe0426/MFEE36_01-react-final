@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: column;  
     flex:1;
+    width: 100%;
 }
 
 .normal_card:hover{
@@ -22,7 +23,7 @@
 .card_head{
     position: relative;
     overflow: hidden;
-    padding:var(--p16) var(--p16);
+    /* padding:var(--p16) var(--p16); */
     border-bottom: 3px solid var(--main);
     text-align: center;
 }
@@ -41,9 +42,6 @@
     font-weight: var(--fwbold);
 }
 
-
-
-
 .card_head img{
     width: 100%;
     max-width: 200px;
@@ -59,7 +57,6 @@
     color:var(--light-gray);
     cursor: pointer;
     z-index: 9;
-    padding: var(--p24) var(--p24) var(--p16) var(--p16);
     padding: var(--p16);
 }
 
@@ -73,6 +70,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-height: 117.9px;
 }
 
 .card_title{

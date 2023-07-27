@@ -1,3 +1,28 @@
+.tryoutterbox {
+  position: relative;
+  padding-left: 5%;
+}
+
+
+.trycards_display {
+  overflow: hidden;
+}
+
+.try_cards {
+  width: calc((260px + 32px) * 30);
+  display: flex;
+}
+
+.try_cards>div {
+  flex: 1;
+  margin-right: 32px;
+  position: relative;
+}
+
+.try_cards > div > svg {
+  right: 0;
+}
+
 /*首頁廣告輪播牆*/
 
 .shop_sliders {
@@ -8,7 +33,7 @@
 .shop_sliders_box {
   display: flex;
 
-  position: relative
+  position: relative;
 }
 
 .shop_sliders_box > li {
@@ -34,16 +59,19 @@
   z-index: 3;
 }
 
-.slider_right_box,.catDog_right_box {
-  top:0px;
-  right:0
+.slider_right_box,
+.catDog_right_box {
+  top: 0px;
+  right: 0;
 }
-.catDog_left_box{
-  left:20px
+.catDog_left_box {
+  left: 20px;
 }
 
 .slider_left,
-.slider_right,.catDog_left,.catDog_right {
+.slider_right,
+.catDog_left,
+.catDog_right {
   opacity: 0.6;
   padding: var(--p16);
   background-color: rgba(0, 0, 0, 0.1);
@@ -52,7 +80,9 @@
 }
 
 .slider_left:hover,
-.slider_right:hover,.catDog_left:hover,.catDog_right:hover {
+.slider_right:hover,
+.catDog_left:hover,
+.catDog_right:hover {
   opacity: 1;
 }
 
@@ -160,25 +190,23 @@
   /* border:1px solid red */
 }
 
-.pet_type_cards_box{
+.pet_type_cards_box {
   width: 100%;
-  padding-left:5%;
+  padding-left: 5%;
   position: relative;
   /* border:1px solid pink */
 }
 
-.pet_type_cards_display{
+.pet_type_cards_display {
   position: relative;
   overflow: hidden;
   /* border:1px solid pink; */
-  
 }
 
 .pet_type_cards {
   width: 7000px;
   /* border:1px solid green;
   transform: translateX(-100px); */
-  
 }
 
 .pet_type_btns {
@@ -588,6 +616,11 @@
   }
 
   /*新品滑動卡片的排版*/
+
+  .try_cards {
+    width: calc((180px + 32px) * 30);
+
+  }
 
   .new_products_title {
     font-size: var(--h5fs20);

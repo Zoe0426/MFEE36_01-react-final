@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
+import AuthContext from '@/context/AuthContext';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
 import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration';
@@ -25,7 +26,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function ProdoctIndex() {
   const router = useRouter();
-
+  const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFrist] = useState(false);
   //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
   const [dataForDog, setDataForDog] = useState([]);
   const [dataForCat, setDataForCat] = useState([]);
@@ -66,52 +68,68 @@ export default function ProdoctIndex() {
   const [catDogCurrent, setCatDogCurrent] = useState(0);
   const catDogStyle = {
     position: 'relative',
-    left: `calc(-97% * ${catDogCurrent})`,
+    left: `calc(((260px + 32px) * 30 ) / 5 * -${catDogCurrent})`,
     transition: '0.3s',
   };
 
-  useEffect(() => {
-    (async function getData() {
-      //拿回卡片資訊
-      const res_cards = await fetch(
-        `${process.env.API_SERVER}/shop-api/hompage-cards`,
-        {
-          method: 'GET',
+  const getData = async (token = '') => {
+    //拿回卡片資訊
+    const res_cards = await fetch(
+      `${process.env.API_SERVER}/shop-api/hompage-cards`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const { dogDatas, catDatas, brandData, newData, keywords } =
+      await res_cards.json();
+
+    if (dogDatas.length > 0) {
+      setDataForDog(dogDatas);
+    }
+    if (catDatas.length > 0) {
+      setDataForCat(catDatas);
+    }
+    if (brandData.length > 0) {
+      setDataForBrand(brandData);
+    }
+    if (newData.length > 0) {
+      setDataForNew(newData);
+    }
+    if (keywords.length > 0) {
+      const newKeywords = keywords.map((v) => {
+        return { name: v, count: 0 };
+      });
+      setKeywordDatats(newKeywords);
+    }
+
+    setTwotCatergoriesData(
+      twotCatergoriesData.map((v) => {
+        if (v.id === 'dog') {
+          return { ...v, data: dogDatas };
+        } else {
+          return { ...v, data: catDatas };
         }
-      );
-      const { dogDatas, catDatas, brandData, newData, keywords } =
-        await res_cards.json();
+      })
+    );
+  };
 
-      if (dogDatas.length > 0) {
-        setDataForDog(dogDatas);
-      }
-      if (catDatas.length > 0) {
-        setDataForCat(catDatas);
-      }
-      if (brandData.length > 0) {
-        setDataForBrand(brandData);
-      }
-      if (newData.length > 0) {
-        setDataForNew(newData);
-      }
-      if (keywords.length > 0) {
-        const newKeywords = keywords.map((v) => {
-          return { name: v, count: 0 };
-        });
-        setKeywordDatats(newKeywords);
-      }
-
-      setTwotCatergoriesData(
-        twotCatergoriesData.map((v) => {
-          if (v.id === 'dog') {
-            return { ...v, data: dogDatas };
-          } else {
-            return { ...v, data: catDatas };
-          }
-        })
-      );
-    })();
+  useEffect(() => {
+    setFrist(true);
   }, []);
+
+  useEffect(() => {
+    //取得用戶token並取得相關資訊
+    if (first) {
+      if (auth.token) {
+        getData(auth.token);
+      } else {
+        getData();
+      }
+    }
+  }, [first]);
 
   useEffect(() => {
     const bannerPics = bannerPicDatas.length - 1;
@@ -191,6 +209,86 @@ export default function ProdoctIndex() {
   const autocompleteHandler = (selectkeyword) => {
     setKeyword(selectkeyword);
     setShowKeywordDatas(false);
+  };
+  //收藏列表相關的函式-------------------------------------------------------
+  //若未登入會員而點擊收藏，要跳轉至會員登入
+  const toSingIn = () => {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+  };
+
+  const [isClickingLike, setIsClickingLike] = useState(false);
+  const [addLikeList, setAddLikeList] = useState([]);
+  //監看點擊愛心收藏的相關控制
+  useEffect(() => {
+    if (!isClickingLike && addLikeList.length > 0) {
+      sendLike(addLikeList, auth.token).then(() => {
+        //在成功送資料到後端後重置addLikeList
+        setAddLikeList([]);
+      });
+    }
+  }, [isClickingLike, addLikeList]);
+
+  //愛心收藏的並將資料送到後端相關函式-------------------------------------------------------
+  const clickHeartHandler = (arr, id, type) => {
+    setIsClickingLike(true);
+    const timeClick = new Date().getTime();
+    const newData = arr.map((v) => {
+      if (v.product_sid === id) {
+        const insideInLikeList = addLikeList.find(
+          (item) => item.product_sid === id
+        );
+        if (insideInLikeList) {
+          setAddLikeList((preV) => preV.filter((v2) => v2.product_sid !== id));
+        } else {
+          setAddLikeList((preV) => [
+            ...preV,
+            { product_sid: id, time: timeClick },
+          ]);
+        }
+        return { ...v, like: !v.like };
+      } else return { ...v };
+    });
+    switch (type) {
+      case 'dog':
+        setTwotCatergoriesData((prevData) =>
+          prevData.map((item) =>
+            item.id === 'dog' ? { ...item, data: newData } : item
+          )
+        );
+        break;
+      case 'cat':
+        setTwotCatergoriesData((prevData) =>
+          prevData.map((item) =>
+            item.id === 'cat' ? { ...item, data: newData } : item
+          )
+        );
+        break;
+    }
+    setTimeout(() => {
+      setIsClickingLike(false);
+    }, 1500);
+    return newData;
+  };
+
+  //將資料送到後端
+  const sendLike = async (arr, token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/shop-api/handle-like-list`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: arr }),
+      }
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      console.log(data);
+    }
   };
 
   return (
@@ -341,6 +439,107 @@ export default function ProdoctIndex() {
             );
           })}
         </div>
+        <div className={styles.tryoutterbox}>
+          <div className={styles.catDog_left_box}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className={styles.catDog_left}
+              onClick={() => {
+                if (catDogCurrent === 0) {
+                  setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
+                } else {
+                  setCatDogCurrent(catDogCurrent - 1);
+                }
+              }}
+            />
+          </div>
+          <div className={styles.tryleft_box}></div>
+          <div className={styles.trycards_display}>
+            <div className={styles.try_cards} style={catDogStyle}>
+              {twotCatergoriesData.map((v) => {
+                return (
+                  v.display &&
+                  v.data.map((v1) => {
+                    const {
+                      product_sid,
+                      name,
+                      img,
+                      max_price,
+                      min_price,
+                      avg_rating,
+                      sales_qty,
+                      like,
+                    } = v1;
+                    return (
+                      <div key={product_sid}>
+                        <ShopProductCard
+                          product_sid={product_sid}
+                          name={name}
+                          img={img}
+                          max_price={max_price}
+                          min_price={min_price}
+                          avg_rating={avg_rating}
+                          tag_display={true}
+                          sales_qty={sales_qty}
+                          like={like}
+                          token={auth.token}
+                          clickHandler={() => {
+                            if (v.id === 'dog') {
+                              clickHeartHandler(v.data, product_sid, 'dog');
+                            } else {
+                              clickHeartHandler(v.data, product_sid, 'cat');
+                            }
+                          }}
+                          singinHandler={toSingIn}
+                        />
+                      </div>
+                    );
+                  })
+                );
+              })}
+            </div>
+          </div>
+
+          <div className={styles.catDog_right_box}>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className={styles.catDog_right}
+              onClick={() => {
+                if (
+                  catDogCurrent ===
+                  twotCatergoriesData[0].data.length / 6 - 1
+                ) {
+                  setCatDogCurrent(0);
+                } else {
+                  setCatDogCurrent(catDogCurrent + 1);
+                }
+              }}
+            />
+          </div>
+        </div>
+        <BGMiddleDecoration />
+      </section>
+      {/* <section className="container-outer dog-cat-products">
+        <div className={styles.pet_type_tabs}>
+          {twotCatergoriesData.map((v) => {
+            return (
+              <div
+                role="presentation"
+                key={v.id}
+                className={v.display ? styles.tab_active : styles.tab_normal}
+                onMouseEnter={() => {
+                  setTwotCatergoriesData(
+                    toggleDisplayForDogCat(twotCatergoriesData, v.id)
+                  );
+                }}
+              >
+                {' '}
+                <Image src={v.icon} alt={v.id} />
+                <span>{v.text}</span>
+              </div>
+            );
+          })}
+        </div>
         <div className={styles.pet_type_cards_box}>
           <div className={styles.catDog_left_box}>
             <FontAwesomeIcon
@@ -397,6 +596,7 @@ export default function ProdoctIndex() {
               </Row>
             </div>
           </div>
+
           <div className={styles.catDog_right_box}>
             <FontAwesomeIcon
               icon={faChevronRight}
@@ -415,9 +615,10 @@ export default function ProdoctIndex() {
           </div>
         </div>
         <BGMiddleDecoration />
-      </section>
-      <section className="container-outer reccomand-brand">
-        {/* 第二區推薦品牌 */}
+      </section> */}
+      {/* 第二區推薦品牌 */}
+      {/* <section className="container-outer reccomand-brand">
+       
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
             <Row
@@ -442,7 +643,7 @@ export default function ProdoctIndex() {
             </Row>
           </div>
         </div>
-      </section>
+      </section> */}
       <section className="container-outer new-products">
         {/* s第三區新品顯示區 頁碼要看怎麼用迴圈產生*/}
         <BGMNewDecoration />
