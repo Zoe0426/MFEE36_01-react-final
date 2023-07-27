@@ -22,22 +22,35 @@
   top: 0;
   right: 0;
   height: 100vh;
+  bottom: 0;
+  position: fixed;
   /* transform:translateX(-110%);     */
   border: 1px solid var(--light-gray);
   background-color: white;
   box-shadow: var(--shadow);
+  animation: open 0.25s ease-in-out 1;
+}
+@keyframes open{
+  0%{
+    right: -550px;
+  }
+  100%{
+    right: 0px;
+  }
 }
 
 .like_items {
   overflow-x: hidden;
   overflow-y: scroll;
   /* max-height:758px; */
-  max-height: 900px;
+  max-height:94vh;
+  /* height: 100%; */
 }
 
 /* 卷軸 */
 .like_items::-webkit-scrollbar {
-  width: 14px;
+  width: 10px;
+  height: 100%; 
 }
 
 /* 不是目前位置的剩下卷軸 */
@@ -59,7 +72,7 @@
 
 /*沒有收藏時...*/
 .no_like_item {
-  height: 120px;
+  height: 180px;
   font-size: var(--h5fs20);
   font-weight: var(--fwbold);
   line-height: 100px;
