@@ -1,0 +1,84 @@
+/* ====SHOPCARD==== */
+.hsCard{
+    margin-top: 20px;
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    border: 1px solid var(--dark);
+    width: 30%;
+    border-radius: var(--br20);
+    background-color: white;
+    margin-bottom: 16px;
+}
+.hsroof{
+    width: 100%;
+    position: absolute;
+    top: -10%;
+}
+.hsimg{
+    width: 70%;
+    margin-top: 10px;
+}
+
+.hslabel{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--main);
+}
+.hstype{
+    width: 40%;
+    background-color: var(--light1);
+    text-align: center;
+    font-size: var(--pfs16);
+    padding: var(--p8) 0;
+
+}
+.hssale{
+    text-align: center;
+    font-size: var(--pfs16);
+    color: white;
+    width: 60%;
+    padding: var(--p8) 0;
+}
+
+.hscardbody{
+    padding: var(--p8);
+    font-size: 16px;
+    line-height: 18px;
+}
+.hsprodname{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+     overflow: hidden;
+}
+.hsprodprice{
+    color: var(--main);
+    text-align:end;
+    padding-top: 8px;
+}
+
+.hsCard:nth-child(2),
+.hsCard:nth-child(5){
+    margin-top: 20px;
+}
+
+@media screen and (max-width:1200px) and (min-width:576px){
+.hsCard{
+    width: 45%;
+}
+  }
+
+@media screen and (max-width:575px){
+.hsCard{
+    width: 80%;
+}
+.hsCard:nth-child(4),
+.hsCard:nth-child(5),
+.hsCard:nth-child(6){
+    display: none;
+}
+
+}
