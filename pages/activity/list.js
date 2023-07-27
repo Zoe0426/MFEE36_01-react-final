@@ -49,6 +49,7 @@ export default function ActivityMain() {
   const [showfilter, setShowFilter] = useState(false);
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+
   const [city, setCity] = useState('');
   const [area, setArea] = useState('');
   const [selectedCity, setSelectedCity] = useState(null);
@@ -159,7 +160,7 @@ export default function ActivityMain() {
       setArea(area || '');
       setActivity_type_sid(activity_type_sid || 0);
       setKeyword(keyword || '');
-      setMinPrice(minPrice || '');
+      setMinPrice(minPrice ||'');
       setMaxPrice(maxPrice || '');
 
       const usp = new URLSearchParams(router.query);
@@ -281,10 +282,14 @@ export default function ActivityMain() {
     if (minPrice) {
       query.minPrice = minPrice;
     }
+    if (maxPrice) {
+      query.maxPrice = maxPrice;
+    }
 
     console.log(minPrice);
+    console.log('query:', query);
 
-    // Assuming 'router' is available in the component (which is imported from 'next/router')
+    
     router.push(
       `?${new URLSearchParams({
         ...query,
@@ -318,6 +323,32 @@ export default function ActivityMain() {
   //管理checkbox勾選的狀態
 
   const checkboxToggleHandler = (arr, name, id) => {
+    
+    const arrLength = arr.length;
+    let countTrue = 0;
+    let newFilters = [];
+
+    newFilters = arr.map((v) => {
+      if (v.label === id) {
+        return { ...v, checked: !v.checked };
+      } else return { ...v };
+    });
+
+    for (let a of newFilters) {
+      if (a.checked) {
+        countTrue++;
+      }
+    }
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: newFilters,
+    }));
+  };
+
+
+  const PriceToggleHandler = (arr, name, id) => {
+   
     const arrLength = arr.length;
     let countTrue = 0;
     let newFilters = [];
@@ -578,14 +609,7 @@ export default function ActivityMain() {
                   changeHandler={checkboxToggleHandler}
                 />
 
-                <ActivityFilterPrice
-                  text="活動價格:"
-                  name="minPrice"
-                  data={filters.minPrice} 
-                  changeHandler={checkboxToggleHandler}
-                  minPrice={minPrice} 
-                  setMinPrice={setMinPrice} 
-                />
+                <ActivityFilterPrice/>
 
                 <div>
                   <div>

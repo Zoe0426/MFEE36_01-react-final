@@ -79,22 +79,22 @@ export default function ActivityHome() {
               src="./activity_img/decoration1.png"
               alt=""
             />
-            <Link href="http://localhost:3000/activity/list?cid=1" className={styles.custom_link} >
+            <Link href="http://localhost:3000/activity/list?activity_type_sid=1" className={styles.custom_link} >
                 <SubBtn img="./activity_img/subicon_1.png" text="主題派對" />
             </Link>
-            <Link href="http://localhost:3000/activity/list?cid=2" className={styles.custom_link} >
+            <Link href="http://localhost:3000/activity/list?activity_type_sid=2" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_2.png" text="在地活動" />
             </Link>
-            <Link href="http://localhost:3000/activity/list?cid=3" className={styles.custom_link} >
+            <Link href="http://localhost:3000/activity/list?activity_type_sid=3" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_3.png" text="市集展覽" />
             </Link>
-            <Link href="http://localhost:3000/activity/list?cid=4" className={styles.custom_link} >
+            <Link href="http://localhost:3000/activity/list?activity_type_sid=4" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_4.png" text="毛孩講座" />
             </Link>
-            <Link href="http://localhost:3000/activity/list?cid=5" className={styles.custom_link} >
+            <Link href="http://localhost:3000/activity/list?activity_type_sid=5" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_5.png" text="寵物學校" />
             </Link>
-            <Link href="http://localhost:3000/activity/list?cid=6" className={styles.custom_link} >
+            <Link href="http://localhost:3000/activity/list?activity_type_sid=6" className={styles.custom_link} >
               <SubBtn img="./activity_img/subicon_6.png" text="願望清單" />
             </Link>
             <img
