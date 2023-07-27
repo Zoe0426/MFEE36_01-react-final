@@ -417,26 +417,15 @@ export default function Post({postSid='', memberId=''}
       onChange={handleChangeTag}
       options={options}
     />
-    <Select
-      mode="multiple"
-      disabled
-      style={{
-        width: '100%',
-      }}
-      placeholder="Please select"
-      defaultValue={['a10', 'c12']}
-      onChange={handleChangeTag}
-      options={options}
-    />
   </Space>
-              <MainBtn className={Style.subBtn} text='發佈文章' htmltype="submit"
-              //clickHandler={sendPost}
-              /> 
-              <SecondaryBtn text = '取消'/>    
-            </div>
-            </div>
-            </Form>
-            </div>
+        <MainBtn className={Style.subBtn} text='發佈文章' htmltype="submit"
+        //clickHandler={sendPost}
+        /> 
+        <SecondaryBtn text = '取消'/>    
+      </div>
+      </div>
+      </Form>
+      </div>
 
         </Col>
       </Row>
