@@ -617,18 +617,18 @@ export default function List() {
       setPriceErrorText = setPriceErrorText1;
       setShowErrorMessage = setShowErrorMessage1;
       setOutlineStatus = setOutlineStatus1;
-      if (priceNow && maxPrice && priceNow > maxPrice) {
-        setPriceErrorText('不能大於最高金額');
-        isPass = false;
-      }
+      // if (priceNow && maxPrice && priceNow > maxPrice) {
+      //   setPriceErrorText('不能大於最高金額');
+      //   isPass = false;
+      // }
     } else if (inputType === 'maxPrice') {
       setPriceErrorText = setPriceErrorText2;
       setShowErrorMessage = setShowErrorMessage2;
       setOutlineStatus = setOutlineStatus2;
-      if (priceNow && minPrice && priceNow < minPrice) {
-        setPriceErrorText('不能小於最低金額');
-        isPass = false;
-      }
+      // if (priceNow && minPrice && priceNow < minPrice) {
+      //   setPriceErrorText('不能小於最低金額');
+      //   isPass = false;
+      // }
     }
 
     if (isNaN(e.target.value)) {

@@ -579,7 +579,7 @@ export default function Product() {
                     <span>規格選項</span>
                     {showWarning && (
                       <span className={styles.detail_spec_warning}>
-                        &nbsp;※請選擇※
+                        &nbsp;(請選擇)
                       </span>
                     )}
                   </h5>
