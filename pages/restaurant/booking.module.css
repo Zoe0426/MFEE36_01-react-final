@@ -5,23 +5,46 @@
   padding-top: var(--p8);
   padding-bottom: var(--p8);
 }
-.dates_modal{
+.dates_modal {
+  width: 100%;
   display: flex;
-  gap:20px;
+  justify-content: space-between;
+  /* gap: 22px; */
   padding-bottom: 120px;
-  padding-top: 10px;
+  padding-top: 28px;
   align-items: center;
   text-align: center;
 }
-.head{
+
+.btn_group > button {
+  border: 0;
+  border: 2px solid transparent;
+  background-color: var(--secondary);
+  padding: 8px 16px;
+  padding-top: 10px;
+  border-radius: 8px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+.next_week{
+  margin-left: 12px;
+}
+.btn_group > button:hover{
+  background-color: var(--light1);
+  border: 2px solid var(--secondary);
+}
+
+.head {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid var(--gray);
 }
 
-.date_date{
-  font-size:20px;
-  font-weight: 600;
+.date_date {
+  font-size:18px;
+  font-weight: 500;
+  user-select: none;
 }
 .abc {
   background-color: var(--lightBrown);
@@ -29,13 +52,9 @@
 
 .timetable {
   font-size: var(--h3fs28);
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-.dates_container {
-  align-items: center;
-  gap: 20px;
-  justify-content: space-between;
+  margin-top: 28px;
+  margin-bottom: 28px;
+
 }
 .arrow_right,
 .arrow_left {
@@ -88,7 +107,7 @@
   padding-bottom: 80px;
 }
 
-.column{
+.column {
   display: flex;
   flex-direction: column;
 }

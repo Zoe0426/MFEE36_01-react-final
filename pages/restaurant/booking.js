@@ -33,8 +33,6 @@ function WeekCalendar() {
     }
   };
 
-
-
   useEffect(() => {
     fetch(`${process.env.API_SERVER}/restaurant-api/booking`)
       .then((r) => r.json())
@@ -112,51 +110,53 @@ function WeekCalendar() {
         <div className={Styles.head}>
           <h1 className={Styles.timetable}>曜日義式餐酒館預約時間表</h1>
           <div className={Styles.btn_group}>
-            <button onClick={goToPreviousWeek}>後</button>
-            <button onClick={goToNextWeek}>前</button>
+            {startDateIndex > 0 && (
+              <button onClick={goToPreviousWeek}>
+                <Image src={faArrowLeft} alt="faArrowLeft" />
+              </button>
+            )}
+            {startDateIndex + 35 < bookingRows?.length && (
+              <button onClick={goToNextWeek} className={Styles.next_week}>
+                <Image src={faArrowRight} alt="faArrowRight" />
+              </button>
+            )}
           </div>
         </div>
       </div>
       <div className="container-inner">
-        <div className={Styles.dates_container}>
-          <div className={Styles.dates_modal}>
-            {bookingRows
-              ?.slice(startDateIndex, startDateIndex + 35)
-              .map((v) => {
-                {
-                  /* const currentDate = new Date(v.date); */
-                }
-                if (!uniqueDates.has(v.date)) {
-                  uniqueDates.add(v.date);
-                  return (
-                    <div key={v.section_sid}>
-                      <div className={Styles.date_date}>{v.date}</div>
-                      {bookingRows
-                        .filter((item) => item.date === v.date)
-                        .map((item) => (
-                          <>
-                            <div key={item.section_sid}>
-                              <BookingModal
-                                time={item.time}
-                                people={item.remaining_slots}
-                                datas={item}
-                                memberDatas={memberRows}
-                                
-                              />
-                            </div>
-                          </>
-                        ))}
-                    </div>
-                  );
-                } else {
-                  return null;
-                }
-              })}
-          </div>
+        <div className={Styles.dates_modal}>
+          {bookingRows?.slice(startDateIndex, startDateIndex + 35).map((v) => {
+            {
+              /* const currentDate = new Date(v.date); */
+            }
+            if (!uniqueDates.has(v.date)) {
+              uniqueDates.add(v.date);
+              return (
+                <div key={v.section_sid}>
+                  <div className={Styles.date_date}>{v.date}</div>
+                  {bookingRows
+                    .filter((item) => item.date === v.date)
+                    .map((item) => (
+                      <>
+                        <div key={item.section_sid}>
+                          <BookingModal
+                            time={item.time}
+                            people={item.remaining_slots}
+                            datas={item}
+                            memberDatas={memberRows}
+                          />
+                        </div>
+                      </>
+                    ))}
+                </div>
+              );
+            } else {
+              return null;
+            }
+          })}
         </div>
       </div>
     </div>
   );
 }
-
 export default WeekCalendar;

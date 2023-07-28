@@ -4,7 +4,7 @@ import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import NumberInput from '../numberInput/numberInput1';
+import NumberInput from '../numberInput/numberInput2';
 
 export default function BookingModal({
   datas = [],
@@ -22,31 +22,27 @@ export default function BookingModal({
   };
 
   const restPeople = datas.remaining_slots;
-  console.log(restPeople);
+  console.log(datas);
+  console.log(memberDatas);
 
   return (
     <>
       <div className={Styles.time_section}>
         <div
-          onClick={restPeople !== 0 ? toggleModal : null}
-          className={`${
-            restPeople === 0 ? Styles.no_people_card : Styles.booking_card
-          }`}
-          style={{
-            backgroundColor: restPeople === 0 ? 'transparent' : 'white',
-          }}
+          onClick={restPeople <= 0 ? null : toggleModal}
+          className={
+            restPeople <= 0 ? Styles.no_people_card : Styles.booking_card
+          }
         >
           <div className={Styles.time_range}>{time}</div>
           <div className={Styles.rest_people}>
-            剩餘
+            {restPeople <= 0 ? '' : '剩餘'}
             <p
-              className={`${Styles.rest_num} ${
-                restPeople === 0 ? Styles.no_rest_num : ''
-              }`}
+              className={restPeople <= 0 ? Styles.no_rest_num : Styles.rest_num}
             >
-              {people}
+              {restPeople <= 0 ? '額滿' : people}
             </p>
-            人
+            {restPeople <= 0 ? '' : '位'}
           </div>
         </div>
       </div>
@@ -81,16 +77,20 @@ export default function BookingModal({
                 {/* 人數 */}
                 <div className={Styles.detail_qty_area}>
                   <div className={Styles.detail_people_box}>
-                    <h5 className={Styles.detail_title}>人數</h5>
+                    {/* <h5 className={Styles.detail_title}>人數</h5> */}
                     <div className={Styles.input_height}>
-                      <NumberInput />
+                      <NumberInput
+                        title="人數"
+                        needMax={true}
+                        maxValue={datas.remaining_slots}
+                      />
                     </div>
                   </div>
 
                   {/* 寵物數 */}
                   <div className={Styles.detail_pet_box}>
-                    <h5 className={Styles.detail_title}>寵物數</h5>
-                    <NumberInput />
+                    {/* <h5 className={Styles.detail_title}>寵物數</h5> */}
+                    <NumberInput title="寵物數" />
                   </div>
                 </div>
                 <div className={Styles.note}>

@@ -1,9 +1,11 @@
 .time_range {
   margin-bottom: 12px;
+  font-size: 16px;
 }
 .booking_card {
+  box-sizing: border-box;
   background-color: #fff;
-  padding: 24px 30px;
+  padding: 24px 34px;
   border-radius: 8px;
   margin-top: 20px;
   display: flex;
@@ -11,12 +13,20 @@
   justify-content: center;
   align-items: center;
   font-size: var(--pfs14);
-  border: 1px solid var(--light-gray);
+  outline: 1px solid var(--light-gray);
   cursor: pointer;
+  user-select: none;
+}
+
+.booking_card:hover{
+  box-sizing: border-box;
+  background-color:transparent;
+  outline: 2px solid var(--secondary); 
 }
 .no_people_card{
-  background-color:transparent; 
-  padding: 24px 40px;
+  user-select: none;
+  background-color:#f5f5f5; 
+  padding: 24px 34px;
   border-radius: 8px;
   margin-top: 20px;
   display: flex;
@@ -24,11 +34,20 @@
   justify-content: center;
   align-items: center;
   font-size: var(--pfs14);
-  border: 1px solid var(--light-gray);
-  cursor: pointer; 
+  outline: 1px solid var(--light-gray);
 }
+.rest_num {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--main);
+  margin: 0 6px;
+}
+
 .no_rest_num{
-  color: red;
+  color: rgb(244, 51, 83);
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0 6px;
 }
 .time_section {
   width: 100%;
@@ -40,12 +59,9 @@
 }
 .rest_people {
   display: flex;
+  font-size: 16px;
   align-items: center;
-}
-.rest_num {
-  font-size: var(--h6fs18);
-  color: var(--main);
-  margin: 0 6px;
+  font-size: 16px;
 }
 
 .overlay {

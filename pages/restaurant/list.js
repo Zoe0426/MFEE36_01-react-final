@@ -209,9 +209,7 @@ export default function FilterPage() {
     } else {
       getData(router.query);
     }
-    return ()=>{
-      
-    }
+    return () => {};
   }, [router.query, auth.token]);
 
   // useEffect(() => {
@@ -657,6 +655,11 @@ export default function FilterPage() {
     }
   };
 
+  const closeLikeList = () => {
+    setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+
   // 刪除所有收藏
   const removeAllLikeList = (token) => {
     if (likeDatas.length > 0) {
@@ -959,6 +962,7 @@ export default function FilterPage() {
                     datas={likeDatas}
                     token={auth.token}
                     removeLikeListItem={removeLikeListItem}
+                    closeLikeList={closeLikeList}
                   />
                 }
                 closeHandler={toggleLikeList}
