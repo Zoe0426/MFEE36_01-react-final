@@ -1,27 +1,3 @@
-.tryoutterbox {
-  position: relative;
-  padding-left: 5%;
-}
-
-
-.trycards_display {
-  overflow: hidden;
-}
-
-.try_cards {
-  width: calc((260px + 32px) * 30);
-  display: flex;
-}
-
-.try_cards>div {
-  flex: 1;
-  margin-right: 32px;
-  position: relative;
-}
-
-.try_cards > div > svg {
-  right: 0;
-}
 
 /*首頁廣告輪播牆*/
 
@@ -46,12 +22,11 @@
 }
 
 /*輪播牆的左右邊按鈕*/
-.slider_left_box,
-.slider_right_box,
-.catDog_left_box,
-.catDog_right_box {
+.left_arrow_box,
+.right_arrow_box{
   position: absolute;
   font-size: var(--h4fs24);
+  font-size: var(--h5fs20);
   color: white;
   height: 100%;
   display: flex;
@@ -59,30 +34,29 @@
   z-index: 3;
 }
 
-.slider_right_box,
-.catDog_right_box {
+.right_arrow_box{
   top: 0px;
   right: 0;
 }
-.catDog_left_box {
+
+.left_arrow_box {
   left: 20px;
 }
 
-.slider_left,
-.slider_right,
-.catDog_left,
-.catDog_right {
+.left_arrow,
+.right_arrow{
+  max-width:var(--h4fs24) ;
+  max-height:var(--h4fs24) ;
   opacity: 0.6;
-  padding: var(--p16);
+  padding: 12px 15px;
   background-color: rgba(0, 0, 0, 0.1);
-  border-radius: var(--br8);
+  /* border-radius: var(--br8); */
+  border-radius: 50%;
   cursor: pointer;
 }
 
-.slider_left:hover,
-.slider_right:hover,
-.catDog_left:hover,
-.catDog_right:hover {
+.left_arrow:hover,
+.right_arrow:hover {
   opacity: 1;
 }
 
@@ -96,8 +70,10 @@
 }
 
 .shop_sliders_pages_bttn {
-  width: 50px;
-  height: 8px;
+  /* width: 50px;
+  height: 8px; */
+  width:15px;
+  height: 15px;
   border-radius: 50%;
   margin: 0 10px;
   border-radius: var(--br10);
@@ -159,7 +135,7 @@
 .pet_type_tabs {
   display: flex;
   justify-content: center;
-  margin: 48px 0 32px 0;
+  margin: 48px 0 64px 0;
 }
 
 .pet_type_tabs span {
@@ -185,28 +161,73 @@
 }
 
 /*主頁滑動卡片的排版*/
-.product_card {
+
+.new_products_cards_box,
+.cat_dog_cards_box {
+  position: relative;
+  padding-left: 5%;
+  /* border:1px solid; */
+  /* margin:48px 0 112px 0 */
+  /* margin:48px 0 48px 0 */
+}
+
+
+.cat_dog_cards_display {
+  overflow: hidden;
+  padding-bottom: 10px;
+
+}
+
+.cat_dog_cards {
+  width: calc((260px + 32px) * 30);
   display: flex;
-  /* border:1px solid red */
+
+}
+
+.cat_dog_cards>div {
+  flex: 1;
+  margin-right: 32px;
+  position: relative;
+}
+
+.cat_dog_cards > div > svg {
+  right: 0;
+}
+
+.shop_cat_dog_pages{
+  display:flex;
+  justify-content: center;
+  padding: var(--p32) 0;
+}
+
+.shop_new_pages{
+  display:flex;
+  justify-content: center;
+  padding: var(--p32) 0 96px 0;
+}
+
+
+
+
+
+
+/* .product_card {
+  display: flex;
 }
 
 .pet_type_cards_box {
-  width: 100%;
-  padding-left: 5%;
   position: relative;
-  /* border:1px solid pink */
+  padding-left: 5%;
 }
+
 
 .pet_type_cards_display {
   position: relative;
   overflow: hidden;
-  /* border:1px solid pink; */
 }
 
 .pet_type_cards {
   width: 7000px;
-  /* border:1px solid green;
-  transform: translateX(-100px); */
 }
 
 .pet_type_btns {
@@ -224,7 +245,7 @@
 
 .circle_btn_active {
   background-color: var(--secondary);
-}
+} */
 
 /*品牌卡片*/
 .brand_cards {
@@ -241,7 +262,7 @@
   margin: 88px 0 96px 0;
 }
 
-.new_cards,
+/* .new_cards,
 .recomand_cards {
   margin-left: 5%;
   width: 7000px;
@@ -249,7 +270,7 @@
 
 .recomand_cards {
   margin-left: 0%;
-}
+} */
 
 /*--------------商品列表頁-------------*/
 /* 篩選的按鈕 */
@@ -582,8 +603,8 @@
 
 @media screen and (max-width: 767px) {
   /*首頁廣告輪播牆*/
-  .slider_left_box,
-  .slider_right_box {
+  .left_arrow_box,
+  .right_arrow_box {
     display: none;
   }
 
@@ -596,6 +617,7 @@
   .pet_type_tabs {
     /* margin:56px auto; */
     padding-left: 16px;
+    margin: 48px 0 32px 0;
   }
 
   .pet_type_tabs span {
@@ -615,12 +637,32 @@
     display: none;
   }
 
+  .shop_cat_dog_pages{
+    display: none;
+  }
+
+  .shop_new_pages{
+    visibility: hidden;
+    padding: var(--p32) 0 48px 0;
+  }
+
   /*新品滑動卡片的排版*/
 
-  .try_cards {
-    width: calc((180px + 32px) * 30);
-
+  .cat_dog_cards_display {
+    overflow: auto;
+    user-select: none;
   }
+
+
+  .cat_dog_cards {
+    width: calc((180px + 32px) * 30);
+  }
+
+
+  .cat_dog_cards_display::-webkit-scrollbar {
+    display: none;
+  }
+
 
   .new_products_title {
     font-size: var(--h5fs20);
@@ -628,11 +670,11 @@
     text-align: left;
   }
 
-  .pet_type_cards::-webkit-scrollbar,
+  /* .pet_type_cards::-webkit-scrollbar,
   .new_cards::-webkit-scrollbar,
   .recomand_cards::-webkit-scrollbar {
     display: none;
-  }
+  } */
 
   /*品牌卡片*/
   .brand_cards {
@@ -643,12 +685,12 @@
     overflow-y: hidden;
   }
 
-  .pet_type_cards,
+  /* .pet_type_cards,
   .new_cards,
   .recomand_cards {
     width: 390px;
     overflow-y: hidden;
-  }
+  } */
 
   .brand_cards::-webkit-scrollbar {
     display: none;

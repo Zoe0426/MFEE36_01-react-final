@@ -91,6 +91,7 @@ h1, h2, h3, h4, h5, h6{
 
 a:hover,a:link,a:visited,a:active{
   color: var(--dark-gray);
+  text-decoration: none;
 }
 
 

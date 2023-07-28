@@ -30,7 +30,14 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 // 引用的icon+圖示
 import RateStar from '@/components/ui/rateStar/RateStar';
-import { faHeart, faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faHeart,
+  faCartShopping,
+  faChevronRight,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
+
 import CorpLogo from '@/assets/corpLogo.svg';
 
 export default function Product() {
@@ -102,6 +109,13 @@ export default function Product() {
       default:
         return dataForComment;
     }
+  };
+
+  const [catDogCurrent, setCatDogCurrent] = useState(0);
+  const catDogStyle = {
+    position: 'relative',
+    left: `calc(((260px + 32px) * 30 ) / 5 * -${catDogCurrent})`,
+    transition: '0.3s',
   };
 
   //麵包屑寫得有點奇怪...
@@ -854,44 +868,53 @@ export default function Product() {
                 </p>
               </div>
 
-              <div className={styles.recomand_cards}>
-                <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
-                  {dataForRecomand.map((v) => {
-                    const {
-                      product_sid,
-                      name,
-                      img,
-                      max_price,
-                      min_price,
-                      avg_rating,
-                      like,
-                    } = v;
-                    return (
-                      <Col
-                        xs={12}
-                        sm={12}
-                        md={1}
-                        className={styles.product_card}
-                        key={product_sid}
-                      >
-                        <ShopProductCard
-                          product_sid={product_sid}
-                          name={name}
-                          img={img}
-                          max_price={max_price}
-                          min_price={min_price}
-                          avg_rating={avg_rating}
-                          like={like}
-                          token={auth.token}
-                          clickHandler={() => {
-                            clickHeartHandler(product_sid);
-                          }}
-                          singinHandler={toSingIn}
-                        />
-                      </Col>
-                    );
-                  })}
-                </Row>
+              <div className={styles.new_products_cards_box}>
+                <div className={styles.left_arrow_box}>
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    className={styles.left_arrow}
+                    onClick={() => {
+                      // if (catDogCurrent === 0) {
+                      //   setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
+                      // } else {
+                      //   setCatDogCurrent(catDogCurrent - 1);
+                      // }
+                    }}
+                  />
+                </div>
+                <div className={styles.cat_dog_cards_display}>
+                  <div className={styles.cat_dog_cards} style={catDogStyle}>
+                    {dataForRecomand.map((v) => {
+                      const {
+                        product_sid,
+                        name,
+                        img,
+                        max_price,
+                        min_price,
+                        avg_rating,
+                        like,
+                      } = v;
+                      return (
+                        <div className={styles.product_card} key={product_sid}>
+                          <ShopProductCard
+                            product_sid={product_sid}
+                            name={name}
+                            img={img}
+                            max_price={max_price}
+                            min_price={min_price}
+                            avg_rating={avg_rating}
+                            like={like}
+                            token={auth.token}
+                            clickHandler={() => {
+                              clickHeartHandler(product_sid);
+                            }}
+                            singinHandler={toSingIn}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
               <div className={styles.pet_type_btns}>
                 <button className={styles.circle_btn_active}></button>

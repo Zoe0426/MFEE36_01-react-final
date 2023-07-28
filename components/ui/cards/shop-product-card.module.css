@@ -23,7 +23,7 @@
 .card_head{
     position: relative;
     overflow: hidden;
-    /* padding:var(--p16) var(--p16); */
+    padding:var(--p16) var(--p16);
     border-bottom: 3px solid var(--main);
     text-align: center;
 }
@@ -36,6 +36,7 @@
     padding: var(--p8);
     display: flex;
     z-index: 3;
+    font-size: var(--pfs14);
 }
 .card_tag>p:nth-child(2){
     color:var(--main);
