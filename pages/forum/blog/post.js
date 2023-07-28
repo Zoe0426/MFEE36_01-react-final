@@ -16,75 +16,55 @@ import AuthContext from '@/context/AuthContext';
 import { Input, Form, Select, Space } from 'antd';
 const { TextArea } = Input;
 
-// Ant design 上傳圖片
-import { PlusOutlined } from '@ant-design/icons';
-import { Modal, Upload } from 'antd';
-const getBase64 = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
 
-export default function Post({postSid='', memberId=''}
-) {
+export default function Post() {
 
   const {auth, setAuth} = useContext(AuthContext);
   //紀錄body要放的東西：
   // 看板 (已做)
   const [boardSid, setBoardSid] = useState(1);
   // 文章標題 (onChange)
-  const [title, setTitle] = useState('');
+  // const [title, setTitle] = useState('');
   // 文章內容 (onChange)
-  const [content, setContent] = useState('');
+  // const [content, setContent] = useState('');
   const [value, setValue] = useState('');
   // 選到的話題 (要click到的hashtag -> onclick)
-  // const [choseHashtag, setChoseHashtag] = useState([]);
+  const [choseHashtag, setChoseHashtag] = useState([]);
   // member...
   //-----------------
-  const handleTitleChange = (event)=>{
-    setTitle(event.target.value);
-    console.log("title", event.target.value);
-  };
-  const handleContentChange = (event)=>{
-    setContent(event.target.value);
-    console.log("content", event.target.value); 
-  };
+
+  //如果用antd也不用這個了
+  // const handleTitleChange = (event)=>{
+  //   setTitle(event.target.value);
+  //   console.log("title", event.target.value);
+  // };
+  // const handleContentChange = (event)=>{
+  //   setContent(event.target.value);
+  //   console.log("content", event.target.value); 
+  // };
 
   // const currentDateTime = new Date().toLocaleString(); // 取得現在的日期和時間
-
-  //form 表單驗證
-  const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log('選中的值:', values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  console.log(auth.id);
 
 
-  const id = auth.id;
-
-  console.log("auth.id",id)
 
   // 給會員一個初始值
-  const initialValues = {
-    memberSid: id}
+  // const initialValues = {
+  //   memberSid: auth.id
+  // };
+
 
   //發布文章
+
   const handleSubmit = (values) => {
+    console.log('選中的值:', values);
+    const newValue = { ...values, boardSid: boardSid, memberSid:auth.id, choseHashtag: choseHashtag};
+    console.log('送後端的值：',newValue);
+
     console.log('clicked');
     fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
       method:'POST',
-      body:JSON.stringify(values),
-      //   {
-      //   member_sid:memberId,
-      //   board_sid:boardSid,
-      //   post_title:title,
-      //   post_content:content,
-      //   // hashtag_name:choseHashtag,
-      // }),
+      body:JSON.stringify(newValue),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -94,76 +74,6 @@ export default function Post({postSid='', memberId=''}
       console.log('data', data);
     })
   }
-
-  
-  
-
-  // Ant design上傳圖片
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([
-    // {
-    //   uid: '-1',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-2',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-3',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-4',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-xxx',
-    //   percent: 50,
-    //   name: 'image.png',
-    //   status: 'uploading',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-5',
-    //   name: 'image.png',
-    //   status: 'error',
-    // },
-  ]);
-  const handleCancel = () => setPreviewOpen(false);
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url || file.preview);
-    setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
-  };
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
-    </div>
-  );
-
-
 
 
   // // 選取看板出現相對應話題
@@ -289,6 +199,7 @@ export default function Post({postSid='', memberId=''}
   const [options, setOptions] = useState([]);
   
     const handleChangeTag = (value) => {
+      setChoseHashtag(value);
       console.log(`selected ${value}`);
     };
 
@@ -420,81 +331,58 @@ export default function Post({postSid='', memberId=''}
         <Col span={16}>
             <div className={Style.blogContent}>
             <Form
-            form={form}
+            // initialValues={initialValues}
             onFinish={handleSubmit}
-            onFinishFailed={onFinishFailed}
+            // onFinishFailed={onFinishFailed}
             >
             <PostNavPure postNav='發佈文章'/>
             <div className={Style.postContent}>
               {/*<p>{currentDateTime}</p>*/}
               <div><FontAwesomeIcon icon={faLayerGroup} />選擇發文看板</div>
-              <div><BlogBoardNav
-              doctor={()=>{
-                doctor();
-              }}
-              home={()=>{
-                home();
-              }}
-              site={()=>{
-                site();
-              }}
-              restaurant={()=>{
-                restaurant();
-              }}
-              salon={()=>{
-                salon();
-              }}
-              school={()=>{
-                school();
-              }}
-              hang={()=>{
-                hang();
-              }}
-              young={()=>{
-                young();
-              }}
-              old={()=>{
-                old();
-              }}
-              product={()=>{
-                product();
-              }}
-              diary={()=>{
-                diary()
-              }}/><div/>
-              <Form.Item
-              name={'memberSid'}
-              style={{ padding: '0px', display: 'none' }}
-            >
-              <Input />
-            </Form.Item>
+              <BlogBoardNav
+                doctor={()=>{
+                  doctor();
+                }}
+                home={()=>{
+                  home();
+                }}
+                site={()=>{
+                  site();
+                }}
+                restaurant={()=>{
+                  restaurant();
+                }}
+                salon={()=>{
+                  salon();
+                }}
+                school={()=>{
+                  school();
+                }}
+                hang={()=>{
+                  hang();
+                }}
+                young={()=>{
+                  young();
+                }}
+                old={()=>{
+                  old();
+                }}
+                product={()=>{
+                  product();
+                }}
+                diary={()=>{
+                  diary()
+                }}/>
               <div><FontAwesomeIcon icon={faFileLines} />發佈文章內容</div>
-              <Form.Item>
-                <Input placeholder="文章標題" onChange={handleTitleChange} value={title}/>
+              <Form.Item name={'title'}>
+                <Input placeholder="文章標題"/>
               </Form.Item>
-              <Form.Item>
-                <TextArea rows={20} placeholder="撰寫新文章內容" maxLength={50} onChange={handleContentChange} value={content}/>  
+              <Form.Item name={'content'}>
+                <TextArea rows={20} placeholder="撰寫新文章內容" maxLength={50}/>  
               </Form.Item>
               <div><FontAwesomeIcon icon={faImage} />新增相片</div>
               <Form.Item>
-                <Upload
-                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                  listType="picture-card"
-                  fileList={fileList}
-                  onPreview={handlePreview}
-                  onChange={handleChange}
-                >
-                  {fileList.length >= 8 ? null : uploadButton}
-                </Upload>
-                <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-                  <img
-                    alt="example"
-                    style={{
-                      width: '100%',
-                    }}
-                    src={previewImage}
-                  />
-                </Modal>
+                
               </Form.Item>
               <div><FontAwesomeIcon icon={faHashtag} />新增話題</div>
               {/*<div className={Style.hashtagField}>
@@ -502,29 +390,31 @@ export default function Post({postSid='', memberId=''}
                 <PostHashtag key={i} text={v.hashtag_name}/>
               ))}
               </div>*/}
-              <Space
-                style={{
-                  width: '100%',
-                }}
-                direction="vertical"
-              >
-              <Select
-                mode="multiple"
-                allowClear
-                style={{
-                  width: '100%',
-                }}
-                placeholder="選擇話題"
-                // defaultValue={['a10', 'c12']}
-                onChange={handleChangeTag}
-                options={options}
-              />
-              </Space>
+              {/*<Form.Item name={'value'}>*/}
+                <Space
+                  style={{
+                    width: '100%',
+                  }}
+                  direction="vertical"
+                >
+                <Select
+                  mode="multiple"
+                  allowClear
+                  style={{
+                    width: '100%',
+                  }}
+                  placeholder="選擇話題"
+                  // defaultValue={['a10', 'c12']}
+                  onChange={handleChangeTag}
+                  options={options}
+                />
+                </Space>
+              {/*</Form.Item>*/}
             <MainBtn className={Style.subBtn} text='發佈文章' htmltype="submit"
             //clickHandler={sendPost}
             /> 
             <SecondaryBtn text = '取消'/>    
-          </div>
+
           </div>
         </Form>
         </div>
