@@ -10,6 +10,7 @@ export default function LikeListCard({
   datas = [], //需要渲染的陣列資料
   token = '',
   removeLikeListItem = () => {}, //用來清除某一項蒐藏清單的函式
+  closeLikeList = () => {},
 }) {
   const router = useRouter();
   return datas.map((v) => {
@@ -31,6 +32,7 @@ export default function LikeListCard({
           role="presentation"
           className={Styles.like_img}
           onClick={() => {
+            closeLikeList();
             router.push(`http://localhost:3000/restaurant/${rest_sid}`);
           }}
         >
@@ -40,6 +42,7 @@ export default function LikeListCard({
           role="presentation"
           className={Styles.like_content_box}
           onClick={() => {
+            closeLikeList();
             router.push(`http://localhost:3000/restaurant/${rest_sid}`);
           }}
         >

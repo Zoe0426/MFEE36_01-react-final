@@ -5,14 +5,46 @@
   padding-top: var(--p8);
   padding-bottom: var(--p8);
 }
-.dates_modal{
+.dates_modal {
+  width: 100%;
   display: flex;
-  gap:20px;
+  justify-content: space-between;
+  /* gap: 22px; */
   padding-bottom: 120px;
-  padding-top: 10px;
+  padding-top: 28px;
   align-items: center;
   text-align: center;
+}
 
+.btn_group > button {
+  border: 0;
+  border: 2px solid transparent;
+  background-color: var(--secondary);
+  padding: 8px 16px;
+  padding-top: 10px;
+  border-radius: 8px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+.next_week{
+  margin-left: 12px;
+}
+.btn_group > button:hover{
+  background-color: var(--light1);
+  border: 2px solid var(--secondary);
+}
+
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gray);
+}
+
+.date_date {
+  font-size:18px;
+  font-weight: 500;
+  user-select: none;
 }
 .abc {
   background-color: var(--lightBrown);
@@ -20,14 +52,9 @@
 
 .timetable {
   font-size: var(--h3fs28);
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-.week_calendar {
-  position: relative;
-  align-items: center;
-  gap: 20px;
-  justify-content: space-between;
+  margin-top: 28px;
+  margin-bottom: 28px;
+
 }
 .arrow_right,
 .arrow_left {
@@ -40,9 +67,11 @@
 .arrow_left {
   top: 20%;
   left: -6%;
+  z-index: 999;
 }
 .arrow_right {
-  top: 20%;
+  top: 0;
+  z-index: 999;
   right: -6%;
 }
 .arrow_right:hover,
@@ -70,19 +99,7 @@
 .time_range {
   margin-bottom: 12px;
 }
-.booking_card {
-  background-color: #fff;
-  padding: 24px 32px;
-  border-radius: 8px;
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: var(--pfs14);
-  border: 1px solid var(--light-gray);
-  /* border-top: 8px solid #B1EFCA; */
-}
+
 .time_section {
   width: 100%;
   display: flex;
@@ -90,19 +107,10 @@
   padding-bottom: 80px;
 }
 
-.column{
+.column {
   display: flex;
   flex-direction: column;
 }
 .time_range {
   font-weight: var(--fwbold);
-}
-.rest_people {
-  display: flex;
-  align-items: center;
-}
-.rest_num {
-  font-size: var(--h6fs18);
-  color: var(--main);
-  margin: 0 6px;
 }

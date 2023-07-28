@@ -5,90 +5,33 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
-import arrowRight from '@/assets/arrow-right.svg';
+import faArrowRight from '@/assets/arrow-right.svg';
 import faArrowLeft from '@/assets/arrow-left.svg';
 import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 
 function WeekCalendar() {
   const uniqueDates = new Set();
-  const [currentWeek, setCurrentWeek] = useState(0);
-  const [showPreviousWeek, setShowPreviousWeek] = useState(false);
-  const [showNextWeek, setShowNextWeek] = useState(true);
-
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth();
-  const currentDay = now.getDate();
-  const weekDayList = ['日', '一', '二', '三', '四', '五', '六'];
-
-  const [selectedDateData, setSelectedDateData] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  const clickHandler = (sectionSid) => {
-    setSelectedDate(sectionSid);
-
-    const selectedData = data.find((item) => item.section_sid === sectionSid);
-    setSelectedDateData(selectedData);
-  };
-
-  const firstDay = new Date(
-    currentYear,
-    currentMonth,
-    currentDay - (currentWeek * 7 + 1) + 1
-  );
-  const daysDataArray = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(firstDay);
-    date.setDate(firstDay.getDate() + i);
-    return {
-      date: date.getDate(),
-      dayOfWeek: weekDayList[date.getDay()],
-      month: date.getMonth() + 1,
-    };
-  });
-  // 初始化每個週份的點擊次數為 0
-  const [clickCounts, setClickCounts] = useState(Array(10).fill(0));
-
-  const goToPreviousWeek = () => {
-    setCurrentWeek((prevWeek) => prevWeek + 1);
-
-    // 更新當前週份的點擊次數並重置為 0
-    const updatedClickCounts = [...clickCounts];
-    updatedClickCounts[currentWeek + 1] = 0;
-    setClickCounts(updatedClickCounts);
-  };
-
-  const goToNextWeek = () => {
-    setCurrentWeek((prevWeek) => prevWeek - 1);
-
-    // 更新當前週份的點擊次數並重置為 0
-    const updatedClickCounts = [...clickCounts];
-    updatedClickCounts[currentWeek - 1] = 0;
-    setClickCounts(updatedClickCounts);
-  };
-
-  useEffect(() => {
-    if (currentWeek < 0) {
-      setShowPreviousWeek(true);
-    } else {
-      setShowPreviousWeek(false);
-    }
-  }, [currentWeek]);
-
-  useEffect(() => {
-    // 判斷是否超過兩次點擊，更新對應週份的點擊次數
-    if (clickCounts[currentWeek] >= 2) {
-      const updatedClickCounts = [...clickCounts];
-      updatedClickCounts[currentWeek] = 2;
-      setClickCounts(updatedClickCounts);
-      setShowNextWeek(false);
-    } else {
-      setShowNextWeek(true);
-    }
-  }, [currentWeek, clickCounts]);
-
   const [data, setData] = useState({ bookingRows: [], memberRows: [] });
   const [bookingRows, setBookingRows] = useState();
   const [memberRows, setMemberRows] = useState();
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [startDateIndex, setStartDateIndex] = useState(0); // 添加這個狀態變量
+
+  // 新增處理下一個七天預約資訊的函式
+  const goToNextWeek = () => {
+    const nextIndex = startDateIndex + 35;
+    if (nextIndex < bookingRows.length) {
+      setStartDateIndex(nextIndex);
+    }
+  };
+
+  // 新增處理返回前一個七天預約資訊的函式
+  const goToPreviousWeek = () => {
+    const previousIndex = startDateIndex - 35;
+    if (previousIndex >= 0) {
+      setStartDateIndex(previousIndex);
+    }
+  };
 
   useEffect(() => {
     fetch(`${process.env.API_SERVER}/restaurant-api/booking`)
@@ -104,6 +47,8 @@ function WeekCalendar() {
           setMemberRows(...memberRows);
         }
         console.log(bookingRows);
+        setData(data);
+        console.log(data);
       })
       .catch((error) => {
         console.error(error);
@@ -147,86 +92,71 @@ function WeekCalendar() {
           </div>
         </div>
       </div>
-      <div className="container-inner">
-        <h1 className={Styles.timetable}>曜日義式餐酒館預約時間表</h1>
-
-        <Image
+      <div>
+        {/* <Image
           src={faArrowLeft}
           className={Styles.arrow_left}
           onClick={goToPreviousWeek}
           alt="faArrowLeft"
         />
-
         <Image
-          src={arrowRight}
+          src={faArrowRight}
           className={Styles.arrow_right}
           onClick={goToNextWeek}
           alt="arrowRight"
-        />
+        /> */}
       </div>
       <div className="container-inner">
-        <div className={Styles.week_calendar}>
-          {/* {showPreviousWeek && (
-            <Image
-              src={faArrowLeft}
-              className={Styles.arrow_left}
-              onClick={goToPreviousWeek}
-              alt="faArrowLeft"
-            />
-          )} */}
-          {/* <div className={Styles.dates_container}>
-            {daysDataArray.map((item, idx) => (
-              <div key={idx} className={Styles.date}>
-                <p
-                  onClick={() => {
-                    setSelectedDate(item.date);
-                  }}
-                >
-                  {item.month}/{item.date}({item.dayOfWeek})
-                </p>
-              </div>
-            ))}
-          </div> */}
-          <div className={Styles.dates_modal}>
-            {bookingRows?.map((v) => {
-              if (!uniqueDates.has(v.date)) {
-                uniqueDates.add(v.date);
-                return (
-                  <div key={v.section_sid}>
-                    <div>{v.date}</div>
-                    {bookingRows
-                      .filter((item) => item.date === v.date)
-                      .map((item) => (
-                        <>
-                          <div key={item.section_sid}>
-                            <BookingModal
-                              time={item.time}
-                              people={item.people_max}
-                              datas={bookingRows[item.section_sid - 1]}
-                            />
-                          </div>
-                        </>
-                      ))}
-                  </div>
-                );
-              } else {
-                return null;
-              }
-            })}
+        <div className={Styles.head}>
+          <h1 className={Styles.timetable}>曜日義式餐酒館預約時間表</h1>
+          <div className={Styles.btn_group}>
+            {startDateIndex > 0 && (
+              <button onClick={goToPreviousWeek}>
+                <Image src={faArrowLeft} alt="faArrowLeft" />
+              </button>
+            )}
+            {startDateIndex + 35 < bookingRows?.length && (
+              <button onClick={goToNextWeek} className={Styles.next_week}>
+                <Image src={faArrowRight} alt="faArrowRight" />
+              </button>
+            )}
           </div>
-
-          {/* {showNextWeek && (
-            <Image
-              src={arrowRight}
-              className={Styles.arrow_right}
-              onClick={goToNextWeek}
-              alt="arrowRight"
-            />
-          )} */}
+        </div>
+      </div>
+      <div className="container-inner">
+        <div className={Styles.dates_modal}>
+          {bookingRows?.slice(startDateIndex, startDateIndex + 35).map((v) => {
+            {
+              /* const currentDate = new Date(v.date); */
+            }
+            if (!uniqueDates.has(v.date)) {
+              uniqueDates.add(v.date);
+              return (
+                <div key={v.section_sid}>
+                  <div className={Styles.date_date}>{v.date}</div>
+                  {bookingRows
+                    .filter((item) => item.date === v.date)
+                    .map((item) => (
+                      <>
+                        <div key={item.section_sid}>
+                          <BookingModal
+                            time={item.time}
+                            people={item.remaining_slots}
+                            datas={item}
+                            memberDatas={memberRows}
+                          />
+                        </div>
+                      </>
+                    ))}
+                </div>
+              );
+            } else {
+              return null;
+            }
+          })}
         </div>
       </div>
     </div>
   );
 }
-
 export default WeekCalendar;

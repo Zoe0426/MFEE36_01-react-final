@@ -4,9 +4,11 @@ import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import NumberInput from '../numberInput/numberInput2';
 
 export default function BookingModal({
   datas = [],
+  memberDatas = [],
   clickHandler = () => {},
   time,
   people,
@@ -19,16 +21,28 @@ export default function BookingModal({
     setModal(!modal);
   };
 
+  const restPeople = datas.remaining_slots;
   console.log(datas);
+  console.log(memberDatas);
 
   return (
     <>
-      {/* <MainBtn clickHandler={toggleModal} text="預約的時間區塊" /> */}
       <div className={Styles.time_section}>
-        <div className={Styles.booking_card} onClick={toggleModal}>
+        <div
+          onClick={restPeople <= 0 ? null : toggleModal}
+          className={
+            restPeople <= 0 ? Styles.no_people_card : Styles.booking_card
+          }
+        >
           <div className={Styles.time_range}>{time}</div>
           <div className={Styles.rest_people}>
-            剩餘<p className={Styles.rest_num}>{people}</p>人
+            {restPeople <= 0 ? '' : '剩餘'}
+            <p
+              className={restPeople <= 0 ? Styles.no_rest_num : Styles.rest_num}
+            >
+              {restPeople <= 0 ? '額滿' : people}
+            </p>
+            {restPeople <= 0 ? '' : '位'}
           </div>
         </div>
       </div>
@@ -41,93 +55,42 @@ export default function BookingModal({
               <div className={Styles.modal_content}>
                 <div className={Styles.booking_info}>
                   <div className={Styles.time}>
+                    <p className={Styles.booking_title}>預約餐廳</p>
+                    <p>{datas.name}</p>
+                  </div>
+                  <div className={Styles.time}>
                     <p className={Styles.booking_title}>預約時間</p>
                     <p>
-                      2023/{datas.date}
-                      {datas.time}
+                      2023/{datas.date} {datas.time}
                     </p>
                   </div>
                   <div className={Styles.member}>
                     <p className={Styles.booking_title}>預約會員</p>
-                    <p>潘彥廷</p>
+                    <p>{memberDatas.name}</p>
                   </div>
                   <div className={Styles.phone}>
                     <p className={Styles.booking_title}>聯絡資訊</p>
-                    <p>0957860732</p>
+                    <p>{memberDatas.mobile}</p>
                   </div>
                 </div>
                 <div className={Styles.line}></div>
                 {/* 人數 */}
                 <div className={Styles.detail_qty_area}>
                   <div className={Styles.detail_people_box}>
-                    <h5 className={Styles.detail_title}>人數</h5>
-                    <div className={Styles.detail_qty}>
-                      <button
-                        className={Styles.detail_qty_sub_btn}
-                        onClick={() => {
-                          if (countPeople > 1) {
-                            setCountPeople(countPeople - 1);
-                          }
-                        }}
-                      >
-                        -
-                      </button>
-                      <input
-                        type="text"
-                        className={Styles.detail_qty_input}
-                        value={countPeople}
-                        onChange={(e) => {
-                          const reisNumber = /[.\d]/;
-                          if (reisNumber.test(e.target.value)) {
-                            setCountPeople(parseInt(e.target.value));
-                          }
-                        }}
+                    {/* <h5 className={Styles.detail_title}>人數</h5> */}
+                    <div className={Styles.input_height}>
+                      <NumberInput
+                        title="人數"
+                        needMax={true}
+                        maxValue={datas.remaining_slots}
                       />
-                      <button
-                        className={Styles.detail_qty_add_btn}
-                        onClick={() => {
-                          setCountPeople(countPeople + 1);
-                        }}
-                      >
-                        +
-                      </button>
                     </div>
                   </div>
 
                   {/* 寵物數 */}
                   <div className={Styles.detail_pet_box}>
-                    <h5 className={Styles.detail_title}>寵物數</h5>
-                    <div className={Styles.detail_qty}>
-                      <button
-                        className={Styles.detail_qty_sub_btn}
-                        onClick={() => {
-                          if (countPet > 1) {
-                            setCountPet(countPet - 1);
-                          }
-                        }}
-                      >
-                        -
-                      </button>
-                      <input
-                        type="text"
-                        className={Styles.detail_qty_input}
-                        value={countPet}
-                        onChange={(e) => {
-                          const reisNumber = /[.\d]/;
-                          if (reisNumber.test(e.target.value)) {
-                            setCountPet(parseInt(e.target.value));
-                          }
-                        }}
-                      />
-                      <button
-                        className={Styles.detail_qty_add_btn}
-                        onClick={() => {
-                          setCountPet(countPet + 1);
-                        }}
-                      >
-                        +
-                      </button>
-                    </div>
+                    {/* <h5 className={Styles.detail_title}>寵物數</h5> */}
+                    <NumberInput title="寵物數" />
                   </div>
                 </div>
                 <div className={Styles.note}>
