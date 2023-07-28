@@ -54,6 +54,8 @@ export default function ActivityMain() {
   const [showfilter, setShowFilter] = useState(false);
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [selectedMinPrice, setSelectedMinPrice] = useState(null);
+  const [selectedMaxPrice, setSelectedMaxPrice] = useState(null);
 
   const [city, setCity] = useState('');
   const [area, setArea] = useState('');
@@ -236,6 +238,12 @@ export default function ActivityMain() {
     setEndDate(endDate);
   };
 
+
+  const handlePriceChange = (minPrice, maxPrice) => {
+    setSelectedMinPrice(minPrice);
+    setSelectedMaxPrice(maxPrice);
+  };
+
   //篩選 搜尋btn 觸發事件
   const filterHandler = () => {
     let query = {};
@@ -257,11 +265,16 @@ export default function ActivityMain() {
       query.area = selectedArea;
     }
 
-    if (minPrice) {
-      query.minPrice = minPrice;
+    if (selectedMinPrice !== null) {
+      query.minPrice = selectedMinPrice;
+    } else {
+      delete query.minPrice;
     }
-    if (maxPrice) {
-      query.maxPrice = maxPrice;
+
+    if (selectedMaxPrice !== null) {
+      query.maxPrice = selectedMaxPrice;
+    } else {
+      delete query.maxPrice;
     }
 
     if (startDate) {
@@ -540,7 +553,9 @@ export default function ActivityMain() {
                 setSelectedValue={setSelectedActivityTypeSid}
                 filterHandler={filterHandler}
               />
-                <ActivityFilterPrice />
+                <ActivityFilterPrice onPriceChange={handlePriceChange} />
+
+
                 <ActivityFilterDate onDateChange={handleDateChange} />
 
                 <div className={styles.filter_btns}>

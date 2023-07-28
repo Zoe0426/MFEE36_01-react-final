@@ -1,10 +1,8 @@
-import React, { useState, } from 'react';
-import { Radio, Button, DatePicker, Form, ConfigProvider } from 'antd';
-const { RangePicker } = DatePicker;
+import React, { useState } from 'react';
+import { Radio, ConfigProvider } from 'antd';
 import styles from './ActivityFilterPrice.module.css';
-import { useRouter } from 'next/router'; 
 
-const ActivityFiltersPrcie = () => {
+const ActivityFilterPrice = ({ onPriceChange }) => {
   const plainOptions = [
     { label: '$200', value: '0-200' },
     { label: '$200-$400', value: '200-400' },
@@ -13,38 +11,21 @@ const ActivityFiltersPrcie = () => {
     { label: '$800-$1000', value: '800-1000' },
     { label: '$1000以上', value: '1000-' },
   ];
-  const [value1, setValue1] = useState('');
 
-  const router = useRouter();
+  const [value1, setValue1] = useState('');
 
   const onChange1 = (e) => {
     const selectedValue = e.target.value;
     console.log('radio1 checked', selectedValue);
     setValue1(selectedValue);
 
-    // Extract minPrice and maxPrice from the selectedValue
     const [minPrice, maxPrice] = selectedValue.split('-').map((price) => {
-      if (price === '') return ''; // If the price is an empty string, return an empty string
+      if (price === '') return null;
       return parseInt(price);
     });
 
-    // Update the query string with the appropriate parameters
-    const query = { ...router.query };
-    if (minPrice !== '') {
-      query.minPrice = minPrice;
-    } else {
-      delete query.minPrice;
-    }
-    if (maxPrice !== '') {
-      query.maxPrice = maxPrice;
-    } else {
-      delete query.maxPrice;
-    }
-
-    router.push({
-      pathname: router.pathname,
-      query,
-    });
+    // Call the callback function with minPrice and maxPrice values
+    onPriceChange(minPrice, maxPrice);
   };
 
   return (
@@ -65,6 +46,4 @@ const ActivityFiltersPrcie = () => {
   );
 };
 
-export default ActivityFiltersPrcie;
-
-
+export default ActivityFilterPrice;
