@@ -29,6 +29,8 @@ import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ActivityFilter from '@/components/ui/cards/ActivityFilter';
 import ActivityFilterPrice from '@/components/ui/cards/ActivityFilterPrice';
 import ActivityFilterDate from '@/components/ui/cards/ActivityFilterDate';
+import orderByOptions from '@/data/activity/orderby.json';
+import ActivityPageOrder from '@/components/ui/cards/ActivityPageOrder';
 
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
@@ -112,9 +114,28 @@ export default function ActivityMain() {
 
   // 排序
   const rankOptions = {
-    1: 'new_DESC',
-    // 2: 'hot_DESC', // TODO: 需再確認cart的欄位名稱
+    1: 'hot_DESC',
+    2: 'date_ASC',
+    3: 'date_DESC', // TODO: 需再確認cart的欄位名稱
   };
+
+  const orderByHandler = (e) => {
+    const newSelect = orderByOptions.find((v) => v.key === e.key);
+
+    // console.log(newSelect.label);
+    setOrderBy(newSelect.label);
+
+    const selectedRank = rankOptions[e.key];
+    // console.log(selectedRank);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page: 1,
+        orderBy: selectedRank,
+      }).toString()}`
+    );
+  };
+
 
   useEffect(() => {
     console.log('router.query:', router.query);
@@ -638,11 +659,18 @@ export default function ActivityMain() {
       <div className="container-inner">
         <div className={styles.quick_selector}>
           <div>
-            <p className={styles.text_large}>TODO: 搜尋活動「游泳課」</p>
-            <p>TODO: 50項活動</p>
+            <p className={styles.text_large}>活動列表</p>
+            <p>
+              {datas.totalRows != 0 ? `共${datas.totalRows}項活動` : '查無活動'}
+            </p>
           </div>
           <div>
-            <button>最新</button>
+          <ActivityPageOrder
+            totalItems={datas.totalRows}
+            onRankChange={orderByHandler}
+            orderBy={orderBy}
+            items={orderByOptions}
+          />
           </div>
         </div>
       </div>
