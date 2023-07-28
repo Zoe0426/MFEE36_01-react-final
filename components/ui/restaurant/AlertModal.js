@@ -6,6 +6,7 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Input, ConfigProvider } from 'antd';
+import IconMainBtn from '../buttons/IconMainBtn';
 export default function AlertModal({
   btnType = 'main', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn)、input(ant d input)、text(純文字)五種
   icon = '', //選擇iconBtn的，請先把要用的icon引入到主頁面，並傳給此參數
@@ -38,6 +39,8 @@ export default function AlertModal({
         />
       ) : btnType === 'iconBtn' ? (
         <IconBtn icon={icon} text={btnText} clickHandler={toggleModal} />
+      ) : btnType === 'IconMainBtn' ? (
+        <IconMainBtn icon={icon} text={btnText} clickHandler={toggleModal} />
       ) : btnType === 'input' ? (
         <ConfigProvider
           theme={{

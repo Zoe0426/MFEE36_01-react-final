@@ -1,7 +1,6 @@
 .overlay {
   z-index: 999;
-  background: rgba(49, 49, 49, 0.6);
-
+  background: rgba(49, 49, 49, 0.8);
 }
 
 .overlay {
@@ -19,26 +18,57 @@
   display: flex;
   align-items: center; /* 將內容置中 */
   justify-content: center; /* 將內容置中 */
-  position: absolute;
+  position: fixed;
   width: 60%;
-  top: 2%;
+  top: 6%;
   left: 20%; /* 調整置中的位置 */
   z-index: 9999;
 }
 
 .image_container {
-  flex: 1; /* 讓圖片佔滿剩餘空間 */
+  /* flex: 1; 
   display: flex;
-  align-items: center; /* 將圖片置中 */
-  justify-content: center; /* 將圖片置中 */
+  align-items: center; 
+  justify-content: center;  */
+
 }
+
 
 .image {
-  /* ... */
-  max-height: 760px; /* 使用 max-height 避免圖片變形 */
-  max-width: 100%; /* 使用 max-width 避免圖片變形 */
+  max-height: 82vh; 
+  /* max-width: 100%; */
 }
-
+.image_hovered {
+  transform: scale(1.2); /* 设置图像放大的缩放比例为1.2 */
+  transition: transform 0.2s ease; /* 添加过渡效果，让放大动作更平滑 */
+}
+.zoom_buttons {
+  background-color: rgba(0, 0, 0, 0.4);
+  margin-top: 100px;
+  z-index: 9999;
+  position: fixed;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 16px;
+  border-radius: 40px;
+}
+.zoom_buttons > button {
+  color: white;
+  opacity: 0.5;
+  background-color: transparent;
+  border: 0;
+  font-size: 24px;
+  cursor: pointer;
+  transition: 0.5s;
+  padding: 4px;
+}
+.zoom_buttons > button:hover {
+  opacity: 1;
+}
+.plus {
+  margin-right: 20px;
+}
 /* .xmark{
   color: white;
   position: absolute;
@@ -52,35 +82,46 @@
 
 .right_arrow {
   color: white;
-  position: fixed; 
-  right: 14%;
+  position: fixed;
+  right: 2%;
   top: 50%;
-  font-size: 2.75rem;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  border-radius: 50%;
   z-index: 10;
   cursor: pointer;
   user-select: none;
   opacity: 0.8;
-  transition: 0.6s;
+  transition: 0.3s;
+  padding: 15px 17px;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.right_arrow:hover{
-    opacity: 1;
+.right_arrow:hover {
+  opacity: 1;
+  background-color: rgba(179, 179, 179, 0.6);
 }
 
-.left_arrow:hover{
-    opacity: 1;
+.left_arrow:hover {
+  opacity: 1;
+  background-color: rgba(179, 179, 179, 0.6);
 }
 
 .left_arrow {
   color: white;
   position: fixed;
-  left: 14%;
+  left: 2%;
   top: 50%;
-  font-size: 2.75rem;
+  transform: translateY(-50%);
+  font-size: 1rem;
   z-index: 10;
   cursor: pointer;
   user-select: none;
   opacity: 0.8;
+  transition: 0.3s;
+  border-radius: 50%;
+  padding: 15px 17px;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .slide {
@@ -88,7 +129,7 @@
   transition-duration: 1s ease;
 }
 
-.slide_active{
+.slide_active {
   opacity: 1;
   transition-duration: 1s;
   transform: scale(1.08);

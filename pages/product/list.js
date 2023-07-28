@@ -6,7 +6,7 @@ import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 import AuthContext from '@/context/AuthContext';
 
 /*引用的卡片+篩選*/
-import Likelist from '@/components/ui/like-list/like-list';
+import Likelist from '@/components/ui/like-list/LikeListDrawer';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopHistoryCard from '@/components/ui/cards/shop-history-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';

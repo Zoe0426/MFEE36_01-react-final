@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
+import AuthContext from '@/context/AuthContext';
 import { Fragment } from 'react';
 import { useState } from 'react';
 import { SlideImage } from '@/components/ui/restaurant/ImageSample';
@@ -26,15 +27,17 @@ import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
 import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
 import PinkBtn from '@/components/ui/restaurant/PinkBtn';
-import { Col, Row } from 'antd';
+import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
 import catJump from '@/assets/jump_cat.svg';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import Likelist from '@/components/ui/like-list/like-list';
+import AlertModal from '@/components/ui/restaurant/AlertModal';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
+  const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
   const [restDetailRows, setRestDetailRows] = useState([]);
   const [data, setData] = useState({
@@ -157,6 +160,16 @@ export default function RestInfo() {
     main.src = imgUrl;
   }
 
+  //沒登入會員收藏，跳轉登入
+  const toSingIn = () => {
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=http://localhost:3000/restaurant/booking?${new URLSearchParams(
+        from
+      ).toString()}`
+    );
+  };
+
   //給他一個loading的時間
   if (!serviceRows || !restDetailRows) return <p>loading</p>;
   return (
@@ -164,7 +177,31 @@ export default function RestInfo() {
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>
-            <div className="breadcrumb">餐廳列表/我們家有農場</div>
+            <div className={Styles.breadcrumb}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    colorBgContainer: 'transparent',
+                    colorPrimaryTextHover: '#FFEFE8',
+                    colorBgTextActive: '#FD8C46',
+                    fontSize: 18,
+                  },
+                }}
+              >
+                <Breadcrumb
+                  items={[
+                    {
+                      title: '餐廳列表',
+                      href: 'http://localhost:3000/restaurant/list',
+                    },
+                    {
+                      title: `${restDetailRows.name}`,
+                    },
+                  ]}
+                />
+              </ConfigProvider>
+            </div>
             <IconBtn icon={faHeart} text="收藏列表" />
           </div>
         </div>
@@ -278,7 +315,11 @@ export default function RestInfo() {
 
             <div className={Styles.contact_group}>
               <div className={Styles.contact}>
-                <FontAwesomeIcon icon={faPhone} className={Styles.info_icon} />
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  style={{ maxWidth: '20px', maxHeight: '20px' }}
+                  className={Styles.info_icon}
+                />
                 <p className={Styles.information_detail}>
                   0{restDetailRows.phone}
                 </p>
@@ -286,6 +327,7 @@ export default function RestInfo() {
               <div className={Styles.contact}>
                 <FontAwesomeIcon
                   icon={faLocationDot}
+                  style={{ maxWidth: '20px', maxHeight: '20px' }}
                   className={Styles.info_icon}
                 />
                 <p className={Styles.information_detail}>
@@ -295,13 +337,21 @@ export default function RestInfo() {
                 </p>
               </div>
               <div className={Styles.contact}>
-                <FontAwesomeIcon icon={faClock} className={Styles.info_icon} />
+                <FontAwesomeIcon
+                  icon={faClock}
+                  className={Styles.info_icon}
+                  style={{ maxWidth: '20px', maxHeight: '20px' }}
+                />
                 <p className={Styles.information_detail}>
                   {restDetailRows.start_at_1}~{restDetailRows.end_at_1}
                 </p>
               </div>
               <div className={Styles.contact}>
-                <FontAwesomeIcon icon={faPaw} className={Styles.info_icon} />
+                <FontAwesomeIcon
+                  icon={faPaw}
+                  className={Styles.info_icon}
+                  style={{ maxWidth: '20px', maxHeight: '20px' }}
+                />
                 <p className={Styles.information_detail}>
                   {restDetailRows.acceptType}
                 </p>
@@ -314,6 +364,7 @@ export default function RestInfo() {
                 icon={faHeart}
                 text="收藏餐廳"
                 clickHandler={openShowLikeList}
+                className={Styles.collect_btn}
               />
               <div className="like">
                 {showLikeList && (
@@ -324,15 +375,26 @@ export default function RestInfo() {
                   />
                 )}
               </div>
-
               <ImageGallary data={menuRows} />
-              <IconMainBtn
-                icon={faCalendar}
-                text="我要預約"
-                clickHandler={() => {
-                  router.push(`/restaurant/booking`);
-                }}
-              />
+              {auth.token ? (
+                <IconMainBtn
+                  icon={faCalendar}
+                  text="我要預約"
+                  clickHandler={() => {
+                    router.push(`/restaurant/booking`);
+                  }}
+                />
+              ) : (
+                <AlertModal
+                  btnType="IconMainBtn"
+                  btnText="我要預約"
+                  icon={faHeart}
+                  content="才可預約餐廳"
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                />
+              )}
             </div>
           </div>
         </div>

@@ -48,7 +48,7 @@ export default function ShopProductCard({
           {tag_display && !!sales_qty && (
             <div className={styles.card_tag}>
               <p>已銷售 </p>
-              <p>{sales_qty}</p>
+              <p>{parseInt(sales_qty).toLocaleString('en-US')}</p>
               <p> 組</p>
             </div>
           )}

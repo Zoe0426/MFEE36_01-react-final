@@ -166,6 +166,7 @@ export default function Schedule() {
                 actSid={actSid}
                 bkSid={bkSid}
                 restSid={restSid}
+                date={date}
                 content={
                   <AlertInfo
                     notice={notice}

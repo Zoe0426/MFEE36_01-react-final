@@ -6,10 +6,14 @@ import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration';
 import ShopSupplierCard from '@/components/ui/cards/shop-supplier-card';
 import SearchBar from '@/components/ui/buttons/SearchBar1';
 import SubBtn from '@/components/ui/buttons/subBtn';
-
 import { Row, Col } from 'antd';
 import Image from 'next/image';
 import styles from '@/styles/shop.module.css';
+import { faFontAwesome } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronRight,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
 
 //二大類圖示
 import dog from '@/assets/logo-dog.svg';
@@ -17,36 +21,14 @@ import cat from '@/assets/logo-cat.svg';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 //載入八大類icon資料
 import eightCatergoriesData from '@/data/product/eight-catergories-data.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function ProdoctIndex() {
   const router = useRouter();
 
-  const [cardPosition, setCardPosition] = useState(0);
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setCardPosition((prevPosition) => prevPosition - window.innerWidth);
-  //   }, 10000);
-
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
-  // useEffect(() => {
-  //   if (cardPosition <= -((5 - 1) * window.innerWidth)) {
-  //     setCardPosition(0);
-  //   }
-  // }, [cardPosition]);
-
   //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
   const [dataForDog, setDataForDog] = useState([]);
   const [dataForCat, setDataForCat] = useState([]);
-  const [dataForBrand, setDataForBrand] = useState([]);
-  const [dataForNew, setDataForNew] = useState([]);
-  const [keyword, setKeyword] = useState('');
-  const [keywordDatas, setKeywordDatats] = useState([]);
-  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-
   const [twotCatergoriesData, setTwotCatergoriesData] = useState([
     {
       id: 'dog',
@@ -63,6 +45,30 @@ export default function ProdoctIndex() {
       data: dataForCat,
     },
   ]);
+
+  const [dataForBrand, setDataForBrand] = useState([]);
+  const [dataForNew, setDataForNew] = useState([]);
+  const [keyword, setKeyword] = useState('');
+  const [keywordDatas, setKeywordDatats] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+
+  //banner資料
+  const [isMouseOverOnSlider, setIsMouseOverOnSliver] = useState(false);
+  const [bannerCurrent, setBannerCurrent] = useState(0);
+  const bannerPicDatas = ['banner01.jpg', 'banner02.jpg', 'banner03.jpg'];
+  const bannerPlayStyle = {
+    width: `calc(100% * ${bannerPicDatas.length})`,
+    left: `calc(-100% * ${bannerCurrent})`,
+  };
+
+  //貓狗專區
+  const [catDogCurrent, setCatDogCurrent] = useState(0);
+  const catDogStyle = {
+    position: 'relative',
+    left: `calc(-97% * ${catDogCurrent})`,
+    transition: '0.3s',
+  };
 
   useEffect(() => {
     (async function getData() {
@@ -106,6 +112,22 @@ export default function ProdoctIndex() {
       );
     })();
   }, []);
+
+  useEffect(() => {
+    const bannerPics = bannerPicDatas.length - 1;
+    let timer;
+    if (!isMouseOverOnSlider) {
+      timer = setInterval(() => {
+        if (bannerCurrent >= bannerPics) {
+          setBannerCurrent(0);
+        } else {
+          setBannerCurrent((preV) => preV + 1);
+        }
+      }, 3000);
+    }
+
+    return () => clearInterval(timer);
+  }, [bannerCurrent, isMouseOverOnSlider]);
 
   //轉換貓狗卡片顯示
   const toggleDisplayForDogCat = (twotCatergoriesData, id) => {
@@ -174,7 +196,69 @@ export default function ProdoctIndex() {
   return (
     <>
       <div className="container-outer">
-        <nav></nav>
+        <nav className={styles.shop_sliders}>
+          <div className={styles.slider_left_box}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className={styles.slider_left}
+              onClick={() => {
+                if (bannerCurrent === 0) {
+                  setBannerCurrent(bannerPicDatas.length - 1);
+                } else {
+                  setBannerCurrent(bannerCurrent - 1);
+                }
+              }}
+            />
+          </div>
+          <ul
+            className={styles.shop_sliders_box}
+            style={bannerPlayStyle}
+            onMouseEnter={() => {
+              setIsMouseOverOnSliver(true);
+            }}
+            onMouseLeave={() => {
+              setIsMouseOverOnSliver(false);
+            }}
+          >
+            {bannerPicDatas.map((v) => {
+              return (
+                <li key={v}>
+                  <img src={`./product-img/${v}`} alt={v} />
+                </li>
+              );
+            })}
+          </ul>
+          <div className={styles.slider_right_box}>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className={styles.slider_right}
+              onClick={() => {
+                if (bannerCurrent === bannerPicDatas.length - 1) {
+                  setBannerCurrent(0);
+                } else {
+                  setBannerCurrent(bannerCurrent + 1);
+                }
+              }}
+            />
+          </div>
+        </nav>
+        <ul className={styles.shop_sliders_pages}>
+          {bannerPicDatas.map((v, i) => {
+            return (
+              <li
+                key={v}
+                className={
+                  i === bannerCurrent
+                    ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
+                    : styles.shop_sliders_pages_bttn
+                }
+                onClick={() => {
+                  setBannerCurrent(i);
+                }}
+              ></li>
+            );
+          })}
+        </ul>
       </div>
       <div className={styles.container_outer_shop}>
         <div className={styles.bgc_lightBrown}>
@@ -251,59 +335,84 @@ export default function ProdoctIndex() {
                 }}
               >
                 {' '}
-                <Image src={v.icon} />
+                <Image src={v.icon} alt={v.id} />
                 <span>{v.text}</span>
               </div>
             );
           })}
         </div>
-        <div>
-          <div className={styles.pet_type_cards}>
-            <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
-              {twotCatergoriesData.map((v) => {
-                return (
-                  v.display &&
-                  v.data.map((v) => {
-                    const {
-                      product_sid,
-                      name,
-                      img,
-                      max_price,
-                      min_price,
-                      avg_rating,
-                      sales_qty,
-                    } = v;
-                    return (
-                      <Col
-                        xs={12}
-                        sm={12}
-                        md={1}
-                        className={styles.product_card}
-                        key={product_sid}
-                      >
-                        <ShopProductCard
-                          product_sid={product_sid}
-                          name={name}
-                          img={img}
-                          max_price={max_price}
-                          min_price={min_price}
-                          avg_rating={avg_rating}
-                          tag_display={true}
-                          sales_qty={sales_qty}
-                        />
-                      </Col>
-                    );
-                  })
-                );
-              })}
-            </Row>
+        <div className={styles.pet_type_cards_box}>
+          <div className={styles.catDog_left_box}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className={styles.catDog_left}
+              onClick={() => {
+                if (catDogCurrent === 0) {
+                  setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
+                } else {
+                  setCatDogCurrent(catDogCurrent - 1);
+                }
+              }}
+            />
           </div>
-        </div>
-        <div className={styles.pet_type_btns}>
-          <button className={styles.circle_btn_active}></button>
-          <button></button>
-          <button></button>
-          <button></button>
+          <div className={styles.pet_type_cards_display}>
+            <div className={styles.pet_type_cards} style={catDogStyle}>
+              <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
+                {twotCatergoriesData.map((v) => {
+                  return (
+                    v.display &&
+                    v.data.map((v) => {
+                      const {
+                        product_sid,
+                        name,
+                        img,
+                        max_price,
+                        min_price,
+                        avg_rating,
+                        sales_qty,
+                      } = v;
+                      return (
+                        <Col
+                          xs={12}
+                          sm={12}
+                          md={1}
+                          className={styles.product_card}
+                          key={product_sid}
+                        >
+                          <ShopProductCard
+                            product_sid={product_sid}
+                            name={name}
+                            img={img}
+                            max_price={max_price}
+                            min_price={min_price}
+                            avg_rating={avg_rating}
+                            tag_display={true}
+                            sales_qty={sales_qty}
+                          />
+                        </Col>
+                      );
+                    })
+                  );
+                })}
+              </Row>
+            </div>
+          </div>
+          <div className={styles.catDog_right_box}>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className={styles.catDog_right}
+              onClick={() => {
+                if (
+                  catDogCurrent ===
+                  twotCatergoriesData[0].data.length / 6 - 1
+                ) {
+                  setCatDogCurrent(0);
+                } else {
+                  setCatDogCurrent(catDogCurrent + 1);
+                }
+              }}
+            />
+          </div>
         </div>
         <BGMiddleDecoration />
       </section>

@@ -34,13 +34,11 @@ export default function OrderDetailCard({
   pcSid,
   acRaSid,
 }) {
-  console.log(pcSid);
   const router = useRouter();
   const from = router.asPath;
 
   const today = new Date();
   const actday = new Date(relSeqName);
-  console.log(today > actday);
 
   const [show, setShow] = useState(false);
   const initialValues = {

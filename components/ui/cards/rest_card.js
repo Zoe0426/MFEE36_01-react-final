@@ -39,7 +39,7 @@ export default function RestCard({
         <AlertModal
           btnType="heart"
           title="貼心提醒"
-          content="收藏餐廳" 
+          content="收藏餐廳"
           mainBtnText="前往登入"
           subBtnText="暫時不要"
           confirmHandler={singinHandler}
