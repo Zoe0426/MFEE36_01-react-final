@@ -179,7 +179,7 @@ export default function Navbar({ type = '' }) {
               {login && (
                 <div className={Styles.profileBtn} onClick={toggleMemList}>
                   <img
-                    src={memProfileImg}
+                    src={`${process.env.API_SERVER}/img/${memProfileImg}`}
                     alt="profilePic"
                     className={Styles.profileImg}
                   />

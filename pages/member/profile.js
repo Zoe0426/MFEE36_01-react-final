@@ -13,6 +13,7 @@ import {
   DatePicker,
   Upload,
   Modal,
+  message,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -21,7 +22,26 @@ export default function Profile() {
   const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
   const [data, setData] = useState([]);
-  const [image, setImage] = useState(null);
+  const [imgType, setImgType] = useState(true);
+  const [imgSize, setImgSize] = useState(true);
+
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      //message.error('You can only upload JPG/PNG file!');
+      setImgType(false);
+    } else {
+      setImgType(true);
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      //message.error('Image must smaller than 2MB!');
+      setImgSize(false);
+    } else {
+      setImgSize(true);
+    }
+    return isJpgOrPng && isLt2M;
+  };
 
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -216,13 +236,14 @@ export default function Profile() {
                 </Form.Item>
               </div>
               <div>
-                <Form.Item name="avatar">
+                <Form.Item name="avatar" style={{ marginBottom: '0px' }}>
                   <Upload
                     action={`${process.env.API_SERVER}/updateInfo/mem00300`}
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={handlePreview}
                     onChange={handleChange}
+                    beforeUpload={beforeUpload}
                   >
                     {fileList.length >= 1 ? null : uploadButton}
                   </Upload>
@@ -237,8 +258,9 @@ export default function Profile() {
                   />
                 </Modal>
               </div>
+              {!imgType && <h3>照片格式要 JPG & PNG 唷！</h3>}
+              {!imgSize && !imgSize && <h3>照片大小不能超過2MB唷！ </h3>}
             </div>
-
             <Form.Item
               label="帳號"
               className={Styles.formItem}
