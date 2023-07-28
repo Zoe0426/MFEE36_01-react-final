@@ -8,22 +8,25 @@
     z-index: 2;
 }
 .gwmphoto{
-    width: 95%;
-    padding: 0;
+    width: 80%;
+    padding-top: 35px;
+    margin-right: 50px;
     animation: showup .3s ease-in, scale 8s;
 }
 .gwmtitle{
     position: absolute;
     top: 25%;
-    right: 3%;
+    right: 6%;
     width: 32%;
 }
 .shoutgwm{
     position: absolute;
-    width: 18%;
-    top: 14%;
-    left: 16%;
+    visibility: hidden;
+    width: 16%;
+    top: 5%;
+    left: 5.5%;
     animation: heartBeat 1.5s ease-in 1.6s;
+    animation-fill-mode: forwards;
 }
 .road,.cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
     display:none;
@@ -176,6 +179,17 @@
     margin-bottom: var(--p8);
 }
 @media screen and (max-width:1200px) {
+    .gwmphoto{
+    width: 90%;
+    margin-right: 0;
+    padding-top: 10px;
+    }
+    .shoutgwm{
+    width: 16%;
+    top: 3%;
+    left: 3%;
+   
+}
     .hlCards>div:nth-child(2){
     margin-top: 20px;
     }
@@ -185,7 +199,7 @@
 }
 /* @media screen and (max-width:767px) and (min-width:576px){ */
 @media screen and (max-width:767px) {
-
+ 
     .hSection{
         padding: 0;
     }
@@ -228,7 +242,6 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 250px;
-        border: 1px solid red;
     }
     .gwmtitle{
         position: relative;
@@ -236,6 +249,10 @@
         width: 60%;
 
     }
+     .gwmphoto{
+    width: 95%;
+    padding-top: 0;
+     }
     .shoutgwm{
     display:none;
     }
@@ -369,18 +386,22 @@
 }
 
 @keyframes heartBeat {
-  0%,100%{
-    transform:  scale(1);
+  0%{
+    transform:  scale(0.5) translateX(150%) translateY(100%);
     visibility: visible;
   }
-  25%{
-    transform: scale(1.1);
+  20%{
+    transform: scale(1) translateX(50%) translateY(33%) ;
   }
-  50% {
-    transform: scale(.5);
+  40% {
+    transform: scale(.5) translateX(150%) translateY(100%);
   }
   75%{
     transform: scale(1.1);
+  }
+  100%{
+    transform: scale(1);
+    visibility: visible;
   }
 }
 @keyframes showup {

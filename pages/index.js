@@ -95,7 +95,7 @@ export default function Home() {
               className={style.cat}
             />
             <img
-              src="/home-images/h-header-photo.png"
+              src="/home-images/header_photo.png"
               className={style.gwmphoto}
               alt="gwmphoto"
             />
@@ -103,7 +103,7 @@ export default function Home() {
               <HomeMainText />
             </div>
             <img
-              src="/home-images/h-gwm.png"
+              src="/home-images/gwm_text.svg"
               className={style.shoutgwm}
               alt="gowithme"
             />
