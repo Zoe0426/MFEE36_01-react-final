@@ -34,12 +34,12 @@
 }
 
 /* antd upload */
-:where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select, :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload.ant-upload-select {
+/* :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select, :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload.ant-upload-select {
   width: 250px;
-  height: 250px;
+  height: 250px; */
   /* margin-inline-end: 8px; */
   /* margin-bottom: 8px; */
-  text-align: center;
+  /* text-align: center;
   vertical-align: top;
   background-color: #fff;
   border: 1px dashed #d9d9d9;
@@ -47,7 +47,18 @@
   cursor: pointer;
   transition: border-color 0.3s;
   margin-bottom: 0;
+} */
+
+.ant-tooltip-arrow,.ant-tooltip-inner{
+  display: none !important;
 }
+
+:where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture .ant-upload-list-item-error, :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-error, :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-circle .ant-upload-list-item-error {
+  border-color: var(--light-gray);
+}
+
+
+
 
 
 

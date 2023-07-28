@@ -5,7 +5,16 @@ import AuthContext from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
-import { Form, Input, Radio, ConfigProvider, DatePicker } from 'antd';
+import {
+  Form,
+  Input,
+  Radio,
+  ConfigProvider,
+  DatePicker,
+  Upload,
+  Modal,
+} from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 export default function Profile() {
@@ -14,20 +23,51 @@ export default function Profile() {
   const [data, setData] = useState([]);
   const [image, setImage] = useState(null);
 
+  const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [fileList, setFileList] = useState([{}]);
+
+  const handleCancel = () => setPreviewOpen(false);
+  const handlePreview = async (file) => {
+    if (!file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.preview);
+    setPreviewOpen(true);
+  };
+
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
+
   const onFinish = (values) => {
     console.log('選中的值:', values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  const normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
+
   const [initialValues, setInitialValues] = useState({});
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     let auth = {};
     const authStr = localStorage.getItem('petauth');
@@ -82,32 +122,31 @@ export default function Profile() {
 
   console.log('obj', obj);
 
-  const handleAvatarChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
   // 表單送出
   const handleSubmit = (values) => {
     console.log(values);
     const formData = new FormData();
+
     formData.append('email', values.email);
-    formData.append('avatar', values.avatar);
+    formData.append('avatar', values.avatar.file.originFileObj);
+
     formData.append('memberSid', values.memberSid);
     formData.append('name', values.name);
     formData.append('mobile', values.mobile);
     formData.append('birthday', values.birthday);
     formData.append('gender', values.gender);
     formData.append('pet', values.pet);
-    console.log('formData', formData.get('avatar'));
+
+    // console.log(formData.has('avatar')); // 应该输出 true
+
+    // console.log('formData', formData.get('email'));
+    // console.log('formData', formData.get('avatar'));
+    // console.log('formData', formData.get('memberSid'));
+    // console.log('formData', formData.get('name'));
+    // console.log('formData', formData.get('mobile'));
+    // console.log('formData', formData.get('birthday'));
+    // console.log('formData', formData.get('gender'));
+    // console.log('formData', formData.get('pet'));
 
     fetch('http://localhost:3002/member-api/updateInfo/mem00300', {
       method: 'PUT',
@@ -177,20 +216,26 @@ export default function Profile() {
                 </Form.Item>
               </div>
               <div>
-                <Form.Item
-                  name="avatar"
-                  getValueFromEvent={(e) => e.target.files[0]}
-                >
-                  <div className="avatar">
-                    <input
-                      type="file"
-                      onChange={handleAvatarChange}
-                      // style={{ display: 'none' }}
-                    />
-                    {image && <img src={image} alt="avatar preview" />}
-                    <button>Upload</button>
-                  </div>
+                <Form.Item name="avatar">
+                  <Upload
+                    action={`${process.env.API_SERVER}/updateInfo/mem00300`}
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                  >
+                    {fileList.length >= 1 ? null : uploadButton}
+                  </Upload>
                 </Form.Item>
+                <Modal open={previewOpen} footer={null} onCancel={handleCancel}>
+                  <img
+                    alt="example"
+                    style={{
+                      width: '100%',
+                    }}
+                    src={previewImage}
+                  />
+                </Modal>
               </div>
             </div>
 
