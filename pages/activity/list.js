@@ -76,13 +76,13 @@ export default function ActivityMain() {
     router.push(`/member/sign-in?from=${from}`);
   };
 
-  const handleCityClick = ({ key }) => {
-    setSelectedCity(key);
+  const handleCityClick = (e) => {
+    setSelectedCity(e.key);
     setSelectedArea(null);
   };
 
-  const handleAreaClick = ({ key }) => {
-    setSelectedArea(key);
+  const handleAreaClick = (e) => {
+    setSelectedArea(e.key);
   };
   //取台灣的地區
   const cities = cityDatas;
@@ -147,7 +147,6 @@ export default function ActivityMain() {
       if (activity_type_sid) {
         setSelectedActivityTypeSid(activity_type_sid);
       }
-   
 
       if (city) {
         setSelectedCity(city);
@@ -237,7 +236,6 @@ export default function ActivityMain() {
     setStartDate(startDate);
     setEndDate(endDate);
   };
-
 
   const handlePriceChange = (minPrice, maxPrice) => {
     setSelectedMinPrice(minPrice);
@@ -545,18 +543,63 @@ export default function ActivityMain() {
             </div>
             <div className="container-inner">
               <div className={styles.filter_box}>
-              <ActivityFilter
-                text="活動類別:"
-                name="activity_type_sid"
-                data={filters.activity_type_sid}
-                selectedValue={selectedActivityTypeSid}
-                setSelectedValue={setSelectedActivityTypeSid}
-                filterHandler={filterHandler}
-              />
+                <ActivityFilter
+                  text="活動類別:"
+                  name="activity_type_sid"
+                  data={filters.activity_type_sid}
+                  selectedValue={selectedActivityTypeSid}
+                  setSelectedValue={setSelectedActivityTypeSid}
+                  filterHandler={filterHandler}
+                />
                 <ActivityFilterPrice onPriceChange={handlePriceChange} />
 
-
                 <ActivityFilterDate onDateChange={handleDateChange} />
+
+                <div>
+                  <div>
+                    <label>活動地點</label>
+                  </div>
+                  <div>
+                    {/* City Dropdown */}
+                    <Dropdown
+                      overlay={
+                        <Menu onClick={handleCityClick}>
+                          {Object.keys(cityDatas).map((city) => (
+                            <Menu.Item key={city}>{city}</Menu.Item>
+                          ))}
+                        </Menu>
+                      }
+                      placement="bottomLeft"
+                    >
+                      <Button>
+                        <Space>
+                          <p>{selectedCity ? selectedCity : '縣市'}</p>
+                          <DownOutlined />
+                        </Space>
+                      </Button>
+                    </Dropdown>
+
+                    {/* Area Dropdown */}
+                    <Dropdown
+                      overlay={
+                        <Menu onClick={handleAreaClick}>
+                          {selectedCity &&
+                            cityDatas[selectedCity].map((area) => (
+                              <Menu.Item key={area}>{area}</Menu.Item>
+                            ))}
+                        </Menu>
+                      }
+                      placement="bottomLeft"
+                    >
+                      <Button>
+                        <Space>
+                          <p>{selectedArea ? selectedArea : '地區'}</p>
+                          <DownOutlined />
+                        </Space>
+                      </Button>
+                    </Dropdown>
+                  </div>
+                </div>
 
                 <div className={styles.filter_btns}>
                   {/* <SecondaryBtn text="重置" clickHandler={clearAllFilter} /> */}
