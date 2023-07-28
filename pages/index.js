@@ -178,7 +178,7 @@ export default function Home() {
         <Col span={2}></Col>
         <Col span={20}>
           <Row className={style.hSection}>
-            <Col className={style.hlCards} xs={24} sm={24} md={14}>
+            <Col className={style.hlshopCards} xs={24} sm={24} md={14}>
               {shopCardsData.map((p, i) => {
                 const { img, type, sale, name, price } = p;
                 return (
@@ -248,7 +248,7 @@ export default function Home() {
                 <p className={style.hstitle}>寵物活動</p>
                 <p className={style.hetitle}>PLAY WITH ME</p>
                 <p className={style.hsubtitle}>
-                  這裡是專為您和您的毛小孩設計的狂歡天地。
+                  專為您和您的毛小孩設計的狂歡天地
                 </p>
                 <p className={style.hp}>
                   我們為您提供多元化的寵物活動，包括遠足、比賽、社交聚會和專題工作坊。與其他寵物愛好者一同分享快樂時光，建立友誼和彼此支持。無論您是狗狗、貓咪還是其他寵物的主人，這裡將是您與您的毛小孩共創美好回憶的地方。加入我們，一同體驗無盡的寵物
@@ -260,6 +260,7 @@ export default function Home() {
                     return <HashTag key={i} text={h} marginB="mb8" />;
                   })}
                 </div>
+                <div className={style.}></div>
                 <MainBtn text="看更多活動" />
               </article>
             </Col>
@@ -276,7 +277,7 @@ export default function Home() {
         <Col span={2}></Col>
         <Col span={20}>
           <Row className={style.hSection}>
-            <Col className={style.hlCards} xs={24} sm={24} md={15}>
+            <Col className={style.hlresCards} xs={24} sm={24} md={15}>
               <HomeResCard
                 stickerText="毛小孩與親子共遊"
                 src="/rest_image/sunshine.jpeg"
@@ -300,12 +301,12 @@ export default function Home() {
                 <p className={style.hetitle}>EAT WITH ME</p>
                 <ul className={style.hsubtitle}>
                   <li>* 地圖上玲瑯滿目的餐廳讓你們眼花撩亂？</li>
-                  <li>* 搜尋寵物友善餐廳，卻找到不相關的訊息?</li>
-                  <li>* 找到寵物友善餐廳，卻有好多規則不清楚？</li>
+                  <li>* 搜尋不找寵物友善餐廳相關的訊息?</li>
+                  <li>* 找到寵物友善餐廳好多規則不清楚？</li>
                 </ul>
 
-                <p className={style.hp}>
-                  狗with咪統整多家寵物友善餐廳並結合預約服務，包含豐富的餐食類別，透過多元的篩選功能（如：餐廳類別、攜帶規範、服務項目以及地區等），找到合適的用餐環境，讓飼主和毛寶貝能夠一起快樂用餐！{' '}
+                <p className={style.hpres}>
+                  狗with咪統整多家寵物友善餐廳並結合預約服務，包含豐富的餐食類別，透過多元的篩選功能（如：餐廳類別、攜帶規範、服務項目以及地區等），找到合適的用餐環境，讓飼主和毛寶貝能夠一起快樂用餐！
                 </p>
 
                 <MainBtn text="看更多餐廳" />

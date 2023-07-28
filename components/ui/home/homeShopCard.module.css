@@ -88,4 +88,8 @@
     .hstype{
         font-size: var(--pfs14);
     }
+    .hsprodprice{
+        font-size: var(--pfs14);
+        
+    }
 }

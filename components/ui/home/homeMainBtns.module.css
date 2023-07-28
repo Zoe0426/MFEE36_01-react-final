@@ -8,9 +8,9 @@
 }
 .cat{
     position: absolute;
-    width: 16%;
+    width: 15%;
     left: 3%;
-    top:-45%;
+    top:-43%;
 
 }
 .road{
@@ -37,7 +37,7 @@
 }
 
 .shopBtn:hover, .actBtn:hover, .resBtn:hover, .forumBtn:hover{
-    width: 17.5%;
+    width: 13.5%;
 }
 
 .shopBtn{
@@ -98,19 +98,19 @@
     position: absolute;
     width: 10%;
     top:22%;
-    left:67.5%;
+    left:68%;
 }
 .road4{
     position: absolute;
     width: 10%;
-    top:63%;
+    top:61%;
     left:83.5%;
 }
 .trees1{
     position: absolute;
     width: 4%;
-    top:1.5%;
-    left:6%;
+    top:8%;
+    left:7%;
 }
 .tree{
     position: absolute;
@@ -132,7 +132,7 @@
 }
 .dog{
     position: absolute;
-    width: 10%;
+    width: 9%;
     top:7%;
     left:70%;
     transform: scaleX(-1)rotate(-10deg);
