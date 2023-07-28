@@ -50,7 +50,6 @@
   opacity: 0.6;
   padding: 12px 15px;
   background-color: rgba(0, 0, 0, 0.1);
-  /* border-radius: var(--br8); */
   border-radius: 50%;
   cursor: pointer;
 }
@@ -166,9 +165,6 @@
 .cat_dog_cards_box {
   position: relative;
   padding-left: 5%;
-  /* border:1px solid; */
-  /* margin:48px 0 112px 0 */
-  /* margin:48px 0 48px 0 */
 }
 
 
@@ -207,45 +203,6 @@
 }
 
 
-
-
-
-
-/* .product_card {
-  display: flex;
-}
-
-.pet_type_cards_box {
-  position: relative;
-  padding-left: 5%;
-}
-
-
-.pet_type_cards_display {
-  position: relative;
-  overflow: hidden;
-}
-
-.pet_type_cards {
-  width: 7000px;
-}
-
-.pet_type_btns {
-  text-align: center;
-  margin: 72px 0 96px 0;
-}
-
-.pet_type_btns > button {
-  width: 15px;
-  height: 15px;
-  border: var(--light-gray);
-  border-radius: 50%;
-  margin: 0 5px;
-}
-
-.circle_btn_active {
-  background-color: var(--secondary);
-} */
 
 /*品牌卡片*/
 .brand_cards {

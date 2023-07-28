@@ -138,10 +138,14 @@ export default function List() {
 
   useEffect(() => {
     getBrandKeywordData().then(() => {
-      const { category } = router.query;
+      const { category, brand } = router.query;
       if (category) {
         resetCheckBox('category', category);
-        setFiltersReady(true);
+        // setFiltersReady(true);
+      } else if (brand) {
+        if (filtersReady) {
+          resetCheckBox('brand', brand);
+        }
       } else {
         setFirst(true);
       }
@@ -329,7 +333,7 @@ export default function List() {
     setShowLikeList(false);
     document.body.classList.remove('likeList-open');
   };
-  
+
   // 刪除所有收藏
   const removeAllLikeList = (token) => {
     if (likeDatas.length > 0) {
