@@ -1,13 +1,30 @@
 import React from 'react';
-import { Row, Col, Checkbox, ConfigProvider } from 'antd';
+import { Radio, ConfigProvider } from 'antd';
 import styles from './ActivityFilter.module.css';
+import { useRouter } from 'next/router';
+
 export default function ActivityFilter({
   text = '',
   name = '',
   data = [],
-  needSpan = true,
-  changeHandler = () => {},
+  selectedValue, 
+  setSelectedValue,
+  filterHandler,
 }) {
+  const router = useRouter();
+
+  const handleRadioChange = (e) => {
+    const selectedValue = e.target.value;
+    setSelectedValue(selectedValue);
+  
+    const query = {
+      ...router.query,
+      [name]: selectedValue,
+    };
+    router.push({ pathname: router.pathname, query }, undefined, { shallow: true });
+  
+  };
+
   return (
     <ConfigProvider
       theme={{
@@ -22,32 +39,16 @@ export default function ActivityFilter({
     >
       <div className={styles.filter}>
         <label className={styles.labels}>{text}</label>
-        <div className={styles.checkBoxs}>
-          <Checkbox.Group style={{ width: '100%' }} />
-          <Row gutter={[16, 8]}>
-            {data.map((v) => {
-              return (
-                <Col
-                  xs={{ span: needSpan && 12 }}
-                  sm={{ span: needSpan && 12 }}
-                  md={{ span: needSpan && 3 }}
-                  //   span={needSpan && 3}
-                  key={v.id}
-                >
-                  <Checkbox
-                    value={v.value}
-                    checked={v.checked}
-                    onChange={() => {
-                      changeHandler(data, name, v.label);
-                    }}
-                  >
-                    {v.label}
-                  </Checkbox>
-                </Col>
-              );
-            })}
-          </Row>
-        </div>
+        <Radio.Group
+          value={selectedValue}
+          onChange={handleRadioChange}
+        >
+          {data.map((item) => (
+            <Radio key={item.id} value={item.value}>
+              {item.label}
+            </Radio>
+          ))}
+        </Radio.Group>
       </div>
     </ConfigProvider>
   );

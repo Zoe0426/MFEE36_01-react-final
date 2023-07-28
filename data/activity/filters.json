@@ -1,42 +1,4 @@
 {
-  "minPrice": [
-    {
-      "id": 1,
-      "label": "$200以下",
-      "value": "0&maxPrice=200",
-      "checked": false
-    },
-    {
-      "id": 2,
-      "label": "$200-$400",
-      "value": "200&maxPrice=400",
-      "checked": false
-    },
-    {
-      "id": 3,
-      "label": "$400-$600",
-      "value": "400&maxPrice=600",
-      "checked": false
-    },
-    {
-      "id": 4,
-      "label": "$600-$800",
-      "value": "600&maxPrice=800",
-      "checked": false
-    },
-    {
-      "id": 5,
-      "label": "$800-$1000",
-      "value": "800&maxPrice=1000",
-      "checked": false
-    },
-    {
-      "id": 6,
-      "label": "$1000以上",
-      "value": "1000&maxPrice=2000",
-      "checked": false
-    }
-  ],
   "activity_type_sid": [
     {
       "id": 1,
