@@ -593,7 +593,7 @@ export default function Product() {
                     <span>規格選項</span>
                     {showWarning && (
                       <span className={styles.detail_spec_warning}>
-                        &nbsp;(請選擇)
+                        &nbsp;(請選擇規格!)
                       </span>
                     )}
                   </h5>
@@ -603,6 +603,8 @@ export default function Product() {
                         className={
                           i === 0
                             ? styles.detail_spec_btn_none
+                            : showWarning
+                            ? `${styles.warning_detail_spec_btn} ${styles.detail_spec_btn}`
                             : purchaseInfo.spec === v.product_detail_sid
                             ? `${styles.active_detail_spec_btn} ${styles.detail_spec_btn}`
                             : styles.detail_spec_btn
@@ -841,12 +843,12 @@ export default function Product() {
                   }
                 )}
             </div>
-            <div className={styles.pet_type_btns}>
+            {/* <div className={styles.pet_type_btns}>
               <button className={styles.circle_btn_active}></button>
               <button></button>
               <button></button>
               <button></button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -867,8 +869,7 @@ export default function Product() {
                   毛孩可能會喜歡...
                 </p>
               </div>
-
-              <div className={styles.new_products_cards_box}>
+              <div className={styles.recomand_products_cards_box}>
                 <div className={styles.left_arrow_box}>
                   <FontAwesomeIcon
                     icon={faChevronLeft}
@@ -914,6 +915,19 @@ export default function Product() {
                       );
                     })}
                   </div>
+                </div>
+                <div className={styles.right_arrow_box}>
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className={styles.right_arrow}
+                    onClick={() => {
+                      // if (newCurrent === totalPage - 1) {
+                      //   setNewCurrent(0);
+                      // } else {
+                      //   setNewCurrent(newCurrent + 1);
+                      // }
+                    }}
+                  />
                 </div>
               </div>
               <div className={styles.pet_type_btns}>

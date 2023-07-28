@@ -167,6 +167,10 @@
   padding-left: 5%;
 }
 
+/*品牌推薦*/
+.recomand_products_cards_box{
+  position: relative;
+}
 
 .cat_dog_cards_display {
   overflow: hidden;
@@ -292,9 +296,11 @@
   margin-top: 24px;
 }
 
+
 .detail_spec_warning {
   font-size: var(--h6fs18);
-  color: var(--main);
+  /* color: var(--main); */
+  color: red;
 }
 
 /* 照片區 */
@@ -532,6 +538,11 @@
   border: 1px solid var(--main);
   color: var(--main);
 }
+
+.warning_detail_spec_btn{
+  border: 1px solid red;
+}
+
 
 .comment_cards {
   display: flex;

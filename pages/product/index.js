@@ -68,35 +68,36 @@ export default function ProdoctIndex() {
   const [newCurrent, setNewCurrent] = useState(0);
   const [windowWidth, setWindowWidth] = useState(null);
   const [totalPage, setTotalPage] = useState(5);
+  const [showCardQty, setShowCardQty] = useState(6);
 
   const catDogStyle = {
     position: 'relative',
-    left: `calc(((260px + 32px) * 30 ) / ${totalPage} * -${catDogCurrent})`,
+    left: `calc(292px * ${showCardQty} * -${catDogCurrent})`,
     transition: '0.3s',
   };
   const newStyle = {
     position: 'relative',
-    left: `calc(((260px + 32px) * 30 ) / ${totalPage} * -${newCurrent})`,
+    left: `calc(292px * ${showCardQty} * -${newCurrent})`,
     transition: '0.3s',
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      //目前使用者的視窗大小，計算總頁數
-      const newWindowWidth = window.innerWidth;
-      const newTotalPage = Math.ceil(((260 + 32) * 30) / newWindowWidth);
-      console.log({ newWindowWidth, newTotalPage });
-      setWindowWidth(newWindowWidth);
-      setTotalPage(newTotalPage);
-      setCatDogCurrent(0);
-      setNewCurrent(0);
-      // 添加視窗大小變化的事件監聽器，以更新視窗寬度
       const handleResize = () => {
-        const updateWindowWidth = window.innerWidth;
-        setWindowWidth(updateWindowWidth);
+        // const newWindowWidth =
+        //   window.innerWidth - 16 - window.innerWidth * 0.05;
+        const newWindowWidth = window.innerWidth - 16;
+        const showCardQty = Math.floor(newWindowWidth / 292);
+        const newTotalPage = Math.ceil(30 / showCardQty);
+        setShowCardQty(showCardQty);
+        setWindowWidth(newWindowWidth);
+        setTotalPage(newTotalPage);
         setCatDogCurrent(0);
         setNewCurrent(0);
       };
+
+      handleResize();
+
       window.addEventListener('resize', handleResize);
 
       return () => {

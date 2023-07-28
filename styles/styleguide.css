@@ -132,6 +132,7 @@ body{
 
 .likeList-open{
   overflow: hidden;
+  padding-right: 16px;
 }
 
 .container-outer{
