@@ -81,14 +81,21 @@
 }
 .restaurantbg{
     background-color: var(--light5);
-    padding: 80px 0 20px 0;
+    padding: 80px 0 10px 0;
 }
 .dog{
     position:absolute;
-    top:-50%;
-    right: 8%;
+    top:-65%;
+    right: 2%;
     width: 18%;
     transform: rotate(-5deg);
+}
+.bowls{
+    position:absolute;
+    left: 9%;
+    top: -55%;
+    width: 10%;
+
 }
 /* FORUM */
 .forumbg{
@@ -100,12 +107,14 @@
     position: relative;
     align-items: center;
     padding: 50px 0;
+    /* border: 1px solid green; */
 } 
 
 .Info{
     position: relative;
 }
 .hlCards{
+    /* border: 1px solid pink; */
     padding-right: 4%;
     display: flex;
     flex-wrap: wrap;
@@ -353,6 +362,9 @@
         width: 18%;
         top:13px;
         right: -10px;
+    }
+    .hlCards{
+        margin: 20px 0;
     }
 }
 

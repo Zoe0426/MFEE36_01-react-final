@@ -315,6 +315,7 @@ export default function Home() {
         </Col>
       </Row>
       <div className={style.cutbottomLine3}>
+        <img src="/home-images/bowls.png" alt="bowls" className={style.bowls} />
         <img src="/home-images/dog.svg" alt="" className={style.dog} />
         <img src="/home-images/h-wave3.jpg" alt="" className={style.wave} />
       </div>
