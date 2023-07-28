@@ -175,6 +175,17 @@ body{
   margin-bottom: 50px;
 }
 
+.avatar{
+  width: 200px;
+  height: 200px;
+  background-color: #fff;
+}
+
+.avatar img{
+  width: 100%;
+  object-fit: cover;
+}
+
 /* -------------------- */
 
 @media screen and (max-width:1440px) and (min-width:769px){

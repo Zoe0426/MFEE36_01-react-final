@@ -5,14 +5,14 @@ import AuthContext from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
-import { PlusOutlined } from '@ant-design/icons';
-import { Form, Input, Radio, ConfigProvider, DatePicker, Upload } from 'antd';
+import { Form, Input, Radio, ConfigProvider, DatePicker } from 'antd';
 import moment from 'moment';
 
 export default function Profile() {
   const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
   const [data, setData] = useState([]);
+  const [image, setImage] = useState(null);
 
   const onFinish = (values) => {
     console.log('選中的值:', values);
@@ -74,31 +74,41 @@ export default function Profile() {
     return <div>Loading...</div>; // Or any loading component you prefer...
   }
 
-  // let obj;
-  // if (data.length > 0) {
-  //   let array = data;
-  //   obj = array[0];
-  // }
+  let obj;
+  if (data.length > 0) {
+    let array = data;
+    obj = array[0];
+  }
 
-  // console.log('obj', obj);
+  console.log('obj', obj);
 
-  // const initialValues = {
-  //   memberSid: obj ? obj.memberSid : '',
-  //   name: obj ? obj.name : '',
-  //   mobile: obj ? obj.mobile : '',
-  //   avarta: obj ? obj.profile : '',
-  //   email: obj ? obj.email : '',
-  //   gender: obj ? obj.gender : '',
-  //   birthday: obj ? obj.birthday : '',
-  //   pet: obj ? obj.pet : '',
-  // };
+  const handleAvatarChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-  // console.log('infoData.name', indoData.name);
-  // console.log('data[0].name', data[0].name);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
   // 表單送出
   const handleSubmit = (values) => {
-    const formData = new FormData(document.editForm);
+    console.log(values);
+    const formData = new FormData();
+    formData.append('email', values.email);
+    formData.append('avatar', values.avatar);
+    formData.append('memberSid', values.memberSid);
+    formData.append('name', values.name);
+    formData.append('mobile', values.mobile);
+    formData.append('birthday', values.birthday);
+    formData.append('gender', values.gender);
+    formData.append('pet', values.pet);
+    console.log('formData', formData.get('avatar'));
+
     fetch('http://localhost:3002/member-api/updateInfo/mem00300', {
       method: 'PUT',
       body: formData,
@@ -169,26 +179,17 @@ export default function Profile() {
               <div>
                 <Form.Item
                   name="avatar"
-                  valuePropName="fileList"
-                  getValueFromEvent={normFile}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    width: '100%',
-                  }}
+                  getValueFromEvent={(e) => e.target.files[0]}
                 >
-                  <Upload action="/upload.do" listType="picture-card">
-                    <div>
-                      <PlusOutlined />
-                      <div
-                        style={{
-                          marginTop: 8,
-                        }}
-                      >
-                        Upload
-                      </div>
-                    </div>
-                  </Upload>
+                  <div className="avatar">
+                    <input
+                      type="file"
+                      onChange={handleAvatarChange}
+                      // style={{ display: 'none' }}
+                    />
+                    {image && <img src={image} alt="avatar preview" />}
+                    <button>Upload</button>
+                  </div>
                 </Form.Item>
               </div>
             </div>
