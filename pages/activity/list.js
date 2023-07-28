@@ -32,6 +32,7 @@ import ActivityFilterDate from '@/components/ui/cards/ActivityFilterDate';
 
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
+import moment from 'moment';
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
@@ -146,13 +147,8 @@ export default function ActivityMain() {
         setSelectedArea(area);
       }
 
-      if (startDate) {
-        setSelectedStartDate(startDate);
-      }
-
-      if (endDate) {
-        setSelectedEndDate(endDate);
-      }
+      setStartDate(startDate ? moment(startDate, 'YYYY-MM-DD') : null);
+    setEndDate(endDate ? moment(endDate, 'YYYY-MM-DD') : null);
 
       //到頁面時 將type勾選回來
       if (activity_type_sid) {
@@ -164,8 +160,8 @@ export default function ActivityMain() {
       setKeyword(keyword || '');
       setMinPrice(minPrice || '');
       setMaxPrice(maxPrice || '');
-      setStartDate(startDate || '');
-      setEndDate(endDate || '');
+      setStartDate(startDate || null);
+      setEndDate(endDate || null);
 
       const usp = new URLSearchParams(router.query);
 
@@ -227,7 +223,14 @@ export default function ActivityMain() {
     setShowFilter(!showfilter);
   };
 
-  //篩選
+
+  const handleDateChange = (dates) => {
+    const [startDate, endDate] = dates;
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
+
+  //篩選 搜尋btn 觸發事件
   const filterHandler = () => {
     let query = {};
 
@@ -255,11 +258,16 @@ export default function ActivityMain() {
       query.maxPrice = maxPrice;
     }
 
-    if (setSelectedStartDate) {
-      query.area = setSelectedStartDate;
+    if (startDate) {
+      query.startDate = startDate.format('YYYY-MM-DD');
+    } else {
+      delete query.startDate;
     }
-    if (setSelectedEndDate) {
-      query.area = setSelectedEndDate;
+
+    if (endDate) {
+      query.endDate = endDate.format('YYYY-MM-DD');
+    } else {
+      delete query.endDate;
     }
    
 
@@ -527,50 +535,8 @@ export default function ActivityMain() {
                 />
 
                 <ActivityFilterPrice />
-                <ActivityFilterDate />
-                <div>
-                  <div>
-                    <label>活動地點</label>
-                  </div>
-                  <div>
-                    <Dropdown
-                      overlay={
-                        <Menu onClick={handleCityClick}>
-                          {Object.keys(cities).map((city) => (
-                            <Menu.Item key={city}>{city}</Menu.Item>
-                          ))}
-                        </Menu>
-                      }
-                      className={styles.city}
-                      placement="bottomLeft"
-                    >
-                      <Button>
-                        <Space>
-                          <p>{selectedCity ? selectedCity : '縣市'}</p>
-                          <DownOutlined />
-                        </Space>
-                      </Button>
-                    </Dropdown>
-                    <Dropdown
-                      overlay={
-                        <Menu onClick={handleAreaClick}>
-                          {/* {selectedCity &&
-                            cities[selectedArea].map((area) => (
-                              <Menu.Item key={area}>{area}</Menu.Item>
-                            ))} */}
-                        </Menu>
-                      }
-                      placement="bottomLeft"
-                    >
-                      <Button>
-                        <Space>
-                          <p>{selectedArea ? selectedArea : '地區'}</p>
-                          <DownOutlined />
-                        </Space>
-                      </Button>
-                    </Dropdown>
-                  </div>
-                </div>
+                <ActivityFilterDate onDateChange={handleDateChange} />
+                
 
                 <div className={styles.filter_btns}>
                   {/* <SecondaryBtn text="重置" clickHandler={clearAllFilter} /> */}

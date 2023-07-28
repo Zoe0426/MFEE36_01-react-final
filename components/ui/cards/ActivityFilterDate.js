@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DatePicker, ConfigProvider } from 'antd';
-import { useRouter } from 'next/router';
-import moment from 'moment'; // Import Moment.js library
+import moment from 'moment';
 
-const ActivityFilterDate = () => {
+const ActivityFilterDate = ({ onDateChange }) => {
   const rangeConfig = {
     rules: [
       {
@@ -12,31 +11,17 @@ const ActivityFilterDate = () => {
     ],
   };
 
-  const router = useRouter();
+  const [selectedDates, setSelectedDates] = useState([]);
 
-  // Handle date range change and update query string
+  useEffect(() => {
+    // Call the parent component's callback with the selected dates
+    onDateChange(selectedDates);
+  }, [selectedDates, onDateChange]);
+
+  // Handle date range change
   const handleDateChange = (dates) => {
-    const [startDate, endDate] = dates;
-    const query = { ...router.query };
-
-    // Remove existing date parameters from the query
-    delete query.startDate;
-    delete query.endDate;
-
-    if (startDate) {
-      query.startDate = startDate.format('YYYY-MM-DD');
-    }
-    if (endDate) {
-      query.endDate = endDate.format('YYYY-MM-DD');
-    }
-
-    router.push({ pathname: router.pathname, query }, undefined, { shallow: true });
+    setSelectedDates(dates);
   };
-
-  // Parse query string dates to Moment.js objects
-  const startDate =
-    router.query.startDate && moment(router.query.startDate, 'YYYY-MM-DD');
-  const endDate = router.query.endDate && moment(router.query.endDate, 'YYYY-MM-DD');
 
   return (
     <div className="container-inner">
@@ -55,7 +40,7 @@ const ActivityFilterDate = () => {
           label="活動日期"
           {...rangeConfig}
           onChange={handleDateChange}
-          value={[startDate, endDate]}
+          value={selectedDates}
         />
       </ConfigProvider>
     </div>
