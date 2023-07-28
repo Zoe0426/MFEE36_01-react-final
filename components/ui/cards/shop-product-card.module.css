@@ -13,6 +13,7 @@
     display: flex;
     flex-direction: column;  
     flex:1;
+    width: 100%;
 }
 
 .normal_card:hover{
@@ -35,14 +36,12 @@
     padding: var(--p8);
     display: flex;
     z-index: 3;
+    font-size: var(--pfs14);
 }
 .card_tag>p:nth-child(2){
     color:var(--main);
     font-weight: var(--fwbold);
 }
-
-
-
 
 .card_head img{
     width: 100%;
@@ -59,7 +58,6 @@
     color:var(--light-gray);
     cursor: pointer;
     z-index: 9;
-    padding: var(--p24) var(--p24) var(--p16) var(--p16);
     padding: var(--p16);
 }
 
@@ -73,6 +71,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    min-height: 117.9px;
 }
 
 .card_title{

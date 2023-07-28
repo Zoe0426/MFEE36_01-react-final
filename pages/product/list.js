@@ -138,10 +138,14 @@ export default function List() {
 
   useEffect(() => {
     getBrandKeywordData().then(() => {
-      const { category } = router.query;
+      const { category, brand } = router.query;
       if (category) {
         resetCheckBox('category', category);
-        setFiltersReady(true);
+        // setFiltersReady(true);
+      } else if (brand) {
+        if (filtersReady) {
+          resetCheckBox('brand', brand);
+        }
       } else {
         setFirst(true);
       }
@@ -324,6 +328,12 @@ export default function List() {
       document.body.classList.remove('likeList-open');
     }
   };
+
+  const closeLikeList = () => {
+    setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+
   // 刪除所有收藏
   const removeAllLikeList = (token) => {
     if (likeDatas.length > 0) {
@@ -617,18 +627,18 @@ export default function List() {
       setPriceErrorText = setPriceErrorText1;
       setShowErrorMessage = setShowErrorMessage1;
       setOutlineStatus = setOutlineStatus1;
-      if (priceNow && maxPrice && priceNow > maxPrice) {
-        setPriceErrorText('不能大於最高金額');
-        isPass = false;
-      }
+      // if (priceNow && maxPrice && priceNow > maxPrice) {
+      //   setPriceErrorText('不能大於最高金額');
+      //   isPass = false;
+      // }
     } else if (inputType === 'maxPrice') {
       setPriceErrorText = setPriceErrorText2;
       setShowErrorMessage = setShowErrorMessage2;
       setOutlineStatus = setOutlineStatus2;
-      if (priceNow && minPrice && priceNow < minPrice) {
-        setPriceErrorText('不能小於最低金額');
-        isPass = false;
-      }
+      // if (priceNow && minPrice && priceNow < minPrice) {
+      //   setPriceErrorText('不能小於最低金額');
+      //   isPass = false;
+      // }
     }
 
     if (isNaN(e.target.value)) {
@@ -727,6 +737,7 @@ export default function List() {
                     datas={likeDatas}
                     token={auth.token}
                     removeLikeListItem={removeLikeListItem}
+                    closeLikeList={closeLikeList}
                   />
                 }
                 closeHandler={toggleLikeList}

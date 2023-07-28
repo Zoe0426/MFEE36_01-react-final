@@ -1,6 +1,4 @@
 .like_list_bgc {
-  /* width: 100vw;
-  height: 100vh; */
   top: 0;
   left: 0;
   right: 0;
@@ -30,11 +28,11 @@
   box-shadow: var(--shadow);
   animation: open 0.25s ease-in-out 1;
 }
-@keyframes open{
-  0%{
+@keyframes open {
+  0% {
     right: -550px;
   }
-  100%{
+  100% {
     right: 0px;
   }
 }
@@ -42,15 +40,13 @@
 .like_items {
   overflow-x: hidden;
   overflow-y: scroll;
-  /* max-height:758px; */
-  max-height:94vh;
-  /* height: 100%; */
+  max-height: 94vh;
 }
 
 /* 卷軸 */
 .like_items::-webkit-scrollbar {
   width: 10px;
-  height: 100%; 
+  height: 100%;
 }
 
 /* 不是目前位置的剩下卷軸 */
@@ -61,7 +57,6 @@
 
 /* 目前位置的卷軸 */
 .like_items::-webkit-scrollbar-thumb {
-  /* background: rgb(95, 35, 27,0.3);  */
   background-color: var(--secondary);
   border-radius: var(--br10);
 }
@@ -72,21 +67,21 @@
 
 /*沒有收藏時...*/
 .no_like_item {
-  height: 180px;
+  height:calc(100vh - 80px);
   font-size: var(--h5fs20);
   font-weight: var(--fwbold);
-  line-height: 100px;
+  line-height: calc(100vh - 200px);
   text-align: center;
   padding: var(--p16);
   background-image: url('../../../assets/trees.svg');
   background-repeat: no-repeat, repeat;
   background-position: right bottom;
 }
-.clean_all{
-    padding-right: 20px;
-    font-size: var(--h6fs18);
-    text-decoration: underline;
-    cursor: pointer;
+.clean_all {
+  padding-right: 20px;
+  font-size: var(--h6fs18);
+  text-decoration: underline;
+  cursor: pointer;
 }
 .btns {
   border: 1px solid var(--light-gray);

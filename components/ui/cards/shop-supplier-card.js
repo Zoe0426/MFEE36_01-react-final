@@ -2,6 +2,7 @@ import styles from './shop-supplier-card.module.css';
 import shed from '@/assets/shed.svg';
 import { Col } from 'antd';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 export default function ShopSupplierCard({
   supplier_sid = '',
@@ -9,9 +10,18 @@ export default function ShopSupplierCard({
   img = '',
   col = '1 1 256px',
 }) {
+  const router = useRouter();
   return (
     <>
-      <Col flex={col} xs={12} className={styles.card}>
+      <Col
+        flex={col}
+        xs={12}
+        className={styles.card}
+        onClick={() => {
+          const ups = new URLSearchParams({ brand: name });
+          router.push(`http://localhost:3000/product/list?${ups.toString()}`);
+        }}
+      >
         <div className={styles.normal_card}>
           <div className={styles.shed_box}>
             <Image src={shed} className={styles.shed} />

@@ -10,10 +10,11 @@ import SubBtn from '@/components/ui/buttons/subBtn';
 import { Row, Col } from 'antd';
 import Image from 'next/image';
 import styles from '@/styles/shop.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFontAwesome } from '@fortawesome/free-solid-svg-icons';
 import {
   faChevronRight,
   faChevronLeft,
+  faPaw,
 } from '@fortawesome/free-solid-svg-icons';
 
 //二大類圖示
@@ -22,6 +23,7 @@ import cat from '@/assets/logo-cat.svg';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 //載入八大類icon資料
 import eightCatergoriesData from '@/data/product/eight-catergories-data.json';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function ProdoctIndex() {
   const router = useRouter();
@@ -65,46 +67,11 @@ export default function ProdoctIndex() {
 
   //貓狗專區
   const [catDogCurrent, setCatDogCurrent] = useState(0);
-  const [newCurrent, setNewCurrent] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(null);
-  const [totalPage, setTotalPage] = useState(5);
-
   const catDogStyle = {
     position: 'relative',
-    left: `calc(((260px + 32px) * 30 ) / ${totalPage} * -${catDogCurrent})`,
+    left: `calc(((260px + 32px) * 30 ) / 5 * -${catDogCurrent})`,
     transition: '0.3s',
   };
-  const newStyle = {
-    position: 'relative',
-    left: `calc(((260px + 32px) * 30 ) / ${totalPage} * -${newCurrent})`,
-    transition: '0.3s',
-  };
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      //目前使用者的視窗大小，計算總頁數
-      const newWindowWidth = window.innerWidth;
-      const newTotalPage = Math.ceil(((260 + 32) * 30) / newWindowWidth);
-      console.log({ newWindowWidth, newTotalPage });
-      setWindowWidth(newWindowWidth);
-      setTotalPage(newTotalPage);
-      setCatDogCurrent(0);
-      setNewCurrent(0);
-      // 添加視窗大小變化的事件監聽器，以更新視窗寬度
-      const handleResize = () => {
-        const updateWindowWidth = window.innerWidth;
-        setWindowWidth(updateWindowWidth);
-        setCatDogCurrent(0);
-        setNewCurrent(0);
-      };
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        // 在元件卸載時清除事件監聽器
-        window.removeEventListener('resize', handleResize);
-      };
-    }
-  }, [windowWidth]);
 
   const getData = async (token = '') => {
     //拿回卡片資訊
@@ -298,9 +265,6 @@ export default function ProdoctIndex() {
           )
         );
         break;
-      case 'new':
-        setDataForNew(newData);
-        break;
     }
     setTimeout(() => {
       setIsClickingLike(false);
@@ -467,7 +431,6 @@ export default function ProdoctIndex() {
                   setTwotCatergoriesData(
                     toggleDisplayForDogCat(twotCatergoriesData, v.id)
                   );
-                  setCatDogCurrent(0);
                 }}
               >
                 {' '}
@@ -484,7 +447,7 @@ export default function ProdoctIndex() {
               className={styles.left_arrow}
               onClick={() => {
                 if (catDogCurrent === 0) {
-                  setCatDogCurrent(totalPage - 1);
+                  setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
                 } else {
                   setCatDogCurrent(catDogCurrent - 1);
                 }
@@ -541,7 +504,10 @@ export default function ProdoctIndex() {
               icon={faChevronRight}
               className={styles.right_arrow}
               onClick={() => {
-                if (catDogCurrent === totalPage - 1) {
+                if (
+                  catDogCurrent ===
+                  twotCatergoriesData[0].data.length / 6 - 1
+                ) {
                   setCatDogCurrent(0);
                 } else {
                   setCatDogCurrent(catDogCurrent + 1);
@@ -549,28 +515,106 @@ export default function ProdoctIndex() {
               }}
             />
           </div>
-        </div>{' '}
-        <ul className={styles.shop_cat_dog_pages}>
-          {Array(totalPage)
-            .fill(0)
-            .map((v, i) => {
-              return (
-                <li
-                  key={v}
-                  className={
-                    i === catDogCurrent
-                      ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
-                      : styles.shop_sliders_pages_bttn
-                  }
-                  onClick={() => {
-                    setCatDogCurrent(i);
-                  }}
-                ></li>
-              );
-            })}
-        </ul>
+        </div>
         <BGMiddleDecoration />
       </section>
+      {/* <section className="container-outer dog-cat-products">
+        <div className={styles.pet_type_tabs}>
+          {twotCatergoriesData.map((v) => {
+            return (
+              <div
+                role="presentation"
+                key={v.id}
+                className={v.display ? styles.tab_active : styles.tab_normal}
+                onMouseEnter={() => {
+                  setTwotCatergoriesData(
+                    toggleDisplayForDogCat(twotCatergoriesData, v.id)
+                  );
+                }}
+              >
+                {' '}
+                <Image src={v.icon} alt={v.id} />
+                <span>{v.text}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div className={styles.pet_type_cards_box}>
+          <div className={styles.left_arrow_box}>
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className={styles.left_arrow}
+              onClick={() => {
+                if (catDogCurrent === 0) {
+                  setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
+                } else {
+                  setCatDogCurrent(catDogCurrent - 1);
+                }
+              }}
+            />
+          </div>
+          <div className={styles.pet_type_cards_display}>
+            <div className={styles.pet_type_cards} style={catDogStyle}>
+              <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
+                {twotCatergoriesData.map((v) => {
+                  return (
+                    v.display &&
+                    v.data.map((v) => {
+                      const {
+                        product_sid,
+                        name,
+                        img,
+                        max_price,
+                        min_price,
+                        avg_rating,
+                        sales_qty,
+                      } = v;
+                      return (
+                        <Col
+                          xs={12}
+                          sm={12}
+                          md={1}
+                          className={styles.product_card}
+                          key={product_sid}
+                        >
+                          <ShopProductCard
+                            product_sid={product_sid}
+                            name={name}
+                            img={img}
+                            max_price={max_price}
+                            min_price={min_price}
+                            avg_rating={avg_rating}
+                            tag_display={true}
+                            sales_qty={sales_qty}
+                          />
+                        </Col>
+                      );
+                    })
+                  );
+                })}
+              </Row>
+            </div>
+          </div>
+
+          <div className={styles.right_arrow_box}>
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              className={styles.right_arrow}
+              onClick={() => {
+                if (
+                  catDogCurrent ===
+                  twotCatergoriesData[0].data.length / 6 - 1
+                ) {
+                  setCatDogCurrent(0);
+                } else {
+                  setCatDogCurrent(catDogCurrent + 1);
+                }
+              }}
+            />
+          </div>
+        </div>
+        <BGMiddleDecoration />
+      </section> */}
       {/* 第二區推薦品牌 */}
       <section className="container-outer reccomand-brand">
         <div className={styles.bgc_lightBrown}>
@@ -608,16 +652,16 @@ export default function ProdoctIndex() {
               icon={faChevronLeft}
               className={styles.left_arrow}
               onClick={() => {
-                if (newCurrent === 0) {
-                  setNewCurrent(totalPage - 1);
+                if (catDogCurrent === 0) {
+                  setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
                 } else {
-                  setNewCurrent(newCurrent - 1);
+                  setCatDogCurrent(catDogCurrent - 1);
                 }
               }}
             />
           </div>
           <div className={styles.cat_dog_cards_display}>
-            <div className={styles.cat_dog_cards} style={newStyle}>
+            <div className={styles.cat_dog_cards} style={catDogStyle}>
               {dataForNew.map((v) => {
                 const {
                   product_sid,
@@ -630,7 +674,6 @@ export default function ProdoctIndex() {
                   max_price,
                   min_price,
                   avg_rating,
-                  like,
                 } = v;
                 return (
                   <div className={styles.product_card} key={product_sid}>
@@ -645,12 +688,6 @@ export default function ProdoctIndex() {
                       max_price={max_price}
                       min_price={min_price}
                       avg_rating={avg_rating}
-                      like={like}
-                      token={auth.token}
-                      clickHandler={() => {
-                        clickHeartHandler(dataForNew, product_sid, 'new');
-                      }}
-                      singinHandler={toSingIn}
                     />
                   </div>
                 );
@@ -662,35 +699,71 @@ export default function ProdoctIndex() {
               icon={faChevronRight}
               className={styles.right_arrow}
               onClick={() => {
-                if (newCurrent === totalPage - 1) {
-                  setNewCurrent(0);
+                if (
+                  catDogCurrent ===
+                  twotCatergoriesData[0].data.length / 6 - 1
+                ) {
+                  setCatDogCurrent(0);
                 } else {
-                  setNewCurrent(newCurrent + 1);
+                  setCatDogCurrent(catDogCurrent + 1);
                 }
               }}
             />
           </div>
         </div>
-        <ul className={styles.shop_new_pages}>
-          {Array(totalPage)
-            .fill(0)
-            .map((v, i) => {
+      </section>
+      {/* 第三區新品顯示區 頁碼要看怎麼用迴圈產生*/}
+      {/* <section className="container-outer new-products">
+
+        <BGMNewDecoration />
+        <p className={styles.new_products_title}>新品專區</p>
+        <div className={styles.new_cards}>
+          <Row gutter={[32, 0]} wrap={false} className={styles.cards}>
+            {dataForNew.map((v) => {
+              const {
+                product_sid,
+                category_detail_sid,
+                for_pet_type,
+                name,
+                img,
+                update_date,
+                supplier,
+                max_price,
+                min_price,
+                avg_rating,
+              } = v;
               return (
-                <li
-                  key={v}
-                  className={
-                    i === newCurrent
-                      ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
-                      : styles.shop_sliders_pages_bttn
-                  }
-                  onClick={() => {
-                    setNewCurrent(i);
-                  }}
-                ></li>
+                <Col
+                  xs={12}
+                  sm={12}
+                  md={1}
+                  className={styles.product_card}
+                  key={product_sid}
+                >
+                  <ShopProductCard
+                    product_sid={product_sid}
+                    category_detail_sid={category_detail_sid}
+                    for_pet_type={for_pet_type}
+                    name={name}
+                    img={img}
+                    update_date={update_date}
+                    supplier={supplier}
+                    max_price={max_price}
+                    min_price={min_price}
+                    avg_rating={avg_rating}
+                  />
+                </Col>
               );
             })}
-        </ul>
-      </section>
+          </Row>
+        </div> */}
+      {/* <div className={styles.pet_type_btns}>
+          <button className={styles.circle_btn_active}></button>
+          <button></button>
+          <button></button>
+          <button></button>
+        </div> */}
+      {/* </section> */}
     </>
   );
 }

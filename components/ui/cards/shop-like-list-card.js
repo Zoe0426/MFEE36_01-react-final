@@ -28,6 +28,7 @@ export default function ShopLikelistCard({
           role="presentation"
           className={styles.like_img}
           onClick={() => {
+           
             closeLikeList();
             router.push(`http://localhost:3000/product/${product_sid}`);
           }}
@@ -38,6 +39,7 @@ export default function ShopLikelistCard({
           role="presentation"
           className={styles.like_content_box}
           onClick={() => {
+           
             closeLikeList();
             router.push(`http://localhost:3000/product/${product_sid}`);
           }}
