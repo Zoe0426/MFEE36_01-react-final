@@ -16,7 +16,7 @@
   text-align: center;
 }
 
-.btn_group > button {
+/* .btn_group > button {
   border: 0;
   border: 2px solid transparent;
   background-color: var(--secondary);
@@ -25,25 +25,78 @@
   border-radius: 8px;
   transition: 0.4s;
   cursor: pointer;
-}
-.next_week{
+} */
+.last_week{
+  border: 0;
+  border: 2px solid transparent;
+  background-color: var(--main);
+  padding: 8px 16px;
+  padding-top: 10px;
+  border-radius: 8px;
+  transition: 0.4s;
+  cursor: pointer;
   margin-left: 12px;
 }
-.btn_group > button:hover{
-  background-color: var(--light1);
-  border: 2px solid var(--secondary);
+.last_week:hover{
+  background-color: #ff6f16;
+}
+.next_week:hover{
+  background-color: #ff6f16;
+}
+.no_last_week{
+  border: 0;
+  border: 2px solid transparent;
+  background-color: var(--secondary);
+  padding: 8px 16px;
+  padding-top: 10px;
+  border-radius: 8px;
+  transition: 0.4s;
+  margin-left: 12px;
+
+}
+.next_week{
+  border: 0;
+  border: 2px solid transparent;
+  background-color: var(--main);
+  padding: 8px 16px;
+  padding-top: 10px;
+  border-radius: 8px;
+  transition: 0.4s;
+  cursor: pointer;
+  margin-left: 12px;
 }
 
+.no_next_week{
+  border: 0;
+  border: 2px solid transparent;
+  background-color: var(--secondary);
+  padding: 8px 16px;
+  padding-top: 10px;
+  border-radius: 8px;
+  transition: 0.4s;
+  margin-left: 12px;
+
+}
+
+.line{
+  height: 4px;
+  border-bottom: 2px dashed var(--secondary);
+  
+}
+.calendar{
+  margin-right: 10px;
+}
 .head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid var(--gray);
+  border-bottom: 2px dashed var(--secondary);
+  /* border-bottom: 2px dashed var(--light-gray); */
 }
 
 .date_date {
   font-size:18px;
-  font-weight: 500;
+  font-weight: 600;
   user-select: none;
 }
 .abc {
@@ -52,6 +105,7 @@
 
 .timetable {
   font-size: var(--h3fs28);
+  font-weight: 600;
   margin-top: 28px;
   margin-bottom: 28px;
 

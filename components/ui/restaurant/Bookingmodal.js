@@ -40,7 +40,7 @@ export default function BookingModal({
             <p
               className={restPeople <= 0 ? Styles.no_rest_num : Styles.rest_num}
             >
-              {restPeople <= 0 ? '額滿' : people}
+              {restPeople <= 0 ? '額滿!' : people}
             </p>
             {restPeople <= 0 ? '' : '位'}
           </div>

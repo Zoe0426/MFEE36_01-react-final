@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import faArrowRight from '@/assets/arrow-right.svg';
 import faArrowLeft from '@/assets/arrow-left.svg';
+import calendar from '@/assets/calendar.svg';
 import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 
 function WeekCalendar() {
@@ -108,18 +109,30 @@ function WeekCalendar() {
       </div>
       <div className="container-inner">
         <div className={Styles.head}>
-          <h1 className={Styles.timetable}>曜日義式餐酒館預約時間表</h1>
+          <h1 className={Styles.timetable}>
+            <Image src={calendar} alt="calendar" className={Styles.calendar} />
+            曜日義式餐酒館預約時間表
+          </h1>
           <div className={Styles.btn_group}>
-            {startDateIndex > 0 && (
-              <button onClick={goToPreviousWeek}>
-                <Image src={faArrowLeft} alt="faArrowLeft" />
-              </button>
-            )}
-            {startDateIndex + 35 < bookingRows?.length && (
-              <button onClick={goToNextWeek} className={Styles.next_week}>
-                <Image src={faArrowRight} alt="faArrowRight" />
-              </button>
-            )}
+            <button
+              onClick={goToPreviousWeek}
+              className={
+                startDateIndex > 0 ? Styles.last_week : Styles.no_last_week
+              }
+            >
+              <Image src={faArrowLeft} alt="faArrowLeft" />
+            </button>
+
+            <button
+              onClick={goToNextWeek}
+              className={
+                startDateIndex + 35 < bookingRows?.length
+                  ? Styles.next_week
+                  : Styles.no_next_week
+              }
+            >
+              <Image src={faArrowRight} alt="faArrowRight" />
+            </button>
           </div>
         </div>
       </div>
