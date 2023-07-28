@@ -1,0 +1,23 @@
+.hMainBtn{
+    width: 20%;
+}
+.hMBtnimg{
+    width: 98%;
+    transition: all 0.3s;
+   
+}
+.hMBtnimg:hover{
+    width: 100%;
+}
+.mainBtn1{
+    margin-top:40px;
+}
+.mainBtn2{
+    margin-top: 160px;
+}
+.mainBtn3{
+    margin-top: 30px;
+}
+.mainBtn4{
+    margin-top:130px ;
+}

@@ -21,7 +21,7 @@ export default function Post() {
 
   const [data, setData] = useState([]); //儲存篩選後的資料
 
-  const fetchData = async () => {
+  const fetchHotData = async () => {
     const response = await fetch(
       `${process.env.API_SERVER}/forum-api?page=${page}&perpage=${perPage}&board_sid=${board_sid}`, // Include board_sid in the query string
       { method: "GET" }
@@ -33,7 +33,7 @@ export default function Post() {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchHotData();
   }, [page, perPage, board_sid]);
 
   // Pagination
