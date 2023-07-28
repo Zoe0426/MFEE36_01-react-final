@@ -7,56 +7,161 @@ import PostNav from '@/components/ui/postNav/postNav'
 import PostBottom from '@/components/ui/postBottom/postBottom'
 import Link from 'next/link'
 import { Pagination } from 'antd'
+import { useRouter } from 'next/router'
+// 下拉選單
+import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Dropdown, message, Space, Tooltip } from 'antd';
 export default function Post() {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(15);
-  const [board_sid, setBoardSid] = useState(null); // Define the board_sid state
-  const [forumData, setForumData] = useState({
-    totalRows: 0,
-    perPage: 15,
-    totalPages: 0,
-    page: 1,
-    rows: [], // 使用 rows 屬性來存放資料陣列
-  });
+  const [orderBy, setOrderBy] = useState('postLike')
+  const [board_sid, setBoardSid] = useState(0); // Define the board_sid state
+  //下拉選單值
+  const [obText, setObText] = useState('熱門文章')
+  //關鍵字
+  const [keyword, setKeyword] = useState('');
+  //
+  const getSearchbarValue = (e) => {
+    setKeyword(e.target.value);
+    console.log('e.target.value',e.target.value);
+  }
+  const keyEnter = (e) =>{
+    if(e.key === 'Enter'){
+      console.log('enter');
+      getSearchData();
+    }
+    console.log(e);
+  }
+  const searchKeyword = (e) => {
+    console.log("send search");
+    getSearchData();
+  }
+  // 把keyEnter和searchKeyword並一起
+  const getSearchData = ()=>{
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page:1,
+        orderBy: orderBy,
+        board_sid: board_sid,
+        keyword: keyword
+        // perPage: perpage,
+      }).toString()}`
+    );
+  } 
 
-  const [data, setData] = useState([]); //儲存篩選後的資料
+  const [forumData, setForumData] = useState([]);
+  const [data, setData] = useState([]);
 
-  const fetchHotData = async () => {
+  const fetchData = async (obj={}) => {
+    const usp = new URLSearchParams(obj);
     const response = await fetch(
-      `${process.env.API_SERVER}/forum-api?page=${page}&perpage=${perPage}&board_sid=${board_sid}`, // Include board_sid in the query string
+      `${process.env.API_SERVER}/forum-api?${usp.toString()}`, // Include board_sid in the query string
       { method: "GET" }
     );
     const forumData = await response.json();
-    setForumData(forumData);
     setData(forumData.rows);
+    setForumData(forumData);
+  
+    // setData(forumData.rows);
     console.log('forumData', forumData);
   };
 
-  useEffect(() => {
-    fetchHotData();
-  }, [page, perPage, board_sid]);
+  useEffect(()=>{
+    //取得用戶拜訪的資料
+    const {
+      page,
+      keyword,
+      orderBy
+    } = router.query;
+    if(keyword){
+      setKeyword(keyword);
+    }
+    console.log('router.query',router.query.orderBy);
+    console.log('orderBy',orderBy);
+    if(orderBy && orderBy==='postLike'){
+      setObText('熱門文章')
+      setOrderBy('postLike')
+    }else if(orderBy && orderBy==='post_date'){
+      setObText('最新文章')
+      setOrderBy('post_date')
+    }
+    fetchData(router.query)
+  }, [router.query])
+  
+
+  // 下拉選單：熱門/最新
+
+  const handleMenuClick = (e) => {
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page:1,
+        orderBy: e.key,
+        // perPage: perpage,
+      }).toString()}`
+    );
+    console.log('click', e);
+  };
+
+  const items = [
+    {
+      label: '熱門文章',
+      key: 'postLike',
+    },
+    {
+      label: '最新文章',
+      key: 'post_date',
+    }]
+const menuProps = {
+  items,
+  onClick: handleMenuClick,
+};
+  
 
   // Pagination
-  const PageChangeHandler = async (page, perpage) => {
-    setPerPage(perpage);
-    setPage(page);
+  const PageChangeHandler = async (page) => {
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page:page,
+        orderBy: orderBy,
+        board_sid: board_sid,
+        keyword: keyword
+      }).toString()}`
+    );
   };
 
-  // Filter by board_sid
-  const filterByBoardSid = (board_sid) => {
-    setBoardSid(board_sid);
-    setPage(1); // Reset page to 1 when applying a filter
-  };
+
 
  //醫療版
   const doctor = ()=>{
-    const newData = forumData.rows.filter((forumData) => forumData.board_sid === 1);
-    setData(newData);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page:1,
+        orderBy: orderBy,
+        board_sid: 1,
+        // perPage: perpage,
+      }).toString()}`
+    );
+    // const newData = forumData.rows.filter((forumData) => forumData.board_sid === 1);
+    // setData(newData);
   }
   //住宿版
   const home = ()=>{
-    const newData = forumData.rows.filter((data) => data.board_sid === 2);
-    setData(newData);
+    router.push(
+      `?${new URLSearchParams({
+        ...router.query,
+        page:1,
+        orderBy: orderBy,
+        board_sid: 2,
+        // perPage: perpage,
+      }).toString()}`
+    );
+    // const newData = forumData.rows.filter((data) => data.board_sid === 2);
+    // setData(newData);
   }
   //景點版
   const site = ()=>{
@@ -103,18 +208,15 @@ export default function Post() {
     const newData = forumData.rows.filter((data) => data.board_sid === 6);
     setData(newData);
   }
-  // 在進行篩選時，只需更新 forumData.rows 和 forumData.totalRows
-  // forumData.page 和 forumData.perPage 由 Pagination 控制
-  useEffect(() => {
-    // 預設顯示全部資料
-    setData(forumData.rows);
-  }, [forumData.rows]);
 
   return (
     <>
       <div className="container-outer">
         <div className={Style.body}>
-          <PostBanner/>
+          <PostBanner changeHandler={getSearchbarValue} 
+          clickHandler={searchKeyword} 
+          keyDownHandler={keyEnter}
+          inputText={keyword}/>
           <BoardNav 
           doctor={()=>{
             doctor();
@@ -151,7 +253,17 @@ export default function Post() {
           }}
           />
           <div className="container-inner">
-          <PostNav postNav='熱門文章' optionCh='熱門文章' op1='最新文章'/>
+          {/*<PostNav postNav='熱門文章' optionCh='熱門文章' op1='最新文章'/>*/}
+          <div>
+              <Dropdown menu={menuProps}>
+              <Button>
+                <Space>
+                  {obText}
+                  <DownOutlined />
+                </Space>
+              </Button>
+            </Dropdown>
+          </div>
           {data.map((v,i)=>(
           // <Link href={`/forum/${i+1}`}>
           <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
@@ -166,7 +278,7 @@ export default function Post() {
           comments={v.postComment} 
           favorites={v.postFavlist}/>           
           </Link>
-  ))}    
+          ))}   
         <Pagination
           current={page}
           total={forumData.totalRows}
