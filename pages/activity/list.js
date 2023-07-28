@@ -42,6 +42,8 @@ export default function ActivityMain() {
   const [perPage, setPerPage] = useState(16);
   const [keyword, setKeyword] = useState('');
   const [activity_type_sid, setActivity_type_sid] = useState(0);
+  const [selectedActivityTypeSid, setSelectedActivityTypeSid] = useState(0);
+
   const [orderBy, setOrderBy] = useState('-- 請選擇 --');
 
   // 收藏清單
@@ -137,9 +139,14 @@ export default function ActivityMain() {
         setMaxPrice(maxPrice);
       }
 
+      // if (activity_type_sid) {
+      //   setActivity_type_sid(activity_type_sid);
+      // }
       if (activity_type_sid) {
-        setActivity_type_sid(activity_type_sid);
+        setSelectedActivityTypeSid(activity_type_sid);
       }
+   
+
       if (city) {
         setSelectedCity(city);
       }
@@ -148,7 +155,7 @@ export default function ActivityMain() {
       }
 
       setStartDate(startDate ? moment(startDate, 'YYYY-MM-DD') : null);
-    setEndDate(endDate ? moment(endDate, 'YYYY-MM-DD') : null);
+      setEndDate(endDate ? moment(endDate, 'YYYY-MM-DD') : null);
 
       //到頁面時 將type勾選回來
       if (activity_type_sid) {
@@ -223,7 +230,6 @@ export default function ActivityMain() {
     setShowFilter(!showfilter);
   };
 
-
   const handleDateChange = (dates) => {
     const [startDate, endDate] = dates;
     setStartDate(startDate);
@@ -269,7 +275,6 @@ export default function ActivityMain() {
     } else {
       delete query.endDate;
     }
-   
 
     console.log(minPrice);
     console.log('query:', query);
@@ -527,16 +532,16 @@ export default function ActivityMain() {
             </div>
             <div className="container-inner">
               <div className={styles.filter_box}>
-                <ActivityFilter
-                  text="活動類別:"
-                  name="activity_type_sid"
-                  data={filters.activity_type_sid}
-                  // changeHandler={checkboxToggleHandler}
-                />
-
+              <ActivityFilter
+                text="活動類別:"
+                name="activity_type_sid"
+                data={filters.activity_type_sid}
+                selectedValue={selectedActivityTypeSid}
+                setSelectedValue={setSelectedActivityTypeSid}
+                filterHandler={filterHandler}
+              />
                 <ActivityFilterPrice />
                 <ActivityFilterDate onDateChange={handleDateChange} />
-                
 
                 <div className={styles.filter_btns}>
                   {/* <SecondaryBtn text="重置" clickHandler={clearAllFilter} /> */}

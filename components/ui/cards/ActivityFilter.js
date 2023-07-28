@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Radio, ConfigProvider } from 'antd';
 import styles from './ActivityFilter.module.css';
 import { useRouter } from 'next/router';
@@ -7,26 +7,22 @@ export default function ActivityFilter({
   text = '',
   name = '',
   data = [],
+  selectedValue, 
+  setSelectedValue,
+  filterHandler,
 }) {
   const router = useRouter();
-
-  const [selectedValue, setSelectedValue] = useState(() => {
-    if (router.query[name]) {
-      return router.query[name];
-    } else {
-      return '';
-    }
-  });
 
   const handleRadioChange = (e) => {
     const selectedValue = e.target.value;
     setSelectedValue(selectedValue);
-
+  
     const query = {
       ...router.query,
       [name]: selectedValue,
     };
     router.push({ pathname: router.pathname, query }, undefined, { shallow: true });
+  
   };
 
   return (
