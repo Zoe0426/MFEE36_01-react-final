@@ -21,6 +21,8 @@ import moment from 'moment';
 export default function Profile() {
   const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
+  const from = router.asPath;
+
   const [data, setData] = useState([]);
   const [imgType, setImgType] = useState(true);
   const [imgSize, setImgSize] = useState(true);
@@ -101,7 +103,7 @@ export default function Profile() {
     console.log(auth.id);
 
     if (auth.token) {
-      fetch(`${process.env.API_SERVER}/member-api/edit/mem00300`, {
+      fetch(`${process.env.API_SERVER}/member-api/edit`, {
         headers: {
           Authorization: 'Bearer ' + auth.token,
         },
@@ -168,14 +170,18 @@ export default function Profile() {
     // console.log('formData', formData.get('gender'));
     // console.log('formData', formData.get('pet'));
 
-    fetch('http://localhost:3002/member-api/updateInfo/mem00300', {
+    fetch('http://localhost:3002/member-api/updateInfo', {
       method: 'PUT',
       body: formData,
+      headers: {
+        Authorization: 'Bearer ' + auth.token,
+      },
     })
       .then((r) => r.json())
       .then((data) => {
         console.log(data);
       });
+    router.push(from);
   };
 
   return (
@@ -235,10 +241,13 @@ export default function Profile() {
                   <Input size="large" />
                 </Form.Item>
               </div>
-              <div>
-                <Form.Item name="avatar" style={{ marginBottom: '0px' }}>
+              <div className="photo">
+                <Form.Item
+                  name="avatar"
+                  style={{ marginBottom: '0px', padding: '0px' }}
+                >
                   <Upload
-                    action={`${process.env.API_SERVER}/updateInfo/mem00300`}
+                    action={`${process.env.API_SERVER}/updateInfo`}
                     listType="picture-card"
                     fileList={fileList}
                     onPreview={handlePreview}
@@ -257,9 +266,13 @@ export default function Profile() {
                     src={previewImage}
                   />
                 </Modal>
+                {!imgType && (
+                  <div className="warning">照片格式要 JPG & PNG 唷！</div>
+                )}
+                {!imgSize && !imgSize && (
+                  <div className="warning">照片大小不能超過2MB唷！ </div>
+                )}
               </div>
-              {!imgType && <h3>照片格式要 JPG & PNG 唷！</h3>}
-              {!imgSize && !imgSize && <h3>照片大小不能超過2MB唷！ </h3>}
             </div>
             <Form.Item
               label="帳號"
@@ -304,7 +317,11 @@ export default function Profile() {
                 <SecondaryBtn text="取消" htmltype="reset" />
               </div>
               <div className={Styles.btn}>
-                <MainBtn text="完成" htmltype="submit" />
+                <MainBtn
+                  text="完成"
+                  htmltype="submit"
+                  disable={!imgSize && !imgSize}
+                />
               </div>
             </div>
           </Form>

@@ -13,7 +13,9 @@ export default function Navbar({ type = '' }) {
   const [showMemList, setShowMemList] = useState(false);
   const [showCartBox, setShowCartBox] = useState(false);
   const [showLoginBox, setShowLoginBox] = useState(false);
-  const [memProfileImg, setMemProfileImg] = useState('/product-img/pro001.jpg');
+  const [memProfileImg, setMemProfileImg] = useState(
+    `${process.env.API_SERVER}/img/default-profile.jpg`
+  );
   const [login, setLogin] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
@@ -37,7 +39,7 @@ export default function Navbar({ type = '' }) {
     if (memImg.profile) {
       setMemProfileImg(memImg.profile);
     } else {
-      setMemProfileImg('/product-img/pro001.jpg');
+      setMemProfileImg(`/default-profile.jpg`);
     }
   };
   const signOut = () => {

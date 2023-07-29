@@ -160,11 +160,13 @@ body{
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
 }
 
+
+
 .name{
-  width: 100%;
+  width: 80%;
   padding-right: 50px;
 }
 
@@ -187,6 +189,13 @@ body{
   object-fit: cover;
 }
 
+
+
+.warning{
+  font-size: var(--pfs14);
+  color: var( --heartRed);
+}
+
 /* -------------------- */
 
 @media screen and (max-width:1440px) and (min-width:769px){
@@ -198,6 +207,8 @@ body{
 
   .name{
     padding-right: 0;
+    width: 100%;
+    margin-top: 20px;
   }
   
 
@@ -228,7 +239,9 @@ body{
 }
 
 .name{
+  margin-top: 20px;
   padding-right: 0;
+  width: 100%;
 }
 
 } 
