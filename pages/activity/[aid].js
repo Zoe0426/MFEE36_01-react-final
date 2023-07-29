@@ -69,10 +69,10 @@ export default function ActivityDetail() {
       href: 'http://localhost:3000/activity',
       show: true,
     },
-    { id: 'search', text: '/ 活動列表/', href: '', show: true },
+    { id: 'search', text: '/ 活動列表', href: '', show: true },
     {
       id: 'aid',
-      text: '',
+      text: '/ 夏日水樂園',
       href: '',
       show: true,
     },
@@ -204,6 +204,11 @@ export default function ActivityDetail() {
       countChild,
       selectedDate
     );
+
+    // Reset values
+  setSelectedDate(null);
+  setCountAdult(1);
+  setCountChild(0);
   };
 
 
@@ -367,7 +372,7 @@ export default function ActivityDetail() {
                 <p className={styles.row_text_small}>選擇日期：</p>
 
                 <Select
-                  defaultValue="選擇活動日期"
+                  value={selectedDate || "選擇活動日期"}
                   onChange={(value) => setSelectedDate(value)}
                 >
                   {actDateRows.map((row, index) => (
