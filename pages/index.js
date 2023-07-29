@@ -1,4 +1,6 @@
 import { Col, Row } from 'antd';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import HomeShopCard from '@/components/ui/home/homeShopCard';
 import style from '@/styles/home.module.css';
 import HomeLayout from '@/components/layout/home-layout';
@@ -6,12 +8,37 @@ import HashTag from '@/components/ui/hashtag/hashtag';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import HomeResCard from '@/components/ui/home/homeResCard';
 import HomeEventPhoto from '@/components/ui/home/homeEventPhoto';
+import HomeForumCard from '@/components/ui/home/homeforumCard';
 import HomeMainText from '@/components/ui/home/homeMainText';
 import HomeMainBtns from '@/components/ui/home/homeMainBtns';
 
 //import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    getHomeData();
+  }, []);
+
+  const redirectToProduct = (prodId) => {
+    router.push(`/product/${prodId}`); //[pid].js
+  };
+  const redirectToActivity = (actId) => {
+    router.push(`/activity/${actId}`); //[aid].js
+  };
+  const redirectToRestaurant = (resId) => {
+    router.push(`/restaurant/${resId}`); //[rid].js
+  };
+  const redirectToPost = (postId) => {
+    router.push(`/forum/${postId}`); //[postid].js
+  };
+
+  const getHomeData = async () => {
+    const r = await fetch(`${process.env.API_SERVER}/cart-api/get-home-datas`);
+    const data = await r.json();
+    console.log(data);
+  };
+
   const shopCardsData = [
     {
       img: '/home-images/hsprod1.avif',
@@ -322,9 +349,9 @@ export default function Home() {
       </div>
       <Row className={style.forumbg}>
         <Col span={2}></Col>
-        <Col span={20}>
+        <Col span={22}>
           <Row className={style.hSection}>
-            <Col className={style.hInfo} xs={24} sm={24} md={10}>
+            <Col className={style.hInfo} xs={24} sm={24} md={9}>
               <article>
                 <p className={style.hstitle}>寵物論壇</p>
                 <p className={style.hetitle}>CHAT WITH ME</p>
@@ -346,7 +373,60 @@ export default function Home() {
                 <MainBtn text="前往論壇" />
               </article>
             </Col>
-            <Col className={style.hrCards} xs={24} sm={24} md={14}></Col>
+            <Col xs={0} sm={0} md={1}></Col>
+            <Col className={style.hrForumCards} xs={24} sm={24} md={14}>
+              <div className={style.forumSlide}>
+                <HomeForumCard
+                  clickHandler={() => {
+                    redirectToPost(); //補boardSid
+                  }}
+                  rotate="left"
+                  img="/forum_img/post_img/Post011.jpeg"
+                  boardName="醫療板"
+                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
+                />
+                <HomeForumCard
+                  img="/forum_img/post_img/Post011.jpeg"
+                  boardName="狗貓聚板"
+                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
+                />
+                <HomeForumCard
+                  rotate="right"
+                  img="/forum_img/post_img/Post011.jpeg"
+                  boardName="毛孩日記板"
+                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
+                />
+                <HomeForumCard
+                  rotate="left"
+                  img="/forum_img/post_img/Post011.jpeg"
+                  boardName="醫療板"
+                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
+                />
+                <HomeForumCard
+                  img="/forum_img/post_img/Post011.jpeg"
+                  boardName="狗貓聚板"
+                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
+                />
+                <HomeForumCard
+                  rotate="right"
+                  img="/forum_img/post_img/Post011.jpeg"
+                  boardName="毛孩日記板"
+                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
+                />
+              </div>
+            </Col>
           </Row>
         </Col>
       </Row>

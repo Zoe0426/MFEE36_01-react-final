@@ -148,7 +148,28 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+.hrForumCards{
+    padding-left: 3%;
+    overflow: hidden;
+}
 
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-65%); }
+}
+
+.forumSlide {
+  display: flex;
+  width: 4200px;
+  justify-content: space-between;
+  animation: slide 80s linear infinite;
+  overflow:hidden;
+  padding: 20px 0;
+}
+
+.forumSlide:hover {
+  animation-play-state: paused;
+}
 
 
 /* INFO */
@@ -236,6 +257,9 @@
     .hrCards{ 
         padding-left: 0;
         padding: 20px 0;
+    }
+    .hrForumCards{
+        padding-left: 0;
     }
     .hresCard{
         width: 100%;

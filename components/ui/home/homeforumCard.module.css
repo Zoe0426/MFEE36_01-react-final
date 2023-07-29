@@ -1,14 +1,15 @@
 .box{
-    transform: rotate(0deg);
+    margin-top: 15px;;
 }
 .boxLeft{
     transform: rotate(4deg);
 }
 .boxRight{
-    transform: rotate(-4deg);
+    transform: rotate(-6deg);
 }
+
 .card{
-    width:300px;
+    width: 83%;
     height:390px;
     border-radius:var(--br10);
     background-color: #fff;
@@ -16,6 +17,10 @@
     position: relative;
     margin-top: 15px;
     padding: var(--p24);
+    transition: all 0.3s;
+}
+.card:hover{
+    transform: scale(1.03);
 }
 .sticker{
     width:35%;
