@@ -24,6 +24,9 @@ import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import Modal from '@/components/ui/modal/modal';
 import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 
+//likelist
+
+
 // import CommentCard from '@/componets/ui/cards/comment-card.js';
 
 export default function ActivityDetail() {
