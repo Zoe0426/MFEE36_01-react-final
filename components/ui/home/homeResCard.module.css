@@ -1,10 +1,15 @@
+.box{
+    position: relative;
+    width: 46%;
+}
 .hresCard{
     position: relative;
     background-color: white;
     padding: 28px;
     border-radius: var(--br20);
     box-shadow: var(--shadow);
-    width: 46%;
+    
+    z-index: 2;
     /* border: 1px solid red; */
 }
 .stickerbox{
@@ -51,10 +56,20 @@
     margin-bottom: var(--p8);
     letter-spacing: 0;
 }
+.decorationBox{
+    position: absolute;
+    right:-8%;
+    bottom:-7%;
+    width: 72%;
+    height: 70px;
+    background-color: var(--secondary);
+    border-radius: 40px;
+    z-index: 1;
+}
 
 
-@media screen and (max-width:767px) and (max-width:576px){
-.hresCard{
+@media screen and (max-width:576px){
+.box{
     width: 100%;
     margin-top: 40px;
 }

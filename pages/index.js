@@ -278,6 +278,7 @@ export default function Home() {
           <Row className={style.hSection}>
             <Col className={style.hlresCards} xs={24} sm={24} md={15}>
               <HomeResCard
+                showDeco={false}
                 stickerText="毛小孩與親子共遊"
                 src="/rest_image/sunshine.jpeg"
                 resName="陽光莊園"

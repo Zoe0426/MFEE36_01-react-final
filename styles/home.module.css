@@ -124,6 +124,12 @@
     justify-content: space-between;
     align-items: flex-start;
 }
+.hlshopCards>div:nth-child(2){
+    margin-top: 40px;
+}
+.hlshopCards>div:nth-child(5){
+    margin-top: 40px;
+}
 .hlresCards{
     padding-right: 4%;
     display: flex;
@@ -131,12 +137,11 @@
     justify-content: space-between;
     align-items: flex-start;
 }
-.hlshopCards>div:nth-child(2){
+
+.hlresCards>div:nth-child(2){
     margin-top: 40px;
 }
-.hlshopCards>div:nth-child(5){
-    margin-top: 40px;
-}
+
 .hrCards{
     padding-left: 6%;
     display: flex;

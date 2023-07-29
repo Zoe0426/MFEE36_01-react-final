@@ -1,44 +1,64 @@
 import React from 'react';
-import { useState } from 'react';
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Space, Tooltip } from 'antd';
+import HomeForumCard from '@/components/ui/home/homeforumCard';
 
-export default function Test() {
-  const [obText, setText] = useState('熱門文章');
-  const handleMenuClick = (e) => {
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page: 1,
-        orderBy: key,
-      }).toString()}`
-    );
-    message.info('Click on menu item.');
-    console.log('click', e);
-    console.log('e.key', e.key);
-  };
-  const items = [
-    {
-      label: '熱門文章',
-      key: 'postLike',
-    },
-    {
-      label: '最新文章',
-      key: 'post_date',
-    },
-  ];
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
-  };
+export default function test() {
   return (
-    <Dropdown menu={menuProps}>
-      <Button>
-        <Space>
-          {obText}
-          <DownOutlined />
-        </Space>
-      </Button>
-    </Dropdown>
+    <div
+      style={{
+        border: '1px solid red',
+        padding: '20px',
+        background: '#fff6f6',
+        display: 'flex',
+        alignItems: 'flex-start',
+      }}
+    >
+      <HomeForumCard
+        img="/forum_img/post_img/Post011.jpeg"
+        boardName="醫療版"
+        title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+        content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。
+
+在八里左岸河濱公園，您可以帶著寵物散步在寬敞的草地上，讓牠盡情奔跑和玩耍。此外，公園內還有專為寵物設計的運動區，您可以帶著寵物進行訓練或遊戲。公園也提供寵物專用的垃圾桶和清潔區域，方便您處理寵物的廢棄物。
+
+八里左岸河濱公園的風景非常美麗，您可以在河邊漫步，欣賞壯麗的河景和周遭的自然景觀。公園內也設有休憩區和露天座位，您可以坐下來休息，享受寧靜的時光。
+
+重要的是，在前往八里左岸河濱公園時，請確保遵守公園的寵物管理規定，例如牽繫寵物的繩索，清理寵物的廢棄物，並尊重其他公園使用者的權益。
+
+八里左岸河濱公園提供了一個寵物友善的環境，讓您和您的寵物共同享受戶外活動和大自然的美景。希望您和您的寵物在這裡度過愉快的時光！"
+      />
+      <HomeForumCard
+        rotate="left"
+        img="/forum_img/post_img/Post011.jpeg"
+        boardName="醫療版"
+        title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+        content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。
+
+在八里左岸河濱公園，您可以帶著寵物散步在寬敞的草地上，讓牠盡情奔跑和玩耍。此外，公園內還有專為寵物設計的運動區，您可以帶著寵物進行訓練或遊戲。公園也提供寵物專用的垃圾桶和清潔區域，方便您處理寵物的廢棄物。
+
+八里左岸河濱公園的風景非常美麗，您可以在河邊漫步，欣賞壯麗的河景和周遭的自然景觀。公園內也設有休憩區和露天座位，您可以坐下來休息，享受寧靜的時光。
+
+重要的是，在前往八里左岸河濱公園時，請確保遵守公園的寵物管理規定，例如牽繫寵物的繩索，清理寵物的廢棄物，並尊重其他公園使用者的權益。
+
+八里左岸河濱公園提供了一個寵物友善的環境，讓您和您的寵物共同享受戶外活動和大自然的美景。希望您和您的寵物在這裡度過愉快的時光！"
+      />
+      <HomeForumCard
+        rotate="right"
+        img="/forum_img/post_img/Post011.jpeg"
+        boardName="醫療版"
+        title="推薦新北市寵物友善景點-八里左岸河濱公園！"
+        content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
+就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。
+
+在八里左岸河濱公園，您可以帶著寵物散步在寬敞的草地上，讓牠盡情奔跑和玩耍。此外，公園內還有專為寵物設計的運動區，您可以帶著寵物進行訓練或遊戲。公園也提供寵物專用的垃圾桶和清潔區域，方便您處理寵物的廢棄物。
+
+八里左岸河濱公園的風景非常美麗，您可以在河邊漫步，欣賞壯麗的河景和周遭的自然景觀。公園內也設有休憩區和露天座位，您可以坐下來休息，享受寧靜的時光。
+
+重要的是，在前往八里左岸河濱公園時，請確保遵守公園的寵物管理規定，例如牽繫寵物的繩索，清理寵物的廢棄物，並尊重其他公園使用者的權益。
+
+八里左岸河濱公園提供了一個寵物友善的環境，讓您和您的寵物共同享受戶外活動和大自然的美景。希望您和您的寵物在這裡度過愉快的時光！"
+      />
+    </div>
   );
 }
