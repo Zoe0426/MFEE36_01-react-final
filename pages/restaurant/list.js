@@ -36,7 +36,6 @@ import SearchBar1 from '@/components/ui/buttons/SearchBar1';
 import orderByOptions from '@/data/restaurnt/orderby.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cityDatas from '@/data/restaurnt/location.json';
-import SearchBar from '@/components/ui/buttons/SearchBar';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
@@ -818,7 +817,7 @@ export default function FilterPage() {
                   btnType="iconBtn"
                   btnText="收藏列表"
                   icon={faHeart}
-                  content="才可查看收藏列表"
+                  content="登入！才可查看收藏列表"
                   mainBtnText="前往登入"
                   subBtnText="暫時不要"
                   confirmHandler={toSingIn}

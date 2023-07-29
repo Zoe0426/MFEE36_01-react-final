@@ -32,7 +32,7 @@ import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
 import catJump from '@/assets/jump_cat.svg';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
-import Likelist from '@/components/ui/like-list/like-list';
+import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
 
 export default function RestInfo() {
@@ -58,8 +58,12 @@ export default function RestInfo() {
   const [commentAvgRows, setCommentAvgRows] = useState([]);
   const [activityRows, setActivityRows] = useState([]);
 
+  //收藏清單
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [isClickingLike, setIsClickingLike] = useState(false);
+
   const [menuRows, setMenuRows] = useState([]);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -83,7 +87,6 @@ export default function RestInfo() {
             commentRows,
             commentAvgRows,
             activityRows,
-            likeDatas,
             menuRows,
           } = data;
 
@@ -126,7 +129,7 @@ export default function RestInfo() {
           if (activityRows && activityRows.length > 0) {
             setActivityRows(...activityRows);
           }
-          console.log(...activityRows);
+          console.log(restDetailRows);
 
           setData(data);
         })
@@ -136,40 +139,192 @@ export default function RestInfo() {
     }
   }, [query]);
 
-  //圖片輪播取照片
-  // const toggleDisplayForImg = (imageRows, id) => {
-  //   return imageRows.map((v) => {
-  //     if (v.rest_sid === id) {
-  //       return { ...v, display: true };
-  //     } else {
-  //       return { ...v, display: false };
-  //     }
-  //   });
-  // };
-  //收藏列表相關的函式-------------------------------------------------------
-  const openShowLikeList = () => {
-    setShowLikeList(true);
-  };
-
-  const closeShowLikeList = () => {
-    setShowLikeList(false);
-  };
-
   function toggleDisplayForImg(imgUrl) {
     let main = document.getElementById('imageBox');
     main.src = imgUrl;
   }
+  //收藏列表相關的函式-------------------------------------------------------
 
-  //沒登入會員收藏，跳轉登入
-  const toSingIn = () => {
-    const from = router.query;
-    router.push(
-      `/member/sign-in?from=http://localhost:3000/restaurant/booking?${new URLSearchParams(
-        from
-      ).toString()}`
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/show-like`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
     );
+    const data = await res.json();
+    console.log(data);
+
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+    }
+    console.log(likeDatas);
   };
 
+  //沒登入會員收藏，跳轉登入booking
+  const toSingInBook = () => {
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=http://localhost:3000/restaurant/booking`
+    );
+  };
+  //沒登入會員收藏，跳轉登入likelist
+  const toSingIn = () => {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+  };
+
+  //卡片愛心收藏的相關函式-------------------------------------------------------
+  const addLikeListHandler = () => {
+    const timeClick = new Date().getTime();
+    const data = [
+      {
+        rest_sid: router.query.rid,
+        time: timeClick,
+      },
+    ];
+    sendLike(data, auth.token);
+    setRestDetailRows({
+      ...restDetailRows,
+      like: true,
+    });
+  };
+
+  const clickHeartHandler = (id) => {
+    setIsClickingLike(true);
+    const timeClick = new Date().getTime();
+    const newData = data.rows.map((v) => {
+      if (v.rest_sid === id) {
+        const insideInLikeList = addLikeList.find(
+          (item) => item.rest_sid === id
+        );
+        if (insideInLikeList) {
+          setAddLikeList((preV) => preV.filter((v2) => v2.rest_sid !== id));
+        } else {
+          setAddLikeList((preV) => [
+            ...preV,
+            { rest_sid: id, time: timeClick },
+          ]);
+        }
+
+        return { ...v, like: !v.like };
+      } else return { ...v };
+    });
+    setData({ ...data, rows: newData });
+
+    setTimeout(() => {
+      setIsClickingLike(false);
+    }, 1500);
+  };
+
+  //將資料送到後端
+  const sendLike = async (arr, token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: arr }),
+      }
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      console.log(data);
+    }
+  };
+
+  //監看點擊愛心收藏的相關控制
+  useEffect(() => {
+    if (!isClickingLike && addLikeList.length > 0) {
+      sendLike(addLikeList, auth.token).then(() => {
+        //在成功送資料到後端後重置addLikeList
+        setAddLikeList([]);
+      });
+    }
+  }, [isClickingLike, addLikeList]);
+
+  //展開收藏列表
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    console.log(newShowLikeList);
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  const closeLikeList = () => {
+    setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      //將列表顯示為空的
+      setLikeDatas([]);
+      //將畫面上的愛心清除
+      const newData = data.rows.map((v) => {
+        return { ...v, like: false };
+      });
+      setData({ ...data, rows: newData });
+      //將請求送到後端作業
+      removeLikeListToDB('all', token);
+    }
+  };
+
+  // 刪除單一收藏
+  const removeLikeListItem = (rid, token = '') => {
+    //將列表該項目刪除
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.rest_sid !== rid;
+    });
+    setLikeDatas(newLikeList);
+    //將若取消的為畫面上的，則須將愛心清除
+    const newData = data.rows.map((v) => {
+      if (v.rest_sid === rid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+    setData({ ...data, rows: newData });
+    //將請求送到後端作業
+    removeLikeListToDB(rid, token);
+  };
+
+  const removeLikeListToDB = async (rid = '', token = '') => {
+    try {
+      const removeAll = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/likelist/${rid}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+      if (rid === 'all') {
+        setTimeout(() => {
+          toggleLikeList();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //給他一個loading的時間
   if (!serviceRows || !restDetailRows) return <p>loading</p>;
   return (
@@ -202,10 +357,51 @@ export default function RestInfo() {
                 />
               </ConfigProvider>
             </div>
-            <IconBtn icon={faHeart} text="收藏列表" />
+            {auth.token ? (
+              <IconBtn
+                icon={faHeart}
+                text="收藏列表"
+                clickHandler={toggleLikeList}
+              />
+            ) : (
+              <AlertModal
+                btnType="iconBtn"
+                btnText="收藏列表"
+                icon={faHeart}
+                content="才可查看收藏列表"
+                mainBtnText="前往登入"
+                subBtnText="暫時不要"
+                confirmHandler={toSingIn}
+              />
+            )}
           </div>
         </div>
       </div>
+      {/* 收藏列表畫面 */}
+      <div className="container-inner">
+        <div className={Styles.like_list}>
+          {showLikeList && (
+            <LikeListDrawer
+              datas={likeDatas}
+              customCard={
+                <LikeListCard
+                  datas={likeDatas}
+                  token={auth.token}
+                  removeLikeListItem={removeLikeListItem}
+                  closeLikeList={closeLikeList}
+                />
+              }
+              closeHandler={toggleLikeList}
+              removeAllHandler={() => {
+                removeAllLikeList(auth.token);
+              }}
+              // removeAllHandler={removeAllLikeList}
+              // removeLikeListItem={removeLikeListItem}
+            />
+          )}
+        </div>
+      </div>
+
       <div className="container-inner">
         <div className={Styles.rest_detail}>
           <div className={Styles.rest_image}>
@@ -360,21 +556,39 @@ export default function RestInfo() {
 
             {/* button */}
             <div className={Styles.detail_main_buttom}>
-              <IconSeconBtn
+              {/* <IconSeconBtn
                 icon={faHeart}
                 text="收藏餐廳"
-                clickHandler={openShowLikeList}
                 className={Styles.collect_btn}
-              />
-              <div className="like">
-                {showLikeList && (
-                  <Likelist
-                    datas={likeDatas}
-                    customCard={<LikeListCard datas={likeDatas} />}
-                    closeHandler={closeShowLikeList}
-                  />
-                )}
-              </div>
+                clickHandler={addLikeListHandler}
+              /> */}
+              {!auth.token ? (
+                <AlertModal
+                  btnType="iconSeconBtn"
+                  btnText="加入收藏"
+                  content="登入！才可收藏餐廳"
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                  icon={faHeart}
+                />
+              ) : restDetailRows.like ? (
+                <AlertModal
+                  btnType="iconSeconBtn"
+                  btnText="已收藏"
+                  content="已經收藏過囉~"
+                  mainBtnText="我知道了"
+                  showSubBtn={false}
+                  icon={faHeart}
+                />
+              ) : (
+                <IconSeconBtn
+                  icon={faHeart}
+                  text={'收藏餐廳'}
+                  clickHandler={addLikeListHandler}
+                />
+              )}
+              <div className="like"></div>
               <ImageGallary data={menuRows} />
               {auth.token ? (
                 <IconMainBtn
@@ -388,11 +602,11 @@ export default function RestInfo() {
                 <AlertModal
                   btnType="IconMainBtn"
                   btnText="我要預約"
-                  icon={faHeart}
-                  content="才可預約餐廳"
+                  icon={faFileLines}
+                  content="登入！才可預約餐廳"
                   mainBtnText="前往登入"
                   subBtnText="暫時不要"
-                  confirmHandler={toSingIn}
+                  confirmHandler={toSingInBook}
                 />
               )}
             </div>
@@ -502,18 +716,24 @@ export default function RestInfo() {
         <div className={Styles.section_rating}>
           <div className={Styles.avg}>
             <p className={Styles.comment_title}>用餐環境</p>
-            <FontAwesomeIcon icon={faStar} className={Styles.star} />
-            {commentAvgRows.avg_environment}
+            <div>
+              <FontAwesomeIcon icon={faStar} className={Styles.star} />
+              {commentAvgRows.avg_environment}
+            </div>
           </div>
           <div className={Styles.avg}>
             <p className={Styles.comment_title}>服務</p>
-            <FontAwesomeIcon icon={faStar} className={Styles.star} />
-            {commentAvgRows.avg_food}
+            <div>
+              <FontAwesomeIcon icon={faStar} className={Styles.star} />
+              {commentAvgRows.avg_food}
+            </div>
           </div>
           <div className={Styles.avg}>
             <p className={Styles.comment_title}>友善程度</p>
-            <FontAwesomeIcon icon={faStar} className={Styles.star} />
-            {commentAvgRows.avg_friendly}
+            <div>
+              <FontAwesomeIcon icon={faStar} className={Styles.star} />
+              {commentAvgRows.avg_friendly}
+            </div>
           </div>
         </div>
       </div>

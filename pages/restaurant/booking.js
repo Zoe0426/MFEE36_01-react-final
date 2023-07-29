@@ -89,7 +89,6 @@ function WeekCalendar() {
                 />
               </ConfigProvider>
             </div>
-            <IconBtn icon={faHeart} text="收藏列表" />
           </div>
         </div>
       </div>

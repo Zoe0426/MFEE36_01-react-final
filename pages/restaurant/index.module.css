@@ -7,7 +7,7 @@
 
 .search{
   width: 100%;
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center; 
@@ -15,7 +15,6 @@
 }
 
 .banner{
-  position: relative;
   height: 280px;
   display: flex;
   justify-content: center; 
@@ -27,7 +26,6 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-
 }
 
 .banner img {

@@ -35,6 +35,7 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import friendlyCondition from '@/data/restaurnt/firendly-condition.json';
 import cityDatas from '@/data/restaurnt/location.json';
+import SearchBar1 from '@/components/ui/buttons/SearchBar1';
 
 export default function Restindex() {
   const router = useRouter();
@@ -44,7 +45,11 @@ export default function Restindex() {
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
 
+  //search bar相關
   const [keyword, setKeyword] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [keywordDatas, setKeywordDatas] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
 
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
@@ -94,24 +99,71 @@ export default function Restindex() {
         : prevIndex - itemsPerPage
     );
   };
-  //searchBar相關的函式-------------------------------------------------------
-  const searchBarHandler = (e) => {
-    if (e.key === 'Enter') {
-      const searchText = e.target.value;
-      if (!searchText.trim()) {
-        // 如果沒有填字，則不執行換頁的動作
-        return;
+  const filterKeywordDatas = (data, keyword, keyin) => {
+    if (!keyin) {
+      const searchWord = keyword.split('');
+
+      if (searchWord.length === 0) {
+        return data;
       }
 
-      let copyURL = { page: 1 };
+      console.log(searchWord);
+
+      if (Array.isArray(data)) {
+        // 確保 data 是陣列
+        data.forEach((v1) => {
+          v1.count = 0;
+          searchWord.forEach((v2) => {
+            if (v1.name.includes(v2)) {
+              v1.count += 1;
+            }
+          });
+        });
+      }
+
+      console.log(data);
+
+      data.sort((a, b) => b.count - a.count);
+
+      return data.filter((v) => v.count >= searchWord.length);
+    }
+  };
+  //searchBar相關的函式
+  const restKeywordData = async () => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/search-name`,
+      {
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+
+    if (Array.isArray(data.keywords)) {
+      const newKeywords = data.keywords.map((v) => {
+        return { name: v, count: 0 };
+      });
+      setKeywordDatas(newKeywords);
+    }
+  };
+
+  useEffect(() => {
+    restKeywordData();
+  }, []);
+
+  const searchBarHandler = (e) => {
+    let copyURL = { page: 1 };
+    const searchText = e.target.value;
+
+    if (!searchText) {
+      setShowKeywordDatas(false);
+    }
+
+    if (e.key === 'Enter') {
+      setShowKeywordDatas(false);
       if (searchText) {
         copyURL = { keyword: searchText, ...copyURL };
       }
-      setShowFilter(false);
-
-      router.push(
-        `/restaurant/list?${new URLSearchParams(copyURL).toString()}`
-      );
+      router.push(`?${new URLSearchParams(copyURL).toString()}`);
     }
   };
 
@@ -127,6 +179,11 @@ export default function Restindex() {
         page: 1,
       }).toString()}`
     );
+  };
+
+  const autocompleteHandler = (selectkeyword) => {
+    setKeyword(selectkeyword);
+    setShowKeywordDatas(false);
   };
 
   const handleDatePickerChange = (dateValue) => {
@@ -294,15 +351,31 @@ export default function Restindex() {
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
-          <SearchBar
-            placeholder="搜尋餐廳名稱"
+          <SearchBar1
+            keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
+            placeholder="搜尋友善餐廳"
             btn_text="尋找餐廳"
             inputText={keyword}
             changeHandler={(e) => {
               setKeyword(e.target.value);
+              setShowKeywordDatas(true);
+              setIsTyping(true);
+              setTimeout(() => {
+                setIsTyping(false);
+              }, 700);
             }}
             keyDownHandler={searchBarHandler}
             clickHandler={searchBarClickHandler}
+            autocompleteHandler={autocompleteHandler}
+            showKeywordDatas={showKeywordDatas}
+            blurHandler={() => {
+              setTimeout(() => {
+                setShowKeywordDatas(false);
+              }, 200);
+            }}
+            clearHandler={() => {
+              setKeyword('');
+            }}
           />
         </div>
       </div>

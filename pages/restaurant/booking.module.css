@@ -2,8 +2,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: var(--p8);
-  padding-bottom: var(--p8);
+  padding-top: 28px;
+  padding-bottom:28px;
+  margin-bottom: 20px;
 }
 .dates_modal {
   width: 100%;
