@@ -34,7 +34,7 @@ export default function Home() {
   };
 
   const getHomeData = async () => {
-    const r = await fetch(`${process.env.API_SERVER}/cart-api/get-home-datas`);
+    const r = await fetch(`${process.env.API_SERVER}/cart-api/get-home-data`);
     const data = await r.json();
     console.log(data);
   };
