@@ -136,7 +136,6 @@ export default function ActivityMain() {
     );
   };
 
-
   useEffect(() => {
     console.log('router.query:', router.query);
     const {
@@ -449,6 +448,13 @@ export default function ActivityMain() {
   };
 
   // 給faheart的 新增與刪除------------------------------------------------------------
+  useEffect(() => {
+    // 在進入頁面時取得收藏清單資料, faheart也會立即更新
+    if (auth.token) {
+      getLikeList(auth.token);
+    }
+  }, [auth.token]);
+
   const handleLikeClick = async (activitySid, token, authId) => {
     try {
       if (!token) {
@@ -665,12 +671,12 @@ export default function ActivityMain() {
             </p>
           </div>
           <div>
-          <ActivityPageOrder
-            totalItems={datas.totalRows}
-            onRankChange={orderByHandler}
-            orderBy={orderBy}
-            items={orderByOptions}
-          />
+            <ActivityPageOrder
+              totalItems={datas.totalRows}
+              onRankChange={orderByHandler}
+              orderBy={orderBy}
+              items={orderByOptions}
+            />
           </div>
         </div>
       </div>
