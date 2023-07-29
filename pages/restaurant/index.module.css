@@ -1,3 +1,136 @@
+.dog_print{
+  z-index: 99;
+  top: 50%;
+  right: 0;
+}
+/* create the paw prints */
+.pad {
+  width: 15px;
+  height: 17px;
+  background-color: var(--dark);
+  -webkit-border-radius: 63px 63px 63px 63px / 108px     108px 72px 72px;
+  border-radius: 50%  50%  50%  50%  / 60%   60%         40%  40%;
+  display: block;
+  position: absolute;
+}       
+.large {
+ width: 40px;
+ height: 40px;
+ transform: rotate(80deg);
+ left: 100px;
+ top: 50px;
+} 
+.small_1 {
+ transform: rotate(50deg);
+ left: 120px;
+ top: 28px;
+}
+.small_2 {
+ transform: rotate(65deg);
+ left: 144px;
+ top: 40px;
+}  
+.small_3 {
+ transform: rotate(98deg);
+ position: absolute;
+ left: 158px;
+ top: 67px;
+}
+.small_4 {
+ transform: rotate(140deg);
+ position: absolute;
+ left: 138px;
+ top: 87px;
+}
+  
+/* position and animate */
+  
+.paw_print_1 {
+opacity: 0;
+position: absolute;
+left: 75px;
+top: 300px;
+transform: rotate(-40deg);
+-webkit-animation: walk 3s linear infinite;
+animation: /*keyframe*/walk /*duration*/3s /*transition*/linear /*repeat*/infinite;
+}
+.paw_print_2 {
+opacity: 0;
+position: absolute;
+left: 175px;
+top: 280px;
+transform: rotate(-5deg); 
+-webkit-animation: walk 3s linear infinite 0.25s;
+animation: walk 3s linear infinite /*delay*/0.25s;
+}
+.paw_print_3 {
+opacity: 0;
+position: absolute;
+left: 275px;
+top: 130px;
+transform: rotate(-10deg); 
+-webkit-animation: walk 3s linear infinite 0.5s;
+animation: walk 3s linear infinite 0.5s;
+}     
+.paw_print_4 {
+opacity: 0;
+position: absolute;
+left: 375px;
+top: 280px;
+transform: rotate(-20deg); 
+-webkit-animation: walk 3s linear infinite 0.75s;
+animation: walk 3s linear infinite 0.75s;
+}    
+.paw_print_5 {
+opacity: 0;
+position: absolute;
+left: 725px;
+top: 50px;
+transform: rotate(10deg); 
+-webkit-animation: walk 3s linear infinite 1s;
+animation: walk 3s linear infinite 1s;
+}   
+.paw_print_6 {
+opacity: 0;
+position: absolute;
+left: 875px;
+top: 200px;
+transform: rotate(10deg); 
+-webkit-animation: walk 3s linear infinite 1.25s;
+animation: walk 3s linear infinite 1.25s;
+}   
+.paw_print_7 {
+opacity: 0;
+position: absolute;
+left: 1075px;
+top: 50px;
+transform: rotate(20deg); 
+-webkit-animation: walk 3s linear infinite 1.5s;
+animation: walk 3s linear infinite 1.5s;
+}   
+.paw_print_8 {
+opacity: 0;
+position: absolute;
+left: 1150px;
+top: 250px;
+transform: rotate(10deg); 
+-webkit-animation: walk 3s linear infinite 1.75s;
+animation: walk 3s linear infinite 1.75s;
+}
+  
+/* walking effect animation keyframes */
+  
+@-webkit-keyframes walk {
+25%  {opacity: 1;}
+100% {opacity: 0;}
+}
+  
+@keyframes walk {
+/* appear */
+25%  {opacity: 1;}
+/* disappear */
+100% {opacity: 0;}
+}
 .jill_h1{
   font-size: var(--h1fs36);
   font-weight: var(--fwbold);
@@ -159,16 +292,16 @@
 }
 .hot_card_group {
   overflow-x: auto;
-
 }
+
 .friendly_card_group{
   overflow-x: auto;
   margin-bottom: 80px;
 }
 .hot_card {
   display: flex;
-  justify-content: flex-start;
-  width: 97%;
+  width: 100%;
+  justify-content: space-between;
   gap: 20px;
 }
 .hot_card_group::-webkit-scrollbar {

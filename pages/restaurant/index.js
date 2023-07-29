@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import AuthContext from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SearchBar from '@/components/ui/buttons/SearchBar';
@@ -29,21 +30,20 @@ import SubBtn from '@/components/ui/buttons/subBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 import LocationFilter from '@/components/ui/restaurant/LocationFilter';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
-import Likelist from '@/components/ui/like-list/like-list';
 import filterDatas from '@/data/restaurnt/categories.json';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import friendlyCondition from '@/data/restaurnt/firendly-condition.json';
 import cityDatas from '@/data/restaurnt/location.json';
 import SearchBar1 from '@/components/ui/buttons/SearchBar1';
+import LikeListCard from '@/components/ui/restaurant/LikeListCard';
+import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
+import AlertModal from '@/components/ui/restaurant/AlertModal';
 
 export default function Restindex() {
   const router = useRouter();
   const { categorySid } = filterDatas;
   const [showfilter, setShowFilter] = useState(false);
-
-  const [likeDatas, setLikeDatas] = useState([]);
-  const [showLikeList, setShowLikeList] = useState(false);
 
   //search bar相關
   const [keyword, setKeyword] = useState('');
@@ -61,6 +61,16 @@ export default function Restindex() {
 
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
+
+  //收藏清單
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [isClickingLike, setIsClickingLike] = useState(false);
+
+  const { auth, setAuth } = useContext(AuthContext);
+
+  const [first, setFrist] = useState(false);
 
   const [filters, setFilters] = useState(filterDatas);
 
@@ -327,12 +337,223 @@ export default function Restindex() {
     });
   };
   //收藏列表相關的函式-------------------------------------------------------
-  const openShowLikeList = () => {
-    setShowLikeList(!showLikeList);
+  //取得收藏列表
+
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/show-like`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+    }
+    console.log(likeDatas);
   };
 
-  const closeShowLikeList = () => {
+  useEffect(() => {
+    if (!isClickingLike && addLikeList.length > 0) {
+      sendLikeList(addLikeList, auth.token).then(() => {
+        //在成功送資料到後端後重置addLikeList
+        setAddLikeList([]);
+      });
+    }
+  }, [isClickingLike, addLikeList]);
+
+  //沒登入會員收藏，跳轉登入
+  const toSingIn = () => {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+  };
+
+  //卡片愛心收藏的相關函式-------------------------------------------------------
+  // const clickHeartHandler = (id) => {
+  //   setIsClickingLike(true);
+  //   const timeClick = new Date().getTime();
+  //   const newData = data.map((v) => {
+  //     if (v.rest_sid === id) {
+  //       const insideInLikeList = addLikeList.find(
+  //         (item) => item.rest_sid === id
+  //       );
+  //       if (insideInLikeList) {
+  //         setAddLikeList((preV) => preV.filter((v2) => v2.rest_sid !== id));
+  //       } else {
+  //         setAddLikeList((preV) => [
+  //           ...preV,
+  //           { rest_sid: id, time: timeClick },
+  //         ]);
+  //       }
+
+  //       return { ...v, like: !v.like };
+  //     } else return { ...v };
+  //   });
+  //   console.log(newData);
+  //   setData({ ...data, rows: newData });
+
+  //   setTimeout(() => {
+  //     setIsClickingLike(false);
+  //   }, 1500);
+  // };
+  const clickHeartHandler = (id, type) => {
+    setIsClickingLike(true);
+    const timeClick = new Date().getTime();
+
+    const targetArray = type === 'rows1' ? data.rows1 : data.rows2;
+
+    const newData = targetArray.map((v) => {
+      if (v.rest_sid === id) {
+        const insideInLikeList = addLikeList.find(
+          (item) => item.rest_sid === id
+        );
+        if (insideInLikeList) {
+          setAddLikeList((preV) => preV.filter((v2) => v2.rest_sid !== id));
+        } else {
+          setAddLikeList((preV) => [
+            ...preV,
+            { rest_sid: id, time: timeClick },
+          ]);
+        }
+        return { ...v, like: !v.like };
+      } else return { ...v };
+    });
+
+    console.log(newData);
+
+    if (type === 'rows1') {
+      setData({ ...data, rows1: newData });
+    } else if (type === 'rows2') {
+      setData({ ...data, rows2: newData });
+    }
+
+    setTimeout(() => {
+      setIsClickingLike(false);
+    }, 1500);
+  };
+
+  //將資料送到後端
+  const sendLikeList = async (arr, token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: arr }),
+      }
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      console.log(data);
+    }
+  };
+
+  //展開收藏列表
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    console.log(newShowLikeList);
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  const closeLikeList = () => {
     setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      // 列表顯示為空
+      setLikeDatas([]);
+
+      // 將卡片上的愛心清除
+      const newDataRows1 = data.rows1.map((v) => ({ ...v, like: false }));
+      const newDataRows2 = data.rows2.map((v) => ({ ...v, like: false }));
+
+      setData({
+        ...data,
+        rows1: newDataRows1,
+        rows2: newDataRows2,
+      });
+
+      // 請求後端執行
+      removeLikeListToDB('all', token);
+    }
+  };
+
+  const removeLikeListItem = (rid, token = '') => {
+    // 將該列表刪除
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.rest_sid !== rid;
+    });
+    setLikeDatas(newLikeList);
+
+    // 取消愛心樣式
+    const newDataRows1 = data.rows1.map((v) => {
+      if (v.rest_sid === rid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+
+    const newDataRows2 = data.rows2.map((v) => {
+      if (v.rest_sid === rid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+
+    // 更新 data
+    const newData = {
+      ...data,
+      rows1: newDataRows1,
+      rows2: newDataRows2,
+    };
+
+    setData(newData);
+
+    // 請求後端執行
+    removeLikeListToDB(rid, token);
+  };
+
+  const removeLikeListToDB = async (rid = '', token = '') => {
+    try {
+      const removeAll = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/likelist/${rid}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+      if (rid === 'all') {
+        setTimeout(() => {
+          toggleLikeList();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -345,6 +566,45 @@ export default function Restindex() {
         console.error(error);
       });
   }, []);
+
+  const getData = async (token = '') => {
+    try {
+      // 拿回卡片資訊
+      const response = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    setFrist(true);
+  }, []);
+
+  useEffect(() => {
+    //取得用戶token並取得相關資訊
+    if (first) {
+      if (auth.token) {
+        getData(auth.token);
+      } else {
+        getData();
+      }
+    }
+  }, [first]);
 
   return (
     <>
@@ -383,11 +643,23 @@ export default function Restindex() {
         <div className="container-inner">
           <div className={Styles.function_group}>
             <IconBtn icon={faMap} text="餐廳地圖" />
-            <IconBtn
-              icon={faHeart}
-              text="收藏列表"
-              clickHandler={openShowLikeList}
-            />
+            {auth.token ? (
+              <IconBtn
+                icon={faHeart}
+                text="收藏列表"
+                clickHandler={toggleLikeList}
+              />
+            ) : (
+              <AlertModal
+                btnType="iconBtn"
+                btnText="收藏列表"
+                icon={faHeart}
+                content="可查看收藏列表"
+                mainBtnText="前往登入"
+                subBtnText="暫時不要"
+                confirmHandler={toSingIn}
+              />
+            )}
             <IconBtn
               icon={faFilter}
               text="進階篩選"
@@ -512,15 +784,20 @@ export default function Restindex() {
         <div className="container-inner">
           <div className={Styles.like_list}>
             {showLikeList && (
-              <Likelist
+              <LikeListDrawer
                 datas={likeDatas}
-                // customCard={
-                //   <ShopLikelistCard
-                //     datas={likeDatas}
-                //     removeLikeListItem={removeLikeListItem}
-                //   />
-                // }
-                closeHandler={closeShowLikeList}
+                customCard={
+                  <LikeListCard
+                    datas={likeDatas}
+                    token={auth.token}
+                    removeLikeListItem={removeLikeListItem}
+                    closeLikeList={closeLikeList}
+                  />
+                }
+                closeHandler={toggleLikeList}
+                removeAllHandler={() => {
+                  removeAllLikeList(auth.token);
+                }}
                 // removeAllHandler={removeAllLikeList}
                 // removeLikeListItem={removeLikeListItem}
               />
@@ -658,10 +935,11 @@ export default function Restindex() {
             />
           </Col>
           <Col xl={4} xs={8}>
-            <LocationCard rest_image="/rest_image/dog_paw.png" />
+            {/* <LocationCard rest_image="/rest_image/dog_paw.png" /> */}
           </Col>
         </Row>
       </div>
+
       <div className="container-outer">
         <div className={Styles.CloudTop}>
           <Image src={CloudTop} />
@@ -710,6 +988,7 @@ export default function Restindex() {
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           <div className={Styles.hot_card}>
+            {/* <Row gutter={[32, 32]}> */}
             {displayData.map((v) => {
               const {
                 rest_sid,
@@ -720,10 +999,11 @@ export default function Restindex() {
                 rule_names,
                 service_names,
                 average_friendly,
+                like,
               } = v;
 
               return (
-                <Col xl={8} xs={12} key={rest_sid}>
+                <div key={rest_sid}>
                   <RestCard
                     rest_sid={rest_sid}
                     image={'/rest_image/image/' + img_names.split(',')[0]}
@@ -733,10 +1013,17 @@ export default function Restindex() {
                     rule_names={rule_names}
                     service_names={service_names}
                     average_friendly={average_friendly}
+                    like={like}
+                    token={auth.token}
+                    singinHandler={toSingIn}
+                    clickHandler={() => {
+                      clickHeartHandler(rest_sid, 'rows1');
+                    }}
                   />
-                </Col>
+                </div>
               );
             })}
+            {/* </Row> */}
           </div>
         </div>
       </div>
@@ -750,61 +1037,108 @@ export default function Restindex() {
       </div>
       <div className="container-inner">
         <div className={Styles.friendly_card_group}>
-          <div className={Styles.hot_card}>
-            {/* <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            />
-            <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            />
-            <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            /> */}
-            {data.rows2.map((v) => {
-              const {
-                rest_sid,
-                name,
-                city,
-                area,
-                img_names,
-                rule_names,
-                service_names,
-                average_friendly,
-              } = v;
+          <Row gutter={[32, 32]}>
+            <div className={Styles.hot_card}>
+              {data.rows2.map((v) => {
+                const {
+                  rest_sid,
+                  name,
+                  city,
+                  area,
+                  img_names,
+                  rule_names,
+                  service_names,
+                  average_friendly,
+                  like,
+                } = v;
 
-              return (
-                <Col xl={8} xs={12} key={rest_sid}>
-                  <RestCard
-                    rest_sid={rest_sid}
-                    image={'/rest_image/image/' + img_names.split(',')[0]}
-                    name={name}
-                    city={city}
-                    area={area}
-                    rule_names={rule_names}
-                    service_names={service_names}
-                    average_friendly={average_friendly}
-                  />
-                </Col>
-              );
-            })}
+                return (
+                  <Col xl={8} xs={12} key={rest_sid}>
+                    <RestCard
+                      rest_sid={rest_sid}
+                      image={'/rest_image/image/' + img_names.split(',')[0]}
+                      name={name}
+                      city={city}
+                      area={area}
+                      rule_names={rule_names}
+                      service_names={service_names}
+                      average_friendly={average_friendly}
+                      like={like}
+                      token={auth.token}
+                      singinHandler={toSingIn}
+                      clickHandler={() => {
+                        clickHeartHandler(rest_sid, 'rows2');
+                      }}
+                    />
+                  </Col>
+                );
+              })}
+            </div>
+          </Row>
+        </div>
+        <div className={Styles.dog_print}>
+          <div className={Styles.paw_print_1}>
+            <div className={`${Styles.pad} ${Styles.large}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+          </div>
+
+          <div className={Styles.paw_print_2}>
+            <div className={`${Styles.pad} ${Styles.large}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+          </div>
+
+          <div className={Styles.paw_print_3}>
+            <div className={`${Styles.pad} ${Styles.large}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+          </div>
+
+          <div className={Styles.paw_print_4}>
+            <div className={`${Styles.pad} ${Styles.large}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+          </div>
+
+          <div className={Styles.paw_print_5}>
+            <div className={`${Styles.pad} ${Styles.large}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+          </div>
+
+          <div className={Styles.paw_print_6}>
+            <div className={`${Styles.pad} ${Styles.large}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+          </div>
+
+          <div className={Styles.paw_print_7}>
+            <div className={`${Styles.pad} ${Styles.large}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+          </div>
+
+          <div className={Styles.paw_print_8}>
+            <div className={`${Styles.pad} ${Styles.large}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
           </div>
         </div>
       </div>

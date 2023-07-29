@@ -34,12 +34,13 @@ import catJump from '@/assets/jump_cat.svg';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
+import IconFavBtn from '@/components/ui/restaurant/IconFavBtn';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
   const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
-  const [restDetailRows, setRestDetailRows] = useState([]);
+  const [restDetailRows, setRestDetailRows] = useState({ like: false });
   const [data, setData] = useState({
     restDetailRows: [],
     imageRows: [],
@@ -66,78 +67,158 @@ export default function RestInfo() {
 
   const [menuRows, setMenuRows] = useState([]);
 
+  const [first, setFrist] = useState();
+
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
   };
 
+  const getData = async (rid = '', token = '') => {
+    const restInfo = await fetch(
+      `http://localhost:3002/restaurant-api/restaurant/${rid}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const {
+      restDetailRows,
+      imageRows,
+      ruleRows,
+      serviceRows,
+      commentRows,
+      commentAvgRows,
+      activityRows,
+      menuRows,
+    } = await restInfo.json();
+
+    // 更新 React 組件的狀態
+    if (restDetailRows && restDetailRows.length > 0) {
+      setRestDetailRows(...restDetailRows);
+    }
+
+    if (serviceRows && serviceRows.length > 0) {
+      setServiceRows(serviceRows);
+    }
+    if (ruleRows && ruleRows.length > 0) {
+      setRuleRows(ruleRows);
+    }
+
+    if (menuRows && menuRows.length > 0) {
+      setMenuRows(menuRows);
+    }
+
+    console.log(menuRows);
+    // if (imageRows && imageRows.length > 0) {
+    //   setImageRows(imageRows);
+    // }
+
+    const initialImageRows = imageRows.map((v, index) => {
+      return {
+        ...v,
+        display: index === 0, // 第一張照片設為預設顯示
+      };
+    });
+    setImageRows(initialImageRows);
+
+    if (commentRows && commentRows.length > 0) {
+      setCommentRows(commentRows);
+    }
+
+    if (commentAvgRows && commentAvgRows.length > 0) {
+      setCommentAvgRows(...commentAvgRows);
+    }
+    if (activityRows && activityRows.length > 0) {
+      setActivityRows(...activityRows);
+    }
+    console.log(restDetailRows);
+
+    setData(data);
+  };
+
   useEffect(() => {
-    const { rid } = query;
+    //取得用戶拜訪的特定商品編號
+    const { rid } = router.query;
 
     if (rid) {
-      fetch(`http://localhost:3002/restaurant-api/restaurant/${rid}`)
-        .then((r) => r.json())
-        .then((data) => {
-          const {
-            restDetailRows,
-            imageRows,
-            ruleRows,
-            serviceRows,
-            commentRows,
-            commentAvgRows,
-            activityRows,
-            menuRows,
-          } = data;
-
-          // 更新 React 組件的狀態
-          if (restDetailRows && restDetailRows.length > 0) {
-            setRestDetailRows(...restDetailRows);
-          }
-
-          if (serviceRows && serviceRows.length > 0) {
-            setServiceRows(serviceRows);
-          }
-          if (ruleRows && ruleRows.length > 0) {
-            setRuleRows(ruleRows);
-          }
-
-          if (menuRows && menuRows.length > 0) {
-            setMenuRows(menuRows);
-          }
-
-          console.log(menuRows);
-          // if (imageRows && imageRows.length > 0) {
-          //   setImageRows(imageRows);
-          // }
-
-          const initialImageRows = imageRows.map((v, index) => {
-            return {
-              ...v,
-              display: index === 0, // 第一張照片設為預設顯示
-            };
-          });
-          setImageRows(initialImageRows);
-
-          if (commentRows && commentRows.length > 0) {
-            setCommentRows(commentRows);
-          }
-
-          if (commentAvgRows && commentAvgRows.length > 0) {
-            setCommentAvgRows(...commentAvgRows);
-          }
-          if (activityRows && activityRows.length > 0) {
-            setActivityRows(...activityRows);
-          }
-          console.log(restDetailRows);
-
-          setData(data);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (auth.token) {
+        getData(rid, auth.token);
+      } else {
+        getData(rid);
+      }
     }
-  }, [query]);
+  }, [router.query]);
+
+  // useEffect(() => {
+  //   const { rid } = query;
+
+  //   if (rid) {
+  //     fetch(`http://localhost:3002/restaurant-api/restaurant/${rid}`)
+  //       .then((r) => r.json())
+  //       .then((data) => {
+  //         const {
+  //           restDetailRows,
+  //           imageRows,
+  //           ruleRows,
+  //           serviceRows,
+  //           commentRows,
+  //           commentAvgRows,
+  //           activityRows,
+  //           menuRows,
+  //         } = data;
+
+  //         // 更新 React 組件的狀態
+  //         if (restDetailRows && restDetailRows.length > 0) {
+  //           setRestDetailRows(...restDetailRows);
+  //         }
+
+  //         if (serviceRows && serviceRows.length > 0) {
+  //           setServiceRows(serviceRows);
+  //         }
+  //         if (ruleRows && ruleRows.length > 0) {
+  //           setRuleRows(ruleRows);
+  //         }
+
+  //         if (menuRows && menuRows.length > 0) {
+  //           setMenuRows(menuRows);
+  //         }
+
+  //         console.log(menuRows);
+  //         // if (imageRows && imageRows.length > 0) {
+  //         //   setImageRows(imageRows);
+  //         // }
+
+  //         const initialImageRows = imageRows.map((v, index) => {
+  //           return {
+  //             ...v,
+  //             display: index === 0, // 第一張照片設為預設顯示
+  //           };
+  //         });
+  //         setImageRows(initialImageRows);
+
+  //         if (commentRows && commentRows.length > 0) {
+  //           setCommentRows(commentRows);
+  //         }
+
+  //         if (commentAvgRows && commentAvgRows.length > 0) {
+  //           setCommentAvgRows(...commentAvgRows);
+  //         }
+  //         if (activityRows && activityRows.length > 0) {
+  //           setActivityRows(...activityRows);
+  //         }
+  //         console.log(restDetailRows);
+
+  //         setData(data);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }, [query]);
 
   function toggleDisplayForImg(imgUrl) {
     let main = document.getElementById('imageBox');
@@ -193,33 +274,6 @@ export default function RestInfo() {
     });
   };
 
-  const clickHeartHandler = (id) => {
-    setIsClickingLike(true);
-    const timeClick = new Date().getTime();
-    const newData = data.rows.map((v) => {
-      if (v.rest_sid === id) {
-        const insideInLikeList = addLikeList.find(
-          (item) => item.rest_sid === id
-        );
-        if (insideInLikeList) {
-          setAddLikeList((preV) => preV.filter((v2) => v2.rest_sid !== id));
-        } else {
-          setAddLikeList((preV) => [
-            ...preV,
-            { rest_sid: id, time: timeClick },
-          ]);
-        }
-
-        return { ...v, like: !v.like };
-      } else return { ...v };
-    });
-    setData({ ...data, rows: newData });
-
-    setTimeout(() => {
-      setIsClickingLike(false);
-    }, 1500);
-  };
-
   //將資料送到後端
   const sendLike = async (arr, token = '') => {
     const res = await fetch(
@@ -273,14 +327,46 @@ export default function RestInfo() {
     if (likeDatas.length > 0) {
       //將列表顯示為空的
       setLikeDatas([]);
-      //將畫面上的愛心清除
-      const newData = data.rows.map((v) => {
-        return { ...v, like: false };
-      });
-      setData({ ...data, rows: newData });
+      //將畫面上的愛心按鈕清除
+      setRestDetailRows((prevRows) => ({ ...prevRows, like: false }));
+      // const newData = data.rows.map((v) => {
+      //   return { ...v, like: false };
+      // });
+      // setData({ ...data, rows: newData });
       //將請求送到後端作業
       removeLikeListToDB('all', token);
     }
+  };
+
+  // 更新 like 狀態的函式
+  const updateLikeStatus = (newStatus) => {
+    setRestDetailRows((prevRestDetailRows) => ({
+      ...prevRestDetailRows,
+      like: newStatus,
+    }));
+  };
+  // 收藏按鈕/已經收藏按鈕toggle
+  const toggleLikeStatus = (rid, token) => {
+    if (restDetailRows.like) {
+      // 如果已收藏，則取消收藏
+      removeLikeListBtn(rid, token);
+      updateLikeStatus(false); // 更新狀態為未收藏
+    } else {
+      // 如果未收藏，則添加收藏
+      addLikeListHandler();
+      updateLikeStatus(true); // 更新狀態為已收藏
+    }
+  };
+
+  const removeLikeListBtn = (rid, token = '') => {
+    // 將列表該項目刪除
+    setLikeDatas((prevLikeDatas) => {
+      // 使用 filter 方法來刪除符合條件的項目
+      return prevLikeDatas.filter((item) => item.rest_sid !== rid);
+    });
+
+    // 將請求送到後端作業
+    removeLikeListToDB(rid, token);
   };
 
   // 刪除單一收藏
@@ -290,18 +376,22 @@ export default function RestInfo() {
       return arr.rest_sid !== rid;
     });
     setLikeDatas(newLikeList);
-    //將若取消的為畫面上的，則須將愛心清除
-    const newData = data.rows.map((v) => {
-      if (v.rest_sid === rid) {
-        return { ...v, like: false };
-      } else {
-        return { ...v };
-      }
-    });
-    setData({ ...data, rows: newData });
+
+    //將畫面上的愛心按鈕清除
+    setRestDetailRows((prevRows) => ({ ...prevRows, like: false }));
+    // const newData = data.rows.map((v) => {
+    //   if (v.rest_sid === rid) {
+    //     return { ...v, like: false };
+    //   } else {
+    //     return { ...v };
+    //   }
+    // });
+    // setData({ ...data, rows: newData });
     //將請求送到後端作業
     removeLikeListToDB(rid, token);
   };
+
+  console.log(restDetailRows.like);
 
   const removeLikeListToDB = async (rid = '', token = '') => {
     try {
@@ -395,8 +485,6 @@ export default function RestInfo() {
               removeAllHandler={() => {
                 removeAllLikeList(auth.token);
               }}
-              // removeAllHandler={removeAllLikeList}
-              // removeLikeListItem={removeLikeListItem}
             />
           )}
         </div>
@@ -460,47 +548,6 @@ export default function RestInfo() {
             </div>
           </div>
 
-          {/* <div className={Styles.rest_image}>
-            <div className={Styles.rest_image_main}>
-              {imageRows.map((v) => {
-                return (
-                  v.display && (
-                    <img
-                      key={v.rest_sid}
-                      src={`/rest_image/image/${v.img_name}`}
-                      alt={v.img_name}
-                    />
-                  )
-                );
-              })}
-            </div>
-            <div className={Styles.rest_image_group}>
-              {imageRows
-                .filter((v) => !v.display)
-                .map((v) => {
-                  return (
-                    <div className={Styles.rest_image_single} key={v.rest_sid}>
-                      {v.img_name && (
-                        <div
-                          role="presentation"
-                          onClick={() => {
-                            setImageRows(
-                              toggleDisplayForImg(imageRows, v.rest_sid)
-                            );
-                          }}
-                        >
-                          <img
-                            src={`/rest_image/image/${v.img_name}`}
-                            alt={v.img_name}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-            </div>
-          </div> */}
-
           <div className={Styles.rest_info}>
             <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
             <RateStar
@@ -556,13 +603,7 @@ export default function RestInfo() {
 
             {/* button */}
             <div className={Styles.detail_main_buttom}>
-              {/* <IconSeconBtn
-                icon={faHeart}
-                text="收藏餐廳"
-                className={Styles.collect_btn}
-                clickHandler={addLikeListHandler}
-              /> */}
-              {!auth.token ? (
+              {/* {!auth.token ? (
                 <AlertModal
                   btnType="iconSeconBtn"
                   btnText="加入收藏"
@@ -577,15 +618,38 @@ export default function RestInfo() {
                   btnType="iconSeconBtn"
                   btnText="已收藏"
                   content="已經收藏過囉~"
-                  mainBtnText="我知道了"
+                  mainBtnText="前往登入"
                   showSubBtn={false}
+                  confirmHandler={toSingIn}
                   icon={faHeart}
                 />
               ) : (
                 <IconSeconBtn
                   icon={faHeart}
                   text={'收藏餐廳'}
-                  clickHandler={addLikeListHandler}
+                  clickHandler={() =>
+                    toggleLikeStatus(router.query.rid, auth.token)
+                  }
+                />
+              )} */}
+              {!auth.token ? (
+                <AlertModal
+                  btnType="iconSeconBtn"
+                  btnText="加入收藏"
+                  content="才可收藏餐廳"
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                  icon={faHeart}
+                />
+              ) : (
+                <IconFavBtn
+                  icon={faHeart}
+                  text={restDetailRows.like ? '已收藏' : '收藏餐廳'}
+                  like={restDetailRows.like ? false : true}
+                  clickHandler={() =>
+                    toggleLikeStatus(router.query.rid, auth.token)
+                  }
                 />
               )}
               <div className="like"></div>
@@ -603,7 +667,7 @@ export default function RestInfo() {
                   btnType="IconMainBtn"
                   btnText="我要預約"
                   icon={faFileLines}
-                  content="登入！才可預約餐廳"
+                  content="才可預約餐廳"
                   mainBtnText="前往登入"
                   subBtnText="暫時不要"
                   confirmHandler={toSingInBook}

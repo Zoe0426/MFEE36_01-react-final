@@ -30,7 +30,6 @@ import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
-import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
 import SearchBar1 from '@/components/ui/buttons/SearchBar1';
 import orderByOptions from '@/data/restaurnt/orderby.json';
@@ -817,7 +816,7 @@ export default function FilterPage() {
                   btnType="iconBtn"
                   btnText="收藏列表"
                   icon={faHeart}
-                  content="登入！才可查看收藏列表"
+                  content="才可查看收藏列表"
                   mainBtnText="前往登入"
                   subBtnText="暫時不要"
                   confirmHandler={toSingIn}

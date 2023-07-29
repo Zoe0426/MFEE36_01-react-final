@@ -72,7 +72,7 @@ export default function AlertModal({
           <div className={Styles.modal}>
             <div className={Styles.modal_card}>
               <div className={Styles.modal_content}>
-                <p className={Styles.alert_color}></p>
+                <p className={Styles.alert_color}>" 登入"</p>
                 {content}
               </div>
 
