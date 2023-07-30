@@ -62,7 +62,7 @@
 }
 .activitybg{
     background-color: white;
-    padding: 60px 0;
+    padding: 60px 0 0 0;
 }
 .lflag{
     position: absolute;
@@ -112,6 +112,20 @@
     padding: 50px 0;
     /* border: 1px solid green; */
 } 
+
+.actbox{
+    border: 1px solid purple;
+    display:flex;
+    transform: translateX(0%);
+    width: 500%;
+}
+.infoBox{
+    width: 50%;
+    padding-right: 1%;
+}
+
+
+
 
 .Info{
     position: relative;
@@ -174,6 +188,9 @@
 
 /* INFO */
 
+.hactInfo{
+    border: 1px solid red;
+}
 .hstitle{
     font-size: var(--h1fs36);
     color: var(--dark);

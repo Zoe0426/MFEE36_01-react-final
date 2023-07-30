@@ -1,6 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './homeEventPhoto.module.css';
+
 export default function HomeEventPhoto() {
+  const images = [
+    '/activity_img/1.jpg',
+    '/activity_img/2.jpg',
+    '/activity_img/3.jpg',
+  ];
+  const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000);
+
+    // 記得在組件卸載時清除定時器
+    return () => clearInterval(interval);
+  }, []);
+  const handleDotClick = (index) => {
+    setCurrentIndex(index);
+  };
   return (
     <div className={style.photobox}>
       <img
@@ -10,11 +28,20 @@ export default function HomeEventPhoto() {
       />
       <div className={style.svgclipPhoto}>
         <svg viewBox="0 0 863 673">
-          <image
-            width="1100"
-            clipPath="url(#shape)"
-            href="/activity_img/1.jpg"
-          />
+          {images.map((v, i) => (
+            <image
+              key={i}
+              width="1100"
+              clipPath="url(#shape)"
+              href={`http://localhost:3000/${images[currentIndex]}`}
+              style={{
+                opacity: i === currentIndex ? 1 : 0.9,
+                transform: `translateX(${(i - currentIndex) * 863}px)`, // 計算圖片的位置
+                transition: 'opacity .3s ease-in', // 添加過渡效果，透明度變化會有淡入淡出的效果
+              }}
+            />
+          ))}
+
           <defs>
             <clipPath id="shape">
               <path
@@ -35,6 +62,17 @@ export default function HomeEventPhoto() {
         alt="background"
         className={style.tree2}
       />
+      <div className={style.dotsContainer}>
+        {images.map((image, index) => (
+          <div
+            key={index}
+            className={`${style.dot} ${
+              index === currentIndex ? style.activeDot : ''
+            }`}
+            onClick={() => handleDotClick(index)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,11 +1,32 @@
 .photobox{
     position: relative;
     z-index:3;
-    width: 100%;
+    width: 90%;
     padding-left: 20px;
 }
 .svgclipPhoto{
     width: 97%;
+}
+.svgclipPhoto svg image {
+  transition: opacity 0.5s ease-in-out;
+}
+.dotsContainer{
+    width: 100%;
+    padding-top: 40px;
+    display: flex;
+    justify-content: center;
+
+}
+.dot{
+    width: 16px;
+    height:16px;
+    border-radius: 50%;
+    background-color: var(--secondary);
+    margin-right: 16px;
+    transition: all .3s;
+}
+.activeDot{
+    background-color: var(--main);
 }
 .bg{
     position:absolute;
@@ -18,14 +39,14 @@
 .tree1{
     position:absolute;
     left:10px;
-    bottom:10px;
+    bottom:13%;
     width: 7%;
     transform: rotate(-2deg);
 }
 .tree2{
     position:absolute;
-    right:10px;
-    bottom:-8%;
+    right:15px;
+    bottom:5%;
     width: 8%;
     transform: rotate(-2deg);
 }

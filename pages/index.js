@@ -12,6 +12,7 @@ import HomeForumCard from '@/components/ui/home/homeforumCard';
 import HomeMainText from '@/components/ui/home/homeMainText';
 import HomeMainBtns from '@/components/ui/home/homeMainBtns';
 import Loading from '@/components/ui/loading/loading';
+import HomeActInfoCard from '@/components/ui/home/homeActInfoCard';
 
 //import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
@@ -38,7 +39,6 @@ export default function Home() {
   const redirectToPost = (postId) => {
     router.push(`/forum/${postId}`); //[postid].js
   };
-
   const getHomeData = async () => {
     setIsloading(true);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/get-home-data`);
@@ -50,7 +50,6 @@ export default function Home() {
     setIsloading(false);
     console.log(data);
   };
-
   const hashShop = [
     '飼料',
     '罐頭',
@@ -252,27 +251,45 @@ export default function Home() {
               alt=""
               className={style.rflag}
             />
-            <Col className={style.hInfo} xs={24} sm={24} md={9}>
+            <Col className={style.hactInfo} xs={24} sm={24} md={11}>
               <article>
                 <p className={style.hstitle}>寵物活動</p>
                 <p className={style.hetitle}>PLAY WITH ME</p>
-                <p className={style.hsubtitle}>
-                  專為您和您的毛小孩設計的狂歡天地
-                </p>
-                <p className={style.hp}>
-                  我們為您提供多元化的寵物活動，包括遠足、比賽、社交聚會和專題工作坊。與其他寵物愛好者一同分享快樂時光，建立友誼和彼此支持。無論您是狗狗、貓咪還是其他寵物的主人，這裡將是您與您的毛小孩共創美好回憶的地方。加入我們，一同體驗無盡的寵物
-                  樂趣！
-                </p>
+                <div className={style.actbox}>
+                  <div className={style.infoBox}>
+                    <p className={style.hsubtitle}>
+                      專為您和您的毛小孩設計的狂歡天地
+                    </p>
+                    <p className={style.hp}>
+                      我們為您提供多元化的寵物活動，包括遠足、比賽、社交聚會和專題工作坊。與其他寵物愛好者一同分享快樂時光，建立友誼和彼此支持。無論您是狗狗、貓咪還是其他寵物的主人，這裡將是您與您的毛小孩共創美好回憶的地方。加入我們，一同體驗無盡的寵物
+                      樂趣！
+                    </p>
+                    <div className={style.hhashes}>
+                      {hashActivity.map((h, i) => {
+                        return <HashTag key={i} text={h} />;
+                      })}
+                    </div>
 
-                <div className={style.hhashes}>
-                  {hashActivity.map((h, i) => {
-                    return <HashTag key={i} text={h} marginB="mb8" />;
-                  })}
+                    <MainBtn text="看更多活動" />
+                  </div>
+                  {activityData.map((v) => (
+                    <HomeActInfoCard
+                      key={v.activity_sid}
+                      name={v.name}
+                      content={v.content}
+                      city={v.city}
+                      area={v.area}
+                      dayInfo={v.dayInfo}
+                      hashTags={v.rules}
+                      clickHandler={() => {
+                        redirectToActivity(v.activity_sid);
+                      }}
+                    />
+                  ))}
                 </div>
-                <MainBtn text="看更多活動" />
               </article>
             </Col>
-            <Col className={style.hrCards} xs={24} sm={24} md={15}>
+            <Col className={style.hrCards} xs={24} sm={24} md={13}>
               <HomeEventPhoto />
             </Col>
           </Row>
