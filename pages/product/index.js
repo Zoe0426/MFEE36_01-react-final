@@ -364,7 +364,7 @@ export default function ProdoctIndex() {
               );
             })}
           </ul>
-          <div className={styles.right_arrow_box}>
+          <div className={styles.slider_right_arrow_box}>
             <FontAwesomeIcon
               icon={faChevronRight}
               className={styles.right_arrow}
@@ -478,7 +478,7 @@ export default function ProdoctIndex() {
             );
           })}
         </div>
-        <div className={styles.cat_dog_cards_box}>
+        <div className={styles.cards_box}>
           <div className={styles.left_arrow_box}>
             <FontAwesomeIcon
               icon={faChevronLeft}
@@ -492,8 +492,8 @@ export default function ProdoctIndex() {
               }}
             />
           </div>
-          <div className={styles.cat_dog_cards_display}>
-            <div className={styles.cat_dog_cards} style={catDogStyle}>
+          <div className={styles.cards_display}>
+            <div className={styles.cards} style={catDogStyle}>
               {twotCatergoriesData.map((v) => {
                 return (
                   v.display &&
@@ -557,7 +557,7 @@ export default function ProdoctIndex() {
             .map((v, i) => {
               return (
                 <li
-                  key={v}
+                  key={i}
                   className={
                     i === catDogCurrent
                       ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
@@ -603,7 +603,7 @@ export default function ProdoctIndex() {
         {/* 第三區新品顯示區 頁碼要看怎麼用迴圈產生*/}
         <BGMNewDecoration />
         <p className={styles.new_products_title}>新品專區</p>
-        <div className={styles.new_products_cards_box}>
+        <div className={styles.cards_box}>
           <div className={styles.left_arrow_box}>
             <FontAwesomeIcon
               icon={faChevronLeft}
@@ -617,8 +617,8 @@ export default function ProdoctIndex() {
               }}
             />
           </div>
-          <div className={styles.cat_dog_cards_display}>
-            <div className={styles.cat_dog_cards} style={newStyle}>
+          <div className={styles.cards_display}>
+            <div className={styles.cards} style={newStyle}>
               {dataForNew.map((v) => {
                 const {
                   product_sid,
@@ -678,7 +678,7 @@ export default function ProdoctIndex() {
             .map((v, i) => {
               return (
                 <li
-                  key={v}
+                  key={i}
                   className={
                     i === newCurrent
                       ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`

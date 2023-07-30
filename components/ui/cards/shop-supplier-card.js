@@ -24,7 +24,7 @@ export default function ShopSupplierCard({
       >
         <div className={styles.normal_card}>
           <div className={styles.shed_box}>
-            <Image src={shed} className={styles.shed} />
+            <Image src={shed} className={styles.shed} alt="shed" />
           </div>
 
           {/* <div className={styles.card_img}> */}

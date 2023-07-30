@@ -146,7 +146,6 @@ body{
 
 .container-inner{
     max-width: 1280px;
-    /* border: 1px solid purple; */
     margin: auto;
 }
 /* -------------------- */
@@ -205,9 +204,6 @@ body{
 }
 
 @media screen and (max-width:1920px) and (min-width:768px){
-
-
-
   .container-inner{
       width: 68%;
   }
@@ -218,9 +214,6 @@ body{
 .container-inner{
     width: 85%;
 }
-/* .likeList-open{
-  overflow: auto;
-} */
 
 .nameMobile{
   flex-direction: column-reverse;

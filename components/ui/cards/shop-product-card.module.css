@@ -57,7 +57,7 @@
     font-size: var(--h3fs28);
     color:var(--light-gray);
     cursor: pointer;
-    z-index: 9;
+    z-index: 2;
     padding: var(--p16);
 }
 

@@ -1,13 +1,13 @@
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
-import styles from '@/styles/shop.module.css';
-import Image from 'next/image';
-import { Row, Col } from 'antd';
-import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 import AuthContext from '@/context/AuthContext';
+import Image from 'next/image';
+import styles from '@/styles/shop.module.css';
+import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
+import NoCommentCard from '@/components/ui/cards/comment-card-no';
 import Likelist from '@/components/ui/like-list/LikeListDrawer';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
@@ -24,6 +24,7 @@ import NumberInput from '@/components/ui/numberInput/numberInput1';
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
 import BGRecomandDecoration from '@/components/ui/decoration/bg-reconmand-decoration';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+import CorpLogo from '@/assets/corpLogo.svg';
 import PawWalking from '@/components/ui/shop/pawWalking';
 
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
@@ -38,10 +39,58 @@ import {
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
-import CorpLogo from '@/assets/corpLogo.svg';
-
 export default function Product() {
   const router = useRouter();
+  const commentBox = useRef(null);
+  const commentArea = useRef(null);
+
+  //控制評論狀態
+  const [commentWindowWidth, setCommentWindowWidth] = useState(null);
+  const [commentCurrent, setCommentCurrent] = useState(0);
+  const [totalCommentPage, setTotalCommentPage] = useState(0);
+  const [showCommentCardQty, setShowCommentCardQty] = useState(4);
+  const [showCommentArrowLeft, setShowCommentArrowLeft] = useState(false);
+  const [showCommentArrowRight, setShowCommentArrowRight] = useState(true);
+  const [showFullCommentCard, setShowFullCommentCard] = useState(false);
+  const [showCommentCard, setShowCommentCard] = useState([]);
+  const commentStyle = {
+    position: 'relative',
+    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
+    transition: '0.3s',
+  };
+
+  const toggleCommentCard = (id) => {
+    const newShowFullCommentCard = !showFullCommentCard;
+    const newShowCommentCard = dataForComment.filter(
+      (v) => v.product_comment_sid === id
+    );
+    console.log(newShowCommentCard);
+    setShowCommentCard(newShowCommentCard);
+    setShowFullCommentCard(newShowFullCommentCard);
+    if (newShowFullCommentCard) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  const countTotalCommentPage = () => {
+    const currentCommentCardsQty = dataForCommentQty.filter((v) => {
+      return parseInt(v.rating) === parseInt(commentFilter);
+    })[0].count;
+
+    const newCommentTotalPage = Math.ceil(
+      currentCommentCardsQty / showCommentCardQty
+    );
+    if (newCommentTotalPage <= 1) {
+      setShowCommentArrowRight(false);
+    } else {
+      setShowCommentArrowRight(true);
+    }
+
+    setTotalCommentPage(newCommentTotalPage);
+  };
+
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFrist] = useState(false);
   const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
@@ -50,14 +99,47 @@ export default function Product() {
     true
   );
 
+  //麵包屑寫得有點奇怪...
+  const [breadCrubText, setBreadCrubText] = useState([
+    {
+      id: 'shop',
+      text: '商城',
+      href: 'http://localhost:3000/product',
+      show: true,
+    },
+    { id: 'search', text: '/ 飼料 /', href: '', show: true },
+    {
+      id: 'pid',
+      text: '希爾思-雞肉、大麥與糙米特調食譜(小型及迷你幼犬)',
+      href: '',
+      show: true,
+    },
+  ]);
+
   const [addLikeList, setAddLikeList] = useState([]);
   const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
   const [isClickingLike, setIsClickingLike] = useState(false);
+  const [purchaseInfo, setPurchaseInfo] = useState({
+    pid: '',
+    spec: '',
+    unitPrice: 0,
+    qty: 1,
+  }); //用來存放將放入購物車的資料
   const [purchaseQty, setPurchaseQty] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
 
   //後端資料存放
+  const [dataForComment, setDataForComment] = useState([]);
+  const [dataForCommentQty, setDataForCommentQty] = useState([
+    { rating: 6, count: 0 },
+    { rating: 5, count: 0 },
+    { rating: 4, count: 0 },
+    { rating: 3, count: 0 },
+    { rating: 2, count: 0 },
+    { rating: 1, count: 0 },
+  ]);
+  const [datatForProductDetail, setDataForProductDetail] = useState([]);
   const [datatForProductMain, setDataForProductMain] = useState({
     product_sid: '',
     name: '',
@@ -69,25 +151,8 @@ export default function Product() {
     catergory_english_name: '',
     like: false,
   });
-  const [datatForProductDetail, setDataForProductDetail] = useState([]);
   const [dataForRecomand, setDataForRecomand] = useState([]);
-  const [dataForComment, setDataForComment] = useState([]);
-  const [dataForCommentQty, setDataForCommentQty] = useState([
-    { rating: 6, count: 0 },
-    { rating: 5, count: 0 },
-    { rating: 4, count: 0 },
-    { rating: 3, count: 0 },
-    { rating: 2, count: 0 },
-    { rating: 1, count: 0 },
-  ]);
   const [likeDatas, setLikeDatas] = useState([]);
-  //用來存放將放入購物車的資料
-  const [purchaseInfo, setPurchaseInfo] = useState({
-    pid: '',
-    spec: '',
-    unitPrice: 0,
-    qty: 1,
-  });
 
   //控制主商品照片放大的
   const [countEnterMainPic, setCoutEnterMainPic] = useState(1);
@@ -111,29 +176,16 @@ export default function Product() {
     }
   };
 
-  const [catDogCurrent, setCatDogCurrent] = useState(0);
-  const catDogStyle = {
+  //控制推薦商品狀態
+  const [recommendWindowWidth, setRecommendWindowWidth] = useState(null);
+  const [recommendCurrent, setRecommendCurrent] = useState(0);
+  const [totalRecommandPage, setTotalRecommandPage] = useState(0);
+  const [showRecommandCardQty, setShowRecommandCardQty] = useState(4);
+  const recommendStyle = {
     position: 'relative',
-    left: `calc(((260px + 32px) * 30 ) / 5 * -${catDogCurrent})`,
+    left: `calc(292px * ${showRecommandCardQty} * -${recommendCurrent})`,
     transition: '0.3s',
   };
-
-  //麵包屑寫得有點奇怪...
-  const [breadCrubText, setBreadCrubText] = useState([
-    {
-      id: 'shop',
-      text: '商城',
-      href: 'http://localhost:3000/product',
-      show: true,
-    },
-    { id: 'search', text: '/ 飼料 /', href: '', show: true },
-    {
-      id: 'pid',
-      text: '希爾思-雞肉、大麥與糙米特調食譜(小型及迷你幼犬)',
-      href: '',
-      show: true,
-    },
-  ]);
 
   const getData = async (pid = '', token = '') => {
     //拿回特定商品的相關資訊 與評價
@@ -194,7 +246,6 @@ export default function Product() {
 
         return { ...v, count: eachCommentQty };
       });
-
       setDataForCommentQty(newCommentEachQty);
     }
 
@@ -219,6 +270,10 @@ export default function Product() {
     }
   };
 
+  useEffect(() => {
+    setFrist(true);
+  }, [localStorageHistory]);
+
   //監控使用者點擊購買數量
   useEffect(() => {
     setPurchaseInfo({ ...purchaseInfo, qty: purchaseQty });
@@ -235,10 +290,6 @@ export default function Product() {
   }, [isClickingLike, addLikeList]);
 
   useEffect(() => {
-    setFrist(true);
-  }, [localStorageHistory]);
-
-  useEffect(() => {
     //取得用戶拜訪的特定商品編號
     const { pid } = router.query;
 
@@ -250,6 +301,58 @@ export default function Product() {
       }
     }
   }, [router.query, first]);
+
+  //處理視窗大小時，商品推薦要顯示多少與頁碼
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        let newWindowWidth = 1280;
+        let commentNewWindowWidth = 1280;
+        if (window.innerWidth < 1920 && window.innerWidth > 768) {
+          newWindowWidth = window.innerWidth * 0.68 + 16 - 40;
+          commentNewWindowWidth = window.innerWidth * 0.68 + 32 - 40;
+        }
+        if (window.innerWidth < 767) {
+          newWindowWidth = window.innerWidth * 0.85 + 16 - 40;
+          commentNewWindowWidth = window.innerWidth * 0.85 + 32 - 40;
+        }
+        let showRecommandCardQty = Math.floor(newWindowWidth / 292);
+        if (showRecommandCardQty < 1) {
+          showRecommandCardQty = 1;
+        }
+        const newRecommandTotalPage = Math.ceil(24 / showRecommandCardQty);
+        setShowRecommandCardQty(showRecommandCardQty);
+        setRecommendWindowWidth(newWindowWidth);
+        setTotalRecommandPage(newRecommandTotalPage);
+        setRecommendCurrent(0);
+        setCommentWindowWidth(commentNewWindowWidth);
+
+        let showCommentCardQty = Math.floor(commentNewWindowWidth / 382);
+
+        if (showCommentCardQty <= 1) {
+          showCommentCardQty = 1;
+        }
+        setShowCommentCardQty(showCommentCardQty);
+        setCommentCurrent(0);
+        setShowCommentArrowLeft(false);
+        countTotalCommentPage();
+      };
+
+      handleResize();
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        // 在元件卸載時清除事件監聽器
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, [recommendWindowWidth, commentWindowWidth]);
+
+  //處理評論頁碼更動
+  useEffect(() => {
+    countTotalCommentPage();
+  }, [commentFilter, dataForCommentQty, showCommentCardQty]);
 
   //購物車相關函式----------------------------
   const sendToCart = async (obj = {}, token = '') => {
@@ -809,6 +912,8 @@ export default function Product() {
                     }
                     onClick={() => {
                       setCommentFilter(rating);
+                      setCommentCurrent(0);
+                      setShowCommentArrowLeft(false);
                     }}
                   >
                     {rating === 6 ? '全部評論' : `${rating}星 (${count})`}
@@ -816,8 +921,62 @@ export default function Product() {
                 );
               })}
             </div>
-            <div className={styles.comment_cards}>
+          </div>
+        </div>
+        <div className={styles.shop_container_inner}>
+          <div className={styles.comment_cards_box} ref={commentBox}>
+            {showCommentArrowLeft && (
+              <div className={styles.detail_left_arrow_box}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  className={styles.left_arrow}
+                  onClick={() => {
+                    if (commentCurrent <= 0) {
+                      setShowCommentArrowLeft(false);
+                    } else if (commentCurrent === 1) {
+                      setCommentCurrent(commentCurrent - 1);
+                      setShowCommentArrowRight(true);
+                      setShowCommentArrowLeft(false);
+                    } else {
+                      setCommentCurrent(commentCurrent - 1);
+                      setShowCommentArrowRight(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            {showCommentArrowRight && (
+              <div
+                className={`${styles.detail_right_arrow_box} ${styles.comment_right_arrow_box}`}
+              >
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className={styles.right_arrow}
+                  onClick={() => {
+                    if (commentCurrent === totalCommentPage - 1) {
+                      setShowCommentArrowRight(false);
+                    } else if (commentCurrent === totalCommentPage - 2) {
+                      setCommentCurrent(commentCurrent + 1);
+                      setShowCommentArrowLeft(true);
+                      setShowCommentArrowRight(false);
+                    } else {
+                      setCommentCurrent(commentCurrent + 1);
+                      setShowCommentArrowLeft(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            <div
+              className={styles.comment_cards}
+              ref={commentArea}
+              style={commentStyle}
+            >
               {dataForComment &&
+              commentFiliterByRating(dataForComment, commentFilter).length <=
+                0 ? (
+                <NoCommentCard />
+              ) : (
                 commentFiliterByRating(dataForComment, commentFilter).map(
                   (v) => {
                     const {
@@ -838,27 +997,67 @@ export default function Product() {
                         content={content}
                         name={nickname}
                         profile={profile}
+                        clickHandler={() => {
+                          toggleCommentCard(product_comment_sid);
+                        }}
                       />
                     );
                   }
-                )}
+                )
+              )}
             </div>
-            {/* <div className={styles.pet_type_btns}>
-              <button className={styles.circle_btn_active}></button>
-              <button></button>
-              <button></button>
-              <button></button>
-            </div> */}
           </div>
         </div>
+        <div className="container-inner">
+          <ul className={styles.shop_recommend_pages}>
+            {totalCommentPage <= 1 ? (
+              <div className={styles.no_pages}></div>
+            ) : (
+              Array(totalCommentPage)
+                .fill(0)
+                .map((v, i) => {
+                  return (
+                    <li
+                      key={i}
+                      className={
+                        i === commentCurrent
+                          ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
+                          : styles.shop_sliders_pages_bttn
+                      }
+                      onClick={() => {
+                        setCommentCurrent(i);
+                      }}
+                    ></li>
+                  );
+                })
+            )}
+          </ul>
+        </div>
       </div>
+      {showFullCommentCard && (
+        <div
+          className={styles.show_full_comment_card}
+          onClick={toggleCommentCard}
+        >
+          <div>
+            <CommentCard
+              member_sid={showCommentCard[0].member_sid}
+              date={showCommentCard[0].date}
+              rating={showCommentCard[0].rating}
+              content={showCommentCard[0].content}
+              name={showCommentCard[0].nickname}
+              profile={showCommentCard[0].profile}
+              clickHandler={toggleCommentCard}
+            />
+          </div>
+        </div>
+      )}
       <BGRecomandDecoration />
-      {/* 商品詳述區 */}
+      {/* 商品推薦區 */}
       <div className="container-outer">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
-            <section className="container-outer recommand-products">
-              {/* 推薦商品顯示區 頁碼要看怎麼用迴圈產生*/}
+            <section className="recommand-products">
               <div className={styles.reconmand_products_box}>
                 <Image
                   src={CorpLogo}
@@ -869,74 +1068,117 @@ export default function Product() {
                   毛孩可能會喜歡...
                 </p>
               </div>
-              <div className={styles.recomand_products_cards_box}>
-                <div className={styles.left_arrow_box}>
+            </section>
+          </div>
+          <div className={styles.shop_container_inner}>
+            <div className={styles.detail_left_arrow_box}>
+              <FontAwesomeIcon
+                icon={faChevronLeft}
+                className={styles.left_arrow}
+                onClick={() => {
+                  if (recommendCurrent === 0) {
+                    setRecommendCurrent(totalRecommandPage - 1);
+                  } else {
+                    setRecommendCurrent(recommendCurrent - 1);
+                  }
+                }}
+              />
+            </div>
+            <div className={styles.detail_right_arrow_box}>
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                className={styles.right_arrow}
+                onClick={() => {
+                  if (recommendCurrent === totalRecommandPage - 1) {
+                    setRecommendCurrent(0);
+                  } else {
+                    setRecommendCurrent(recommendCurrent + 1);
+                  }
+                }}
+              />
+            </div>
+            <div className={styles.recomand_products_cards_box}>
+              {/* <div className={styles.detail_left_arrow_box}>
                   <FontAwesomeIcon
                     icon={faChevronLeft}
                     className={styles.left_arrow}
                     onClick={() => {
-                      // if (catDogCurrent === 0) {
-                      //   setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
-                      // } else {
-                      //   setCatDogCurrent(catDogCurrent - 1);
-                      // }
+                      if (recommendCurrent === 0) {
+                        setRecommendCurrent(totalRecommandPage - 1);
+                      } else {
+                        setRecommendCurrent(recommendCurrent - 1);
+                      }
                     }}
                   />
+                </div> */}
+              <div className={styles.cards_display}>
+                <div className={styles.recommand_cards} style={recommendStyle}>
+                  {dataForRecomand.map((v) => {
+                    const {
+                      product_sid,
+                      name,
+                      img,
+                      max_price,
+                      min_price,
+                      avg_rating,
+                      like,
+                    } = v;
+                    return (
+                      <div className={styles.product_card} key={product_sid}>
+                        <ShopProductCard
+                          product_sid={product_sid}
+                          name={name}
+                          img={img}
+                          max_price={max_price}
+                          min_price={min_price}
+                          avg_rating={avg_rating}
+                          like={like}
+                          token={auth.token}
+                          clickHandler={() => {
+                            clickHeartHandler(product_sid);
+                          }}
+                          singinHandler={toSingIn}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className={styles.cat_dog_cards_display}>
-                  <div className={styles.cat_dog_cards} style={catDogStyle}>
-                    {dataForRecomand.map((v) => {
-                      const {
-                        product_sid,
-                        name,
-                        img,
-                        max_price,
-                        min_price,
-                        avg_rating,
-                        like,
-                      } = v;
-                      return (
-                        <div className={styles.product_card} key={product_sid}>
-                          <ShopProductCard
-                            product_sid={product_sid}
-                            name={name}
-                            img={img}
-                            max_price={max_price}
-                            min_price={min_price}
-                            avg_rating={avg_rating}
-                            like={like}
-                            token={auth.token}
-                            clickHandler={() => {
-                              clickHeartHandler(product_sid);
-                            }}
-                            singinHandler={toSingIn}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className={styles.right_arrow_box}>
+              </div>
+              {/* <div className={styles.detail_right_arrow_box}>
                   <FontAwesomeIcon
                     icon={faChevronRight}
                     className={styles.right_arrow}
                     onClick={() => {
-                      // if (newCurrent === totalPage - 1) {
-                      //   setNewCurrent(0);
-                      // } else {
-                      //   setNewCurrent(newCurrent + 1);
-                      // }
+                      if (recommendCurrent === totalRecommandPage - 1) {
+                        setRecommendCurrent(0);
+                      } else {
+                        setRecommendCurrent(recommendCurrent + 1);
+                      }
                     }}
                   />
-                </div>
-              </div>
-              <div className={styles.pet_type_btns}>
-                <button className={styles.circle_btn_active}></button>
-                <button></button>
-                <button></button>
-                <button></button>
-              </div>
-            </section>
+                </div> */}
+            </div>
+          </div>
+          <div className="container-inner">
+            <ul className={styles.shop_recommend_pages}>
+              {Array(totalRecommandPage)
+                .fill(0)
+                .map((v, i) => {
+                  return (
+                    <li
+                      key={i}
+                      className={
+                        i === recommendCurrent
+                          ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
+                          : styles.shop_sliders_pages_bttn
+                      }
+                      onClick={() => {
+                        setRecommendCurrent(i);
+                      }}
+                    ></li>
+                  );
+                })}
+            </ul>
           </div>
         </div>
       </div>

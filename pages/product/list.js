@@ -836,7 +836,7 @@ export default function List() {
           orderBy={orderBy}
           items={orderByOptions}
         />
-        <Row gutter={[32, 36]} className={styles.cards}>
+        <Row gutter={[32, 36]} className={styles.cards_list}>
           {datas.rows &&
             datas.rows.map((v) => {
               const {

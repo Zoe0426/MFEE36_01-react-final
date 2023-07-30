@@ -4,7 +4,8 @@
     background-color: white;
     border-radius: var(--br10);
     box-shadow:  2px 6px 8px rgba(0, 0, 0, 0.1);    
-    flex:0 0 350px ;  
+    flex:0 0 350px ;
+    cursor: pointer;
 }
 
 .card_head{
