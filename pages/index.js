@@ -260,7 +260,7 @@ export default function Home() {
                     return <HashTag key={i} text={h} marginB="mb8" />;
                   })}
                 </div>
-                <div className={style.}></div>
+                {/* <div className={style.}></div> */}
                 <MainBtn text="看更多活動" />
               </article>
             </Col>
