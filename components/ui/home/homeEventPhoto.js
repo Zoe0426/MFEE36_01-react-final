@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import style from './homeEventPhoto.module.css';
 
-export default function HomeEventPhoto() {
-  const images = [
-    '/activity_img/1.jpg',
-    '/activity_img/2.jpg',
-    '/activity_img/3.jpg',
-  ];
+export default function HomeEventPhoto({ images = [] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,7 +28,7 @@ export default function HomeEventPhoto() {
               key={i}
               width="1100"
               clipPath="url(#shape)"
-              href={`http://localhost:3000/${images[currentIndex]}`}
+              href={`http://localhost:3000/activity_img/${images[currentIndex]}`}
               style={{
                 opacity: i === currentIndex ? 1 : 0.9,
                 transform: `translateX(${(i - currentIndex) * 863}px)`, // 計算圖片的位置

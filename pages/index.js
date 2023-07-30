@@ -20,6 +20,7 @@ export default function Home() {
   const [isLoading, setIsloading] = useState(false);
   const [shopData, setShopData] = useState([]);
   const [activityData, setActivityData] = useState([]);
+  const [activityImgs, setActivityImgs] = useState([]);
   const [restaurantData, setRestaurantData] = useState([]);
   const [postData, setPostData] = useState([]);
   const router = useRouter();
@@ -47,6 +48,7 @@ export default function Home() {
     setActivityData(data.activity);
     setRestaurantData(data.restaurant);
     setPostData(data.forum);
+    setActivityImgs(data.activityImgs);
     setIsloading(false);
     console.log(data);
   };
@@ -290,7 +292,7 @@ export default function Home() {
               </article>
             </Col>
             <Col className={style.hrCards} xs={24} sm={24} md={13}>
-              <HomeEventPhoto />
+              <HomeEventPhoto images={activityImgs} />
             </Col>
           </Row>
         </Col>
