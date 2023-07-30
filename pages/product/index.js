@@ -58,8 +58,14 @@ export default function ProdoctIndex() {
   const [isMouseOverOnSlider, setIsMouseOverOnSliver] = useState(false);
   const [bannerCurrent, setBannerCurrent] = useState(0);
   const bannerPicDatas = ['banner01.jpg', 'banner02.jpg', 'banner03.jpg'];
+  const bannerSmallPicDatas = [
+    'banner-small-01.jpg',
+    'banner-small-02.jpg',
+    'banner-small-03.jpg',
+  ];
+  const [bannerDisplayDatas, setBannerDisplayDatas] = useState(bannerPicDatas);
   const bannerPlayStyle = {
-    width: `calc(100% * ${bannerPicDatas.length})`,
+    width: `calc(100% * ${bannerDisplayDatas.length})`,
     left: `calc(-100% * ${bannerCurrent})`,
   };
 
@@ -94,6 +100,12 @@ export default function ProdoctIndex() {
         setTotalPage(newTotalPage);
         setCatDogCurrent(0);
         setNewCurrent(0);
+
+        if (newWindowWidth >= 1280) {
+          setBannerDisplayDatas(bannerPicDatas);
+        } else {
+          setBannerDisplayDatas(bannerSmallPicDatas);
+        }
       };
 
       handleResize();
@@ -167,7 +179,7 @@ export default function ProdoctIndex() {
   }, [first]);
 
   useEffect(() => {
-    const bannerPics = bannerPicDatas.length - 1;
+    const bannerPics = bannerDisplayDatas.length - 1;
     let timer;
     if (!isMouseOverOnSlider) {
       timer = setInterval(() => {
@@ -339,7 +351,7 @@ export default function ProdoctIndex() {
               className={styles.left_arrow}
               onClick={() => {
                 if (bannerCurrent === 0) {
-                  setBannerCurrent(bannerPicDatas.length - 1);
+                  setBannerCurrent(bannerDisplayDatas.length - 1);
                 } else {
                   setBannerCurrent(bannerCurrent - 1);
                 }
@@ -356,7 +368,7 @@ export default function ProdoctIndex() {
               setIsMouseOverOnSliver(false);
             }}
           >
-            {bannerPicDatas.map((v) => {
+            {bannerDisplayDatas.map((v) => {
               return (
                 <li key={v}>
                   <img src={`./product-img/${v}`} alt={v} />
@@ -369,7 +381,7 @@ export default function ProdoctIndex() {
               icon={faChevronRight}
               className={styles.right_arrow}
               onClick={() => {
-                if (bannerCurrent === bannerPicDatas.length - 1) {
+                if (bannerCurrent === bannerDisplayDatas.length - 1) {
                   setBannerCurrent(0);
                 } else {
                   setBannerCurrent(bannerCurrent + 1);
@@ -379,7 +391,7 @@ export default function ProdoctIndex() {
           </div>
         </nav>
         <ul className={styles.shop_sliders_pages}>
-          {bannerPicDatas.map((v, i) => {
+          {bannerDisplayDatas.map((v, i) => {
             return (
               <li
                 key={v}
