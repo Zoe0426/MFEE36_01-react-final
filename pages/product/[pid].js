@@ -1,6 +1,7 @@
-import { Fragment, useEffect, useState, useContext, useRef } from 'react';
+import { Fragment, useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import Image from 'next/image';
 import styles from '@/styles/shop.module.css';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
@@ -27,8 +28,6 @@ import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import CorpLogo from '@/assets/corpLogo.svg';
 import PawWalking from '@/components/ui/shop/pawWalking';
 
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
-
 // 引用的icon+圖示
 import RateStar from '@/components/ui/rateStar/RateStar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -49,7 +48,6 @@ export default function Product() {
     true
   );
 
-  //麵包屑寫得有點奇怪...
   const [breadCrubText, setBreadCrubText] = useState([
     {
       id: 'shop',
@@ -201,6 +199,20 @@ export default function Product() {
         .replace(/\n/g, '<br/>')
         .replace(/amp;/g, '&');
       setDataForProductMain({ ...shopMainData[0], description });
+
+      const newBreadCrubText = breadCrubText.map((v) => {
+        if (v.id === 'search') {
+          return {
+            ...v,
+            text: `/ ${shopMainData[0].catergory_chinese_name} /`,
+            href: `http://localhost:3000/product/list?category=${shopMainData[0].catergory_english_name}`,
+          };
+        }
+        if (v.id === 'pid') {
+          return { ...v, text: shopMainData[0].name };
+        } else return { ...v };
+      });
+      setBreadCrubText(newBreadCrubText);
     }
 
     if (Array.isArray(commentDatas)) {
@@ -623,7 +635,6 @@ export default function Product() {
       <div className="outer-container">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
-            {/* 麵包屑這邊需要再修改 */}
             <div className={styles.nav_head}>
               <BreadCrumb breadCrubText={breadCrubText} />
               <div className={styles.btns}>

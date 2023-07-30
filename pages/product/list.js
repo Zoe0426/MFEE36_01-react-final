@@ -4,6 +4,7 @@ import styles from '@/styles/shop.module.css';
 import { Pagination, Row, Col, ConfigProvider } from 'antd';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 import AuthContext from '@/context/AuthContext';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/LikeListDrawer';
@@ -30,8 +31,6 @@ import { faFilter, faHeart } from '@fortawesome/free-solid-svg-icons';
 import filterDatas from '@/data/product/filters.json';
 import orderByOptions from '@/data/product/orderby.json';
 
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
-
 export default function List() {
   const router = useRouter();
   const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
@@ -42,7 +41,6 @@ export default function List() {
 
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
-  // const [memberJWT, setMemberJWT] = useState('');
   const [datas, setDatas] = useState({
     totalRows: 0,
     perPage: 16,
@@ -58,7 +56,18 @@ export default function List() {
   //商品卡是否顯示總銷售數的tag
   const [showFlag, setShowFlag] = useState(false);
 
-  //換頁時要用的-類別/關鍵字/頁碼/排序
+  //換頁時要用的-類別/關鍵字/頁碼/排序/麵包屑
+  const [breadCrubText, setBreadCrubText] = useState([
+    {
+      id: 'shop',
+      text: '商城',
+      href: 'http://localhost:3000/product',
+      show: true,
+    },
+    { id: 'search', text: '/ 商品列表', href: '', show: true },
+    { id: 'pid', text: '', href: '', show: false },
+  ]);
+
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(20);
   const [orderBy, setOrderBy] = useState('-- 請選擇 --');
@@ -80,18 +89,6 @@ export default function List() {
   const [maxPrice, setMaxPrice] = useState(0);
   const [priceErrorText1, setPriceErrorText1] = useState('');
   const [priceErrorText2, setPriceErrorText2] = useState('');
-
-  //麵包屑寫得有點奇怪...
-  const [breadCrubText, setBreadCrubText] = useState([
-    {
-      id: 'shop',
-      text: '商城',
-      href: 'http://localhost:3000/product',
-      show: true,
-    },
-    { id: 'search', text: '/ 商品列表', href: '', show: true },
-    { id: 'pid', text: '', href: '', show: false },
-  ]);
 
   const getData = async (obj = {}, token = '') => {
     const usp = new URLSearchParams(obj);
@@ -197,6 +194,13 @@ export default function List() {
 
     //需要等所有filters(brands)設定都完成後才能開始跑回圈將有勾選的設定回來
     if (filtersReady) {
+      const newBreadCrubText = breadCrubText.map((v) => {
+        if (v.id === 'search') {
+          return { ...v, text: `/ 商品列表` };
+        } else return { ...v };
+      });
+      setBreadCrubText(newBreadCrubText);
+
       if (typeForPet) {
         resetCheckBox('typeForPet', typeForPet);
       }
@@ -207,6 +211,18 @@ export default function List() {
 
       if (category) {
         resetCheckBox('category', category);
+        const newArr = category.split(',');
+        if (newArr.length === 1) {
+          const selctCategory = filters.category.find(
+            (v) => v.value === category
+          );
+          const newBreadCrubText = breadCrubText.map((v) => {
+            if (v.id === 'search') {
+              return { ...v, text: `/ ${selctCategory.label}列表` };
+            } else return { ...v };
+          });
+          setBreadCrubText(newBreadCrubText);
+        }
       }
 
       if (brand) {
@@ -627,18 +643,10 @@ export default function List() {
       setPriceErrorText = setPriceErrorText1;
       setShowErrorMessage = setShowErrorMessage1;
       setOutlineStatus = setOutlineStatus1;
-      // if (priceNow && maxPrice && priceNow > maxPrice) {
-      //   setPriceErrorText('不能大於最高金額');
-      //   isPass = false;
-      // }
     } else if (inputType === 'maxPrice') {
       setPriceErrorText = setPriceErrorText2;
       setShowErrorMessage = setShowErrorMessage2;
       setOutlineStatus = setOutlineStatus2;
-      // if (priceNow && minPrice && priceNow < minPrice) {
-      //   setPriceErrorText('不能小於最低金額');
-      //   isPass = false;
-      // }
     }
 
     if (isNaN(e.target.value)) {
@@ -835,6 +843,7 @@ export default function List() {
           onRankChange={orderByHandler}
           orderBy={orderBy}
           items={orderByOptions}
+          searchText={breadCrubText}
         />
         <Row gutter={[32, 36]} className={styles.cards_list}>
           {datas.rows &&

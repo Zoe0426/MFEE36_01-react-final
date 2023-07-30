@@ -7,8 +7,14 @@
 
 .breadcrumb>li{
     margin-right: 5px;
+    padding: 2px 3px;
 }
 
 .breadcrumb>li:last-child{
     color:black;
+    color:var(--dark-gray)
 }
+
+/* .breadcrumb>li:first-child:hover{
+    background-color: pink;
+} */
