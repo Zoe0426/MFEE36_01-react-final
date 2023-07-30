@@ -41,56 +41,6 @@ import {
 
 export default function Product() {
   const router = useRouter();
-  const commentBox = useRef(null);
-  const commentArea = useRef(null);
-
-  //控制評論狀態
-  const [commentWindowWidth, setCommentWindowWidth] = useState(null);
-  const [commentCurrent, setCommentCurrent] = useState(0);
-  const [totalCommentPage, setTotalCommentPage] = useState(0);
-  const [showCommentCardQty, setShowCommentCardQty] = useState(4);
-  const [showCommentArrowLeft, setShowCommentArrowLeft] = useState(false);
-  const [showCommentArrowRight, setShowCommentArrowRight] = useState(true);
-  const [showFullCommentCard, setShowFullCommentCard] = useState(false);
-  const [showCommentCard, setShowCommentCard] = useState([]);
-  const commentStyle = {
-    position: 'relative',
-    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
-    transition: '0.3s',
-  };
-
-  const toggleCommentCard = (id) => {
-    const newShowFullCommentCard = !showFullCommentCard;
-    const newShowCommentCard = dataForComment.filter(
-      (v) => v.product_comment_sid === id
-    );
-    console.log(newShowCommentCard);
-    setShowCommentCard(newShowCommentCard);
-    setShowFullCommentCard(newShowFullCommentCard);
-    if (newShowFullCommentCard) {
-      document.body.classList.add('likeList-open');
-    } else {
-      document.body.classList.remove('likeList-open');
-    }
-  };
-
-  const countTotalCommentPage = () => {
-    const currentCommentCardsQty = dataForCommentQty.filter((v) => {
-      return parseInt(v.rating) === parseInt(commentFilter);
-    })[0].count;
-
-    const newCommentTotalPage = Math.ceil(
-      currentCommentCardsQty / showCommentCardQty
-    );
-    if (newCommentTotalPage <= 1) {
-      setShowCommentArrowRight(false);
-    } else {
-      setShowCommentArrowRight(true);
-    }
-
-    setTotalCommentPage(newCommentTotalPage);
-  };
-
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFrist] = useState(false);
   const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
@@ -184,6 +134,25 @@ export default function Product() {
   const recommendStyle = {
     position: 'relative',
     left: `calc(292px * ${showRecommandCardQty} * -${recommendCurrent})`,
+    transition: '0.3s',
+  };
+
+  //控制評論狀態
+  const [commentWindowWidth, setCommentWindowWidth] = useState(null);
+  const [commentCurrent, setCommentCurrent] = useState(0);
+  const [totalCommentPage, setTotalCommentPage] = useState(0);
+  const [showCommentCard, setShowCommentCard] = useState([]);
+  const [showCommentCardQty, setShowCommentCardQty] = useState(4);
+  const [showCommentArrowLeft, setShowCommentArrowLeft] = useState(false);
+  const [showCommentArrowRight, setShowCommentArrowRight] = useState(true);
+  const [showFullCommentArrowLeft, setShowFullCommentArrowLeft] =
+    useState(false);
+  const [showFullCommentArrowRight, setShowFullCommentArrowRight] =
+    useState(true);
+  const [showFullCommentCard, setShowFullCommentCard] = useState(false);
+  const commentStyle = {
+    position: 'relative',
+    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
     transition: '0.3s',
   };
 
@@ -566,6 +535,89 @@ export default function Product() {
     transition: 'transform 0.2s',
   };
 
+  //評價相關的函示-----------------------------------------------------
+  //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態
+  const toggleCommentCard = (arr = [], ratingNow = 6, id = '') => {
+    const newShowFullCommentCard = !showFullCommentCard;
+    if (arr.length > 0 && id) {
+      const newArr = commentFiliterByRating(arr, ratingNow).map((v) => {
+        if (v.product_comment_sid === id) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      const currentIndex = newArr.findIndex((v) => v.display === true);
+      if (currentIndex === 0) {
+        setShowFullCommentArrowLeft(false);
+      } else {
+        setShowFullCommentArrowLeft(true);
+      }
+      if (currentIndex < newArr.length - 1) {
+        setShowFullCommentArrowRight(true);
+      } else {
+        setShowFullCommentArrowRight(false);
+      }
+    }
+
+    setShowFullCommentCard(newShowFullCommentCard);
+    if (newShowFullCommentCard) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  //轉換到下一張評價卡片
+  const slideNextComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex < arr.length - 1) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex + 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowLeft(true);
+    }
+    if (currentIndex === arr.length - 2) {
+      setShowFullCommentArrowRight(false);
+    }
+  };
+  //轉換到上一張評價卡片
+  const slidePreComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex > 0) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex - 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowRight(true);
+    }
+    if (currentIndex <= 1) {
+      setShowFullCommentArrowLeft(false);
+    }
+  };
+
+  //一般顯示區的評價卡相關function
+  const countTotalCommentPage = () => {
+    const currentCommentCardsQty = dataForCommentQty.filter((v) => {
+      return parseInt(v.rating) === parseInt(commentFilter);
+    })[0].count;
+
+    const newCommentTotalPage = Math.ceil(
+      currentCommentCardsQty / showCommentCardQty
+    );
+    if (newCommentTotalPage <= 1) {
+      setShowCommentArrowRight(false);
+    } else {
+      setShowCommentArrowRight(true);
+    }
+
+    setTotalCommentPage(newCommentTotalPage);
+  };
+
   return (
     <>
       <div className="outer-container">
@@ -924,7 +976,7 @@ export default function Product() {
           </div>
         </div>
         <div className={styles.shop_container_inner}>
-          <div className={styles.comment_cards_box} ref={commentBox}>
+          <div className={styles.comment_cards_box}>
             {showCommentArrowLeft && (
               <div className={styles.detail_left_arrow_box}>
                 <FontAwesomeIcon
@@ -967,11 +1019,7 @@ export default function Product() {
                 />
               </div>
             )}
-            <div
-              className={styles.comment_cards}
-              ref={commentArea}
-              style={commentStyle}
-            >
+            <div className={styles.comment_cards} style={commentStyle}>
               {dataForComment &&
               commentFiliterByRating(dataForComment, commentFilter).length <=
                 0 ? (
@@ -998,7 +1046,11 @@ export default function Product() {
                         name={nickname}
                         profile={profile}
                         clickHandler={() => {
-                          toggleCommentCard(product_comment_sid);
+                          toggleCommentCard(
+                            dataForComment,
+                            commentFilter,
+                            product_comment_sid
+                          );
                         }}
                       />
                     );
@@ -1034,21 +1086,71 @@ export default function Product() {
           </ul>
         </div>
       </div>
+      {/* 全螢幕的評價顯示 */}
       {showFullCommentCard && (
-        <div
-          className={styles.show_full_comment_card}
-          onClick={toggleCommentCard}
-        >
-          <div>
-            <CommentCard
-              member_sid={showCommentCard[0].member_sid}
-              date={showCommentCard[0].date}
-              rating={showCommentCard[0].rating}
-              content={showCommentCard[0].content}
-              name={showCommentCard[0].nickname}
-              profile={showCommentCard[0].profile}
-              clickHandler={toggleCommentCard}
-            />
+        <div className={styles.show_full_comment_card}>
+          <div
+            className={styles.bgc_comment_card}
+            onClick={toggleCommentCard}
+          ></div>
+          <div
+            className={styles.comment_card_display}
+            onClick={() => {
+              console.log(123);
+            }}
+          >
+            {showFullCommentArrowLeft && (
+              <div className={styles.detail_left_arrow_box}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  className={styles.left_arrow}
+                  onClick={() => {
+                    slidePreComment(showCommentCard);
+                  }}
+                />
+              </div>
+            )}
+            {showFullCommentArrowRight && (
+              <div
+                className={`${styles.detail_right_arrow_box} ${styles.full_right_arrow_box}`}
+              >
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className={styles.right_arrow}
+                  onClick={() => {
+                    slideNextComment(showCommentCard);
+                  }}
+                />
+              </div>
+            )}
+
+            {showCommentCard.map((v) => {
+              const {
+                product_comment_sid,
+                member_sid,
+                date,
+                rating,
+                content,
+                nickname,
+                profile,
+                display,
+              } = v;
+              return (
+                display && (
+                  <div className={styles.test} key={product_comment_sid}>
+                    <CommentCard
+                      member_sid={member_sid}
+                      date={date}
+                      rating={rating}
+                      content={content}
+                      name={nickname}
+                      profile={profile}
+                      clickHandler={toggleCommentCard}
+                    />
+                  </div>
+                )
+              );
+            })}
           </div>
         </div>
       )}
@@ -1098,19 +1200,6 @@ export default function Product() {
               />
             </div>
             <div className={styles.recomand_products_cards_box}>
-              {/* <div className={styles.detail_left_arrow_box}>
-                  <FontAwesomeIcon
-                    icon={faChevronLeft}
-                    className={styles.left_arrow}
-                    onClick={() => {
-                      if (recommendCurrent === 0) {
-                        setRecommendCurrent(totalRecommandPage - 1);
-                      } else {
-                        setRecommendCurrent(recommendCurrent - 1);
-                      }
-                    }}
-                  />
-                </div> */}
               <div className={styles.cards_display}>
                 <div className={styles.recommand_cards} style={recommendStyle}>
                   {dataForRecomand.map((v) => {
@@ -1144,19 +1233,6 @@ export default function Product() {
                   })}
                 </div>
               </div>
-              {/* <div className={styles.detail_right_arrow_box}>
-                  <FontAwesomeIcon
-                    icon={faChevronRight}
-                    className={styles.right_arrow}
-                    onClick={() => {
-                      if (recommendCurrent === totalRecommandPage - 1) {
-                        setRecommendCurrent(0);
-                      } else {
-                        setRecommendCurrent(recommendCurrent + 1);
-                      }
-                    }}
-                  />
-                </div> */}
             </div>
           </div>
           <div className="container-inner">
