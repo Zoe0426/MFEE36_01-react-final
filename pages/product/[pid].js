@@ -239,8 +239,8 @@ export default function Product() {
         })
       );
       setPurchaseInfo({
-        ...purchaseInfo,
         pid: shopMainData[0].product_sid,
+        spec: '',
         unitPrice: shopDetailData[0].price,
         qty: 1,
       });
@@ -280,6 +280,13 @@ export default function Product() {
       } else {
         getData(pid);
       }
+      setCoutEnterMainPic(1);
+      setShowWarning(false);
+      setCommentFilter(6);
+      setCommentCurrent(0);
+      countTotalCommentPage();
+      setShowCommentArrowLeft(false);
+      setRecommendCurrent(0);
     }
   }, [router.query, first]);
 
@@ -1089,6 +1096,16 @@ export default function Product() {
                       }
                       onClick={() => {
                         setCommentCurrent(i);
+                        if (i === 0) {
+                          setShowCommentArrowLeft(false);
+                          setShowCommentArrowRight(true);
+                        } else if (i === totalCommentPage - 1) {
+                          setShowCommentArrowRight(false);
+                          setShowCommentArrowLeft(true);
+                        } else {
+                          setShowCommentArrowLeft(true);
+                          setShowCommentArrowRight(true);
+                        }
                       }}
                     ></li>
                   );

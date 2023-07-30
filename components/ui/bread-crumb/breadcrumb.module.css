@@ -1,8 +1,10 @@
 /*麵包屑*/
 .breadcrumb{
     display: flex;
-    color: var(--main);
+    /* color: var(--main); */
     font-size: var(--h6fs18);
+    line-height: 1.3;
+    flex-wrap: wrap;
 }
 
 .breadcrumb>li{
@@ -11,10 +13,21 @@
 }
 
 .breadcrumb>li:last-child{
-    color:black;
-    color:var(--dark-gray)
+    /* color:var(--dark-gray) */
 }
 
 /* .breadcrumb>li:first-child:hover{
     background-color: pink;
 } */
+
+@media screen and (max-width: 767px) {
+    /* .breadcrumb{
+        display: flex;
+        color: var(--main);
+        font-size: var(--pfs16);
+        flex-wrap: wrap;
+    }
+    .breadcrumb>li:nth-child(3){
+        width: 100%;
+    } */
+}
