@@ -23,6 +23,7 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import Modal from '@/components/ui/modal/modal';
 import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 
 //likelist
 
@@ -51,6 +52,7 @@ export default function ActivityDetail() {
     actDateRows: [],
     actFeatureRows: [],
     actRatingRows: [],
+    actRecommend:[],
   });
 
   const [actDetailRows, setActDetailRows] = useState([]);
@@ -60,6 +62,9 @@ export default function ActivityDetail() {
   const [actDateRows, setActDateRows] = useState([]);
   const [actFeatureRows, setActFeatureRows] = useState([]);
   const [actRatingRows, setActRatingRows] = useState([]);
+  const [actRecommend, setActRecommend] = useState([]);
+  
+
   const totalPrice =
     actDetailRows.price_adult * countAdult +
     (actDetailRows.price_adult / 2) * countChild;
@@ -96,6 +101,7 @@ export default function ActivityDetail() {
             actDateRows,
             actFeatureRows,
             actRatingRows,
+            actRecommend,
           } = data;
 
           // 更新 React 組件的狀態
@@ -128,6 +134,10 @@ export default function ActivityDetail() {
 
           if (actRatingRows && actRatingRows.length > 0) {
             setActRatingRows(actRatingRows);
+          }
+
+          if (actRecommend && actRecommend.length > 0) {
+            setActRecommend(actRecommend);
           }
 
           setData(data);
@@ -638,6 +648,59 @@ export default function ActivityDetail() {
                   );
                 })}
             </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* .........推薦商品......... */}
+
+      <div className="container-inner">
+        <div className={styles.content}>
+          <div ref={targetRef4}>
+            <p className={styles.subtitle}>為您推薦：</p>
+
+            <div className={styles.comment_cards}>
+            {actRecommend.map((i) => {
+              const {
+                activity_sid,
+                type_name,
+                activity_pic,
+                name,
+                avg_star,
+                recent_date,
+                farthest_date,
+                time,
+                city,
+                area,
+                address,
+                feature_names,
+                price_adult,
+              } = i;
+             
+              return (
+                
+                  <ActivityCard1
+                  key={activity_sid}
+                    activity_sid={activity_sid}
+                    type={type_name}
+                    image={'/activity_img/' + activity_pic.split(',')[0]}
+                    title={name}
+                    rating={avg_star}
+                    date_begin={recent_date}
+                    date_end={farthest_date}
+                    time={time}
+                    city={city}
+                    area={area}
+                    address={address}
+                    features={feature_names.split(',')}
+                    price={price_adult}
+                    
+                  />
+               
+              );
+            })}
+          </div>
           </div>
         </div>
       </div>
