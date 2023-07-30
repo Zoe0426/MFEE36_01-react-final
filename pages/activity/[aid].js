@@ -109,7 +109,8 @@ export default function ActivityDetail() {
             setActDetailRows(...actDetailRows);
           }
 
-          // 將圖片切成actImageRows的陣列
+         
+
 
           if (actImageRows.length > 0) {
             const imageUrls = actImageRows[0].activity_pic.split(',');
@@ -565,11 +566,13 @@ export default function ActivityDetail() {
             src="/activity_img/24.jpg"
             alt=""
           /> */}
+          {actImageRows.length > 0 && (
           <img
             className={styles.content_image}
             src={`/activity_img/${actImageRows[2]}`}
             alt=""
           />
+          )}
         </div>
       </div>
 
@@ -578,12 +581,13 @@ export default function ActivityDetail() {
 
       <div className="container-inner">
         <div className={styles.content}>
+        {actImageRows.length > 0 && (
           <img
             className={styles.content_image_reverse}
             src={`/activity_img/${actImageRows[3]}`}
             alt=""
           />
-
+        )}
           <div ref={targetRef2}>
             <p className={styles.subtitle}>活動規範：</p>
             {actDetailRows.policy}
@@ -605,11 +609,13 @@ export default function ActivityDetail() {
             </p>
           </div>
 
+          {actImageRows.length > 0 && (
           <img
             className={styles.content_image}
             src={`/activity_img/${actImageRows[4]}`}
             alt=""
           />
+          )}
         </div>
       </div>
 
