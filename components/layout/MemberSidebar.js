@@ -1,27 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Styles from './MemberSidebar.module.css';
 import { Calendar, ConfigProvider } from 'antd';
-
+import AuthContext from '@/context/AuthContext';
 export default function MemberSidebar() {
+  const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
   const [data, setData] = useState();
   const [data2, setData2] = useState();
   const [memProfileImg, setMemProfileImg] = useState(
     `${process.env.API_SERVER}/img/default-profile.jpg`
   );
-  useEffect(() => {
-    let auth = {};
-    const authStr = localStorage.getItem('petauth');
-    if (authStr) {
-      try {
-        auth = JSON.parse(authStr);
-      } catch (ex) {
-        ('');
-      }
-    }
-    // console.log(auth.id);
-    // console.log(auth.token);
 
-    if (auth.token) {
+  useEffect(() => {
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    if (auth.token && first) {
       fetch(`${process.env.API_SERVER}/member-api/schedule`, {
         headers: {
           Authorization: 'Bearer ' + auth.token,
@@ -50,7 +45,7 @@ export default function MemberSidebar() {
     } else {
       console.log('User is not logged in. Cannot fetch coupons.');
     }
-  }, []);
+  }, [auth, first]);
 
   if (data != undefined) {
     const getListData = (value, data) => {

@@ -5,48 +5,51 @@ import PageTag from '@/components/ui/pageTag/PageTag';
 import CouponCard from '@/components/ui/cards/CouponCard';
 import MemberCenterLayout from '@/components/layout/member-center-layout';
 import AuthContext from '@/context/AuthContext';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Loading from '@/components/ui/loading/loading';
 
 export default function Wallet() {
+  const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
   const [pageTag, setPageTag] = useState('coupon');
   const [allCoupons, setAllCoupons] = useState([]);
   const [coupons, setCoupons] = useState([]);
-  const { auth, setAuth } = useContext(AuthContext);
   const router = useRouter();
-  const toSignIn = () => {
-    const from = router.asPath;
-    router.push(`/member/sign-in?from=${from}`);
-  };
+  const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
-    let auth = {};
-    const authStr = localStorage.getItem('petauth');
-    if (authStr) {
-      try {
-        auth = JSON.parse(authStr);
-      } catch (ex) {
-        ('');
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    if (!auth.id && first) {
+      const from = router.asPath;
+      router.push(`/member/sign-in?from=${from}`);
+    } else if (auth.id) {
+      setPageLoading(false);
+      if (auth.token) {
+        fetch(`${process.env.API_SERVER}/member-api/coupon`, {
+          headers: {
+            Authorization: 'Bearer ' + auth.token,
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            console.log(data);
+            setAllCoupons(data);
+            setCoupons(data);
+            setLoading(false);
+          });
+      } else {
+        console.log('User is not logged in. Cannot fetch coupons.');
       }
     }
-    console.log(auth.id);
+  }, [auth, first]);
 
-    if (auth.token) {
-      fetch(`${process.env.API_SERVER}/member-api/coupon`, {
-        headers: {
-          Authorization: 'Bearer ' + auth.token,
-        },
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          console.log(data);
-          setAllCoupons(data);
-          setCoupons(data);
-        });
-    } else {
-      console.log('User is not logged in. Cannot fetch coupons.');
-    }
-  }, []);
+  if (loading) {
+    return <div>Loading...</div>; // Or any loading component you prefer...
+  }
 
   // 篩選條件
   const usedHandleFilter = () => {
@@ -85,65 +88,63 @@ export default function Wallet() {
     setCoupons(newCoupons);
   };
 
-  return (
-    <>
-      {!auth.id ? (
-        <button onClick={toSignIn}>登入</button>
-      ) : (
-        <>
-          <div className="pageTag">
-            <PageTag
-              title="coupon"
-              text="優惠券"
-              pageTag={pageTag}
-              onClick={() => {
-                setPageTag('coupon');
-                setCoupons(allCoupons);
-              }}
-            />
-            <PageTag
-              title="soon"
-              text="即將到期"
-              pageTag={pageTag}
-              onClick={() => {
-                setPageTag('soon');
-                soonHandleFilter();
-              }}
-            />
-            <PageTag
-              title="used"
-              text="已使用"
-              pageTag={pageTag}
-              onClick={() => {
-                setPageTag('used');
-                usedHandleFilter();
-              }}
-            />
-            <PageTag
-              title="expired"
-              text="已過期"
-              pageTag={pageTag}
-              onClick={() => {
-                setPageTag('expired');
-                expiredHandleFilter();
-              }}
-            />
+  if (pageLoading) {
+    return <Loading />;
+  } else if (!pageLoading) {
+    return (
+      <>
+        <div className="pageTag">
+          <PageTag
+            title="coupon"
+            text="優惠券"
+            pageTag={pageTag}
+            onClick={() => {
+              setPageTag('coupon');
+              setCoupons(allCoupons);
+            }}
+          />
+          <PageTag
+            title="soon"
+            text="即將到期"
+            pageTag={pageTag}
+            onClick={() => {
+              setPageTag('soon');
+              soonHandleFilter();
+            }}
+          />
+          <PageTag
+            title="used"
+            text="已使用"
+            pageTag={pageTag}
+            onClick={() => {
+              setPageTag('used');
+              usedHandleFilter();
+            }}
+          />
+          <PageTag
+            title="expired"
+            text="已過期"
+            pageTag={pageTag}
+            onClick={() => {
+              setPageTag('expired');
+              expiredHandleFilter();
+            }}
+          />
+        </div>
+        <div className={Style.content}>
+          <div className={Style.couponContent}>
+            {coupons.map((data) => (
+              <CouponCard
+                key={data.coupon_send_sid}
+                title={data.name}
+                text={data.price}
+                expire={data.exp_date}
+              />
+            ))}
           </div>
-          <div className={Style.content}>
-            <div className={Style.couponContent}>
-              {coupons.map((data) => (
-                <CouponCard
-                  key={data.coupon_send_sid}
-                  title={data.name}
-                  text={data.price}
-                  expire={data.exp_date}
-                />
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-    </>
-  );
+        </div>
+      </>
+    );
+  }
 }
 Wallet.getLayout = MemberCenterLayout;

@@ -7,9 +7,15 @@ import Styles from '@/styles/schedule.module.css';
 import AlertModal from '@/components/ui/modal/AlertModal';
 import AlertInfo from '@/components/ui/infos/AlertInfo';
 import { Badge, Calendar } from 'antd';
+import Loading from '@/components/ui/loading/loading';
+import { useRouter } from 'next/router';
 
 export default function Schedule() {
   const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const [data, setData] = useState();
   const [name, setName] = useState(null);
@@ -32,33 +38,36 @@ export default function Schedule() {
   const [restSid, setrestSid] = useState(null);
 
   useEffect(() => {
-    let auth = {};
-    const authStr = localStorage.getItem('petauth');
-    if (authStr) {
-      try {
-        auth = JSON.parse(authStr);
-      } catch (ex) {
-        ('');
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    if (!auth.id && first) {
+      const from = router.asPath;
+      router.push(`/member/sign-in?from=${from}`);
+    } else if (auth.id) {
+      setPageLoading(false);
+      if (auth.token) {
+        fetch(`${process.env.API_SERVER}/member-api/schedule`, {
+          headers: {
+            Authorization: 'Bearer ' + auth.token,
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            console.log(data);
+            setData(data);
+            setLoading(false);
+          });
+      } else {
+        console.log('User is not logged in. Cannot fetch coupons.');
       }
     }
-    console.log(auth.id);
-    console.log(auth.token);
+  }, [auth, first]);
 
-    if (auth.token) {
-      fetch(`${process.env.API_SERVER}/member-api/schedule`, {
-        headers: {
-          Authorization: 'Bearer ' + auth.token,
-        },
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          console.log(data);
-          setData(data);
-        });
-    } else {
-      console.log('User is not logged in. Cannot fetch coupons.');
-    }
-  }, []);
+  if (loading) {
+    return <div>Loading...</div>; // Or any loading component you prefer...
+  }
 
   if (data != undefined) {
     const getListData = (value, data) => {
@@ -190,16 +199,20 @@ export default function Schedule() {
       );
     };
 
-    return (
-      <>
-        <div className={Styles.content}>
-          <div className={Styles.title}>我的預約</div>
-          <div className={Styles.calendar}>
-            <Calendar cellRender={dateCellRender} />
+    if (pageLoading) {
+      return <Loading />;
+    } else if (!pageLoading) {
+      return (
+        <>
+          <div className={Styles.content}>
+            <div className={Styles.title}>我的預約</div>
+            <div className={Styles.calendar}>
+              <Calendar cellRender={dateCellRender} />
+            </div>
           </div>
-        </div>
-      </>
-    );
+        </>
+      );
+    }
   }
 }
 Schedule.getLayout = MemberCenterLayout;

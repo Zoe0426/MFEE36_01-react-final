@@ -41,52 +41,39 @@ export default function Profile() {
       router.push(`/member/sign-in?from=${from}`);
     } else if (auth.id) {
       setPageLoading(false);
+      if (auth.token) {
+        fetch(`${process.env.API_SERVER}/member-api/edit`, {
+          headers: {
+            Authorization: 'Bearer ' + auth.token,
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            console.log(data);
+            setData(data);
+            let array = data;
+            let obj = array[0];
+            setInitialValues({
+              memberSid: obj ? obj.memberSid : '',
+              name: obj ? obj.name : '',
+              mobile: obj ? obj.mobile : '',
+              avarta: obj ? obj.profile : '',
+              email: obj ? obj.email : '',
+              gender: obj ? obj.gender : '',
+              birthday: obj ? moment(obj.birthday) : '',
+              pet: obj ? obj.pet : '',
+            });
+            setLoading(false);
+            console.log('obj', obj);
+          });
+      } else {
+        console.log('User is not logged in. Cannot fetch coupons.');
+      }
     }
   }, [auth, first]);
 
   console.log('token', auth.token);
 
-  useEffect(() => {
-    // let auth = {};
-    // const authStr = localStorage.getItem('petauth');
-    // if (authStr) {
-    //   try {
-    //     auth = JSON.parse(authStr);
-    //   } catch (ex) {
-    //     ('');
-    //   }
-    // }
-    // console.log(auth.id);
-
-    if (auth.token) {
-      fetch(`${process.env.API_SERVER}/member-api/edit`, {
-        headers: {
-          Authorization: 'Bearer ' + auth.token,
-        },
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          console.log(data);
-          setData(data);
-          let array = data;
-          let obj = array[0];
-          setInitialValues({
-            memberSid: obj ? obj.memberSid : '',
-            name: obj ? obj.name : '',
-            mobile: obj ? obj.mobile : '',
-            avarta: obj ? obj.profile : '',
-            email: obj ? obj.email : '',
-            gender: obj ? obj.gender : '',
-            birthday: obj ? moment(obj.birthday) : '',
-            pet: obj ? obj.pet : '',
-          });
-          setLoading(false);
-          console.log('obj', obj);
-        });
-    } else {
-      console.log('User is not logged in. Cannot fetch coupons.');
-    }
-  }, []);
 
   const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';

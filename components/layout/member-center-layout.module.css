@@ -46,5 +46,6 @@
 	@media screen and (max-width:768px){
 		.antRow{
 			margin-top: 65px;
+			padding-bottom:150px;
 		}
 	}

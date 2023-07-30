@@ -57,11 +57,15 @@
   border-color: var(--light-gray);
 }
 
+.signNoPass{
+	color: var(--heartRed);
+	text-align: center;
+}
 
-
-
-
-
+.signPass{
+  color: var(--green);
+	text-align: center;
+}
 
 .pageTag{
   width: 100%;
