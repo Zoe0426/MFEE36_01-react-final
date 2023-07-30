@@ -45,14 +45,11 @@ export default function HomeForumCard({
       bc = '#F4B393';
       break;
   }
+
   return (
     <div
       className={`${
-        rotate === 'left'
-          ? Style.boxLeft
-          : rotate === 'right'
-          ? Style.boxRight
-          : Style.box
+        rotate === 2 ? Style.boxLeft : rotate === 1 ? Style.boxRight : Style.box
       }`}
       onClick={clickHandler}
     >

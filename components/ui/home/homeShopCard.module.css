@@ -10,8 +10,12 @@
     background-color: white;
     margin-bottom: 16px;
     border: 1px solid #ac7d77;
-    /* box-shadow: var(--sh
-    adow); */
+    transition: all .3s;
+    cursor: pointer;
+}
+.hsCard:hover{
+    transform: scale(1.02);
+    box-shadow: var(--shadow);
 }
 .hsroof{
     width: 100%;
@@ -27,22 +31,26 @@
     display: flex;
     align-items: center;
     width: 100%;
-    background-color: var(--main);
+    background-color: var(--light1);
 }
 .hstype{
-    width: 40%;
+    width: 35%;
     background-color: var(--light1);
     text-align: center;
-    font-size: var(--pfs16);
+    font-size: var(--pfs14);
     padding: var(--p8) 0;
-
 }
 .hssale{
+    flex-grow: 1;
+    background-color: var(--main);
     text-align: center;
     font-size: var(--pfs16);
+    font-weight: bold;
     color: white;
+    border-radius: 28px 0 0 0;
     width: 60%;
     padding: var(--p8) 0;
+    
 }
 
 .hscardbody{
@@ -50,7 +58,13 @@
     font-size: 16px;
     line-height: 18px;
 }
+.namebox{
+    padding: 0 var(--p8);
+}
 .hsprodname{
+    font-size: var(--pfs16);
+    font-weight: bold;
+    line-height: 20px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
@@ -58,6 +72,7 @@
 }
 .hsprodprice{
     color: var(--main);
+    font-weight: bold;
     text-align:end;
     padding-top: 8px;
 }
@@ -90,6 +105,11 @@
     }
     .hsprodprice{
         font-size: var(--pfs14);
-        
+    }
+    .hsprodname{
+        font-size: var(--pfs14);
+    }
+    .hstype{
+        font-size: 13px;
     }
 }

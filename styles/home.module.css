@@ -160,9 +160,9 @@
 
 .forumSlide {
   display: flex;
-  width: 4200px;
+  width: 3850px;
   justify-content: space-between;
-  animation: slide 80s linear infinite;
+  animation: slide 65s linear infinite;
   overflow:hidden;
   padding: 20px 0;
 }
@@ -202,6 +202,9 @@
     font-size: var(--pfs16);
     line-height: 20px;
     margin-bottom: 10px;
+}
+.hpres{
+    margin-bottom: 48px;
 }
 
 .hhashes{

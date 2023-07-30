@@ -1,6 +1,11 @@
 .box{
     position: relative;
     width: 46%;
+    transition: all .3s;
+    cursor: pointer;
+}
+.box:hover{
+    transform: scale(1.02);
 }
 .hresCard{
     position: relative;
@@ -8,9 +13,7 @@
     padding: 28px;
     border-radius: var(--br20);
     box-shadow: var(--shadow);
-    
     z-index: 2;
-    /* border: 1px solid red; */
 }
 .stickerbox{
     position: absolute;
@@ -20,16 +23,22 @@
     justify-content: center;
 }
 .hresSticker{
-    display: inline-block;
     padding: var(--p16) var(--p32);
     color: var(--dark);
     font-weight: bold;
-    font-size: var(--h6fs18);
+    font-size: var(--pfs16);
     background-color: var(--secondary);
     border-radius: 30px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
 }
 .hresimg{
     width: 100%;
+    height: 250px;
+    object-fit: cover;
+    object-position: top center;
     border-radius: var(--br20);
 }
 .resName{
@@ -53,7 +62,6 @@
 }
 
 .reshash p{
-    margin-bottom: var(--p8);
     letter-spacing: 0;
 }
 .decorationBox{
@@ -66,12 +74,24 @@
     border-radius: 40px;
     z-index: 1;
 }
+@media screen and (max-width:1420px) and (min-width:577px){
+.box{
+    width: 100%;
+    margin-bottom: 40px;
+}
+.hresimg{
+    height: 240px;
+}
 
+}
 
 @media screen and (max-width:576px){
 .box{
     width: 100%;
     margin-top: 40px;
+}
+.hresimg{
+    height: 180px;
 }
 
 }

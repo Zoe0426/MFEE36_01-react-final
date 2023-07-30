@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import HomeShopCard from '@/components/ui/home/homeShopCard';
 import style from '@/styles/home.module.css';
@@ -11,10 +11,16 @@ import HomeEventPhoto from '@/components/ui/home/homeEventPhoto';
 import HomeForumCard from '@/components/ui/home/homeforumCard';
 import HomeMainText from '@/components/ui/home/homeMainText';
 import HomeMainBtns from '@/components/ui/home/homeMainBtns';
+import Loading from '@/components/ui/loading/loading';
 
 //import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
 export default function Home() {
+  const [isLoading, setIsloading] = useState(false);
+  const [shopData, setShopData] = useState([]);
+  const [activityData, setActivityData] = useState([]);
+  const [restaurantData, setRestaurantData] = useState([]);
+  const [postData, setPostData] = useState([]);
   const router = useRouter();
   useEffect(() => {
     getHomeData();
@@ -34,55 +40,17 @@ export default function Home() {
   };
 
   const getHomeData = async () => {
+    setIsloading(true);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/get-home-data`);
     const data = await r.json();
+    setShopData(data.shop);
+    setActivityData(data.activity);
+    setRestaurantData(data.restaurant);
+    setPostData(data.forum);
+    setIsloading(false);
     console.log(data);
   };
 
-  const shopCardsData = [
-    {
-      img: '/home-images/hsprod1.avif',
-      type: '服飾類',
-      sale: '399',
-      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
-      price: '599',
-    },
-    {
-      img: '/home-images/hsprod1.avif',
-      type: '服飾類',
-      sale: '399',
-      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
-      price: '599',
-    },
-    {
-      img: '/home-images/hsprod1.avif',
-      type: '服飾類',
-      sale: '399',
-      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
-      price: '599',
-    },
-    {
-      img: '/home-images/hsprod1.avif',
-      type: '服飾類',
-      sale: '399',
-      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
-      price: '599',
-    },
-    {
-      img: '/home-images/hsprod1.avif',
-      type: '服飾類',
-      sale: '399',
-      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
-      price: '599',
-    },
-    {
-      img: '/home-images/hsprod1.avif',
-      type: '服飾類',
-      sale: '399',
-      name: '搖!搖! 超級水果～酥脆貓零食-鮭魚',
-      price: '599',
-    },
-  ];
   const hashShop = [
     '飼料',
     '罐頭',
@@ -99,8 +67,10 @@ export default function Home() {
     '萌寵大對決',
   ];
   const hashForum = ['#討論毛孩大小事', '#各式主題看板', '#專屬毛孩日記'];
-  const res1 = ['免費水', '有賣食物', '可自由奔跑'];
-  return (
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <>
       <header>
         <main className="container-outer">
@@ -206,16 +176,28 @@ export default function Home() {
         <Col span={20}>
           <Row className={style.hSection}>
             <Col className={style.hlshopCards} xs={24} sm={24} md={14}>
-              {shopCardsData.map((p, i) => {
-                const { img, type, sale, name, price } = p;
+              {shopData.map((p) => {
+                const {
+                  product_sid,
+                  img,
+                  min_price,
+                  max_price,
+                  detail_name,
+                  name,
+                  sales_qty,
+                } = p;
                 return (
                   <HomeShopCard
-                    key={i}
-                    img={img}
-                    type={type}
-                    sale={sale}
+                    key={product_sid}
+                    img={`/product-img/${img}`}
+                    type={detail_name}
+                    sale={sales_qty}
                     name={name}
-                    price={price}
+                    min_price={min_price}
+                    max_price={max_price}
+                    clickHandler={() => {
+                      redirectToProduct(product_sid);
+                    }}
                   />
                 );
               })}
@@ -304,23 +286,21 @@ export default function Home() {
         <Col span={20}>
           <Row className={style.hSection}>
             <Col className={style.hlresCards} xs={24} sm={24} md={15}>
-              <HomeResCard
-                showDeco={false}
-                stickerText="毛小孩與親子共遊"
-                src="/rest_image/sunshine.jpeg"
-                resName="陽光莊園"
-                cityArea="桃園市 ‧ 大園區"
-                resDetail="是一間寵物與親子友善餐廳，地點就在桃園大園區。裡面有大片草地給小朋友..."
-                reshash={res1}
-              />
-              <HomeResCard
-                stickerText="毛小孩與親子共遊"
-                src="/rest_image/sunshine.jpeg"
-                resName="陽光莊園"
-                cityArea="桃園市 ‧ 大園區"
-                resDetail="是一間寵物與親子友善餐廳，地點就在桃園大園區。裡面有大片草地給小朋友..."
-                reshash={res1}
-              />
+              {restaurantData.map((v, i) => (
+                <HomeResCard
+                  key={v.rest_sid}
+                  showDeco={i}
+                  stickerText={i}
+                  src={`/rest_image/image/${v.img_names}`}
+                  resName={v.name}
+                  cityArea={`${v.city} ‧ ${v.area}`}
+                  resDetail={v.info}
+                  reshash={v.hashTags}
+                  clickHandler={() => {
+                    redirectToRestaurant(v.rest_sid);
+                  }}
+                />
+              ))}
             </Col>
             <Col className={style.hInfo} sxs={24} sm={24} md={9}>
               <article>
@@ -376,55 +356,19 @@ export default function Home() {
             <Col xs={0} sm={0} md={1}></Col>
             <Col className={style.hrForumCards} xs={24} sm={24} md={14}>
               <div className={style.forumSlide}>
-                <HomeForumCard
-                  clickHandler={() => {
-                    redirectToPost(); //補boardSid
-                  }}
-                  rotate="left"
-                  img="/forum_img/post_img/Post011.jpeg"
-                  boardName="醫療板"
-                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
-                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
-就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
-                />
-                <HomeForumCard
-                  img="/forum_img/post_img/Post011.jpeg"
-                  boardName="狗貓聚板"
-                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
-                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
-就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
-                />
-                <HomeForumCard
-                  rotate="right"
-                  img="/forum_img/post_img/Post011.jpeg"
-                  boardName="毛孩日記板"
-                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
-                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
-就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
-                />
-                <HomeForumCard
-                  rotate="left"
-                  img="/forum_img/post_img/Post011.jpeg"
-                  boardName="醫療板"
-                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
-                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
-就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
-                />
-                <HomeForumCard
-                  img="/forum_img/post_img/Post011.jpeg"
-                  boardName="狗貓聚板"
-                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
-                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
-就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
-                />
-                <HomeForumCard
-                  rotate="right"
-                  img="/forum_img/post_img/Post011.jpeg"
-                  boardName="毛孩日記板"
-                  title="推薦新北市寵物友善景點-八里左岸河濱公園！"
-                  content="我們最近去了一個很棒的寵物友善景點，大家一定要去看看！
-就在新北市的「八里左岸河濱公園」！ 位於新北市八里區，擁有寬闊的河濱綠地，提供了許多活動和休憩空間，非常適合您和寵物一同享受戶外活動。"
-                />
+                {postData.map((v, i) => (
+                  <HomeForumCard
+                    key={v.post_sid}
+                    clickHandler={() => {
+                      redirectToPost(v.post_sid);
+                    }}
+                    rotate={(i + 1) % 3}
+                    img={`/forum_img/post_img/${v.img}`}
+                    boardName={v.board_name}
+                    title={v.post_title}
+                    content={v.post_content}
+                  />
+                ))}
               </div>
             </Col>
           </Row>
