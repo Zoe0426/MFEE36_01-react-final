@@ -111,3 +111,24 @@
   font-size: var(--h6fs18);
   color: var(--gray);
 }
+@media screen and (max-width:767px){
+  /*照片*/
+.like_img {
+  height: 80px;
+  width: 120px;
+  margin-right: 10px;
+}
+.like_title {
+  font-size: 16px;
+}
+
+.like_detail {
+  font-size: 16px;
+}
+.trash_icon {
+  font-size: 24px;
+  color: var(--light-gray);
+  margin-right:12px;
+  transition: 0.4s;
+}
+}

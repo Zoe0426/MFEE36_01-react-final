@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from 'react';
 import AuthContext from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import SearchBar from '@/components/ui/buttons/SearchBar';
 import { DownOutlined } from '@ant-design/icons';
 import {
   faFire,
@@ -28,7 +27,6 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import MiddleAreaBgc from '@/components/ui/restaurant/MiddleAreaBgc';
 import SubBtn from '@/components/ui/buttons/subBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
-import LocationFilter from '@/components/ui/restaurant/LocationFilter';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import filterDatas from '@/data/restaurnt/categories.json';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
@@ -80,6 +78,7 @@ export default function Restindex() {
   });
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex2, setCurrentIndex2] = useState(0);
   const itemsPerPage = 3;
 
   const handleCityClick = ({ key }) => {
@@ -104,6 +103,24 @@ export default function Restindex() {
   // 點擊左邊箭頭
   const leftArrow1 = () => {
     setCurrentIndex((prevIndex) =>
+      prevIndex - itemsPerPage < 0
+        ? data.rows1.length - itemsPerPage
+        : prevIndex - itemsPerPage
+    );
+  };
+
+  // 點擊右邊箭頭
+  const rightArrow2 = () => {
+    setCurrentIndex2((prevIndex) =>
+      prevIndex + itemsPerPage >= data.rows1.length
+        ? 0
+        : prevIndex + itemsPerPage
+    );
+  };
+
+  // 點擊左邊箭頭
+  const leftArrow2 = () => {
+    setCurrentIndex2((prevIndex) =>
       prevIndex - itemsPerPage < 0
         ? data.rows1.length - itemsPerPage
         : prevIndex - itemsPerPage
@@ -319,6 +336,11 @@ export default function Restindex() {
   const displayData = data.rows1.slice(
     currentIndex,
     currentIndex + itemsPerPage
+  );
+  // 根據目前的索引來顯示資料
+  const displayData2 = data.rows2.slice(
+    currentIndex2,
+    currentIndex2 + itemsPerPage
   );
 
   //篩選filter相關的函式-------------------------------------------------------
@@ -935,7 +957,7 @@ export default function Restindex() {
             />
           </Col>
           <Col xl={4} xs={8}>
-            {/* <LocationCard rest_image="/rest_image/dog_paw.png" /> */}
+            <LocationCard rest_image="/rest_image/dog_paw.png" />
           </Col>
         </Row>
       </div>
@@ -943,6 +965,31 @@ export default function Restindex() {
       <div className="container-outer">
         <div className={Styles.CloudTop}>
           <Image src={CloudTop} />
+          {/* <div className={Styles.dog_print}>
+            <div className={Styles.paw_print_1}>
+              <div className={`${Styles.pad} ${Styles.large}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+            </div>
+
+            <div className={Styles.paw_print_2}>
+              <div className={`${Styles.pad} ${Styles.large}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+            </div>
+
+            <div className={Styles.paw_print_3}>
+              <div className={`${Styles.pad} ${Styles.large}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+            </div>
+          </div> */}
         </div>
 
         <div className={Styles.cloud_bgc}>
@@ -963,7 +1010,6 @@ export default function Restindex() {
                       img={e.icon}
                       text={e.text}
                       subBtnHandler={() => {
-                        //分類這邊的連結還沒寫
                         router.push(e.href);
                       }}
                     />
@@ -985,10 +1031,10 @@ export default function Restindex() {
           clickHandler2={rightArrow1}
         />
       </div>
+
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
-          <div className={Styles.hot_card}>
-            {/* <Row gutter={[32, 32]}> */}
+          <Row gutter={{ xs: 24, xl: 32 }}>
             {displayData.map((v) => {
               const {
                 rest_sid,
@@ -1003,7 +1049,7 @@ export default function Restindex() {
               } = v;
 
               return (
-                <div key={rest_sid}>
+                <Col xl={8} xs={24} key={rest_sid}>
                   <RestCard
                     rest_sid={rest_sid}
                     image={'/rest_image/image/' + img_names.split(',')[0]}
@@ -1020,11 +1066,10 @@ export default function Restindex() {
                       clickHeartHandler(rest_sid, 'rows1');
                     }}
                   />
-                </div>
+                </Col>
               );
             })}
-            {/* </Row> */}
-          </div>
+          </Row>
         </div>
       </div>
 
@@ -1033,113 +1078,48 @@ export default function Restindex() {
           icon={faThumbsUp}
           text="好評餐廳"
           href="http://localhost:3000/restaurant/list?page=1&orderBy=cmt_DESC"
+          clickHandler1={leftArrow2}
+          clickHandler2={rightArrow2}
         />
       </div>
       <div className="container-inner">
         <div className={Styles.friendly_card_group}>
-          <Row gutter={[32, 32]}>
-            <div className={Styles.hot_card}>
-              {data.rows2.map((v) => {
-                const {
-                  rest_sid,
-                  name,
-                  city,
-                  area,
-                  img_names,
-                  rule_names,
-                  service_names,
-                  average_friendly,
-                  like,
-                } = v;
+          <Row gutter={{ xs: 24, xl: 32 }}>
+            {displayData2.map((v) => {
+              const {
+                rest_sid,
+                name,
+                city,
+                area,
+                img_names,
+                rule_names,
+                service_names,
+                average_friendly,
+                like,
+              } = v;
 
-                return (
-                  <Col xl={8} xs={12} key={rest_sid}>
-                    <RestCard
-                      rest_sid={rest_sid}
-                      image={'/rest_image/image/' + img_names.split(',')[0]}
-                      name={name}
-                      city={city}
-                      area={area}
-                      rule_names={rule_names}
-                      service_names={service_names}
-                      average_friendly={average_friendly}
-                      like={like}
-                      token={auth.token}
-                      singinHandler={toSingIn}
-                      clickHandler={() => {
-                        clickHeartHandler(rest_sid, 'rows2');
-                      }}
-                    />
-                  </Col>
-                );
-              })}
-            </div>
+              return (
+                <Col xl={8} xs={24} key={rest_sid}>
+                  <RestCard
+                    rest_sid={rest_sid}
+                    image={'/rest_image/image/' + img_names.split(',')[0]}
+                    name={name}
+                    city={city}
+                    area={area}
+                    rule_names={rule_names}
+                    service_names={service_names}
+                    average_friendly={average_friendly}
+                    like={like}
+                    token={auth.token}
+                    singinHandler={toSingIn}
+                    clickHandler={() => {
+                      clickHeartHandler(rest_sid, 'rows2');
+                    }}
+                  />
+                </Col>
+              );
+            })}
           </Row>
-        </div>
-        <div className={Styles.dog_print}>
-          <div className={Styles.paw_print_1}>
-            <div className={`${Styles.pad} ${Styles.large}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
-          </div>
-
-          <div className={Styles.paw_print_2}>
-            <div className={`${Styles.pad} ${Styles.large}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
-          </div>
-
-          <div className={Styles.paw_print_3}>
-            <div className={`${Styles.pad} ${Styles.large}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
-          </div>
-
-          <div className={Styles.paw_print_4}>
-            <div className={`${Styles.pad} ${Styles.large}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
-          </div>
-
-          <div className={Styles.paw_print_5}>
-            <div className={`${Styles.pad} ${Styles.large}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
-          </div>
-
-          <div className={Styles.paw_print_6}>
-            <div className={`${Styles.pad} ${Styles.large}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
-          </div>
-
-          <div className={Styles.paw_print_7}>
-            <div className={`${Styles.pad} ${Styles.large}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
-          </div>
-
-          <div className={Styles.paw_print_8}>
-            <div className={`${Styles.pad} ${Styles.large}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_1}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_2}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_3}`}></div>
-            <div className={`${Styles.pad} ${Styles.small_4}`}></div>
-          </div>
         </div>
       </div>
     </>

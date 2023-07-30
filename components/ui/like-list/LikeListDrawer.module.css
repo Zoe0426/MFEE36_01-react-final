@@ -119,4 +119,11 @@
   .no_like_item {
     font-size: var(--pfs16);
   }
+  .clean_all{
+    font-size: 16px;
+    padding-right: 4px;
+  }
+  .arrow {
+    padding-left: 4px;
+  }
 }

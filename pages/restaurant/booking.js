@@ -18,9 +18,25 @@ function WeekCalendar() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startDateIndex, setStartDateIndex] = useState(0); // 添加這個狀態變量
 
+  // // 新增處理下一個七天預約資訊的函式
+  // const goToNextWeek = () => {
+  //   const nextIndex = startDateIndex + 35;
+  //   if (nextIndex < bookingRows.length) {
+  //     setStartDateIndex(nextIndex);
+  //   }
+  // };
+
+  // // 新增處理返回前一個七天預約資訊的函式
+  // const goToPreviousWeek = () => {
+  //   const previousIndex = startDateIndex - 35;
+  //   if (previousIndex >= 0) {
+  //     setStartDateIndex(previousIndex);
+  //   }
+  // };
   // 新增處理下一個七天預約資訊的函式
   const goToNextWeek = () => {
-    const nextIndex = startDateIndex + 35;
+    const itemsPerPage = window.innerWidth < 768 ? 10 : 35;
+    const nextIndex = startDateIndex + itemsPerPage;
     if (nextIndex < bookingRows.length) {
       setStartDateIndex(nextIndex);
     }
@@ -28,7 +44,8 @@ function WeekCalendar() {
 
   // 新增處理返回前一個七天預約資訊的函式
   const goToPreviousWeek = () => {
-    const previousIndex = startDateIndex - 35;
+    const itemsPerPage = window.innerWidth < 768 ? 10 : 35;
+    const previousIndex = startDateIndex - itemsPerPage;
     if (previousIndex >= 0) {
       setStartDateIndex(previousIndex);
     }
@@ -137,35 +154,40 @@ function WeekCalendar() {
       </div>
       <div className="container-inner">
         <div className={Styles.dates_modal}>
-          {bookingRows?.slice(startDateIndex, startDateIndex + 35).map((v) => {
-            {
-              /* const currentDate = new Date(v.date); */
-            }
-            if (!uniqueDates.has(v.date)) {
-              uniqueDates.add(v.date);
-              return (
-                <div key={v.section_sid}>
-                  <div className={Styles.date_date}>{v.date}</div>
-                  {bookingRows
-                    .filter((item) => item.date === v.date)
-                    .map((item) => (
-                      <>
-                        <div key={item.section_sid}>
-                          <BookingModal
-                            time={item.time}
-                            people={item.remaining_slots}
-                            datas={item}
-                            memberDatas={memberRows}
-                          />
-                        </div>
-                      </>
-                    ))}
-                </div>
-              );
-            } else {
-              return null;
-            }
-          })}
+          {bookingRows
+            ?.slice(
+              startDateIndex,
+              startDateIndex + (window.innerWidth < 768 ? 10 : 35)
+            )
+            .map((v) => {
+              {
+                /* const currentDate = new Date(v.date); */
+              }
+              if (!uniqueDates.has(v.date)) {
+                uniqueDates.add(v.date);
+                return (
+                  <div key={v.section_sid}>
+                    <div className={Styles.date_date}>{v.date}</div>
+                    {bookingRows
+                      .filter((item) => item.date === v.date)
+                      .map((item) => (
+                        <>
+                          <div key={item.section_sid}>
+                            <BookingModal
+                              time={item.time}
+                              people={item.remaining_slots}
+                              datas={item}
+                              memberDatas={memberRows}
+                            />
+                          </div>
+                        </>
+                      ))}
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   padding-top: 28px;
-  padding-bottom:28px;
+  padding-bottom: 28px;
   margin-bottom: 20px;
 }
 .dates_modal {
@@ -27,7 +27,7 @@
   transition: 0.4s;
   cursor: pointer;
 } */
-.last_week{
+.last_week {
   border: 0;
   border: 2px solid transparent;
   background-color: var(--main);
@@ -38,13 +38,13 @@
   cursor: pointer;
   margin-left: 12px;
 }
-.last_week:hover{
+.last_week:hover {
   background-color: #ff6f16;
 }
-.next_week:hover{
+.next_week:hover {
   background-color: #ff6f16;
 }
-.no_last_week{
+.no_last_week {
   border: 0;
   border: 2px solid transparent;
   background-color: var(--secondary);
@@ -53,9 +53,8 @@
   border-radius: 8px;
   transition: 0.4s;
   margin-left: 12px;
-
 }
-.next_week{
+.next_week {
   border: 0;
   border: 2px solid transparent;
   background-color: var(--main);
@@ -67,7 +66,7 @@
   margin-left: 12px;
 }
 
-.no_next_week{
+.no_next_week {
   border: 0;
   border: 2px solid transparent;
   background-color: var(--secondary);
@@ -76,15 +75,13 @@
   border-radius: 8px;
   transition: 0.4s;
   margin-left: 12px;
-
 }
 
-.line{
+.line {
   height: 4px;
   border-bottom: 2px dashed var(--secondary);
-  
 }
-.calendar{
+.calendar {
   margin-right: 10px;
 }
 .head {
@@ -96,7 +93,7 @@
 }
 
 .date_date {
-  font-size:18px;
+  font-size: 18px;
   font-weight: 600;
   user-select: none;
 }
@@ -109,7 +106,6 @@
   font-weight: 600;
   margin-top: 28px;
   margin-bottom: 28px;
-
 }
 .arrow_right,
 .arrow_left {
@@ -168,4 +164,28 @@
 }
 .time_range {
   font-weight: var(--fwbold);
+}
+@media screen and (max-width: 767px) {
+  .bgc {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .timetable {
+    font-size: var(--h6fs18);
+    line-height: 1.2;
+    font-weight: 600;
+    margin-top: 12px;
+    margin-bottom: 28px;
+  }
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dates_modal {
+    width: 100%;
+    gap: 16px;
+  }
+  .btn_group {
+    padding-bottom: 16px;
+  }
 }

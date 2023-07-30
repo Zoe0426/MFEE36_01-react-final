@@ -5,7 +5,6 @@ import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import HashTag from '../hashtag/hashtag';
 import RateStarPill from '../rateStar/RateStarPill';
 import Link from 'next/link';
-import Modal from '../modal/modal';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
 
 export default function RestCard({
@@ -33,7 +32,7 @@ export default function RestCard({
         <FontAwesomeIcon
           icon={faHeart}
           onClick={clickHandler}
-          className={`${Styles.icon_inImage} ${like && Styles.active}`}
+          className={`${Styles.icon_heart} ${like && Styles.active}`}
         />
       ) : (
         <AlertModal
