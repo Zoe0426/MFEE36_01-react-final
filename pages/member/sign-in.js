@@ -5,7 +5,6 @@ import SignInForm from '@/components/ui/forms/SignInForm';
 import AuthContext from '@/context/AuthContext';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
-import { divide, set } from 'lodash';
 
 export default function SignIn() {
   const { setAuth } = useContext(AuthContext);
