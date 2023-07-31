@@ -1010,22 +1010,24 @@ export default function FilterPage() {
 
             return (
               <Col xl={8} xs={12} key={rest_sid}>
-                <RestCard
-                  rest_sid={rest_sid}
-                  image={'/rest_image/image/' + img_names.split(',')[0]}
-                  name={name}
-                  city={city}
-                  area={area}
-                  rule_names={rule_names}
-                  service_names={service_names}
-                  average_friendly={average_friendly}
-                  like={like}
-                  token={auth.token}
-                  singinHandler={toSingIn}
-                  clickHandler={() => {
-                    clickHeartHandler(rest_sid);
-                  }}
-                />
+                <div className={Styles.card}>
+                  <RestCard
+                    rest_sid={rest_sid}
+                    image={'/rest_image/image/' + img_names.split(',')[0]}
+                    name={name}
+                    city={city}
+                    area={area}
+                    rule_names={rule_names}
+                    service_names={service_names}
+                    average_friendly={average_friendly}
+                    like={like}
+                    token={auth.token}
+                    singinHandler={toSingIn}
+                    clickHandler={() => {
+                      clickHeartHandler(rest_sid);
+                    }}
+                  />
+                </div>
               </Col>
             );
           })}

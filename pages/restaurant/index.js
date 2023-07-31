@@ -1034,42 +1034,44 @@ export default function Restindex() {
 
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
-          <Row gutter={{ xs: 24, xl: 32 }}>
-            {displayData.map((v) => {
-              const {
-                rest_sid,
-                name,
-                city,
-                area,
-                img_names,
-                rule_names,
-                service_names,
-                average_friendly,
-                like,
-              } = v;
-
-              return (
-                <Col xl={8} xs={24} key={rest_sid}>
-                  <RestCard
-                    rest_sid={rest_sid}
-                    image={'/rest_image/image/' + img_names.split(',')[0]}
-                    name={name}
-                    city={city}
-                    area={area}
-                    rule_names={rule_names}
-                    service_names={service_names}
-                    average_friendly={average_friendly}
-                    like={like}
-                    token={auth.token}
-                    singinHandler={toSingIn}
-                    clickHandler={() => {
-                      clickHeartHandler(rest_sid, 'rows1');
-                    }}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
+          {/* <Row gutter={{ xs: 24, xl: 32 }}> */}
+          {displayData.map((v) => {
+            const {
+              rest_sid,
+              name,
+              city,
+              area,
+              img_names,
+              rule_names,
+              service_names,
+              average_friendly,
+              like,
+            } = v;
+            {
+              /* <div xl={8} xs={24} key={rest_sid}> */
+            }
+            return (
+              <div key={rest_sid} className={Styles.card}>
+                <RestCard
+                  rest_sid={rest_sid}
+                  image={'/rest_image/image/' + img_names.split(',')[0]}
+                  name={name}
+                  city={city}
+                  area={area}
+                  rule_names={rule_names}
+                  service_names={service_names}
+                  average_friendly={average_friendly}
+                  like={like}
+                  token={auth.token}
+                  singinHandler={toSingIn}
+                  clickHandler={() => {
+                    clickHeartHandler(rest_sid, 'rows1');
+                  }}
+                />
+              </div>
+            );
+          })}
+          {/* </Row> */}
         </div>
       </div>
 

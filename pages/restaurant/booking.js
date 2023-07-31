@@ -72,6 +72,27 @@ function WeekCalendar() {
         console.error(error);
       });
   }, []);
+
+  const [countPeople, setCountPeople] = useState(1);
+  const [countPet, setCountPet] = useState(1);
+  const [noteValue, setNoteValue] = useState('');
+  const handleNoteChange = (event) => {
+    console.log('備註');
+    setNoteValue(event.target.value);
+  };
+
+  const handleChangePeople = (newCount) => {
+    // 在這裡處理人數的變更，不執行 handleSubmit
+    console.log('人數');
+    setCountPeople(newCount);
+  };
+
+  const handleChangePet = (newCount) => {
+    // 在這裡處理寵物數量的變更，不執行 handleSubmit
+    console.log('寵物');
+    setCountPet(newCount);
+  };
+
   return (
     <div>
       <div className={Styles.abc}>
@@ -109,20 +130,7 @@ function WeekCalendar() {
           </div>
         </div>
       </div>
-      <div>
-        {/* <Image
-          src={faArrowLeft}
-          className={Styles.arrow_left}
-          onClick={goToPreviousWeek}
-          alt="faArrowLeft"
-        />
-        <Image
-          src={faArrowRight}
-          className={Styles.arrow_right}
-          onClick={goToNextWeek}
-          alt="arrowRight"
-        /> */}
-      </div>
+      <div></div>
       <div className="container-inner">
         <div className={Styles.head}>
           <h1 className={Styles.timetable}>
@@ -178,6 +186,12 @@ function WeekCalendar() {
                               people={item.remaining_slots}
                               datas={item}
                               memberDatas={memberRows}
+                              handleNoteChange={handleNoteChange}
+                              noteValue={noteValue}
+                              handleChangePeople={handleChangePeople}
+                              handleChangePet={handleChangePet}
+                              countPeople={countPeople}
+                              countPet={countPet}
                             />
                           </div>
                         </>

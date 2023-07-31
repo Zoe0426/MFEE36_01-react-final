@@ -86,7 +86,10 @@
 .filter_btns > button:last-child {
   margin-right: 0;
 }
-
+.card{
+  position: relative;
+  width: 100%;
+}
  .function_group {
   display: flex;
   justify-content: space-between;

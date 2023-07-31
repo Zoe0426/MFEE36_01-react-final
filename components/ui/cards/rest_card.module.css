@@ -60,7 +60,7 @@
 .icon_heart{
     position: absolute;
     top: 2%;
-    right: 8%;
+    right: 4%;
     font-size: 30px;
     color: var(--light-gray);
     z-index: 1;

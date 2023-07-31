@@ -1,3 +1,4 @@
+
 .city_section{
   display: flex;
   justify-content: space-between;
@@ -251,7 +252,15 @@ animation: walk 3s linear infinite 0.5s;
 }
 .hot_card_group {
   overflow-x: auto;
+  display: flex;
+  gap: 32px;
 }
+
+.card{
+  position: relative;
+  width: 600px;
+}
+
 
 .friendly_card_group{
   overflow-x: auto;
