@@ -219,7 +219,7 @@ export default function RestInfo() {
   //       });
   //   }
   // }, [query]);
-
+  
   function toggleDisplayForImg(imgUrl) {
     let main = document.getElementById('imageBox');
     main.src = imgUrl;

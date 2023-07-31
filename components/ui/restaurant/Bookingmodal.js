@@ -6,6 +6,8 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import NumberInput from '../numberInput/numberInput2';
+import AlertModal from './AlertModal';
+import Modal from '../modal/modal';
 
 export default function BookingModal({
   datas = [],
@@ -21,6 +23,7 @@ export default function BookingModal({
   countPet = 1,
 }) {
   const [modal, setModal] = useState(false);
+  const [reservationSuccess, setReservationSuccess] = useState(false); // 新增狀態來控制預約成功的彈跳視窗
   // const [countPeople, setCountPeople] = useState(1);
   // const [countPet, setCountPet] = useState(1);
   // const [noteValue, setNoteValue] = useState('');
@@ -32,6 +35,11 @@ export default function BookingModal({
 
   const toggleModal = () => {
     setModal(!modal);
+  };
+  // 彈跳視窗確認按鈕的點擊處理函數
+  const handleModalConfirm = () => {
+    // 重新載入頁面
+    window.location.reload();
   };
 
   // const handleChangePeople = (newCount) => {
@@ -61,13 +69,6 @@ export default function BookingModal({
     2,
     '0'
   )}`;
-  console.log(datas.rest_sid);
-  console.log(datas.section_code);
-  console.log(formattedDate);
-  console.log(memberDatas.member_sid);
-  console.log(countPeople);
-  console.log(countPet);
-  console.log(noteValue);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -98,7 +99,8 @@ export default function BookingModal({
 
       const responseData = await response.json();
       if (responseData.success) {
-        // 處理預約成功的情況
+        //跳一個預約成功的視窗
+        setReservationSuccess(true);
       } else {
         console.error('處理預約失敗的情況');
       }
@@ -110,7 +112,6 @@ export default function BookingModal({
 
   return (
     <>
-      {/* <form onSubmit={handleSubmit}> */}
       <div className={Styles.time_section}>
         <div
           onClick={restPeople <= 0 ? null : toggleModal}
@@ -199,13 +200,55 @@ export default function BookingModal({
               <div className={Styles.line}></div>
               <div className={Styles.btn_group}>
                 <SecondaryBtn text="取消" clickHandler={toggleModal} />
-                <MainBtn clickHandler={handleSubmit} text="確定" />
+                <MainBtn clickHandler={handleSubmit} text="預約" />
               </div>
             </div>
           </div>
+
+          {reservationSuccess && (
+            <div className={Styles.modal_overlay}>
+              <div className={Styles.modal_bgc}>
+                <h3 className={Styles.success}>預約成功！</h3>
+                <div className={Styles.detail_info}>
+                  <div className={Styles.time}>
+                    <p className={Styles.booking_title}>預約餐廳</p>
+                    <p>{datas.name}</p>
+                  </div>
+                  <div className={Styles.time}>
+                    <p className={Styles.booking_title}>預約時間</p>
+                    <p className={Styles.date_time}>
+                      2023/{datas.date} {datas.time}
+                    </p>
+                  </div>
+                  <div className={Styles.member}>
+                    <p className={Styles.booking_title}>預約會員</p>
+                    <p>{memberDatas.name}</p>
+                  </div>
+                  <div className={Styles.member}>
+                    <p className={Styles.booking_title}>聯絡資訊</p>
+                    <p>{memberDatas.mobile}</p>
+                  </div>
+                  <div className={Styles.member}>
+                    <p className={Styles.booking_title}>預約人數</p>
+                    <p>{countPeople} 位</p>
+                  </div>
+                  <div className={Styles.member}>
+                    <p className={Styles.booking_title}>預約寵物</p>
+                    <p>{countPet} 隻</p>
+                  </div>
+                  <div className={Styles.booking_note}>
+                    <p className={Styles.booking_title}>預約備註</p>
+                    <p>{noteValue}</p>
+                  </div>
+                </div>
+                <div className={Styles.filter_btns}>
+                  <MainBtn clickHandler={handleModalConfirm} text="確定" />
+                </div>
+              </div>
+            </div>
+          )}
         </>
       )}
-      {/* </form> */}
     </>
   );
 }

@@ -78,7 +78,44 @@
   z-index: 9999;
   font-size: var(--pfs16);
 } */
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* 使彈跳視窗在最上層 */
+}
 
+/* 彈跳視窗內容框 */
+.modal_bgc {
+  background-color: white;
+  width: 24%;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  padding-bottom: 10px;
+  padding-top: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+.detail_info {
+  padding: 30px 20px;
+}
+
+.success {
+  padding-bottom: 20px;
+  padding-top: 0px;
+  color: rgb(0, 194, 110);
+  font-weight: 700;
+  border-bottom: 1px solid var(--light-gray);
+}
 .overlay {
   width: 100vw;
   height: 100vh;
@@ -88,7 +125,22 @@
   bottom: 0;
   position: fixed;
 }
-
+.filter_btns {
+  border-top: 1px solid var(--light-gray);
+  display: flex;
+  padding-top: 10px;
+  justify-content: flex-end;
+  height: 56px;
+  width: 100%;
+}
+.filter_btns > button {
+  margin-right: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  width: 20%;
+  line-height: 100%;
+  text-align: center;
+}
 .modal_card {
   z-index: 9999;
   font-size: var(--pfs16);
@@ -144,7 +196,14 @@
   gap: 24px;
   padding-bottom: 30px;
 }
-
+.booking_note {
+  display: flex;
+  gap: 24px;
+  text-align: left;
+}
+.confirm {
+  padding-bottom: 20px;
+}
 .booking_title {
   font-weight: bold !important;
 }

@@ -66,12 +66,77 @@ function WeekCalendar() {
         }
         console.log(bookingRows);
         setData(data);
-        console.log(data);
       })
       .catch((error) => {
         console.error(error);
       });
   }, []);
+
+  // //日期格式轉換回來
+  // bookingRows.forEach((v) => {
+  //   const dateStr = v.date;
+
+  //   // 分割日期字串
+  //   const [monthDay, weekday] = dateStr.split(' (');
+
+  //   // 獲取月份、日期和星期幾
+  //   const [month, day] = monthDay.split('/');
+  //   const [, weekdayStr] = weekday.split(')');
+
+  //   // 獲取星期幾對應的數字
+  //   const weekdayNum = ['日', '一', '二', '三', '四', '五', '六'].indexOf(
+  //     weekdayStr
+  //   );
+
+  //   // 構建新的日期字串，格式為 "yyyy-MM-dd"
+  //   const year = 2023; // 這裡可以根據需要指定年份
+  //   const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(
+  //     2,
+  //     '0'
+  //   )}`;
+
+  //   v.date = formattedDate;
+  // });
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   // 建立要傳遞到後端的預約資料物件
+  //   const reservationData = {
+  //     rest_sid: bookingRows.rest_sid,
+  //     section_code: bookingRows.section_code,
+  //     date: formattedDate,
+  //     member_sid: memberRows.member_sid,
+  //     people_num: countPeople,
+  //     pet_num: countPet,
+  //     note: noteValue,
+  //   };
+
+  //   // 發送 POST 請求到後端 API
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.API_SERVER}/restaurant-api/booking_modal`,
+  //       {
+  //         method: 'POST',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify(reservationData),
+  //       }
+  //     );
+
+  //     const responseData = await response.json();
+  //     if (responseData.success) {
+  //       //跳一個預約成功的視窗
+  //       // setReservationSuccess(true);
+  //       window.location.reload();
+  //     } else {
+  //       console.error('處理預約失敗的情況');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     // 處理錯誤情況
+  //   }
+  // };
 
   const [countPeople, setCountPeople] = useState(1);
   const [countPet, setCountPet] = useState(1);
@@ -192,6 +257,7 @@ function WeekCalendar() {
                               handleChangePet={handleChangePet}
                               countPeople={countPeople}
                               countPet={countPet}
+                              // clickHandler={handleSubmit}
                             />
                           </div>
                         </>
