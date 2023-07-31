@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart,faBookmark} from '@fortawesome/free-solid-svg-icons';
 import { Input } from 'antd';
 import CommentLogin from '../post_login/login';
+import Modal from '../modal/modal';
 import Router, { useRouter } from 'next/router';
 import { check } from 'prettier';
 import MainBtn from '../buttons/MainBtn';
@@ -69,7 +70,7 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
             <div className={Style.author}>
                 <div className={Style.profile}><img className={Style.proImg} src={profile}/></div>
                 {/*<Input className={Style.comment} placeholder='撰寫留言...'/>*/}
-                <TextArea className={Style.comment}
+                {auth.id? <TextArea className={Style.comment}
                   placeholder="撰寫留言..."
                   onChange={(e) => setValue(e.target.value)}
                   // onKeyDown={sendComment}                 
@@ -80,25 +81,21 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                     maxRows: 6,
                   }}
                   />
+                  :<Modal btnType='input' title='前往登入會員' mainBtnText = '確認' subBtnText = '取消' content='留言需要會員登入，是否要繼續留言?' confirmHandler={goLogin} btnText = '撰寫留言...'/>}
                   <div className={Style.subBtn} >
-                  <MainBtn
+                  {auth.id? <MainBtn
                   text = '送出'
                   clickHandler = {sendComment}
-                  />
+                  /> : <Modal btnType = 'main' btnText = '送出'/>}
                   </div>
-                  {/* 
-                <div className={Style.icon}>
-                <FontAwesomeIcon icon={faHeart} className={Style.likeGray}/>
-                <FontAwesomeIcon icon={faBookmark} className={Style.favoriteGray}/>
-                </div>
-              */}
                 </div>
                 </div>
                 </div>
-                {showLogin && (
-                  <CommentLogin className={Style.loginbox} goLogin={goLogin} cancel={cancel}/>
-                  )}
-    </>
-  )
-}
+                {/*{showLogin && (
+                //   // <CommentLogin className={Style.loginbox} goLogin={goLogin} cancel={cancel} text='留言需要會員登入，是否要繼續留言?'/>
+                  
+                //   )} */}
+                </>
+                )
+              }
 

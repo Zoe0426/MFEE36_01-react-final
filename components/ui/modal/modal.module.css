@@ -48,6 +48,12 @@
   padding: var(--p16);
 
 }
+.bookmark{
+  width:30px;
+  height:30px;
+  color: var(--gray);
+  margin-right: 15px;
+}
 
 .modal_title {
   font-size: var(--h5fs20);
