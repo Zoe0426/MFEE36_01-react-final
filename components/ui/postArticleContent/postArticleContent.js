@@ -5,6 +5,7 @@ import Style from './postArticleContent.module.css';
 // import { useRouter } from 'next/router'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart, faCommentDots, faBookmark, faShareNodes} from '@fortawesome/free-solid-svg-icons';
+import Modal from '../modal/modal';
 
 
 export default function PostArticleContent({postContent='', likes=0, comments=0, isLiked={setIsLiked}, setIsLiked=()=>{}, postSid='', memberId='', listName='', Fav={setFav}, setFav=()=>{}}) {
@@ -127,6 +128,12 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
         router.push(`/member/sign-in?from=${from}`);
       }
     };
+
+    // 收藏按讚前要登入會員
+    const goLogin = ()=>{  
+      const from = router.asPath;
+      router.push(`/member/sign-in?from=${from}`);
+    }
     
 
 
@@ -150,9 +157,16 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
                 <FontAwesomeIcon icon={faCommentDots} className={Style.comment}/>
                 <p className={Style.postNum}>{comments}</p>                        
             </div>
-        
-        <FontAwesomeIcon onClick={handleFavClick} icon={faBookmark} className={ Fav ? Style.favoriteGreen : Style.favoriteGray } // 根據收藏狀態切換顏色
-        />
+        {/*根據收藏狀態切換顏色 */}
+        {auth.id ? (
+          <FontAwesomeIcon
+            onClick={handleFavClick}
+            icon={faBookmark}
+            className={Fav ? Style.favoriteGreen : Style.favoriteGray}
+          />
+        ) : (
+          <Modal btnType="bookmark" title = '前往登入頁面' content='收藏功能需要登入會員噢～是否前往登入頁面？' confirmHandler={goLogin}/>
+        )}
         <FontAwesomeIcon icon={faShareNodes} className={Style.shareGray}/>
     </div>
     </div>

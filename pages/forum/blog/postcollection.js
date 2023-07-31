@@ -19,6 +19,8 @@ export default function PostCollection() {
 
   // router
   const router = useRouter();
+  //下拉選單選項
+  const [items, setItems] = useState([]);
 
   //分頁
   const [page, setPage] = useState(1);
@@ -45,6 +47,7 @@ export default function PostCollection() {
     console.log("send search");
     getSearchData();
   }
+  console.log(listName);
   // 把keyEnter和searchKeyword並一起
   const getSearchData = ()=>{
     router.push(
@@ -79,6 +82,7 @@ export default function PostCollection() {
       .then((data) => {
         setData(data);
         setNewData(data.rows);
+        setItems(data.items);
         // setAllData(data.rows); // 將所有文章數據存儲在 allData 中
         console.log('newData', newData);
       });
@@ -169,32 +173,12 @@ export default function PostCollection() {
       console.log('newData',newData);
     };
 
-      const items = [
-        // {
-        //   label: data.listName,
-        //   key: data.listName,
-        // },
-        {
-          label: '寵物健康知識',
-          key: '寵物健康知識',
-        },
-        {
-          label: '寵物心理知識',
-          key: '寵物心理知識',
-        },
-        {
-          label: '帶寶貝出去玩😍',
-          key: '帶寶貝出去玩😍',
-        },
-        {
-          label: '寵物安親照顧',
-          key: '寵物安親照顧',
-        },
-        {
-          label: '寵物訓練',
-          key: '寵物訓練',
-        },
-      ]
+      // const items = [
+      //   // {
+      //   //   label: data.listName,
+      //   //   key: data.listName,
+      //   // },
+      // ]
 
   const menuProps = {
     items,
