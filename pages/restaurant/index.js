@@ -91,23 +91,6 @@ export default function Restindex() {
   };
 
   const cities = cityDatas;
-  // 點擊右邊箭頭
-  const rightArrow1 = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + itemsPerPage >= data.rows1.length
-        ? 0
-        : prevIndex + itemsPerPage
-    );
-  };
-
-  // 點擊左邊箭頭
-  const leftArrow1 = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex - itemsPerPage < 0
-        ? data.rows1.length - itemsPerPage
-        : prevIndex - itemsPerPage
-    );
-  };
 
   // // 點擊右邊箭頭
   // const rightArrow2 = () => {
@@ -126,40 +109,61 @@ export default function Restindex() {
   //       : prevIndex - itemsPerPage
   //   );
   // };
+  //熱門卡片區
+  const [showHotCardQty, setShowHotCardQty] = useState(3); // 顯示的卡片數量
+  const [newHotCurrent, setHotNewCurrent] = useState(0); // 目前顯示的位置索引
+  const [hotTotalPage, setHotTotalPage] = useState(4);
 
-  const [showCardQty, setShowCardQty] = useState(3); // 顯示的卡片數量
-  const [newCurrent, setNewCurrent] = useState(0); // 目前顯示的位置索引
-  const [totalPage, setTotalPage] = useState(4);
-  
+  // 左箭頭按鈕點擊事件處理函數
+  const leftArrow1 = () => {
+    if (newHotCurrent === 0) {
+      setHotNewCurrent(hotTotalPage - 1);
+    } else {
+      setHotNewCurrent(newHotCurrent - 1);
+    }
+  };
+
+  // 右箭頭按鈕點擊事件處理函數
+  const rightArrow1 = () => {
+    if (newHotCurrent === hotTotalPage - 1) {
+      setHotNewCurrent(0);
+    } else {
+      setHotNewCurrent(newHotCurrent + 1);
+    }
+  };
+  // 計算 newStyle 樣式
+  const newStyle1 = {
+    position: 'relative',
+    left: `calc(428px * ${showHotCardQty} * -${newHotCurrent})`,
+    transition: '0.3s',
+  };
+  //友善卡片區
+  const [showFreCardQty, setShowFreCardQty] = useState(3); // 顯示的卡片數量
+  const [newFreCurrent, setFreNewCurrent] = useState(0); // 目前顯示的位置索引
+  const [freTotalPage, setFreTotalPage] = useState(4);
 
   // 左箭頭按鈕點擊事件處理函數
   const leftArrow2 = () => {
-    // if (newCurrent > 0) {
-    //   setNewCurrent(newCurrent - 1);
-    // }
-    if (newCurrent === 0) {
-      setNewCurrent(totalPage - 1);
+    if (newFreCurrent === 0) {
+      setFreNewCurrent(freTotalPage - 1);
     } else {
-      setNewCurrent(newCurrent - 1);
+      setFreNewCurrent(newFreCurrent - 1);
     }
   };
 
   // 右箭頭按鈕點擊事件處理函數
   const rightArrow2 = () => {
-    // if (newCurrent < data.rows2.length - showCardQty) {
-    //   setNewCurrent(newCurrent + 1);
-    // }
-    if (newCurrent === totalPage - 1) {
-      setNewCurrent(0);
+    if (newFreCurrent === freTotalPage - 1) {
+      setFreNewCurrent(0);
     } else {
-      setNewCurrent(newCurrent + 1);
+      setFreNewCurrent(newFreCurrent + 1);
     }
   };
 
   // 計算 newStyle 樣式
-  const newStyle = {
+  const newStyle2 = {
     position: 'relative',
-    left: `calc(428px * ${showCardQty} * -${newCurrent})`,
+    left: `calc(428px * ${showFreCardQty} * -${newFreCurrent})`,
     transition: '0.3s',
   };
 
@@ -1060,13 +1064,15 @@ export default function Restindex() {
       </div>
 
       <div className="container-inner">
-        <RestTitle
-          icon={faFire}
-          text="熱門餐廳"
-          href="http://localhost:3000/restaurant/list?page=1&orderBy=hot_DESC"
-          clickHandler1={leftArrow2}
-          clickHandler2={rightArrow2}
-        />
+        <div className={Styles.space}>
+          <RestTitle
+            icon={faFire}
+            text="熱門餐廳"
+            href="http://localhost:3000/restaurant/list?page=1&orderBy=hot_DESC"
+            clickHandler1={leftArrow1}
+            clickHandler2={rightArrow1}
+          />
+        </div>
       </div>
 
       <div className="container-inner">
@@ -1088,7 +1094,7 @@ export default function Restindex() {
               /* <div xl={8} xs={24} key={rest_sid}> */
             }
             return (
-              <div key={rest_sid} className={Styles.hot_card} style={newStyle}>
+              <div key={rest_sid} className={Styles.hot_card} style={newStyle1}>
                 <RestCard
                   rest_sid={rest_sid}
                   image={'/rest_image/image/' + img_names.split(',')[0]}
@@ -1140,7 +1146,7 @@ export default function Restindex() {
               <div
                 key={rest_sid}
                 className={Styles.friendly_card}
-                style={newStyle}
+                style={newStyle2}
               >
                 <RestCard
                   rest_sid={rest_sid}

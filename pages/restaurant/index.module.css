@@ -242,7 +242,8 @@ animation: walk 3s linear infinite 0.5s;
   background-color: var(--lightBrown);
 }
 .middle_bgc {
-  margin-bottom: var(--p32);
+  padding-bottom: 80px;
+
 }
 
 .CloudTop {
@@ -256,15 +257,16 @@ animation: walk 3s linear infinite 0.5s;
   overflow-y: hidden; 
   display: flex;
   flex-wrap: nowrap; 
-  padding-bottom: 80px;
+  padding-bottom: 50px;
 }
-
+.space{
+  margin-top: 60px;
+}
 .hot_card{
   flex: 0 0 33.33%; 
   padding: 0 10px; 
   box-sizing: border-box; 
   position: relative;
-
 }
 .friendly_card{
   flex: 0 0 33.33%; 
@@ -423,5 +425,14 @@ animation: walk 3s linear infinite 0.5s;
 }
 .dropdown_arrow{
   margin-right: 70px;
+}
+.hot_card_group{
+  padding-bottom: 0;
+}
+.hot_card {
+  flex: 0 0 60%; /* 將卡片的寬度設置為一個半的寬度 */
+}
+.friendly_card {
+  flex: 0 0 60%; /* 將卡片的寬度設置為一個半的寬度 */
 }
 }
