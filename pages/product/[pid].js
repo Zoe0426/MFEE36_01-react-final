@@ -415,10 +415,10 @@ export default function Product() {
   };
 
   //愛心收藏的並將資料送到後端相關函式-------------------------------------------------------
-  const clickHeartHandler = (id) => {
+  const clickHeartHandler = (arr = [], id = '', type = '') => {
     setIsClickingLike(true);
     const timeClick = new Date().getTime();
-    const newData = dataForRecomand.map((v) => {
+    const newData = arr.map((v) => {
       if (v.product_sid === id) {
         const insideInLikeList = addLikeList.find(
           (item) => item.product_sid === id
@@ -434,25 +434,16 @@ export default function Product() {
         return { ...v, like: !v.like };
       } else return { ...v };
     });
-    setDataForRecomand(newData);
+    if (type === 'recomand') {
+      setDataForRecomand(newData);
+    }
+    if (type === 'main') {
+      setDataForProductMain(...newData);
+    }
+
     setTimeout(() => {
       setIsClickingLike(false);
     }, 1500);
-  };
-
-  const addLikeListHandler = () => {
-    const timeClick = new Date().getTime();
-    const data = [
-      {
-        product_sid: router.query.pid,
-        time: timeClick,
-      },
-    ];
-    sendLike(data, auth.token);
-    setDataForProductMain({
-      ...datatForProductMain,
-      like: true,
-    });
   };
 
   //將資料送到後端
@@ -905,21 +896,18 @@ export default function Product() {
                     confirmHandler={toSingIn}
                     icon={faHeart}
                   />
-                ) : datatForProductMain.like ? (
-                  <Modal
-                    btnType="iconSeconBtn"
-                    btnText="已收藏"
-                    title="貼心提醒"
-                    content={<ModoalReminder text="已經收藏過囉~" />}
-                    mainBtnText="我知道了"
-                    showSubBtn={false}
-                    icon={faHeart}
-                  />
                 ) : (
                   <IconSeconBtn
+                    red={datatForProductMain.like}
                     icon={faHeart}
-                    text={'加入收藏'}
-                    clickHandler={addLikeListHandler}
+                    text={datatForProductMain.like ? '已收藏' : '加入收藏'}
+                    clickHandler={() => {
+                      clickHeartHandler(
+                        [datatForProductMain],
+                        datatForProductMain.product_sid,
+                        'main'
+                      );
+                    }}
                   />
                 )}
                 {!auth.token ? (
@@ -1352,7 +1340,11 @@ export default function Product() {
                           like={like}
                           token={auth.token}
                           clickHandler={() => {
-                            clickHeartHandler(product_sid);
+                            clickHeartHandler(
+                              dataForRecomand,
+                              product_sid,
+                              'recomand'
+                            );
                           }}
                           singinHandler={toSingIn}
                         />

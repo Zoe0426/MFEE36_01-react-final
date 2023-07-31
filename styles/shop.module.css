@@ -435,6 +435,10 @@
   margin-right: 16px;
 }
 
+/* .detail_main_bottom > button>svg{
+  color:var(--heartRed)
+} */
+
 /* .detail_main_bottom > button:nth-child(2) {
   margin: 0 16px;
 } */
