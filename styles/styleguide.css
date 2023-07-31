@@ -159,7 +159,8 @@ body{
 }
 
 .pet{
-
+  position: absolute;
+  transition: all 1s ease-out;
 }
 
 

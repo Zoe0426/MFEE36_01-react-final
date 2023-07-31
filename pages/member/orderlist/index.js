@@ -106,7 +106,7 @@ export default function OrderList() {
                 itemQty={data.product_qty}
                 adultQty={data.adult_qty}
                 childQty={data.child_qty}
-                subTotal={data.orderRelS}
+                subTotal={data.orderRelS.toLocaleString()}
                 img={data.img}
                 actImg={data.activity_pic}
                 length={data.order_product}

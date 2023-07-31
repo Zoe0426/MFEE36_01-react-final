@@ -28,7 +28,7 @@ export default function SecondNavbar() {
             <img src="/member-center-images/Icon/calendar.svg" alt="" />
             <div className={Styles.linkTitile}>我的預約</div>
           </Link>
-          <Link href="/member/game" className={Styles.linkItem}>
+          <Link href="/member/petGame" className={Styles.linkItem}>
             <img src="/member-center-images/Icon/pet.svg" alt="" />
             <div className={Styles.linkTitile}>我的寵物</div>
           </Link>
