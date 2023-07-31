@@ -499,7 +499,7 @@ export default function ActivityDetail() {
             {/* 第九行 */}
             <div className={styles.row_total_price}>
               <p className={styles.total_price}>總金額：</p>
-              <p className={styles.total_price}>${totalPrice}</p>
+              <p className={styles.total_price}>${(totalPrice).toLocaleString()}</p>
             </div>
 
             {/* 第十行 */}
