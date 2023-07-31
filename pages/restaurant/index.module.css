@@ -251,28 +251,37 @@ animation: walk 3s linear infinite 0.5s;
   margin-top: var(--p32);
 }
 .hot_card_group {
+  width: 100%;
   overflow-x: auto;
+  overflow-y: hidden; 
   display: flex;
-  gap: 32px;
+  flex-wrap: nowrap; 
+  padding-bottom: 80px;
 }
 
-.card{
+.hot_card{
+  flex: 0 0 33.33%; 
+  padding: 0 10px; 
+  box-sizing: border-box; 
   position: relative;
-  width: 600px;
-}
 
+}
+.friendly_card{
+  flex: 0 0 33.33%; 
+  padding: 0 10px; 
+  box-sizing: border-box; 
+  position: relative;
+}
 
 .friendly_card_group{
-  overflow-x: auto;
-  margin-bottom: 80px;
-}
-.hot_card {
-  display: flex;
   width: 100%;
-  justify-content: space-between;
-  gap: 20px;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: hidden; 
+  display: flex;
+  flex-wrap: nowrap; 
+  padding-bottom: 80px;
 }
+
 
 .card_width{
   width: 400px;
@@ -327,6 +336,10 @@ animation: walk 3s linear infinite 0.5s;
   width: 200px;
 }
 @media screen and (max-width: 767px) {
+.card{
+  position: relative;
+  width:80%;
+}
   .jill_h1{
     font-size: var(--h4fs24); 
   }

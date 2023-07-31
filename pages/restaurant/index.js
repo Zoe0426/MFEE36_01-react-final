@@ -109,23 +109,60 @@ export default function Restindex() {
     );
   };
 
-  // 點擊右邊箭頭
-  const rightArrow2 = () => {
-    setCurrentIndex2((prevIndex) =>
-      prevIndex + itemsPerPage >= data.rows1.length
-        ? 0
-        : prevIndex + itemsPerPage
-    );
+  // // 點擊右邊箭頭
+  // const rightArrow2 = () => {
+  //   setCurrentIndex2((prevIndex) =>
+  //     prevIndex + itemsPerPage >= data.rows1.length
+  //       ? 0
+  //       : prevIndex + itemsPerPage
+  //   );
+  // };
+
+  // // 點擊左邊箭頭
+  // const leftArrow2 = () => {
+  //   setCurrentIndex2((prevIndex) =>
+  //     prevIndex - itemsPerPage < 0
+  //       ? data.rows1.length - itemsPerPage
+  //       : prevIndex - itemsPerPage
+  //   );
+  // };
+
+  const [showCardQty, setShowCardQty] = useState(3); // 顯示的卡片數量
+  const [newCurrent, setNewCurrent] = useState(0); // 目前顯示的位置索引
+  const [totalPage, setTotalPage] = useState(4);
+  
+
+  // 左箭頭按鈕點擊事件處理函數
+  const leftArrow2 = () => {
+    // if (newCurrent > 0) {
+    //   setNewCurrent(newCurrent - 1);
+    // }
+    if (newCurrent === 0) {
+      setNewCurrent(totalPage - 1);
+    } else {
+      setNewCurrent(newCurrent - 1);
+    }
   };
 
-  // 點擊左邊箭頭
-  const leftArrow2 = () => {
-    setCurrentIndex2((prevIndex) =>
-      prevIndex - itemsPerPage < 0
-        ? data.rows1.length - itemsPerPage
-        : prevIndex - itemsPerPage
-    );
+  // 右箭頭按鈕點擊事件處理函數
+  const rightArrow2 = () => {
+    // if (newCurrent < data.rows2.length - showCardQty) {
+    //   setNewCurrent(newCurrent + 1);
+    // }
+    if (newCurrent === totalPage - 1) {
+      setNewCurrent(0);
+    } else {
+      setNewCurrent(newCurrent + 1);
+    }
   };
+
+  // 計算 newStyle 樣式
+  const newStyle = {
+    position: 'relative',
+    left: `calc(428px * ${showCardQty} * -${newCurrent})`,
+    transition: '0.3s',
+  };
+
   const filterKeywordDatas = (data, keyword, keyin) => {
     if (!keyin) {
       const searchWord = keyword.split('');
@@ -1027,15 +1064,15 @@ export default function Restindex() {
           icon={faFire}
           text="熱門餐廳"
           href="http://localhost:3000/restaurant/list?page=1&orderBy=hot_DESC"
-          clickHandler1={leftArrow1}
-          clickHandler2={rightArrow1}
+          clickHandler1={leftArrow2}
+          clickHandler2={rightArrow2}
         />
       </div>
 
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
           {/* <Row gutter={{ xs: 24, xl: 32 }}> */}
-          {displayData.map((v) => {
+          {data.rows1.map((v) => {
             const {
               rest_sid,
               name,
@@ -1051,7 +1088,7 @@ export default function Restindex() {
               /* <div xl={8} xs={24} key={rest_sid}> */
             }
             return (
-              <div key={rest_sid} className={Styles.card}>
+              <div key={rest_sid} className={Styles.hot_card} style={newStyle}>
                 <RestCard
                   rest_sid={rest_sid}
                   image={'/rest_image/image/' + img_names.split(',')[0]}
@@ -1086,42 +1123,44 @@ export default function Restindex() {
       </div>
       <div className="container-inner">
         <div className={Styles.friendly_card_group}>
-          <Row gutter={{ xs: 24, xl: 32 }}>
-            {displayData2.map((v) => {
-              const {
-                rest_sid,
-                name,
-                city,
-                area,
-                img_names,
-                rule_names,
-                service_names,
-                average_friendly,
-                like,
-              } = v;
+          {data.rows2.map((v) => {
+            const {
+              rest_sid,
+              name,
+              city,
+              area,
+              img_names,
+              rule_names,
+              service_names,
+              average_friendly,
+              like,
+            } = v;
 
-              return (
-                <Col xl={8} xs={24} key={rest_sid}>
-                  <RestCard
-                    rest_sid={rest_sid}
-                    image={'/rest_image/image/' + img_names.split(',')[0]}
-                    name={name}
-                    city={city}
-                    area={area}
-                    rule_names={rule_names}
-                    service_names={service_names}
-                    average_friendly={average_friendly}
-                    like={like}
-                    token={auth.token}
-                    singinHandler={toSingIn}
-                    clickHandler={() => {
-                      clickHeartHandler(rest_sid, 'rows2');
-                    }}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
+            return (
+              <div
+                key={rest_sid}
+                className={Styles.friendly_card}
+                style={newStyle}
+              >
+                <RestCard
+                  rest_sid={rest_sid}
+                  image={'/rest_image/image/' + img_names.split(',')[0]}
+                  name={name}
+                  city={city}
+                  area={area}
+                  rule_names={rule_names}
+                  service_names={service_names}
+                  average_friendly={average_friendly}
+                  like={like}
+                  token={auth.token}
+                  singinHandler={toSingIn}
+                  clickHandler={() => {
+                    clickHeartHandler(rest_sid, 'rows2');
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
