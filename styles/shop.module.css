@@ -444,10 +444,9 @@
 }
 
 /*產品詳述區*/
-/*帶共用元件刻好要刪除*/
 .detail_tabs {
   display: flex;
-  border-bottom: 1px solid var(--light-gray);
+  border-bottom: 1.6px solid rgb(95, 35, 27, 0.3);
 }
 
 .detail_tabs > li {
@@ -460,9 +459,14 @@
 }
 
 .detail_tabs > li:hover {
-  border-bottom: 2px solid var(--main);
+  border-bottom: 4px solid  rgb(95, 35, 27, 0.8);
   cursor: pointer;
 }
+
+.detail_tabs > li.active{
+  border-bottom: 4px solid rgb(95, 35, 27, 0.8);
+}
+
 
 .detail_text_box,
 .detail_return_box {

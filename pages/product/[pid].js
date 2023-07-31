@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
@@ -40,6 +40,9 @@ import {
 
 export default function Product() {
   const router = useRouter();
+  const productComment = useRef(null);
+  const productReturn = useRef(null);
+  const productSpecial = useRef(null);
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFrist] = useState(false);
   const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
@@ -47,6 +50,22 @@ export default function Product() {
     [],
     true
   );
+
+  //頁內跳轉-----------------------------------------------
+  const sccrollToHandler = (place = '', ele) => {
+    const position = ele.current.getBoundingClientRect();
+    let offsetTop = window.scrollY + position.top;
+    if (place === 'special') {
+      offsetTop = offsetTop - 80 - 54;
+    } else {
+      offsetTop = offsetTop - 80;
+    }
+
+    window.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth',
+    });
+  };
 
   const [breadCrubText, setBreadCrubText] = useState([
     {
@@ -917,12 +936,31 @@ export default function Product() {
           <div className="container-inner">
             {/* 這邊待元件刻好需要更換 */}
             <ul className={styles.detail_tabs}>
-              <li>產品特色</li>
-              <li>退換貨須知</li>
-              <li>商品評價</li>
+              <li
+                className={styles.active}
+                onClick={() => {
+                  sccrollToHandler('special', productSpecial);
+                }}
+              >
+                產品特色
+              </li>
+              <li
+                onClick={() => {
+                  sccrollToHandler('return', productReturn);
+                }}
+              >
+                退換貨須知
+              </li>
+              <li
+                onClick={() => {
+                  sccrollToHandler('comment', productComment);
+                }}
+              >
+                商品評價
+              </li>
             </ul>
 
-            <ul className={styles.detail_text_box}>
+            <ul className={styles.detail_text_box} ref={productSpecial}>
               <li>
                 <h6>品牌:</h6>
                 <p>{datatForProductMain.supplier_name}</p>
@@ -940,7 +978,7 @@ export default function Product() {
                 ></p>
               </li>
             </ul>
-            <ul className={styles.detail_return_box}>
+            <ul className={styles.detail_return_box} ref={productReturn}>
               <li>
                 <h6>退換規定:</h6>
                 <p>
@@ -966,7 +1004,7 @@ export default function Product() {
       <PawWalking />
       <div className="container-outer">
         <div className="container-inner">
-          <div className={styles.comment_section}>
+          <div className={styles.comment_section} ref={productComment}>
             <h4 className={styles.comment_title}>商品評論</h4>
             <p>{`(共 ${dataForCommentQty[0].count} 則相關評論)`}</p>
             <div className={styles.comment_btns}>
