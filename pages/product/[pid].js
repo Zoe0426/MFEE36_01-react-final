@@ -18,6 +18,7 @@ import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import Modal from '@/components/ui/modal/modal';
+import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 import NumberInput from '@/components/ui/numberInput/numberInput1';
 
@@ -936,6 +937,7 @@ export default function Product() {
                     }}
                   />
                 )}
+                <ModalWithoutBtn />
                 {!auth.token ? (
                   <Modal
                     btnType="main"
