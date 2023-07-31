@@ -1,3 +1,96 @@
+
+.city_section{
+  display: flex;
+  justify-content: space-between;
+}
+
+.dog_print{
+  z-index: 99;
+  /* top: 0%;
+  left:  100%; */
+}
+.pad {
+  width: 10px;
+  height: 12px;
+  background-color: var(--dark);
+  -webkit-border-radius: 63px 63px 63px 63px / 108px     108px 72px 72px;
+  border-radius: 50%  50%  50%  50%  / 60%   60%         40%  40%;
+  display: block;
+  position: absolute;
+}       
+.large {
+ width: 24px;
+ height: 24px;
+ transform: rotate(80deg);
+ left: 100px;
+ top: 50px;
+} 
+.small_1 {
+ transform: rotate(50deg);
+ left: 110px;
+ top: 32px;
+}
+.small_2 {
+ transform: rotate(65deg);
+ left: 128px;
+ top: 40px;
+}  
+.small_3 {
+ transform: rotate(98deg);
+ position: absolute;
+ left: 132px;
+ top: 58px;
+}
+.small_4 {
+ transform: rotate(140deg);
+ position: absolute;
+ left: 120px;
+ top: 72px;
+}
+  
+.paw_print_1 {
+  opacity: 0;
+  position: absolute;
+  left: 1590px;
+  top: 280px;
+  transform: rotate(-40deg);
+  -webkit-animation: walk 3s linear infinite;
+  animation: /*keyframe*/walk /*duration*/3s /*transition*/linear /*repeat*/infinite;
+  }
+
+.paw_print_2 {
+opacity: 0;
+position: absolute;
+left: 1655px;
+top: 160px;
+transform: rotate(-5deg); 
+-webkit-animation: walk 3s linear infinite 0.25s;
+animation: walk 3s linear infinite /*delay*/0.25s;
+}
+.paw_print_3 {
+opacity: 0;
+position: absolute;
+left: 1725px;
+top: 180px;
+transform: rotate(-10deg); 
+-webkit-animation: walk 3s linear infinite 0.5s;
+animation: walk 3s linear infinite 0.5s;
+}     
+
+/* walking effect animation keyframes */
+@-webkit-keyframes walk {
+25%  {opacity: 1;}
+100% {opacity: 0;}
+}
+  
+@keyframes walk {
+/* appear */
+25%  {opacity: 1;}
+/* disappear */
+100% {opacity: 0;}
+}
+
+
 .jill_h1{
   font-size: var(--h1fs36);
   font-weight: var(--fwbold);
@@ -7,7 +100,7 @@
 
 .search{
   width: 100%;
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center; 
@@ -15,7 +108,6 @@
 }
 
 .banner{
-  position: relative;
   height: 280px;
   display: flex;
   justify-content: center; 
@@ -27,7 +119,6 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-
 }
 
 .banner img {
@@ -161,17 +252,30 @@
 }
 .hot_card_group {
   overflow-x: auto;
-
+  display: flex;
+  gap: 32px;
 }
+
+.card{
+  position: relative;
+  width: 600px;
+}
+
+
 .friendly_card_group{
   overflow-x: auto;
   margin-bottom: 80px;
 }
 .hot_card {
   display: flex;
-  justify-content: flex-start;
-  width: 97%;
+  width: 100%;
+  justify-content: space-between;
   gap: 20px;
+  overflow: auto;
+}
+
+.card_width{
+  width: 400px;
 }
 .hot_card_group::-webkit-scrollbar {
   display: none;

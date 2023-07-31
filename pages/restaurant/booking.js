@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import faArrowRight from '@/assets/arrow-right.svg';
 import faArrowLeft from '@/assets/arrow-left.svg';
+import calendar from '@/assets/calendar.svg';
 import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 
 function WeekCalendar() {
@@ -17,9 +18,25 @@ function WeekCalendar() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startDateIndex, setStartDateIndex] = useState(0); // 添加這個狀態變量
 
+  // // 新增處理下一個七天預約資訊的函式
+  // const goToNextWeek = () => {
+  //   const nextIndex = startDateIndex + 35;
+  //   if (nextIndex < bookingRows.length) {
+  //     setStartDateIndex(nextIndex);
+  //   }
+  // };
+
+  // // 新增處理返回前一個七天預約資訊的函式
+  // const goToPreviousWeek = () => {
+  //   const previousIndex = startDateIndex - 35;
+  //   if (previousIndex >= 0) {
+  //     setStartDateIndex(previousIndex);
+  //   }
+  // };
   // 新增處理下一個七天預約資訊的函式
   const goToNextWeek = () => {
-    const nextIndex = startDateIndex + 35;
+    const itemsPerPage = window.innerWidth < 768 ? 10 : 35;
+    const nextIndex = startDateIndex + itemsPerPage;
     if (nextIndex < bookingRows.length) {
       setStartDateIndex(nextIndex);
     }
@@ -27,7 +44,8 @@ function WeekCalendar() {
 
   // 新增處理返回前一個七天預約資訊的函式
   const goToPreviousWeek = () => {
-    const previousIndex = startDateIndex - 35;
+    const itemsPerPage = window.innerWidth < 768 ? 10 : 35;
+    const previousIndex = startDateIndex - itemsPerPage;
     if (previousIndex >= 0) {
       setStartDateIndex(previousIndex);
     }
@@ -54,6 +72,27 @@ function WeekCalendar() {
         console.error(error);
       });
   }, []);
+
+  const [countPeople, setCountPeople] = useState(1);
+  const [countPet, setCountPet] = useState(1);
+  const [noteValue, setNoteValue] = useState('');
+  const handleNoteChange = (event) => {
+    console.log('備註');
+    setNoteValue(event.target.value);
+  };
+
+  const handleChangePeople = (newCount) => {
+    // 在這裡處理人數的變更，不執行 handleSubmit
+    console.log('人數');
+    setCountPeople(newCount);
+  };
+
+  const handleChangePet = (newCount) => {
+    // 在這裡處理寵物數量的變更，不執行 handleSubmit
+    console.log('寵物');
+    setCountPet(newCount);
+  };
+
   return (
     <div>
       <div className={Styles.abc}>
@@ -88,72 +127,81 @@ function WeekCalendar() {
                 />
               </ConfigProvider>
             </div>
-            <IconBtn icon={faHeart} text="收藏列表" />
           </div>
         </div>
       </div>
-      <div>
-        {/* <Image
-          src={faArrowLeft}
-          className={Styles.arrow_left}
-          onClick={goToPreviousWeek}
-          alt="faArrowLeft"
-        />
-        <Image
-          src={faArrowRight}
-          className={Styles.arrow_right}
-          onClick={goToNextWeek}
-          alt="arrowRight"
-        /> */}
-      </div>
+      <div></div>
       <div className="container-inner">
         <div className={Styles.head}>
-          <h1 className={Styles.timetable}>曜日義式餐酒館預約時間表</h1>
+          <h1 className={Styles.timetable}>
+            <Image src={calendar} alt="calendar" className={Styles.calendar} />
+            曜日義式餐酒館預約時間表
+          </h1>
           <div className={Styles.btn_group}>
-            {startDateIndex > 0 && (
-              <button onClick={goToPreviousWeek}>
-                <Image src={faArrowLeft} alt="faArrowLeft" />
-              </button>
-            )}
-            {startDateIndex + 35 < bookingRows?.length && (
-              <button onClick={goToNextWeek} className={Styles.next_week}>
-                <Image src={faArrowRight} alt="faArrowRight" />
-              </button>
-            )}
+            <button
+              onClick={goToPreviousWeek}
+              className={
+                startDateIndex > 0 ? Styles.last_week : Styles.no_last_week
+              }
+            >
+              <Image src={faArrowLeft} alt="faArrowLeft" />
+            </button>
+
+            <button
+              onClick={goToNextWeek}
+              className={
+                startDateIndex + 35 < bookingRows?.length
+                  ? Styles.next_week
+                  : Styles.no_next_week
+              }
+            >
+              <Image src={faArrowRight} alt="faArrowRight" />
+            </button>
           </div>
         </div>
       </div>
       <div className="container-inner">
         <div className={Styles.dates_modal}>
-          {bookingRows?.slice(startDateIndex, startDateIndex + 35).map((v) => {
-            {
-              /* const currentDate = new Date(v.date); */
-            }
-            if (!uniqueDates.has(v.date)) {
-              uniqueDates.add(v.date);
-              return (
-                <div key={v.section_sid}>
-                  <div className={Styles.date_date}>{v.date}</div>
-                  {bookingRows
-                    .filter((item) => item.date === v.date)
-                    .map((item) => (
-                      <>
-                        <div key={item.section_sid}>
-                          <BookingModal
-                            time={item.time}
-                            people={item.remaining_slots}
-                            datas={item}
-                            memberDatas={memberRows}
-                          />
-                        </div>
-                      </>
-                    ))}
-                </div>
-              );
-            } else {
-              return null;
-            }
-          })}
+          {bookingRows
+            ?.slice(
+              startDateIndex,
+              startDateIndex + (window.innerWidth < 768 ? 10 : 35)
+            )
+            .map((v) => {
+              {
+                /* const currentDate = new Date(v.date); */
+              }
+              if (!uniqueDates.has(v.date)) {
+                uniqueDates.add(v.date);
+                return (
+                  <div key={v.section_sid}>
+                    <div className={Styles.date_date}>{v.date}</div>
+                    {bookingRows
+                      .filter((item) => item.date === v.date)
+                      .map((item) => (
+                        <>
+                          <div key={item.section_sid}>
+                            <BookingModal
+                              time={item.time}
+                              people={item.remaining_slots}
+                              datas={item}
+                              memberDatas={memberRows}
+                              handleNoteChange={handleNoteChange}
+                              noteValue={noteValue}
+                              handleChangePeople={handleChangePeople}
+                              handleChangePet={handleChangePet}
+                              countPeople={countPeople}
+                              countPet={countPet}
+                            />
+                          </div>
+                        </>
+                      ))}
+                  </div>
+                );
+              } else {
+                return null;
+              }
+            })}
         </div>
       </div>
     </div>

@@ -68,7 +68,7 @@ export default function NumberInput({
         <div className={Styles.title}>{title}</div>
         {needMax &&
           maxValue > 0 && ( // 判斷是否有 maxValue 且大於 0，有才顯示剩餘人數
-            <div> (剩餘: {maxValue - value}位) </div>
+            <div className={Styles.rest}> (剩餘: {maxValue - value}位) </div>
           )}{' '}
       </div>
       <div

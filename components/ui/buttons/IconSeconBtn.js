@@ -15,7 +15,7 @@ export default function IconSeconBtn({
         <FontAwesomeIcon
           icon={icon}
           className={Styles.icon}
-          style={{ maxWidth: '16px', maxHeight: '16px' }}
+          style={{ maxWidth: '18px', maxHeight: '18px' }}
         />
         {text}
       </button>

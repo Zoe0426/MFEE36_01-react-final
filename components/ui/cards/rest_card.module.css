@@ -1,8 +1,16 @@
 .card{
+    /* width: 400px; */
     width: 100%;
     border-radius: 8px;
+    margin: 0;
     margin-bottom: 40px;
     cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    position: relative; 
+    overflow: hidden;
 }
 .rest_title{
     display: flex;
@@ -11,23 +19,22 @@
     justify-content: space-between; 
 }
 .rest_img{
+    /* width: 400px; */
     width: 100%;
-    height: 0;
+    height: 240px;
     padding-bottom: 64%; 
-    background-color: bisque;
-    position: relative;
+    /* background-color: bisque; */
     border-radius: 8px;
     overflow: hidden;
+    position: relative; 
 }
-.rest_img img {
+.rest_img>img {
     width: 100%; 
     height: auto; 
     transition: 0.5s;
-
   }
 .rest_img img:hover {
     scale: 1.1;
-    height: auto; 
   }
 .rating {
     margin: 10px 0;
@@ -50,10 +57,10 @@
     margin-top: 16px;
 }
 
-.icon_inImage{
+.icon_heart{
     position: absolute;
-    top: 12px;
-    right: 30px;
+    top: 2%;
+    right: 4%;
     font-size: 30px;
     color: var(--light-gray);
     z-index: 1;
@@ -70,23 +77,29 @@
     }
     .rest_title{
         margin-top: 8px;
+        flex-wrap: wrap;
     }
     .rest_location{
-        font-size: 12px;
+        font-size: 14px;
+        padding-bottom: 6px;
+        width: 100%;
     }
     .card{
         margin-bottom: 20px;
     }
     .rest_img{
         border-radius: 6px;
+        height: 100px;
     }
     .hash_tag_group{
         margin-top: 8px;
     }
-    .icon_inImage{
+    .icon_heart{
         top: 8px;
-        right: 8px;
+        right: 16px;
         font-size: var(--h6fs18);
-        color: var(--heartRed);
+    }
+    .hash_tag_group{
+        display: none;
     }
     }

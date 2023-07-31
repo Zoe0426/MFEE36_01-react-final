@@ -1,8 +1,8 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import AuthContext from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import SearchBar from '@/components/ui/buttons/SearchBar';
 import { DownOutlined } from '@ant-design/icons';
 import {
   faFire,
@@ -27,24 +27,27 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import MiddleAreaBgc from '@/components/ui/restaurant/MiddleAreaBgc';
 import SubBtn from '@/components/ui/buttons/subBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
-import LocationFilter from '@/components/ui/restaurant/LocationFilter';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
-import Likelist from '@/components/ui/like-list/like-list';
 import filterDatas from '@/data/restaurnt/categories.json';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import friendlyCondition from '@/data/restaurnt/firendly-condition.json';
 import cityDatas from '@/data/restaurnt/location.json';
+import SearchBar1 from '@/components/ui/buttons/SearchBar1';
+import LikeListCard from '@/components/ui/restaurant/LikeListCard';
+import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
+import AlertModal from '@/components/ui/restaurant/AlertModal';
 
 export default function Restindex() {
   const router = useRouter();
   const { categorySid } = filterDatas;
   const [showfilter, setShowFilter] = useState(false);
 
-  const [likeDatas, setLikeDatas] = useState([]);
-  const [showLikeList, setShowLikeList] = useState(false);
-
+  //search bar相關
   const [keyword, setKeyword] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [keywordDatas, setKeywordDatas] = useState([]);
+  const [showKeywordDatas, setShowKeywordDatas] = useState(false);
 
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
@@ -57,6 +60,16 @@ export default function Restindex() {
   const [selectedCity, setSelectedCity] = useState(null);
   const [selectedArea, setSelectedArea] = useState(null);
 
+  //收藏清單
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
+  const [addLikeList, setAddLikeList] = useState([]);
+  const [isClickingLike, setIsClickingLike] = useState(false);
+
+  const { auth, setAuth } = useContext(AuthContext);
+
+  const [first, setFrist] = useState(false);
+
   const [filters, setFilters] = useState(filterDatas);
 
   const [data, setData] = useState({
@@ -65,6 +78,7 @@ export default function Restindex() {
   });
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex2, setCurrentIndex2] = useState(0);
   const itemsPerPage = 3;
 
   const handleCityClick = ({ key }) => {
@@ -94,24 +108,89 @@ export default function Restindex() {
         : prevIndex - itemsPerPage
     );
   };
-  //searchBar相關的函式-------------------------------------------------------
-  const searchBarHandler = (e) => {
-    if (e.key === 'Enter') {
-      const searchText = e.target.value;
-      if (!searchText.trim()) {
-        // 如果沒有填字，則不執行換頁的動作
-        return;
+
+  // 點擊右邊箭頭
+  const rightArrow2 = () => {
+    setCurrentIndex2((prevIndex) =>
+      prevIndex + itemsPerPage >= data.rows1.length
+        ? 0
+        : prevIndex + itemsPerPage
+    );
+  };
+
+  // 點擊左邊箭頭
+  const leftArrow2 = () => {
+    setCurrentIndex2((prevIndex) =>
+      prevIndex - itemsPerPage < 0
+        ? data.rows1.length - itemsPerPage
+        : prevIndex - itemsPerPage
+    );
+  };
+  const filterKeywordDatas = (data, keyword, keyin) => {
+    if (!keyin) {
+      const searchWord = keyword.split('');
+
+      if (searchWord.length === 0) {
+        return data;
       }
 
-      let copyURL = { page: 1 };
+      console.log(searchWord);
+
+      if (Array.isArray(data)) {
+        // 確保 data 是陣列
+        data.forEach((v1) => {
+          v1.count = 0;
+          searchWord.forEach((v2) => {
+            if (v1.name.includes(v2)) {
+              v1.count += 1;
+            }
+          });
+        });
+      }
+
+      console.log(data);
+
+      data.sort((a, b) => b.count - a.count);
+
+      return data.filter((v) => v.count >= searchWord.length);
+    }
+  };
+  //searchBar相關的函式
+  const restKeywordData = async () => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/search-name`,
+      {
+        method: 'GET',
+      }
+    );
+    const data = await res.json();
+
+    if (Array.isArray(data.keywords)) {
+      const newKeywords = data.keywords.map((v) => {
+        return { name: v, count: 0 };
+      });
+      setKeywordDatas(newKeywords);
+    }
+  };
+
+  useEffect(() => {
+    restKeywordData();
+  }, []);
+
+  const searchBarHandler = (e) => {
+    let copyURL = { page: 1 };
+    const searchText = e.target.value;
+
+    if (!searchText) {
+      setShowKeywordDatas(false);
+    }
+
+    if (e.key === 'Enter') {
+      setShowKeywordDatas(false);
       if (searchText) {
         copyURL = { keyword: searchText, ...copyURL };
       }
-      setShowFilter(false);
-
-      router.push(
-        `/restaurant/list?${new URLSearchParams(copyURL).toString()}`
-      );
+      router.push(`?${new URLSearchParams(copyURL).toString()}`);
     }
   };
 
@@ -127,6 +206,11 @@ export default function Restindex() {
         page: 1,
       }).toString()}`
     );
+  };
+
+  const autocompleteHandler = (selectkeyword) => {
+    setKeyword(selectkeyword);
+    setShowKeywordDatas(false);
   };
 
   const handleDatePickerChange = (dateValue) => {
@@ -253,6 +337,11 @@ export default function Restindex() {
     currentIndex,
     currentIndex + itemsPerPage
   );
+  // 根據目前的索引來顯示資料
+  const displayData2 = data.rows2.slice(
+    currentIndex2,
+    currentIndex2 + itemsPerPage
+  );
 
   //篩選filter相關的函式-------------------------------------------------------
   const toggleFilter = () => {
@@ -270,12 +359,223 @@ export default function Restindex() {
     });
   };
   //收藏列表相關的函式-------------------------------------------------------
-  const openShowLikeList = () => {
-    setShowLikeList(!showLikeList);
+  //取得收藏列表
+
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/show-like`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+    }
+    console.log(likeDatas);
   };
 
-  const closeShowLikeList = () => {
+  useEffect(() => {
+    if (!isClickingLike && addLikeList.length > 0) {
+      sendLikeList(addLikeList, auth.token).then(() => {
+        //在成功送資料到後端後重置addLikeList
+        setAddLikeList([]);
+      });
+    }
+  }, [isClickingLike, addLikeList]);
+
+  //沒登入會員收藏，跳轉登入
+  const toSingIn = () => {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+  };
+
+  //卡片愛心收藏的相關函式-------------------------------------------------------
+  // const clickHeartHandler = (id) => {
+  //   setIsClickingLike(true);
+  //   const timeClick = new Date().getTime();
+  //   const newData = data.map((v) => {
+  //     if (v.rest_sid === id) {
+  //       const insideInLikeList = addLikeList.find(
+  //         (item) => item.rest_sid === id
+  //       );
+  //       if (insideInLikeList) {
+  //         setAddLikeList((preV) => preV.filter((v2) => v2.rest_sid !== id));
+  //       } else {
+  //         setAddLikeList((preV) => [
+  //           ...preV,
+  //           { rest_sid: id, time: timeClick },
+  //         ]);
+  //       }
+
+  //       return { ...v, like: !v.like };
+  //     } else return { ...v };
+  //   });
+  //   console.log(newData);
+  //   setData({ ...data, rows: newData });
+
+  //   setTimeout(() => {
+  //     setIsClickingLike(false);
+  //   }, 1500);
+  // };
+  const clickHeartHandler = (id, type) => {
+    setIsClickingLike(true);
+    const timeClick = new Date().getTime();
+
+    const targetArray = type === 'rows1' ? data.rows1 : data.rows2;
+
+    const newData = targetArray.map((v) => {
+      if (v.rest_sid === id) {
+        const insideInLikeList = addLikeList.find(
+          (item) => item.rest_sid === id
+        );
+        if (insideInLikeList) {
+          setAddLikeList((preV) => preV.filter((v2) => v2.rest_sid !== id));
+        } else {
+          setAddLikeList((preV) => [
+            ...preV,
+            { rest_sid: id, time: timeClick },
+          ]);
+        }
+        return { ...v, like: !v.like };
+      } else return { ...v };
+    });
+
+    console.log(newData);
+
+    if (type === 'rows1') {
+      setData({ ...data, rows1: newData });
+    } else if (type === 'rows2') {
+      setData({ ...data, rows2: newData });
+    }
+
+    setTimeout(() => {
+      setIsClickingLike(false);
+    }, 1500);
+  };
+
+  //將資料送到後端
+  const sendLikeList = async (arr, token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: arr }),
+      }
+    );
+    const data = await res.json();
+
+    if (data.success) {
+      console.log(data);
+    }
+  };
+
+  //展開收藏列表
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    console.log(newShowLikeList);
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  const closeLikeList = () => {
     setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      // 列表顯示為空
+      setLikeDatas([]);
+
+      // 將卡片上的愛心清除
+      const newDataRows1 = data.rows1.map((v) => ({ ...v, like: false }));
+      const newDataRows2 = data.rows2.map((v) => ({ ...v, like: false }));
+
+      setData({
+        ...data,
+        rows1: newDataRows1,
+        rows2: newDataRows2,
+      });
+
+      // 請求後端執行
+      removeLikeListToDB('all', token);
+    }
+  };
+
+  const removeLikeListItem = (rid, token = '') => {
+    // 將該列表刪除
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.rest_sid !== rid;
+    });
+    setLikeDatas(newLikeList);
+
+    // 取消愛心樣式
+    const newDataRows1 = data.rows1.map((v) => {
+      if (v.rest_sid === rid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+
+    const newDataRows2 = data.rows2.map((v) => {
+      if (v.rest_sid === rid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+
+    // 更新 data
+    const newData = {
+      ...data,
+      rows1: newDataRows1,
+      rows2: newDataRows2,
+    };
+
+    setData(newData);
+
+    // 請求後端執行
+    removeLikeListToDB(rid, token);
+  };
+
+  const removeLikeListToDB = async (rid = '', token = '') => {
+    try {
+      const removeAll = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/likelist/${rid}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+      if (rid === 'all') {
+        setTimeout(() => {
+          toggleLikeList();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -289,20 +589,75 @@ export default function Restindex() {
       });
   }, []);
 
+  const getData = async (token = '') => {
+    try {
+      // 拿回卡片資訊
+      const response = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    setFrist(true);
+  }, []);
+
+  useEffect(() => {
+    //取得用戶token並取得相關資訊
+    if (first) {
+      if (auth.token) {
+        getData(auth.token);
+      } else {
+        getData();
+      }
+    }
+  }, [first]);
+
   return (
     <>
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
-          <SearchBar
-            placeholder="搜尋餐廳名稱"
+          <SearchBar1
+            keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
+            placeholder="搜尋友善餐廳"
             btn_text="尋找餐廳"
             inputText={keyword}
             changeHandler={(e) => {
               setKeyword(e.target.value);
+              setShowKeywordDatas(true);
+              setIsTyping(true);
+              setTimeout(() => {
+                setIsTyping(false);
+              }, 700);
             }}
             keyDownHandler={searchBarHandler}
             clickHandler={searchBarClickHandler}
+            autocompleteHandler={autocompleteHandler}
+            showKeywordDatas={showKeywordDatas}
+            blurHandler={() => {
+              setTimeout(() => {
+                setShowKeywordDatas(false);
+              }, 200);
+            }}
+            clearHandler={() => {
+              setKeyword('');
+            }}
           />
         </div>
       </div>
@@ -310,11 +665,23 @@ export default function Restindex() {
         <div className="container-inner">
           <div className={Styles.function_group}>
             <IconBtn icon={faMap} text="餐廳地圖" />
-            <IconBtn
-              icon={faHeart}
-              text="收藏列表"
-              clickHandler={openShowLikeList}
-            />
+            {auth.token ? (
+              <IconBtn
+                icon={faHeart}
+                text="收藏列表"
+                clickHandler={toggleLikeList}
+              />
+            ) : (
+              <AlertModal
+                btnType="iconBtn"
+                btnText="收藏列表"
+                icon={faHeart}
+                content="可查看收藏列表"
+                mainBtnText="前往登入"
+                subBtnText="暫時不要"
+                confirmHandler={toSingIn}
+              />
+            )}
             <IconBtn
               icon={faFilter}
               text="進階篩選"
@@ -439,15 +806,20 @@ export default function Restindex() {
         <div className="container-inner">
           <div className={Styles.like_list}>
             {showLikeList && (
-              <Likelist
+              <LikeListDrawer
                 datas={likeDatas}
-                // customCard={
-                //   <ShopLikelistCard
-                //     datas={likeDatas}
-                //     removeLikeListItem={removeLikeListItem}
-                //   />
-                // }
-                closeHandler={closeShowLikeList}
+                customCard={
+                  <LikeListCard
+                    datas={likeDatas}
+                    token={auth.token}
+                    removeLikeListItem={removeLikeListItem}
+                    closeLikeList={closeLikeList}
+                  />
+                }
+                closeHandler={toggleLikeList}
+                removeAllHandler={() => {
+                  removeAllLikeList(auth.token);
+                }}
                 // removeAllHandler={removeAllLikeList}
                 // removeLikeListItem={removeLikeListItem}
               />
@@ -589,9 +961,35 @@ export default function Restindex() {
           </Col>
         </Row>
       </div>
+
       <div className="container-outer">
         <div className={Styles.CloudTop}>
           <Image src={CloudTop} />
+          {/* <div className={Styles.dog_print}>
+            <div className={Styles.paw_print_1}>
+              <div className={`${Styles.pad} ${Styles.large}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+            </div>
+
+            <div className={Styles.paw_print_2}>
+              <div className={`${Styles.pad} ${Styles.large}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+            </div>
+
+            <div className={Styles.paw_print_3}>
+              <div className={`${Styles.pad} ${Styles.large}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+            </div>
+          </div> */}
         </div>
 
         <div className={Styles.cloud_bgc}>
@@ -612,7 +1010,6 @@ export default function Restindex() {
                       img={e.icon}
                       text={e.text}
                       subBtnHandler={() => {
-                        //分類這邊的連結還沒寫
                         router.push(e.href);
                       }}
                     />
@@ -634,37 +1031,47 @@ export default function Restindex() {
           clickHandler2={rightArrow1}
         />
       </div>
+
       <div className="container-inner">
         <div className={Styles.hot_card_group}>
-          <div className={Styles.hot_card}>
-            {displayData.map((v) => {
-              const {
-                rest_sid,
-                name,
-                city,
-                area,
-                img_names,
-                rule_names,
-                service_names,
-                average_friendly,
-              } = v;
-
-              return (
-                <Col xl={8} xs={12} key={rest_sid}>
-                  <RestCard
-                    rest_sid={rest_sid}
-                    image={'/rest_image/image/' + img_names.split(',')[0]}
-                    name={name}
-                    city={city}
-                    area={area}
-                    rule_names={rule_names}
-                    service_names={service_names}
-                    average_friendly={average_friendly}
-                  />
-                </Col>
-              );
-            })}
-          </div>
+          {/* <Row gutter={{ xs: 24, xl: 32 }}> */}
+          {displayData.map((v) => {
+            const {
+              rest_sid,
+              name,
+              city,
+              area,
+              img_names,
+              rule_names,
+              service_names,
+              average_friendly,
+              like,
+            } = v;
+            {
+              /* <div xl={8} xs={24} key={rest_sid}> */
+            }
+            return (
+              <div key={rest_sid} className={Styles.card}>
+                <RestCard
+                  rest_sid={rest_sid}
+                  image={'/rest_image/image/' + img_names.split(',')[0]}
+                  name={name}
+                  city={city}
+                  area={area}
+                  rule_names={rule_names}
+                  service_names={service_names}
+                  average_friendly={average_friendly}
+                  like={like}
+                  token={auth.token}
+                  singinHandler={toSingIn}
+                  clickHandler={() => {
+                    clickHeartHandler(rest_sid, 'rows1');
+                  }}
+                />
+              </div>
+            );
+          })}
+          {/* </Row> */}
         </div>
       </div>
 
@@ -673,39 +1080,14 @@ export default function Restindex() {
           icon={faThumbsUp}
           text="好評餐廳"
           href="http://localhost:3000/restaurant/list?page=1&orderBy=cmt_DESC"
+          clickHandler1={leftArrow2}
+          clickHandler2={rightArrow2}
         />
       </div>
       <div className="container-inner">
         <div className={Styles.friendly_card_group}>
-          <div className={Styles.hot_card}>
-            {/* <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            />
-            <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            />
-            <RestCard
-              name="我家休閒農場"
-              city="台北市"
-              area="大安區"
-              rule_names="可自由活動"
-              service_names="幫忙鏟屎"
-              average_friendly="4.8"
-              image="/rest_image/sunshine.jpeg"
-            /> */}
-            {data.rows2.map((v) => {
+          <Row gutter={{ xs: 24, xl: 32 }}>
+            {displayData2.map((v) => {
               const {
                 rest_sid,
                 name,
@@ -715,10 +1097,11 @@ export default function Restindex() {
                 rule_names,
                 service_names,
                 average_friendly,
+                like,
               } = v;
 
               return (
-                <Col xl={8} xs={12} key={rest_sid}>
+                <Col xl={8} xs={24} key={rest_sid}>
                   <RestCard
                     rest_sid={rest_sid}
                     image={'/rest_image/image/' + img_names.split(',')[0]}
@@ -728,11 +1111,17 @@ export default function Restindex() {
                     rule_names={rule_names}
                     service_names={service_names}
                     average_friendly={average_friendly}
+                    like={like}
+                    token={auth.token}
+                    singinHandler={toSingIn}
+                    clickHandler={() => {
+                      clickHeartHandler(rest_sid, 'rows2');
+                    }}
                   />
                 </Col>
               );
             })}
-          </div>
+          </Row>
         </div>
       </div>
     </>

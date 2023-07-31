@@ -30,13 +30,11 @@ import MainBtn from '@/components/ui/buttons/MainBtn';
 import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
-import Likelist from '@/components/ui/like-list/like-list';
 import { useRouter } from 'next/router';
 import SearchBar1 from '@/components/ui/buttons/SearchBar1';
 import orderByOptions from '@/data/restaurnt/orderby.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cityDatas from '@/data/restaurnt/location.json';
-import SearchBar from '@/components/ui/buttons/SearchBar';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
@@ -1012,22 +1010,24 @@ export default function FilterPage() {
 
             return (
               <Col xl={8} xs={12} key={rest_sid}>
-                <RestCard
-                  rest_sid={rest_sid}
-                  image={'/rest_image/image/' + img_names.split(',')[0]}
-                  name={name}
-                  city={city}
-                  area={area}
-                  rule_names={rule_names}
-                  service_names={service_names}
-                  average_friendly={average_friendly}
-                  like={like}
-                  token={auth.token}
-                  singinHandler={toSingIn}
-                  clickHandler={() => {
-                    clickHeartHandler(rest_sid);
-                  }}
-                />
+                <div className={Styles.card}>
+                  <RestCard
+                    rest_sid={rest_sid}
+                    image={'/rest_image/image/' + img_names.split(',')[0]}
+                    name={name}
+                    city={city}
+                    area={area}
+                    rule_names={rule_names}
+                    service_names={service_names}
+                    average_friendly={average_friendly}
+                    like={like}
+                    token={auth.token}
+                    singinHandler={toSingIn}
+                    clickHandler={() => {
+                      clickHeartHandler(rest_sid);
+                    }}
+                  />
+                </div>
               </Col>
             );
           })}
