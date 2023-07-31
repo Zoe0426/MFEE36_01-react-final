@@ -6,7 +6,13 @@ import BlogAuthor from '../blogAuthor/blogAuthor';
 
 
 
-export default function BlogBanner() {
+export default function BlogBanner(
+  {changeHandler=()=>{}, 
+  clickHandler=()=>{}, 
+  keyDownHandler=()=>{},
+  inputText=''
+}
+) {
   return (
     <>
     <div className={Style.banner}>
@@ -14,7 +20,11 @@ export default function BlogBanner() {
     </div>
     <div className={Style.searchArea}>
       <div className={Style.searchBar}>
-          <SearchBar placeholder = '搜尋寵物相關文章' btn_text = '搜尋文章'></SearchBar>
+          <SearchBar placeholder = '搜尋寵物相關文章' btn_text = '搜尋文章' inputText={inputText}
+          changeHandler={changeHandler} 
+          clickHandler={clickHandler} 
+          keyDownHandler={keyDownHandler}>
+      </SearchBar>
           <BlogAuthor profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' author='莉莉安' id='@lilian'/>
       </div>
       <div className={Style.blogDec}>
