@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row, ConfigProvider } from 'antd';
 import Navbar from './navbar';
 import Footer from './footer';

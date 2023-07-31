@@ -30,6 +30,18 @@ export default function Profile() {
   const [initialValues, setInitialValues] = useState({});
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
+  const [memProfileImg, setMemProfileImg] = useState(
+    `${process.env.API_SERVER}/img/default-profile.jpg`
+  );
+
+  const [fileList, setFileList] = useState([
+    {
+      uid: '-1', // 文件唯一标识
+      name: 'memProfileImg.jpg', // 文件名字，可自行设置
+      status: 'done', // 状态应为 'done'，代表上传完成
+      url: `${process.env.API_SERVER}/img/${memProfileImg}`, // 文件 url，即你从服务器获取的文件路径
+    },
+  ]);
 
   useEffect(() => {
     setFirst(true);
@@ -64,7 +76,8 @@ export default function Profile() {
               pet: obj ? obj.pet : '',
             });
             setLoading(false);
-            console.log('obj', obj);
+            setMemProfileImg(obj.profile);
+            console.log('obj', obj.profile);
           });
       } else {
         console.log('User is not logged in. Cannot fetch coupons.');
@@ -73,7 +86,6 @@ export default function Profile() {
   }, [auth, first]);
 
   console.log('token', auth.token);
-
 
   const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -103,7 +115,6 @@ export default function Profile() {
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
-  const [fileList, setFileList] = useState([{}]);
 
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
@@ -114,7 +125,26 @@ export default function Profile() {
     setPreviewOpen(true);
   };
 
-  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+  const handleChange = async ({ fileList: newFileList }) => {
+    const newFile = newFileList[newFileList.length - 1];
+
+    // Check if a new file is added and it's uploaded (status === 'done')
+    if (
+      newFile &&
+      newFile.status === 'done' &&
+      (!newFile.url || !newFile.thumbUrl)
+    ) {
+      // Generate the base64 image data
+      newFile.preview = await getBase64(newFile.originFileObj);
+
+      // Add url and thumbUrl properties in the newFile object.
+      newFile.url = newFile.preview;
+      newFile.thumbUrl = newFile.preview;
+    }
+
+    setFileList(newFileList);
+  };
+
   const uploadButton = (
     <div>
       <PlusOutlined />
