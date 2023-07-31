@@ -10,7 +10,7 @@
     background-repeat: no-repeat;
     background-position: center;
     overflow: hidden;
-    background-image: url('../public/activity_img/index_banner.jpg');
+    background-image: url('../public/activity_img/index_banner_2.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -71,14 +71,14 @@
 
 .type{
     width: 100%;
-    background: var(--light2);
+    background: var(--lightBrown);
 }
 
 .type_btn_group{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:35px 80px;
+    padding:0 80px;
 }
 
 .type_decoration{

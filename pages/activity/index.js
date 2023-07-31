@@ -539,7 +539,7 @@ export default function ActivityHome() {
           </>
         </div>
       </div>
-      <BGUpperDecoration />
+      
 
       {/* .........分類bar......... */}
       <div className={styles.type}>
@@ -605,6 +605,10 @@ export default function ActivityHome() {
           </div>
         </div>
       </div>
+
+      
+<BGUpperDecoration />
+
 
       {/* .........section1......... */}
       <div className={styles.section1}>
