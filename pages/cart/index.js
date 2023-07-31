@@ -32,6 +32,7 @@ export default function Cart() {
   const [shopData, setShopData] = useState([]);
   const [activityData, setActivityData] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  // const [itemsAmount, setItemsAmount] = useState(0);
   //寄送資訊
   const [postType, setPostType] = useState(1);
   const [postAddData, setPostAddData] = useState([]);
@@ -87,10 +88,6 @@ export default function Cart() {
     );
   };
 
-  const changePaymentType = (e) => {
-    setPaymentType(e.target.value);
-  };
-
   const getCart = async (id) => {
     //console.log(id);
     setLoading(true);
@@ -102,26 +99,37 @@ export default function Cart() {
       },
     });
     const data = await r.json();
-    const myShopData = data.shop.map((v) => ({ ...v, selected: false }));
-    const myActivityData = data.activity.map((v) => ({
-      ...v,
-      selected: false,
-    }));
-    const myCouponData = data.coupon.map((v, i) => ({
-      ...v,
-      selected: i === 0,
-    }));
-    const myPostAddData = data.postAddress.map((v, i) => ({
-      ...v,
-      selected: i === 0,
-    }));
-    const defaultPostType = data.postAddress[0].post_type;
+    if (data.shop.length > 0) {
+      const myShopData = data.shop.map((v) => ({ ...v, selected: false }));
+      setShopData(myShopData);
+      console.log('noshopData');
+    }
+    if (data.activity.length > 0) {
+      const myActivityData = data.activity.map((v) => ({
+        ...v,
+        selected: false,
+      }));
+      setActivityData(myActivityData);
+      console.log('noActData');
+    }
+    if (data.coupon.length > 0) {
+      const myCouponData = data.coupon.map((v, i) => ({
+        ...v,
+        selected: i === 0,
+      }));
+      setCouponData(myCouponData);
+      console.log('nocouponData');
+    }
+    if (data.postAddress.length > 0) {
+      const myPostAddData = data.postAddress.map((v, i) => ({
+        ...v,
+        selected: i === 0,
+      }));
+      setPostAddData(myPostAddData);
+      const defaultPostType = data.postAddress[0].post_type;
+      setPostType(defaultPostType);
+    }
     setLoading(false);
-    setShopData(myShopData);
-    setActivityData(myActivityData);
-    setPostType(defaultPostType);
-    setPostAddData(myPostAddData);
-    setCouponData(myCouponData);
     setCartData(data);
   };
 
@@ -135,14 +143,15 @@ export default function Cart() {
       },
     });
     const createOrderResult = await r.json();
-    console.log('createOrderResult:', createOrderResult);
     //訂單若成立，前往結帳
     if (createOrderResult.success) {
       const id = createOrderResult.orderSid;
       const total = createOrderResult.finalTotal;
       const checkoutType = createOrderResult.checkoutType;
       const memberSid = createOrderResult.memberSid;
+
       if (createOrderResult.paymentType === 1) {
+        console.log('paymentType in createOrderResult:', paymentType);
         window.location.href =
           process.env.API_SERVER +
           `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
@@ -194,6 +203,7 @@ export default function Cart() {
   };
 
   console.log(cartData);
+  console.log(paymentType);
   if (pageLoading) {
     return <Loading />;
   } else if (!pageLoading) {
@@ -214,7 +224,7 @@ export default function Cart() {
               <div className={style.checkoutType}>
                 <CartTab
                   type="shop"
-                  text="商品"
+                  text="商品結帳"
                   checkoutType={checkoutType}
                   clickHandler={() => {
                     changeCheckoutType('shop');
@@ -222,7 +232,7 @@ export default function Cart() {
                 />
                 <CartTab
                   type="activity"
-                  text="活動"
+                  text="活動結帳"
                   checkoutType={checkoutType}
                   clickHandler={() => {
                     changeCheckoutType('activity');
@@ -365,24 +375,6 @@ export default function Cart() {
                   </div>
                 </div>
               </div>
-              {/* ========== 選付款方式 ==========*/}
-              <div className={style.section}>
-                <ConfigProvider
-                  theme={{
-                    token: {
-                      colorPrimary: '#FD8C46',
-                      fontSize: 18,
-                    },
-                  }}
-                >
-                  <CartSectionTitle text="付款方式" />
-                  <Radio.Group onChange={changePaymentType} value={paymentType}>
-                    <Radio value={1}>信用卡</Radio>
-                    <Radio value={2}>LinePay</Radio>
-                    <Radio value={3}>GooglePay</Radio>
-                  </Radio.Group>
-                </ConfigProvider>
-              </div>
             </Col>
             {/* ========== 金額統計 ==========*/}
             <Col xs={24} sm={24} md={24} lg={7} className={style.totalSection}>
@@ -393,6 +385,8 @@ export default function Cart() {
                 postType={postType}
                 couponData={couponData}
                 createOrder={createOrder}
+                paymentType={paymentType}
+                setPaymentType={setPaymentType}
               />
             </Col>
           </Row>
