@@ -41,7 +41,7 @@
   bottom: 15px;
   right: 15px; 
   z-index: 9;
-  font-size: var(--h3fs28);
+  font-size: 30px;
   cursor: pointer;
   color:var(--light-gray);
 
@@ -52,7 +52,7 @@
   bottom: 15px;
   right: 15px; 
   z-index: 9;
-  font-size: var(--h3fs28);
+  font-size: 30px;
   cursor: pointer;
   color:var(--heartRed);
 }

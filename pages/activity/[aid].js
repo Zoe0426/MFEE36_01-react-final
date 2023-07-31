@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,7 +9,7 @@ import {
   faLocationDot,
   faHeart,
   faUserPlus,
-  faFilter
+  faFilter,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../styles/activitydetail.module.css';
 import NavDetailPage from '@/components/ui/cards/NavDetailPage';
@@ -21,6 +21,12 @@ import { Button, Select } from 'antd';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
+import Modal from '@/components/ui/modal/modal';
+import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
+
+//likelist
+
 
 // import CommentCard from '@/componets/ui/cards/comment-card.js';
 
@@ -46,6 +52,7 @@ export default function ActivityDetail() {
     actDateRows: [],
     actFeatureRows: [],
     actRatingRows: [],
+    actRecommend:[],
   });
 
   const [actDetailRows, setActDetailRows] = useState([]);
@@ -55,11 +62,12 @@ export default function ActivityDetail() {
   const [actDateRows, setActDateRows] = useState([]);
   const [actFeatureRows, setActFeatureRows] = useState([]);
   const [actRatingRows, setActRatingRows] = useState([]);
+  const [actRecommend, setActRecommend] = useState([]);
+  
+
   const totalPrice =
     actDetailRows.price_adult * countAdult +
     (actDetailRows.price_adult / 2) * countChild;
-
-
 
   // 小麵包屑
   const [breadCrubText, setBreadCrubText] = useState([
@@ -69,10 +77,10 @@ export default function ActivityDetail() {
       href: 'http://localhost:3000/activity',
       show: true,
     },
-    { id: 'search', text: '/ 活動列表/', href: '', show: true },
+    { id: 'search', text: '/ 活動列表', href: '', show: true },
     {
       id: 'aid',
-      text: '',
+      text: '/ 夏日水樂園',
       href: '',
       show: true,
     },
@@ -93,6 +101,7 @@ export default function ActivityDetail() {
             actDateRows,
             actFeatureRows,
             actRatingRows,
+            actRecommend,
           } = data;
 
           // 更新 React 組件的狀態
@@ -100,7 +109,8 @@ export default function ActivityDetail() {
             setActDetailRows(...actDetailRows);
           }
 
-          // 將圖片切成actImageRows的陣列
+         
+
 
           if (actImageRows.length > 0) {
             const imageUrls = actImageRows[0].activity_pic.split(',');
@@ -127,6 +137,10 @@ export default function ActivityDetail() {
             setActRatingRows(actRatingRows);
           }
 
+          if (actRecommend && actRecommend.length > 0) {
+            setActRecommend(actRecommend);
+          }
+
           setData(data);
         })
         .catch((error) => {
@@ -144,10 +158,10 @@ export default function ActivityDetail() {
     countChild,
     selectedDate
   ) => {
-  //   console.log('Order activity button clicked!');
-  // console.log('selectedDate:', selectedDate);
-  // console.log('actDateRows:', actDateRows);
-   
+    //   console.log('Order activity button clicked!');
+    // console.log('selectedDate:', selectedDate);
+    // console.log('actDateRows:', actDateRows);
+
     try {
       if (!token) {
         throw new Error('未找到會員ID');
@@ -155,20 +169,20 @@ export default function ActivityDetail() {
         // router.push(`/member/sign-in?from=${from}`);
         // return;
       }
-  
+
       // Find the corresponding activity_group_sid for the selectedDate
 
       console.log('Order activity button clicked!');
-  console.log('selectedDate:', selectedDate);
-  console.log('actDateRows:', actDateRows);
-    //   const selectedDateObj = actDateRows.find(
-    //     (dateRow) => dateRow.date === selectedDate
-    //   );
-    //   console.log(selectedDateObj);
-    // console.log(selectedDateObj.date);
-  
+      console.log('selectedDate:', selectedDate);
+      console.log('actDateRows:', actDateRows);
+      //   const selectedDateObj = actDateRows.find(
+      //     (dateRow) => dateRow.date === selectedDate
+      //   );
+      //   console.log(selectedDateObj);
+      // console.log(selectedDateObj.date);
+
       if (!selectedDate) throw new Error('無效的活動日期');
-  
+
       const response = await fetch(
         `${process.env.API_SERVER}/activity-api/order-activity/${activitySid}`,
         {
@@ -186,15 +200,15 @@ export default function ActivityDetail() {
           }),
         }
       );
-  
+
       if (!response.ok) throw new Error('報名失敗');
-  
+
       console.log('報名成功');
     } catch (error) {
       console.error('操作報名失敗:', error);
     }
   };
-  
+
   const handleOrderActivityClick = async () => {
     await orderActivityClick(
       activitySid,
@@ -202,18 +216,55 @@ export default function ActivityDetail() {
       authId,
       countAdult,
       countChild,
-      selectedDate,
+      selectedDate
     );
+
+    // Reset values
+  setSelectedDate(null);
+  setCountAdult(1);
+  setCountChild(0);
   };
+
+
+  //若未登入會員而點擊收藏，要跳轉至會員登入
+  const toSingIn = () => {
+    const from = router.asPath;
+    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+  };
+
+
+
+  //內頁導覽設定--------------------------------------------------
+  //設定 目標位置的參考
+  const targetRef1 = useRef(null);
+  const targetRef2 = useRef(null);
+  const targetRef3 = useRef(null);
+  const targetRef4 = useRef(null);
+  const targetRef5 = useRef(null);
   
-  
+
+  // 設定 text和對應的目標位置
+  const items = [
+    { text: '活動內容&行程', targetRef: targetRef1 },
+    { text: '活動規範', targetRef: targetRef2 },
+    { text: '購買須知&取消政策', targetRef: targetRef3 },
+    { text: '顧客評價', targetRef: targetRef4 },
+    { text: '為您推薦', targetRef: targetRef5 },
+  ];
+
+  // 目標位置的移動處理
+  const handleClick = (targetRef) => {
+    targetRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center', 
+    });
+  };
 
   return (
     <div>
       {/* .........上方資訊......... */}
       <div className="container-inner">
-
-      <div className={styles.nav_head}>
+        <div className={styles.nav_head}>
           {/* <p>TODO: BreadCrumb</p> */}
           <BreadCrumb breadCrubText={breadCrubText} />
 
@@ -224,13 +275,8 @@ export default function ActivityDetail() {
               text="收藏列表"
               // clickHandler={toggleLikeList}
             />
-            <IconBtn
-              icon={faFilter}
-              text="進階篩選"
-            />
           </div>
         </div>
-
 
         <div className={styles.card}>
           {/* -------右邊------- */}
@@ -340,7 +386,7 @@ export default function ActivityDetail() {
                 <p className={styles.row_text_small}>選擇日期：</p>
 
                 <Select
-                  defaultValue="選擇活動日期"
+                  value={selectedDate || "選擇活動日期"}
                   onChange={(value) => setSelectedDate(value)}
                 >
                   {actDateRows.map((row, index) => (
@@ -461,31 +507,34 @@ export default function ActivityDetail() {
               <div className={styles.btn}>
                 <IconSeconBtn icon={faHeart} text="加入收藏" />
               </div>
-
-              {/* <Button
-                icon={<FontAwesomeIcon icon={faUserPlus} />}
-                onClick={handleOrderActivityClick}
-              >
-                我要報名
-              </Button> */}
-
-              <IconMainBtn 
-              icon={faUserPlus} 
-              text="我要報名"
-              clickHandler={handleOrderActivityClick}
-              />
+              {!auth.token ? (
+                <Modal
+                  btnType="iconSeconBtn"
+                  btnText="加入購物車"
+                  title="貼心提醒"
+                  content={
+                    <ModoalReminder text="登入會員，才能加入購物車喔~" />
+                  }
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                  icon={faUserPlus}
+                />
+              ) : (
+                <IconMainBtn
+                  icon={faUserPlus}
+                  text="加入購物車"
+                  clickHandler={handleOrderActivityClick}
+                />
+              )}
             </div>
           </div>
         </div>
 
         <div className={styles.nav_detail}>
-          <NavDetailPage
-            text1="活動內容"
-            text2="活動行程"
-            text3="活動規範"
-            text4="購買須知&取消政策"
-            text5="顧客評價"
-            text6="為您推薦"
+          <NavDetailPage 
+          items={items} handleClick={handleClick} 
+            
           />
         </div>
 
@@ -503,7 +552,7 @@ export default function ActivityDetail() {
 
       <div className="container-inner">
         <div className={styles.content}>
-          <div>
+          <div ref={targetRef1}>
             <p className={styles.subtitle}>活動內容＆行程：</p>
 
             <p className={styles.row_text_small}>{actDetailRows.content}</p>
@@ -517,11 +566,13 @@ export default function ActivityDetail() {
             src="/activity_img/24.jpg"
             alt=""
           /> */}
+          {actImageRows.length > 0 && (
           <img
             className={styles.content_image}
             src={`/activity_img/${actImageRows[2]}`}
             alt=""
           />
+          )}
         </div>
       </div>
 
@@ -530,13 +581,14 @@ export default function ActivityDetail() {
 
       <div className="container-inner">
         <div className={styles.content}>
+        {actImageRows.length > 0 && (
           <img
             className={styles.content_image_reverse}
             src={`/activity_img/${actImageRows[3]}`}
             alt=""
           />
-
-          <div>
+        )}
+          <div ref={targetRef2}>
             <p className={styles.subtitle}>活動規範：</p>
             {actDetailRows.policy}
             <p className={styles.row_text_small}></p>
@@ -549,7 +601,7 @@ export default function ActivityDetail() {
 
       <div className="container-inner">
         <div className={styles.content}>
-          <div>
+          <div ref={targetRef3}>
             <p className={styles.subtitle}>購買須知&取消政策：</p>
 
             <p className={styles.row_text_small}>
@@ -557,11 +609,13 @@ export default function ActivityDetail() {
             </p>
           </div>
 
+          {actImageRows.length > 0 && (
           <img
             className={styles.content_image}
             src={`/activity_img/${actImageRows[4]}`}
             alt=""
           />
+          )}
         </div>
       </div>
 
@@ -572,7 +626,7 @@ export default function ActivityDetail() {
 
       <div className="container-inner">
         <div className={styles.content}>
-          <div>
+          <div ref={targetRef4}>
             <p className={styles.subtitle}>顧客評價：</p>
 
             <div className={styles.comment_cards}>
@@ -600,6 +654,59 @@ export default function ActivityDetail() {
                   );
                 })}
             </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* .........推薦商品......... */}
+
+      <div className="container-inner">
+        <div className={styles.content}>
+          <div ref={targetRef4}>
+            <p className={styles.subtitle}>為您推薦：</p>
+
+            <div className={styles.comment_cards}>
+            {actRecommend.map((i) => {
+              const {
+                activity_sid,
+                type_name,
+                activity_pic,
+                name,
+                avg_star,
+                recent_date,
+                farthest_date,
+                time,
+                city,
+                area,
+                address,
+                feature_names,
+                price_adult,
+              } = i;
+             
+              return (
+                
+                  <ActivityCard1
+                  key={activity_sid}
+                    activity_sid={activity_sid}
+                    type={type_name}
+                    image={'/activity_img/' + activity_pic.split(',')[0]}
+                    title={name}
+                    rating={avg_star}
+                    date_begin={recent_date}
+                    date_end={farthest_date}
+                    time={time}
+                    city={city}
+                    area={area}
+                    address={address}
+                    features={feature_names.split(',')}
+                    price={price_adult}
+                    
+                  />
+               
+              );
+            })}
+          </div>
           </div>
         </div>
       </div>

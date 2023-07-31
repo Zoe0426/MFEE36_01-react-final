@@ -1,24 +1,20 @@
-import React from 'react'
-import styles from './NavDetailPage.module.css'
+import React, { useRef } from 'react';
+import styles from './NavDetailPage.module.css';
 
-const NavDetailPage = ({
-  text1 = '',
-  text2 = '',
-  text3 = '',
-  text4 = '',
-  text5 = '',
-  text6 = '',
-}) => {
+const NavDetailPage = ({ items, handleClick }) => {
   return (
     <div className={styles.underline_nav}>
-      <p className={styles.nav_item}>{text1}</p>
-      <p className={styles.nav_item}>{text2}</p>
-      <p className={styles.nav_item}>{text3}</p>
-      <p className={styles.nav_item}>{text4}</p>
-      <p className={styles.nav_item}>{text5}</p>
-      <p className={styles.nav_item}>{text6}</p>
+      {items.map((item, index) => (
+        <p
+          key={index}
+          className={styles.nav_item}
+          onClick={() => handleClick(item.targetRef)}
+        >
+          {item.text}
+        </p>
+      ))}
     </div>
-  )
-}
+  );
+};
 
-export default NavDetailPage
+export default NavDetailPage;
