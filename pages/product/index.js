@@ -58,8 +58,14 @@ export default function ProdoctIndex() {
   const [isMouseOverOnSlider, setIsMouseOverOnSliver] = useState(false);
   const [bannerCurrent, setBannerCurrent] = useState(0);
   const bannerPicDatas = ['banner01.jpg', 'banner02.jpg', 'banner03.jpg'];
+  const bannerSmallPicDatas = [
+    'banner-small-01.jpg',
+    'banner-small-02.jpg',
+    'banner-small-03.jpg',
+  ];
+  const [bannerDisplayDatas, setBannerDisplayDatas] = useState(bannerPicDatas);
   const bannerPlayStyle = {
-    width: `calc(100% * ${bannerPicDatas.length})`,
+    width: `calc(100% * ${bannerDisplayDatas.length})`,
     left: `calc(-100% * ${bannerCurrent})`,
   };
 
@@ -68,35 +74,42 @@ export default function ProdoctIndex() {
   const [newCurrent, setNewCurrent] = useState(0);
   const [windowWidth, setWindowWidth] = useState(null);
   const [totalPage, setTotalPage] = useState(5);
+  const [showCardQty, setShowCardQty] = useState(6);
 
   const catDogStyle = {
     position: 'relative',
-    left: `calc(((260px + 32px) * 30 ) / ${totalPage} * -${catDogCurrent})`,
+    left: `calc(292px * ${showCardQty} * -${catDogCurrent})`,
     transition: '0.3s',
   };
   const newStyle = {
     position: 'relative',
-    left: `calc(((260px + 32px) * 30 ) / ${totalPage} * -${newCurrent})`,
+    left: `calc(292px * ${showCardQty} * -${newCurrent})`,
     transition: '0.3s',
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      //目前使用者的視窗大小，計算總頁數
-      const newWindowWidth = window.innerWidth;
-      const newTotalPage = Math.ceil(((260 + 32) * 30) / newWindowWidth);
-      console.log({ newWindowWidth, newTotalPage });
-      setWindowWidth(newWindowWidth);
-      setTotalPage(newTotalPage);
-      setCatDogCurrent(0);
-      setNewCurrent(0);
-      // 添加視窗大小變化的事件監聽器，以更新視窗寬度
       const handleResize = () => {
-        const updateWindowWidth = window.innerWidth;
-        setWindowWidth(updateWindowWidth);
+        // const newWindowWidth =
+        //   window.innerWidth - 16 - window.innerWidth * 0.05;
+        const newWindowWidth = window.innerWidth - 16;
+        const showCardQty = Math.floor(newWindowWidth / 292);
+        const newTotalPage = Math.ceil(30 / showCardQty);
+        setShowCardQty(showCardQty);
+        setWindowWidth(newWindowWidth);
+        setTotalPage(newTotalPage);
         setCatDogCurrent(0);
         setNewCurrent(0);
+
+        if (newWindowWidth >= 1280) {
+          setBannerDisplayDatas(bannerPicDatas);
+        } else {
+          setBannerDisplayDatas(bannerSmallPicDatas);
+        }
       };
+
+      handleResize();
+
       window.addEventListener('resize', handleResize);
 
       return () => {
@@ -166,7 +179,7 @@ export default function ProdoctIndex() {
   }, [first]);
 
   useEffect(() => {
-    const bannerPics = bannerPicDatas.length - 1;
+    const bannerPics = bannerDisplayDatas.length - 1;
     let timer;
     if (!isMouseOverOnSlider) {
       timer = setInterval(() => {
@@ -338,7 +351,7 @@ export default function ProdoctIndex() {
               className={styles.left_arrow}
               onClick={() => {
                 if (bannerCurrent === 0) {
-                  setBannerCurrent(bannerPicDatas.length - 1);
+                  setBannerCurrent(bannerDisplayDatas.length - 1);
                 } else {
                   setBannerCurrent(bannerCurrent - 1);
                 }
@@ -355,7 +368,7 @@ export default function ProdoctIndex() {
               setIsMouseOverOnSliver(false);
             }}
           >
-            {bannerPicDatas.map((v) => {
+            {bannerDisplayDatas.map((v) => {
               return (
                 <li key={v}>
                   <img src={`./product-img/${v}`} alt={v} />
@@ -363,12 +376,12 @@ export default function ProdoctIndex() {
               );
             })}
           </ul>
-          <div className={styles.right_arrow_box}>
+          <div className={styles.slider_right_arrow_box}>
             <FontAwesomeIcon
               icon={faChevronRight}
               className={styles.right_arrow}
               onClick={() => {
-                if (bannerCurrent === bannerPicDatas.length - 1) {
+                if (bannerCurrent === bannerDisplayDatas.length - 1) {
                   setBannerCurrent(0);
                 } else {
                   setBannerCurrent(bannerCurrent + 1);
@@ -378,7 +391,7 @@ export default function ProdoctIndex() {
           </div>
         </nav>
         <ul className={styles.shop_sliders_pages}>
-          {bannerPicDatas.map((v, i) => {
+          {bannerDisplayDatas.map((v, i) => {
             return (
               <li
                 key={v}
@@ -477,7 +490,7 @@ export default function ProdoctIndex() {
             );
           })}
         </div>
-        <div className={styles.cat_dog_cards_box}>
+        <div className={styles.cards_box}>
           <div className={styles.left_arrow_box}>
             <FontAwesomeIcon
               icon={faChevronLeft}
@@ -491,8 +504,8 @@ export default function ProdoctIndex() {
               }}
             />
           </div>
-          <div className={styles.cat_dog_cards_display}>
-            <div className={styles.cat_dog_cards} style={catDogStyle}>
+          <div className={styles.cards_display}>
+            <div className={styles.cards} style={catDogStyle}>
               {twotCatergoriesData.map((v) => {
                 return (
                   v.display &&
@@ -556,7 +569,7 @@ export default function ProdoctIndex() {
             .map((v, i) => {
               return (
                 <li
-                  key={v}
+                  key={i}
                   className={
                     i === catDogCurrent
                       ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
@@ -602,7 +615,7 @@ export default function ProdoctIndex() {
         {/* 第三區新品顯示區 頁碼要看怎麼用迴圈產生*/}
         <BGMNewDecoration />
         <p className={styles.new_products_title}>新品專區</p>
-        <div className={styles.new_products_cards_box}>
+        <div className={styles.cards_box}>
           <div className={styles.left_arrow_box}>
             <FontAwesomeIcon
               icon={faChevronLeft}
@@ -616,8 +629,8 @@ export default function ProdoctIndex() {
               }}
             />
           </div>
-          <div className={styles.cat_dog_cards_display}>
-            <div className={styles.cat_dog_cards} style={newStyle}>
+          <div className={styles.cards_display}>
+            <div className={styles.cards} style={newStyle}>
               {dataForNew.map((v) => {
                 const {
                   product_sid,
@@ -677,7 +690,7 @@ export default function ProdoctIndex() {
             .map((v, i) => {
               return (
                 <li
-                  key={v}
+                  key={i}
                   className={
                     i === newCurrent
                       ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`

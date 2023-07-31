@@ -9,17 +9,19 @@ export default function CommentCard({
   content = '',
   name = '',
   profile = null,
+  clickHandler = () => {},
 }) {
   const ratingArr = [];
   for (let i = 1; i <= 5; i++) {
     if (parseInt(rating) >= i) {
+      profile;
       ratingArr.push(true);
     } else {
       ratingArr.push(false);
     }
   }
   return (
-    <div className={styles.comment_card}>
+    <div className={styles.comment_card} onClick={clickHandler}>
       <div className={styles.card_head}>
         <div>
           {profile ? (

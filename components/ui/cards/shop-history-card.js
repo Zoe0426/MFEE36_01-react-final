@@ -12,13 +12,13 @@ export default function ShopHistoryCard({
       <div className={styles.history_title}>
         <p>瀏覽紀錄</p>
       </div>
-      {data.map((v) => {
+      {data.map((v, i) => {
         const { product_sid, img } = v;
         return (
           <div
             role="presentation"
             className={styles.history_img}
-            key={product_sid}
+            key={i}
             onClick={() => {
               router.push(`http://localhost:3000/product/${product_sid}`);
             }}

@@ -1,6 +1,7 @@
 .card{
     display:flex;   
     text-align: center;
+    cursor: pointer;
 }
 
 .shed_box{

@@ -1,13 +1,14 @@
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useState, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
-import styles from '@/styles/shop.module.css';
-import Image from 'next/image';
-import { Row, Col } from 'antd';
-import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 import AuthContext from '@/context/AuthContext';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import Image from 'next/image';
+import styles from '@/styles/shop.module.css';
+import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
+import NoCommentCard from '@/components/ui/cards/comment-card-no';
 import Likelist from '@/components/ui/like-list/LikeListDrawer';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
@@ -24,9 +25,8 @@ import NumberInput from '@/components/ui/numberInput/numberInput1';
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
 import BGRecomandDecoration from '@/components/ui/decoration/bg-reconmand-decoration';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+import CorpLogo from '@/assets/corpLogo.svg';
 import PawWalking from '@/components/ui/shop/pawWalking';
-
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 // 引用的icon+圖示
 import RateStar from '@/components/ui/rateStar/RateStar';
@@ -38,10 +38,11 @@ import {
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
-import CorpLogo from '@/assets/corpLogo.svg';
-
 export default function Product() {
   const router = useRouter();
+  const productComment = useRef(null);
+  const productReturn = useRef(null);
+  const productSpecial = useRef(null);
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFrist] = useState(false);
   const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
@@ -50,14 +51,62 @@ export default function Product() {
     true
   );
 
+  //頁內跳轉-----------------------------------------------
+  const sccrollToHandler = (place = '', ele) => {
+    const position = ele.current.getBoundingClientRect();
+    let offsetTop = window.scrollY + position.top;
+    if (place === 'special') {
+      offsetTop = offsetTop - 80 - 54;
+    } else {
+      offsetTop = offsetTop - 80;
+    }
+
+    window.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth',
+    });
+  };
+
+  const [breadCrubText, setBreadCrubText] = useState([
+    {
+      id: 'shop',
+      text: '商城',
+      href: 'http://localhost:3000/product',
+      show: true,
+    },
+    { id: 'search', text: '/ 飼料 /', href: '', show: true },
+    {
+      id: 'pid',
+      text: '希爾思-雞肉、大麥與糙米特調食譜(小型及迷你幼犬)',
+      href: '',
+      show: true,
+    },
+  ]);
+
   const [addLikeList, setAddLikeList] = useState([]);
   const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
   const [isClickingLike, setIsClickingLike] = useState(false);
+  const [purchaseInfo, setPurchaseInfo] = useState({
+    pid: '',
+    spec: '',
+    unitPrice: 0,
+    qty: 1,
+  }); //用來存放將放入購物車的資料
   const [purchaseQty, setPurchaseQty] = useState(0);
   const [showLikeList, setShowLikeList] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
 
   //後端資料存放
+  const [dataForComment, setDataForComment] = useState([]);
+  const [dataForCommentQty, setDataForCommentQty] = useState([
+    { rating: 6, count: 0 },
+    { rating: 5, count: 0 },
+    { rating: 4, count: 0 },
+    { rating: 3, count: 0 },
+    { rating: 2, count: 0 },
+    { rating: 1, count: 0 },
+  ]);
+  const [datatForProductDetail, setDataForProductDetail] = useState([]);
   const [datatForProductMain, setDataForProductMain] = useState({
     product_sid: '',
     name: '',
@@ -69,25 +118,8 @@ export default function Product() {
     catergory_english_name: '',
     like: false,
   });
-  const [datatForProductDetail, setDataForProductDetail] = useState([]);
   const [dataForRecomand, setDataForRecomand] = useState([]);
-  const [dataForComment, setDataForComment] = useState([]);
-  const [dataForCommentQty, setDataForCommentQty] = useState([
-    { rating: 6, count: 0 },
-    { rating: 5, count: 0 },
-    { rating: 4, count: 0 },
-    { rating: 3, count: 0 },
-    { rating: 2, count: 0 },
-    { rating: 1, count: 0 },
-  ]);
   const [likeDatas, setLikeDatas] = useState([]);
-  //用來存放將放入購物車的資料
-  const [purchaseInfo, setPurchaseInfo] = useState({
-    pid: '',
-    spec: '',
-    unitPrice: 0,
-    qty: 1,
-  });
 
   //控制主商品照片放大的
   const [countEnterMainPic, setCoutEnterMainPic] = useState(1);
@@ -111,29 +143,35 @@ export default function Product() {
     }
   };
 
-  const [catDogCurrent, setCatDogCurrent] = useState(0);
-  const catDogStyle = {
+  //控制推薦商品狀態
+  const [recommendWindowWidth, setRecommendWindowWidth] = useState(null);
+  const [recommendCurrent, setRecommendCurrent] = useState(0);
+  const [totalRecommandPage, setTotalRecommandPage] = useState(0);
+  const [showRecommandCardQty, setShowRecommandCardQty] = useState(4);
+  const recommendStyle = {
     position: 'relative',
-    left: `calc(((260px + 32px) * 30 ) / 5 * -${catDogCurrent})`,
+    left: `calc(292px * ${showRecommandCardQty} * -${recommendCurrent})`,
     transition: '0.3s',
   };
 
-  //麵包屑寫得有點奇怪...
-  const [breadCrubText, setBreadCrubText] = useState([
-    {
-      id: 'shop',
-      text: '商城',
-      href: 'http://localhost:3000/product',
-      show: true,
-    },
-    { id: 'search', text: '/ 飼料 /', href: '', show: true },
-    {
-      id: 'pid',
-      text: '希爾思-雞肉、大麥與糙米特調食譜(小型及迷你幼犬)',
-      href: '',
-      show: true,
-    },
-  ]);
+  //控制評論狀態
+  const [commentWindowWidth, setCommentWindowWidth] = useState(null);
+  const [commentCurrent, setCommentCurrent] = useState(0);
+  const [totalCommentPage, setTotalCommentPage] = useState(0);
+  const [showCommentCard, setShowCommentCard] = useState([]);
+  const [showCommentCardQty, setShowCommentCardQty] = useState(4);
+  const [showCommentArrowLeft, setShowCommentArrowLeft] = useState(false);
+  const [showCommentArrowRight, setShowCommentArrowRight] = useState(true);
+  const [showFullCommentArrowLeft, setShowFullCommentArrowLeft] =
+    useState(false);
+  const [showFullCommentArrowRight, setShowFullCommentArrowRight] =
+    useState(true);
+  const [showFullCommentCard, setShowFullCommentCard] = useState(false);
+  const commentStyle = {
+    position: 'relative',
+    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
+    transition: '0.3s',
+  };
 
   const getData = async (pid = '', token = '') => {
     //拿回特定商品的相關資訊 與評價
@@ -180,6 +218,20 @@ export default function Product() {
         .replace(/\n/g, '<br/>')
         .replace(/amp;/g, '&');
       setDataForProductMain({ ...shopMainData[0], description });
+
+      const newBreadCrubText = breadCrubText.map((v) => {
+        if (v.id === 'search') {
+          return {
+            ...v,
+            text: `/ ${shopMainData[0].catergory_chinese_name} /`,
+            href: `http://localhost:3000/product/list?category=${shopMainData[0].catergory_english_name}`,
+          };
+        }
+        if (v.id === 'pid') {
+          return { ...v, text: shopMainData[0].name };
+        } else return { ...v };
+      });
+      setBreadCrubText(newBreadCrubText);
     }
 
     if (Array.isArray(commentDatas)) {
@@ -194,7 +246,6 @@ export default function Product() {
 
         return { ...v, count: eachCommentQty };
       });
-
       setDataForCommentQty(newCommentEachQty);
     }
 
@@ -207,8 +258,8 @@ export default function Product() {
         })
       );
       setPurchaseInfo({
-        ...purchaseInfo,
         pid: shopMainData[0].product_sid,
+        spec: '',
         unitPrice: shopDetailData[0].price,
         qty: 1,
       });
@@ -218,6 +269,10 @@ export default function Product() {
       setDataForRecomand(reccomandData);
     }
   };
+
+  useEffect(() => {
+    setFrist(true);
+  }, [localStorageHistory]);
 
   //監控使用者點擊購買數量
   useEffect(() => {
@@ -235,10 +290,6 @@ export default function Product() {
   }, [isClickingLike, addLikeList]);
 
   useEffect(() => {
-    setFrist(true);
-  }, [localStorageHistory]);
-
-  useEffect(() => {
     //取得用戶拜訪的特定商品編號
     const { pid } = router.query;
 
@@ -248,8 +299,67 @@ export default function Product() {
       } else {
         getData(pid);
       }
+      setCoutEnterMainPic(1);
+      setShowWarning(false);
+      setCommentFilter(6);
+      setCommentCurrent(0);
+      countTotalCommentPage();
+      setShowCommentArrowLeft(false);
+      setRecommendCurrent(0);
     }
   }, [router.query, first]);
+
+  //處理視窗大小時，商品推薦要顯示多少與頁碼
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const handleResize = () => {
+        let newWindowWidth = 1280;
+        let commentNewWindowWidth = 1280;
+        if (window.innerWidth < 1920 && window.innerWidth > 768) {
+          newWindowWidth = window.innerWidth * 0.68 + 16 - 40;
+          commentNewWindowWidth = window.innerWidth * 0.68 + 32 - 40;
+        }
+        if (window.innerWidth < 767) {
+          newWindowWidth = window.innerWidth * 0.85 + 16 - 40;
+          commentNewWindowWidth = window.innerWidth * 0.85 + 32 - 40;
+        }
+        let showRecommandCardQty = Math.floor(newWindowWidth / 292);
+        if (showRecommandCardQty < 1) {
+          showRecommandCardQty = 1;
+        }
+        const newRecommandTotalPage = Math.ceil(24 / showRecommandCardQty);
+        setShowRecommandCardQty(showRecommandCardQty);
+        setRecommendWindowWidth(newWindowWidth);
+        setTotalRecommandPage(newRecommandTotalPage);
+        setRecommendCurrent(0);
+        setCommentWindowWidth(commentNewWindowWidth);
+
+        let showCommentCardQty = Math.floor(commentNewWindowWidth / 382);
+
+        if (showCommentCardQty <= 1) {
+          showCommentCardQty = 1;
+        }
+        setShowCommentCardQty(showCommentCardQty);
+        setCommentCurrent(0);
+        setShowCommentArrowLeft(false);
+        countTotalCommentPage();
+      };
+
+      handleResize();
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        // 在元件卸載時清除事件監聽器
+        window.removeEventListener('resize', handleResize);
+      };
+    }
+  }, [recommendWindowWidth, commentWindowWidth]);
+
+  //處理評論頁碼更動
+  useEffect(() => {
+    countTotalCommentPage();
+  }, [commentFilter, dataForCommentQty, showCommentCardQty]);
 
   //購物車相關函式----------------------------
   const sendToCart = async (obj = {}, token = '') => {
@@ -463,12 +573,94 @@ export default function Product() {
     transition: 'transform 0.2s',
   };
 
+  //評價相關的函示-----------------------------------------------------
+  //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態
+  const toggleCommentCard = (arr = [], ratingNow = 6, id = '') => {
+    const newShowFullCommentCard = !showFullCommentCard;
+    if (arr.length > 0 && id) {
+      const newArr = commentFiliterByRating(arr, ratingNow).map((v) => {
+        if (v.product_comment_sid === id) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      const currentIndex = newArr.findIndex((v) => v.display === true);
+      if (currentIndex === 0) {
+        setShowFullCommentArrowLeft(false);
+      } else {
+        setShowFullCommentArrowLeft(true);
+      }
+      if (currentIndex < newArr.length - 1) {
+        setShowFullCommentArrowRight(true);
+      } else {
+        setShowFullCommentArrowRight(false);
+      }
+    }
+
+    setShowFullCommentCard(newShowFullCommentCard);
+    if (newShowFullCommentCard) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  //轉換到下一張評價卡片
+  const slideNextComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex < arr.length - 1) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex + 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowLeft(true);
+    }
+    if (currentIndex === arr.length - 2) {
+      setShowFullCommentArrowRight(false);
+    }
+  };
+  //轉換到上一張評價卡片
+  const slidePreComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex > 0) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex - 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowRight(true);
+    }
+    if (currentIndex <= 1) {
+      setShowFullCommentArrowLeft(false);
+    }
+  };
+
+  //一般顯示區的評價卡相關function
+  const countTotalCommentPage = () => {
+    const currentCommentCardsQty = dataForCommentQty.filter((v) => {
+      return parseInt(v.rating) === parseInt(commentFilter);
+    })[0].count;
+
+    const newCommentTotalPage = Math.ceil(
+      currentCommentCardsQty / showCommentCardQty
+    );
+    if (newCommentTotalPage <= 1) {
+      setShowCommentArrowRight(false);
+    } else {
+      setShowCommentArrowRight(true);
+    }
+
+    setTotalCommentPage(newCommentTotalPage);
+  };
+
   return (
     <>
       <div className="outer-container">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
-            {/* 麵包屑這邊需要再修改 */}
             <div className={styles.nav_head}>
               <BreadCrumb breadCrubText={breadCrubText} />
               <div className={styles.btns}>
@@ -593,7 +785,7 @@ export default function Product() {
                     <span>規格選項</span>
                     {showWarning && (
                       <span className={styles.detail_spec_warning}>
-                        &nbsp;(請選擇)
+                        &nbsp;(請選擇規格!)
                       </span>
                     )}
                   </h5>
@@ -603,6 +795,8 @@ export default function Product() {
                         className={
                           i === 0
                             ? styles.detail_spec_btn_none
+                            : showWarning
+                            ? `${styles.warning_detail_spec_btn} ${styles.detail_spec_btn}`
                             : purchaseInfo.spec === v.product_detail_sid
                             ? `${styles.active_detail_spec_btn} ${styles.detail_spec_btn}`
                             : styles.detail_spec_btn
@@ -742,12 +936,31 @@ export default function Product() {
           <div className="container-inner">
             {/* 這邊待元件刻好需要更換 */}
             <ul className={styles.detail_tabs}>
-              <li>產品特色</li>
-              <li>退換貨須知</li>
-              <li>商品評價</li>
+              <li
+                className={styles.active}
+                onClick={() => {
+                  sccrollToHandler('special', productSpecial);
+                }}
+              >
+                產品特色
+              </li>
+              <li
+                onClick={() => {
+                  sccrollToHandler('return', productReturn);
+                }}
+              >
+                退換貨須知
+              </li>
+              <li
+                onClick={() => {
+                  sccrollToHandler('comment', productComment);
+                }}
+              >
+                商品評價
+              </li>
             </ul>
 
-            <ul className={styles.detail_text_box}>
+            <ul className={styles.detail_text_box} ref={productSpecial}>
               <li>
                 <h6>品牌:</h6>
                 <p>{datatForProductMain.supplier_name}</p>
@@ -765,7 +978,7 @@ export default function Product() {
                 ></p>
               </li>
             </ul>
-            <ul className={styles.detail_return_box}>
+            <ul className={styles.detail_return_box} ref={productReturn}>
               <li>
                 <h6>退換規定:</h6>
                 <p>
@@ -791,7 +1004,7 @@ export default function Product() {
       <PawWalking />
       <div className="container-outer">
         <div className="container-inner">
-          <div className={styles.comment_section}>
+          <div className={styles.comment_section} ref={productComment}>
             <h4 className={styles.comment_title}>商品評論</h4>
             <p>{`(共 ${dataForCommentQty[0].count} 則相關評論)`}</p>
             <div className={styles.comment_btns}>
@@ -807,6 +1020,8 @@ export default function Product() {
                     }
                     onClick={() => {
                       setCommentFilter(rating);
+                      setCommentCurrent(0);
+                      setShowCommentArrowLeft(false);
                     }}
                   >
                     {rating === 6 ? '全部評論' : `${rating}星 (${count})`}
@@ -814,8 +1029,58 @@ export default function Product() {
                 );
               })}
             </div>
-            <div className={styles.comment_cards}>
+          </div>
+        </div>
+        <div className={styles.shop_container_inner}>
+          <div className={styles.comment_cards_box}>
+            {showCommentArrowLeft && (
+              <div className={styles.detail_left_arrow_box}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  className={styles.left_arrow}
+                  onClick={() => {
+                    if (commentCurrent <= 0) {
+                      setShowCommentArrowLeft(false);
+                    } else if (commentCurrent === 1) {
+                      setCommentCurrent(commentCurrent - 1);
+                      setShowCommentArrowRight(true);
+                      setShowCommentArrowLeft(false);
+                    } else {
+                      setCommentCurrent(commentCurrent - 1);
+                      setShowCommentArrowRight(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            {showCommentArrowRight && (
+              <div
+                className={`${styles.detail_right_arrow_box} ${styles.comment_right_arrow_box}`}
+              >
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className={styles.right_arrow}
+                  onClick={() => {
+                    if (commentCurrent === totalCommentPage - 1) {
+                      setShowCommentArrowRight(false);
+                    } else if (commentCurrent === totalCommentPage - 2) {
+                      setCommentCurrent(commentCurrent + 1);
+                      setShowCommentArrowLeft(true);
+                      setShowCommentArrowRight(false);
+                    } else {
+                      setCommentCurrent(commentCurrent + 1);
+                      setShowCommentArrowLeft(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            <div className={styles.comment_cards} style={commentStyle}>
               {dataForComment &&
+              commentFiliterByRating(dataForComment, commentFilter).length <=
+                0 ? (
+                <NoCommentCard />
+              ) : (
                 commentFiliterByRating(dataForComment, commentFilter).map(
                   (v) => {
                     const {
@@ -836,27 +1101,131 @@ export default function Product() {
                         content={content}
                         name={nickname}
                         profile={profile}
+                        clickHandler={() => {
+                          toggleCommentCard(
+                            dataForComment,
+                            commentFilter,
+                            product_comment_sid
+                          );
+                        }}
                       />
                     );
                   }
-                )}
-            </div>
-            <div className={styles.pet_type_btns}>
-              <button className={styles.circle_btn_active}></button>
-              <button></button>
-              <button></button>
-              <button></button>
+                )
+              )}
             </div>
           </div>
         </div>
+        <div className="container-inner">
+          <ul className={styles.shop_recommend_pages}>
+            {totalCommentPage <= 1 ? (
+              <div className={styles.no_pages}></div>
+            ) : (
+              Array(totalCommentPage)
+                .fill(0)
+                .map((v, i) => {
+                  return (
+                    <li
+                      key={i}
+                      className={
+                        i === commentCurrent
+                          ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
+                          : styles.shop_sliders_pages_bttn
+                      }
+                      onClick={() => {
+                        setCommentCurrent(i);
+                        if (i === 0) {
+                          setShowCommentArrowLeft(false);
+                          setShowCommentArrowRight(true);
+                        } else if (i === totalCommentPage - 1) {
+                          setShowCommentArrowRight(false);
+                          setShowCommentArrowLeft(true);
+                        } else {
+                          setShowCommentArrowLeft(true);
+                          setShowCommentArrowRight(true);
+                        }
+                      }}
+                    ></li>
+                  );
+                })
+            )}
+          </ul>
+        </div>
       </div>
+      {/* 全螢幕的評價顯示 */}
+      {showFullCommentCard && (
+        <div className={styles.show_full_comment_card}>
+          <div
+            className={styles.bgc_comment_card}
+            onClick={toggleCommentCard}
+          ></div>
+          <div
+            className={styles.comment_card_display}
+            onClick={() => {
+              console.log(123);
+            }}
+          >
+            {showFullCommentArrowLeft && (
+              <div className={styles.detail_left_arrow_box}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  className={styles.left_arrow}
+                  onClick={() => {
+                    slidePreComment(showCommentCard);
+                  }}
+                />
+              </div>
+            )}
+            {showFullCommentArrowRight && (
+              <div
+                className={`${styles.detail_right_arrow_box} ${styles.full_right_arrow_box}`}
+              >
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className={styles.right_arrow}
+                  onClick={() => {
+                    slideNextComment(showCommentCard);
+                  }}
+                />
+              </div>
+            )}
+
+            {showCommentCard.map((v) => {
+              const {
+                product_comment_sid,
+                member_sid,
+                date,
+                rating,
+                content,
+                nickname,
+                profile,
+                display,
+              } = v;
+              return (
+                display && (
+                  <div className={styles.test} key={product_comment_sid}>
+                    <CommentCard
+                      member_sid={member_sid}
+                      date={date}
+                      rating={rating}
+                      content={content}
+                      name={nickname}
+                      profile={profile}
+                      clickHandler={toggleCommentCard}
+                    />
+                  </div>
+                )
+              );
+            })}
+          </div>
+        </div>
+      )}
       <BGRecomandDecoration />
-      {/* 商品詳述區 */}
+      {/* 商品推薦區 */}
       <div className="container-outer">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
-            <section className="container-outer recommand-products">
-              {/* 推薦商品顯示區 頁碼要看怎麼用迴圈產生*/}
+            <section className="recommand-products">
               <div className={styles.reconmand_products_box}>
                 <Image
                   src={CorpLogo}
@@ -867,62 +1236,91 @@ export default function Product() {
                   毛孩可能會喜歡...
                 </p>
               </div>
-
-              <div className={styles.new_products_cards_box}>
-                <div className={styles.left_arrow_box}>
-                  <FontAwesomeIcon
-                    icon={faChevronLeft}
-                    className={styles.left_arrow}
-                    onClick={() => {
-                      // if (catDogCurrent === 0) {
-                      //   setCatDogCurrent(twotCatergoriesData[0].data.length / 6 - 1);
-                      // } else {
-                      //   setCatDogCurrent(catDogCurrent - 1);
-                      // }
-                    }}
-                  />
-                </div>
-                <div className={styles.cat_dog_cards_display}>
-                  <div className={styles.cat_dog_cards} style={catDogStyle}>
-                    {dataForRecomand.map((v) => {
-                      const {
-                        product_sid,
-                        name,
-                        img,
-                        max_price,
-                        min_price,
-                        avg_rating,
-                        like,
-                      } = v;
-                      return (
-                        <div className={styles.product_card} key={product_sid}>
-                          <ShopProductCard
-                            product_sid={product_sid}
-                            name={name}
-                            img={img}
-                            max_price={max_price}
-                            min_price={min_price}
-                            avg_rating={avg_rating}
-                            like={like}
-                            token={auth.token}
-                            clickHandler={() => {
-                              clickHeartHandler(product_sid);
-                            }}
-                            singinHandler={toSingIn}
-                          />
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-              <div className={styles.pet_type_btns}>
-                <button className={styles.circle_btn_active}></button>
-                <button></button>
-                <button></button>
-                <button></button>
-              </div>
             </section>
+          </div>
+          <div className={styles.shop_container_inner}>
+            <div className={styles.detail_left_arrow_box}>
+              <FontAwesomeIcon
+                icon={faChevronLeft}
+                className={styles.left_arrow}
+                onClick={() => {
+                  if (recommendCurrent === 0) {
+                    setRecommendCurrent(totalRecommandPage - 1);
+                  } else {
+                    setRecommendCurrent(recommendCurrent - 1);
+                  }
+                }}
+              />
+            </div>
+            <div className={styles.detail_right_arrow_box}>
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                className={styles.right_arrow}
+                onClick={() => {
+                  if (recommendCurrent === totalRecommandPage - 1) {
+                    setRecommendCurrent(0);
+                  } else {
+                    setRecommendCurrent(recommendCurrent + 1);
+                  }
+                }}
+              />
+            </div>
+            <div className={styles.recomand_products_cards_box}>
+              <div className={styles.cards_display}>
+                <div className={styles.recommand_cards} style={recommendStyle}>
+                  {dataForRecomand.map((v) => {
+                    const {
+                      product_sid,
+                      name,
+                      img,
+                      max_price,
+                      min_price,
+                      avg_rating,
+                      like,
+                    } = v;
+                    return (
+                      <div className={styles.product_card} key={product_sid}>
+                        <ShopProductCard
+                          product_sid={product_sid}
+                          name={name}
+                          img={img}
+                          max_price={max_price}
+                          min_price={min_price}
+                          avg_rating={avg_rating}
+                          like={like}
+                          token={auth.token}
+                          clickHandler={() => {
+                            clickHeartHandler(product_sid);
+                          }}
+                          singinHandler={toSingIn}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="container-inner">
+            <ul className={styles.shop_recommend_pages}>
+              {Array(totalRecommandPage)
+                .fill(0)
+                .map((v, i) => {
+                  return (
+                    <li
+                      key={i}
+                      className={
+                        i === recommendCurrent
+                          ? `${styles.shop_sliders_pages_bttn} ${styles.shop_sliders_pages_active}`
+                          : styles.shop_sliders_pages_bttn
+                      }
+                      onClick={() => {
+                        setRecommendCurrent(i);
+                      }}
+                    ></li>
+                  );
+                })}
+            </ul>
           </div>
         </div>
       </div>
