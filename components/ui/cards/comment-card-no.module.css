@@ -58,7 +58,7 @@
 
 /* 評價內容*/
 .card_body {
-  font-size: var(--h4fs24);
+  font-size: var(--h5fs20);
   text-align: justify;
   line-height: 1.3;
   display: -webkit-box;

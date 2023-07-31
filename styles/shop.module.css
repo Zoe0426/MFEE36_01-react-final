@@ -452,7 +452,7 @@
 .detail_tabs > li {
   font-size: var(--h5fs20);
   flex: 0, 0, 200px;
-  border-bottom: 2px solid transparent;
+  border-bottom: 4px solid transparent;
   padding: var(--p16) 20px;
   margin-right: var(--p16);
   transition: 0.3s;

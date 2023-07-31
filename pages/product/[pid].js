@@ -51,22 +51,6 @@ export default function Product() {
     true
   );
 
-  //頁內跳轉-----------------------------------------------
-  const sccrollToHandler = (place = '', ele) => {
-    const position = ele.current.getBoundingClientRect();
-    let offsetTop = window.scrollY + position.top;
-    if (place === 'special') {
-      offsetTop = offsetTop - 80 - 54;
-    } else {
-      offsetTop = offsetTop - 80;
-    }
-
-    window.scrollTo({
-      top: offsetTop,
-      behavior: 'smooth',
-    });
-  };
-
   const [breadCrubText, setBreadCrubText] = useState([
     {
       id: 'shop',
@@ -77,14 +61,15 @@ export default function Product() {
     { id: 'search', text: '/ 飼料 /', href: '', show: true },
     {
       id: 'pid',
-      text: '希爾思-雞肉、大麥與糙米特調食譜(小型及迷你幼犬)',
+      text: '',
       href: '',
       show: true,
     },
   ]);
+  const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
+  const [tabActive, setTabActive] = useState('special');
 
   const [addLikeList, setAddLikeList] = useState([]);
-  const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
   const [isClickingLike, setIsClickingLike] = useState(false);
   const [purchaseInfo, setPurchaseInfo] = useState({
     pid: '',
@@ -128,20 +113,6 @@ export default function Product() {
     x: 0,
     y: 0,
   });
-
-  /*用來過濾評價星的，要保持原本的dataForComment*/
-  const commentFiliterByRating = (dataForComment, type) => {
-    switch (type) {
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-      case 5:
-        return dataForComment.filter((v) => v.rating === type);
-      default:
-        return dataForComment;
-    }
-  };
 
   //控制推薦商品狀態
   const [recommendWindowWidth, setRecommendWindowWidth] = useState(null);
@@ -361,6 +332,53 @@ export default function Product() {
     countTotalCommentPage();
   }, [commentFilter, dataForCommentQty, showCommentCardQty]);
 
+  //監聽使用者目前滑到哪裡，而active tabs
+  useEffect(() => {
+    // 滾動事件處理函式
+    const handleScroll = () => {
+      const uls = document.querySelectorAll('ul');
+      const divs = document.querySelectorAll('div');
+      let activeSectionId = 'special';
+
+      uls.forEach((ul) => {
+        // 取得每個區塊的位置資訊
+        const rect = ul.getBoundingClientRect();
+
+        // 判斷區塊是否進入使用者的螢幕範圍
+        if (
+          rect.top <= window.innerHeight / 2 &&
+          rect.bottom >= window.innerHeight / 2 &&
+          (ul.id === 'special' || ul.id === 'return')
+        ) {
+          activeSectionId = ul.id;
+        }
+      });
+      divs.forEach((div) => {
+        // 取得每個區塊的位置資訊
+        const rect = div.getBoundingClientRect();
+
+        // 判斷區塊是否進入使用者的螢幕範圍
+        if (
+          rect.top <= window.innerHeight / 2 &&
+          rect.bottom >= window.innerHeight / 2 &&
+          div.id === 'comment'
+        ) {
+          activeSectionId = div.id;
+        }
+      });
+
+      setTabActive(activeSectionId);
+    };
+
+    // 監聽滾動事件
+    window.addEventListener('scroll', handleScroll);
+
+    // 記得在組件解除掛載時移除事件監聽器
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   //購物車相關函式----------------------------
   const sendToCart = async (obj = {}, token = '') => {
     const res = await fetch(`${process.env.API_SERVER}/shop-api/sent-to-cart`, {
@@ -571,6 +589,37 @@ export default function Product() {
           }px) scale(1.5)`
         : 'none',
     transition: 'transform 0.2s',
+  };
+
+  /*用來過濾評價星的，要保持原本的dataForComment*/
+  const commentFiliterByRating = (dataForComment, type) => {
+    switch (type) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        return dataForComment.filter((v) => v.rating === type);
+      default:
+        return dataForComment;
+    }
+  };
+
+  //頁內跳轉-----------------------------------------------
+  const sccrollToHandler = (place = '', ele) => {
+    setTabActive(place);
+    const position = ele.current.getBoundingClientRect();
+    let offsetTop = window.scrollY + position.top;
+    if (place === 'special') {
+      offsetTop = offsetTop - 80 - 54;
+    } else {
+      offsetTop = offsetTop - 80;
+    }
+
+    window.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth',
+    });
   };
 
   //評價相關的函示-----------------------------------------------------
@@ -934,10 +983,9 @@ export default function Product() {
       <div className="container-outer">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
-            {/* 這邊待元件刻好需要更換 */}
             <ul className={styles.detail_tabs}>
               <li
-                className={styles.active}
+                className={tabActive === 'special' ? styles.active : ''}
                 onClick={() => {
                   sccrollToHandler('special', productSpecial);
                 }}
@@ -945,6 +993,7 @@ export default function Product() {
                 產品特色
               </li>
               <li
+                className={tabActive === 'return' ? styles.active : ''}
                 onClick={() => {
                   sccrollToHandler('return', productReturn);
                 }}
@@ -952,6 +1001,7 @@ export default function Product() {
                 退換貨須知
               </li>
               <li
+                className={tabActive === 'comment' ? styles.active : ''}
                 onClick={() => {
                   sccrollToHandler('comment', productComment);
                 }}
@@ -960,7 +1010,11 @@ export default function Product() {
               </li>
             </ul>
 
-            <ul className={styles.detail_text_box} ref={productSpecial}>
+            <ul
+              className={styles.detail_text_box}
+              id="special"
+              ref={productSpecial}
+            >
               <li>
                 <h6>品牌:</h6>
                 <p>{datatForProductMain.supplier_name}</p>
@@ -978,7 +1032,11 @@ export default function Product() {
                 ></p>
               </li>
             </ul>
-            <ul className={styles.detail_return_box} ref={productReturn}>
+            <ul
+              className={styles.detail_return_box}
+              id="return"
+              ref={productReturn}
+            >
               <li>
                 <h6>退換規定:</h6>
                 <p>
@@ -1004,7 +1062,11 @@ export default function Product() {
       <PawWalking />
       <div className="container-outer">
         <div className="container-inner">
-          <div className={styles.comment_section} ref={productComment}>
+          <div
+            className={styles.comment_section}
+            id="comment"
+            ref={productComment}
+          >
             <h4 className={styles.comment_title}>商品評論</h4>
             <p>{`(共 ${dataForCommentQty[0].count} 則相關評論)`}</p>
             <div className={styles.comment_btns}>
@@ -1079,7 +1141,7 @@ export default function Product() {
               {dataForComment &&
               commentFiliterByRating(dataForComment, commentFilter).length <=
                 0 ? (
-                <NoCommentCard />
+                <NoCommentCard star={commentFilter} />
               ) : (
                 commentFiliterByRating(dataForComment, commentFilter).map(
                   (v) => {

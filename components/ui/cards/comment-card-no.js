@@ -1,8 +1,6 @@
 import styles from './comment-card-no.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
 
-export default function NoCommentCard() {
+export default function NoCommentCard({ star = 0 }) {
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1;
@@ -20,7 +18,7 @@ export default function NoCommentCard() {
         </div>
       </div>
       <div className={styles.card_body}>
-        <p className={styles.card_content}>Sorry~尚無相關評論</p>
+        <p className={styles.card_content}>Sorry~尚無{star}顆星的相關評論</p>
       </div>
     </div>
   );
