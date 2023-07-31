@@ -24,6 +24,9 @@ export default function Home() {
   const [restaurantData, setRestaurantData] = useState([]);
   const [postData, setPostData] = useState([]);
   const router = useRouter();
+  //activity slider
+  const [currentActPic, setCurrentActPic] = useState(0);
+
   useEffect(() => {
     getHomeData();
   }, []);
@@ -257,7 +260,13 @@ export default function Home() {
               <article>
                 <p className={style.hstitle}>寵物活動</p>
                 <p className={style.hetitle}>PLAY WITH ME</p>
-                <div className={style.actbox}>
+                <div
+                  className={style.actbox}
+                  style={{
+                    transform: `translateX(-${currentActPic * 20}%)`,
+                    transition: 'all .2s',
+                  }}
+                >
                   <div className={style.infoBox}>
                     <p className={style.hsubtitle}>
                       專為您和您的毛小孩設計的狂歡天地
@@ -292,7 +301,11 @@ export default function Home() {
               </article>
             </Col>
             <Col className={style.hrCards} xs={24} sm={24} md={13}>
-              <HomeEventPhoto images={activityImgs} />
+              <HomeEventPhoto
+                images={activityImgs}
+                currentActPic={currentActPic}
+                setCurrentActPic={setCurrentActPic}
+              />
             </Col>
           </Row>
         </Col>

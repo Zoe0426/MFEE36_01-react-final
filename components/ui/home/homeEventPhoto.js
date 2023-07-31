@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import style from './homeEventPhoto.module.css';
 
-export default function HomeEventPhoto({ images = [] }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function HomeEventPhoto({
+  images = [],
+  currentActPic = 0,
+  setCurrentActPic = () => {},
+}) {
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    const actPicinterval = setInterval(() => {
+      setCurrentActPic((prevIndex) => (prevIndex + 1) % images.length);
     }, 5000);
 
     // 記得在組件卸載時清除定時器
-    return () => clearInterval(interval);
+    return () => clearInterval(actPicinterval);
   }, []);
-  const handleDotClick = (index) => {
-    setCurrentIndex(index);
+
+  const actDotClickHandler = (index) => {
+    setCurrentActPic(index);
   };
   return (
     <div className={style.photobox}>
@@ -28,10 +32,10 @@ export default function HomeEventPhoto({ images = [] }) {
               key={i}
               width="1100"
               clipPath="url(#shape)"
-              href={`http://localhost:3000/activity_img/${images[currentIndex]}`}
+              href={`http://localhost:3000/activity_img/${images[currentActPic]}`}
               style={{
-                opacity: i === currentIndex ? 1 : 0.9,
-                transform: `translateX(${(i - currentIndex) * 863}px)`, // 計算圖片的位置
+                opacity: i === currentActPic ? 1 : 0.9,
+                transform: `translateX(${(i - currentActPic) * 863}px)`, // 計算圖片的位置
                 transition: 'opacity .3s ease-in', // 添加過渡效果，透明度變化會有淡入淡出的效果
               }}
             />
@@ -62,9 +66,9 @@ export default function HomeEventPhoto({ images = [] }) {
           <div
             key={index}
             className={`${style.dot} ${
-              index === currentIndex ? style.activeDot : ''
+              index === currentActPic ? style.activeDot : ''
             }`}
-            onClick={() => handleDotClick(index)}
+            onClick={() => actDotClickHandler(index)}
           />
         ))}
       </div>

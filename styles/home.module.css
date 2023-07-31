@@ -114,7 +114,6 @@
 } 
 
 .actbox{
-    border: 1px solid purple;
     display:flex;
     transform: translateX(0%);
     width: 500%;
@@ -189,7 +188,7 @@
 /* INFO */
 
 .hactInfo{
-    border: 1px solid red;
+    overflow: hidden;
 }
 .hstitle{
     font-size: var(--h1fs36);
