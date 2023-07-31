@@ -34,7 +34,7 @@
 }
 
 .text {
-  font-size: var(--pfs14);
+  font-size: var(--pfs16);
   color: white;
 }
 
@@ -96,16 +96,18 @@
 }
 
 /* 地址 */
-.rowTextAddress {
+/* .rowTextAddress {
   color: var(--gray);
-}
+} */
 
 .rowTextLarge {
   color: var(--dark);
   font-size: var(--h5fs20);
 }
 
-
+.pText{
+  font-size: var(--h6fs18);
+}
 
 .row_icon {
   margin-right:8px;
@@ -121,6 +123,7 @@
   margin-right: 8px;
   display: flex;
   justify-content: space-between;
+  font-size: var(--pfs16);
 }
 
 .row_price{

@@ -137,7 +137,7 @@ const ActivityCard4 = ({
             </Row>
             <div>
               <p className={styles.price}>
-                ${price} (大人) ${price / 2} (小孩)
+                ${(price).toLocaleString()} (大人) ${(price / 2).toLocaleString()} (小孩)
               </p>
             </div>
           </div>

@@ -14,6 +14,7 @@ import {
   Button,
   Space,
   Item,
+  DatePicker,
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import SearchBar from '@/components/ui/buttons/SearchBar';
@@ -65,8 +66,7 @@ export default function ActivityMain() {
   const [selectedArea, setSelectedArea] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [selectedStartDate, setSelectedStartDate] = useState(null);
-  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [selectedDates, setSelectedDates] = useState([]);
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
 
@@ -251,12 +251,24 @@ export default function ActivityMain() {
     setShowFilter(!showfilter);
   };
 
+  // 進階篩 日期區間
   const handleDateChange = (dates) => {
     const [startDate, endDate] = dates;
     setStartDate(startDate);
     setEndDate(endDate);
+    setSelectedDates(dates);
   };
 
+  const rangeConfig = {
+    rules: [
+      {
+        type: 'array',
+      },
+    ],
+  };
+
+
+  // 進階篩 價格
   const handlePriceChange = (minPrice, maxPrice) => {
     setSelectedMinPrice(minPrice);
     setSelectedMaxPrice(maxPrice);
@@ -319,26 +331,26 @@ export default function ActivityMain() {
   };
 
   //重置篩選條件
-  // const clearAllFilter = () => {
-  //   setFilters(filterDatas);
-  //   // setEndDate('');
-  //   // setStartDate('');
-  //   // setDatePickerValue(null);
-  //   setSelectedCity(null);
-  //   setSelectedArea(null);
-  //   setMinPrice('');
+  const clearAllFilter = () => {
+    setFilters(filterDatas);
+    // setEndDate(null);
+    // setStartDate(null);
+    setSelectedDates([]);
+    setSelectedCity(null);
+    setSelectedArea(null);
+    setMinPrice('');
 
-  //   const { keyword } = router.query;
-  //   const query = { page: 1 };
-  //   if (keyword) {
-  //     query.keyword = keyword;
-  //   }
-  //   router.push(
-  //     `?${new URLSearchParams({
-  //       ...query,
-  //     }).toString()}`
-  //   );
-  // };
+    const { keyword } = router.query;
+    const query = { page: 1 };
+    if (keyword) {
+      query.keyword = keyword;
+    }
+    router.push(
+      `?${new URLSearchParams({
+        ...query,
+      }).toString()}`
+    );
+  };
 
   //收藏列表相關的函式------------------------------------------------------------
 
@@ -580,7 +592,26 @@ export default function ActivityMain() {
                 />
                 <ActivityFilterPrice onPriceChange={handlePriceChange} />
 
-                <ActivityFilterDate onDateChange={handleDateChange} />
+                <div className="container-inner">
+                  <ConfigProvider
+                    theme={{
+                      token: {
+                        colorPrimary: '#FD8C46',
+                        fontSize: 18,
+                        controlInteractiveSize: 18,
+                      },
+                    }}
+                  >
+                    <label>活動日期：</label>
+                    <DatePicker.RangePicker
+                      name="range-picker"
+                      label="活動日期"
+                      {...rangeConfig}
+                      onChange={handleDateChange}
+                      value={selectedDates}
+                    />
+                  </ConfigProvider>
+                </div>
 
                 <div>
                   <div>
@@ -629,7 +660,7 @@ export default function ActivityMain() {
                 </div>
 
                 <div className={styles.filter_btns}>
-                  {/* <SecondaryBtn text="重置" clickHandler={clearAllFilter} /> */}
+                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
                   <MainBtn text="確定" clickHandler={filterHandler} />
                 </div>
               </div>

@@ -92,7 +92,7 @@ const ActivityCard1 = ({
               className={styles.row_icon}
             />
             <div>
-              <p>
+              <p className={styles.pText}>
                 {date_begin}~{date_end}
               </p>
             </div>
@@ -101,14 +101,14 @@ const ActivityCard1 = ({
           <div className={styles.row}>
             <FontAwesomeIcon icon={faClock} className={styles.row_icon} />
             <div>
-              <p>{time}</p>
+              <p className={styles.pText}>{time}</p>
             </div>
           </div>
 
           <div className={styles.row}>
             <FontAwesomeIcon icon={faLocationDot} className={styles.row_icon} />
-            <div className={styles.rowTextAddress}>
-              <p>
+            <div>
+              <p className={styles.pText}>
                 {city}
                 {area}
                 {address}
@@ -126,7 +126,7 @@ const ActivityCard1 = ({
 
           <div>
             <p className={styles.row_price}>
-              ${price} (大人) ${price / 2} (小孩)
+            ${(price).toLocaleString()} (大人) ${(price / 2).toLocaleString()} (小孩)
             </p>
           </div>
         </div>
