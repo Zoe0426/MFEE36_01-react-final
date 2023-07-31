@@ -30,7 +30,9 @@ export default function Home() {
   useEffect(() => {
     getHomeData();
   }, []);
-
+  const toSectionHome = (section) => {
+    router.push(`/${section}`); //前往各區首頁
+  };
   const redirectToProduct = (prodId) => {
     router.push(`/product/${prodId}`); //[pid].js
   };
@@ -227,7 +229,12 @@ export default function Home() {
                   })}
                 </div>
                 <div className={style.shopBtnArea}>
-                  <MainBtn text="看更多商品" />
+                  <MainBtn
+                    text="看更多商品"
+                    clickHandler={() => {
+                      toSectionHome('product');
+                    }}
+                  />
                   <img
                     src="/home-images/catJump.png"
                     className={style.catJump}
@@ -281,7 +288,12 @@ export default function Home() {
                       })}
                     </div>
 
-                    <MainBtn text="看更多活動" />
+                    <MainBtn
+                      text="看更多活動"
+                      clickHandler={() => {
+                        toSectionHome('activity');
+                      }}
+                    />
                   </div>
                   {activityData.map((v) => (
                     <HomeActInfoCard
@@ -348,7 +360,12 @@ export default function Home() {
                   狗with咪統整多家寵物友善餐廳並結合預約服務，包含豐富的餐食類別，透過多元的篩選功能（如：餐廳類別、攜帶規範、服務項目以及地區等），找到合適的用餐環境，讓飼主和毛寶貝能夠一起快樂用餐！
                 </p>
 
-                <MainBtn text="看更多餐廳" />
+                <MainBtn
+                  text="看更多餐廳"
+                  clickHandler={() => {
+                    toSectionHome('restaurant');
+                  }}
+                />
               </article>
             </Col>
           </Row>
@@ -382,7 +399,19 @@ export default function Home() {
                     return <HashTag key={i} text={h} marginB="mb8" />;
                   })}
                 </div>
-                <MainBtn text="前往論壇" />
+                <div className={style.forumBtnArea}>
+                  <MainBtn
+                    text="前往論壇"
+                    clickHandler={() => {
+                      toSectionHome('forum');
+                    }}
+                  />
+                  <img
+                    src="/home-images/h-chat.png"
+                    alt="dogcatchat"
+                    className={style.forumChatImg}
+                  />
+                </div>
               </article>
             </Col>
             <Col xs={0} sm={0} md={1}></Col>

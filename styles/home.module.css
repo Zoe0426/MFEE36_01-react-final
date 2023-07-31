@@ -104,8 +104,15 @@
 .forumbg{
     padding: 30px 0 70px 0;
 }
-
-
+.forumBtnArea{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.forumChatImg{
+    width: 40%;
+    margin-right: 40px;
+}
 .hSection{
     position: relative;
     align-items: center;
