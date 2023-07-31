@@ -65,7 +65,7 @@
 .modal_content{
     padding: var(--p16);
 }
-.line {
+/* .line {
   height: 1px;
   border-bottom: 1px solid rgb(203, 203, 203);
 }
@@ -75,15 +75,15 @@
   justify-content: flex-end;
   margin-top: 12px;
   height: 50px;
-}
+} */
 
-.btn_group > button {
+/* .btn_group > button {
   margin-right: 16px;
   padding-top: 0;
   padding-bottom: 0;
   line-height: 100%;
   text-align: center;
-}
+} */
 
 @media screen and (max-width: 767px) {
   .modal_card {
@@ -97,7 +97,7 @@
     padding-bottom: 12px;
   }
   
-  .btn_group > button {
+  /* .btn_group > button {
     margin-right: 0;
     width: 100%;
     line-height: 100%;
@@ -106,5 +106,5 @@
     gap: 16px;
     justify-content: space-around;
     padding: 0 16px;
-  }
+  } */
 }
