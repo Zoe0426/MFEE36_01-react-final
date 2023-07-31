@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SignLayout from '@/components/layout/sign-layout';
 import SignCard from '@/components/ui/cards/SignCard';
 import SignInForm from '@/components/ui/forms/SignInForm';
@@ -8,11 +8,13 @@ import { useRouter } from 'next/router';
 
 export default function SignIn() {
   const { setAuth } = useContext(AuthContext);
+  const [pass, setPass] = useState(false);
+  const [nopass, setNoPass] = useState(false);
 
   //回去哪一頁的路徑
   const router = useRouter();
   const fromPath2 = router.asPath.split('from=')[1] || '/';
-  console.log({ mem: router.asPath.split('from=')[1] });
+  //console.log({ mem: router.asPath.split('from=')[1] });
 
   //送出表單
   const handleSubmit = (values) => {
@@ -27,17 +29,24 @@ export default function SignIn() {
           const obj = { ...data.data };
           localStorage.setItem('petauth', JSON.stringify(obj));
           setAuth(obj);
-          // window.location.href = 'http://localhost:3000/member/wallet';
-          router.push(fromPath2);
+          setNoPass(false);
+          setPass(true);
+          setTimeout(() => {
+            router.push(fromPath2);
+          }, 500);
         } else {
-          alert(data.error || '帳密錯誤');
+          setNoPass(true);
+          setPass(false);
         }
       });
+    console.log('pass', pass);
   };
   return (
     <>
       <SignCard title="會員登入">
-        <SignInForm handleSubmit={handleSubmit} />
+        {nopass && !pass && <div className="signNoPass">帳號密碼錯誤 ！</div>}
+        {pass && <div className="signPass">登入成功 ！</div>}
+        <SignInForm handleSubmit={handleSubmit} pass={setPass} />
       </SignCard>
     </>
   );

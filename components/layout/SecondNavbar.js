@@ -20,10 +20,6 @@ export default function SecondNavbar() {
             <img src="/member-center-images/Icon/order.svg" alt="" />
             <div className={Styles.linkTitile}>訂單記錄</div>
           </Link>
-          <Link href="/member/likes" className={Styles.linkItem}>
-            <img src="/member-center-images/Icon/likes.svg" alt="" />
-            <div className={Styles.linkTitile}>收藏清單</div>
-          </Link>
           <Link href="/member/wallet" className={Styles.linkItem}>
             <img src="/member-center-images/Icon/coin.svg" alt="" />
             <div className={Styles.linkTitile}>我的錢包</div>
@@ -32,7 +28,7 @@ export default function SecondNavbar() {
             <img src="/member-center-images/Icon/calendar.svg" alt="" />
             <div className={Styles.linkTitile}>我的預約</div>
           </Link>
-          <Link href="/member/game" className={Styles.linkItem}>
+          <Link href="/member/petGame" className={Styles.linkItem}>
             <img src="/member-center-images/Icon/pet.svg" alt="" />
             <div className={Styles.linkTitile}>我的寵物</div>
           </Link>

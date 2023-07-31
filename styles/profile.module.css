@@ -1,4 +1,4 @@
-.signUpForm{
+.editForm{
   width: 70%;
   margin: 0 auto;
 }
@@ -26,7 +26,81 @@
   color: var(--green);
 }
 
-@media screen and (max-width:767px){
 
+.content{
+  margin-top: 30px;
+  background-color: var(--light1);
+  border-radius: var(--br10);
+  padding: var(--p32) 0;
+} 
+
+.nameMobile{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+
+
+.name{
+  width: 80%;
+  padding-right: 50px;
+}
+
+.title{
+  font-size: var(--h2fs32);
+  color: var(--dark);
+  font-weight: var(--fwbold);
+  letter-spacing: 2px;
+  margin-bottom: 50px;
+}
+
+.avatar{
+  width: 200px;
+  height: 200px;
+  background-color: #fff;
+}
+
+.avatar img{
+  width: 100%;
+  object-fit: cover;
+}
+
+
+
+.warning{
+  font-size: var(--pfs14);
+  color: var( --heartRed);
+}
+
+@media screen and (max-width:1440px) and (min-width:769px){
+  .nameMobile{
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .name{
+    padding-right: 0;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+
+}
+
+@media screen and (max-width:767px){
+  .nameMobile{
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .name{
+    margin-top: 20px;
+    padding-right: 0;
+    width: 100%;
+  }
 
 }

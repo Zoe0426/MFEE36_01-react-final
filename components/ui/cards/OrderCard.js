@@ -23,6 +23,8 @@ export default function OrderCard({
     router.push(`/member/orderlist/${orderSid}`);
   };
 
+  // const price = subTotal.num.toLocaleString();
+
   switch (status) {
     case 1:
       statusName = '備貨中';

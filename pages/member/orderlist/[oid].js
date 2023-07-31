@@ -510,7 +510,7 @@ export default function OrderDetail() {
               </div>
               <div className={Style.priceItem}>
                 <p className={Style.priceTitle}>訂單金額</p>
-                <p>${data[0].orderRelS}</p>
+                <p>${data[0].orderRelS.toLocaleString()}</p>
               </div>
               <div className={Style.priceItem}>
                 <p className={Style.priceTitle}>付款方式</p>

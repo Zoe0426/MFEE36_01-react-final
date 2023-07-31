@@ -8,7 +8,7 @@
   margin: 0 auto;
   margin-top: 50px;
   background-color: #fff;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   max-width: 700px;
   min-width: 325px;
 }

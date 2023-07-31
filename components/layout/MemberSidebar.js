@@ -1,23 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Styles from './MemberSidebar.module.css';
 import { Calendar, ConfigProvider } from 'antd';
-
+import AuthContext from '@/context/AuthContext';
 export default function MemberSidebar() {
+  const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
   const [data, setData] = useState();
-  useEffect(() => {
-    let auth = {};
-    const authStr = localStorage.getItem('petauth');
-    if (authStr) {
-      try {
-        auth = JSON.parse(authStr);
-      } catch (ex) {
-        ('');
-      }
-    }
-    // console.log(auth.id);
-    // console.log(auth.token);
+  const [data2, setData2] = useState();
+  const [memProfileImg, setMemProfileImg] = useState(
+    `${process.env.API_SERVER}/img/default-profile.jpg`
+  );
 
-    if (auth.token) {
+  useEffect(() => {
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    if (auth.token && first) {
       fetch(`${process.env.API_SERVER}/member-api/schedule`, {
         headers: {
           Authorization: 'Bearer ' + auth.token,
@@ -28,10 +27,25 @@ export default function MemberSidebar() {
           console.log(data);
           setData(data);
         });
+      fetch(`${process.env.API_SERVER}/member-api/edit`, {
+        headers: {
+          Authorization: 'Bearer ' + auth.token,
+        },
+      })
+        .then((r) => r.json())
+        .then((data2) => {
+          setData2(data2);
+          console.log('data2', data2[0].profile);
+          if (data2[0].profile) {
+            setMemProfileImg(data2[0].profile);
+          } else {
+            setMemProfileImg(`/default-profile.jpg`);
+          }
+        });
     } else {
       console.log('User is not logged in. Cannot fetch coupons.');
     }
-  }, []);
+  }, [auth, first]);
 
   if (data != undefined) {
     const getListData = (value, data) => {
@@ -96,52 +110,57 @@ export default function MemberSidebar() {
       );
     };
 
-    return (
-      <>
-        <div className={Styles.sideBar}>
-          <div className={Styles.memberInfo}>
-            <div className={Styles.profile}>
-              <img src="/member-center-images/nn.jpg" alt="" />
+    if (data2 != undefined) {
+      return (
+        <>
+          <div className={Styles.sideBar}>
+            <div className={Styles.memberInfo}>
+              <div className={Styles.profile}>
+                <img
+                  src={`${process.env.API_SERVER}/img/${memProfileImg}`}
+                  alt="profilePic"
+                />
+              </div>
+              <div className={Styles.memberName}>{data2[0]?.name}</div>
+              <div className={Styles.level}>
+                <img src="/member-center-images/Icon/crown.svg" alt="" />
+                <div className={Styles.levelTitle}>{data2[0]?.level}會員</div>
+              </div>
             </div>
-            <div className={Styles.memberName}>鍾沛怡</div>
-            <div className={Styles.level}>
-              <img src="/member-center-images/Icon/crown.svg" alt="" />
-              <div className={Styles.levelTitle}>金牌會員</div>
-            </div>
-          </div>
-          <div className={Styles.calendarInfo}>
-            <div className={Styles.calendar}>
-              <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: '#FD8C46',
-                    colorText: 'rgb(81, 81, 81)',
-                    fontSize: 14,
-                    controlInteractiveSize: 14,
-                  },
-                }}
-              >
-                <Calendar fullscreen={false} cellRender={dateCellRender} />
-              </ConfigProvider>
-            </div>
+            <div className={Styles.calendarInfo}>
+              <div className={Styles.calendar}>
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: '#FD8C46',
+                      colorText: 'rgb(81, 81, 81)',
+                      fontSize: 14,
+                      controlInteractiveSize: 14,
+                    },
+                  }}
+                >
+                  <Calendar fullscreen={false} cellRender={dateCellRender} />
+                </ConfigProvider>
+              </div>
 
-            <div className={Styles.calendarCircle}>
-              <div className={Styles.red}>
-                <div className={Styles.redCircle}></div>
-                <div className={Styles.text}>餐廳</div>
-              </div>
-              <div className={Styles.green}>
-                <div className={Styles.greenCircle}></div>
-                <div className={Styles.text}>活動</div>
-              </div>
-              <div className={Styles.blue}>
-                <div className={Styles.blueCircle}></div>
-                <div className={Styles.text}>兩者</div>
+              <div className={Styles.calendarCircle}>
+                <div className={Styles.red}>
+                  <div className={Styles.redCircle}></div>
+                  <div className={Styles.text}>餐廳</div>
+                </div>
+                <div className={Styles.green}>
+                  <div className={Styles.greenCircle}></div>
+                  <div className={Styles.text}>活動</div>
+                </div>
+                <div className={Styles.blue}>
+                  <div className={Styles.blueCircle}></div>
+                  <div className={Styles.text}>兩者</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </>
-    );
+        </>
+      );
+    }
   }
 }

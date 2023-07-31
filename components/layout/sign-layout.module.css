@@ -1,8 +1,9 @@
 .main{
   width: 100%;
-  border: 1px solid red;
 	margin-top: 65px;
+	border: 1px solid transparent;
 }
+
 
 
 
