@@ -33,7 +33,7 @@ export default function ActivityHome() {
   const [data, setData] = useState([]);
   const [topCityData, setTopCityData] = useState([]);
   const [wish, setWish] = useState([]);
-  const [popularCount,setPopularCount]=useState([]);
+  const [popularCount, setPopularCount] = useState([]);
 
   // 會員登入
   const { auth } = useContext(AuthContext);
@@ -543,8 +543,13 @@ export default function ActivityHome() {
 
       {/* .........分類bar......... */}
       <div className={styles.type}>
-        <div className="container-inner">
+        <div className="container-outer">
           <div className={styles.type_btn_group}>
+            <img
+              className={styles.type_decoration}
+              src="./activity_img/decoration2.png"
+              alt=""
+            />
             <img
               className={styles.type_decoration}
               src="./activity_img/decoration1.png"
@@ -586,9 +591,15 @@ export default function ActivityHome() {
             >
               <SubBtn img="./activity_img/subicon_6.png" text="願望清單" />
             </Link>
+
             <img
               className={styles.type_decoration}
               src="./activity_img/decoration1.png"
+              alt=""
+            />
+            <img
+              className={styles.type_decoration}
+              src="./activity_img/decoration3.png"
               alt=""
             />
           </div>
@@ -651,7 +662,8 @@ export default function ActivityHome() {
       </div>
 
       {/* .........銜接處圖片1......... */}
-      <img src="/activity_img/index_bg_1.jpg" alt="Activity" />
+      {/* <img src="/activity_img/index_bg_1.jpg" alt="Activity" /> */}
+      <img src="/activity_img/index_bg_2.jpg" alt="Activity" />
 
       {/* .........section2......... */}
       <div className={styles.section2}>
@@ -706,9 +718,8 @@ export default function ActivityHome() {
           </Row>
         </div>
       </div>
-
       {/* .........銜接處圖片2......... */}
-      <img src="/activity_img/index_bg_2.jpg" alt="Activity" />
+      <img src="/activity_img/index_bg_3.jpg" alt="Activity" />
 
       {/* .........section3......... */}
       <div className={styles.section3}>
@@ -722,14 +733,12 @@ export default function ActivityHome() {
               const { city } = i;
               return <ActivityCard2 key={city} city={city} />;
             })}
-            
           </Row>
         </div>
       </div>
 
       {/* .........銜接處圖片3......... */}
-      <img src="/activity_img/index_bg_3.jpg" alt="Activity" />
-
+      <img src="/activity_img/index_bg_4.jpg" alt="Activity" />
       {/* .........section4......... */}
       <div className={styles.section4}>
         <div className="container-inner">

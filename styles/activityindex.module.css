@@ -35,21 +35,50 @@
 }
 
 
-.selector{
-    background: var(--light1);
-}
+/*篩選按鈕*/
+
+.bgc {
+    background-color: var(--lightBrown);
+  }
+  
+  .btns > button:nth-child(2) {
+    margin-left: var(--p16);
+  }
+  
+  .nav_head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--p32) 0 var(--p32) 0;
+  }
+  
+  .filter_box {
+    padding-bottom: 40px;
+  }
+  .line {
+    border-bottom: 1px solid var(--gray);
+    opacity: 0.5;
+    margin-top: 1px;
+  }
+  .filter_btns {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 70px;
+    height: 50px;
+  }
+
 
 
 .type{
     width: 100%;
-    background: var(--light1);
+    background: var(--light2);
 }
 
 .type_btn_group{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:80px 0;
+    padding:35px 80px;
 }
 
 .type_decoration{
@@ -62,8 +91,8 @@
   }
 
 .section1{
-    height: 602px;
-    background: var(--light1);
+    /* height: 602px; */
+    background: var(--light2);
 }
 
 .section_card{
@@ -73,19 +102,20 @@
 }
 
 .section2{
-    height: 602px;
-    background:var(--light2);
-    margin-top: 70px;
+    /* height: 602px; */
+    background:var(--light1);
+    /* margin-top: 70px; */
 }
 
 .section3{
-    height: 791px;
-    background: var(--light1);
+    /* height: 791px; */
+    background: var(--light2);
 }
 
 .section4{
-    height: 477px;
-    background: var(--light2);
+    /* height: 477px; */
+    background: var(--light1);
+    padding: 80px 0;
 }
 
 .title{
