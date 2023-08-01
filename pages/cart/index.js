@@ -59,13 +59,18 @@ export default function Cart() {
   }, [auth, first]);
 
   const changeCheckoutType = (type) => {
-    if (checkoutType !== type) {
-      setCheckoutType(type);
-      setSelectAll(false);
-      setShopData((old) => old.map((v) => ({ ...v, selected: false })));
-      setActivityData((old) => old.map((v) => ({ ...v, selected: false })));
-      setCouponData((old) => old.map((v, i) => ({ ...v, selected: i === 0 })));
-    }
+    console.log({ type });
+    const shopSelectStatus =
+      shopData.filter((v) => v.selected == true).length > 0;
+    const actSelectStatus =
+      activityData.filter((v) => v.selected == true).length > 0;
+    //if (type === 'shop' && !actSelectStatus) {
+    setCheckoutType(type);
+    setSelectAll(false);
+    setShopData((old) => old.map((v) => ({ ...v, selected: false })));
+    setActivityData((old) => old.map((v) => ({ ...v, selected: false })));
+    setCouponData((old) => old.map((v, i) => ({ ...v, selected: i === 0 })));
+    //}
   };
 
   const checkAllHandler = () => {
@@ -204,6 +209,8 @@ export default function Cart() {
 
   console.log(cartData);
   console.log(paymentType);
+  console.log(checkoutType);
+
   if (pageLoading) {
     return <Loading />;
   } else if (!pageLoading) {
@@ -224,17 +231,17 @@ export default function Cart() {
               <div className={style.checkoutType}>
                 <CartTab
                   type="shop"
-                  text="商品結帳"
+                  text={`商品結帳 (${shopData.length})`}
                   checkoutType={checkoutType}
-                  clickHandler={() => {
+                  changeTypeHandler={() => {
                     changeCheckoutType('shop');
                   }}
                 />
                 <CartTab
                   type="activity"
-                  text="活動結帳"
+                  text={`活動結帳 (${activityData.length})`}
                   checkoutType={checkoutType}
-                  clickHandler={() => {
+                  changeTypeHandler={() => {
                     changeCheckoutType('activity');
                   }}
                 />
