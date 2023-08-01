@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import style from './cartActivityCard.module.css';
 import { Checkbox } from 'antd';
 import CloseBtn from '../buttons/closeBtn';
 import NumberInput from '../numberInput/numberInput';
+import AuthContext from '@/context/AuthContext';
 
 export default function CartActivityCard({
   cartSid = '',
+  relSid = '',
+  relSeqSid = '',
   img = '',
   prodtitle = '',
   prodSubtitle = '',
@@ -18,6 +21,7 @@ export default function CartActivityCard({
   setActivityData = () => {},
   setSelectAll = () => {},
 }) {
+  const { updateCart } = useContext(AuthContext);
   const [myAdQty, setMyAdQty] = useState(adQty);
   const [myKidQty, setMyKidQty] = useState(kidQty);
 
@@ -57,9 +61,12 @@ export default function CartActivityCard({
     );
     const result = await r.json();
     console.log('remove-result:', result);
-    result === 'success'
-      ? setActivityData((old) => old.filter((v) => v.cart_sid !== sid))
-      : alert('remove from DB failed');
+    if (result === 'success') {
+      setActivityData((old) => old.filter((v) => v.cart_sid !== sid));
+      updateCart(relSid, relSeqSid, 'remove');
+    } else {
+      alert('remove from DB failed');
+    }
   };
   return (
     <div className={style.productCard}>
