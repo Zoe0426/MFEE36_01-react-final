@@ -44,19 +44,52 @@
   padding: var(--p32) 0 var(--p32) 0;
 }
 
-.filter_box {
-  padding-bottom: 40px;
-}
+.filter {
+  margin: 80px 0 0 0 ;
+  }
+
+.filter_date {
+  margin: 48px 0;
+  }
+
 .line {
   border-bottom: 1px solid var(--gray);
   opacity: 0.5;
   margin-top: 1px;
 }
+
 .filter_btns {
   display: flex;
   justify-content: flex-end;
-  margin-top: 70px;
-  height: 50px;
+  margin-top: 20px;
+}
+
+.filter_btns>button {
+  margin-left: 16px;
+  text-align: center;
+}
+
+.labels {
+  font-size: var(--h6fs18);
+  font-weight: var(--fwbold);
+  height: 100%;
+  line-height: 50px;
+  margin-right: 16px;
+}
+
+.dropdowns{
+  width: 100%;
+  display: flex;
+}
+
+.dropdown_arrow{
+  margin-right: 100px;
+}
+
+.location{
+  margin-right: 16px;
+  padding: 0 16px;
+  width: 200px;
 }
 
 .quick_selector {

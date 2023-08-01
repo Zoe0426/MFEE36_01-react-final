@@ -39,7 +39,7 @@ export default function ActivityDetail() {
   const router = useRouter();
 
   // 會員登入相關
-  const { auth } = useContext(AuthContext);
+  const { auth,updateCart } = useContext(AuthContext);
   const authId = auth.id;
 
   // 新增活動相關
@@ -202,6 +202,9 @@ export default function ActivityDetail() {
       );
 
       if (!response.ok) throw new Error('報名失敗');
+
+      //購物車小icon立即更新
+      updateCart(activitySid, selectedDate, 'add');
 
       console.log('報名成功');
     } catch (error) {

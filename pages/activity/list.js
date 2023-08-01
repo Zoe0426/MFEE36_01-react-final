@@ -267,7 +267,6 @@ export default function ActivityMain() {
     ],
   };
 
-
   // 進階篩 價格
   const handlePriceChange = (minPrice, maxPrice) => {
     setSelectedMinPrice(minPrice);
@@ -339,6 +338,7 @@ export default function ActivityMain() {
     setSelectedCity(null);
     setSelectedArea(null);
     setMinPrice('');
+    setMaxPrice('');
 
     const { keyword } = router.query;
     const query = { page: 1 };
@@ -581,9 +581,9 @@ export default function ActivityMain() {
               <div className={styles.line}></div>
             </div>
             <div className="container-inner">
-              <div className={styles.filter_box}>
+              <div className={styles.filter}>
                 <ActivityFilter
-                  text="活動類別:"
+                  text="活動類別："
                   name="activity_type_sid"
                   data={filters.activity_type_sid}
                   selectedValue={selectedActivityTypeSid}
@@ -592,17 +592,20 @@ export default function ActivityMain() {
                 />
                 <ActivityFilterPrice onPriceChange={handlePriceChange} />
 
-                <div className="container-inner">
+                <div className={styles.filter_date}>
                   <ConfigProvider
                     theme={{
                       token: {
                         colorPrimary: '#FD8C46',
                         fontSize: 18,
                         controlInteractiveSize: 18,
+                        lineHeight: 1.8,
+                        controlHeight: 50,
+                        borderRadius: 10,
                       },
                     }}
                   >
-                    <label>活動日期：</label>
+                    <label className={styles.labels}>活動日期：</label>
                     <DatePicker.RangePicker
                       name="range-picker"
                       label="活動日期"
@@ -613,54 +616,73 @@ export default function ActivityMain() {
                   </ConfigProvider>
                 </div>
 
-                <div>
-                  <div>
-                    <label>活動地點</label>
-                  </div>
-                  <div>
-                    {/* City Dropdown */}
-                    <Dropdown
-                      overlay={
-                        <Menu onClick={handleCityClick}>
-                          {Object.keys(cityDatas).map((city) => (
-                            <Menu.Item key={city}>{city}</Menu.Item>
-                          ))}
-                        </Menu>
-                      }
-                      placement="bottomLeft"
-                    >
-                      <Button>
-                        <Space>
-                          <p>{selectedCity ? selectedCity : '縣市'}</p>
-                          <DownOutlined />
-                        </Space>
-                      </Button>
-                    </Dropdown>
-
-                    {/* Area Dropdown */}
-                    <Dropdown
-                      overlay={
-                        <Menu onClick={handleAreaClick}>
-                          {selectedCity &&
-                            cityDatas[selectedCity].map((area) => (
-                              <Menu.Item key={area}>{area}</Menu.Item>
+                <div className={styles.dropdowns}>
+                  <ConfigProvider
+                    theme={{
+                      token: {
+                        colorBorder: '#DDDDDD',
+                        colorPrimary: '#FD8C46',
+                        colorBgContainer: 'rgba(255,255,255)',
+                        borderRadius: 10,
+                        controlHeight: 50,
+                        fontSize: 16,
+                        borderRadiusOuter: 10,
+                      },
+                    }}
+                  >
+                    <div>
+                      <label className={styles.labels}>活動地點：</label>
+                    </div>
+                    <div>
+                      {/* City Dropdown */}
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleCityClick}>
+                            {Object.keys(cityDatas).map((city) => (
+                              <Menu.Item key={city}>{city}</Menu.Item>
                             ))}
-                        </Menu>
-                      }
-                      placement="bottomLeft"
-                    >
-                      <Button>
-                        <Space>
-                          <p>{selectedArea ? selectedArea : '地區'}</p>
-                          <DownOutlined />
-                        </Space>
-                      </Button>
-                    </Dropdown>
-                  </div>
+                          </Menu>
+                        }
+                        className={styles.location}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={styles.dropdown_arrow}>{selectedCity ? selectedCity : '縣市'}</p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+
+                      {/* Area Dropdown */}
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleAreaClick}>
+                            {selectedCity &&
+                              cityDatas[selectedCity].map((area) => (
+                                <Menu.Item key={area}>{area}</Menu.Item>
+                              ))}
+                          </Menu>
+                        }
+                        className={styles.location}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={styles.dropdown_arrow}
+                            >{selectedArea ? selectedArea : '地區'}</p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                    </div>
+                  </ConfigProvider>
                 </div>
 
                 <div className={styles.filter_btns}>
-                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
+                  <SecondaryBtn
+                  text="重置" 
+                  clickHandler={clearAllFilter} />
                   <MainBtn text="確定" clickHandler={filterHandler} />
                 </div>
               </div>
