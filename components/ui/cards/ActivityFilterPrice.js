@@ -40,8 +40,14 @@ const ActivityFilterPrice = ({ onPriceChange }) => {
         },
       }}
     >
-      <label className={styles.labels}>活動價格：</label>
-      <Radio.Group options={plainOptions} onChange={onChange1} value={value1} />
+      <div className={styles.filter}>
+        <label className={styles.labels}>活動價格：</label>
+        <Radio.Group
+          options={plainOptions}
+          onChange={onChange1}
+          value={value1}
+        />
+      </div>
     </ConfigProvider>
   );
 };
