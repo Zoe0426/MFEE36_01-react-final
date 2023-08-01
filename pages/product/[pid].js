@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import Image from 'next/image';
+// import Link from 'next/link';
 import styles from '@/styles/shop.module.css';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
@@ -38,13 +39,18 @@ import {
   faChevronRight,
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFacebookSquare,
+  faLine,
+  faSquareInstagram,
+} from '@fortawesome/free-brands-svg-icons';
 
 export default function Product() {
   const router = useRouter();
   const productComment = useRef(null);
   const productReturn = useRef(null);
   const productSpecial = useRef(null);
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, updateCart } = useContext(AuthContext);
   const [first, setFrist] = useState(false);
   const [localStorageHistory, setLocalStorageHistory] = useLocalStorageJson(
     'petProductHistory',
@@ -56,7 +62,7 @@ export default function Product() {
     {
       id: 'shop',
       text: '商城',
-      href: 'http://localhost:3000/product',
+      href: `${process.env.WEB}/product`,
       show: true,
     },
     { id: 'search', text: '/ 飼料 /', href: '', show: true },
@@ -383,7 +389,8 @@ export default function Product() {
   }, []);
 
   //購物車相關函式----------------------------
-  const sendToCart = async (obj = {}, token = '') => {
+  const sendToCart = async (obj = {}, token = '', type = '') => {
+    // updateCart(obj.pid, obj.spec, 'add');
     const res = await fetch(`${process.env.API_SERVER}/shop-api/sent-to-cart`, {
       method: 'POST',
       headers: {
@@ -398,8 +405,10 @@ export default function Product() {
       setSuccessAddToCard(true);
       setTimeout(() => {
         setSuccessAddToCard(false);
+        if (type === 'toCart') {
+          router.push('/cart');
+        }
       }, 1200);
-      // console.log(data);
     }
   };
 
@@ -703,6 +712,22 @@ export default function Product() {
     setTotalCommentPage(newCommentTotalPage);
   };
 
+  //分享頁面
+  const handleLineShare = () => {
+    const title = datatForProductMain.name; // 替換成你想要分享的標題
+    const imageUrl = `${process.env.WEB}/product-img/${datatForProductDetail[0].img}`; // 替換成你的圖片URL
+    const shareUrl = window.location.href;
+
+    // 使用Line的Message API分享圖片、標題和網址
+    const shareURL = `https://line.me/R/msg/text/?${encodeURIComponent(
+      title
+    )}%0D%0A${encodeURIComponent(shareUrl)}%0D%0A${encodeURIComponent(
+      imageUrl
+    )}`;
+
+    window.open(shareURL);
+  };
+
   return (
     <>
       <div className="outer-container">
@@ -807,6 +832,32 @@ export default function Product() {
                     </Fragment>
                   );
                 })}
+              </div>
+              <div className={styles.share_box}>
+                <div className={styles.share_title}>分享商品:</div>
+                <div className={styles.share_icons}>
+                  {/* <Link
+                    href={`https://social-plugins.line.me/lineit/share?url=${process.env.WEB}${router.asPath}`}
+                    target="_blank"
+                    title={datatForProductMain.name}
+                  > */}
+                  <FontAwesomeIcon
+                    icon={faLine}
+                    className={styles.line}
+                    onClick={handleLineShare}
+                  />
+                  {/* </Link> */}
+                  {/* <LineShare /> */}
+
+                  <FontAwesomeIcon
+                    icon={faFacebookSquare}
+                    className={styles.fb}
+                  />
+                  <FontAwesomeIcon
+                    icon={faSquareInstagram}
+                    className={styles.ig}
+                  />
+                </div>
               </div>
             </div>
             <div className={styles.detail_main_info}>
@@ -936,6 +987,7 @@ export default function Product() {
                     text={'加入購物車'}
                     clickHandler={() => {
                       if (purchaseInfo.spec) {
+                        updateCart(purchaseInfo.pid, purchaseInfo.spec, 'add');
                         sendToCart(purchaseInfo, auth.token);
                       } else {
                         setShowWarning(true);
@@ -963,8 +1015,8 @@ export default function Product() {
                     text={'立即購買'}
                     clickHandler={() => {
                       if (purchaseInfo.spec) {
-                        sendToCart(purchaseInfo, auth.token);
-                        router.push('/cart');
+                        updateCart(purchaseInfo.pid, purchaseInfo.spec, 'add');
+                        sendToCart(purchaseInfo, auth.token, 'toCart');
                       } else {
                         setShowWarning(true);
                       }
