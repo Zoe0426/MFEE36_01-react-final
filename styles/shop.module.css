@@ -367,11 +367,45 @@
   width: 100%;
 }
 
+/*分享社群的按鈕們*/
+.share_box{
+  margin:var(--p16) 0;
+  display: flex;
+  align-items: center;
+}
+
+.share_title{
+  font-size: var(--h6fs18);
+  /* line-height:var(--h2fs32); */
+}
+
+.share_icons svg{
+  margin: 0 var(--p8);
+  font-size: var(--h2fs32);
+  cursor: pointer;
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.share_icons svg.line{
+  font-size: 30px;
+  color:#35BE00;
+}
+
+.share_icons svg.fb{
+  color:#1B74E4;
+}
+
+.share_icons svg.ig{
+  color:#d72d82;
+ }
+
 /*價格*/
 .detail_price {
   font-size: var(--h4fs24);
   font-weight: var(--fwbold);
 }
+
 
 /*規格按鈕*/
 .detail_spec_btn {

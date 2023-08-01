@@ -30,6 +30,8 @@ export const AuthContextProvider = function ({ children }) {
     const itemID = `${relSid}_${relSeqSid}`;
     const getCart = localStorage.getItem(`${auth.id}cart`);
     const memItems = JSON.parse(getCart);
+    // console.log(memItems);
+    // console.log(itemID);
 
     if (todo === 'add' && !memItems.includes(itemID)) {
       //加1

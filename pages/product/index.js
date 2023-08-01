@@ -16,6 +16,7 @@ import {
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
+
 //二大類圖示
 import dog from '@/assets/logo-dog.svg';
 import cat from '@/assets/logo-cat.svg';
@@ -473,8 +474,7 @@ export default function ProdoctIndex() {
                       img={e.icon}
                       text={e.text}
                       subBtnHandler={() => {
-                        // const newRef=JSON.parse(e.href)
-                        router.push(e.href);
+                        router.push(`${process.env.WEB}${e.href}`);
                       }}
                     />
                   </Col>
