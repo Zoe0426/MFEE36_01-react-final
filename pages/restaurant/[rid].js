@@ -417,7 +417,11 @@ export default function RestInfo() {
     { avg_rating: 1, count: 0 },
   ]);
   const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
+
   const commentFiliterByRating = (dataForComment, type) => {
+    console.log('Type:', type);
+    console.log('Data for Comment:', dataForComment);
+
     switch (type) {
       case 1:
       case 2:
@@ -425,10 +429,12 @@ export default function RestInfo() {
       case 4:
       case 5:
         return dataForComment.filter((v) => v.avg_rating === type);
+
       default:
         return dataForComment;
     }
   };
+
   //處理評論頁碼更動
   useEffect(() => {
     countTotalCommentPage();
@@ -439,10 +445,11 @@ export default function RestInfo() {
     const newShowFullCommentCard = !showFullCommentCard;
     if (arr.length > 0 && id) {
       const newArr = commentFiliterByRating(arr, ratingNow).map((v) => {
-        if (v.rest_comment_sid === id) {
+        if (v.rest_commtent_id === id) {
           return { ...v, display: true };
         } else return { ...v, display: false };
       });
+      console.log(newArr);
       setShowCommentCard(newArr);
       const currentIndex = newArr.findIndex((v) => v.display === true);
       if (currentIndex === 0) {
@@ -515,6 +522,10 @@ export default function RestInfo() {
 
     setTotalCommentPage(newCommentTotalPage);
   };
+  console.log(dataForCommentQty);
+  console.log(dataForComment);
+  console.log(commentFilter);
+  console.log(commentFiliterByRating);
 
   //給他一個loading的時間
   if (!serviceRows || !restDetailRows) return <p>loading</p>;
@@ -879,156 +890,152 @@ export default function RestInfo() {
         </div>
       </div> */}
       {/* 評價區 */}
-      <div className="container-outer">
-        <div className="container-inner">
-          <div className={Styles.comment_section} id="comment">
-            <h4 className={Styles.comment_title}>饕客評價</h4>
-            <p>{`(共 ${dataForCommentQty[0].count} 則相關評論)`}</p>
-            <div className={Styles.comment_btns}>
-              {dataForCommentQty.map((v) => {
-                const { avg_rating, count } = v;
-                return (
-                  <button
-                    key={avg_rating}
-                    className={
-                      commentFilter === avg_rating
-                        ? `${Styles.comment_btn} ${Styles.active_comment_btn}`
-                        : Styles.comment_btn
-                    }
-                    onClick={() => {
-                      setCommentFilter(avg_rating);
-                      setCommentCurrent(0);
-                      setShowCommentArrowLeft(false);
-                    }}
-                  >
-                    {avg_rating === 6
-                      ? '全部評論'
-                      : `${avg_rating}星 (${count})`}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <div className={Styles.shop_container_inner}>
-          <div className={Styles.comment_cards_box}>
-            {showCommentArrowLeft && (
-              <div className={Styles.detail_left_arrow_box}>
-                <FontAwesomeIcon
-                  icon={faChevronLeft}
-                  className={Styles.left_arrow}
-                  onClick={() => {
-                    if (commentCurrent <= 0) {
-                      setShowCommentArrowLeft(false);
-                    } else if (commentCurrent === 1) {
-                      setCommentCurrent(commentCurrent - 1);
-                      setShowCommentArrowRight(true);
-                      setShowCommentArrowLeft(false);
-                    } else {
-                      setCommentCurrent(commentCurrent - 1);
-                      setShowCommentArrowRight(true);
-                    }
-                  }}
-                />
-              </div>
-            )}
-            {showCommentArrowRight && (
-              <div
-                className={`${Styles.detail_right_arrow_box} ${Styles.comment_right_arrow_box}`}
-              >
-                <FontAwesomeIcon
-                  icon={faChevronRight}
-                  className={Styles.right_arrow}
-                  onClick={() => {
-                    if (commentCurrent === totalCommentPage - 1) {
-                      setShowCommentArrowRight(false);
-                    } else if (commentCurrent === totalCommentPage - 2) {
-                      setCommentCurrent(commentCurrent + 1);
-                      setShowCommentArrowLeft(true);
-                      setShowCommentArrowRight(false);
-                    } else {
-                      setCommentCurrent(commentCurrent + 1);
-                      setShowCommentArrowLeft(true);
-                    }
-                  }}
-                />
-              </div>
-            )}
-            <div className={Styles.comment_cards} style={commentStyle}>
-              {dataForComment &&
-              commentFiliterByRating(dataForComment, commentFilter).length <=
-                0 ? (
-                <NoCommentCard star={commentFilter} />
-              ) : (
-                commentFiliterByRating(dataForComment, commentFilter).map(
-                  (v) => {
-                    const {
-                      rest_commtent_id,
-                      created_at,
-                      avg_rating,
-                      content,
-                      name,
-                      profile,
-                    } = v;
-                    return (
-                      <CommentCard
-                        key={rest_commtent_id}
-                        date={created_at}
-                        rating={avg_rating}
-                        content={content}
-                        name={name}
-                        profile={profile}
-                        clickHandler={() => {
-                          toggleCommentCard(
-                            dataForComment,
-                            commentFilter,
-                            rest_commtent_id
-                          );
-                        }}
-                      />
-                    );
+
+      <div className="container-inner">
+        <div className={Styles.comment_section} id="comment">
+          <h4 className={Styles.jill_h2}>饕客評價</h4>
+          <p>{`(共 ${dataForCommentQty[0].count} 則相關評論)`}</p>
+          <div className={Styles.comment_btns}>
+            {dataForCommentQty.map((v) => {
+              const { avg_rating, count } = v;
+              return (
+                <button
+                  key={avg_rating}
+                  className={
+                    commentFilter === avg_rating
+                      ? `${Styles.comment_btn} ${Styles.active_comment_btn}`
+                      : Styles.comment_btn
                   }
-                )
-              )}
-            </div>
+                  onClick={() => {
+                    setCommentFilter(avg_rating);
+                    setCommentCurrent(0);
+                    setShowCommentArrowLeft(false);
+                  }}
+                >
+                  {avg_rating === 6 ? '全部評論' : `${avg_rating}星 (${count})`}
+                </button>
+              );
+            })}
           </div>
-        </div>
-        <div className="container-inner">
-          <ul className={Styles.shop_recommend_pages}>
-            {totalCommentPage <= 1 ? (
-              <div className={Styles.no_pages}></div>
-            ) : (
-              Array(totalCommentPage)
-                .fill(0)
-                .map((v, i) => {
-                  return (
-                    <li
-                      key={i}
-                      className={
-                        i === commentCurrent
-                          ? `${Styles.shop_sliders_pages_bttn} ${Styles.shop_sliders_pages_active}`
-                          : Styles.shop_sliders_pages_bttn
-                      }
-                      onClick={() => {
-                        setCommentCurrent(i);
-                        if (i === 0) {
-                          setShowCommentArrowLeft(false);
-                          setShowCommentArrowRight(true);
-                        } else if (i === totalCommentPage - 1) {
-                          setShowCommentArrowRight(false);
-                          setShowCommentArrowLeft(true);
-                        } else {
-                          setShowCommentArrowLeft(true);
-                          setShowCommentArrowRight(true);
-                        }
-                      }}
-                    ></li>
-                  );
-                })
-            )}
-          </ul>
         </div>
       </div>
+      <div className={Styles.shop_container_inner}>
+        <div className={Styles.comment_cards_box}>
+          {showCommentArrowLeft && (
+            <div className={Styles.detail_left_arrow_box}>
+              <FontAwesomeIcon
+                icon={faChevronLeft}
+                className={Styles.left_arrow}
+                onClick={() => {
+                  if (commentCurrent <= 0) {
+                    setShowCommentArrowLeft(false);
+                  } else if (commentCurrent === 1) {
+                    setCommentCurrent(commentCurrent - 1);
+                    setShowCommentArrowRight(true);
+                    setShowCommentArrowLeft(false);
+                  } else {
+                    setCommentCurrent(commentCurrent - 1);
+                    setShowCommentArrowRight(true);
+                  }
+                }}
+              />
+            </div>
+          )}
+          {showCommentArrowRight && (
+            <div
+              className={`${Styles.detail_right_arrow_box} ${Styles.comment_right_arrow_box}`}
+            >
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                className={Styles.right_arrow}
+                onClick={() => {
+                  if (commentCurrent === totalCommentPage - 1) {
+                    setShowCommentArrowRight(false);
+                  } else if (commentCurrent === totalCommentPage - 2) {
+                    setCommentCurrent(commentCurrent + 1);
+                    setShowCommentArrowLeft(true);
+                    setShowCommentArrowRight(false);
+                  } else {
+                    setCommentCurrent(commentCurrent + 1);
+                    setShowCommentArrowLeft(true);
+                  }
+                }}
+              />
+            </div>
+          )}
+          <div className={Styles.comment_cards} style={commentStyle}>
+            {dataForComment &&
+            commentFiliterByRating(dataForComment, commentFilter).length <=
+              0 ? (
+              <NoCommentCard star={commentFilter} />
+            ) : (
+              commentFiliterByRating(dataForComment, commentFilter).map((v) => {
+                const {
+                  rest_commtent_id,
+                  created_at,
+                  avg_rating,
+                  content,
+                  name,
+                  profile,
+                } = v;
+                return (
+                  <CommentCard
+                    key={rest_commtent_id}
+                    date={created_at}
+                    rating={avg_rating}
+                    content={content}
+                    name={name}
+                    profile={profile}
+                    clickHandler={() => {
+                      toggleCommentCard(
+                        dataForComment,
+                        commentFilter,
+                        rest_commtent_id
+                      );
+                    }}
+                  />
+                );
+              })
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="container-inner">
+        <ul className={Styles.shop_recommend_pages}>
+          {totalCommentPage <= 1 ? (
+            <div className={Styles.no_pages}></div>
+          ) : (
+            Array(totalCommentPage)
+              .fill(0)
+              .map((v, i) => {
+                return (
+                  <li
+                    key={i}
+                    className={
+                      i === commentCurrent
+                        ? `${Styles.shop_sliders_pages_bttn} ${Styles.shop_sliders_pages_active}`
+                        : Styles.shop_sliders_pages_bttn
+                    }
+                    onClick={() => {
+                      setCommentCurrent(i);
+                      if (i === 0) {
+                        setShowCommentArrowLeft(false);
+                        setShowCommentArrowRight(true);
+                      } else if (i === totalCommentPage - 1) {
+                        setShowCommentArrowRight(false);
+                        setShowCommentArrowLeft(true);
+                      } else {
+                        setShowCommentArrowLeft(true);
+                        setShowCommentArrowRight(true);
+                      }
+                    }}
+                  ></li>
+                );
+              })
+          )}
+        </ul>
+      </div>
+
       {/* 全螢幕的評價顯示 */}
       {showFullCommentCard && (
         <div className={Styles.show_full_comment_card}>

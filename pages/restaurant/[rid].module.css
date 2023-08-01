@@ -158,14 +158,14 @@
   right: -8%;
   top: -200%;
 }
-.comment_cards {
+/* .comment_cards {
   display: flex;
   flex-wrap: nowrap;
   margin-bottom: 110px;
   padding-bottom: 30px;
   margin-top: 30px;
   overflow-y: auto;
-}
+} */
 .detail_main_buttom {
   margin-top: 50px;
   display: flex;
@@ -352,12 +352,13 @@
   max-width: 1280px;
   margin: auto;
   position: relative;
+  margin-bottom: 110px;
 }
 
 .comment_cards {
   display: flex;
   flex-wrap: nowrap;
-  padding: var(--p16) 0;
+  padding: 30px 0;
   position: relative;
 }
 
@@ -391,7 +392,23 @@
   min-width: 300px;
   z-index: 1001;
 }
-
+.detail_right_arrow_box {
+  top: 0px;
+  right: -80px;
+  width: 120px;
+  background-image: linear-gradient(to left, #f7ece3 80%, transparent);
+  display: flex;
+  justify-content: flex-end;
+}
+.comment_right_arrow_box {
+  background-image: linear-gradient(to left, #fffaf6 80%, transparent);
+}
+.full_right_arrow_box {
+  background-image: none;
+  width: auto;
+  right: -5%;
+  z-index: 999;
+}
 .left_arrow,
 .right_arrow {
   max-width: var(--h4fs24);
@@ -407,9 +424,21 @@
 .right_arrow:hover {
   opacity: 1;
 }
-
 .test{
   animation: 0.5s showCard ease-in-out;
+}
+
+@keyframes showCard {
+  0% {
+    opacity: 0.5;
+    /* transform: translateY(-10px); */
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    /* transform: translateY(0px); */
+    transform: scale(1);
+  }
 }
 
 @media screen and (max-width: 767px) {
