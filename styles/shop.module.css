@@ -379,6 +379,11 @@
   /* line-height:var(--h2fs32); */
 }
 
+.share_icons{
+  display: flex;
+  align-items: center;
+}
+
 .share_icons svg{
   margin: 0 var(--p8);
   font-size: var(--h2fs32);
@@ -388,7 +393,7 @@
 }
 
 .share_icons svg.line{
-  font-size: 30px;
+  font-size: 29px;
   color:#35BE00;
 }
 
@@ -396,8 +401,9 @@
   color:#1B74E4;
 }
 
-.share_icons svg.ig{
-  color:#d72d82;
+.share_icons svg.twitter{
+  /* color:#d72d82; */
+  color:#0598C5;
  }
 
 /*價格*/
@@ -706,12 +712,13 @@
 
   /*貓狗大類別的圖示按鈕*/
   .pet_type_tabs {
-    padding-left: 16px;
+    padding-left: 12px;
     margin: 48px 0 32px 0;
   }
 
   .pet_type_tabs span {
-    padding-right: var(--p8);
+    margin-left: 4px;
+    padding-right: 4px;
     font-size: var(--h5fs20);
   }
   .pet_type_tabs span:last-child {
@@ -871,7 +878,7 @@
   .detail_tabs > li {
     font-size: var(--pfs16);
     font-weight: var(--fwbold);
-    padding: 10px;
+    padding: 10px 6px;
   }
 
 
