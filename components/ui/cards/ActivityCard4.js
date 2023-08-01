@@ -110,7 +110,7 @@ const ActivityCard4 = ({
                 icon={faLocationDot}
                 className={styles.row_icon}
               />
-              <div className={styles.rowTextAddress}>
+              <div>
                 <p className={styles.rowTextSmall}>
                   {city}
                   {area}
