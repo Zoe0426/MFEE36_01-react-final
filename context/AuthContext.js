@@ -29,8 +29,8 @@ export const AuthContextProvider = function ({ children }) {
     if (todo === 'add' && !memItems.contains(itemID)) {
       //加1
       setCartItemNum(cartItemNum + 1);
-      const addList = memItems.push(itemID);
-      localStorage.setItem(`${auth.id}cart`, JSON.stringify(addList));
+      memItems.push(itemID);
+      localStorage.setItem(`${auth.id}cart`, JSON.stringify(memItems));
     } else if (todo === 'remove') {
       //減1
       setCartItemNum(cartItemNum - 1);
