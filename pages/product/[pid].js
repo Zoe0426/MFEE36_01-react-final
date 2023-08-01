@@ -714,8 +714,8 @@ export default function Product() {
 
   //分享頁面
   const handleLineShare = () => {
-    const title = datatForProductMain.name; // 替換成你想要分享的標題
-    const imageUrl = `${process.env.WEB}/product-img/${datatForProductDetail[0].img}`; // 替換成你的圖片URL
+    const title = `狗with咪 || ${datatForProductMain.name}`; // 要分享的標題
+    const imageUrl = `${process.env.WEB}/product-img/${datatForProductDetail[0].img}`; // 圖片URL
     const shareUrl = window.location.href;
 
     // 使用Line的Message API分享圖片、標題和網址
