@@ -3,7 +3,7 @@ import Styles from './MemberSidebar.module.css';
 import { Calendar, ConfigProvider } from 'antd';
 import AuthContext from '@/context/AuthContext';
 export default function MemberSidebar() {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, setAuth, photo } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
   const [data, setData] = useState();
   const [data2, setData2] = useState();
@@ -116,10 +116,7 @@ export default function MemberSidebar() {
           <div className={Styles.sideBar}>
             <div className={Styles.memberInfo}>
               <div className={Styles.profile}>
-                <img
-                  src={`${process.env.API_SERVER}/img/${memProfileImg}`}
-                  alt="profilePic"
-                />
+                <img src={photo} alt="profilePic" />
               </div>
               <div className={Styles.memberName}>{data2[0]?.name}</div>
               <div className={Styles.level}>

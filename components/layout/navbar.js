@@ -8,7 +8,8 @@ import CloseBtn from '../ui/buttons/closeBtn';
 import { split } from 'lodash';
 
 export default function Navbar({ type = '' }) {
-  const { auth, logout, cartItemNum, setCartItemNum } = useContext(AuthContext);
+  const { auth, logout, cartItemNum, setCartItemNum, photo } =
+    useContext(AuthContext);
   const router = useRouter();
   const [showMemList, setShowMemList] = useState(false);
   const [showCartBox, setShowCartBox] = useState(false);
@@ -182,7 +183,7 @@ export default function Navbar({ type = '' }) {
               {login && (
                 <div className={Styles.profileBtn} onClick={toggleMemList}>
                   <img
-                    src={`${process.env.API_SERVER}/img/${memProfileImg}`}
+                    src={photo}
                     alt="profilePic"
                     className={Styles.profileImg}
                   />
