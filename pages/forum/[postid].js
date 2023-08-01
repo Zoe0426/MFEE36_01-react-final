@@ -131,7 +131,7 @@ export default function Post() {
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
-                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid} memberId={auth.id} listName={''}/>
+                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid} memberId={auth.id}/>
                 ))}
                 </div>
 

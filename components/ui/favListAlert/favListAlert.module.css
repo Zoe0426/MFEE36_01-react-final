@@ -1,9 +1,9 @@
 .overlay {
-    z-index: 999;
+    z-index: 990;
     background: rgba(49, 49, 49, 0.6);
   }
   .modal {
-    z-index: 9999;
+    z-index: 999;
     font-size: var(--pfs16);
   }
   .modal,
@@ -61,17 +61,36 @@
   .modal_content{
       padding: var(--p16);
   }
+  .list{
+    display: flex;
+    z-index:9999;
+  }
+  .plus{
+    margin-left:20px;
+  }
   /* .line {
     height: 1px;
     border-bottom: 1px solid rgb(203, 203, 203);
   }
-  
+   */
+.favoriteGray{
+    width:30px;
+    height:30px;
+    color: var(--gray);
+    margin-right: 15px;
+}
+.favoriteGreen{
+    color:rgb(72, 105, 72);
+    width:30px;
+    height:30px;
+    margin-right: 15px;
+}
   .btn_group {
     display: flex;
     justify-content: flex-end;
     margin-top: 12px;
     height: 50px;
-  } */
+  }
   
   /* .btn_group > button {
     margin-right: 16px;

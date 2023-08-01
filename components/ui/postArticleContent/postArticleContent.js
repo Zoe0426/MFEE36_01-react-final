@@ -9,7 +9,7 @@ import Modal from '../modal/modal';
 import FavListAlert from '../favListAlert/favListAlert';
 
 
-export default function PostArticleContent({postContent='', likes=0, comments=0, isLiked={setIsLiked}, setIsLiked=()=>{}, postSid='', memberId='', listName='', Fav={setFav}, setFav=()=>{}}) {
+export default function PostArticleContent({postContent='', likes=0, comments=0, isLiked={setIsLiked}, setIsLiked=()=>{}, postSid='', memberId='', Fav=false, setFav=()=>{}}) {
 
   // 判斷登入
   const { auth, setAuth } = useContext(AuthContext);
@@ -20,10 +20,12 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
 
   // 記錄讚（+-1）
   const [likeAmount, setLikeAmount] = useState(likes);
+  const [listName, setListName]=useState('')
+  const [obText, setObText]=useState('我的收藏列表')
 
   // 建立收藏清單
   // 定義一個 state 來控制是否顯示 FavListAlert 元件
-  const [showFavListAlert, setShowFavListAlert] = useState(false);
+  //const [showFavListAlert, setShowFavListAlert] = useState(false);
 
   console.log(auth);
   
@@ -40,7 +42,7 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
     .then((r) => r.json())
     .then((data)=>{
       data.length==0 ? setIsLiked(false):setIsLiked(true)
-      console.log('data',data);
+      // console.log('data',data);
     });
   }
   },[auth]);
@@ -63,7 +65,7 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
             })
             .then((r) => r.json())
             .then((data)=>{
-              console.log(data);
+              // console.log(data);
             })
           }else{
             setLikeAmount(likeAmount-1);
@@ -80,7 +82,7 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
             })
             .then((r) => r.json())
             .then((data)=>{
-              console.log(data);
+              // console.log(data);
             })
           }
 
@@ -103,20 +105,20 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
           .then((r) => r.json())
           .then((data) => {
             data.length === 0 ? setFav(false) : setFav(true);
-            console.log('data', data);
+            // console.log('data', data);
           });
       }
     }, [auth]);
     // 收藏及取消收藏的函數
-    const handleFavClick = () => {
+    const handleFavClick = (listText) => {
       if (auth.id) {
-        setFav(!Fav); // 切換收藏狀態
-        setShowFavListAlert(true);
+        console.log('add-delete');
+        console.log('Fav', Fav);
         const apiEndpoint = Fav ? '/forum-api/forum/delFav' : '/forum-api/forum/addFav';
         const requestData = {
           post_sid: postSid,
           member_sid: memberId,
-          list_name: listName,
+          list_name: listText ? listText : listName ,
         };
         
     
@@ -129,7 +131,7 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
         })
           .then((r) => r.json())
           .then((data) => {
-            console.log(data);
+            console.log('add fav result:',data);
           });
       } else {
         router.push(`/member/sign-in?from=${from}`);
@@ -142,21 +144,54 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
       router.push(`/member/sign-in?from=${from}`);
     }
 
-      //下拉選單選項
-  const [items, setItems] = useState([]);
-    //下拉選單值
-    const [obText, setObText] = useState('收藏列表')
 
-    const listNameDown = ()=>{
-        const menuProps = {
-            items,
-            onClick: handleMenuClick,
-        };
+    // 下拉選單
+    const [items, setItems] = useState([]); // 初始化 items 狀態為一個空陣列
+
+  // 定義 fetchData 函式
+  const [data, setData] = useState([]);
+  const [newData, setNewData] = useState([]);
+  const fetchData = async (obj = {}) => {
+    const usp = new URLSearchParams(obj);
+    const response = await fetch(`${process.env.API_SERVER}/forum-api/forum/blog/favlist?${usp.toString()}`, {
+      headers: {
+        Authorization: 'Bearer ' + auth.token,
+      },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        setData(data);
+        console.log(data);
+        setNewData(data.rows);
+        setItems(data.items); // 設定 items 的值為 data.items
+        console.log('newData', newData);
+      });
+  };
+  // useEffect 呼叫 fetchData
+  useEffect(() => {
+    const authStr = localStorage.getItem('petauth');
+    if (authStr) {
+      const auth = JSON.parse(authStr);
+      if (auth.token) {
+        fetchData(router.query);
+      } else {
+        console.log('User is not logged in. Cannot fetch posts.');
+      }
     }
-    
+  }, [auth]);
+  // 下拉選單：熱門/最新
+  const handleMenuClick = (e) => {
+    const { key } = e; // 獲取點選的下拉選單項目的 key
+    setListName(key);
+    setNewData(newData);
+    setObText(key);
+  };
 
+    const listNameDown = {
+      items,
+      onClick: handleMenuClick
+    }
 
-  
 
 
   return (
@@ -183,7 +218,7 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
                 <p className={Style.postNum}>{comments}</p>                        
             </div>
         {/*根據收藏狀態切換顏色 */}
-        {auth.id ? (
+        {/* {auth.id ? (
           <FontAwesomeIcon
             onClick={handleFavClick}
             icon={faBookmark}
@@ -191,19 +226,26 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
           />
         ) : (
           <FavListAlert btnType="bookmark" title = '前往登入頁面' content='收藏功能需要登入會員噢～是否前往登入頁面？' confirmHandler={goLogin}/>
-        )}
-        {/* 判斷是否要顯示 FavListAlert 元件 */}
-        {showFavListAlert && Fav&&(
+        )} */}
+
+        {/*根據收藏狀態切換顏色 */}
+        {auth.id ? (
           <FavListAlert
-            btnType="text"
-            btnText ="+"
+            btnType="bookmark"
             title="收藏"
             content="建立收藏列表清單"
             inputText="新增收藏列表名稱"
             menuProps= {listNameDown}
-            obText= {items}
+            obText= {obText}
+            Fav={Fav}
+            setFav={setFav}
+            confirmHandler={handleFavClick}
+            // color={Fav ? `Style.favoriteGreen` : `Style.favoriteGray`}
           />
+        ): (
+          <Modal btnType="bookmark" title = '前往登入頁面' content='收藏功能需要登入會員噢～是否前往登入頁面？' confirmHandler={goLogin} inputText=""/>
         )}
+        {/*)} */}
 
         <FontAwesomeIcon icon={faShareNodes} className={Style.shareGray}/>
     </div>
