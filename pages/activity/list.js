@@ -542,7 +542,7 @@ export default function ActivityMain() {
       {/* .........banner......... */}
       <div className={styles.banner}>
         <div className={styles.search}>
-          <h1>想找活動嗎？來這裡就對了！</h1>
+          {/* <h1>想找活動嗎？來這裡就對了！</h1> */}
           <SearchBar
             placeholder="搜尋活動名稱"
             btn_text="尋找活動"

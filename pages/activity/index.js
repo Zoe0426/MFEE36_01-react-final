@@ -410,7 +410,7 @@ export default function ActivityHome() {
       {/* .........banner......... */}
       <div className={styles.banner}>
         <div className={styles.search}>
-          <h1>想找活動嗎？來這裡就對了！</h1>
+          {/* <h1 className={styles.banner_title}>想找活動嗎？跟著我們一起GO！</h1> */}
           <SearchBar
             placeholder="搜尋活動名稱"
             btn_text="尋找活動"
@@ -539,7 +539,6 @@ export default function ActivityHome() {
           </>
         </div>
       </div>
-      
 
       {/* .........分類bar......... */}
       <div className={styles.type}>
@@ -606,9 +605,7 @@ export default function ActivityHome() {
         </div>
       </div>
 
-      
-<BGUpperDecoration />
-
+      <BGUpperDecoration />
 
       {/* .........section1......... */}
       <div className={styles.section1}>

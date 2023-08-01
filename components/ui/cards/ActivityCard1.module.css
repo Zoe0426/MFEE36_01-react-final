@@ -24,8 +24,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 91px;
-  height: 38px;
+  width: 100px;
+  height: 40px;
   background-color: var(--main);
   display: flex;
   justify-content: center;
