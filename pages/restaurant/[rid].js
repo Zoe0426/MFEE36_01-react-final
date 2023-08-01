@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import { Fragment } from 'react';
@@ -39,6 +39,12 @@ import IconFavBtn from '@/components/ui/restaurant/IconFavBtn';
 export default function RestInfo() {
   const { query, asPath } = useRouter();
   const { auth, setAuth } = useContext(AuthContext);
+  const restServiceRule = useRef(null);
+  const restSpecial = useRef(null);
+  const restAvtivity = useRef(null);
+  const restNote = useRef(null);
+  const restComment = useRef(null);
+
   const router = useRouter();
   const [restDetailRows, setRestDetailRows] = useState({ like: false });
   const [data, setData] = useState({
@@ -70,6 +76,25 @@ export default function RestInfo() {
   const [first, setFrist] = useState();
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  //控制評論狀態
+  const [commentWindowWidth, setCommentWindowWidth] = useState(null);
+  const [commentCurrent, setCommentCurrent] = useState(0);
+  const [totalCommentPage, setTotalCommentPage] = useState(0);
+  const [showCommentCard, setShowCommentCard] = useState([]);
+  const [showCommentCardQty, setShowCommentCardQty] = useState(4);
+  const [showCommentArrowLeft, setShowCommentArrowLeft] = useState(false);
+  const [showCommentArrowRight, setShowCommentArrowRight] = useState(true);
+  const [showFullCommentArrowLeft, setShowFullCommentArrowLeft] =
+    useState(false);
+  const [showFullCommentArrowRight, setShowFullCommentArrowRight] =
+    useState(true);
+  const [showFullCommentCard, setShowFullCommentCard] = useState(false);
+  const commentStyle = {
+    position: 'relative',
+    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
+    transition: '0.3s',
+  };
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -219,7 +244,7 @@ export default function RestInfo() {
   //       });
   //   }
   // }, [query]);
-  
+
   function toggleDisplayForImg(imgUrl) {
     let main = document.getElementById('imageBox');
     main.src = imgUrl;
@@ -415,8 +440,23 @@ export default function RestInfo() {
       console.log(error);
     }
   };
+
+  function scrollToAnchor(anchorId) {
+    const anchorElement = document.getElementById(anchorId);
+    if (anchorElement) {
+      const navbarHeight = 100; // 替換為您Navbar的高度，單位為像素
+      const offset = anchorElement.getBoundingClientRect().top;
+      window.scrollBy({
+        top: offset - navbarHeight,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
+  }
+
   //給他一個loading的時間
   if (!serviceRows || !restDetailRows) return <p>loading</p>;
+
   return (
     <>
       <div className={Styles.abc}>
@@ -603,35 +643,6 @@ export default function RestInfo() {
 
             {/* button */}
             <div className={Styles.detail_main_buttom}>
-              {/* {!auth.token ? (
-                <AlertModal
-                  btnType="iconSeconBtn"
-                  btnText="加入收藏"
-                  content="登入！才可收藏餐廳"
-                  mainBtnText="前往登入"
-                  subBtnText="暫時不要"
-                  confirmHandler={toSingIn}
-                  icon={faHeart}
-                />
-              ) : restDetailRows.like ? (
-                <AlertModal
-                  btnType="iconSeconBtn"
-                  btnText="已收藏"
-                  content="已經收藏過囉~"
-                  mainBtnText="前往登入"
-                  showSubBtn={false}
-                  confirmHandler={toSingIn}
-                  icon={faHeart}
-                />
-              ) : (
-                <IconSeconBtn
-                  icon={faHeart}
-                  text={'收藏餐廳'}
-                  clickHandler={() =>
-                    toggleLikeStatus(router.query.rid, auth.token)
-                  }
-                />
-              )} */}
               {!auth.token ? (
                 <AlertModal
                   btnType="iconSeconBtn"
@@ -679,15 +690,19 @@ export default function RestInfo() {
       </div>
       <div className="container-inner">
         <Tab
-          text1="服務項目"
-          text2="攜帶規範"
-          text3="餐廳特色"
-          text4="優惠/活動"
-          text5="店家叮嚀"
-          text6="饕客評價"
+          text1="服務/攜帶規範"
+          text2="餐廳特色"
+          text3="餐廳活動"
+          text4="店家叮嚀"
+          text5="饕客評價"
+          clickHandler1={() => scrollToAnchor('serviceSection')}
+          clickHandler2={() => scrollToAnchor('feature')}
+          clickHandler3={() => scrollToAnchor('activity')}
+          clickHandler4={() => scrollToAnchor('note')}
+          clickHandler5={() => scrollToAnchor('comment')}
         />
       </div>
-      <div className="container-inner">
+      <div className="container-inner" id="serviceSection">
         <h2 className={Styles.jill_h2}>服務項目</h2>
         <Row gutter={[48, 48]} className={Styles.row_gutter}>
           <Col xl={4} xs={8}>
@@ -721,7 +736,7 @@ export default function RestInfo() {
           </Col>
         </Row>
       </div>
-      <div className="container-inner">
+      <div className="container-inner" id="feature">
         <h2 className={Styles.jill_h2}>餐廳特色</h2>
       </div>
       <FeatureCard
@@ -729,7 +744,7 @@ export default function RestInfo() {
         title={restDetailRows.feature_title}
         feature_info={restDetailRows.feature_content}
       />
-      <div className="container-inner">
+      <div className="container-inner" id="activity">
         <h2 className={Styles.jill_h2}>餐廳活動</h2>
       </div>
       <ActivityCard
@@ -742,9 +757,9 @@ export default function RestInfo() {
         <Image src={CloudTop} alt="CloudTop" />
       </div>
       <div className={Styles.notion_bgc}>
-        <div className="container-inner">
+        <div className="container-inner" id="note">
           <div className={Styles.cat_section}>
-            <h2 className={Styles.jill_h2_notion}>預約叮嚀</h2>
+            <h2 className={Styles.jill_h2_notion}>店家叮嚀</h2>
             <Image src={catJump} alt="catJump" />
           </div>
           <div className={Styles.notion_frame}>
@@ -802,7 +817,7 @@ export default function RestInfo() {
         </div>
       </div>
 
-      <div className="container-inner">
+      <div className="container-inner" id="comment">
         <div className={Styles.comment_cards}>
           {commentRows.map((v) => {
             return (
