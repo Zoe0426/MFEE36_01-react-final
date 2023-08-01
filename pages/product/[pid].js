@@ -198,7 +198,7 @@ export default function Product() {
           return {
             ...v,
             text: `/ ${shopMainData[0].catergory_chinese_name} /`,
-            href: `http://localhost:3000/product/list?category=${shopMainData[0].catergory_english_name}`,
+            href: `${process.env.WEB}/product/list?category=${shopMainData[0].catergory_english_name}`,
           };
         }
         if (v.id === 'pid') {
@@ -418,7 +418,7 @@ export default function Product() {
   //若未登入會員而點擊收藏，要跳轉至會員登入
   const toSingIn = () => {
     const from = router.asPath;
-    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+    router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
   };
 
   //愛心收藏的並將資料送到後端相關函式-------------------------------------------------------
@@ -769,7 +769,7 @@ export default function Product() {
                     v.display && (
                       <img
                         key={v.product_detail_sid}
-                        src={`http://localhost:3000/product-img/${v.img}`}
+                        src={`${process.env.WEB}/product-img/${v.img}`}
                         alt={v.img}
                         style={imageStyle}
                       />
@@ -799,7 +799,7 @@ export default function Product() {
                           }}
                         >
                           <img
-                            src={`http://localhost:3000/product-img/${v.img}`}
+                            src={`${process.env.WEB}/product-img/${v.img}`}
                             alt={v.img}
                           />
                         </div>

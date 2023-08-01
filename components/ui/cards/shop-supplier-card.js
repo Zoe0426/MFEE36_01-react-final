@@ -19,7 +19,7 @@ export default function ShopSupplierCard({
         className={styles.card}
         onClick={() => {
           const ups = new URLSearchParams({ brand: name });
-          router.push(`http://localhost:3000/product/list?${ups.toString()}`);
+          router.push(`${process.env.WEB}/product/list?${ups.toString()}`);
         }}
       >
         <div className={styles.normal_card}>

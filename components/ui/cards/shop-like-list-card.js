@@ -30,10 +30,10 @@ export default function ShopLikelistCard({
           onClick={() => {
            
             closeLikeList();
-            router.push(`http://localhost:3000/product/${product_sid}`);
+            router.push(`${process.env.WEB}/product/${product_sid}`);
           }}
         >
-          <img src={`http://localhost:3000/product-img/${img}`} />
+          <img src={`${process.env.WEB}/product-img/${img}`} />
         </div>
         <div
           role="presentation"
@@ -41,7 +41,7 @@ export default function ShopLikelistCard({
           onClick={() => {
            
             closeLikeList();
-            router.push(`http://localhost:3000/product/${product_sid}`);
+            router.push(`${process.env.WEB}/product/${product_sid}`);
           }}
         >
           <h5 className={styles.like_title}>{name}</h5>

@@ -42,7 +42,7 @@ export default function ShopProductCard({
       )}
       <Link
         className={styles.normal_card}
-        href={`http://localhost:3000/product/${product_sid}`}
+        href={`${process.env.WEB}/product/${product_sid}`}
       >
         <div className={styles.card_head}>
           {tag_display && !!sales_qty && (
