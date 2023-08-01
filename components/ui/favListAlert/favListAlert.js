@@ -5,7 +5,7 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart,faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faHeart,faBookmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Input, ConfigProvider, Select, Button } from 'antd';
 // 下拉選單
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
@@ -18,23 +18,52 @@ export default function FavListAlert({
   mainBtnText = '確認', //確認btn的文字
   subBtnText = '取消', //取消btn的文字
   showSubBtn = true, //是否需要顯示取消的按鈕
+  color="",
+  Fav,
+  setFav=()=>{},
   inputText = '',
   content = <></>,
   confirmHandler = () => {},
   menuProps = () => {},
-  obText = '',
+  obText = ''
 
 }) {
   const [modal, setModal] = useState(false);
+  const [listText, setListText] = useState('');
 
   const toggleModal = () => {
-    setModal(!modal);
+    console.log(Fav);
+    if(Fav){
+        confirmHandler(listText);
+        // 刪除收藏
+        setFav(false);
+    }else{
+        setModal(!modal);
+
+    }
   };
+  const cancelAddFav = () => {
+    setModal(!modal);
+
+  }
 
   const confirmBtn = () => {
-    confirmHandler();
+    confirmHandler(listText);
     setModal(!modal);
+     setFav(true);
   };
+  const [inputList, setInputList] = useState(false);
+  const plus = () => {
+    console.log("plus")
+    setInputList(!inputList);
+  }
+
+  const getInput = (e) => {
+    console.log(e.target.value);
+    setListText(e.target.value);
+    console.log("listText",listText);
+
+  }
 
   return (
     <>
@@ -50,7 +79,7 @@ export default function FavListAlert({
         <FontAwesomeIcon
           icon={faBookmark}
           onClick={toggleModal}
-          className={Style.bookmark}
+          className={Fav ? Style.favoriteGreen : Style.favoriteGray}
         />
       ) :btnType === 'iconBtn' ? (
         <IconBtn icon={icon} text={btnText} clickHandler={toggleModal} />
@@ -84,6 +113,7 @@ export default function FavListAlert({
             <div className={Style.modal_card}>
               <h2 className={Style.modal_title}>{title}</h2>
               <div className={Style.modal_content}>{content}</div>
+              <div className={Style.list}>
               <Dropdown menu={menuProps}>
                 <Button>
                   <Space>
@@ -92,11 +122,16 @@ export default function FavListAlert({
                   </Space>
                 </Button>
               </Dropdown>
-              <Input placeholder={inputText}/>
+              { !inputList && (<FontAwesomeIcon icon={faPlus} onClick={plus} className={Style.plus}/>)}
+              </div>
+              { inputList && (
+                  <Input placeholder={inputText} onChange={getInput}/>
+              )
+              }
               <div className={Style.line}></div>
               <div className={Style.btn_group}>
                 {showSubBtn && (
-                  <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />
+                  <SecondaryBtn text={subBtnText} clickHandler={cancelAddFav} />
                 )}
                 <MainBtn clickHandler={confirmBtn} text={mainBtnText} />
               </div>
