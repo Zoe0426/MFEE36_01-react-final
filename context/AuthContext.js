@@ -13,9 +13,14 @@ export const noLogin = {
 export const AuthContextProvider = function ({ children }) {
   const [auth, setAuth] = useState({ noLogin });
   const [cartItemNum, setCartItemNum] = useState(0);
+  const [first, setFirst] = useState(false);
+  const [photo, setPhoto] = useState(
+    `${process.env.API_SERVER}/img/default-profile.jpg`
+  );
 
   const logout = () => {
     localStorage.removeItem('petauth');
+    localStorage.removeItem(`${auth.id}photoUrl`);
     setAuth(noLogin);
     localStorage.removeItem(`${auth.id}cart`);
     setCartItemNum(0);
@@ -38,6 +43,24 @@ export const AuthContextProvider = function ({ children }) {
       localStorage.setItem(`${auth.id}cart`, JSON.stringify(newList));
     }
   };
+
+  useEffect(() => {
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    const newPhoto = localStorage.getItem(`${auth.id}photoUrl`);
+
+    if (newPhoto) {
+      console.log('newPhoto', newPhoto);
+
+      const updatePhoto = JSON.parse(newPhoto);
+      setPhoto(updatePhoto);
+    } else {
+      // console.log('no photo');
+    }
+  }, [first]);
+
   useEffect(() => {
     const str = localStorage.getItem('petauth');
     if (str) {
@@ -52,7 +75,16 @@ export const AuthContextProvider = function ({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ auth, setAuth, logout, cartItemNum, setCartItemNum, updateCart }}
+      value={{
+        auth,
+        setAuth,
+        logout,
+        cartItemNum,
+        setCartItemNum,
+        updateCart,
+        photo,
+        setPhoto,
+      }}
     >
       {children}
     </AuthContext.Provider>

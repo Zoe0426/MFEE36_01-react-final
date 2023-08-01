@@ -7,10 +7,12 @@ import { useContext } from 'react';
 import { useRouter } from 'next/router';
 
 export default function SignIn() {
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth, setPhoto } = useContext(AuthContext);
   const [pass, setPass] = useState(false);
   const [nopass, setNoPass] = useState(false);
-
+  const [memProfileImg, setMemProfileImg] = useState(
+    `${process.env.API_SERVER}/img/default-profile.jpg`
+  );
   //回去哪一頁的路徑
   const router = useRouter();
   const fromPath2 = router.asPath.split('from=')[1] || '/';
@@ -28,6 +30,16 @@ export default function SignIn() {
         if (data.success) {
           const obj = { ...data.data };
           localStorage.setItem('petauth', JSON.stringify(obj));
+          console.log('l30-', obj.profile);
+          if (obj.profile) {
+            const photo = `${process.env.API_SERVER}/img/${obj.profile}`;
+            localStorage.setItem(`${obj.id}photoUrl`, JSON.stringify(photo));
+            setPhoto(photo);
+          } else {
+            const photo = `${process.env.API_SERVER}/img/${memProfileImg}`;
+            localStorage.setItem(`${obj.id}photoUrl`, JSON.stringify(photo));
+            setPhoto(memProfileImg);
+          }
           setAuth(obj);
           setNoPass(false);
           setPass(true);

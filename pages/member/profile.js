@@ -19,7 +19,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
 
 export default function Profile() {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, setPhoto } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
   const router = useRouter();
   const from = router.asPath;
@@ -33,10 +33,10 @@ export default function Profile() {
   const [memProfileImg, setMemProfileImg] = useState(`/default-profile.jpg`);
 
   //咦進來就要把嗟到的照片變成ＦＩＬＥ
-  const [avatar, setAvatar] = useState([]);
+  //const [avatar, setAvatar] = useState([]);
 
-  console.log('avatar', avatar);
-  console.log('memProfileImg', memProfileImg);
+  // //console.log('avatar', avatar);
+  ////console.log('memProfileImg1', memProfileImg);
 
   const [fileList, setFileList] = useState([]);
 
@@ -58,7 +58,7 @@ export default function Profile() {
         })
           .then((r) => r.json())
           .then((data) => {
-            console.log(data);
+            ////console.log(data);
             setData(data);
             let array = data;
             let obj = array[0];
@@ -66,7 +66,7 @@ export default function Profile() {
               memberSid: obj ? obj.memberSid : '',
               name: obj ? obj.name : '',
               mobile: obj ? obj.mobile : '',
-              avarta: avatar,
+              avarta: obj ? obj.profile : '',
               email: obj ? obj.email : '',
               gender: obj ? obj.gender : '',
               birthday: obj ? moment(obj.birthday) : '',
@@ -84,15 +84,15 @@ export default function Profile() {
                 },
               ]);
             }
-            console.log('obj', obj.profile);
+            //console.log('obj', obj.profile);
           });
       } else {
-        console.log('User is not logged in. Cannot fetch coupons.');
+        //console.log('User is not logged in. Cannot fetch coupons.');
       }
     }
   }, [auth, first, memProfileImg]);
 
-  console.log('token', auth.token);
+  //console.log('token', auth.token);
 
   const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -148,10 +148,10 @@ export default function Profile() {
   );
 
   const onFinish = (values) => {
-    console.log('選中的值:', values);
+    //console.log('選中的值:', values);
   };
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    //console.log('Failed:', errorInfo);
   };
 
   if (loading) {
@@ -164,17 +164,16 @@ export default function Profile() {
     obj = array[0];
   }
 
-  console.log('obj', obj);
+  //console.log('obj', obj);
 
   // 表單送出
   const handleSubmit = (values) => {
-    console.log(values);
+    //console.log(values);
     const formData = new FormData();
 
     formData.append('email', values.email);
     formData.append('avatar', values.avatar.file.originFileObj);
-    console.log('first', values.avatar.file.originFileObj);
-    setAvatar(values.avatar.file.originFileObj);
+    //console.log('first', values.avatar.file.originFileObj);
     formData.append('memberSid', values.memberSid);
     formData.append('name', values.name);
     formData.append('mobile', values.mobile);
@@ -182,16 +181,16 @@ export default function Profile() {
     formData.append('gender', values.gender);
     formData.append('pet', values.pet);
 
-    // console.log(formData.has('avatar')); // 应该输出 true
+    // //console.log(formData.has('avatar')); // 应该输出 true
 
-    // console.log('formData', formData.get('email'));
-    // console.log('formData', formData.get('avatar'));
-    // console.log('formData', formData.get('memberSid'));
-    // console.log('formData', formData.get('name'));
-    // console.log('formData', formData.get('mobile'));
-    // console.log('formData', formData.get('birthday'));
-    // console.log('formData', formData.get('gender'));
-    // console.log('formData', formData.get('pet'));
+    // //console.log('formData', formData.get('email'));
+    // //console.log('formData', formData.get('avatar'));
+    // //console.log('formData', formData.get('memberSid'));
+    // //console.log('formData', formData.get('name'));
+    // //console.log('formData', formData.get('mobile'));
+    // //console.log('formData', formData.get('birthday'));
+    // //console.log('formData', formData.get('gender'));
+    // //console.log('formData', formData.get('pet'));
 
     fetch('http://localhost:3002/member-api/updateInfo', {
       method: 'PUT',
@@ -202,8 +201,14 @@ export default function Profile() {
     })
       .then((r) => r.json())
       .then((data) => {
-        console.log(data);
+        //console.log('l-204', data[0].profile);
+        setMemProfileImg(data[0].profile);
+        const photo = `${process.env.API_SERVER}/img/${data[0].profile}`;
+        localStorage.setItem(`${auth.id}photoUrl`, JSON.stringify(photo));
+        setPhoto(photo);
       });
+    ////console.log('memProfileImg2', memProfileImg);
+
     router.push(from);
   };
 
