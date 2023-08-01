@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
@@ -25,6 +25,7 @@ import eightCatergoriesData from '@/data/product/eight-catergories-data.json';
 
 export default function ProdoctIndex() {
   const router = useRouter();
+  const searchRef = useRef(null);
   const { auth, setAuth } = useContext(AuthContext);
   const [first, setFrist] = useState(false);
   //汪星人/喵星人/品牌推薦/最新上架的卡片資訊
@@ -238,7 +239,7 @@ export default function ProdoctIndex() {
       let copyURL = { keyword: searchText };
 
       router.push(
-        `http://localhost:3000/product/list?${new URLSearchParams(
+        `${process.env.WEB}/product/list?${new URLSearchParams(
           copyURL
         ).toString()}`
       );
@@ -247,7 +248,7 @@ export default function ProdoctIndex() {
 
   const searchBarClickHandler = () => {
     router.push(
-      `http://localhost:3000/product/list?${new URLSearchParams({
+      `${process.env.WEB}/product/list?${new URLSearchParams({
         keyword: keyword,
       }).toString()}`
     );
@@ -257,11 +258,24 @@ export default function ProdoctIndex() {
     setKeyword(selectkeyword);
     setShowKeywordDatas(false);
   };
+
+  const scrollToHandler = () => {
+    if (searchRef.current) {
+      const rect = searchRef.current.getBoundingClientRect();
+      const offsetTop = window.scrollY + rect.top - 100;
+
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   //收藏列表相關的函式-------------------------------------------------------
   //若未登入會員而點擊收藏，要跳轉至會員登入
   const toSingIn = () => {
     const from = router.asPath;
-    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+    router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
   };
 
   const [isClickingLike, setIsClickingLike] = useState(false);
@@ -441,6 +455,8 @@ export default function ProdoctIndex() {
                 clearHandler={() => {
                   setKeyword('');
                 }}
+                focusHandler={scrollToHandler}
+                searchRef={searchRef}
               />
             </div>
             <Row gutter={{ xs: 0, sm: 0, xl: 8 }}>
@@ -457,6 +473,7 @@ export default function ProdoctIndex() {
                       img={e.icon}
                       text={e.text}
                       subBtnHandler={() => {
+                        // const newRef=JSON.parse(e.href)
                         router.push(e.href);
                       }}
                     />

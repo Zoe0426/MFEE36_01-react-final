@@ -17,6 +17,8 @@ export default function SearchBar1({
   keyDownHandler = () => {},
   autocompleteHandler = () => {},
   clearHandler = () => {},
+  focusHandler = () => {},
+  searchRef = null,
 }) {
   return (
     <>
@@ -31,6 +33,8 @@ export default function SearchBar1({
               onChange={changeHandler}
               onBlur={blurHandler}
               onKeyUp={keyDownHandler}
+              onFocus={focusHandler}
+              ref={searchRef}
             />
             <FontAwesomeIcon
               style={{ maxWidth: '16px', maxHeight: '16px' }}

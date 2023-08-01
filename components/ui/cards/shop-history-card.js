@@ -20,12 +20,12 @@ export default function ShopHistoryCard({
             className={styles.history_img}
             key={i}
             onClick={() => {
-              router.push(`http://localhost:3000/product/${product_sid}`);
+              router.push(`${process.env.WEB}/product/${product_sid}`);
             }}
           >
             {img && (
               <img
-                src={`http://localhost:3000/product-img/${img}`}
+                src={`${process.env.WEB}/product-img/${img}`}
                 alt={product_sid}
               />
             )}

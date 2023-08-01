@@ -61,7 +61,7 @@ export default function List() {
     {
       id: 'shop',
       text: '商城',
-      href: 'http://localhost:3000/product',
+      href: '${process.env.WEB}/product',
       show: true,
     },
     { id: 'search', text: '/ 商品列表', href: '', show: true },
@@ -262,7 +262,7 @@ export default function List() {
   const toSingIn = () => {
     const from = router.query;
     router.push(
-      `/member/sign-in?from=http://localhost:3000/product/list?${new URLSearchParams(
+      `/member/sign-in?from=${process.env.WEB}/product/list?${new URLSearchParams(
         from
       ).toString()}`
     );
