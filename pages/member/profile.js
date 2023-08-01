@@ -30,18 +30,15 @@ export default function Profile() {
   const [initialValues, setInitialValues] = useState({});
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
-  const [memProfileImg, setMemProfileImg] = useState(
-    `${process.env.API_SERVER}/img/default-profile.jpg`
-  );
+  const [memProfileImg, setMemProfileImg] = useState(`/default-profile.jpg`);
 
-  const [fileList, setFileList] = useState([
-    {
-      uid: '-1', // 文件唯一标识
-      name: 'memProfileImg.jpg', // 文件名字，可自行设置
-      status: 'done', // 状态应为 'done'，代表上传完成
-      url: `${process.env.API_SERVER}/img/${memProfileImg}`, // 文件 url，即你从服务器获取的文件路径
-    },
-  ]);
+  //咦進來就要把嗟到的照片變成ＦＩＬＥ
+  const [avatar, setAvatar] = useState([]);
+
+  console.log('avatar', avatar);
+  console.log('memProfileImg', memProfileImg);
+
+  const [fileList, setFileList] = useState([]);
 
   useEffect(() => {
     setFirst(true);
@@ -69,7 +66,7 @@ export default function Profile() {
               memberSid: obj ? obj.memberSid : '',
               name: obj ? obj.name : '',
               mobile: obj ? obj.mobile : '',
-              avarta: obj ? obj.profile : '',
+              avarta: avatar,
               email: obj ? obj.email : '',
               gender: obj ? obj.gender : '',
               birthday: obj ? moment(obj.birthday) : '',
@@ -77,13 +74,23 @@ export default function Profile() {
             });
             setLoading(false);
             setMemProfileImg(obj.profile);
+            if (memProfileImg) {
+              setFileList([
+                {
+                  uid: '-1',
+                  name: 'memProfileImg.jpg',
+                  status: 'done',
+                  url: `${process.env.API_SERVER}/img/${memProfileImg}`,
+                },
+              ]);
+            }
             console.log('obj', obj.profile);
           });
       } else {
         console.log('User is not logged in. Cannot fetch coupons.');
       }
     }
-  }, [auth, first]);
+  }, [auth, first, memProfileImg]);
 
   console.log('token', auth.token);
 
@@ -125,25 +132,7 @@ export default function Profile() {
     setPreviewOpen(true);
   };
 
-  const handleChange = async ({ fileList: newFileList }) => {
-    const newFile = newFileList[newFileList.length - 1];
-
-    // Check if a new file is added and it's uploaded (status === 'done')
-    if (
-      newFile &&
-      newFile.status === 'done' &&
-      (!newFile.url || !newFile.thumbUrl)
-    ) {
-      // Generate the base64 image data
-      newFile.preview = await getBase64(newFile.originFileObj);
-
-      // Add url and thumbUrl properties in the newFile object.
-      newFile.url = newFile.preview;
-      newFile.thumbUrl = newFile.preview;
-    }
-
-    setFileList(newFileList);
-  };
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   const uploadButton = (
     <div>
@@ -184,7 +173,8 @@ export default function Profile() {
 
     formData.append('email', values.email);
     formData.append('avatar', values.avatar.file.originFileObj);
-
+    console.log('first', values.avatar.file.originFileObj);
+    setAvatar(values.avatar.file.originFileObj);
     formData.append('memberSid', values.memberSid);
     formData.append('name', values.name);
     formData.append('mobile', values.mobile);
