@@ -10,7 +10,6 @@ import { split } from 'lodash';
 export default function Navbar({ type = '' }) {
   const { auth, logout, cartItemNum, setCartItemNum } = useContext(AuthContext);
   const router = useRouter();
-  // const [cartItemAmount, setCartItemAmount] = useState(0);
   const [showMemList, setShowMemList] = useState(false);
   const [showCartBox, setShowCartBox] = useState(false);
   const [showLoginBox, setShowLoginBox] = useState(false);

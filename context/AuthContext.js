@@ -20,7 +20,24 @@ export const AuthContextProvider = function ({ children }) {
     localStorage.removeItem(`${auth.id}cart`);
     setCartItemNum(0);
   };
+  //更新NavBar購物車數量(參數: 父編號,子編號,add/remove)
+  const updateCart = (relSid, relSeqSid, todo) => {
+    const itemID = `${relSid}_${relSeqSid}`;
+    const getCart = localStorage.getItem(`${auth.id}cart`);
+    const memItems = JSON.parse(getCart);
 
+    if (todo === 'add' && !memItems.contains(itemID)) {
+      //加1
+      setCartItemNum(cartItemNum + 1);
+      const addList = memItems.push(itemID);
+      localStorage.setItem(`${auth.id}cart`, JSON.stringify(addList));
+    } else if (todo === 'remove') {
+      //減1
+      setCartItemNum(cartItemNum - 1);
+      const newList = memItems.filter((v) => v !== itemID);
+      localStorage.setItem(`${auth.id}cart`, JSON.stringify(newList));
+    }
+  };
   useEffect(() => {
     const str = localStorage.getItem('petauth');
     if (str) {
@@ -35,7 +52,7 @@ export const AuthContextProvider = function ({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ auth, setAuth, logout, cartItemNum, setCartItemNum }}
+      value={{ auth, setAuth, logout, cartItemNum, setCartItemNum, updateCart }}
     >
       {children}
     </AuthContext.Provider>

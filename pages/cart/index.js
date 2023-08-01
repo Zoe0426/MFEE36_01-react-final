@@ -261,6 +261,8 @@ export default function Cart() {
                     ? shopData.map((v) => (
                         <CartProductCard
                           key={v.cart_sid}
+                          relSid={v.rel_sid}
+                          relSeqSid={v.rel_seq_sid}
                           cartSid={v.cart_sid}
                           selected={v.selected}
                           img={'/product-img/' + v.img}
@@ -277,6 +279,8 @@ export default function Cart() {
                         <CartActivityCard
                           key={v.cart_sid}
                           cartSid={v.cart_sid}
+                          relSid={v.rel_sid}
+                          relSeqSid={v.rel_seq_sid}
                           selected={v.selected}
                           img={'/activity_img/' + v.img}
                           prodtitle={v.rel_name}
