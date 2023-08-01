@@ -21,7 +21,6 @@ export default function Tab({
     setActiveTab(text);
   };
 
-  
   return (
     <>
       <div className={Styles.tab_group}>
@@ -29,7 +28,7 @@ export default function Tab({
           className={`${Styles.tab} ${
             activeTab === text1 ? Styles.active_tab : ''
           }`}
-          onClick={() => handleTabClick(text1)}
+          onClick={() => clickHandler1(text1)}
         >
           {text1}
         </div>
@@ -37,7 +36,7 @@ export default function Tab({
           className={`${Styles.tab} ${
             activeTab === text2 ? Styles.active_tab : ''
           }`}
-          onClick={() => handleTabClick(text2)}
+          onClick={() => clickHandler2(text2)}
         >
           {text2}
         </div>
@@ -45,7 +44,7 @@ export default function Tab({
           className={`${Styles.tab} ${
             activeTab === text3 ? Styles.active_tab : ''
           }`}
-          onClick={() => handleTabClick(text3)}
+          onClick={() => clickHandler3(text3)}
         >
           {text3}
         </div>
@@ -53,7 +52,7 @@ export default function Tab({
           className={`${Styles.tab} ${
             activeTab === text4 ? Styles.active_tab : ''
           }`}
-          onClick={() => handleTabClick(text4)}
+          onClick={() => clickHandler4(text4)}
         >
           {text4}
         </div>
@@ -61,7 +60,7 @@ export default function Tab({
           className={`${Styles.tab} ${
             activeTab === text5 ? Styles.active_tab : ''
           }`}
-          onClick={() => handleTabClick(text5)}
+          onClick={() => clickHandler5(text5)}
         >
           {text5}
         </div>

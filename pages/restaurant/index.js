@@ -433,7 +433,7 @@ export default function Restindex() {
   //沒登入會員收藏，跳轉登入
   const toSingIn = () => {
     const from = router.asPath;
-    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+    router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
   };
 
   //卡片愛心收藏的相關函式-------------------------------------------------------
@@ -885,9 +885,7 @@ export default function Restindex() {
               rest_image="/rest_image/city/taipei.png"
               location="台北市"
               clickHandler={() => {
-                router.push(
-                  'http://localhost:3000/restaurant/list?city=台北市'
-                );
+                router.push(`${process.env.WEB}/restaurant/list?city=台北市`);
               }}
             />
           </Col>
@@ -896,9 +894,7 @@ export default function Restindex() {
               rest_image="/rest_image/city/newtaipei.png"
               location="新北市"
               clickHandler={() => {
-                router.push(
-                  'http://localhost:3000/restaurant/list?city=新北市'
-                );
+                router.push(`${process.env.WEB}/restaurant/list?city=新北市`);
               }}
             />
           </Col>
@@ -919,9 +915,7 @@ export default function Restindex() {
               rest_image="/rest_image/city/taichung.png"
               location="台中市"
               clickHandler={() => {
-                router.push(
-                  'http://localhost:3000/restaurant/list?city=台中市'
-                );
+                router.push(`${process.env.WEB}/restaurant/list?city=台中市`);
               }}
             />
           </Col>
@@ -1068,7 +1062,7 @@ export default function Restindex() {
           <RestTitle
             icon={faFire}
             text="熱門餐廳"
-            href="http://localhost:3000/restaurant/list?page=1&orderBy=hot_DESC"
+            href={`${process.env.WEB}/restaurant/list?page=1&orderBy=hot_DESC`}
             clickHandler1={leftArrow1}
             clickHandler2={rightArrow1}
           />
@@ -1122,7 +1116,7 @@ export default function Restindex() {
         <RestTitle
           icon={faThumbsUp}
           text="好評餐廳"
-          href="http://localhost:3000/restaurant/list?page=1&orderBy=cmt_DESC"
+          href={`${process.env.WEB}/restaurant/list?page=1&orderBy=cmt_DESC`}
           clickHandler1={leftArrow2}
           clickHandler2={rightArrow2}
         />

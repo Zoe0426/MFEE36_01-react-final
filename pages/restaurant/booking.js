@@ -179,11 +179,11 @@ function WeekCalendar() {
                   items={[
                     {
                       title: '餐廳列表',
-                      href: 'http://localhost:3000/restaurant/list',
+                      href: `${process.env.WEB}/restaurant/list`,
                     },
                     {
                       title: `曜日義式餐酒館`,
-                      href: 'http://localhost:3000/restaurant/4',
+                      href: `${process.env.WEB}/restaurant/4`,
                     },
                     {
                       title: `曜日義式餐酒館預約時間表`,

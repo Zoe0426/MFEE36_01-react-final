@@ -11,11 +11,11 @@
 .tab{
     cursor: pointer;
 }
-.active_tab {
+/* .active_tab {
     position: sticky;
     bottom: 0;
     border-bottom: 2px solid orange;
-  }
+  } */
 
 @media screen and (max-width:767px){
     .tab_group{

@@ -586,9 +586,9 @@ export default function FilterPage() {
   const toSingIn = () => {
     const from = router.query;
     router.push(
-      `/member/sign-in?from=http://localhost:3000/restaurant/list?${new URLSearchParams(
-        from
-      ).toString()}`
+      `/member/sign-in?from=${
+        process.env.WEB
+      }/restaurant/list?${new URLSearchParams(from).toString()}`
     );
   };
 
@@ -794,7 +794,7 @@ export default function FilterPage() {
                   items={[
                     {
                       title: '餐廳首頁',
-                      href: 'http://localhost:3000/restaurant',
+                      href: `${process.env.WEB}/restaurant`,
                     },
                     {
                       title: '餐廳列表',

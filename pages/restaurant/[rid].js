@@ -19,6 +19,8 @@ import {
   faPaw,
   faCalendar,
   faStar,
+  faChevronLeft,
+  faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import Tab from '@/components/ui/restaurant/Tab';
 import FeatureCard from '@/components/ui/restaurant/featureCard';
@@ -35,6 +37,7 @@ import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
 import IconFavBtn from '@/components/ui/restaurant/IconFavBtn';
+import NoCommentCard from '@/components/ui/cards/comment-card-no';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
@@ -90,11 +93,6 @@ export default function RestInfo() {
   const [showFullCommentArrowRight, setShowFullCommentArrowRight] =
     useState(true);
   const [showFullCommentCard, setShowFullCommentCard] = useState(false);
-  const commentStyle = {
-    position: 'relative',
-    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
-    transition: '0.3s',
-  };
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -163,6 +161,21 @@ export default function RestInfo() {
     console.log(restDetailRows);
 
     setData(data);
+
+    if (Array.isArray(commentRows)) {
+      setDataForComment(commentRows);
+
+      let newCommentEachQty = dataForCommentQty.map((v) => {
+        const eachCommentQty =
+          v.avg_rating === 6
+            ? commentRows.length
+            : commentRows.filter((c) => parseInt(c.avg_rating) === v.avg_rating)
+                .length;
+
+        return { ...v, count: eachCommentQty };
+      });
+      setDataForCommentQty(newCommentEachQty);
+    }
   };
 
   useEffect(() => {
@@ -175,76 +188,11 @@ export default function RestInfo() {
       } else {
         getData(rid);
       }
+      setCommentFilter(6);
     }
   }, [router.query]);
 
-  // useEffect(() => {
-  //   const { rid } = query;
-
-  //   if (rid) {
-  //     fetch(`http://localhost:3002/restaurant-api/restaurant/${rid}`)
-  //       .then((r) => r.json())
-  //       .then((data) => {
-  //         const {
-  //           restDetailRows,
-  //           imageRows,
-  //           ruleRows,
-  //           serviceRows,
-  //           commentRows,
-  //           commentAvgRows,
-  //           activityRows,
-  //           menuRows,
-  //         } = data;
-
-  //         // 更新 React 組件的狀態
-  //         if (restDetailRows && restDetailRows.length > 0) {
-  //           setRestDetailRows(...restDetailRows);
-  //         }
-
-  //         if (serviceRows && serviceRows.length > 0) {
-  //           setServiceRows(serviceRows);
-  //         }
-  //         if (ruleRows && ruleRows.length > 0) {
-  //           setRuleRows(ruleRows);
-  //         }
-
-  //         if (menuRows && menuRows.length > 0) {
-  //           setMenuRows(menuRows);
-  //         }
-
-  //         console.log(menuRows);
-  //         // if (imageRows && imageRows.length > 0) {
-  //         //   setImageRows(imageRows);
-  //         // }
-
-  //         const initialImageRows = imageRows.map((v, index) => {
-  //           return {
-  //             ...v,
-  //             display: index === 0, // 第一張照片設為預設顯示
-  //           };
-  //         });
-  //         setImageRows(initialImageRows);
-
-  //         if (commentRows && commentRows.length > 0) {
-  //           setCommentRows(commentRows);
-  //         }
-
-  //         if (commentAvgRows && commentAvgRows.length > 0) {
-  //           setCommentAvgRows(...commentAvgRows);
-  //         }
-  //         if (activityRows && activityRows.length > 0) {
-  //           setActivityRows(...activityRows);
-  //         }
-  //         console.log(restDetailRows);
-
-  //         setData(data);
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // }, [query]);
-
+  //照片切換
   function toggleDisplayForImg(imgUrl) {
     let main = document.getElementById('imageBox');
     main.src = imgUrl;
@@ -273,14 +221,12 @@ export default function RestInfo() {
   //沒登入會員收藏，跳轉登入booking
   const toSingInBook = () => {
     const from = router.query;
-    router.push(
-      `/member/sign-in?from=http://localhost:3000/restaurant/booking`
-    );
+    router.push(`/member/sign-in?from=${process.env.WEB}/restaurant/booking`);
   };
   //沒登入會員收藏，跳轉登入likelist
   const toSingIn = () => {
     const from = router.asPath;
-    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+    router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
   };
 
   //卡片愛心收藏的相關函式-------------------------------------------------------
@@ -454,6 +400,122 @@ export default function RestInfo() {
     }
   }
 
+  /*用來過濾評價星的，要保持原本的dataForComment*/
+  const commentStyle = {
+    position: 'relative',
+    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
+    transition: '0.3s',
+  };
+  //後端資料存放
+  const [dataForComment, setDataForComment] = useState([]);
+  const [dataForCommentQty, setDataForCommentQty] = useState([
+    { avg_rating: 6, count: 0 },
+    { avg_rating: 5, count: 0 },
+    { avg_rating: 4, count: 0 },
+    { avg_rating: 3, count: 0 },
+    { avg_rating: 2, count: 0 },
+    { avg_rating: 1, count: 0 },
+  ]);
+  const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
+  const commentFiliterByRating = (dataForComment, type) => {
+    switch (type) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        return dataForComment.filter((v) => v.avg_rating === type);
+      default:
+        return dataForComment;
+    }
+  };
+  //處理評論頁碼更動
+  useEffect(() => {
+    countTotalCommentPage();
+  }, [commentFilter, dataForCommentQty, showCommentCardQty]);
+  //評價相關的函示-----------------------------------------------------
+  //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態
+  const toggleCommentCard = (arr = [], ratingNow = 6, id = '') => {
+    const newShowFullCommentCard = !showFullCommentCard;
+    if (arr.length > 0 && id) {
+      const newArr = commentFiliterByRating(arr, ratingNow).map((v) => {
+        if (v.rest_comment_sid === id) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      const currentIndex = newArr.findIndex((v) => v.display === true);
+      if (currentIndex === 0) {
+        setShowFullCommentArrowLeft(false);
+      } else {
+        setShowFullCommentArrowLeft(true);
+      }
+      if (currentIndex < newArr.length - 1) {
+        setShowFullCommentArrowRight(true);
+      } else {
+        setShowFullCommentArrowRight(false);
+      }
+    }
+
+    setShowFullCommentCard(newShowFullCommentCard);
+    if (newShowFullCommentCard) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  //轉換到下一張評價卡片
+  const slideNextComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex < arr.length - 1) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex + 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowLeft(true);
+    }
+    if (currentIndex === arr.length - 2) {
+      setShowFullCommentArrowRight(false);
+    }
+  };
+  //轉換到上一張評價卡片
+  const slidePreComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex > 0) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex - 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowRight(true);
+    }
+    if (currentIndex <= 1) {
+      setShowFullCommentArrowLeft(false);
+    }
+  };
+
+  //一般顯示區的評價卡相關function
+  const countTotalCommentPage = () => {
+    const currentCommentCardsQty = dataForCommentQty.filter((v) => {
+      return parseInt(v.avg_rating) === parseInt(commentFilter);
+    })[0].count;
+
+    const newCommentTotalPage = Math.ceil(
+      currentCommentCardsQty / showCommentCardQty
+    );
+    if (newCommentTotalPage <= 1) {
+      setShowCommentArrowRight(false);
+    } else {
+      setShowCommentArrowRight(true);
+    }
+
+    setTotalCommentPage(newCommentTotalPage);
+  };
+
   //給他一個loading的時間
   if (!serviceRows || !restDetailRows) return <p>loading</p>;
 
@@ -478,7 +540,7 @@ export default function RestInfo() {
                   items={[
                     {
                       title: '餐廳列表',
-                      href: 'http://localhost:3000/restaurant/list',
+                      href: `${process.env.WEB}/restaurant/list`,
                     },
                     {
                       title: `${restDetailRows.name}`,
@@ -790,7 +852,7 @@ export default function RestInfo() {
         </div>
       </div>
       <NotionAreaBgc />
-      <div className="container-inner">
+      {/* <div className="container-inner">
         <h2 className={Styles.jill_h2}>饕客評價</h2>
         <div className={Styles.section_rating}>
           <div className={Styles.avg}>
@@ -815,9 +877,221 @@ export default function RestInfo() {
             </div>
           </div>
         </div>
+      </div> */}
+      {/* 評價區 */}
+      <div className="container-outer">
+        <div className="container-inner">
+          <div className={Styles.comment_section} id="comment">
+            <h4 className={Styles.comment_title}>饕客評價</h4>
+            <p>{`(共 ${dataForCommentQty[0].count} 則相關評論)`}</p>
+            <div className={Styles.comment_btns}>
+              {dataForCommentQty.map((v) => {
+                const { avg_rating, count } = v;
+                return (
+                  <button
+                    key={avg_rating}
+                    className={
+                      commentFilter === avg_rating
+                        ? `${Styles.comment_btn} ${Styles.active_comment_btn}`
+                        : Styles.comment_btn
+                    }
+                    onClick={() => {
+                      setCommentFilter(avg_rating);
+                      setCommentCurrent(0);
+                      setShowCommentArrowLeft(false);
+                    }}
+                  >
+                    {avg_rating === 6
+                      ? '全部評論'
+                      : `${avg_rating}星 (${count})`}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        <div className={Styles.shop_container_inner}>
+          <div className={Styles.comment_cards_box}>
+            {showCommentArrowLeft && (
+              <div className={Styles.detail_left_arrow_box}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  className={Styles.left_arrow}
+                  onClick={() => {
+                    if (commentCurrent <= 0) {
+                      setShowCommentArrowLeft(false);
+                    } else if (commentCurrent === 1) {
+                      setCommentCurrent(commentCurrent - 1);
+                      setShowCommentArrowRight(true);
+                      setShowCommentArrowLeft(false);
+                    } else {
+                      setCommentCurrent(commentCurrent - 1);
+                      setShowCommentArrowRight(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            {showCommentArrowRight && (
+              <div
+                className={`${Styles.detail_right_arrow_box} ${Styles.comment_right_arrow_box}`}
+              >
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className={Styles.right_arrow}
+                  onClick={() => {
+                    if (commentCurrent === totalCommentPage - 1) {
+                      setShowCommentArrowRight(false);
+                    } else if (commentCurrent === totalCommentPage - 2) {
+                      setCommentCurrent(commentCurrent + 1);
+                      setShowCommentArrowLeft(true);
+                      setShowCommentArrowRight(false);
+                    } else {
+                      setCommentCurrent(commentCurrent + 1);
+                      setShowCommentArrowLeft(true);
+                    }
+                  }}
+                />
+              </div>
+            )}
+            <div className={Styles.comment_cards} style={commentStyle}>
+              {dataForComment &&
+              commentFiliterByRating(dataForComment, commentFilter).length <=
+                0 ? (
+                <NoCommentCard star={commentFilter} />
+              ) : (
+                commentFiliterByRating(dataForComment, commentFilter).map(
+                  (v) => {
+                    const {
+                      rest_commtent_id,
+                      created_at,
+                      avg_rating,
+                      content,
+                      name,
+                      profile,
+                    } = v;
+                    return (
+                      <CommentCard
+                        key={rest_commtent_id}
+                        date={created_at}
+                        rating={avg_rating}
+                        content={content}
+                        name={name}
+                        profile={profile}
+                        clickHandler={() => {
+                          toggleCommentCard(
+                            dataForComment,
+                            commentFilter,
+                            rest_commtent_id
+                          );
+                        }}
+                      />
+                    );
+                  }
+                )
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="container-inner">
+          <ul className={Styles.shop_recommend_pages}>
+            {totalCommentPage <= 1 ? (
+              <div className={Styles.no_pages}></div>
+            ) : (
+              Array(totalCommentPage)
+                .fill(0)
+                .map((v, i) => {
+                  return (
+                    <li
+                      key={i}
+                      className={
+                        i === commentCurrent
+                          ? `${Styles.shop_sliders_pages_bttn} ${Styles.shop_sliders_pages_active}`
+                          : Styles.shop_sliders_pages_bttn
+                      }
+                      onClick={() => {
+                        setCommentCurrent(i);
+                        if (i === 0) {
+                          setShowCommentArrowLeft(false);
+                          setShowCommentArrowRight(true);
+                        } else if (i === totalCommentPage - 1) {
+                          setShowCommentArrowRight(false);
+                          setShowCommentArrowLeft(true);
+                        } else {
+                          setShowCommentArrowLeft(true);
+                          setShowCommentArrowRight(true);
+                        }
+                      }}
+                    ></li>
+                  );
+                })
+            )}
+          </ul>
+        </div>
       </div>
+      {/* 全螢幕的評價顯示 */}
+      {showFullCommentCard && (
+        <div className={Styles.show_full_comment_card}>
+          <div
+            className={Styles.bgc_comment_card}
+            onClick={toggleCommentCard}
+          ></div>
+          <div className={Styles.comment_card_display}>
+            {showFullCommentArrowLeft && (
+              <div className={Styles.detail_left_arrow_box}>
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  className={Styles.left_arrow}
+                  onClick={() => {
+                    slidePreComment(showCommentCard);
+                  }}
+                />
+              </div>
+            )}
+            {showFullCommentArrowRight && (
+              <div
+                className={`${Styles.detail_right_arrow_box} ${Styles.full_right_arrow_box}`}
+              >
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  className={Styles.right_arrow}
+                  onClick={() => {
+                    slideNextComment(showCommentCard);
+                  }}
+                />
+              </div>
+            )}
 
-      <div className="container-inner" id="comment">
+            {showCommentCard.map((v) => {
+              const {
+                rest_commtent_id,
+                name,
+                avg_rating,
+                content,
+                created_at,
+                profile,
+                display,
+              } = v;
+              return (
+                display && (
+                  <div className={Styles.test} key={rest_commtent_id}>
+                    <CommentCard
+                      date={created_at}
+                      rating={avg_rating}
+                      content={content}
+                      name={name}
+                      profile={profile}
+                      clickHandler={toggleCommentCard}
+                    />
+                  </div>
+                )
+              );
+            })}
+          </div>
+        </div>
+      )}
+      {/* 我的評價區 */}
+      {/* <div className="container-inner" id="comment">
         <div className={Styles.comment_cards}>
           {commentRows.map((v) => {
             return (
@@ -828,11 +1102,12 @@ export default function RestInfo() {
                 content={v.content}
                 date={v.created_at}
                 profile={v.profile}
+                // clickHandler={toggleCommentCard}
               />
             );
           })}
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
