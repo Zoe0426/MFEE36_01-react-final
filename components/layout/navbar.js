@@ -5,11 +5,12 @@ import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
 import NavRoundBtn from '../ui/buttons/NavRoundBtn';
 import CloseBtn from '../ui/buttons/closeBtn';
+import { split } from 'lodash';
 
 export default function Navbar({ type = '' }) {
-  const { auth, logout } = useContext(AuthContext);
+  const { auth, logout, cartItemNum, setCartItemNum } = useContext(AuthContext);
   const router = useRouter();
-  const [cartItemAmount, setCartItemAmount] = useState(0);
+  // const [cartItemAmount, setCartItemAmount] = useState(0);
   const [showMemList, setShowMemList] = useState(false);
   const [showCartBox, setShowCartBox] = useState(false);
   const [showLoginBox, setShowLoginBox] = useState(false);
@@ -26,7 +27,9 @@ export default function Navbar({ type = '' }) {
       headers: { 'Content-Type': 'application/json' },
     });
     const itemAmount = await r.json();
-    setCartItemAmount(itemAmount.itemInCart);
+    const myItems = itemAmount.rel_sids.split(',');
+    localStorage.setItem(`${id}cart`, JSON.stringify(myItems));
+    setCartItemNum(itemAmount.totalItem);
   };
 
   const getMemberImage = async (id) => {
@@ -45,7 +48,6 @@ export default function Navbar({ type = '' }) {
   const signOut = () => {
     logout();
     setShowMemList(false);
-    setCartItemAmount(0);
     setLogin(false);
   };
 
@@ -152,9 +154,9 @@ export default function Navbar({ type = '' }) {
                 icon="/layout-images/h-cart.png"
                 clickHandler={redirectToCart}
               ></NavRoundBtn>
-              {cartItemAmount !== 0 && (
+              {cartItemNum !== 0 && (
                 <div className={Styles.cartItemNum} onClick={redirectToCart}>
-                  <p>{cartItemAmount}</p>
+                  <p>{cartItemNum}</p>
                 </div>
               )}
               {showCartBox && (

@@ -12,9 +12,13 @@ export const noLogin = {
 
 export const AuthContextProvider = function ({ children }) {
   const [auth, setAuth] = useState({ noLogin });
+  const [cartItemNum, setCartItemNum] = useState(0);
+
   const logout = () => {
     localStorage.removeItem('petauth');
     setAuth(noLogin);
+    localStorage.removeItem(`${auth.id}cart`);
+    setCartItemNum(0);
   };
 
   useEffect(() => {
@@ -30,7 +34,9 @@ export const AuthContextProvider = function ({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, logout }}>
+    <AuthContext.Provider
+      value={{ auth, setAuth, logout, cartItemNum, setCartItemNum }}
+    >
       {children}
     </AuthContext.Provider>
   );
