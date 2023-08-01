@@ -78,6 +78,17 @@ export default function ActivityMain() {
     router.push(`/member/sign-in?from=${from}`);
   };
 
+
+  // 取資料
+  const [datas, setDatas] = useState({
+    totalRows: 0,
+    perPage: 16,
+    totalPages: 0,
+    page: 1,
+    rows: [],
+    // likeDatas:[],
+  });
+
   const handleCityClick = (e) => {
     setSelectedCity(e.key);
     setSelectedArea(null);
@@ -90,15 +101,7 @@ export default function ActivityMain() {
   const cities = cityDatas;
   // const areas = getAreasByCity(selectedCity);
 
-  // 取資料
-  const [datas, setDatas] = useState({
-    totalRows: 0,
-    perPage: 16,
-    totalPages: 0,
-    page: 1,
-    rows: [],
-    // likeDatas:[],
-  });
+  
 
   // 小麵包屑------------------------------------------------------------
   const [breadCrubText, setBreadCrubText] = useState([
@@ -137,6 +140,22 @@ export default function ActivityMain() {
   };
 
   useEffect(() => {
+
+   
+    const hasQueryString = Object.keys(router.query).length > 0;
+
+    if (!hasQueryString) {
+      fetch(`${process.env.API_SERVER}/activity-api/activity`)
+        .then((response) => response.json())
+        .then((data) => {
+          setDatas(data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+    
     console.log('router.query:', router.query);
     const {
       activity_type_sid,
