@@ -277,32 +277,28 @@
   gap: 24px;
 }
 
-/* width */
-.comment_cards::-webkit-scrollbar {
+
+/* .comment_cards::-webkit-scrollbar {
   height: 10px;
 }
 
-/* Track */
 .comment_cards::-webkit-scrollbar-track {
   border-radius: 10px;
   background: var(--light-gray); 
-  
-}
+} */
  
-/* Handle */
-.comment_cards::-webkit-scrollbar-thumb {
+/* .comment_cards::-webkit-scrollbar-thumb {
   background: var(--secondary); 
   border-radius: 10px;
 }
 
-/* Handle on hover */
 .comment_cards::-webkit-scrollbar-thumb:hover {
   background: #ffbfb4; 
-}
+} */
 
 /* 評價區 */
 .comment_section {
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .comment_title {
