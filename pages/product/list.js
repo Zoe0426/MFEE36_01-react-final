@@ -451,13 +451,13 @@ export default function List() {
     }
   };
 
-  const searchBarClickHandler = () => {
-    router.push(
-      `?${new URLSearchParams({
-        keyword: keyword,
-        page: 1,
-      }).toString()}`
-    );
+  const searchBarClickHandler = (keyword = '') => {
+    let obj = { page: 1 };
+
+    if (keyword) {
+      obj.keyword = keyword;
+    }
+    router.push(`?${new URLSearchParams(obj).toString()}`);
   };
 
   const autocompleteHandler = (selectkeyword) => {
@@ -621,6 +621,7 @@ export default function List() {
     setOutlineStatus2('');
     setPriceErrorText1('');
     setPriceErrorText2('');
+    setTimeout(toggleFilter, 30);
     const { keyword } = router.query;
     const query = { page: 1 };
     if (keyword) {
@@ -694,7 +695,9 @@ export default function List() {
                 }, 700);
               }}
               keyDownHandler={searchBarHandler}
-              clickHandler={searchBarClickHandler}
+              clickHandler={() => {
+                searchBarClickHandler(keyword);
+              }}
               autocompleteHandler={autocompleteHandler}
               showKeywordDatas={showKeywordDatas}
               blurHandler={() => {
@@ -704,6 +707,7 @@ export default function List() {
               }}
               clearHandler={() => {
                 setKeyword('');
+                searchBarClickHandler();
               }}
             />
           </div>
