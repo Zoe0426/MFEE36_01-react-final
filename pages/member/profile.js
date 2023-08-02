@@ -173,7 +173,7 @@ export default function Profile() {
 
     formData.append('email', values.email);
     formData.append('avatar', values.avatar.file.originFileObj);
-    //console.log('first', values.avatar.file.originFileObj);
+    console.log('first', values.avatar.file.originFileObj);
     formData.append('memberSid', values.memberSid);
     formData.append('name', values.name);
     formData.append('mobile', values.mobile);
@@ -184,9 +184,9 @@ export default function Profile() {
     // //console.log(formData.has('avatar')); // 应该输出 true
 
     // //console.log('formData', formData.get('email'));
-    // //console.log('formData', formData.get('avatar'));
+    console.log('formData', formData.get('avatar'));
     // //console.log('formData', formData.get('memberSid'));
-    // //console.log('formData', formData.get('name'));
+    console.log('formData', formData.get('name'));
     // //console.log('formData', formData.get('mobile'));
     // //console.log('formData', formData.get('birthday'));
     // //console.log('formData', formData.get('gender'));

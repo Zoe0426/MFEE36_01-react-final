@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import PageTag from '@/components/ui/pageTag/PageTag';
 import OrderSearchBar from '@/components/ui/buttons/OrderSearchBar';
+// import SearchBar1 from '@/components/ui/buttons/SearchBar1';
 import OrderCard from '@/components/ui/cards/OrderCard';
 import MemberCenterLayout from '@/components/layout/member-center-layout';
 import AuthContext from '@/context/AuthContext';
@@ -16,7 +17,29 @@ export default function OrderList() {
   const [first, setFirst] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
+  const [keyword, setKeyword] = useState('');
+  const [shop, setShop] = useState(false);
+  const [activity, setActivity] = useState(false);
   const router = useRouter();
+
+  const searchBarClickHandler = (keyword) => {
+    // console.log(keyword);
+    if (shop) {
+      console.log('s', keyword);
+      router.push(
+        `?${new URLSearchParams({
+          keywordS: keyword,
+        }).toString()}`
+      );
+    }
+    if (activity) {
+      router.push(
+        `?${new URLSearchParams({
+          keywordA: keyword,
+        }).toString()}`
+      );
+    }
+  };
 
   useEffect(() => {
     setFirst(true);
@@ -29,35 +52,84 @@ export default function OrderList() {
     } else if (auth.id) {
       setPageLoading(false);
       if (auth.token) {
-        fetch(`${process.env.API_SERVER}/member-api/order`, {
-          headers: {
-            Authorization: 'Bearer ' + auth.token,
-          },
-        })
-          .then((r) => r.json())
-          .then((data) => {
-            console.log(data);
-            const firstData = data.filter((data) => data.rel_type === 'shop');
-            setData(firstData);
-            setAllData(data);
-            setLoading(false);
-          });
+        const keywordS = router.query.keywordS;
+        const keywordA = router.query.keywordA;
+        console.log('router.query', router.query);
+        if (keywordS) {
+          fetch(
+            `${process.env.API_SERVER}/member-api/order?${new URLSearchParams({
+              keywordS: keywordS,
+            }).toString()}`,
+            {
+              headers: {
+                Authorization: 'Bearer ' + auth.token,
+              },
+            }
+          )
+            .then((r) => r.json())
+            .then((data) => {
+              console.log(data);
+              const firstData = data.filter((data) => data.rel_type === 'shop');
+              setData(firstData);
+              setAllData(data);
+              setLoading(false);
+            });
+        } else if (keywordA) {
+          fetch(
+            `${process.env.API_SERVER}/member-api/order?${new URLSearchParams({
+              keywordA: keywordA,
+            }).toString()}`,
+            {
+              headers: {
+                Authorization: 'Bearer ' + auth.token,
+              },
+            }
+          )
+            .then((r) => r.json())
+            .then((data) => {
+              console.log(data);
+              const firstData = data.filter(
+                (data) => data.rel_type === 'activity'
+              );
+              setData(firstData);
+              setAllData(data);
+              setLoading(false);
+            });
+        } else {
+          fetch(`${process.env.API_SERVER}/member-api/order`, {
+            headers: {
+              Authorization: 'Bearer ' + auth.token,
+            },
+          })
+            .then((r) => r.json())
+            .then((data) => {
+              console.log(data);
+              const firstData = data.filter((data) => data.rel_type === 'shop');
+              setData(firstData);
+              setAllData(data);
+              setLoading(false);
+            });
+        }
       } else {
         console.log('User is not logged in. Cannot fetch');
       }
     }
-  }, [auth, first]);
+  }, [first, router.query]);
 
   const shopOrder = () => {
     const newData = allData.filter((data) => data.rel_type === 'shop');
     console.log(newData);
     setData(newData);
+    setShop(true);
+    setActivity(false);
   };
 
   const actOrder = () => {
     const newData = allData.filter((data) => data.rel_type === 'activity');
     console.log(newData);
     setData(newData);
+    setActivity(true);
+    setShop(false);
   };
 
   if (loading) {
@@ -91,7 +163,17 @@ export default function OrderList() {
             />
           </div>
           <div className="orderSearch">
-            <OrderSearchBar placeholder="訂單編號、商品名稱" btn_text="搜尋" />
+            <OrderSearchBar
+              placeholder="訂單編號、商品名稱"
+              btn_text="搜尋"
+              inputText={keyword}
+              changeHandler={(e) => {
+                setKeyword(e.target.value);
+              }}
+              clickHandler={() => {
+                searchBarClickHandler(keyword);
+              }}
+            />
           </div>
         </div>
         <div className="content">
