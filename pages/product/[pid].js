@@ -719,17 +719,6 @@ export default function Product() {
     const title = `狗with咪 || ${datatForProductMain.name}`; // 要分享的標題
     const imageUrl = `${process.env.WEB}/product-img/${datatForProductDetail[0].img}`; // 圖片URL
     const shareUrl = window.location.href;
-
-    // 使用Line的Message API分享圖片、標題和網址
-    // const shareURL = `https://line.me/R/msg/text/?${encodeURIComponent(
-    //   title
-    // )}%0D%0A${encodeURIComponent(shareUrl)}%0D%0A${encodeURIComponent(
-    //   imageUrl
-    // )}`;
-
-    // const shareURL = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(
-    //   shareUrl
-    // )}&text=${encodeURIComponent(title)}`;
     let shareURL = '';
     switch (type) {
       case 'shareOnLine':
@@ -747,8 +736,6 @@ export default function Product() {
           shareUrl
         )}&text=${encodeURIComponent(title)}`;
         break;
-      case 'shareOnIG':
-        shareURL = `https://www.instagram.com/?url=${shareUrl}`;
     }
 
     if (shareURL) {
@@ -905,10 +892,15 @@ export default function Product() {
                   {datatForProductMain.name}
                 </h2>
                 <RateStar
+                  display={!!datatForProductMain.avg_rating}
                   score={datatForProductMain.avg_rating}
-                  text={`( 已有${parseInt(
+                  text={
                     datatForProductMain.sales_qty
-                  )?.toLocaleString('en-US')}人購買 )`}
+                      ? `( 已有${parseInt(
+                          datatForProductMain.sales_qty
+                        )?.toLocaleString('en-US')}人購買 )`
+                      : ''
+                  }
                 />
                 <div className={styles.detail_price_box}>
                   <h5 className={styles.detail_spec_title}>商品價格</h5>
