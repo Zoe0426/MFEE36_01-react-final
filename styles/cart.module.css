@@ -7,7 +7,6 @@
 .checkoutType{
     display: flex;
 }
-
 .section{
      background-color: white;
      padding: var(--p16) var(--p16);

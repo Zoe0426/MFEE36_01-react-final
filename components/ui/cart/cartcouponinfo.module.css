@@ -5,17 +5,18 @@
     border-bottom: 1px dashed var(--secondary);
 }
 
-.info p{
-    font-size: var(--h6fs18);
-    line-height: 24px;
-
-}
 .name{
     font-weight: bold;
-    color: var(--dark)
+    color: var(--main);
+    font-size: var(--h4fs24);
+    margin-right: 16px;
 }
 .info span{
-    font-size: var(--h6fs18);
+    font-size: var(--pfs16);
+}
+.namebox{
+    display: flex;
+    align-items: baseline;
 }
 .details{
     padding: var(--p8) 0;
@@ -23,6 +24,20 @@
 .details p{
     margin-bottom: 8px;
 }
-.postPrice{
-    color: var(--main);
+.price{
+    color: var(--dark-gray);
+    font-weight: bold;
+    font-size: var(--pfs16);
+    line-height: 24px;
 }
+.expDate{
+    font-size: var(--pfs14);
+    color: var(--gray);
+}
+.img{
+    width: 85px;
+}
+@media screen and (max-width:767px){
+.img{width: 70px;}
+
+} 
