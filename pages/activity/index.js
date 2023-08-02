@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Head from 'next/head';
-import { Row, Col, ConfigProvider, Dropdown, Menu, Button, Space } from 'antd';
+import { Row, Col, ConfigProvider, Dropdown, Menu, Button, Space,DatePicker, } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import styles from '../../styles/activityindex.module.css';
@@ -16,6 +16,7 @@ import SearchBar from '@/components/ui/buttons/SearchBar';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
+import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
@@ -27,6 +28,8 @@ import ActivityFilterDate from '@/components/ui/cards/ActivityFilterDate';
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
+import Modal from '@/components/ui/modal/modal';
+import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 
 export default function ActivityHome() {
   // 主卡片
@@ -61,15 +64,18 @@ export default function ActivityHome() {
   const [selectedArea, setSelectedArea] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [selectedStartDate, setSelectedStartDate] = useState(null);
-  const [selectedEndDate, setSelectedEndDate] = useState(null);
+  const [selectedDates, setSelectedDates] = useState([]);
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
 
   // 會員登入跳轉
-  const toSignIn = () => {
-    const from = router.asPath;
-    router.push(`/member/sign-in?from=${from}`);
+  const toSingIn = () => {
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=${
+        process.env.WEB
+      }/restaurant/list?${new URLSearchParams(from).toString()}`
+    );
   };
 
   // 主卡片資訊
@@ -127,6 +133,10 @@ export default function ActivityHome() {
   };
 
   //進階篩選------------------------------------------------------------
+  const toggleFilter = () => {
+    setShowFilter(!showfilter);
+  };
+  
   const handleCityClick = (e) => {
     setSelectedCity(e.key);
     setSelectedArea(null);
@@ -138,14 +148,22 @@ export default function ActivityHome() {
   //取台灣的地區
   const cities = cityDatas;
 
-  const toggleFilter = () => {
-    setShowFilter(!showfilter);
-  };
+  
 
+  // 進階篩 日期區間
   const handleDateChange = (dates) => {
     const [startDate, endDate] = dates;
     setStartDate(startDate);
     setEndDate(endDate);
+    setSelectedDates(dates);
+  };
+
+  const rangeConfig = {
+    rules: [
+      {
+        type: 'array',
+      },
+    ],
   };
 
   const handlePriceChange = (minPrice, maxPrice) => {
@@ -210,26 +228,27 @@ export default function ActivityHome() {
   };
 
   //重置篩選條件
-  // const clearAllFilter = () => {
-  //   setFilters(filterDatas);
-  //   // setEndDate('');
-  //   // setStartDate('');
-  //   // setDatePickerValue(null);
-  //   setSelectedCity(null);
-  //   setSelectedArea(null);
-  //   setMinPrice('');
+  const clearAllFilter = () => {
+    setFilters(filterDatas);
+    // setEndDate(null);
+    // setStartDate(null);
+    setSelectedDates([]);
+    setSelectedCity(null);
+    setSelectedArea(null);
+    setMinPrice('');
+    setMaxPrice('');
 
-  //   const { keyword } = router.query;
-  //   const query = { page: 1 };
-  //   if (keyword) {
-  //     query.keyword = keyword;
-  //   }
-  //   router.push(
-  //     `?${new URLSearchParams({
-  //       ...query,
-  //     }).toString()}`
-  //   );
-  // };
+    const { keyword } = router.query;
+    const query = { page: 1 };
+    if (keyword) {
+      query.keyword = keyword;
+    }
+    router.push(
+      `?${new URLSearchParams({
+        ...query,
+      }).toString()}`
+    );
+  };
 
   //收藏列表相關的函式------------------------------------------------------------
 
@@ -410,7 +429,7 @@ export default function ActivityHome() {
       {/* .........banner......... */}
       <div className={styles.banner}>
         <div className={styles.search}>
-          {/* <h1 className={styles.banner_title}>想找活動嗎？跟著我們一起GO！</h1> */}
+          <h1>想找活動嗎？來這裡就對了！</h1>
           <SearchBar
             placeholder="搜尋活動名稱"
             btn_text="尋找活動"
@@ -428,11 +447,26 @@ export default function ActivityHome() {
             <BreadCrumb breadCrubText={breadCrubText} />
 
             <div className={styles.btns}>
+               {auth.token ? (
               <IconBtn
                 icon={faHeart}
                 text="收藏列表"
                 clickHandler={toggleLikeList}
               />
+               ) : (
+                <Modal
+                  btnType="iconBtn"
+                  btnText="收藏列表"
+                  title="貼心提醒"
+                  content={
+                    <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
+                  }
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                  icon={faHeart}
+                />
+              )}
               <IconBtn
                 icon={faFilter}
                 text="進階篩選"
@@ -449,9 +483,9 @@ export default function ActivityHome() {
               <div className={styles.line}></div>
             </div>
             <div className="container-inner">
-              <div className={styles.filter_box}>
+              <div className={styles.filter}>
                 <ActivityFilter
-                  text="活動類別:"
+                  text="活動類別："
                   name="activity_type_sid"
                   data={filters.activity_type_sid}
                   selectedValue={selectedActivityTypeSid}
@@ -460,56 +494,97 @@ export default function ActivityHome() {
                 />
                 <ActivityFilterPrice onPriceChange={handlePriceChange} />
 
-                <ActivityFilterDate onDateChange={handleDateChange} />
+                <div className={styles.filter_date}>
+                  <ConfigProvider
+                    theme={{
+                      token: {
+                        colorPrimary: '#FD8C46',
+                        fontSize: 18,
+                        controlInteractiveSize: 18,
+                        lineHeight: 1.8,
+                        controlHeight: 50,
+                        borderRadius: 10,
+                      },
+                    }}
+                  >
+                    <label className={styles.labels}>活動日期：</label>
+                    <DatePicker.RangePicker
+                      name="range-picker"
+                      label="活動日期"
+                      {...rangeConfig}
+                      onChange={handleDateChange}
+                      value={selectedDates}
+                    />
+                  </ConfigProvider>
+                </div>
 
-                <div>
-                  <div>
-                    <label>活動地點</label>
-                  </div>
-                  <div>
-                    {/* City Dropdown */}
-                    <Dropdown
-                      overlay={
-                        <Menu onClick={handleCityClick}>
-                          {Object.keys(cityDatas).map((city) => (
-                            <Menu.Item key={city}>{city}</Menu.Item>
-                          ))}
-                        </Menu>
-                      }
-                      placement="bottomLeft"
-                    >
-                      <Button>
-                        <Space>
-                          <p>{selectedCity ? selectedCity : '縣市'}</p>
-                          <DownOutlined />
-                        </Space>
-                      </Button>
-                    </Dropdown>
-
-                    {/* Area Dropdown */}
-                    <Dropdown
-                      overlay={
-                        <Menu onClick={handleAreaClick}>
-                          {selectedCity &&
-                            cityDatas[selectedCity].map((area) => (
-                              <Menu.Item key={area}>{area}</Menu.Item>
+                <div className={styles.dropdowns}>
+                  <ConfigProvider
+                    theme={{
+                      token: {
+                        colorBorder: '#DDDDDD',
+                        colorPrimary: '#FD8C46',
+                        colorBgContainer: 'rgba(255,255,255)',
+                        borderRadius: 10,
+                        controlHeight: 50,
+                        fontSize: 16,
+                        borderRadiusOuter: 10,
+                      },
+                    }}
+                  >
+                    <div>
+                      <label className={styles.labels}>活動地點：</label>
+                    </div>
+                    <div>
+                      {/* City Dropdown */}
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleCityClick}>
+                            {Object.keys(cityDatas).map((city) => (
+                              <Menu.Item key={city}>{city}</Menu.Item>
                             ))}
-                        </Menu>
-                      }
-                      placement="bottomLeft"
-                    >
-                      <Button>
-                        <Space>
-                          <p>{selectedArea ? selectedArea : '地區'}</p>
-                          <DownOutlined />
-                        </Space>
-                      </Button>
-                    </Dropdown>
-                  </div>
+                          </Menu>
+                        }
+                        className={styles.location}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={styles.dropdown_arrow}>{selectedCity ? selectedCity : '縣市'}</p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+
+                      {/* Area Dropdown */}
+                      <Dropdown
+                        overlay={
+                          <Menu onClick={handleAreaClick}>
+                            {selectedCity &&
+                              cityDatas[selectedCity].map((area) => (
+                                <Menu.Item key={area}>{area}</Menu.Item>
+                              ))}
+                          </Menu>
+                        }
+                        className={styles.location}
+                        placement="bottomLeft"
+                      >
+                        <Button>
+                          <Space>
+                            <p className={styles.dropdown_arrow}
+                            >{selectedArea ? selectedArea : '地區'}</p>
+                            <DownOutlined />
+                          </Space>
+                        </Button>
+                      </Dropdown>
+                    </div>
+                  </ConfigProvider>
                 </div>
 
                 <div className={styles.filter_btns}>
-                  {/* <SecondaryBtn text="重置" clickHandler={clearAllFilter} /> */}
+                  <SecondaryBtn
+                  text="重置" 
+                  clickHandler={clearAllFilter} />
                   <MainBtn text="確定" clickHandler={filterHandler} />
                 </div>
               </div>
@@ -539,6 +614,7 @@ export default function ActivityHome() {
           </>
         </div>
       </div>
+      
 
       {/* .........分類bar......... */}
       <div className={styles.type}>
@@ -605,7 +681,9 @@ export default function ActivityHome() {
         </div>
       </div>
 
-      <BGUpperDecoration />
+      
+<BGUpperDecoration />
+
 
       {/* .........section1......... */}
       <div className={styles.section1}>

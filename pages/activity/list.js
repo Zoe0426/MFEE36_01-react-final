@@ -36,6 +36,8 @@ import ActivityPageOrder from '@/components/ui/cards/ActivityPageOrder';
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
+import Modal from '@/components/ui/modal/modal';
+import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
@@ -73,9 +75,14 @@ export default function ActivityMain() {
   const { auth } = useContext(AuthContext);
   const authId = auth.id;
 
-  const toSignIn = () => {
-    const from = router.asPath;
-    router.push(`/member/sign-in?from=${from}`);
+  //沒登入會員收藏，跳轉登入
+  const toSingIn = () => {
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=${
+        process.env.WEB
+      }/restaurant/list?${new URLSearchParams(from).toString()}`
+    );
   };
 
 
@@ -579,11 +586,26 @@ export default function ActivityMain() {
             <BreadCrumb breadCrubText={breadCrubText} />
 
             <div className={styles.btns}>
+            {auth.token ? (
               <IconBtn
                 icon={faHeart}
                 text="收藏列表"
                 clickHandler={toggleLikeList}
               />
+              ) : (
+                <Modal
+                  btnType="iconBtn"
+                  btnText="收藏列表"
+                  title="貼心提醒"
+                  content={
+                    <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
+                  }
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                  icon={faHeart}
+                />
+              )}
               <IconBtn
                 icon={faFilter}
                 text="進階篩選"
@@ -796,6 +818,8 @@ export default function ActivityMain() {
                     handleLikeClick={() =>
                       handleLikeClick(activity_sid, auth.token)
                     } // 傳遞handleLikeClick函式給子組件
+                    singinHandler={toSingIn}
+                    token={auth.token}
                   />
                 </Col>
               );
