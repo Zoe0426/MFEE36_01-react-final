@@ -21,8 +21,8 @@
     /* border: 1px solid gray; */
 }
 .prodname{
-    flex-grow:1;
     margin-right: 16px;
+    width: 100%;
     /* border: 1px solid red; */
 }
 .prodtitle{
@@ -36,29 +36,40 @@
 .priceQty{
     display: flex;
     align-items: center;
-    max-width: 240px;
+    justify-content: space-between;
+    min-width: 240px;
     /* border: 1px solid purple; */
 }
 .price{
     min-width: 55px;
     font-size: var(--pfs16);
-    color: var(--gray);
+    color: var(--dark-gray);
     text-align: end;
     margin-right: 32px;
+    /* border: 1px solid green; */
+}
+.mobileprice{
+    display:none;
+}
+.qtyNsubTotal{
+    display: flex;
+    align-items: center;
+    
+    /* border: 1px solid red; */
 }
 .numberstyle{
     width: 80px;
     text-align: center;
     color: var(--dark-gray);
-    margin-left: auto;
+    /* margin-left: auto; */
 }
 .subtotal{
     text-align: end;
-    min-width: 60px;
+    min-width: 70px;
     color: var(--main);
     margin-right: 16px;
     font-size: var(--pfs16);
-    /* border: 1px solid green; */
+    /* border: 1px solid pink; */
 }
 @media screen and (max-width:1300px) and (min-width:768px){
   .forRwd{
@@ -69,28 +80,30 @@
     text-align: start;
 }
 .priceQty{
-    min-width: 90%;
+    min-width: 100%;
 }
 .prodname{
     margin-bottom: 16px;
 }
 .subtotal{
-    margin-left: auto;
-
+    /* margin-left: 24px; */
 }
+
 }
 
 @media screen and (max-width:767px){
 .checkbox{
-    margin-right: 8px;
+    margin-right: 0;
 }
 .prodimg{
     width: 60px;
-    margin-right: 8px;
+    margin-right: 5px;
+    /* border: 1px solid red; */
 }
 .forRwd{
     flex-direction: column;
     align-items: stretch;
+    /* border: 1px solid orange */
 }
 .subtotal{
     margin-left: auto;
@@ -98,17 +111,23 @@
 }
 .priceQty{
     min-width: 90%;
+    /* border: 1px solid red; */
 }
 .prodname{
     margin-bottom: 16px;
+    /* border: 1px solid green; */
 }
 .price{
-    text-align: start;
-    margin-right: 8px;
-    font-size: var(--pfs14);
+    display:none;
+}
+.mobileprice{
+    display:block;
+    text-align: center;
+    margin-top: 8px;
 }
 .numberstyle{
-    max-width: 60px;
+    min-width: 80px;
+    margin-left: 0;
     font-size: var(--pfs14);
 }
 .prodtitle{
@@ -116,5 +135,8 @@
 }
 .prodSubtitle{
     font-size: var(--pfs14);
+}
+.qtyNsubTotal{
+margin-left: auto;
 }
 }

@@ -43,7 +43,7 @@
 }
 
 .price{
-    color: var(--gray);
+    color: var(--dark-gray);
     text-align: end;
     margin-bottom: 8px;
     width: 75px;
@@ -83,9 +83,12 @@
 }
 
 @media screen and (max-width:767px){
-
+.checkbox{
+     margin-right: 8px;
+}
 .prodimg{
     width: 60px;
+    margin-right: 12px;
 }
 .forRwd{
     flex-direction: column;

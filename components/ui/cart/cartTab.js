@@ -4,7 +4,6 @@ import MainBtn from '../buttons/MainBtn';
 import SecondaryBtn from '../buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
-import { check } from 'prettier';
 
 export default function CartTab({
   type = '',

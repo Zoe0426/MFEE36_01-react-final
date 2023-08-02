@@ -2,6 +2,7 @@
 
 .detailSection{
    padding: 32px 0 32px 0;
+   /* border: 1px solid pink; */
 }
 .checkoutType{
     display: flex;
@@ -30,7 +31,8 @@
 
 
 .totalSection{
-    padding: 32px 0 32px 40px;
+    padding: 32px 0;
+    /* border: 1px solid red; */
 }
 
 @media screen and (max-width:767px){
