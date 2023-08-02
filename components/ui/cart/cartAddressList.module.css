@@ -1,0 +1,14 @@
+.radioGroup{
+  display:block;
+
+}
+
+.radioGroup label{
+  display:flex;
+}
+.radioGroup label span:first-child{
+  max-width: 10px;
+}
+.radioGroup label span:last-child{
+  flex-grow: 1;
+}

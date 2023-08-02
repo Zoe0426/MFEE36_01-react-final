@@ -43,7 +43,7 @@
 }
 
 .price{
-    color: var(--gray);
+    color: var(--dark-gray);
     text-align: end;
     margin-bottom: 8px;
     width: 75px;
@@ -83,9 +83,12 @@
 }
 
 @media screen and (max-width:767px){
-
+.checkbox{
+     margin-right: 8px;
+}
 .prodimg{
-    width: 80px;
+    width: 60px;
+    margin-right: 12px;
 }
 .forRwd{
     flex-direction: column;
@@ -111,6 +114,9 @@
 }
 .qtyset{
     margin-right: 8px;
+}
+.prodname{
+    margin-bottom: 8px;
 }
 }
 
