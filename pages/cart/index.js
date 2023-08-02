@@ -59,18 +59,11 @@ export default function Cart() {
   }, [auth, first]);
 
   const changeCheckoutType = (type) => {
-    console.log({ type });
-    const shopSelectStatus =
-      shopData.filter((v) => v.selected == true).length > 0;
-    const actSelectStatus =
-      activityData.filter((v) => v.selected == true).length > 0;
-    //if (type === 'shop' && !actSelectStatus) {
     setCheckoutType(type);
     setSelectAll(false);
     setShopData((old) => old.map((v) => ({ ...v, selected: false })));
     setActivityData((old) => old.map((v) => ({ ...v, selected: false })));
     setCouponData((old) => old.map((v, i) => ({ ...v, selected: i === 0 })));
-    //}
   };
 
   const checkAllHandler = () => {
@@ -107,7 +100,7 @@ export default function Cart() {
     if (data.shop.length > 0) {
       const myShopData = data.shop.map((v) => ({ ...v, selected: false }));
       setShopData(myShopData);
-      console.log('noshopData');
+      // console.log('noshopData');
     }
     if (data.activity.length > 0) {
       const myActivityData = data.activity.map((v) => ({
@@ -115,7 +108,7 @@ export default function Cart() {
         selected: false,
       }));
       setActivityData(myActivityData);
-      console.log('noActData');
+      // console.log('noActData');
     }
     if (data.coupon.length > 0) {
       const myCouponData = data.coupon.map((v, i) => ({
@@ -123,7 +116,7 @@ export default function Cart() {
         selected: i === 0,
       }));
       setCouponData(myCouponData);
-      console.log('nocouponData');
+      // console.log('nocouponData');
     }
     if (data.postAddress.length > 0) {
       const myPostAddData = data.postAddress.map((v, i) => ({
@@ -139,7 +132,7 @@ export default function Cart() {
   };
 
   const sendOrderRequest = async (data) => {
-    console.log('sentData:', data);
+    //console.log('sentData:', data);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/create-order`, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -156,7 +149,7 @@ export default function Cart() {
       const memberSid = createOrderResult.memberSid;
 
       if (createOrderResult.paymentType === 1) {
-        console.log('paymentType in createOrderResult:', paymentType);
+        //console.log('paymentType in createOrderResult:', paymentType);
         window.location.href =
           process.env.API_SERVER +
           `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
@@ -168,7 +161,7 @@ export default function Cart() {
     } else {
       //TODO: 訂單成立失敗不前往付款頁面
       alert('訂單成立失敗無法前往付款頁面');
-      console.log('訂單成立失敗不前往付款頁面');
+      //console.log('訂單成立失敗不前往付款頁面');
     }
   };
 
@@ -182,13 +175,13 @@ export default function Cart() {
 
     if (auth) {
       if (checkoutItems.length === 0) {
-        console.log('no items selected');
+        //console.log('no items selected');
         alert('請至少選擇一樣商品');
       } else {
         isPass = true;
       }
     } else {
-      console.log('not loged in');
+      //console.log('not loged in');
       // TODO: need to login
     }
 
@@ -207,9 +200,9 @@ export default function Cart() {
     }
   };
 
-  console.log(cartData);
-  console.log(paymentType);
-  console.log(checkoutType);
+  //console.log(cartData);
+  //console.log(paymentType);
+  //console.log({ checkoutType });
 
   if (pageLoading) {
     return <Loading />;
@@ -233,17 +226,17 @@ export default function Cart() {
                   type="shop"
                   text={`商品結帳 (${shopData.length})`}
                   checkoutType={checkoutType}
-                  changeTypeHandler={() => {
-                    changeCheckoutType('shop');
-                  }}
+                  shopData={shopData}
+                  activityData={activityData}
+                  changeTypeHandler={changeCheckoutType}
                 />
                 <CartTab
                   type="activity"
                   text={`活動結帳 (${activityData.length})`}
                   checkoutType={checkoutType}
-                  changeTypeHandler={() => {
-                    changeCheckoutType('activity');
-                  }}
+                  shopData={shopData}
+                  activityData={activityData}
+                  changeTypeHandler={changeCheckoutType}
                 />
               </div>
               {/* ========== 顯示商品 ==========*/}

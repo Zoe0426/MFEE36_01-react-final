@@ -10,6 +10,8 @@ export default function CartTab({
   type = '',
   text = '',
   checkoutType = '',
+  shopData = [],
+  activityData = [],
   changeTypeHandler = () => {},
   title = '  溫馨提醒  ',
   showSubBtn = true,
@@ -17,12 +19,42 @@ export default function CartTab({
   subBtnText = '返回',
 }) {
   const [modal, setModal] = useState(false);
+
   const toggleModal = () => {
+    console.log(shopData);
+    const shopSelectStatus =
+      shopData.filter((v) => v.selected == true).length > 0;
+    console.log({ shopSelectStatus });
+    const actSelectStatus =
+      activityData.filter((v) => v.selected == true).length > 0;
+    console.log({ actSelectStatus });
+
     if (type !== checkoutType) {
-      setModal(!modal);
+      if (type === 'shop') {
+        //現在COtype 是activity
+        console.log({ actSelectStatus });
+        if (actSelectStatus) {
+          setModal(!modal);
+        } else {
+          changeTypeHandler('shop');
+        }
+      }
+      if (type === 'activity') {
+        //現在COtype 是shop
+        console.log({ shopSelectStatus });
+        if (shopSelectStatus) {
+          setModal(!modal);
+        } else {
+          changeTypeHandler('activity');
+        }
+      }
     }
   };
-
+  const confirmHandler = () => {
+    checkoutType === 'shop'
+      ? changeTypeHandler('activity')
+      : changeTypeHandler('shop');
+  };
   return (
     <div
       onClick={toggleModal}
@@ -76,7 +108,7 @@ export default function CartTab({
                 {showSubBtn && (
                   <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />
                 )}
-                <MainBtn clickHandler={changeTypeHandler} text={mainBtnText} />
+                <MainBtn clickHandler={confirmHandler} text={mainBtnText} />
               </div>
             </div>
           </div>

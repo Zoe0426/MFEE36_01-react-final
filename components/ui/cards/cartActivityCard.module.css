@@ -85,7 +85,7 @@
 @media screen and (max-width:767px){
 
 .prodimg{
-    width: 80px;
+    width: 60px;
 }
 .forRwd{
     flex-direction: column;
@@ -111,6 +111,9 @@
 }
 .qtyset{
     margin-right: 8px;
+}
+.prodname{
+    margin-bottom: 8px;
 }
 }
 

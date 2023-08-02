@@ -26,6 +26,7 @@ export default function CartProductCard({
       return v.cart_sid == sid ? { ...v, selected: !v.selected } : { ...v };
     });
     setShopData(newData);
+    //console.log(newData);
     newData.some((obj) => obj.selected === false) && setSelectAll(false);
   };
 

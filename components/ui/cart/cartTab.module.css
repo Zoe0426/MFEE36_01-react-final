@@ -109,6 +109,15 @@
 }
 
 @media screen and (max-width: 767px) {
+
+  .typeSelected{
+    padding: var(--p16)var(--p24);
+    font-size: var(--pfs16);
+}
+.type{
+    padding: var(--p16) var(--p24);
+    font-size: var(--pfs16);
+}
   .modal_card {
     width: 80%;
     top: 48%;
