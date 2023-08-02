@@ -21,7 +21,16 @@ import {
   faStar,
   faChevronLeft,
   faChevronRight,
+  faChevronDown,
+  faChevronUp,
+  faClone,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFacebookSquare,
+  faLine,
+  faSquareInstagram,
+  faSquareTwitter,
+} from '@fortawesome/free-brands-svg-icons';
 import Tab from '@/components/ui/restaurant/Tab';
 import FeatureCard from '@/components/ui/restaurant/featureCard';
 import ActivityCard from '@/components/ui/restaurant/ActivityCard';
@@ -38,6 +47,9 @@ import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
 import IconFavBtn from '@/components/ui/restaurant/IconFavBtn';
 import NoCommentCard from '@/components/ui/cards/comment-card-no';
+import CommentCard1 from '@/components/ui/restaurant/CommentCard';
+import Xicon from '@/assets/X.svg';
+import Success from '@/components/ui/restaurant/Success';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
@@ -527,6 +539,93 @@ export default function RestInfo() {
   console.log(commentFilter);
   console.log(commentFiliterByRating);
 
+  //分享頁面
+  const handleLineShare = (type = '') => {
+    const title = `狗with咪 || ${restDetailRows.name}`; // 要分享的標題
+    const imageUrl = `${process.env.WEB}/product-img/${imageRows[0].img}`; // 圖片URL
+    const shareUrl = window.location.href;
+
+    let shareURL = '';
+    switch (type) {
+      case 'shareOnLine':
+        shareURL = `https://line.me/R/msg/text/?${encodeURIComponent(
+          title
+        )}%0D%0A${encodeURIComponent(shareUrl)}`;
+        break;
+      case 'shareOnFB':
+        shareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          shareUrl
+        )}&quote=${encodeURIComponent(title)}`;
+        break;
+      case 'shareOnTwitter':
+        shareURL = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+          shareUrl
+        )}&text=${encodeURIComponent(title)}`;
+        break;
+      case 'shareOnIG':
+        shareURL = `https://www.instagram.com/?url=${shareUrl}`;
+    }
+
+    if (shareURL) {
+      window.open(shareURL);
+    }
+  };
+
+  // 複製網址
+
+  const handleCopyUrl = () => {
+    const urlToCopy = window.location.href;
+    // 使用瀏覽器原生的剪貼板 API 將網址複製到剪貼板
+    navigator.clipboard
+      .writeText(urlToCopy)
+      .then(() => {})
+      .catch((error) => {
+        console.error('複製網址失敗:', error);
+      });
+  };
+
+  //營業時間的函式
+  const [showBusinessHours, setShowBusinessHours] = useState(false);
+
+  // 用於顯示星期幾的文字
+  const daysOfWeek = ['一', '二', '三', '四', '五', '六', '日'];
+
+  // 生成營業時間詳細信息
+  const generateBusinessHours = () => {
+    const businessHours = [];
+    for (let i = 1; i <= 7; i++) {
+      if (
+        restDetailRows.rest_date &&
+        restDetailRows.rest_date.includes(daysOfWeek[i - 1])
+      ) {
+        businessHours.push(`星期${daysOfWeek[i - 1]}：公休`);
+      } else {
+        // const startTime = restDetailRows[`start_at_${i}`];
+        // const endTime = restDetailRows[`end_at_${i}`];
+
+        const startTime1 = restDetailRows[`start_at_1`];
+        const endTime1 = restDetailRows[`end_at_1`];
+
+        const startTime2 = restDetailRows[`start_at_2`];
+        const endTime2 = restDetailRows[`end_at_2`];
+
+        // 判斷 startTime2 和 endTime2 是否存在
+        if (startTime2 && endTime2) {
+          businessHours.push(
+            `星期${
+              daysOfWeek[i - 1]
+            }：${startTime1} ~ ${endTime1}，${startTime2} ~ ${endTime2}`
+          );
+        } else {
+          businessHours.push(
+            `星期${daysOfWeek[i - 1]}：${startTime1} ~ ${endTime1}`
+          );
+        }
+      }
+    }
+    return businessHours;
+  };
+
   //給他一個loading的時間
   if (!serviceRows || !restDetailRows) return <p>loading</p>;
 
@@ -662,7 +761,16 @@ export default function RestInfo() {
           </div>
 
           <div className={Styles.rest_info}>
-            <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
+            <div className={Styles.title_share}>
+              <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
+              {/* <FontAwesomeIcon
+                icon={faClone}
+                className={Styles.clone}
+                onClick={handleCopyUrl}
+                style={{ maxWidth: '20px', maxHeight: '20px' }}
+              /> */}
+              <Success clickHandler={handleCopyUrl} />
+            </div>
             <RateStar
               score={commentAvgRows.avg_friendly}
               className={Styles.rate_star}
@@ -692,15 +800,38 @@ export default function RestInfo() {
                   {restDetailRows.address}
                 </p>
               </div>
-              <div className={Styles.contact}>
+              <div className={Styles.contact_time}>
                 <FontAwesomeIcon
                   icon={faClock}
                   className={Styles.info_icon}
                   style={{ maxWidth: '20px', maxHeight: '20px' }}
                 />
-                <p className={Styles.information_detail}>
-                  {restDetailRows.start_at_1}~{restDetailRows.end_at_1}
+                <p
+                  className={Styles.information_detail}
+                  onClick={() => setShowBusinessHours(!showBusinessHours)}
+                >
+                  {restDetailRows.rest_date === ''
+                    ? `${restDetailRows.start_at_1}~${restDetailRows.end_at_1}`
+                    : `${restDetailRows.start_at_1}~${restDetailRows.end_at_1}，星期${restDetailRows.rest_date}公休`}
                 </p>
+
+                <FontAwesomeIcon
+                  icon={showBusinessHours ? faChevronUp : faChevronDown}
+                  className={Styles.arrow_down}
+                  style={{ maxWidth: '20px', maxHeight: '20px' }}
+                  onClick={() => setShowBusinessHours(!showBusinessHours)}
+                />
+                <div className={Styles.dropdown_wrapper}>
+                  {showBusinessHours && (
+                    <div className={Styles.dropdown_content}>
+                      {generateBusinessHours().map((businessHour, index) => (
+                        <p key={index} className={Styles.business_time}>
+                          {businessHour}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className={Styles.contact}>
                 <FontAwesomeIcon
@@ -714,6 +845,34 @@ export default function RestInfo() {
               </div>
             </div>
 
+            {/* 分享區 */}
+            <div className={Styles.share_box}>
+              <div className={Styles.share_title}>分享</div>
+              <div className={Styles.share_icons}>
+                <FontAwesomeIcon
+                  icon={faLine}
+                  className={Styles.line}
+                  onClick={() => {
+                    handleLineShare('shareOnLine');
+                  }}
+                />
+                <FontAwesomeIcon
+                  icon={faFacebookSquare}
+                  className={Styles.fb}
+                  onClick={() => {
+                    handleLineShare('shareOnFB');
+                  }}
+                />
+                <Image
+                  src={Xicon}
+                  alt="Xicon"
+                  className={Styles.x_twitter}
+                  onClick={() => {
+                    handleLineShare('shareOnTwitter');
+                  }}
+                />
+              </div>
+            </div>
             {/* button */}
             <div className={Styles.detail_main_buttom}>
               {!auth.token ? (
@@ -1082,7 +1241,7 @@ export default function RestInfo() {
               return (
                 display && (
                   <div className={Styles.test} key={rest_commtent_id}>
-                    <CommentCard
+                    <CommentCard1
                       date={created_at}
                       rating={avg_rating}
                       content={content}

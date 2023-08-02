@@ -113,7 +113,13 @@
   display: flex;
   align-items: center;
 }
-
+.contact_time{
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
 .contact_group {
   display: flex;
   flex-direction: column;
@@ -277,24 +283,38 @@
   gap: 24px;
 }
 
-
-/* .comment_cards::-webkit-scrollbar {
-  height: 10px;
+.arrow_down{
+  margin-left: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.arrow_down:hover{
+  color: var(--main);
+}
+/* 營業時間 */
+.dropdown_wrapper {
+  position: absolute;
+  top: 100%;
+  left: 0%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  margin-top: 8px;
+  margin-left: 26px;
 }
 
-.comment_cards::-webkit-scrollbar-track {
-  border-radius: 10px;
-  background: var(--light-gray); 
-} */
- 
-/* .comment_cards::-webkit-scrollbar-thumb {
-  background: var(--secondary); 
-  border-radius: 10px;
+
+.business_time{
+  padding: 10px 20px;
+}
+.business_time:nth-child(1){
+  margin-top: 10px;
+}
+.business_time:nth-child(7){
+  margin-bottom: 10px;
 }
 
-.comment_cards::-webkit-scrollbar-thumb:hover {
-  background: #ffbfb4; 
-} */
 
 /* 評價區 */
 .comment_section {
@@ -392,6 +412,22 @@
   min-width: 300px;
   z-index: 1001;
 }
+
+.left_arrow_box,
+.right_arrow_box,
+.detail_left_arrow_box,
+.detail_right_arrow_box {
+  position: absolute;
+  font-size: var(--h5fs20);
+  color: white;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+.detail_left_arrow_box {
+  left: -80px;
+}
 .detail_right_arrow_box {
   top: 0px;
   right: -80px;
@@ -399,6 +435,12 @@
   background-image: linear-gradient(to left, #f7ece3 80%, transparent);
   display: flex;
   justify-content: flex-end;
+}
+.full_right_arrow_box {
+  background-image: none;
+  width: auto;
+  right: -5%;
+  z-index: 999;
 }
 .comment_right_arrow_box {
   background-image: linear-gradient(to left, #fffaf6 80%, transparent);
@@ -440,8 +482,61 @@
     transform: scale(1);
   }
 }
+/* 分享網頁 */
+.clone{
+  cursor: pointer;
+  font-size: 28px;
+  transition: 0.5s;
+  opacity: 0.8;
+}
+.clone:hover{
+  color: var(--main);
+}
+.title_share{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
+}
+.share{
+  font-size: 24px;
+}
+.share_box{
+  display: flex;
+  align-items: center;
+  padding-top: 50px;
+}
+.share_icons{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.share_title{
+  margin-right: 12px;
+
+}
+.line{
+  color: #06c755;
+  font-size: 24px;
+}
+.fb{
+  color: rgb(24, 119, 242);
+  font-size: 27px;
+}
+.x_twitter{
+  width: 24px;
+  height: 24px;
+
+}
 @media screen and (max-width: 767px) {
+
+    .left_arrow_box,
+    .right_arrow_box,
+    .slider_right_arrow_box,
+    .detail_left_arrow_box,
+    .detail_right_arrow_box {
+      display: none;
+    }
   .jill_h1 {
     font-size: var(--h4fs24);
   }
