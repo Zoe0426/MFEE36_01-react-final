@@ -8,6 +8,7 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/LikeListDrawer';
+import NotFindCard from '@/components/ui/cards/not-find-card';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopHistoryCard from '@/components/ui/cards/shop-history-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
@@ -845,47 +846,51 @@ export default function List() {
           items={orderByOptions}
           searchText={breadCrubText}
         />
-        <Row gutter={[32, 36]} className={styles.cards_list}>
-          {datas.rows &&
-            datas.rows.map((v) => {
-              const {
-                product_sid,
-                name,
-                img,
-                max_price,
-                min_price,
-                avg_rating,
-                sales_qty,
-                like,
-              } = v;
-              return (
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  className={styles.product_card}
-                  key={product_sid}
-                >
-                  <ShopProductCard
-                    product_sid={product_sid}
-                    name={name}
-                    img={img}
-                    max_price={max_price}
-                    min_price={min_price}
-                    avg_rating={avg_rating}
-                    tag_display={showFlag}
-                    sales_qty={sales_qty}
-                    like={like}
-                    token={auth.token}
-                    clickHandler={() => {
-                      clickHeartHandler(product_sid);
-                    }}
-                    singinHandler={toSingIn}
-                  />
-                </Col>
-              );
-            })}
-        </Row>
+        {datas.rows.length > 0 ? (
+          <Row gutter={[32, 36]} className={styles.cards_list}>
+            {datas.rows &&
+              datas.rows.map((v) => {
+                const {
+                  product_sid,
+                  name,
+                  img,
+                  max_price,
+                  min_price,
+                  avg_rating,
+                  sales_qty,
+                  like,
+                } = v;
+                return (
+                  <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={styles.product_card}
+                    key={product_sid}
+                  >
+                    <ShopProductCard
+                      product_sid={product_sid}
+                      name={name}
+                      img={img}
+                      max_price={max_price}
+                      min_price={min_price}
+                      avg_rating={avg_rating}
+                      tag_display={showFlag}
+                      sales_qty={sales_qty}
+                      like={like}
+                      token={auth.token}
+                      clickHandler={() => {
+                        clickHeartHandler(product_sid);
+                      }}
+                      singinHandler={toSingIn}
+                    />
+                  </Col>
+                );
+              })}
+          </Row>
+        ) : (
+          <NotFindCard textForCat="非常抱歉!" textForDog="沒有找到相關商品!" />
+        )}
       </main>
       <div className={styles.pagination}>
         <ConfigProvider

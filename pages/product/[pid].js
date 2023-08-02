@@ -745,17 +745,7 @@ export default function Product() {
 
   return (
     <>
-      {/* <Head>
-        <meta
-          property="og:url"
-          content={`${process.env.WEB}/product/${router.query.pid}`}
-        />
-        <meta property="og:title" content={datatForProductMain?.name} />
-        <meta
-          property="og:image"
-          content={`${process.env.WEB}/product-img/${datatForProductDetail[0]?.img}`}
-        />
-      </Head> */}
+    
       <div className="outer-container">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
