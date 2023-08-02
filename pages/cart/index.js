@@ -11,6 +11,7 @@ import CartTab from '@/components/ui/cart/cartTab';
 import CartPostInfo from '@/components/ui/cart/cartpostinfo';
 import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
 import CartCouponList from '@/components/ui/cart/cartCouponList';
+//import CartAddressList from '@/components/ui/cart/cartAddressList';
 import Modal from '@/components/ui/modal/modal';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
@@ -85,7 +86,7 @@ export default function Cart() {
       )
     );
   };
-
+  const selectAddress = () => {};
   const getCart = async (id) => {
     //console.log(id);
     setLoading(true);
@@ -332,6 +333,20 @@ export default function Cart() {
                 ) : (
                   <p>沒有可使用的優惠券</p>
                 )}
+                <div className={style.couponModal}>
+                  <Modal
+                    btnType="text"
+                    btnText="變更收件地址"
+                    title="選擇優惠券"
+                    confirmHandler={selectAddress}
+                    //content={
+                    // <CartAddressList
+                    //   couponData={couponData}
+                    //   setChosenAddress={setPostAddData}
+                    // />
+                    //}
+                  />
+                </div>
               </div>
             ) : (
               ''
