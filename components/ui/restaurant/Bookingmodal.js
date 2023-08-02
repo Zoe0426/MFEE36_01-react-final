@@ -133,7 +133,8 @@ export default function BookingModal({
       </div>
       {modal && (
         <>
-          <div onClick={toggleModal} className={Styles.overlay}></div>
+          {/* <div onClick={toggleModal} className={Styles.overlay}></div> */}
+          <div className={Styles.overlay}></div>
           <div className={Styles.modal}>
             <div className={Styles.modal_card}>
               <h2 className={Styles.modal_title}>預約資訊</h2>
