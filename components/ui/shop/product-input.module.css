@@ -4,7 +4,7 @@
   height: 50px;
   margin-top: 20px;
 }
-.labels {
+.labels, .colon {
   font-size: var(--h6fs18);
   font-weight: var(--fwbold);
   height: 70%;
@@ -13,10 +13,15 @@
   margin-right: 16px;
 }
 
+.colon{
+  width: auto;
+}
+
 .toBox {
   height: 100%;
   align-items: flex-start;
 }
+
 .symboTo {
   text-align: center;
   margin-top: 8px;

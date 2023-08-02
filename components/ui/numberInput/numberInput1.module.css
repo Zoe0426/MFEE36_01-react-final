@@ -46,3 +46,9 @@
   color: var(--dark-gray);
   background-color: transparent;
 }
+
+@media screen and (max-width: 767px) {
+  .input {
+    height: 36px;
+  }
+}

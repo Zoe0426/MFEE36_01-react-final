@@ -8,6 +8,7 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/LikeListDrawer';
+import NotFindCard from '@/components/ui/cards/not-find-card';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopHistoryCard from '@/components/ui/cards/shop-history-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
@@ -450,13 +451,13 @@ export default function List() {
     }
   };
 
-  const searchBarClickHandler = () => {
-    router.push(
-      `?${new URLSearchParams({
-        keyword: keyword,
-        page: 1,
-      }).toString()}`
-    );
+  const searchBarClickHandler = (keyword = '') => {
+    let obj = { page: 1 };
+
+    if (keyword) {
+      obj.keyword = keyword;
+    }
+    router.push(`?${new URLSearchParams(obj).toString()}`);
   };
 
   const autocompleteHandler = (selectkeyword) => {
@@ -620,6 +621,7 @@ export default function List() {
     setOutlineStatus2('');
     setPriceErrorText1('');
     setPriceErrorText2('');
+    setTimeout(toggleFilter, 30);
     const { keyword } = router.query;
     const query = { page: 1 };
     if (keyword) {
@@ -693,7 +695,9 @@ export default function List() {
                 }, 700);
               }}
               keyDownHandler={searchBarHandler}
-              clickHandler={searchBarClickHandler}
+              clickHandler={() => {
+                searchBarClickHandler(keyword);
+              }}
               autocompleteHandler={autocompleteHandler}
               showKeywordDatas={showKeywordDatas}
               blurHandler={() => {
@@ -703,6 +707,7 @@ export default function List() {
               }}
               clearHandler={() => {
                 setKeyword('');
+                searchBarClickHandler();
               }}
             />
           </div>
@@ -759,26 +764,26 @@ export default function List() {
             {showfilter && (
               <>
                 <ProductFilter
-                  text="適用對象:"
+                  text="適用對象"
                   name="typeForPet"
                   data={filters.typeForPet}
                   changeHandler={checkboxToggleHandler}
                 />
 
                 <ProductFilter
-                  text="使用年齡:"
+                  text="使用年齡"
                   name="typeForAge"
                   data={filters.typeForAge}
                   changeHandler={checkboxToggleHandler}
                 />
                 <ProductFilter
-                  text="商品類別:"
+                  text="商品類別"
                   name="category"
                   data={filters.category}
                   changeHandler={checkboxToggleHandler}
                 />
                 <ProductFilter
-                  text="品牌:"
+                  text="品牌"
                   name="brand"
                   data={filters.brand}
                   needSpan={false}
@@ -845,72 +850,78 @@ export default function List() {
           items={orderByOptions}
           searchText={breadCrubText}
         />
-        <Row gutter={[32, 36]} className={styles.cards_list}>
-          {datas.rows &&
-            datas.rows.map((v) => {
-              const {
-                product_sid,
-                name,
-                img,
-                max_price,
-                min_price,
-                avg_rating,
-                sales_qty,
-                like,
-              } = v;
-              return (
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  className={styles.product_card}
-                  key={product_sid}
-                >
-                  <ShopProductCard
-                    product_sid={product_sid}
-                    name={name}
-                    img={img}
-                    max_price={max_price}
-                    min_price={min_price}
-                    avg_rating={avg_rating}
-                    tag_display={showFlag}
-                    sales_qty={sales_qty}
-                    like={like}
-                    token={auth.token}
-                    clickHandler={() => {
-                      clickHeartHandler(product_sid);
-                    }}
-                    singinHandler={toSingIn}
-                  />
-                </Col>
-              );
-            })}
-        </Row>
+        {datas.rows.length > 0 ? (
+          <Row gutter={[32, 36]} className={styles.cards_list}>
+            {datas.rows &&
+              datas.rows.map((v) => {
+                const {
+                  product_sid,
+                  name,
+                  img,
+                  max_price,
+                  min_price,
+                  avg_rating,
+                  sales_qty,
+                  like,
+                } = v;
+                return (
+                  <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    className={styles.product_card}
+                    key={product_sid}
+                  >
+                    <ShopProductCard
+                      product_sid={product_sid}
+                      name={name}
+                      img={img}
+                      max_price={max_price}
+                      min_price={min_price}
+                      avg_rating={avg_rating}
+                      tag_display={showFlag}
+                      sales_qty={sales_qty}
+                      like={like}
+                      token={auth.token}
+                      clickHandler={() => {
+                        clickHeartHandler(product_sid);
+                      }}
+                      singinHandler={toSingIn}
+                    />
+                  </Col>
+                );
+              })}
+          </Row>
+        ) : (
+          <NotFindCard textForCat="非常抱歉!" textForDog="沒有找到相關商品!" />
+        )}
       </main>
       <div className={styles.pagination}>
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#FD8C46',
-              colorBgContainer: 'transparent',
-              colorBgTextHover: '#FFEFE8',
-              colorBgTextActive: '#FFEFE8',
-              fontSize: 18,
-              controlHeight: 38,
-              lineWidthFocus: 1,
-            },
-          }}
-        >
-          <Pagination
-            current={datas.page}
-            total={datas.totalRows}
-            pageSize={datas.perPage}
-            showSizeChanger
-            pageSizeOptions={[20, 40, 60]}
-            onChange={PageChangeHandler}
-            onShowSizeChange={PageChangeHandler}
-          />
-        </ConfigProvider>
+        {datas.rows.length > 0 && (
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: '#FD8C46',
+                colorBgContainer: 'transparent',
+                colorBgTextHover: '#FFEFE8',
+                colorBgTextActive: '#FFEFE8',
+                fontSize: 18,
+                controlHeight: 38,
+                lineWidthFocus: 1,
+              },
+            }}
+          >
+            <Pagination
+              current={datas.page}
+              total={datas.totalRows}
+              pageSize={datas.perPage}
+              showSizeChanger
+              pageSizeOptions={[16, 32, 64]}
+              onChange={PageChangeHandler}
+              onShowSizeChange={PageChangeHandler}
+            />
+          </ConfigProvider>
+        )}
       </div>
       {/* </div> */}
     </>
