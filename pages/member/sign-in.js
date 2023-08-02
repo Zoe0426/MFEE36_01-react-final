@@ -11,11 +11,13 @@ export default function SignIn() {
   const { setAuth, setPhoto } = useContext(AuthContext);
   const [pass, setPass] = useState(false);
   const [nopass, setNoPass] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [memProfileImg, setMemProfileImg] = useState(
     `${process.env.API_SERVER}/img/default-profile.jpg`
   );
   //回去哪一頁的路徑
   const router = useRouter();
+  const from = router.asPath;
   const fromPath2 = router.asPath.split('from=')[1] || '/';
   //console.log({ mem: router.asPath.split('from=')[1] });
 
@@ -44,12 +46,18 @@ export default function SignIn() {
           setAuth(obj);
           setNoPass(false);
           setPass(true);
+          setShowAlert(true);
           setTimeout(() => {
+            setShowAlert(false);
             router.push(fromPath2);
-          }, 500);
+          }, 1000);
         } else {
-          setNoPass(true);
           setPass(false);
+          setNoPass(true);
+          setShowAlert(true);
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 1000);
         }
       });
     console.log('pass', pass);
@@ -58,10 +66,21 @@ export default function SignIn() {
     <>
       <SignCard title="會員登入">
         {nopass && !pass && <div className="signNoPass">帳號密碼錯誤 ！</div>}
-        {pass && <div className="signPass">登入成功 ！</div>}
+        {/* {pass && <div className="signPass">登入成功 ！</div>} */}
         <SignInForm handleSubmit={handleSubmit} pass={setPass} />
       </SignCard>
-      {nopass && !pass && <ModalWithoutBtn />}
+      {nopass && showAlert && (
+        <ModalWithoutBtn
+          text="登入失敗"
+          img="/member-center-images/Icon/no.svg"
+        />
+      )}
+      {pass && showAlert && (
+        <ModalWithoutBtn
+          text="登入成功"
+          img="/member-center-images/Icon/happy.svg"
+        />
+      )}
     </>
   );
 }

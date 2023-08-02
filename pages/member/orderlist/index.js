@@ -106,6 +106,8 @@ export default function OrderList() {
               setData(firstData);
               setAllData(data);
               setLoading(false);
+              setShop(true);
+              setActivity(false);
             });
         }
       } else {
