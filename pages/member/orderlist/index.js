@@ -25,7 +25,6 @@ export default function OrderList() {
   const searchBarClickHandler = (keyword) => {
     // console.log(keyword);
     if (shop) {
-      console.log('s', keyword);
       router.push(
         `?${new URLSearchParams({
           keywordS: keyword,
@@ -54,7 +53,6 @@ export default function OrderList() {
       if (auth.token) {
         const keywordS = router.query.keywordS;
         const keywordA = router.query.keywordA;
-        console.log('router.query', router.query);
         if (keywordS) {
           fetch(
             `${process.env.API_SERVER}/member-api/order?${new URLSearchParams({

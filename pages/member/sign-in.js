@@ -3,6 +3,7 @@ import SignLayout from '@/components/layout/sign-layout';
 import SignCard from '@/components/ui/cards/SignCard';
 import SignInForm from '@/components/ui/forms/SignInForm';
 import AuthContext from '@/context/AuthContext';
+import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
 
@@ -60,6 +61,7 @@ export default function SignIn() {
         {pass && <div className="signPass">登入成功 ！</div>}
         <SignInForm handleSubmit={handleSubmit} pass={setPass} />
       </SignCard>
+      {nopass && !pass && <ModalWithoutBtn />}
     </>
   );
 }
