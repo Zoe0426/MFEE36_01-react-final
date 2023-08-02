@@ -10,6 +10,8 @@ import {
   faHeart,
   faUserPlus,
   faFilter,
+  faChevronRight,
+  faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from '../../styles/activitydetail.module.css';
 import NavDetailPage from '@/components/ui/cards/NavDetailPage';
@@ -17,16 +19,16 @@ import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import CommentCard from '@/components/ui/cards/comment-card';
-import { Button, Select } from 'antd';
+import { Button, Select, ConfigProvider } from 'antd';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import Modal from '@/components/ui/modal/modal';
 import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
+import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 
 //likelist
-
 
 // import CommentCard from '@/componets/ui/cards/comment-card.js';
 
@@ -39,7 +41,7 @@ export default function ActivityDetail() {
   const router = useRouter();
 
   // 會員登入相關
-  const { auth,updateCart } = useContext(AuthContext);
+  const { auth, updateCart } = useContext(AuthContext);
   const authId = auth.id;
 
   // 新增活動相關
@@ -52,7 +54,7 @@ export default function ActivityDetail() {
     actDateRows: [],
     actFeatureRows: [],
     actRatingRows: [],
-    actRecommend:[],
+    actRecommend: [],
   });
 
   const [actDetailRows, setActDetailRows] = useState([]);
@@ -63,7 +65,6 @@ export default function ActivityDetail() {
   const [actFeatureRows, setActFeatureRows] = useState([]);
   const [actRatingRows, setActRatingRows] = useState([]);
   const [actRecommend, setActRecommend] = useState([]);
-  
 
   const totalPrice =
     actDetailRows.price_adult * countAdult +
@@ -108,9 +109,6 @@ export default function ActivityDetail() {
           if (actDetailRows && actDetailRows.length > 0) {
             setActDetailRows(...actDetailRows);
           }
-
-         
-
 
           if (actImageRows.length > 0) {
             const imageUrls = actImageRows[0].activity_pic.split(',');
@@ -223,19 +221,16 @@ export default function ActivityDetail() {
     );
 
     // Reset values
-  setSelectedDate(null);
-  setCountAdult(1);
-  setCountChild(0);
+    setSelectedDate(null);
+    setCountAdult(1);
+    setCountChild(0);
   };
-
 
   //若未登入會員而點擊收藏，要跳轉至會員登入
   const toSingIn = () => {
     const from = router.asPath;
-    router.push(`/member/sign-in?from=http://localhost:3000${from}`);
+    router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
   };
-
-
 
   //內頁導覽設定--------------------------------------------------
   //設定 目標位置的參考
@@ -244,7 +239,6 @@ export default function ActivityDetail() {
   const targetRef3 = useRef(null);
   const targetRef4 = useRef(null);
   const targetRef5 = useRef(null);
-  
 
   // 設定 text和對應的目標位置
   const items = [
@@ -259,28 +253,33 @@ export default function ActivityDetail() {
   const handleClick = (targetRef) => {
     targetRef.current.scrollIntoView({
       behavior: 'smooth',
-      block: 'center', 
+      block: 'center',
     });
   };
 
   return (
     <div>
       {/* .........上方資訊......... */}
-      <div className="container-inner">
-        <div className={styles.nav_head}>
-          {/* <p>TODO: BreadCrumb</p> */}
-          <BreadCrumb breadCrubText={breadCrubText} />
+      <div className={styles.bgc}>
+        <div className="container-inner">
+          <div className={styles.nav_head}>
+            {/* <p>TODO: BreadCrumb</p> */}
+            <BreadCrumb breadCrubText={breadCrubText} />
 
-          {/* .........收藏列表/進階篩選 btn......... */}
-          <div className={styles.btns}>
-            <IconBtn
-              icon={faHeart}
-              text="收藏列表"
-              // clickHandler={toggleLikeList}
-            />
+            {/* .........收藏列表/進階篩選 btn......... */}
+            <div className={styles.btns}>
+              <IconBtn
+                icon={faHeart}
+                text="收藏列表"
+                // clickHandler={toggleLikeList}
+              />
+            </div>
           </div>
         </div>
+      </div>
+      <BGUpperDecoration />
 
+      <div className="container-inner">
         <div className={styles.card}>
           {/* -------右邊------- */}
 
@@ -293,7 +292,7 @@ export default function ActivityDetail() {
               }}
               className={styles.overlay_left}
             >
-              上
+              <FontAwesomeIcon icon={faChevronLeft} />
             </button>
             {actImageRows.length > 0 && (
               <img
@@ -310,7 +309,7 @@ export default function ActivityDetail() {
               }}
               className={styles.overlay_right}
             >
-              下
+              <FontAwesomeIcon icon={faChevronRight} />
             </button>
 
             {/* <div className={styles.overlay_left}></div>
@@ -321,8 +320,8 @@ export default function ActivityDetail() {
           {/* -------左邊------- */}
           <div className={styles.right}>
             {/* 第一行 */}
-            <div>
-              <p className={styles.row_text_title}>{actDetailRows.name}</p>
+            <div  className={styles.row_text_title}>
+              <p>{actDetailRows.name}</p>
             </div>
 
             {/* 第二行 */}
@@ -387,22 +386,32 @@ export default function ActivityDetail() {
             <div className={styles.row}>
               <div className={styles.row_date}>
                 <p className={styles.row_text_small}>選擇日期：</p>
-
-                <Select
-                  value={selectedDate || "選擇活動日期"}
-                  onChange={(value) => setSelectedDate(value)}
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: '#FD8C46',
+                      borderRadius: 10,
+                      controlHeight: 46,
+                      fontSize: 16,
+                      // width: 168,
+                    },
+                  }}
                 >
-                  {actDateRows.map((row, index) => (
-                    <Select.Option
-                      className={styles.dateSelect}
-                      key={index}
-                      value={row.activity_group_sid}
-                    >
-                      {row.date}
-                    </Select.Option>
-                  ))}
-                </Select>
-
+                  <Select
+                    value={selectedDate || '選擇活動日期'}
+                    onChange={(value) => setSelectedDate(value)}
+                  >
+                    {actDateRows.map((row, index) => (
+                      <Select.Option
+                        key={index}
+                        value={row.activity_group_sid}
+                        className={styles.date_select}
+                      >
+                        {row.date}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </ConfigProvider>
                 {/* <Select defaultValue="選擇活動日期">
                   {actDateRows.map((row, index) => (
                     <Select.Option
@@ -429,70 +438,74 @@ export default function ActivityDetail() {
                 <div>
                   <p className={styles.ppl_qty_row}>大人：</p>
                   <div className={styles.detail_qty}>
-                    <button
-                      className={styles.detail_qty_sub_btn}
-                      onClick={() => {
-                        if (countAdult > 1) {
-                          setCountAdult(countAdult - 1);
-                        }
-                      }}
-                    >
-                      -
-                    </button>
-                    <input
-                      type="text"
-                      className={styles.detail_qty_input}
-                      value={countAdult}
-                      onChange={(e) => {
-                        const reisNumber = /[.\d]/;
-                        if (reisNumber.test(e.target.value)) {
-                          setCountAdult(parseInt(e.target.value));
-                        }
-                      }}
-                    />
-                    <button
-                      className={styles.detail_qty_add_btn}
-                      onClick={() => {
-                        setCountAdult(countAdult + 1);
-                      }}
-                    >
-                      +
-                    </button>
+                    <div className={styles.numInputBlock}>
+                      <button
+                        className={styles.minusBtn}
+                        onClick={() => {
+                          if (countAdult > 1) {
+                            setCountAdult(countAdult - 1);
+                          }
+                        }}
+                      >
+                        -
+                      </button>
+                      <input
+                        type="text"
+                        className={styles.input}
+                        value={countAdult}
+                        onChange={(e) => {
+                          const reisNumber = /[.\d]/;
+                          if (reisNumber.test(e.target.value)) {
+                            setCountAdult(parseInt(e.target.value));
+                          }
+                        }}
+                      />
+                      <button
+                        className={styles.addBtn}
+                        onClick={() => {
+                          setCountAdult(countAdult + 1);
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                   {/* <input className={styles.ppl_qty_row}></input> */}
                 </div>
                 <div>
                   <p className={styles.ppl_qty_row}>小孩：</p>
                   <div className={styles.detail_qty}>
-                    <button
-                      className={styles.detail_qty_sub_btn}
-                      onClick={() => {
-                        if (countChild > 0) {
-                          setCountChild(countChild - 1);
-                        }
-                      }}
-                    >
-                      -
-                    </button>
-                    <input
-                      type="text"
-                      className={styles.detail_qty_input}
-                      value={countChild}
-                      onChange={(e) => {
-                        const reisNumber = /[.\d]/;
-                        if (reisNumber.test(e.target.value)) {
-                          setCountChild(parseInt(e.target.value));
-                        }
-                      }}
-                    />
-                    <button
-                      className={styles.detail_qty_add_btn}
-                      onClick={() => {
-                        setCountChild(countChild + 1);
-                      }}
-                    >
-                      +
-                    </button>
+                    <div className={styles.numInputBlock}>
+                      <button
+                        className={styles.minusBtn}
+                        onClick={() => {
+                          if (countChild > 0) {
+                            setCountChild(countChild - 1);
+                          }
+                        }}
+                      >
+                        -
+                      </button>
+                      <input
+                        type="text"
+                        className={styles.input}
+                        value={countChild}
+                        onChange={(e) => {
+                          const reisNumber = /[.\d]/;
+                          if (reisNumber.test(e.target.value)) {
+                            setCountChild(parseInt(e.target.value));
+                          }
+                        }}
+                      />
+                      <button
+                        className={styles.addBtn}
+                        onClick={() => {
+                          setCountChild(countChild + 1);
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                   {/* <input className={styles.ppl_qty_row}></input> */}
                 </div>
@@ -502,7 +515,9 @@ export default function ActivityDetail() {
             {/* 第九行 */}
             <div className={styles.row_total_price}>
               <p className={styles.total_price}>總金額：</p>
-              <p className={styles.total_price}>${(totalPrice).toLocaleString()}</p>
+              <p className={styles.total_price}>
+                ${totalPrice.toLocaleString()}
+              </p>
             </div>
 
             {/* 第十行 */}
@@ -535,10 +550,7 @@ export default function ActivityDetail() {
         </div>
 
         <div className={styles.nav_detail}>
-          <NavDetailPage 
-          items={items} handleClick={handleClick} 
-            
-          />
+          <NavDetailPage items={items} handleClick={handleClick} />
         </div>
 
         <div className={styles.feature}>
@@ -570,11 +582,11 @@ export default function ActivityDetail() {
             alt=""
           /> */}
           {actImageRows.length > 0 && (
-          <img
-            className={styles.content_image}
-            src={`/activity_img/${actImageRows[2]}`}
-            alt=""
-          />
+            <img
+              className={styles.content_image}
+              src={`/activity_img/${actImageRows[2]}`}
+              alt=""
+            />
           )}
         </div>
       </div>
@@ -584,13 +596,13 @@ export default function ActivityDetail() {
 
       <div className="container-inner">
         <div className={styles.content}>
-        {actImageRows.length > 0 && (
-          <img
-            className={styles.content_image_reverse}
-            src={`/activity_img/${actImageRows[3]}`}
-            alt=""
-          />
-        )}
+          {actImageRows.length > 0 && (
+            <img
+              className={styles.content_image_reverse}
+              src={`/activity_img/${actImageRows[3]}`}
+              alt=""
+            />
+          )}
           <div ref={targetRef2}>
             <p className={styles.subtitle}>活動規範：</p>
             {actDetailRows.policy}
@@ -613,11 +625,11 @@ export default function ActivityDetail() {
           </div>
 
           {actImageRows.length > 0 && (
-          <img
-            className={styles.content_image}
-            src={`/activity_img/${actImageRows[4]}`}
-            alt=""
-          />
+            <img
+              className={styles.content_image}
+              src={`/activity_img/${actImageRows[4]}`}
+              alt=""
+            />
           )}
         </div>
       </div>
@@ -661,7 +673,6 @@ export default function ActivityDetail() {
         </div>
       </div>
 
-
       {/* .........推薦商品......... */}
 
       <div className="container-inner">
@@ -670,27 +681,26 @@ export default function ActivityDetail() {
             <p className={styles.subtitle}>為您推薦：</p>
 
             <div className={styles.comment_cards}>
-            {actRecommend.map((i) => {
-              const {
-                activity_sid,
-                type_name,
-                activity_pic,
-                name,
-                avg_star,
-                recent_date,
-                farthest_date,
-                time,
-                city,
-                area,
-                address,
-                feature_names,
-                price_adult,
-              } = i;
-             
-              return (
-                
+              {actRecommend.map((i) => {
+                const {
+                  activity_sid,
+                  type_name,
+                  activity_pic,
+                  name,
+                  avg_star,
+                  recent_date,
+                  farthest_date,
+                  time,
+                  city,
+                  area,
+                  address,
+                  feature_names,
+                  price_adult,
+                } = i;
+
+                return (
                   <ActivityCard1
-                  key={activity_sid}
+                    key={activity_sid}
                     activity_sid={activity_sid}
                     type={type_name}
                     image={'/activity_img/' + activity_pic.split(',')[0]}
@@ -704,12 +714,10 @@ export default function ActivityDetail() {
                     address={address}
                     features={feature_names.split(',')}
                     price={price_adult}
-                    
                   />
-               
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

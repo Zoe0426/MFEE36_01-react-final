@@ -9,7 +9,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--p32) 0 var(--p32) 0;
+  padding: var(--p32) 0 0 0;
+}
+
+.bgc {
+  background-color: var(--lightBrown);
 }
 
 
@@ -17,18 +21,19 @@
 .card {
     display: flex;
     width: 100%;
+    margin-top: 90px;
   }
 
 /* 期別選擇 */
-.dateSelect{
+/* .date_select{
   width:170px;
-  height: 46px;
-}
+  height: 42px;
+} */
 
-  
+
 /*購買數量按鈕*/
-.detail_qty{
-  width:170px;
+.detail_qty {
+  width: 170px;
   display: flex;
   justify-content: space-between;
   border-radius: var(--br10);
@@ -40,38 +45,53 @@
   height: 46px;
   line-height: 100%;
   text-align: center;
-
+  margin-bottom: 20px;
 }
 
-.detail_qty_sub_btn, .detail_qty_add_btn{
-  border:none;  
-  padding: 0 20px;
-  font-size: var(--h5fs20);
+.numInputBlock {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-radius: var(--br8);
+  font-size: var(--pfs16);
+  background-color: transparent;
+  border: 1px solid var(--light-gray);
+  overflow: hidden;
+  text-align: center;
+}
+
+.minusBtn,
+.addBtn {
+  padding: 0 var(--p16);
+  border: none;
+  font-size: var(--h6fs18);
   background-color: transparent;
   transition: 0.3s;
-
+  color: var(--dark-gray);
 }
 
-.detail_qty_sub_btn{   
-  border-right: 1px solid var(--dark-gray) ;    
+.minusBtn {
+  border-right: 1px solid var(--gray);
 }
 
-.detail_qty_add_btn{
-  border-left: 1px solid var(--dark-gray) ;    
+.addBtn {
+  border-left: 1px solid var(--gray);
 }
 
-.detail_qty_add_btn:hover, .detail_qty_sub_btn:hover{
+.addBtn:hover,
+.minusBtn:hover {
+  /* color: var(--main); */
   background-color: var(--light-gray);
   cursor: pointer;
 }
 
-.detail_qty_input{
-  width:30px;    
+.input {
+  width: 100%;
+  /* min-width: 30px; */
+  height: 40px;
   text-align: center;
-  border:none;
-  outline:none;
-  padding: var(--p16) 0;
-  border: 0;
+  border: none;
+  outline: none;
   font-size: var(--pfs16);
   color: var(--dark-gray);
   background-color: transparent;
@@ -82,7 +102,7 @@
   .left {
     position: relative;
     width: 60%;
-    height:550px;
+    height:610px;
 
   }
   
@@ -91,36 +111,51 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: var(--br10) 0 0 var(--br10);
+    border-radius: var(--br20);
 
   }
 
   
   .overlay_left {
     position: absolute;
-    top: 50%;
-    left: 2%;
-    width: 35px;
-    height: 35px;
-    background-color: var(--light-gray);
+    top: 46%;
+    left: 4%;
+    width: 50px;
+    height: 50px;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.3;
+    border-radius: 50%;
+    border: 0;
   }
   
   .overlay_right {
     position: absolute;
-    top: 50%;
-    right: 2%;
-    width: 35px;
-    height: 35px;
-    background-color: var(--light-gray);
+    top: 46%;
+    right: 4%;
+    width: 50px;
+    height: 50px;
+    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.3;
+    border-radius: 50%;
+    border: 0;
+  }
+
+  .overlay_right:hover{
+    opacity: 0.6;
+  }
+
+  .overlay_left:hover{
+    opacity: 0.6;
   }
   
-  .icon {
+  
+  /* .icon {
     position: absolute;
     top: 0;
     right: 0;
@@ -128,7 +163,7 @@
     height: 35px;
     background-color:var(--light-gray);
   }
-  
+   */
   /* -------右邊------- */
   .right {
     width: 40%;
@@ -138,7 +173,7 @@
   .row {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   
   .row_text {
@@ -151,7 +186,7 @@
     color: var(--dark);
     font-size: var(--h2fs32);
     font-weight: var(--fwbold);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   
   .row_price{
@@ -197,7 +232,7 @@
   .row_total_price{
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     font-weight: var(--fwbold);
   }
 
