@@ -10,9 +10,14 @@
 .closeBtn{
     display:none;
 }
+.totalSelectedNum{
+    position: absolute;
+    right: 16px;
+    top: 28px;
+}
 .subtotals{
     display: flex;
-    margin-bottom: 19px;
+    margin-bottom: 18px;
     
 }
 .amount{
@@ -24,8 +29,9 @@
     display: flex;
     font-weight: bold;
     margin-bottom: 16px;
-    color: var(--dark);
     font-size: var(--h6fs18);
+    /* color: var(--dark); */
+   
 }
 .totalamount{
     /* color: var(--main); */
@@ -74,6 +80,7 @@ flex-direction: column;
     transform: translateY(100%);
     
 }
+
 .showTotalCard{
     position: fixed;
     border-radius: var(--br10);
@@ -83,6 +90,10 @@ flex-direction: column;
     bottom:0;
     padding: var(--p8)var(--p32);
     background-color: var(--light1);
+}
+.totalSelectedNum{
+    right: 50px;
+    top: 28px;
 }
 .runningdog{
     display: none;

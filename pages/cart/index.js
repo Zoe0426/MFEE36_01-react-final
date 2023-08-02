@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Row, Col, Radio, ConfigProvider, Checkbox } from 'antd';
+import { Row, Col, ConfigProvider, Checkbox } from 'antd';
 import style from '@/styles/cart.module.css';
 import { useRouter } from 'next/router';
 //components
@@ -293,7 +293,7 @@ export default function Cart() {
             {/* ========== 寄件方式 ==========*/}
             {checkoutType === 'shop' ? (
               <div className={style.section}>
-                <ConfigProvider
+                {/* <ConfigProvider
                   theme={{
                     token: {
                       colorPrimary: '#FD8C46',
@@ -301,13 +301,13 @@ export default function Cart() {
                     },
                   }}
                 >
-                  <CartSectionTitle text="寄送方式" />
                   <Radio.Group onChange={changePostType} value={postType}>
                     <Radio value={1}>黑貓宅急便 $90</Radio>
                     <Radio value={2}>7-ELEVEN $60</Radio>
                     <Radio value={3}>全家 $60</Radio>
                   </Radio.Group>
-                </ConfigProvider>
+                </ConfigProvider> */}
+                <CartSectionTitle text="收件地址" />
                 {postAddData.length > 0 ? (
                   postAddData
                     .filter((v) => v.selected)

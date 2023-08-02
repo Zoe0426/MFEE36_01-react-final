@@ -22,13 +22,18 @@ export default function CartTotalSection({
 }) {
   const [showCard, setShowCard] = useState(false);
   const postAmount = postType === 'blackcat' ? 90 : 60;
-
+  const shopSelected = shopData.reduce((a, v) => {
+    return v.selected ? a + 1 : a;
+  }, 0);
   const shopSubtotal = shopData.reduce((a, v) => {
     if (v.selected) {
       const subtotal = v.prod_price * v.prod_qty;
       return a + subtotal;
     }
     return a;
+  }, 0);
+  const activitySelected = activityData.reduce((a, v) => {
+    return v.selected ? a + 1 : a;
   }, 0);
   const activitySubtotal = activityData.reduce((a, v) => {
     if (v.selected) {
@@ -100,9 +105,17 @@ export default function CartTotalSection({
           <CloseBtn closeHandler={notShowCard}></CloseBtn>
         </div>
         <CartSectionTitle text="訂單詳情" />
-        <div></div>
+        {shopSelected || activitySelected ? (
+          <div className={style.totalSelectedNum}>
+            {checkoutType === 'shop'
+              ? `共${shopSelected}項商品`
+              : `共${activitySelected}項活動`}
+          </div>
+        ) : (
+          ''
+        )}
         <div className={style.subtotals}>
-          <span>{checkoutType === 'shop' ? '產品' : '活動'}小計</span>
+          <span>小計</span>
           <span className={style.amount}>
             {checkoutType === 'shop' ? shopSubtotal : activitySubtotal}
           </span>
@@ -118,27 +131,27 @@ export default function CartTotalSection({
         ) : (
           ''
         )}
-
-        <div className={style.subtotals}>
-          <span>優惠券</span>
-          <span className={style.amount} style={{ color: '#FD8C46' }}>
-            -$
-            {(checkoutType === 'shop' && shopSubtotal === 0) ||
-            (checkoutType !== 'shop' && activitySubtotal === 0)
-              ? 0
-              : couponPrice}
-          </span>
-        </div>
+        {couponData.length > 0 ? (
+          <div className={style.subtotals}>
+            <span style={{ color: '#FD8C46' }}>優惠券</span>
+            <span className={style.amount} style={{ color: '#FD8C46' }}>
+              -$
+              {(checkoutType === 'shop' && shopSubtotal === 0) ||
+              (checkoutType !== 'shop' && activitySubtotal === 0)
+                ? 0
+                : couponPrice}
+            </span>
+          </div>
+        ) : (
+          ''
+        )}
         <div className={style.total}>
           <span>應付總額</span>
           <span className={style.totalamount}>
             ${checkoutType === 'shop' ? shopTotal : activityTotal}
           </span>
         </div>
-        {/* <div className={style.subtotals}>
-        <span>結帳品項總計</span>
-        <span className={style.amount}>X項</span>
-      </div> */}
+
         <div className={style.paymentArea}>
           <div className={style.subtotals}>
             <span>付款方式</span>

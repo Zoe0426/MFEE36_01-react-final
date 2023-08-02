@@ -1,17 +1,15 @@
-.info{
+.box{
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.info p{
+    border-bottom: 1px dashed var(--secondary);
+    padding-bottom: var(--p8);
     font-size: var(--h6fs18);
-    line-height: 24px;;
+    font-weight: bold;
+    line-height: 24px;
 }
 .info span{
     font-size: var(--h6fs18);
-}
-.details{
-    padding: var(--p16) 0;
 }
 .details p{
     margin-bottom: 8px;
@@ -22,4 +20,37 @@
 .edit{
     color: var(--gray);
     cursor: pointer;
+}
+.icon{
+    display: inline-block;
+    width: 40px;
+    font-size: 16px;
+    color: var(--secondary);
+    text-align: center;
+}
+.postTypeImg{
+    width: 80px;
+}
+
+@media screen and (max-width:767px){
+
+.icon{
+    width: 24px;
+    text-align: start;
+}
+
+} 
+@media screen and (max-width:576px){
+    .box{
+    font-size: var(--pfs16);
+    flex-direction: column;
+    align-items: flex-start;
+}
+.postTypeImg{
+    order:1;
+    width: 70px;
+}
+.details{
+    order:2;
+}
 }

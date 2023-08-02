@@ -23,6 +23,7 @@
 .prodname{
     margin-right: 16px;
     width: 100%;
+    line-height: 24px;
     /* border: 1px solid red; */
 }
 .prodtitle{
@@ -107,7 +108,7 @@
 }
 .subtotal{
     margin-left: auto;
-    font-size: var(--pfs14);
+    /* font-size: var(--pfs14); */
 }
 .priceQty{
     min-width: 90%;
