@@ -31,6 +31,11 @@
   font-size: var(--pfs16);
   line-height: 1.5;
 }
+.information_detail_map{
+  font-size: var(--pfs16);
+  line-height: 1.5;
+  cursor: pointer;
+}
 
 .bgc {
   display: flex;
@@ -515,18 +520,42 @@
   margin-right: 12px;
 
 }
+.google_map{
+  margin-left: 8px;
+  cursor: pointer;
+  border:  1px solid #515151;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+.google_map img{
+  width: 100%;
+}
 .line{
+  cursor: pointer;
   color: #06c755;
   font-size: 24px;
+  transition: 0.3s;
+}
+.line:hover{
+  opacity: 0.7;
 }
 .fb{
+  cursor: pointer;
   color: rgb(24, 119, 242);
   font-size: 27px;
+  transition: 0.3s;
+}
+.fb:hover{
+  opacity: 0.7;
 }
 .x_twitter{
+  cursor: pointer;
   width: 24px;
   height: 24px;
-
+  transition: 0.3s;
+}
+.x_twitter:hover{
+  opacity: 0.7;
 }
 @media screen and (max-width: 767px) {
 
@@ -572,6 +601,9 @@
     font-size: var(--pfs14);
   }
   .information_detail {
+    font-size: var(--pfs14);
+  }
+  .information_detail_map{
     font-size: var(--pfs14);
   }
   .rest_image {

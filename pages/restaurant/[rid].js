@@ -50,6 +50,7 @@ import NoCommentCard from '@/components/ui/cards/comment-card-no';
 import CommentCard1 from '@/components/ui/restaurant/CommentCard';
 import Xicon from '@/assets/X.svg';
 import Success from '@/components/ui/restaurant/Success';
+import GoogleMap from '@/assets/GoogleMaps.svg';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
@@ -570,7 +571,13 @@ export default function RestInfo() {
       window.open(shareURL);
     }
   };
-
+  //複製餐廳地圖
+  const mapHandleClick = () => {
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      `${restDetailRows.name} ${restDetailRows.city}${restDetailRows.area}${restDetailRows.address}`
+    )}`;
+    window.open(mapUrl, '_blank');
+  };
   // 複製網址
 
   const handleCopyUrl = () => {
@@ -659,6 +666,7 @@ export default function RestInfo() {
                 />
               </ConfigProvider>
             </div>
+
             {auth.token ? (
               <IconBtn
                 icon={faHeart}
@@ -794,11 +802,18 @@ export default function RestInfo() {
                   style={{ maxWidth: '20px', maxHeight: '20px' }}
                   className={Styles.info_icon}
                 />
-                <p className={Styles.information_detail}>
+                <p
+                  className={Styles.information_detail_map}
+                  onClick={mapHandleClick}
+                >
                   {restDetailRows.city}
                   {restDetailRows.area}
                   {restDetailRows.address}
                 </p>
+                <div onClick={mapHandleClick} className={Styles.google_map}>
+                  地圖
+                  {/* <Image src={GoogleMap} alt="GoogleMap" /> */}
+                </div>
               </div>
               <div className={Styles.contact_time}>
                 <FontAwesomeIcon
