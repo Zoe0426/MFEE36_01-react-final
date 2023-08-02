@@ -764,26 +764,26 @@ export default function List() {
             {showfilter && (
               <>
                 <ProductFilter
-                  text="適用對象:"
+                  text="適用對象"
                   name="typeForPet"
                   data={filters.typeForPet}
                   changeHandler={checkboxToggleHandler}
                 />
 
                 <ProductFilter
-                  text="使用年齡:"
+                  text="使用年齡"
                   name="typeForAge"
                   data={filters.typeForAge}
                   changeHandler={checkboxToggleHandler}
                 />
                 <ProductFilter
-                  text="商品類別:"
+                  text="商品類別"
                   name="category"
                   data={filters.category}
                   changeHandler={checkboxToggleHandler}
                 />
                 <ProductFilter
-                  text="品牌:"
+                  text="品牌"
                   name="brand"
                   data={filters.brand}
                   needSpan={false}
@@ -897,29 +897,31 @@ export default function List() {
         )}
       </main>
       <div className={styles.pagination}>
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#FD8C46',
-              colorBgContainer: 'transparent',
-              colorBgTextHover: '#FFEFE8',
-              colorBgTextActive: '#FFEFE8',
-              fontSize: 18,
-              controlHeight: 38,
-              lineWidthFocus: 1,
-            },
-          }}
-        >
-          <Pagination
-            current={datas.page}
-            total={datas.totalRows}
-            pageSize={datas.perPage}
-            showSizeChanger
-            pageSizeOptions={[20, 40, 60]}
-            onChange={PageChangeHandler}
-            onShowSizeChange={PageChangeHandler}
-          />
-        </ConfigProvider>
+        {datas.rows.length > 0 && (
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: '#FD8C46',
+                colorBgContainer: 'transparent',
+                colorBgTextHover: '#FFEFE8',
+                colorBgTextActive: '#FFEFE8',
+                fontSize: 18,
+                controlHeight: 38,
+                lineWidthFocus: 1,
+              },
+            }}
+          >
+            <Pagination
+              current={datas.page}
+              total={datas.totalRows}
+              pageSize={datas.perPage}
+              showSizeChanger
+              pageSizeOptions={[16, 32, 64]}
+              onChange={PageChangeHandler}
+              onShowSizeChange={PageChangeHandler}
+            />
+          </ConfigProvider>
+        )}
       </div>
       {/* </div> */}
     </>

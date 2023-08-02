@@ -29,7 +29,8 @@ export default function ProductInput({
       }}
     >
       <div className={styles.filter_price}>
-        <label className={styles.labels}>價格範圍:</label>
+        <label className={styles.labels}>價格範圍</label>
+        <span className={styles.colon}>:</span>
         <Row align="middle" style={{ flex: 1 }} className={styles.toBox}>
           <Col xs={{ span: 10 }} sm={{ span: 10 }} md={{ span: 3 }}>
             <Input
