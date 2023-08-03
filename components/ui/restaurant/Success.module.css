@@ -1,0 +1,9 @@
+.clone{
+    cursor: pointer;
+    font-size: 28px;
+    transition: 0.5s;
+    opacity: 0.8;
+  }
+  .clone:hover{
+    color: var(--main);
+  }

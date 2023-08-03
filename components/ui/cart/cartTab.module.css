@@ -1,13 +1,34 @@
+.box{
+    width: 100%;
+
+
+    display:flex;
+}
+.img{
+    width: 30%;
+    padding: 5%;
+    /* border: 1px solid red; */
+}
+.message{
+    /* border: 1px solid gray; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--h6fs18);
+    width: 80%;
+    color: var(--dark-gray);
+}
 .typeSelected{
     border-radius: var(--br10) var(--br10) 0 0;
     background-color: var(--main);
     color: white;
     text-align: center;
-    padding: var(--p8) var(--p32);
+    padding: var(--p16)var(--p24);
     display: inline-block;
     margin-right: 8px;
     cursor: pointer;
     font-size: var(--h6fs18);
+    font-weight: bold;
 }
 .type{
      border-radius: var(--br10) var(--br10) 0 0;
@@ -15,9 +36,107 @@
     border-bottom: none;
     color: var(--main);
     text-align: center;
-    padding: var(--p8) var(--p32);
+    padding: var(--p16) var(--p24);
     display: inline-block;
     margin-right: 8px;
     cursor: pointer;
     font-size: var(--h6fs18);
+    font-weight: bold;
+}
+
+.overlay {
+  z-index: 999;
+  background: rgba(49, 49, 49, 0.6);
+}
+.modal {
+  z-index: 9999;
+  font-size: var(--pfs16);
+}
+.modal,
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.modal_card {
+  position: absolute;
+  width: 60%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #ffffff;
+  padding: 14px 0;
+  border-radius: 10px;
+  max-width: 600px;
+  min-width: 300px;
+}
+
+.modal_title {
+  font-size: var(--h5fs20);
+  color:var(--dark-gray);
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgb(203, 203, 203);
+}
+.modal_content{
+    padding: var(--p16);
+}
+.line {
+  height: 1px;
+  border-bottom: 1px solid rgb(203, 203, 203);
+}
+
+.btn_group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  height: 50px;
+}
+
+.btn_group > button {
+  margin-right: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 100%;
+  text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+
+  .typeSelected{
+    padding: var(--p16)var(--p24);
+    font-size: var(--pfs16);
+}
+.type{
+    padding: var(--p16) var(--p24);
+    font-size: var(--pfs16);
+}
+  .modal_card {
+    width: 80%;
+    top: 48%;
+    max-width: 600px;
+    min-width: 350px;
+  }
+  .modal_title {
+    font-size: var(--h6fs18);
+    padding-bottom: 12px;
+  }
+  
+  .btn_group > button {
+    margin-right: 0;
+    width: 100%;
+    line-height: 100%;
+  }
+  .btn_group {
+    gap: 16px;
+    justify-content: space-around;
+    padding: 0 16px;
+  }
 }

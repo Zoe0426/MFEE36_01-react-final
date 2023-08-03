@@ -1,17 +1,27 @@
 .totalCard{
     position: fixed;
-    width: 16%;
+    width: 21%;
     background-color: white;
     box-shadow: var(--shadow);
-    padding: var(--p16);
+    padding: var(--p8) var(--p16) var(--p24) var(--p16);
     border-radius: var(--br10);
+    font-size: var(--pfs16);
 }
-
+.closeBtn{
+    display:none;
+}
+.totalSelectedNum{
+    position: absolute;
+    right: 16px;
+    top: 28px;
+}
 .subtotals{
     display: flex;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
+    
 }
 .amount{
+    font-weight: bold;
     display: block;
     margin-left: auto;
 }
@@ -19,22 +29,109 @@
     display: flex;
     font-weight: bold;
     margin-bottom: 16px;
+    font-size: var(--h6fs18);
+    /* color: var(--dark); */
+   
 }
 .totalamount{
-    color: var(--main);
+    /* color: var(--main); */
     display: block;
     margin-left: auto;
+    font-size: var(--h6fs18);
+}
+.paymentArea{
+    /* border: 1px solid red; */
+    border-top: 1px dashed var(--light-gray);
+    padding-top: var(--p16);
+}
+.checkoutBtn{
+width: 100%;
+display: flex;
+flex-direction: column;
+/* border: 1px solid green; */
+}
+.checkoutBtn button{
+    padding: 12px;
+    font-size: var(--h6fs18);
 }
 .runningdog{
     transform: scaleX(-1) rotate(20deg);
     position: absolute;
-    left: 190px;
+    right: -17%;
+    bottom: -8%;
     width: 100px;
+}
+.toggleCard{
+    display: none;
+}
+@media screen and (max-width:992px){
+.closeBtn{
+    display:block;
+    position:absolute;
+    right: 16px;
+    top:24px;
+}
+.totalCard{
+    z-index: 3;
+    width: 100%;
+    bottom:0;
+    padding: var(--p8)var(--p32);
+    background-color: var(--light1);
+    transform: translateY(100%);
+    
+}
+
+.showTotalCard{
+    position: fixed;
+    border-radius: var(--br10);
+    font-size: var(--pfs16);
+    z-index: 3;
+    width: 100%;
+    bottom:0;
+    padding: var(--p8)var(--p32);
+    background-color: var(--light1);
+}
+.totalSelectedNum{
+    right: 50px;
+    top: 28px;
+}
+.runningdog{
+    display: none;
+}
+.toggleCard{
+    /* border: 1px solid red; */
+    position: fixed;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    bottom:0px;
+    height: 12%;
+    background-color: var(--light1);
+   
+    font-size: var(--h6fs18);
+    font-weight: bold;
+    color: var(--dark);
+    padding: var(--p16);
+    
+}
+.toggleInfoBox{
+    display: flex; 
+    align-items:center ;
+    justify-content: space-between;
+}
+.bottomDeco{
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height:20%;
+    background-color: var(--secondary);
+
+}
 }
 
 @media screen and (max-width:767px){
-.totalCard{
-    position: relative;
-    width: 100%;
+.toggleCard{
+    height: 10.5%;
 }
 }

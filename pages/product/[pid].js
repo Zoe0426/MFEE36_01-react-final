@@ -6,6 +6,7 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import styles from '@/styles/shop.module.css';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
+import Head from 'next/head';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
@@ -43,6 +44,7 @@ import {
   faFacebookSquare,
   faLine,
   faSquareInstagram,
+  faSquareTwitter,
 } from '@fortawesome/free-brands-svg-icons';
 
 export default function Product() {
@@ -713,23 +715,37 @@ export default function Product() {
   };
 
   //分享頁面
-  const handleLineShare = () => {
-    const title = datatForProductMain.name; // 替換成你想要分享的標題
-    const imageUrl = `${process.env.WEB}/product-img/${datatForProductDetail[0].img}`; // 替換成你的圖片URL
+  const handleLineShare = (type = '') => {
+    const title = `狗with咪 || ${datatForProductMain.name}`; // 要分享的標題
+    const imageUrl = `${process.env.WEB}/product-img/${datatForProductDetail[0].img}`; // 圖片URL
     const shareUrl = window.location.href;
+    let shareURL = '';
+    switch (type) {
+      case 'shareOnLine':
+        shareURL = `https://line.me/R/msg/text/?${encodeURIComponent(
+          title
+        )}%0D%0A${encodeURIComponent(shareUrl)}`;
+        break;
+      case 'shareOnFB':
+        shareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          shareUrl
+        )}&quote=${encodeURIComponent(title)}`;
+        break;
+      case 'shareOnTwitter':
+        shareURL = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+          shareUrl
+        )}&text=${encodeURIComponent(title)}`;
+        break;
+    }
 
-    // 使用Line的Message API分享圖片、標題和網址
-    const shareURL = `https://line.me/R/msg/text/?${encodeURIComponent(
-      title
-    )}%0D%0A${encodeURIComponent(shareUrl)}%0D%0A${encodeURIComponent(
-      imageUrl
-    )}`;
-
-    window.open(shareURL);
+    if (shareURL) {
+      window.open(shareURL);
+    }
   };
 
   return (
     <>
+    
       <div className="outer-container">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
@@ -836,26 +852,26 @@ export default function Product() {
               <div className={styles.share_box}>
                 <div className={styles.share_title}>分享商品:</div>
                 <div className={styles.share_icons}>
-                  {/* <Link
-                    href={`https://social-plugins.line.me/lineit/share?url=${process.env.WEB}${router.asPath}`}
-                    target="_blank"
-                    title={datatForProductMain.name}
-                  > */}
                   <FontAwesomeIcon
                     icon={faLine}
                     className={styles.line}
-                    onClick={handleLineShare}
+                    onClick={() => {
+                      handleLineShare('shareOnLine');
+                    }}
                   />
-                  {/* </Link> */}
-                  {/* <LineShare /> */}
-
                   <FontAwesomeIcon
                     icon={faFacebookSquare}
                     className={styles.fb}
+                    onClick={() => {
+                      handleLineShare('shareOnFB');
+                    }}
                   />
                   <FontAwesomeIcon
-                    icon={faSquareInstagram}
-                    className={styles.ig}
+                    icon={faSquareTwitter}
+                    className={styles.twitter}
+                    onClick={() => {
+                      handleLineShare('shareOnTwitter');
+                    }}
                   />
                 </div>
               </div>
@@ -866,10 +882,15 @@ export default function Product() {
                   {datatForProductMain.name}
                 </h2>
                 <RateStar
+                  display={!!datatForProductMain.avg_rating}
                   score={datatForProductMain.avg_rating}
-                  text={`( 已有${parseInt(
+                  text={
                     datatForProductMain.sales_qty
-                  )?.toLocaleString('en-US')}人購買 )`}
+                      ? `( 已有${parseInt(
+                          datatForProductMain.sales_qty
+                        )?.toLocaleString('en-US')}人購買 )`
+                      : ''
+                  }
                 />
                 <div className={styles.detail_price_box}>
                   <h5 className={styles.detail_spec_title}>商品價格</h5>

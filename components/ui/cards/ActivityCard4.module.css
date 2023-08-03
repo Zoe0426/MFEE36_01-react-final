@@ -1,7 +1,7 @@
 .card {
   display: flex;
   width: 95%;
-  height: 300px;
+  height: 350px;
 }
 
 /* -------左邊------- */
@@ -39,7 +39,7 @@
 .heart_icon {
   position: absolute;
   bottom: 15px;
-  right: 15px; 
+  right: 365px; 
   z-index: 9;
   font-size: 30px;
   cursor: pointer;
@@ -50,7 +50,7 @@
 .heart_icon_liked{
   position: absolute;
   bottom: 15px;
-  right: 15px; 
+  right: 365px; 
   z-index: 9;
   font-size: 30px;
   cursor: pointer;

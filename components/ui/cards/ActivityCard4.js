@@ -11,6 +11,8 @@ import styles from './ActivityCard4.module.css';
 import ActivityFeature from './ActivityFeature';
 import { Row, Col } from 'antd';
 import Link from 'next/link';
+import Modal from '@/components/ui/modal/modal';
+import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 
 const ActivityCard4 = ({
   activity_sid = '', //link要用的
@@ -29,13 +31,14 @@ const ActivityCard4 = ({
   price = 0,
   isInLikeList = false,
   handleLikeClick,
+  singinHandler = () => {},
+  token = '',
 }) => {
   const [isLiked, setIsLiked] = useState(isInLikeList);
 
   useEffect(() => {
     setIsLiked(isInLikeList);
   }, [isInLikeList]);
-
 
   const handleLikeIconClick = (e) => {
     e.preventDefault();
@@ -48,16 +51,33 @@ const ActivityCard4 = ({
 
   const addItemToLikeList = () => {
     setIsLiked(true);
-    handleLikeClick(activity_sid, true); 
+    handleLikeClick(activity_sid, true);
   };
 
   const removeItemFromLikeList = () => {
     setIsLiked(false);
-    handleLikeClick(activity_sid, false); 
+    handleLikeClick(activity_sid, false);
   };
 
   return (
     <>
+     {token ? (
+      <FontAwesomeIcon
+        onClick={handleLikeIconClick}
+        icon={faHeart}
+        className={isLiked ? styles.heart_icon_liked : styles.heart_icon}
+      />
+      ) : (
+        <Modal
+          btnType="heart"
+          title="貼心提醒"
+          content={<ModoalReminder text="登入會員，才能收藏活動喔~" />}
+          mainBtnText="前往登入"
+          subBtnText="暫時不要"
+          confirmHandler={singinHandler}
+        />
+      )}
+
       <Link href={`http://localhost:3000/activity/${activity_sid}`}>
         <div className={styles.card}>
           {/* -------右邊------- */}
@@ -66,12 +86,6 @@ const ActivityCard4 = ({
             <div className={styles.overlay}>
               <p className={styles.text}>{type}</p>
             </div>
-
-            <FontAwesomeIcon
-              onClick={handleLikeIconClick}
-              icon={faHeart}
-              className={isLiked ? styles.heart_icon_liked : styles.heart_icon}
-            />
           </div>
 
           {/* -------左邊------- */}
@@ -137,7 +151,8 @@ const ActivityCard4 = ({
             </Row>
             <div>
               <p className={styles.price}>
-                ${(price).toLocaleString()} (大人) ${(price / 2).toLocaleString()} (小孩)
+                ${price.toLocaleString()} (大人) ${(price / 2).toLocaleString()}{' '}
+                (小孩)
               </p>
             </div>
           </div>

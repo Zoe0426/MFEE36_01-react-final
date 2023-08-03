@@ -26,6 +26,7 @@ export default function CartProductCard({
       return v.cart_sid == sid ? { ...v, selected: !v.selected } : { ...v };
     });
     setShopData(newData);
+    //console.log(newData);
     newData.some((obj) => obj.selected === false) && setSelectAll(false);
   };
 
@@ -67,7 +68,11 @@ export default function CartProductCard({
         className={style.checkbox}
         checked={selected}
       ></Checkbox>
-      <img src={img} alt="productimg" className={style.prodimg} />
+      <div>
+        <img src={img} alt="productimg" className={style.prodimg} />
+        <p className={style.mobileprice}>${price}</p>
+      </div>
+
       <div className={style.forRwd}>
         <div className={style.prodname}>
           <p className={style.prodtitle}>{prodtitle}</p>
@@ -75,14 +80,16 @@ export default function CartProductCard({
         </div>
         <div className={style.priceQty}>
           <p className={style.price}>${price}</p>
-          <div className={style.numberstyle}>
-            <NumberInput
-              min={1}
-              defaultValue={myQty}
-              handleNumber={handleQty}
-            />
+          <div className={style.qtyNsubTotal}>
+            <div className={style.numberstyle}>
+              <NumberInput
+                min={1}
+                defaultValue={myQty}
+                handleNumber={handleQty}
+              />
+            </div>
+            <p className={style.subtotal}>${price * myQty}</p>
           </div>
-          <p className={style.subtotal}>${price * myQty}</p>
         </div>
       </div>
 

@@ -2,11 +2,11 @@
 
 .detailSection{
    padding: 32px 0 32px 0;
+   /* border: 1px solid pink; */
 }
 .checkoutType{
     display: flex;
 }
-
 .section{
      background-color: white;
      padding: var(--p16) var(--p16);
@@ -30,7 +30,8 @@
 
 
 .totalSection{
-    padding: 32px 0 32px 40px;
+    padding: 32px 0;
+    /* border: 1px solid red; */
 }
 
 @media screen and (max-width:767px){
