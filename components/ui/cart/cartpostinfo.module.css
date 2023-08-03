@@ -5,14 +5,24 @@
     border-bottom: 1px dashed var(--secondary);
     padding-bottom: var(--p8);
     font-size: var(--h6fs18);
-    font-weight: bold;
     line-height: 24px;
+    /* border: 1px solid green; */
+}
+.modalBox{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--secondary);
+    padding: var(--p8) 0;
+    font-size: var(--pfs16);
+    line-height: 20px;
 }
 .info span{
     font-size: var(--h6fs18);
 }
 .details p{
     margin-bottom: 8px;
+    /* border: 1px solid orange */
 }
 .postPrice{
     color: var(--main);
@@ -23,19 +33,25 @@
 }
 .icon{
     display: inline-block;
-    width: 40px;
+    min-width: 40px;
     font-size: 16px;
     color: var(--secondary);
     text-align: center;
+    /* border: 1px solid red; */
 }
 .postTypeImg{
     width: 80px;
 }
+.modalPostTypeImg{
+    height: 20px;
+}
+.price{
 
+}
 @media screen and (max-width:767px){
 
 .icon{
-    width: 24px;
+    min-width: 20px;
     text-align: start;
 }
 
@@ -45,12 +61,28 @@
     font-size: var(--pfs16);
     flex-direction: column;
     align-items: flex-start;
-}
-.postTypeImg{
-    order:1;
-    width: 70px;
-}
-.details{
-    order:2;
-}
+    }
+
+    .modalBox{
+        font-size: var(--pfs14);
+        line-height: 18px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .postTypeImg{
+        order:1;
+        width: 70px;
+        margin-bottom: 8px;
+    }
+    .details{
+        order:2;
+    }
+    .modalPostTypeImg{
+        order:1;
+        height: 16px;
+        margin-bottom: 8px;
+    }
+    .price{
+        display: none;
+    }
 }

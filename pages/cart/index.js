@@ -11,7 +11,7 @@ import CartTab from '@/components/ui/cart/cartTab';
 import CartPostInfo from '@/components/ui/cart/cartpostinfo';
 import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
 import CartCouponList from '@/components/ui/cart/cartCouponList';
-//import CartAddressList from '@/components/ui/cart/cartAddressList';
+import CartAddressList from '@/components/ui/cart/cartAddressList';
 import Modal from '@/components/ui/modal/modal';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
@@ -203,7 +203,7 @@ export default function Cart() {
 
   //console.log(cartData);
   //console.log(paymentType);
-  //console.log({ checkoutType });
+  console.log({ postAddData });
 
   if (pageLoading) {
     return <Loading />;
@@ -294,20 +294,6 @@ export default function Cart() {
             {/* ========== 寄件方式 ==========*/}
             {checkoutType === 'shop' ? (
               <div className={style.section}>
-                {/* <ConfigProvider
-                  theme={{
-                    token: {
-                      colorPrimary: '#FD8C46',
-                      fontSize: 18,
-                    },
-                  }}
-                >
-                  <Radio.Group onChange={changePostType} value={postType}>
-                    <Radio value={1}>黑貓宅急便 $90</Radio>
-                    <Radio value={2}>7-ELEVEN $60</Radio>
-                    <Radio value={3}>全家 $60</Radio>
-                  </Radio.Group>
-                </ConfigProvider> */}
                 <CartSectionTitle text="收件地址" />
                 {postAddData.length > 0 ? (
                   postAddData
@@ -337,14 +323,16 @@ export default function Cart() {
                   <Modal
                     btnType="text"
                     btnText="變更收件地址"
-                    title="選擇優惠券"
+                    title="選擇/新增收件地址"
                     confirmHandler={selectAddress}
-                    //content={
-                    // <CartAddressList
-                    //   couponData={couponData}
-                    //   setChosenAddress={setPostAddData}
-                    // />
-                    //}
+                    content={
+                      <CartAddressList
+                        postAddData={postAddData}
+                        setPostAddData={setPostAddData}
+                        postType={postType}
+                        setPostType={setPostType}
+                      />
+                    }
                   />
                 </div>
               </div>
