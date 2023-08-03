@@ -196,7 +196,7 @@ export default function RestInfo() {
         };
       }
       if (v.id === 'rid') {
-        return { ...v, text: restDetailRows[0].name };
+        return { ...v, text: restDetailRows.name };
       } else return { ...v };
     });
     setBreadCrubText(newBreadCrubText);
