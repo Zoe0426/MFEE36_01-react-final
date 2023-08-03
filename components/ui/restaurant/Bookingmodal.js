@@ -82,6 +82,10 @@ export default function BookingModal({
       people_num: countPeople,
       pet_num: countPet,
       note: noteValue,
+      rest_name: datas.name,
+      member_name: memberDatas.name,
+      member_mobile: memberDatas.mobile,
+      date_time: datas.time,
     };
 
     // 發送 POST 請求到後端 API
@@ -106,7 +110,6 @@ export default function BookingModal({
       }
     } catch (error) {
       console.error(error);
-      // 處理錯誤情況
     }
   };
 

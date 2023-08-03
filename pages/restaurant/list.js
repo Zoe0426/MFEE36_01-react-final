@@ -38,6 +38,7 @@ import cityDatas from '@/data/restaurnt/location.json';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -89,6 +90,18 @@ export default function FilterPage() {
   const [selectedArea, setSelectedArea] = useState(null);
 
   const { auth, setAuth } = useContext(AuthContext);
+
+  //麵包屑
+  const [breadCrubText, setBreadCrubText] = useState([
+    {
+      id: 'restaurant',
+      text: '餐廳首頁',
+      href: `${process.env.WEB}/restaurant`,
+      show: true,
+    },
+    { id: 'search', text: '/ 餐廳列表', href: '', show: true },
+    { id: 'rid', text: '', href: '', show: false },
+  ]);
 
   const handleCityClick = ({ key }) => {
     setSelectedCity(key);
@@ -171,6 +184,29 @@ export default function FilterPage() {
     } = router.query;
 
     console.log(router.query);
+
+    const newBreadCrubText = breadCrubText.map((v) => {
+      if (v.id === 'search') {
+        return { ...v, text: `/ 餐廳列表` };
+      } else return { ...v };
+    });
+    setBreadCrubText(newBreadCrubText);
+
+    if (category) {
+      resetCheckBox('category', category);
+      const newArr = category.split(',');
+      if (newArr.length === 1) {
+        const selctCategory = filters.category.find(
+          (v) => v.value === category
+        );
+        const newBreadCrubText = breadCrubText.map((v) => {
+          if (v.id === 'search') {
+            return { ...v, text: `/ ${selctCategory.label}列表` };
+          } else return { ...v };
+        });
+        setBreadCrubText(newBreadCrubText);
+      }
+    }
 
     setRule(rule || '');
     setService(service || '');
@@ -779,7 +815,7 @@ export default function FilterPage() {
         <div className="container-inner">
           <div className={Styles.bread_btn}>
             <div className={Styles.breadcrumb}>
-              <ConfigProvider
+              {/* <ConfigProvider
                 theme={{
                   token: {
                     colorPrimary: '#FD8C46',
@@ -801,7 +837,8 @@ export default function FilterPage() {
                     },
                   ]}
                 />
-              </ConfigProvider>
+              </ConfigProvider> */}
+              <BreadCrumb breadCrubText={breadCrubText} />
             </div>
             <div className={Styles.function_group}>
               <IconBtn icon={faMap} text="餐廳地圖" />
@@ -874,6 +911,7 @@ export default function FilterPage() {
                         }
                         className={Styles.city}
                         placement="bottomLeft"
+                        trigger={['click']}
                       >
                         <Button>
                           <Space>

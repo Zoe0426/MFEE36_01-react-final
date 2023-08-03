@@ -373,11 +373,10 @@
   overflow: hidden;
 }
 
-.shop_container_inner {
+.rest_container_inner {
   max-width: 1280px;
   margin: auto;
   position: relative;
-  margin-bottom: 110px;
 }
 
 .comment_cards {
@@ -474,6 +473,31 @@
 .test{
   animation: 0.5s showCard ease-in-out;
 }
+.no_pages {
+  height: 15px;
+}
+
+.recommend_pages,
+.shop_new_pages {
+  display: flex;
+  justify-content: center;
+  padding: var(--p32) 0 112px 0;
+}
+
+.sliders_pages_bttn {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin: 0 10px;
+  border-radius: var(--br10);
+  background-color: rgba(0, 0, 0, 0.1);
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.sliders_pages_active {
+  background-color: var(--secondary);
+}
 
 @keyframes showCard {
   0% {
@@ -521,14 +545,22 @@
 
 }
 .google_map{
-  margin-left: 8px;
+  margin-left: 4px;
   cursor: pointer;
-  border:  1px solid #515151;
+  border:  1px solid var(--light-gray); 
+  background-color: white;
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 4px 6px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
 }
 .google_map img{
-  width: 100%;
+  width: 20px;
+  height: 20px;
+}
+.google_map:hover{
+  background-color: var(--light1);
 }
 .line{
   cursor: pointer;

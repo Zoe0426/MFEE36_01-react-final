@@ -29,7 +29,7 @@ export default function RestPageOrder({
       }}
     >
       <div className={Styles.total_pages_rank}>
-        <Dropdown menu={menuProps}>
+        <Dropdown menu={menuProps} trigger={['click']}>
           <Button>
             <Space>
               {orderBy}
