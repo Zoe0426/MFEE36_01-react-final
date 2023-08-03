@@ -874,6 +874,7 @@ export default function FilterPage() {
                         }
                         className={Styles.city}
                         placement="bottomLeft"
+                        trigger={['click']}
                       >
                         <Button>
                           <Space>

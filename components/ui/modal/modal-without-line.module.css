@@ -56,11 +56,6 @@
    justify-content: center;
    padding: 36px 0;
   }
-  .alert_color{
-    color: var(--main);
-    padding-right: 16px;
-  }
-
   .btn_group {
     display: flex;
     justify-content: center;
@@ -106,4 +101,5 @@
       padding: 0 60px;
       height: 48px;
     }
+
   }
