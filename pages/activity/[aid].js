@@ -27,6 +27,7 @@ import Modal from '@/components/ui/modal/modal';
 import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 
 //likelist
 
@@ -47,6 +48,7 @@ export default function ActivityDetail() {
   // 新增活動相關
   const [activitySid, setActivitySid] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [successAddToCard, setSuccessAddToCard] = useState(false);
 
   const [data, setData] = useState({
     actDetailRows: [],
@@ -199,12 +201,16 @@ export default function ActivityDetail() {
         }
       );
 
-      if (!response.ok) throw new Error('報名失敗');
+      if (!response.ok) throw new Error('加入購物車失敗');
 
       //購物車小icon立即更新
       updateCart(activitySid, selectedDate, 'add');
 
-      console.log('報名成功');
+      setSuccessAddToCard(true);
+      setTimeout(() => {
+        setSuccessAddToCard(false);
+      }, 1200);
+      console.log('加入購物車成功');
     } catch (error) {
       console.error('操作報名失敗:', error);
     }
@@ -292,7 +298,10 @@ export default function ActivityDetail() {
               }}
               className={styles.overlay_left}
             >
-              <FontAwesomeIcon icon={faChevronLeft} />
+              <FontAwesomeIcon
+                icon={faChevronLeft}
+                style={{ maxWidth: '20px', maxHeight: '20px' }}
+              />
             </button>
             {actImageRows.length > 0 && (
               <img
@@ -309,7 +318,10 @@ export default function ActivityDetail() {
               }}
               className={styles.overlay_right}
             >
-              <FontAwesomeIcon icon={faChevronRight} />
+              <FontAwesomeIcon
+                icon={faChevronRight}
+                style={{ maxWidth: '20px', maxHeight: '20px' }}
+              />
             </button>
 
             {/* <div className={styles.overlay_left}></div>
@@ -320,7 +332,7 @@ export default function ActivityDetail() {
           {/* -------左邊------- */}
           <div className={styles.right}>
             {/* 第一行 */}
-            <div  className={styles.row_text_title}>
+            <div className={styles.row_text_title}>
               <p>{actDetailRows.name}</p>
             </div>
 
@@ -335,7 +347,11 @@ export default function ActivityDetail() {
             {/* 第三行 */}
             <div className={styles.row}>
               <div className={styles.review}>
-                <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
+                <FontAwesomeIcon
+                  icon={faStar}
+                  className={styles.star_icon}
+                  style={{ maxWidth: '20px', maxHeight: '20px' }}
+                />
                 <p className={styles.row_text_medium}>
                   {actDetailRows.avg_rating}
                 </p>
@@ -351,6 +367,7 @@ export default function ActivityDetail() {
               <FontAwesomeIcon
                 icon={faCalendarDays}
                 className={styles.row_icon}
+                style={{ maxWidth: '20px', maxHeight: '20px' }}
               />
               <div>
                 <p className={styles.row_text_small}>
@@ -361,7 +378,11 @@ export default function ActivityDetail() {
 
             {/* 第五行 */}
             <div className={styles.row}>
-              <FontAwesomeIcon icon={faClock} className={styles.row_icon} />
+              <FontAwesomeIcon
+                icon={faClock}
+                className={styles.row_icon}
+                style={{ maxWidth: '20px', maxHeight: '20px' }}
+              />
               <div>
                 <p className={styles.row_text_small}>{actDetailRows.time}</p>
               </div>
@@ -372,6 +393,7 @@ export default function ActivityDetail() {
               <FontAwesomeIcon
                 icon={faLocationDot}
                 className={styles.row_icon}
+                style={{ maxWidth: '20px', maxHeight: '20px' }}
               />
               <div>
                 <p className={styles.row_text_small}>
@@ -545,6 +567,9 @@ export default function ActivityDetail() {
                   clickHandler={handleOrderActivityClick}
                 />
               )}
+              {successAddToCard && (
+                <ModalWithoutBtn text="成功加入購物車!" img="success.svg" />
+              )}
             </div>
           </div>
         </div>
@@ -644,13 +669,18 @@ export default function ActivityDetail() {
           <div ref={targetRef4}>
             <p className={styles.subtitle}>顧客評價：</p>
             <div className={styles.review}>
-                <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
-                <p className={styles.row_text_medium}>
-                  {actDetailRows.avg_rating}
-                </p>
-                 <p className={styles.row_text_small}>(共{actDetailRows.rating_count}則評價)</p>
-              </div>
-           
+              <FontAwesomeIcon
+                icon={faStar}
+                className={styles.star_icon}
+                style={{ maxWidth: '20px', maxHeight: '20px' }}
+              />
+              <p className={styles.row_text_medium}>
+                {actDetailRows.avg_rating}
+              </p>
+              <p className={styles.row_text_small}>
+                (共{actDetailRows.rating_count}則評價)
+              </p>
+            </div>
 
             <div className={styles.comment_cards}>
               {actRatingRows &&
