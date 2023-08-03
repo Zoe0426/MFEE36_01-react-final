@@ -85,6 +85,8 @@ export default function PostCollection() {
         setItems(data.items);
         // setAllData(data.rows); // 將所有文章數據存儲在 allData 中
         console.log('newData', newData);
+        console.log('data.rows', data.rows);
+        console.log('data.rows.length', data.rows.length);
       });
   };
 
@@ -173,12 +175,6 @@ export default function PostCollection() {
       console.log('newData',newData);
     };
 
-      // const items = [
-      //   // {
-      //   //   label: data.listName,
-      //   //   key: data.listName,
-      //   // },
-      // ]
 
   const menuProps = {
     items,
@@ -208,12 +204,15 @@ export default function PostCollection() {
       />
       <Row className={Style.antRow}>
         <Col span={6}>
-            {/*{data.rows.length > 0 && ( */}
+            {/* {data.rows.length > 0 && ( */}
+            {newData.map((v, i) => (
               <BlogSidebar
                 profile="/forum_img/kabo-p6yH8VmGqxo-unsplash.jpg"
-                memberName="莉莉安"
+                memberName={v.favorite_nickname}
+                //memberName="莉莉安"
               />
-            {/* )} */}
+              ))}
+            {/* })} */}
           </Col>
         <Col span={16}>
             <div className={Style.blogContent}>

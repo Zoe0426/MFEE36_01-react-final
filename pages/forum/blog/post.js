@@ -43,6 +43,8 @@ export default function Post() {
   // member...
   //-----------------
 
+  // const [submitType, setSubmitType] = useState(0);
+
   //如果用antd也不用這個了
   // const handleTitleChange = (event)=>{
   //   setTitle(event.target.value);
@@ -69,6 +71,7 @@ export default function Post() {
   const handleSubmit = (values) => {
     const formData = new FormData();
     // 後端用req.body...可以拿到以下資料
+    // console.log('submitType', submitType);
     formData.append('title', values.title);
     formData.append('content', values.content); //values.XXX 是antd的表單資料
     formData.append('memberSid', auth.id);
@@ -517,8 +520,11 @@ export default function Post() {
                 />
                 </Space>
               {/*</Form.Item>*/}
-            <MainBtn className={Style.subBtn} text='發佈文章' htmltype="submit"
-            //clickHandler={sendPost}
+            <MainBtn className={Style.subBtn} text='發佈文章' htmltype="button" 
+            //clickHandler={setSubmitType(1)}
+            /> 
+            <MainBtn text='儲存至草稿夾' htmltype="button" 
+            //clickHandler={setSubmitType(1)}
             /> 
             <SecondaryBtn text = '取消'/>    
 
