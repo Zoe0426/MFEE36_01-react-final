@@ -67,21 +67,34 @@ export default function Post() {
   //發布文章
 
   const handleSubmit = (values) => {
-    console.log('選中的值:', values);
-    const newValue = { ...values, boardSid: boardSid, memberSid:auth.id, choseHashtag: choseHashtag};
-    console.log('送後端的值：',newValue);
+    const formData = new FormData();
+    // 後端用req.body...可以拿到以下資料
+    formData.append('title', values.title);
+    formData.append('content', values.content); //values.XXX 是antd的表單資料
+    formData.append('memberSid', auth.id);
+    formData.append('boardSid', boardSid);
+    formData.append('choseHashtag', choseHashtag);
+    // 後端用req.files, 會拿到照片們的資料，記得append要用photo，因為後端這麼設定的
+    fileList.forEach((file)=>{
+      formData.append('photo', file.originFileObj);
+    }); // ant design上傳照片時，會一直更新setFileList，我們送出，只要拿fileList的結果就好
 
-    console.log('clicked');
+    // console.log('選中的值:', values);
+    // const newValue = { ...values, boardSid: boardSid, memberSid:auth.id, choseHashtag: choseHashtag};
+    // console.log('送後端的值：',newValue);
+
     fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
       method:'POST',
-      body:JSON.stringify(newValue),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      // body:JSON.stringify(newValue),
+      body: formData,
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
     })
     .then((r) => r.json())
     .then((data)=>{
       console.log('data', data);
+      // 拿到資料庫加文字的回傳結果後，成功的話router.push到你要的頁面去，失敗的話，看要怎麼處理
     })
   }
 
@@ -458,7 +471,7 @@ export default function Post() {
                 <TextArea rows={20} placeholder="撰寫新文章內容" maxLength={50}/>  
               </Form.Item>
               <div><FontAwesomeIcon icon={faImage} />新增相片</div>
-              <Form.Item>
+              <Form.Item name={'photo'}>
                 <Upload
                   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                   listType="picture-card"
@@ -520,7 +533,3 @@ export default function Post() {
       </div>
   )
 }
-
-
-
-
