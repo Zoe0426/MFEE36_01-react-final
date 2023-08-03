@@ -88,7 +88,7 @@ export default function Product() {
   });
   const [successAddToCard, setSuccessAddToCard] = useState(false);
   //用來存放將放入購物車的資料
-  const [purchaseQty, setPurchaseQty] = useState(0);
+  const [purchaseQty, setPurchaseQty] = useState(1);
   const [showLikeList, setShowLikeList] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
 
@@ -288,6 +288,7 @@ export default function Product() {
       countTotalCommentPage();
       setShowCommentArrowLeft(false);
       setRecommendCurrent(0);
+      setPurchaseQty(1);
     }
   }, [router.query, first]);
 
@@ -945,7 +946,10 @@ export default function Product() {
                 <div className={styles.detail_qty_box}>
                   <h5 className={styles.detail_title}>數量</h5>
                   <div className={styles.detail_qty}>
-                    <NumberInput handleNumber={setPurchaseQty} />
+                    <NumberInput
+                      defaultValue={purchaseQty}
+                      handleNumber={setPurchaseQty}
+                    />
                   </div>
                 </div>
                 <div>

@@ -38,7 +38,7 @@ export default function ShopTotalPagesRank({
         </div>
         <div className={styles.total_pages_order_title}>
           <p>排 序 :</p>
-          <Dropdown menu={menuProps}>
+          <Dropdown menu={menuProps} trigger={['click']}>
             <Button>
               <Space>
                 {orderBy}

@@ -6,25 +6,36 @@ export default function NumberInput({
   defaultValue = 1,
   handleNumber = () => {},
 }) {
-  const [value, setValue] = useState(defaultValue);
+  // const [value, setValue] = useState(defaultValue);
+  // const updateValue = (type) => {
+  //   const newValue =
+  //     type === 'plus' ? value + 1 : value > min ? value - 1 : value;
+  //   setValue(newValue);
+  //   handleNumber(newValue);
+  // };
   const updateValue = (type) => {
     const newValue =
-      type === 'plus' ? value + 1 : value > min ? value - 1 : value;
-    setValue(newValue);
+      type === 'plus'
+        ? defaultValue + 1
+        : defaultValue > min
+        ? defaultValue - 1
+        : defaultValue;
     handleNumber(newValue);
+    // handleNumber(newValue);
   };
 
   const handleChange = (e) => {
     const inputValue = e.target.value;
     const reisNumber = /^[.\d]*$/;
     if (reisNumber.test(inputValue)) {
-      setValue(inputValue !== '' ? parseInt(inputValue) : '');
+      // setValue(inputValue !== '' ? parseInt(inputValue) : '');
       handleNumber(inputValue !== '' ? parseInt(inputValue) : '');
     }
   };
   const handleBlur = () => {
-    const newValue = isNaN(value) || value === '' ? 1 : value;
-    setValue(newValue);
+    const newValue =
+      isNaN(defaultValue) || defaultValue === '' ? 1 : defaultValue;
+    // setValue(newValue);
     handleNumber(newValue);
   };
 
@@ -36,7 +47,7 @@ export default function NumberInput({
       <input
         type="text"
         className={Styles.input}
-        value={value}
+        value={defaultValue}
         onChange={handleChange}
         onBlur={handleBlur}
       />
