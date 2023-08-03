@@ -20,7 +20,7 @@ export default function PetGame() {
 
       setIsAnimating(true);
       let startAnimationTime = null;
-      const animationDuration = 5000;
+      const animationDuration = 100;
 
       const animate = (animationTime) => {
         if (!startAnimationTime) {

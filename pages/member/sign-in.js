@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SignLayout from '@/components/layout/sign-layout';
 import SignCard from '@/components/ui/cards/SignCard';
 import SignInForm from '@/components/ui/forms/SignInForm';
@@ -17,9 +17,10 @@ export default function SignIn() {
   );
   //回去哪一頁的路徑
   const router = useRouter();
-  const from = router.asPath;
   const fromPath2 = router.asPath.split('from=')[1] || '/';
   //console.log({ mem: router.asPath.split('from=')[1] });
+
+ 
 
   //送出表單
   const handleSubmit = (values) => {

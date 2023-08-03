@@ -1,18 +1,41 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import Styles from './SignInForm.module.css';
 import MainBtn from '../buttons/MainBtn';
 import SecondaryBtn from '../buttons/SecondaryBtn';
 import Link from 'next/link';
+import jwt_decode from 'jwt-decode';
 import { Form, Input, ConfigProvider } from 'antd';
 
 export default function SignInForm({ handleSubmit }) {
-  
+  const [user, setUser] = useState({});
   const onFinish = (values) => {
     console.log('Success:', values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+  function handleCallbackResponse(response) {
+    console.log('encoded JWT ID token', response.credential);
+    const userObject = jwt_decode(response.credential);
+    console.log('userObject', userObject);
+    setUser(userObject);
+  }
+
+  /* global google */
+  // global google
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id:
+        '157368154764-abg5711auh3c254hcqfqu4sg1iv1gd3n.apps.googleusercontent.com',
+      callback: handleCallbackResponse,
+    });
+
+    google.accounts.id.renderButton(document.getElementById('signDiv'), {
+      theme: 'outline',
+      size: 'large',
+    });
+  }, []);
 
   return (
     <>
@@ -78,7 +101,7 @@ export default function SignInForm({ handleSubmit }) {
           <div className={Styles.line}>
             <div className={Styles.lineText}>更多登入方式</div>
           </div>
-          <div className={Styles.google}>
+          <div className={Styles.google} id="signDiv">
             <img src="/member-center-images/google.svg" alt="" />
           </div>
         </Form>
