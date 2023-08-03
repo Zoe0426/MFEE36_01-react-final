@@ -1,4 +1,4 @@
-.hashtag{
+.hash_tag{
     background-color: var(--light1);
     padding: var(--p8) var(--p16);
     border-radius: 20px;
@@ -8,7 +8,7 @@
 }
 
 @media screen and (max-width:767px){
-    .hashtag{
+    .hash_tag{
         padding: var(--p8);
         margin-top: 6px;
         border-radius: 16px;

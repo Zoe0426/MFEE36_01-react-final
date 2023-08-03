@@ -3,15 +3,32 @@ import Styles from './RestPageOrder.module.css';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Space, message, ConfigProvider } from 'antd';
 
-export default function RestPageOrder({
-  totalItems = 0,
-  onRankChange = () => {},
-  orderBy = '',
-  items = [],
-}) {
+export default function RestPageOrder({ totalItems = 0 }) {
+  const handleButtonClick = (e) => {
+    message.info('Click on left button.');
+    console.log('click left button', e);
+  };
+  const handleMenuClick = (e) => {
+    message.info('Click on menu item.');
+    console.log('click', e);
+  };
+  const items = [
+    {
+      label: '評價高到低',
+      key: '1',
+    },
+    {
+      label: '評價低到高',
+      key: '2',
+    },
+    {
+      label: '最熱門',
+      key: '3',
+    },
+  ];
   const menuProps = {
     items,
-    onClick: onRankChange,
+    onClick: handleMenuClick,
   };
 
   return (
@@ -29,10 +46,11 @@ export default function RestPageOrder({
       }}
     >
       <div className={Styles.total_pages_rank}>
+      
         <Dropdown menu={menuProps}>
           <Button>
             <Space>
-              {orderBy}
+              排序方式
               <DownOutlined />
             </Space>
           </Button>

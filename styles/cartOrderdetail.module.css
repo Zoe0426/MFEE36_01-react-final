@@ -6,7 +6,56 @@
     margin: 32px 0;
 }
 
+.postDetails{
+    display: flex;
+}
+.postTo{
+    min-width: 220px;
+    margin-right: 20px;
+}
+.detail{
+    display: flex;
+    margin-bottom: var(--p16);
+}
+.detail p{
+    font-style: var(--h6fs18);
+}
+.detailtitle{
+    width: 70px;
+}
+.totalSection{
+    width: 30%;
+    margin-left: auto;
+    margin-top: 32px;
+    /* border: 1px solid red; */
+}
+.totalSection span{
+font-size: var(--pfs16);
 
+}
+.subtotals{
+    display:flex;
+    margin-bottom: 16px;
+}
+.amount {
+    display: block;
+     margin-left: auto;
+     color: var(--gray);
+}
+.total{
+    display:flex;
+    margin-bottom: 16px;
+}
+.total span{
+     color: var(--main);
+     font-weight: bold;
+     font-size: var(--h6fs18);
+}
+.totalamount{
+     display: block;
+     margin-left: auto;
+    
+}
 @media screen and (max-width:767px){
     .orderDetail{
         background-color: transparent;
@@ -14,5 +63,22 @@
         box-shadow: none;
         margin-bottom: 0;
     }
-    
+    .postDetails{
+       flex-direction: column;
+    }
+    .postTo{
+        width: 100%;
+        margin-right: 0px;
+
+    }
+    .postAdd{
+        width: 100%;
+        min-width: 300px;
+    }
+    .detail p{
+        font-style: var(--pfs16);
+    }
+    .totalSection{
+    width: 100%;
+}
 }

@@ -3,14 +3,14 @@
     /* height: 280px; */
     background: rgb(215, 215, 215);
     position: relative;
-    height: 337px;
+    height: 280px;
     display: flex;
     justify-content: center; 
     align-items: center; 
     background-repeat: no-repeat;
     background-position: center;
     overflow: hidden;
-    background-image: url('../public/activity_img/index_banner_3.jpg');
+    background-image: url('../public/activity_img/index_banner.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -27,9 +27,6 @@
     align-items: center; 
 }
 
-.banner_title{
-    color: white;
-}
 
 .banner img {
     position: absolute;
@@ -38,65 +35,30 @@
 }
 
 
-/*篩選按鈕*/
-
-.bgc {
-    background-color: var(--lightBrown);
-  }
-  
-  .btns > button:nth-child(2) {
-    margin-left: var(--p16);
-  }
-  
-  .nav_head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--p32) 0 var(--p32) 0;
-  }
-  
-  .filter_box {
-    padding-bottom: 40px;
-  }
-  .line {
-    border-bottom: 1px solid var(--gray);
-    opacity: 0.5;
-    margin-top: 1px;
-  }
-  .filter_btns {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 70px;
-    height: 50px;
-  }
-
+.selector{
+    background: var(--light1);
+}
 
 
 .type{
     width: 100%;
-    background: var(--lightBrown);
+    background: var(--light1);
 }
 
 .type_btn_group{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding:30px 80px;
+    padding:80px 0;
 }
 
-/* .type_decoration{
+.type_decoration{
     height: 100%;
-} */
-
-
-.custom_link {
-    text-decoration: none;
-  }
+}
 
 .section1{
-    /* height: 602px; */
-    background: var(--light2);
-    padding-top: 80px;
+    height: 602px;
+    background: var(--light1);
 }
 
 .section_card{
@@ -106,20 +68,19 @@
 }
 
 .section2{
-    /* height: 602px; */
-    background:var(--light1);
-    /* margin-top: 70px; */
+    height: 602px;
+    background:var(--light2);
+    margin-top: 70px;
 }
 
 .section3{
-    /* height: 791px; */
-    background: var(--light2);
+    height: 791px;
+    background: var(--light1);
 }
 
 .section4{
-    /* height: 477px; */
-    background: var(--light1);
-    padding: 80px 0;
+    height: 477px;
+    background: var(--light2);
 }
 
 .title{

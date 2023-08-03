@@ -5,7 +5,6 @@ export default function MainBtn({
   text = 'mainBtn',
   clickHandler = () => {},
   htmltype = 'button',
-  disable = '',
 }) {
   return (
     <>
@@ -13,7 +12,6 @@ export default function MainBtn({
         className={Styles.main_btn}
         onClick={clickHandler}
         type={htmltype}
-        disabled={disable}
       >
         {text}
       </button>

@@ -1,100 +1,22 @@
 /* ------------------上方資訊---------------------- */
-/*篩選按鈕*/
-.btns > button:nth-child(2) {
-  margin-left: var(--p16);
-}
-
-
-.nav_head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--p32) 0 var(--p32) 0;
-}
-
-
-
 .card {
     display: flex;
     width: 100%;
+    
   }
-
-/* 期別選擇 */
-.dateSelect{
-  width:170px;
-  height: 46px;
-}
-
-  
-/*購買數量按鈕*/
-.detail_qty{
-  width:170px;
-  display: flex;
-  justify-content: space-between;
-  border-radius: var(--br10);
-  font-size: var(--h5fs20);
-  color: var(--dark-gray);
-  background-color: transparent;
-  border: 1px solid var(--gray);
-  overflow: hidden;
-  height: 46px;
-  line-height: 100%;
-  text-align: center;
-
-}
-
-.detail_qty_sub_btn, .detail_qty_add_btn{
-  border:none;  
-  padding: 0 20px;
-  font-size: var(--h5fs20);
-  background-color: transparent;
-  transition: 0.3s;
-
-}
-
-.detail_qty_sub_btn{   
-  border-right: 1px solid var(--dark-gray) ;    
-}
-
-.detail_qty_add_btn{
-  border-left: 1px solid var(--dark-gray) ;    
-}
-
-.detail_qty_add_btn:hover, .detail_qty_sub_btn:hover{
-  background-color: var(--light-gray);
-  cursor: pointer;
-}
-
-.detail_qty_input{
-  width:30px;    
-  text-align: center;
-  border:none;
-  outline:none;
-  padding: var(--p16) 0;
-  border: 0;
-  font-size: var(--pfs16);
-  color: var(--dark-gray);
-  background-color: transparent;
-}
-
   
   /* -------左邊------- */
   .left {
     position: relative;
     width: 60%;
-    height:550px;
-
   }
-  
   
   .image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: var(--br10) 0 0 var(--br10);
-
   }
-
   
   .overlay_left {
     position: absolute;
@@ -252,16 +174,9 @@
 .content_image{
     width: 45%;
     margin-left: 70px;
-    border-radius: var(--br10);
 }
 
 .content_image_reverse{
     width: 45%;
     margin-right: 70px;
-    border-radius: var(--br10);
-}
-
-.comment_cards{
-  display: flex;
-  flex-wrap: nowrap;
 }

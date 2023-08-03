@@ -6,11 +6,9 @@
   box-shadow: var(--shadow);
   border-radius: var(--br20);
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: -5%;
   background-color: #fff;
-  /* border: 1px solid red; */
-  max-width: 700px;
-  min-width: 325px;
+  border: 1px solid red;
 }
 
 .title{
@@ -35,18 +33,30 @@
   right: -80px;
 }
 
+@media screen and (max-width:767px){
+  .signCard{
+    width: 325px;
+    margin-top: 0;
+  }
+
+  .drowTree,.drowDog{
+    display: none;
+  }
+}
+
 @media screen and (max-width:1500px) and (min-width:769px){
 	.signCard{
     width: 60%;
+    margin-top: 0;
   }
 	
 	}
 	@media screen and (max-width:768px){
-    
-  .signCard{
-    width: 70%;
-  }
-
+		.signCard{
+      width: 325px;
+      margin-top: 0;
+    }
+  
     .drowTree,.drowDog{
       display: none;
     }

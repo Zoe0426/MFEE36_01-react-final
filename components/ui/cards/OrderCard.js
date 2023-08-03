@@ -1,5 +1,4 @@
-import { React } from 'react';
-import { useRouter } from 'next/router';
+import React from 'react';
 import MainBtn from '../buttons/MainBtn';
 import Style from '@/components/ui/cards/OrderCard.module.css';
 export default function OrderCard({
@@ -8,22 +7,12 @@ export default function OrderCard({
   itemTitle,
   itemText,
   itemQty,
-  adultQty,
-  childQty,
   subTotal,
   img,
-  actImg,
   statusName,
   length,
-  type,
-  actAddress,
 }) {
-  const router = useRouter();
-  const toOrderDetail = () => {
-    router.push(`/member/orderlist/${orderSid}`);
-  };
-
-  // const price = subTotal.num.toLocaleString();
+  console.log(length);
 
   switch (status) {
     case 1:
@@ -43,11 +32,11 @@ export default function OrderCard({
       break;
 
     case 5:
-      statusName = '已完成';
+      statusName = '已取貨';
       break;
 
-    case 6:
-      statusName = '已完成';
+    default:
+      // 如果上面的情况都不匹配，那么就执行这里的代码
       break;
   }
 
@@ -71,39 +60,14 @@ export default function OrderCard({
           </div>
           <div className={Style.itemContent}>
             <div className={Style.items}>
-              <img
-                src={
-                  type === 'shop'
-                    ? `/product-img/${img}`
-                    : `/activity_img/${actImg}`
-                }
-                alt=""
-                className={Style.img}
-              />
+              <img src={`/product-img/${img}`} alt="" width={80} />
               <div className={Style.itemInfo}>
                 <div className={Style.itemTitle}>{itemTitle}</div>
                 <p>{itemText}</p>
-                {type === 'shop' ? (
-                  <p>{`x${itemQty}`}</p>
-                ) : (
-                  <>
-                    <p>{`大人x${adultQty}`}</p>
-                    <p>{`小孩x${childQty}`}</p>
-                    <div className={Style.actAddress}>
-                      <img
-                        src="/member-center-images/Icon/getty.svg"
-                        alt=""
-                        className={Style.getty}
-                      />
-                      <p>{actAddress}</p>
-                    </div>
-                  </>
-                )}
+                <p>x{itemQty}</p>
               </div>
             </div>
-            <div className={Style.itemNum}>
-              {length} {type === 'shop' ? '商品' : '活動'}
-            </div>
+            <div className={Style.itemNum}>{length}商品</div>
           </div>
           <div className={Style.totalPrice}>
             訂單金額 : <div className={Style.price}>${subTotal}</div>
@@ -350,7 +314,7 @@ export default function OrderCard({
                 >
                   <path
                     fill="#FFF"
-                    stroke={status >= 6 ? '#A1D429' : '#DDDDDD'}
+                    stroke="#DDDDDD"
                     strokeWidth="2"
                     d="M8,16.8C15.5,8.2,25,2.9,38,1.3c13-1.6,22.3,3.4,27,16.4c4.7,13,6.5,22,3.5,32.5c-3,10.5-13.5,16.9-36,16
 	c-22.5-0.9-29.6-14-31-23.5C0.2,33.2,1.1,24.7,8,16.8z"
@@ -368,7 +332,7 @@ export default function OrderCard({
                     <clipPath id="SVGID_00000042737315818605218800000000221362305816191631_"></clipPath>
 
                     <path
-                      fill={status >= 6 ? '#A1D429' : '#DDDDDD'}
+                      fill="#DDDDDD"
                       strokeWidth="2"
                       d="M51.2,30.5c0-0.3,0-0.5-0.1-0.8l0,0c-0.4-1.1-1.4-1.9-2.5-1.9H41l-2.3-7.1c-0.4-1.1-1.4-1.9-2.5-1.9
 			c-1.2,0-2.2,0.8-2.5,1.9l1.2,0.4l-1.2-0.4l-2.3,7.1h-7.5c-1.2,0-2.2,0.7-2.5,1.9l0,0c-0.1,0.3-0.1,0.5-0.1,0.8
@@ -383,13 +347,11 @@ export default function OrderCard({
                     />
                   </g>
                 </svg>
-                <div className={Style.statusTitle}>
-                  {status >= 6 ? '已評價' : '待評價'}
-                </div>
+                <div className={Style.statusTitle}>待評價</div>
               </div>
             </div>
             <div className={Style.btn}>
-              <MainBtn text="詳細內容" clickHandler={toOrderDetail} />
+              <MainBtn text="詳細內容" />
             </div>
           </div>
         </div>

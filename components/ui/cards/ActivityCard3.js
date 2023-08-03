@@ -17,11 +17,11 @@ profile = null,
       
       <div>
           {profile ? (
-            <img className={styles.image} src={`/member-img/${profile}`} alt="" />
+            <img className={styles.image} src={`/product-img/${profile}`} alt="" />
           ) : (
             
-            <FontAwesomeIcon className={styles.image} icon={faUser} />
-          
+            <FontAwesomeIcon  className={styles.image} icon={faUser} />
+           
           )}
       </div>
       

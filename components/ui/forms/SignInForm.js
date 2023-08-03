@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Form, Input, ConfigProvider } from 'antd';
 
 export default function SignInForm({ handleSubmit }) {
-  
   const onFinish = (values) => {
     console.log('Success:', values);
   };
@@ -67,7 +66,7 @@ export default function SignInForm({ handleSubmit }) {
               忘記密碼？
             </Link>
             <div className={Styles.btns}>
-              <Link href="/member/sign-up" className={Styles.btn}>
+              <Link href="/shop" className={Styles.btn}>
                 <SecondaryBtn text="註冊" />
               </Link>
               <div className={Styles.btn}>

@@ -6,7 +6,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+}
+.roundBtn:first-child{
+    margin-right: 1rem;
 }
 .rbIcon{
     width: 17px;
@@ -19,4 +21,7 @@
     .rbIcon{
         width: 15px;
     }   
+    .roundBtn:first-child{
+        margin-right: 0.5rem;
+    }
 }

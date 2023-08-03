@@ -17,8 +17,6 @@
   /* background-color: powderblue; */
 }
 
-
-
 @media screen and (max-width:1200px) and (min-width:769px){
 	/* .container-inner{
 			width: 68%;
@@ -46,6 +44,5 @@
 	@media screen and (max-width:768px){
 		.antRow{
 			margin-top: 65px;
-			padding-bottom:150px;
 		}
 	}

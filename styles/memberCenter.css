@@ -3,70 +3,6 @@
   padding-bottom: 30px;
 }
 
-/* antd calendar */
-.ant-badge.ant-badge-status .ant-badge-status-text{
-  font-size: var(--pfs12);
-}
-
-:where(.css-dev-only-do-not-override-1qwgemz).ant-picker-calendar .ant-picker-cell .ant-picker-cell-inner{
-  position: static;
-}
-
-/* antd sm calendar */
-
-/* 小日曆外框 */
-:where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-panel {
-  border-radius: 0;
-}
-
-/* header */
-:where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-calendar-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  padding: 12px 8px;
-}
-
-/* 當天樣式 */
-:where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner, :where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner, :where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
-  color: #000;
-  background: #fff;
-}
-
-/* antd upload */
-/* :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select, :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload.ant-upload-select {
-  width: 250px;
-  height: 250px; */
-  /* margin-inline-end: 8px; */
-  /* margin-bottom: 8px; */
-  /* text-align: center;
-  vertical-align: top;
-  background-color: #fff;
-  border: 1px dashed #d9d9d9;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 0.3s;
-  margin-bottom: 0;
-} */
-
-.ant-tooltip-arrow,.ant-tooltip-inner{
-  display: none !important;
-}
-
-:where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture .ant-upload-list-item-error, :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-error, :where(.css-dev-only-do-not-override-kehr8a).ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-circle .ant-upload-list-item-error {
-  border-color: var(--light-gray);
-}
-
-.signNoPass{
-	color: var(--heartRed);
-	text-align: center;
-}
-
-.signPass{
-  color: var(--green);
-	text-align: center;
-}
-
 .pageTag{
   width: 100%;
   height: 56px;
@@ -95,9 +31,6 @@
 
 
 
-/* ----------------------------- */
-
-
 
 /* -------------------- */
 
@@ -115,5 +48,5 @@
   align-items: flex-start;
 }
 
-} 
 
+} 

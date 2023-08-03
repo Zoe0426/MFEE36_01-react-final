@@ -5,7 +5,6 @@
     color: #fff;
     font-size: var(--pfs16);
     background-color: var(--main);
-    border: 1px solid transparent;
     transition: 0.3s;
 }
 .main_btn:hover{

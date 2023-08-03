@@ -22,7 +22,7 @@ export default function PostArticle({navTitle='', profile='', author='', id='', 
         <div>
             <div className={Style.articleTitle}>{postTitle}</div>
             <div className={Style.articleDetail}>
-                <img className={Style.boardImg} src={`/forum_img/board_img/${boardImg}`}/>
+                <img className={Style.boardImg} src={boardImg}/>
                 <div className={Style.board}>{board}</div>  
                 <div className={Style.time}>{time}</div>          
             </div>

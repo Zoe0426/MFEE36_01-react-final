@@ -1,105 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Styles from './ImageGallary.module.css';
+import { SlideImage } from './ImageSample';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowLeft,
   faArrowRight,
-  faPlus,
-  faMinus,
-  faSearchMinus,
   faFileLines,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 
 import IconSeconBtn from '../buttons/IconSeconBtn';
 
-export default function ImageGallary({ data = [] }) {
-  const [modalOpen, setModalOpen] = useState(false);
+export default function ImageGallary() {
+  const [modal, setModal] = useState(false);
   const [current, setCurrent] = useState(0);
-  const [zoomLevel, setZoomLevel] = useState(1);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStartX, setDragStartX] = useState(0);
-  const [dragStartY, setDragStartY] = useState(0);
-  const [dragOffsetX, setDragOffsetX] = useState(0);
-  const [dragOffsetY, setDragOffsetY] = useState(0);
+  const length = SlideImage.length;
 
-  const length = data.length;
-  const maxZoomLevel = 3;
-
-  useEffect(() => {
-    const handleMouseUp = () => {
-      if (isDragging) {
-        setIsDragging(false);
-        setDragOffsetX(0);
-        setDragOffsetY(0);
-      }
-    };
-
-    document.addEventListener('mouseup', handleMouseUp);
-
-    return () => {
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging]);
-
+  //控制開關
   const toggleModal = () => {
-    setModalOpen(!modalOpen);
-    setCurrent(0);
-    setZoomLevel(1);
-    setIsDragging(false);
+    setModal(!modal);
   };
 
+  //下一張照片
   const nextSlide = () => {
-    setCurrent((current) => (current + 1) % length);
-    setZoomLevel(1);
+    setCurrent(current === length - 1 ? 0 : current + 1);
   };
 
+  //上一張照片
   const prevSlide = () => {
-    setCurrent((current) => (current - 1 + length) % length);
-    setZoomLevel(1);
+    setCurrent(current === 0 ? length - 1 : current - 1);
   };
 
-  const zoomReset = () => {
-    setZoomLevel(1);
-  };
+  console.log(current);
 
-  const zoomIn = () => {
-    if (zoomLevel < maxZoomLevel) {
-      setZoomLevel((prevZoom) => prevZoom + 0.2);
-    }
-  };
-
-  const zoomOut = () => {
-    setZoomLevel((prevZoom) => Math.max(prevZoom - 0.2, 1));
-  };
-  const handleMouseDown = (e) => {
-    if (e.button === 0) {
-      setIsDragging(true);
-      setDragStartX(e.pageX);
-      setDragStartY(e.pageY);
-      setDragOffsetX(0); // 保持之前的偏移量
-      setDragOffsetY(0);
-    }
-  };
-
-  const handleMouseUp = (e) => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e) => {
-    if (isDragging) {
-      const deltaX = e.pageX - dragStartX;
-      const deltaY = e.pageY - dragStartY;
-      setDragOffsetX(deltaX);
-      setDragOffsetY(deltaY);
-    }
-  };
-  const handleMouseLeave = () => {
-    if (isDragging) {
-      setIsDragging(false);
-      setDragOffsetX(0);
-      setDragOffsetY(0);
-    }
-  };
+  if (!Array.isArray(SlideImage) || SlideImage.length <= 0) {
+    return null;
+  }
 
   return (
     <>
@@ -108,24 +44,22 @@ export default function ImageGallary({ data = [] }) {
         text="餐廳菜單"
         icon={faFileLines}
       />
-      {modalOpen && (
+      {modal && (
         <>
-          <div className={Styles.overlay} onClick={toggleModal}></div>
-          <div className={Styles.modal}>
-            <div className={Styles.slider}>
-              <FontAwesomeIcon
-                icon={faArrowLeft}
-                className={Styles.left_arrow}
-                onClick={prevSlide}
-                style={{ display: current === 0 ? 'none' : 'block' }}
-              />
-              <FontAwesomeIcon
-                icon={faArrowRight}
-                className={Styles.right_arrow}
-                onClick={nextSlide}
-                style={{ display: current === length - 1 ? 'none' : 'block' }}
-              />
-              {data.map((v, index) => (
+          <div onClick={toggleModal} className={Styles.overlay}></div>
+          <div className={Styles.slider}>
+            <FontAwesomeIcon
+              icon={faArrowLeft}
+              className={Styles.left_arrow}
+              onClick={prevSlide}
+            />
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              className={Styles.right_arrow}
+              onClick={nextSlide}
+            />
+            {SlideImage.map((slide, index) => {
+              return (
                 <div
                   key={index}
                   className={
@@ -133,48 +67,20 @@ export default function ImageGallary({ data = [] }) {
                   }
                 >
                   {index === current && (
-                    <>
-                      <div
-                        className={Styles.image_container}
-                        onMouseDown={handleMouseDown}
-                        handleMouseUp={handleMouseUp}
-                        onMouseMove={handleMouseMove}
-                        onMouseLeave={handleMouseLeave}
-                        style={{
-                          userSelect: 'none',
-                          cursor: isDragging ? 'grabbing' : 'grab',
-                        }}
-                      >
-                        <img
-                          src={`/rest_image/menu/${data[current].menu_name}`}
-                          alt="travel"
-                          className={Styles.image}
-                          style={{
-                            transform: `translate(${dragOffsetX}px, ${dragOffsetY}px) scale(${zoomLevel})`,
-                            transition: 'transform 0.2s',
-                          }}
-                          draggable="false"
-                        />
-                      </div>
-                    </>
+                    <img
+                      src={slide.image}
+                      alt="travel"
+                      className={Styles.image}
+                    />
                   )}
                 </div>
-              ))}
-              <div className={Styles.zoom_buttons}>
-                <button onClick={zoomOut}>
-                  <FontAwesomeIcon icon={faMinus} className={Styles.plus} />
-                </button>
-                <button onClick={zoomReset}>
-                  <FontAwesomeIcon
-                    icon={faSearchMinus}
-                    className={Styles.plus}
-                  />
-                </button>
-                <button onClick={zoomIn}>
-                  <FontAwesomeIcon icon={faPlus} />
-                </button>
-              </div>
-            </div>
+              );
+            })}
+            <FontAwesomeIcon
+              icon={faXmark}
+              className={Styles.xmark}
+              onClick={toggleModal}
+            />
           </div>
         </>
       )}

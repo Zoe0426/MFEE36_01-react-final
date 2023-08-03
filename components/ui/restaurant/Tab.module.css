@@ -4,18 +4,8 @@
     gap: 60px;
     font-size: var(--h6fs18);
     border-bottom: 0.8px solid var(--gray);
-    padding-top: 60px;
-    padding-left: 20px;
-   
+    padding-top: 80px;
 }
-.tab{
-    cursor: pointer;
-}
-/* .active_tab {
-    position: sticky;
-    bottom: 0;
-    border-bottom: 2px solid orange;
-  } */
 
 @media screen and (max-width:767px){
     .tab_group{

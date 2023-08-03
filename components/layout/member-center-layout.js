@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Col, Row, ConfigProvider } from 'antd';
 import Navbar from './navbar';
 import Footer from './footer';
@@ -13,26 +13,26 @@ export default function MemberCenterLayout(children) {
         <Navbar />
         <SecondNavbar />
         <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#FD8C46',
-              colorText: 'rgb(81, 81, 81)',
-              fontSize: 18,
-              controlInteractiveSize: 18,
-            },
-          }}
-        >
-          <Row className={Styles.antRow}>
-            <Col className={Styles.antCol} lg={1} md={1} sm={1} xs={1}></Col>
-            <Col className={Styles.antCol} lg={7} md={0} sm={0} xs={0}>
-              <MemberSidebar />
-            </Col>
-            <Col className={Styles.antCol} lg={13} md={22} sm={22} xs={22}>
-              <main className={Styles.main}>{children}</main>
-            </Col>
-            <Col className={Styles.antCol} lg={3} md={1} sm={1} xs={1}></Col>
-          </Row>
-          <Footer classTitle="smallNone" />
+        theme={{
+          token: {
+            colorPrimary: '#FD8C46',
+            colorText: 'rgb(81, 81, 81)',
+            fontSize: 18,
+            controlInteractiveSize: 18,
+          },
+        }}
+      >
+        <Row className={Styles.antRow}>
+          <Col className={Styles.antCol} lg={2} md={1} sm={1} xs={1}></Col>
+          <Col className={Styles.antCol} lg={6} md={8} sm={0} xs={0}>
+            <MemberSidebar />
+          </Col>
+          <Col className={Styles.antCol} lg={12} md={14} sm={22} xs={22}>
+            <main className={Styles.main}>{children}</main>
+          </Col>
+          <Col className={Styles.antCol} lg={4} md={1} sm={1} xs={1}></Col>
+        </Row>
+        <Footer classTitle="smallNone" />
         </ConfigProvider>
       </div>
     </>

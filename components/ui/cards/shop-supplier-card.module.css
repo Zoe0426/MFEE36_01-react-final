@@ -1,10 +1,9 @@
 .card{
     display:flex;   
     text-align: center;
-    cursor: pointer;
 }
 
-.shed_box{
+.shed{    
     padding:0 var(--p16);
     width: 100%;
     position:absolute;
@@ -12,13 +11,6 @@
     left:50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-    object-fit: fill;
-}
-
-
-.shed{ 
-    height: 100%;
-    width: 100%;   
 }
 .normal_card:hover{
     box-shadow:  2px 6px 8px rgba(0, 0, 0, 0.1);
@@ -32,11 +24,7 @@
     width:100%;
     padding:var(--p16) var(--p16);
     flex:1;
-    border:1px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
+    border:1px solid black
 }
 
 .brand_img{

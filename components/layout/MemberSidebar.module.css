@@ -3,39 +3,36 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-margin: 0 auto;
-  width: 300px;
 }
 
 .memberInfo{
-  height: 300px;
-  width: 300px;
+  width: 17vw;
+  height: 16vw;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   background-color: var(--secondary);
-  /* border: 1px solid red; */
+  border: 1px solid red;
   border-radius: var(--br20);
   margin-bottom: 30px;
 }
 
 
 .calendarInfo{
-  width: 300px;
-  height: 380px;
-  padding: 0 0 var(--p16) 0;
+  width: 17vw;
+  height: 18.5vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   background-color: var(--secondary);
-  border: 1px solid var(--secondary);
+  border: 1px solid red;
   border-radius: var(--br20);
   margin-bottom: 30px;
   overflow: hidden;
 }
 
-/* .gameInfo{
+.gameInfo{
   width: 17vw;
   height: 16vw;
   display: flex;
@@ -47,7 +44,7 @@ margin: 0 auto;
   border-radius: var(--br20);
   margin-bottom: 30px;
   overflow: hidden;
-} */
+}
 
 .orderCard{
   height: 390px;
@@ -55,10 +52,10 @@ margin: 0 auto;
 }
 
 .profile{
-  width: 65%;
-  height: 65%; /* Add this line */
+  width: 50%;
+  height: 53%;
   border-radius: 50%;
-  /* border: 1px solid red; */
+  border: 1px solid red;
   overflow: hidden;
 }
 
@@ -85,7 +82,11 @@ margin: 0 auto;
   margin-left: 5px;
 }
 
-
+.calendar{
+  width: 17vw;
+  height: 12.5vw;
+  background-color: #fff;
+}
 
 .calendarCircle{
   width: 100%;
@@ -107,7 +108,7 @@ margin: 0 auto;
 }
 
 .blueCircle{
-  background-color: #1677ff;
+  background-color: #5CAAF3;
 }
 
 .redCircle,.greenCircle,.blueCircle{
@@ -121,20 +122,17 @@ margin: 0 auto;
   font-size: var(--pfs14);
 }
 
-/* .gameImg{
+.gameImg{
   width: 15vw;
   height: 9vw;
   border-radius: var(--br20);
-} */
+}
 
-/* .gameImg img{
+.gameImg img{
   width: 100%;
   height: 100%;
   object-fit: cover;
-} */
-
-
-
+}
 
 @media screen and (max-width:1200px) and (min-width:768px){
 
@@ -149,20 +147,11 @@ margin: 0 auto;
   font-size: var(--pfs12);
 }
 
-.memberInfo{
+.memberInfo,.calendarInfo,.gameInfo,.gameImg{
   border-radius: 15px;
-  width: 260px;
-  height: 260px;
-}
-
-.calendarInfo{
-  border-radius: 15px;
-  width: 260px;
-  height: 380px;
 }
 
 .text{
   font-size: var(--pfs12);
 }
-
 }

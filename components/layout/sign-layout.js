@@ -7,8 +7,8 @@ export default function SignLayout(children) {
   return (
     <>
       <div className="container-outer">
-        <Navbar />
-        {/* <SignNavbar /> */}
+        <Navbar classTitle="bigNone" />
+        <SignNavbar />
         <main className={Styles.main}>{children}</main>
         <Footer classTitle="bigNone" />
       </div>

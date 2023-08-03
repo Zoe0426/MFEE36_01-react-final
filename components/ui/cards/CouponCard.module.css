@@ -1,5 +1,5 @@
 .coupon{
-  width: 45%;
+  width: 40%;
   height: 120px;
   background-color: #fff;
   border-radius: var(--br10);
@@ -20,34 +20,20 @@
 }
 
 .couponExpire{
-  display: flex;
   color: var(--gray);
 	font-size: var(--pfs14);
 }
 
-@media screen and (max-width:1400px){
-  .couponExpire{
-    display: block;
-}
-
-}
-
-@media screen and (max-width:1300px) and (min-width:501px){
+@media screen and (max-width:1300px) and (min-width:769px){
   .coupon{
-      width: 80%;
+      width: 68%;
   }
-  .couponExpire{
-    display: flex;
-}
 
   }
   
-@media screen and (max-width:500px){
+@media screen and (max-width:768px){
   .coupon{
     width: 100%;
-}
-.couponExpire{
-  display: flex;
 }
 
 }

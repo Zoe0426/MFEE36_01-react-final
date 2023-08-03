@@ -1,6 +1,6 @@
 .btn_group{
     display: flex;
-    justify-content: flex-end;
+    justify-content: end;
     padding: 58px 0;
 }
 

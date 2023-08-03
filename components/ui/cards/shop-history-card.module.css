@@ -2,7 +2,7 @@
     width:5%;
     background-color: rgba(255, 255, 255, 0.709);
     border-radius: var(--br10);
-    padding-top:var(--p16);
+    padding:var(--p16) 0;
     position: fixed;
     top:35%;
     left:calc(((100% - 1920px) / 2) + 1700px);
@@ -33,7 +33,6 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-
 }
 
 .history_img:hover::after{
@@ -46,7 +45,7 @@
     justify-content: center;
     align-items: center;
     font-size: var(--pfs14);
-    cursor: pointer;
+    /* font-weight: var(--fwbold); */
 }
 .history_img>img{
     width: 100%;
@@ -54,13 +53,10 @@
 
 .history_reset{
     font-size: var(--pfs16);
-    padding: var(--p16) 0;
+    /* font-weight: var(--fwbold); */
+    padding-top: var(--p16);
     border-top: 1px solid  var(--light-gray);
+    letter-spacing: 3px
 }
 
-
-.history_reset:hover{
-    background-color: var(--light1);
-    cursor: pointer;
-}
 

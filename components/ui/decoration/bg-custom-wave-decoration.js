@@ -23,11 +23,7 @@ export default function BGCustomWaveDecoration({
           />
         </svg>
       </div>
-      {leftPic ? (
-        <Image src={leftPic} alt={leftPic} />
-      ) : (
-        <div style={{ display: 'none' }}></div>
-      )}
+      {leftPic ? <Image src={leftPic} alt={leftPic} /> : <Image />}
       {rightPic && <Image src={rightPic} alt={rightPic} />}
     </div>
   );

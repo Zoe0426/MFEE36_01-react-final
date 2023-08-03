@@ -8,9 +8,9 @@ import trees from '@/assets/trees.svg';
 export default function BGUpperDecoration() {
   return (
     <div className={styles.head_decoration}>
-      <Image src={bgc01} alt="background" />
-      <Image src={walkingDog} alt="walkingDog" />
-      <Image src={trees} alt="trees" />
+      <Image src={bgc01} alt="" />
+      <Image src={walkingDog} alt="" />
+      <Image src={trees} alt="" />
     </div>
   );
 }

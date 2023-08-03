@@ -1,13 +1,12 @@
 .card {
   display: flex;
-  width: 95%;
-  height: 300px;
+  width: 48%;
 }
 
 /* -------左邊------- */
 .left {
   position: relative;
-  width: 50%;
+  width: 60%;
   /* height: 100%; */
 }
 
@@ -15,15 +14,15 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: var(--br10);
+  border-radius: var(--br10) 0 0 var(--br10);
 }
 
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100px;
-  height: 40px;
+  width: 91px;
+  height: 38px;
   background-color: var(--main);
   display: flex;
   justify-content: center;
@@ -32,40 +31,22 @@
 }
 
 .text {
-  font-size: var(--pfs16);
+  font-size: var(--pfs14);
   color: white;
 }
 
-.heart_icon {
+.icon {
   position: absolute;
-  bottom: 15px;
-  right: 15px; 
-  z-index: 9;
-  font-size: 30px;
-  cursor: pointer;
-  color:var(--light-gray);
-
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background-color: #000000;
 }
-
-.heart_icon_liked{
-  position: absolute;
-  bottom: 15px;
-  right: 15px; 
-  z-index: 9;
-  font-size: 30px;
-  cursor: pointer;
-  color:var(--heartRed);
-}
-
-.heart_icon:hover{
-  color:var(--heartRed)
-}
-
-
 
 /* -------右邊------- */
 .right {
-  width: 50%;
+  width: 70%;
   margin-left: 1.5rem; /*左右間距*/
   display: flex;
   flex-direction: column;
@@ -75,7 +56,7 @@
 .row {
   display: flex;
   align-items: center;
-  margin-bottom: 13px;
+  margin-bottom: 8px;
 }
 
 
@@ -105,10 +86,10 @@
 }
 
 /* 地址 */
-/* .rowTextAddress {
+.rowTextAddress {
   color: var(--gray);
-
-} */
+  /* font-weight: var(--fwbold); */
+}
 
 .content{
   display: -webkit-box;
@@ -126,11 +107,11 @@
 
 .rowTextLarge {
   color: var(--dark);
-  font-size: var(--h5fs20);
+  font-size: var(--h6fs18);
 }
 
 .rowTextSmall {
-  font-size: var(--h6fs18);
+  font-size: var(--pfs16);
 }
 
 

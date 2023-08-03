@@ -1,21 +1,10 @@
-.like_list_bgc{
-  /* width: 100vw;
-  height: 100vh; */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: fixed;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.6));
-  z-index: 999;
-}
-
-
 /*蒐藏列表外框*/
+
+
     .like_list_box{
     width:550px;   
     position: absolute;
-    z-index: 9999;
+    z-index: 3;
     margin-top:18px;
     left:100%;
     transform:translateX(-110%);    
@@ -28,8 +17,7 @@
     .like_items{
       overflow-x: hidden;
       overflow-y: scroll; 
-      /* max-height:758px; */
-      max-height:500px;
+      max-height:758px;
     }
 
 
@@ -46,8 +34,7 @@
    
   /* 目前位置的卷軸 */
   .like_items::-webkit-scrollbar-thumb {
-    /* background: rgb(95, 35, 27,0.3);  */
-    background-color: var(--secondary);
+    background: rgb(95, 35, 27,0.3); 
     border-radius: var(--br10);
   }
 

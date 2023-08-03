@@ -25,10 +25,9 @@
     border-radius: 10px;
     transition: 0.8s;
     cursor: pointer;
-    background-color: var(--light1);
 }
 .arrow:hover{
-    background-color: var(--secondary);
+    background-color: var(--light1);
 }
 
 .explore_title{

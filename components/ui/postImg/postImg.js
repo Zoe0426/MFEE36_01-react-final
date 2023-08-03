@@ -13,7 +13,6 @@ const contentStyle = {
 
 const PostImg = (props) => {
   const { images } = props;
-  console.log(images);
 
   const onChange = (currentSlide) => {
     console.log(currentSlide);
@@ -23,7 +22,7 @@ const PostImg = (props) => {
     <Carousel afterChange={onChange} className={Style.carousel}>
       {images.map((image, index) => (
         <div key={index}>
-          <img className={Style.img} src={`/forum_img/post_img/${image}`} alt={`Image ${index + 1}`} style={contentStyle} />
+          <img className={Style.img} src={image} alt={`Image ${index + 1}`} style={contentStyle} />
         </div>
       ))}
     </Carousel>

@@ -26,13 +26,10 @@
 }
 
 @media screen and (max-width:767px){
-    .total_pages_rank>div>h4{
-        font-size:var(--h5fs20) ;
+    .total_pages_rank>div>h3{
+        font-size:var(--h4fs24) ;
     }
     .total_pages_rank>div>p{
         font-size:var(--pfs16) ;
-    }
-    .total_pages_order_title p{
-        display: none;
     }
     }

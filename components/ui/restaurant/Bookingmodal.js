@@ -1,136 +1,23 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import Styles from './Bookingmodal.module.css';
+import Styles from './BookingModal.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import NumberInput from '../numberInput/numberInput2';
-import AlertModal from './AlertModal';
-import Modal from '../modal/modal';
 
-export default function BookingModal({
-  datas = [],
-  memberDatas = [],
-  clickHandler = () => {},
-  time,
-  people,
-  handleNoteChange = () => {},
-  handleChangePeople = () => {},
-  handleChangePet = () => {},
-  noteValue = '',
-  countPeople = 1,
-  countPet = 1,
-}) {
+export default function BookingModal() {
   const [modal, setModal] = useState(false);
-  const [reservationSuccess, setReservationSuccess] = useState(false); // 新增狀態來控制預約成功的彈跳視窗
-  // const [countPeople, setCountPeople] = useState(1);
-  // const [countPet, setCountPet] = useState(1);
-  // const [noteValue, setNoteValue] = useState('');
-
-  // const handleNoteChange = (event) => {
-  //   console.log('備註');
-  //   setNoteValue(event.target.value);
-  // };
+  const [countPeople, setCountPeople] = useState(1);
+  const [countPet, setCountPet] = useState(1);
 
   const toggleModal = () => {
     setModal(!modal);
   };
-  // 彈跳視窗確認按鈕的點擊處理函數
-  const handleModalConfirm = () => {
-    // 重新載入頁面
-    window.location.reload();
-  };
-
-  // const handleChangePeople = (newCount) => {
-  //   // 在這裡處理人數的變更，不執行 handleSubmit
-  //   console.log('人數');
-  //   setCountPeople(newCount);
-  // };
-
-  // const handleChangePet = (newCount) => {
-  //   // 在這裡處理寵物數量的變更，不執行 handleSubmit
-  //   console.log('寵物');
-  //   setCountPet(newCount);
-  // };
-
-  const restPeople = datas.remaining_slots;
-
-  //日期格式轉換回來
-  const dateStr = datas.date;
-  const [monthDay, weekday] = dateStr.split(' (');
-  const [month, day] = monthDay.split('/');
-  const [, weekdayStr] = weekday.split(')');
-  const weekdayNum = ['日', '一', '二', '三', '四', '五', '六'].indexOf(
-    weekdayStr
-  );
-  const year = 2023;
-  const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(
-    2,
-    '0'
-  )}`;
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // 建立要傳遞到後端的預約資料物件
-    const reservationData = {
-      rest_sid: datas.rest_sid,
-      section_code: datas.section_code,
-      date: formattedDate,
-      member_sid: memberDatas.member_sid,
-      people_num: countPeople,
-      pet_num: countPet,
-      note: noteValue,
-    };
-
-    // 發送 POST 請求到後端 API
-    try {
-      const response = await fetch(
-        `${process.env.API_SERVER}/restaurant-api/booking_modal`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(reservationData),
-        }
-      );
-
-      const responseData = await response.json();
-      if (responseData.success) {
-        //跳一個預約成功的視窗
-        setReservationSuccess(true);
-      } else {
-        console.error('處理預約失敗的情況');
-      }
-    } catch (error) {
-      console.error(error);
-      // 處理錯誤情況
-    }
-  };
 
   return (
     <>
-      <div className={Styles.time_section}>
-        <div
-          onClick={restPeople <= 0 ? null : toggleModal}
-          className={
-            restPeople <= 0 ? Styles.no_people_card : Styles.booking_card
-          }
-        >
-          <div className={Styles.time_range}>{time}</div>
-          <div className={Styles.rest_people}>
-            {restPeople <= 0 ? '' : '剩餘'}
-            <p
-              className={restPeople <= 0 ? Styles.no_rest_num : Styles.rest_num}
-            >
-              {restPeople <= 0 ? '額滿!' : people}
-            </p>
-            {restPeople <= 0 ? '' : '位'}
-          </div>
-        </div>
-      </div>
+      <MainBtn clickHandler={toggleModal} text="預約的時間區塊" />
+
       {modal && (
         <>
           <div onClick={toggleModal} className={Styles.overlay}></div>
@@ -140,56 +27,97 @@ export default function BookingModal({
               <div className={Styles.modal_content}>
                 <div className={Styles.booking_info}>
                   <div className={Styles.time}>
-                    <p className={Styles.booking_title}>預約餐廳</p>
-                    <p>{datas.name}</p>
-                  </div>
-                  <div className={Styles.time}>
                     <p className={Styles.booking_title}>預約時間</p>
-                    <p className={Styles.date_time}>
-                      2023/{datas.date} {datas.time}
-                    </p>
+                    <p>2023/08/16 14:00</p>
                   </div>
                   <div className={Styles.member}>
                     <p className={Styles.booking_title}>預約會員</p>
-                    <p>{memberDatas.name}</p>
+                    <p>王小美</p>
                   </div>
                   <div className={Styles.phone}>
                     <p className={Styles.booking_title}>聯絡資訊</p>
-                    <p>{memberDatas.mobile}</p>
+                    <p>0963037941</p>
                   </div>
                 </div>
                 <div className={Styles.line}></div>
                 {/* 人數 */}
                 <div className={Styles.detail_qty_area}>
                   <div className={Styles.detail_people_box}>
-                    <div className={Styles.input_height}>
-                      <NumberInput
-                        title="人數"
-                        needMax={true}
-                        maxValue={datas.remaining_slots}
-                        handleNumber={handleChangePeople}
+                    <h5 className={Styles.detail_title}>人數</h5>
+                    <div className={Styles.detail_qty}>
+                      <button
+                        className={Styles.detail_qty_sub_btn}
+                        onClick={() => {
+                          if (countPeople > 1) {
+                            setCountPeople(countPeople - 1);
+                          }
+                        }}
+                      >
+                        -
+                      </button>
+                      <input
+                        type="text"
+                        className={Styles.detail_qty_input}
+                        value={countPeople}
+                        onChange={(e) => {
+                          const reisNumber = /[.\d]/;
+                          if (reisNumber.test(e.target.value)) {
+                            setCountPeople(parseInt(e.target.value));
+                          }
+                        }}
                       />
+                      <button
+                        className={Styles.detail_qty_add_btn}
+                        onClick={() => {
+                          setCountPeople(countPeople + 1);
+                        }}
+                      >
+                        +
+                      </button>
                     </div>
                   </div>
 
                   {/* 寵物數 */}
                   <div className={Styles.detail_pet_box}>
-                    <NumberInput
-                      title="寵物數"
-                      handleNumber={handleChangePet}
-                    />
+                    <h5 className={Styles.detail_title}>寵物數</h5>
+                    <div className={Styles.detail_qty}>
+                      <button
+                        className={Styles.detail_qty_sub_btn}
+                        onClick={() => {
+                          if (countPet > 1) {
+                            setCountPet(countPet - 1);
+                          }
+                        }}
+                      >
+                        -
+                      </button>
+                      <input
+                        type="text"
+                        className={Styles.detail_qty_input}
+                        value={countPet}
+                        onChange={(e) => {
+                          const reisNumber = /[.\d]/;
+                          if (reisNumber.test(e.target.value)) {
+                            setCountPet(parseInt(e.target.value));
+                          }
+                        }}
+                      />
+                      <button
+                        className={Styles.detail_qty_add_btn}
+                        onClick={() => {
+                          setCountPet(countPet + 1);
+                        }}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div className={Styles.note}>
                   <label htmlFor="" className={Styles.note_content}>
                     備註
                   </label>
-                  <input
-                    type="text"
-                    className={Styles.note_input}
-                    value={noteValue}
-                    onChange={handleNoteChange}
-                  />
+                  <input type="text" className={Styles.note_input} />
                 </div>
               </div>
               <FontAwesomeIcon
@@ -200,53 +128,10 @@ export default function BookingModal({
               <div className={Styles.line}></div>
               <div className={Styles.btn_group}>
                 <SecondaryBtn text="取消" clickHandler={toggleModal} />
-                <MainBtn clickHandler={handleSubmit} text="預約" />
+                <MainBtn clickHandler={toggleModal} text="確定" />
               </div>
             </div>
           </div>
-
-          {reservationSuccess && (
-            <div className={Styles.modal_overlay}>
-              <div className={Styles.modal_bgc}>
-                <h3 className={Styles.success}>預約成功！</h3>
-                <div className={Styles.detail_info}>
-                  <div className={Styles.time}>
-                    <p className={Styles.booking_title}>預約餐廳</p>
-                    <p>{datas.name}</p>
-                  </div>
-                  <div className={Styles.time}>
-                    <p className={Styles.booking_title}>預約時間</p>
-                    <p className={Styles.date_time}>
-                      2023/{datas.date} {datas.time}
-                    </p>
-                  </div>
-                  <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約會員</p>
-                    <p>{memberDatas.name}</p>
-                  </div>
-                  <div className={Styles.member}>
-                    <p className={Styles.booking_title}>聯絡資訊</p>
-                    <p>{memberDatas.mobile}</p>
-                  </div>
-                  <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約人數</p>
-                    <p>{countPeople} 位</p>
-                  </div>
-                  <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約寵物</p>
-                    <p>{countPet} 隻</p>
-                  </div>
-                  <div className={Styles.booking_note}>
-                    <p className={Styles.booking_title}>預約備註</p>
-                    <p>{noteValue}</p>
-                  </div>
-                </div>
-                <div className={Styles.filter_btns}>
-                  <MainBtn clickHandler={handleModalConfirm} text="確定" />
-                </div>
-              </div>
-            </div>
-          )}
         </>
       )}
     </>

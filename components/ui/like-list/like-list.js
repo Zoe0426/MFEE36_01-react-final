@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styles from './like-list.module.css';
 import SecondaryBtn from '../buttons/SecondaryBtn';
 import MainBtn from '../buttons/MainBtn';
@@ -11,21 +11,18 @@ export default function Likelist({
   removeAllHandler = () => {}, //用來清除所有蒐藏清單的函式
 }) {
   return (
-    <>
-      <div className={styles.like_list_bgc}> </div>
-      <div className={styles.like_list_box}>
-        <div className={styles.like_items}>
-          {datas.length === 0 ? (
-            <p className={styles.no_like_item}>目前尚未有任何收藏......</p>
-          ) : (
-            customCard
-          )}
-        </div>
-        <div className={styles.btns}>
-          {<SecondaryBtn text="清除所有" clickHandler={removeAllHandler} />}
-          {<MainBtn text="關閉視窗" clickHandler={closeHandler} />}
-        </div>
+    <div className={styles.like_list_box}>
+      <div className={styles.like_items}>
+        {datas.length === 0 ? (
+          <p className={styles.no_like_item}>目前尚未有任何收藏......</p>
+        ) : (
+          customCard
+        )}
       </div>
-    </>
+      <div className={styles.btns}>
+        {<SecondaryBtn text="清除所有" clickHandler={removeAllHandler} />}
+        {<MainBtn text="關閉視窗" clickHandler={closeHandler} />}
+      </div>
+    </div>
   );
 }

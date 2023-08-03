@@ -1,14 +1,11 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import style from './cartProductCard.module.css';
 import { Checkbox } from 'antd';
 import CloseBtn from '../buttons/closeBtn';
 import NumberInput from '../numberInput/numberInput';
-import AuthContext from '@/context/AuthContext';
 
 export default function CartProductCard({
   cartSid = '',
-  relSid = '',
-  relSeqSid = '',
   img = '',
   prodtitle = '',
   prodSubtitle = '',
@@ -17,9 +14,9 @@ export default function CartProductCard({
   selected = false,
   shopData = [],
   setShopData = () => {},
+  delHandler = () => {},
   setSelectAll = () => {},
 }) {
-  const { updateCart } = useContext(AuthContext);
   const [myQty, setMyQty] = useState(qty);
   const onChecked = (sid) => {
     const newData = shopData.map((v) => {
@@ -39,25 +36,6 @@ export default function CartProductCard({
     );
   };
 
-  const removeItemFromDb = async (sid) => {
-    console.log('remove cart_sid:', sid);
-    const r = await fetch(
-      `${process.env.API_SERVER}/cart-api/remove-cart-item`,
-      {
-        method: 'POST',
-        body: JSON.stringify({ cart_sid: sid }),
-        headers: { 'Content-type': 'application/json' },
-      }
-    );
-    const result = await r.json();
-    console.log('remove-result:', result);
-    if (result === 'success') {
-      setShopData((old) => old.filter((v) => v.cart_sid !== sid));
-      updateCart(relSid, relSeqSid, 'remove');
-    } else {
-      alert('remove from DB failed');
-    }
-  };
   return (
     <div className={style.productCard}>
       <Checkbox
@@ -86,11 +64,7 @@ export default function CartProductCard({
         </div>
       </div>
 
-      <CloseBtn
-        closeHandler={() => {
-          removeItemFromDb(cartSid);
-        }}
-      />
+      <CloseBtn closeHandler={delHandler} />
     </div>
   );
 }

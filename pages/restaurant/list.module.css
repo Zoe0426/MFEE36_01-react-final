@@ -7,17 +7,15 @@
 
 .search{
   width: 100%;
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center; 
   align-items: center; 
 }
-.search_bar{
-  position: absolute;
-  top: 60%;
-}
+
 .banner{
+  position: relative;
   height: 280px;
   display: flex;
   justify-content: center; 
@@ -29,6 +27,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+
 }
 
 .banner img {
@@ -49,31 +48,25 @@
   justify-content: space-between;
   align-items: center;
 }
-.bread_btn{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: var(--p16);
-  padding-bottom: 16px;
-}
+
 .filter {
   border-radius: 8px;
   padding: 12px 20px;
 }
 
 .filter_box {
-  padding-bottom: 40px;
+  padding-top: 20px;
+  padding-bottom: 80px;
 }
 .line {
   border-bottom: 1px solid var(--gray);
   opacity: 0.5;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 .filter_btns {
   display: flex;
   justify-content: flex-end;
-  margin-top: 70px;
+  margin-top: 80px;
   height: 50px;
 }
 .filter_btns > button {
@@ -86,14 +79,14 @@
 .filter_btns > button:last-child {
   margin-right: 0;
 }
-.card{
-  position: relative;
+
+.function_group {
   width: 100%;
-}
- .function_group {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+  padding-top: var(--p16);
+  padding-bottom: 20px;
 }
 
 .function_group > * {
@@ -106,55 +99,12 @@
 
 .bgc {
   background-color: var(--lightBrown);
-
 }
 .pagination{
   margin:70px 0;
   text-align: center;
 }
 
-/* 地區樣式 */
-.location_search_area{
-  margin:48px 12px 48px 0px;
-  display: flex;
-}
-
-.location_search_area>div>p{
-  font-size: var(--h6fs18);
-}
-.category_area{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-}
-.labels{
-  font-size:var(--h6fs18) ;
-  font-weight: var(--fwbold);
-  height: 100%;
-  line-height: 50px;
-  width:110px;
-  margin-right: 16px;
-}
-
-.paw{
-  font-size: var(--h6fs18);
-  color: var(--dark);
-  margin-right: 10px;
-}
-
-.city{
-  margin-right: 16px;
-  padding: 0 16px;
-  width: 200px;
-}
-.dropdown_arrow{
-  margin-right: 100px;
-}
-.section{
-  padding: 0 16px;
-  width: 200px;
-}
 
 
 @media screen and (max-width: 767px) {
@@ -170,7 +120,7 @@
     padding-bottom: var(--p8);
   }
   .second_area {
-    margin: 0
+    margin: 32px 0;
   }
   .function_group {
     display: flex;
@@ -185,7 +135,6 @@
   }
   .filter_box {
     padding-bottom: 50px;
-    margin-top: 40px;
   }
   .labels {
     width: 100%;
@@ -210,52 +159,14 @@
     line-height: 100%;
     text-align: center;
   }
-  .bread_btn {
+  .function_group {
     justify-content: space-between;
+    padding-right: 36px;
+    padding-left: 36px;
     padding-bottom: var(--p8);
     padding-top: var(--p8);
-  }
-  .function_group{
-    width: 100%;
   }
   .function_group > * {
     margin-right: 0px; 
   }
-  .breadcrumb{
-    display: none;
-    
-  }
-  .category_area{
-    width: 100%;
-    padding-bottom: 16px;
-  }
-  .location_img{
-    height: 88px;
-    width: 88px;
-    margin-bottom: 6px;
-
-}
-.city {
-  width: 100%;
-  padding: 0 ;
-}
-.section {
-  width: 100%;
-  padding: 0 ;
-}
-.location_search_area{
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 0;
-}
-.location_name{
-  font-size: var(--pfs12);
-}
-.dropdowns{
-  width: 100%;
-  display: flex;
-}
-.dropdown_arrow{
-  margin-right: 70px;
-}
 }

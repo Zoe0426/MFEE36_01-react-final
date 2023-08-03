@@ -11,22 +11,3 @@
 .btn{
   margin: 10px;
 }
-
-.validBox{
-  padding: var(--p8);
-  color: var(--gray);
-}
-
-.validBox div{
-  font-size: var(--pfs14);
-  margin-bottom: 5px;
-}
-
-.validated{
-  color: var(--green);
-}
-
-@media screen and (max-width:767px){
-
-
-}

@@ -1,11 +1,8 @@
-import { useState, useEffect } from 'react';
 import style from './cartTotalSection.module.css';
 import Image from 'next/image';
 import rundog from '@/assets/running-dog.svg';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import CartSectionTitle from './cartSectionTitle';
-import { DownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, ConfigProvider } from 'antd';
 
 export default function CartTotalSection({
   checkoutType = '',
@@ -13,9 +10,7 @@ export default function CartTotalSection({
   activityData = [],
   postType = [],
   couponData = [],
-  paymentType = 1,
   createOrder = () => {},
-  setPaymentType = () => {},
 }) {
   const postAmount = postType === 'blackcat' ? 90 : 60;
 
@@ -43,27 +38,11 @@ export default function CartTotalSection({
     shopSubtotal > 0 ? shopSubtotal + postAmount - couponPrice : 0;
   const activityTotal =
     activitySubtotal > 0 ? activitySubtotal - couponPrice : 0;
-  const selectPaymentType = (e) => {
-    setPaymentType(parseInt(e.key));
-  };
-  const items = [
-    {
-      label: '信用卡',
-      key: 1,
-    },
-    {
-      label: 'Line pay',
-      key: 2,
-    },
-  ];
-  const menuProps = {
-    items,
-    onClick: selectPaymentType,
-  };
+
   return (
     <div className={style.totalCard}>
       <CartSectionTitle text="訂單詳情" />
-      <div></div>
+
       <div className={style.subtotals}>
         <span>小計</span>
         <span className={style.amount}>
@@ -98,34 +77,6 @@ export default function CartTotalSection({
           ${checkoutType === 'shop' ? shopTotal : activityTotal}
         </span>
       </div>
-      <div className={style.subtotals}>
-        <span>結帳品項總計</span>
-        <span className={style.amount}>X項</span>
-      </div>
-      <div className={style.subtotals}>
-        <span>付款方式</span>
-        <span className={style.amount}>
-          {paymentType === 1 ? '信用卡' : 'LinePay'}
-        </span>
-      </div>
-      <div>
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: '#FD8C46',
-              controlInteractiveSize: 20,
-            },
-          }}
-        >
-          <Dropdown menu={menuProps}>
-            <Button style={{ width: '100%' }}>
-              選擇付款方式
-              <DownOutlined />
-            </Button>
-          </Dropdown>
-        </ConfigProvider>
-      </div>
-
       <MainBtn text="結帳" clickHandler={createOrder}></MainBtn>
       <Image src={rundog} className={style.runningdog} alt="runningdog"></Image>
     </div>

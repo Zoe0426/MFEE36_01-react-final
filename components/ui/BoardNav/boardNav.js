@@ -3,7 +3,6 @@ import Style from './boardNav.module.css'
 import SubBtn from '../buttons/subBtn'
 import PostAuthorBTN from '../postAuthorBtn/postAuthorBtn'
 import BlogDecoration from '../blogBanner/blogDecoration'
-import Link from 'next/link'
 
 export default function BoardNav({doctor,home,site,restaurant,salon,school,hang,young,old,product,diary}) {
   return (
@@ -11,9 +10,7 @@ export default function BoardNav({doctor,home,site,restaurant,salon,school,hang,
       <div className={Style.boardNav}>
       <div className={Style.nav}>
       <div className={Style.author}>
-      <Link href={`http://localhost:3000/forum/blog`}>
         <PostAuthorBTN img = '/forum_img/board_img/個人頁面shadow.png' text = '個人頁面'/>
-      </Link>
       </div>
 
 

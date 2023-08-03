@@ -20,10 +20,6 @@
 
 }
 
-.icon_red{
-    color:var(--heartRed)
-}
-
 
 @media screen and (max-width:767px){
     .icon_btn{
