@@ -19,7 +19,7 @@ import ShopProductCard from '@/components/ui/cards/shop-product-card';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
-import Modal from '@/components/ui/modal/modal';
+import ModalWithoutLine from '@/components/ui/modal/modal-without-line';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 import NumberInput from '@/components/ui/numberInput/numberInput1';
@@ -759,7 +759,7 @@ export default function Product() {
                     clickHandler={toggleLikeList}
                   />
                 ) : (
-                  <Modal
+                  <ModalWithoutLine
                     btnType="iconBtn"
                     btnText="收藏列表"
                     title="貼心提醒"
@@ -967,7 +967,7 @@ export default function Product() {
               </div>
               <div className={styles.detail_main_bottom}>
                 {!auth.token ? (
-                  <Modal
+                  <ModalWithoutLine
                     btnType="iconSeconBtn"
                     btnText="加入收藏"
                     title="貼心提醒"
@@ -994,7 +994,7 @@ export default function Product() {
                   />
                 )}
                 {!auth.token ? (
-                  <Modal
+                  <ModalWithoutLine
                     btnType="iconSeconBtn"
                     btnText="加入購物車"
                     title="貼心提醒"
@@ -1027,7 +1027,7 @@ export default function Product() {
                   />
                 )}
                 {!auth.token ? (
-                  <Modal
+                  <ModalWithoutLine
                     btnType="main"
                     btnText="立即購買"
                     title="貼心提醒"
