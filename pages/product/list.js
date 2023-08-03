@@ -80,6 +80,7 @@ export default function List() {
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
   const [copyFilters, setCopyFilters] = useState([]);
+  const [selectedCheckBox, setSelectedCheckBox] = useState([]);
 
   //管理價格條件的input
   const [showErrorMessage1, setShowErrorMessage1] = useState(false);
@@ -122,6 +123,7 @@ export default function List() {
       const newBrand = data.brand.map((v) => {
         return { ...v, checked: false };
       });
+
       setFilters({ ...filters, brand: newBrand });
       setCopyFilters(
         JSON.parse(JSON.stringify({ ...filters, brand: newBrand }))
@@ -139,7 +141,6 @@ export default function List() {
       const { category, brand } = router.query;
       if (category) {
         resetCheckBox('category', category);
-        // setFiltersReady(true);
       } else if (brand) {
         if (filtersReady) {
           resetCheckBox('brand', brand);
@@ -195,6 +196,11 @@ export default function List() {
 
     //需要等所有filters(brands)設定都完成後才能開始跑回圈將有勾選的設定回來
     if (filtersReady) {
+      let newSelectedCheckBox = {
+        typeForPet: [],
+        typeForAge: [],
+        category: [],
+      };
       const newBreadCrubText = breadCrubText.map((v) => {
         if (v.id === 'search') {
           return { ...v, text: `/ 商品列表` };
@@ -204,10 +210,14 @@ export default function List() {
 
       if (typeForPet) {
         resetCheckBox('typeForPet', typeForPet);
+        const newArr = typeForPet.split(',');
+        newSelectedCheckBox = { ...newSelectedCheckBox, typeForPet: newArr };
       }
 
       if (typeForAge) {
         resetCheckBox('typeForAge', typeForAge);
+        const newArr = typeForAge.split(',');
+        newSelectedCheckBox = { ...newSelectedCheckBox, typeForAge: newArr };
       }
 
       if (category) {
@@ -224,6 +234,10 @@ export default function List() {
           });
           setBreadCrubText(newBreadCrubText);
         }
+        newSelectedCheckBox = {
+          ...newSelectedCheckBox,
+          category: newArr,
+        };
       }
 
       if (brand) {
@@ -233,6 +247,8 @@ export default function List() {
       if (!typeForPet && !typeForAge && !category && !brand) {
         setFilters(copyFilters);
       }
+
+      setSelectedCheckBox(newSelectedCheckBox);
     }
 
     if (filtersReady || first) {
@@ -248,6 +264,35 @@ export default function List() {
     //   getData(router.query, memberJWT);
     // }
   }, [router.query, filtersReady, first]);
+
+  const brandFilterBySelected = (brands, obj) => {
+    let newBrand = JSON.parse(JSON.stringify(brands));
+    if (obj.typeForPet.length > 0) {
+      newBrand = newBrand.filter((v1) => {
+        return v1.typeForPet.some((s) => obj.typeForPet.includes(s));
+      });
+    }
+    if (obj.typeForAge.length > 0) {
+      newBrand = newBrand.filter((v1) => {
+        return v1.typeForAge.some((s) => obj.typeForAge.includes(s));
+      });
+    }
+
+    if (obj.category.length > 0) {
+      newBrand = newBrand.filter((v1) => {
+        return v1.category.some((s) => obj.category.includes(s));
+      });
+    }
+
+    if (
+      obj.typeForPet.length === 0 &&
+      obj.typeForAge.length === 0 &&
+      obj.category.length === 0
+    ) {
+      newBrand = brands;
+    }
+    return newBrand;
+  };
 
   //監看點擊愛心收藏的相關控制
   useEffect(() => {
@@ -522,14 +567,57 @@ export default function List() {
     setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
   };
 
+  //設定目前被check的類別有那些
+  const brandDisplayHandler = (obj = {}, name, id, prechecked = false) => {
+    if (name !== 'brand') {
+      const insideSelected = obj[name].includes(id);
+      if (insideSelected) {
+        const newBrandList = obj[name].filter((v) => v !== id);
+        setSelectedCheckBox({ ...obj, [name]: newBrandList });
+      } else {
+        if (id === 'both') {
+          if (prechecked) {
+            setSelectedCheckBox({ ...obj, [name]: [] });
+          } else {
+            setSelectedCheckBox({ ...obj, [name]: ['cat', 'dog'] });
+          }
+        } else if (id === 'all') {
+          if (prechecked) {
+            setSelectedCheckBox({ ...obj, [name]: [] });
+          } else {
+            setSelectedCheckBox({
+              ...obj,
+              [name]: ['younger', 'adult', 'elder'],
+            });
+          }
+        } else {
+          obj[name].push(id);
+          setSelectedCheckBox({ ...obj });
+        }
+      }
+    }
+  };
+
   //管理checkbox勾選的狀態
   const checkboxToggleHandler = (arr, name, id) => {
+    let newBrand = filters.brand;
+    if (name === 'brand') {
+      arr = newBrand;
+    } else {
+      newBrand = newBrand.map((v) => ({ ...v, checked: false }));
+    }
     const arrLength = arr.length - 1;
     let countTrue = 0;
     let newFilters = [];
 
     if (id === '皆可') {
       const prechecked = arr[arr.length - 1].checked;
+      brandDisplayHandler(
+        selectedCheckBox,
+        name,
+        arr[arr.length - 1].value,
+        prechecked
+      );
       newFilters = arr.map((v) => {
         if (!prechecked) {
           return { ...v, checked: true };
@@ -538,6 +626,7 @@ export default function List() {
     } else {
       newFilters = arr.map((v) => {
         if (v.label === id) {
+          brandDisplayHandler(selectedCheckBox, name, v.value);
           return { ...v, checked: !v.checked };
         } else if (v.label === '皆可') {
           return { ...v, checked: false };
@@ -550,12 +639,19 @@ export default function List() {
       }
     }
 
-    if (countTrue === arrLength) {
+    if (
+      (name === 'typeForPet' || name === 'typeForAge') &&
+      countTrue === arrLength
+    ) {
       newFilters[arrLength].checked = true;
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
+      // [name]: newFilters.map((item) => ({
+      //   ...item,
+      // })),
+      brand: newBrand,
       [name]: newFilters,
     }));
   };
@@ -674,6 +770,8 @@ export default function List() {
     setLocalStorageHistory([]);
     localStorage.removeItem('petProductHistory');
   };
+  // console.log(selectedCheckBox);
+  // console.log(1, filters);
 
   return (
     <>
@@ -782,10 +880,17 @@ export default function List() {
                   data={filters.category}
                   changeHandler={checkboxToggleHandler}
                 />
-                <ProductFilter
+                {/* <ProductFilter
                   text="品牌"
                   name="brand"
                   data={filters.brand}
+                  needSpan={false}
+                  changeHandler={checkboxToggleHandler}
+                /> */}
+                <ProductFilter
+                  text="品牌"
+                  name="brand"
+                  data={brandFilterBySelected(filters.brand, selectedCheckBox)}
                   needSpan={false}
                   changeHandler={checkboxToggleHandler}
                 />

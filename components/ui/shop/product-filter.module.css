@@ -34,4 +34,7 @@
     height: auto;
     margin-top: 16px;
   }
+  .colon{
+    display: none;
+  }
 }
