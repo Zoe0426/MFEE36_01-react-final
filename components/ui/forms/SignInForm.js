@@ -1,13 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Styles from './SignInForm.module.css';
 import MainBtn from '../buttons/MainBtn';
 import SecondaryBtn from '../buttons/SecondaryBtn';
+import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import jwt_decode from 'jwt-decode';
 import { Form, Input, ConfigProvider } from 'antd';
 
 export default function SignInForm({ handleSubmit }) {
+  const { setAuth, setPhoto } = useContext(AuthContext);
   const [user, setUser] = useState({});
+  const [memProfileImg, setMemProfileImg] = useState(
+    `${process.env.API_SERVER}/img/default-profile.jpg`
+  );
+
+  //回去哪一頁的路徑
+  const router = useRouter();
+  const fromPath2 = router.asPath.split('from=')[1] || '/';
+
   const onFinish = (values) => {
     console.log('Success:', values);
   };
@@ -20,6 +31,33 @@ export default function SignInForm({ handleSubmit }) {
     const userObject = jwt_decode(response.credential);
     console.log('userObject', userObject);
     setUser(userObject);
+    fetch(`${process.env.API_SERVER}/member-api/googleLogin`, {
+      method: 'POST',
+      body: JSON.stringify({ id_token: response.credential }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        console.log('data', data);
+        if (data.success) {
+          const obj = { ...data.data };
+          localStorage.setItem('petauth', JSON.stringify(obj));
+          console.log('l30-', obj.profile);
+          if (obj.profile) {
+            const photo = obj.profile;
+            localStorage.setItem(`${obj.id}photoUrl`, JSON.stringify(photo));
+            setPhoto(photo);
+          } else {
+            const photo = `${process.env.API_SERVER}/img/${memProfileImg}`;
+            localStorage.setItem(`${obj.id}photoUrl`, JSON.stringify(photo));
+            setPhoto(memProfileImg);
+          }
+          setAuth(obj);
+          router.push(fromPath2);
+        } else {
+          console.log('error');
+        }
+      });
   }
 
   /* global google */
@@ -101,9 +139,7 @@ export default function SignInForm({ handleSubmit }) {
           <div className={Styles.line}>
             <div className={Styles.lineText}>更多登入方式</div>
           </div>
-          <div className={Styles.google} id="signDiv">
-            <img src="/member-center-images/google.svg" alt="" />
-          </div>
+          <div className={Styles.google} id="signDiv"></div>
         </Form>
       </ConfigProvider>
     </>
