@@ -122,6 +122,7 @@ export default function List() {
       const newBrand = data.brand.map((v) => {
         return { ...v, checked: false };
       });
+
       setFilters({ ...filters, brand: newBrand });
       setCopyFilters(
         JSON.parse(JSON.stringify({ ...filters, brand: newBrand }))
@@ -675,6 +676,7 @@ export default function List() {
     localStorage.removeItem('petProductHistory');
   };
 
+ 
   return (
     <>
       {/* <div className="container-outer"> */}

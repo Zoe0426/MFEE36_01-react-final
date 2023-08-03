@@ -6,10 +6,10 @@ import Image from 'next/image';
 // import Link from 'next/link';
 import styles from '@/styles/shop.module.css';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
-import Head from 'next/head';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
+import CommentCard1 from '@/components/ui/restaurant/CommentCard';
 import NoCommentCard from '@/components/ui/cards/comment-card-no';
 import Likelist from '@/components/ui/like-list/LikeListDrawer';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
@@ -43,9 +43,9 @@ import {
 import {
   faFacebookSquare,
   faLine,
-  faSquareInstagram,
   faSquareTwitter,
 } from '@fortawesome/free-brands-svg-icons';
+import Xicon from '@/assets/X.svg';
 
 export default function Product() {
   const router = useRouter();
@@ -745,7 +745,6 @@ export default function Product() {
 
   return (
     <>
-    
       <div className="outer-container">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
@@ -866,8 +865,9 @@ export default function Product() {
                       handleLineShare('shareOnFB');
                     }}
                   />
-                  <FontAwesomeIcon
-                    icon={faSquareTwitter}
+                  <Image
+                    src={Xicon}
+                    alt="Xicon"
                     className={styles.twitter}
                     onClick={() => {
                       handleLineShare('shareOnTwitter');
@@ -1017,7 +1017,10 @@ export default function Product() {
                   />
                 )}
                 {successAddToCard && (
-                  <ModalWithoutBtn text="成功加入購物車!" img="success.svg" />
+                  <ModalWithoutBtn
+                    text="成功加入購物車!"
+                    img="/product-img/success.svg"
+                  />
                 )}
                 {!auth.token ? (
                   <Modal
@@ -1332,8 +1335,8 @@ export default function Product() {
               return (
                 display && (
                   <div className={styles.test} key={product_comment_sid}>
-                    <CommentCard
-                      member_sid={member_sid}
+                    <CommentCard1
+                      // member_sid={member_sid}
                       date={date}
                       rating={rating}
                       content={content}

@@ -401,9 +401,11 @@
   color:#1B74E4;
 }
 
-.share_icons svg.twitter{
-  /* color:#d72d82; */
-  color:#0598C5;
+ .twitter{
+  width: 28px;
+  height: 29px;
+  cursor: pointer;
+  margin: 0 var(--p8);
  }
 
 /*價格*/
