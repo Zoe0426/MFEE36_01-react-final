@@ -1,5 +1,5 @@
 .card {
-    width: 32%;
+    /* width: 32%; */
     /* height: 152px; */
     display: flex;
     margin-bottom: 1.5rem;
@@ -12,6 +12,11 @@
     border-radius: 50%;
     object-fit: cover;
   }
+/* 
+.user_default{
+border-radius: 50px;
+font-size: 50px;
+} */
   
   
 .content {

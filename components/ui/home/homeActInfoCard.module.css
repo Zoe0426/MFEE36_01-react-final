@@ -1,0 +1,40 @@
+.infoBox{
+    width: 50%;
+    padding-right: 1%;
+
+}
+.hsubtitle{
+    font-size: var(--h4fs24);
+    line-height: 28px;
+    padding: var(--p24) 0;
+    font-weight: bold;
+}
+.date{
+    font-size: var(--pfs16);
+    padding-left: 16px;
+}
+.hp{
+    font-size: var(--pfs16);
+    line-height: 20px;
+    margin-bottom: 20px;
+}
+
+.hhashes{
+    display: flex;
+    flex-wrap: wrap;
+    padding: var(--p32) 0;
+}
+.hhashes p{
+    margin-bottom: var(--p8);
+}
+@media screen and (max-width:575px){
+  .hsubtitle{
+        font-size: var(--pfs16);
+    }
+    .hsubtitle li{
+        font-size: var(--pfs16);
+    }
+      .hp{
+        font-size: var(--pfs14);
+    }
+}

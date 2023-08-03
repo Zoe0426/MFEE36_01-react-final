@@ -1,0 +1,43 @@
+.boardNav{
+  /* background-color:#F7ECE3; */
+  width:100%;
+  height:150px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  /* padding-left: 10px; */
+  margin: 0;
+}
+.author{
+  padding:10px 0 0 0;
+}
+.board{
+  padding:10px 15px 0 15px;
+}
+.boardBTM{
+  width:100%;
+  position: absolute;
+  top:455px;
+}
+.boardNavbar{
+  margin-bottom: 50px;
+}
+.boardRange{
+  width:950px;
+  height:100%;
+  overflow-y: hidden;
+  display:flex;
+  /* justify-content: center; */
+  /* margin-left:20px; */
+}
+.boardRange::-webkit-scrollbar{
+  display: none;
+}
+.nav{
+  /* width:1280px; */
+  height:100%;
+  display:flex;
+  justify-content: center;
+  z-index: 90;
+  
+}

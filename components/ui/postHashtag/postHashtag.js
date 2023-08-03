@@ -1,9 +1,9 @@
 import React from 'react';
 import Style from './postHashtag.module.css';
 
-export default function PostHashtag({ text = '' }) {
+export default function PostHashtag({ text = '' , clickHandler=()=>{}}) {
   return (
-    <div className={Style.body}>
+    <div onClick={clickHandler} className={Style.body}>
       <div className={Style.hashtag}>#{text}</div>
     </div>
   );

@@ -1,0 +1,40 @@
+{
+  "activity_type_sid": [
+    {
+      "id": 1,
+      "label": "主題派對",
+      "value": "1",
+      "checked": false
+    },
+    {
+      "id": 2,
+      "label": "在地活動",
+      "value": "2",
+      "checked": false
+    },
+    {
+      "id": 3,
+      "label": "市集展覽",
+      "value": "3",
+      "checked": false
+    },
+    {
+      "id": 4,
+      "label": "毛孩講座",
+      "value": "4",
+      "checked": false
+    },
+    {
+      "id": 5,
+      "label": "寵物學校",
+      "value": "5",
+      "checked": false
+    },
+    {
+      "id": 6,
+      "label": "願望列表",
+      "value": "6",
+      "checked": false
+    }
+  ]
+}

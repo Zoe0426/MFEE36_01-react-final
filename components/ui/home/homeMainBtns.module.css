@@ -1,0 +1,151 @@
+.box{
+    position: relative;
+    width: 100%;
+}
+.demo{
+    width: 100%;
+    visibility: hidden;
+}
+.cat{
+    position: absolute;
+    width: 15%;
+    left: 3%;
+    top:-43%;
+
+}
+.road{
+    position: absolute;
+    left: 0;
+    top:12%;
+    width: 100%;
+
+}
+.shopbg{
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    height:40%;
+    background-color: var(--light4);
+}
+
+.shopBtn, .actBtn, .resBtn, .forumBtn{
+    position: absolute;
+    width: 13%;
+    transition: all 0.3s;
+    cursor: pointer;
+    animation: float 5s ease-in-out infinite;
+}
+
+.shopBtn:hover, .actBtn:hover, .resBtn:hover, .forumBtn:hover{
+    width: 13.5%;
+}
+
+.shopBtn{
+    top: 8%;
+    left: 12%;
+        -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s;
+}
+.actBtn{
+    top: 43%;
+    left: 31%;
+        -webkit-animation-delay: 1.3s;
+        animation-delay: 1.3s;
+}
+.resBtn{
+    top: 19%;
+    left: 55%;
+        -webkit-animation-delay: 0.6s;
+          animation-delay: 0.6s;
+}
+.forumBtn{
+    top: 36%;
+    left: 75%;
+        -webkit-animation-delay: 2.6s;
+          animation-delay: 2.6s;
+}
+.light1{
+    position: absolute;
+    width: 1.2%;
+    top: 34%;
+    left: 25.5%;
+}
+.light2{
+    position: absolute;
+    width: 1.2%;
+    top: 53%;
+    left: 47.3%;
+}
+.light3{
+    position: absolute;
+    width: 1.2%;
+    top: 13%;
+    left: 68.3%;
+}
+.road1{
+    position: absolute;
+    width: 7.5%;
+    top:42%;
+    left:23%;
+}
+.road2{
+    position: absolute;
+    width: 13%;
+    top:48%;
+    left:44%;
+}
+.road3{
+    position: absolute;
+    width: 10%;
+    top:22%;
+    left:68%;
+}
+.road4{
+    position: absolute;
+    width: 10%;
+    top:61%;
+    left:83.5%;
+}
+.trees1{
+    position: absolute;
+    width: 4%;
+    top:8%;
+    left:7%;
+}
+.tree{
+    position: absolute;
+    width: 2%;
+    top:59%;
+    left:28%;
+}
+.dbtree{
+    position: absolute;
+    width: 2%;
+    top:66%;
+    left:54%;
+}
+.dbtree2{
+    position: absolute;
+    width: 2%;
+    top:46%;
+    left:91.5%;
+}
+.dog{
+    position: absolute;
+    width: 9%;
+    top:7%;
+    left:70%;
+    transform: scaleX(-1)rotate(-10deg);
+}
+@keyframes float {
+	0% {
+		transform: translatey(0%);
+	}
+	50% {
+		transform: translatey(-5%);
+	}
+	100% {
+		transform: translatey(0%);
+	}
+}
+

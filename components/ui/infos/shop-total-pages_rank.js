@@ -8,6 +8,7 @@ export default function ShopTotalPagesRank({
   onRankChange = () => {},
   orderBy = '',
   items = [],
+  searchText = [],
 }) {
   const menuProps = {
     items,
@@ -30,7 +31,9 @@ export default function ShopTotalPagesRank({
     >
       <div className={styles.total_pages_rank}>
         <div>
-          <h4>商品搜尋結果</h4>
+          <h4>{`${
+            searchText[1].text.split('/ ')[1].split('列表')[0]
+          }搜尋結果`}</h4>
           <p>( 共{totalItems}項商品 )</p>
         </div>
         <div className={styles.total_pages_order_title}>

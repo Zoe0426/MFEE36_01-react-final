@@ -16,6 +16,7 @@ export default function ProductFilter({
           colorText: 'rgb(81, 81, 81)',
           fontSize: 18,
           controlInteractiveSize: 18,
+          lineHeight: 1.8,
         },
       }}
     >

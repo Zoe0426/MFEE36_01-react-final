@@ -7,9 +7,9 @@ import wave from '@/assets/bgc02-wave.svg'
 export default function BGMNewDecoration() {
   return (
     <div className={styles.head_decoration}>
-      <Image src={wave} alt="" />
-      <Image src={flags} alt="" width={250} />
-      <Image src={flags} alt="" width={250} />
+      <Image src={wave} alt="wave" />
+      <Image src={flags} alt="flags" width={250} />
+      <Image src={flags} alt="flags" width={250} />
     </div>
   )
 }

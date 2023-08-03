@@ -8,9 +8,9 @@ import trees from '@/assets/trees.svg'
 export default function BGMiddleDecoration() {
   return (
     <div className={styles.head_decoration}>
-      <Image src={wave} alt="" />
-      <Image src={trees} alt="" />
-      <Image src={runningDog} alt="" />
+      <Image src={wave} alt="wave" />
+      <Image src={trees} alt="trees" />
+      <Image src={runningDog} alt="runningDog" />
     </div>
   )
 }

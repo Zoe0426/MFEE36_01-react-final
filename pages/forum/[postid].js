@@ -1,9 +1,11 @@
-import React from 'react'
-import Style from '@/styles/post.module.css'
+import React, {useEffect, useState, useContext} from 'react'
+import { useRouter } from 'next/router'
+import AuthContext from '@/context/AuthContext'
+import Style from '@/styles/postid.module.css'
 import PostBanner from '@/components/ui/postBanner/postBanner'
 import BoardNav from '@/components/ui/BoardNav/boardNav'
 import PostArticle from '@/components/ui/postArticle/postArticle';
-import PostHashtag from '@/components/ui/postHashtag/postHashtag';
+import PostHashtag from '@/components/ui/postHashtag/postHashtag'
 import PostArticleContent from '@/components/ui/postArticleContent/postArticleContent';
 import PostImg from '@/components/ui/postImg/postImg';
 import PostCommentBtn from '@/components/ui/postCommentBtn/postCommentBtn';
@@ -11,15 +13,92 @@ import PostComment from '@/components/ui/postComment/postComment';
 import PostCommentLaunch from '@/components/ui/postCommentLaunch/postCommentLaunch';
 import PostBottom from '@/components/ui/postBottom/postBottom';
 
+
 export default function Post() {
-  const images = [
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    '/forum_img/狗活動.jpeg',
-    
-  ];
+  const router = useRouter();
+  const { pathname } = router; //看路徑
+  const {query} = router; 
+  // console.log("query",query);
+  // console.log("pathname",pathname);
+  const postid = router.query.postid; 
+  const [data, setData] =useState({
+    postData:[],
+    hashtagData:[],
+    commentData:[],
+    imgData:[]
+  })
+  
+
+
+  // 文章
+  const [postData, setPostData] = useState([]);
+  // 話題
+  const [hashtagData, setHashtagData] = useState([]);
+  // 留言
+  const [commentData, setCommentData] = useState([]);
+  // 圖片
+  const [imgData, setImgData] = useState([]);
+
+  // 按讚
+  const [isLiked, setIsLiked] = useState(false);
+  // 收藏
+  const [Fav, setFav] = useState(false);
+  // 登入狀態
+  const { auth, setAuth } = useContext(AuthContext);
+
+
+
+  const fetchData = async (postid) => {
+    try {
+      const response = await fetch(`${process.env.API_SERVER}/forum-api/${postid}`, { method: "GET" });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+  
+      // 從回傳的 data 物件中取得 postData、hashtagData 和 commentData，然後設定到對應的狀態
+      setPostData(data.newData || []); //因為在node文章資料是叫data
+      setHashtagData(data.tagData || []); //因為在node hashtag資料是叫tagData
+      setCommentData(data.newCommentData || []);
+      console.log(commentData);
+      const newImgData = data.imgData.map(v=>v.file)
+      setImgData(newImgData || []);
+  
+      console.log('postData', data.newData);
+      console.log('hashtagData', data.tagData);
+      console.log('commentData', data.newCommentData);
+      console.log('newImgData', newImgData);
+  
+      console.log(postid);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  
+  useEffect(()=>{
+    if (postid){
+      fetchData(postid);
+    }
+    }, [postid]); // Fetch data when the post ID changes
+
+
+
+  useEffect(()=>{
+    console.log(auth);
+
+  if(auth.id){
+    fetch(`${process.env.API_SERVER}/forum-api/forum/favStatus?post_sid=${postid}&member_sid=${auth.id}`, {
+      headers: {
+        Authorization: 'Bearer ' + auth.token,
+      },
+    }).then((r) => r.json())
+    .then((data)=>{
+      data.length==0 ? setFav(false):setFav(true)
+      console.log('data',data);
+
+    })
+  }
+  },[auth]);
 
   return (
     <div className="container-outer">
@@ -28,43 +107,57 @@ export default function Post() {
             <BoardNav/>
             <div className={Style.postAll}>
               <div className="container-inner">
-                  <PostArticle className={Style.title} navTitle='＃分享 新北寵物友善餐廳' profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' author='莉莉安' id='@lilian' postTitle='＃分享 新北寵物友善餐廳' boardImg='/forum_img/boardrest.png' board='友善餐廳版' time='1月26日 0:53（已編輯）'/>
-                  <div className={Style.hashtag}>
-                    <PostHashtag text='寵物友善'/>
-                    <PostHashtag text='新北市'/>                
-                    <PostHashtag text='友善餐廳'/>                
-                  </div>
-                  <div className={Style.postImg}>
-                    <PostImg images={images}/>
-                  </div>
-                  <div className={Style.content}>
-                    <PostArticleContent postContent='歡迎來到新北，一個寵物愛護者的天堂！這裡有一個令人興奮的消息，我們為您帶來一系列寵物友善餐廳，讓您可以與您的毛孩一同享受美食之旅。
-                    新北寵物友善餐廳致力於提供舒適和融洽的用餐環境，讓您的寵物成為餐桌上的特別客人。這些餐廳以寬敞的戶外座位區域、特製的寵物菜單和友善的服務精神而聞名。
-                    當您踏進這些寵物友善餐廳時，您將感受到親切的氛圍和對寵物的熱愛。餐廳內的設施特別為您的寵物而設計，包括寵物用水槽、專屬的寵物區域和友善的寵物服務團隊。您的寵物會感受到與您一同用餐的喜悅，並與其他毛孩交流。
-                    這些餐廳的菜單特別為您的寵物提供各種美味的選擇。無論是狗狗還是貓貓，他們都能享受到專為他們準備的健康和美味的餐點。從精緻的狗狗骨頭到口水直流的貓咪魚肉湯，這些餐廳將為您的寵物提供各種口味和選擇，滿足他們的味蕾。
-                    無論是在日常用餐、慶祝特殊場合還是與朋友聚餐，新北寵物友善餐廳都能滿足您的需求。您和您的寵物可以一起享受美食、品味美酒，並在溫馨的氛圍中度過寶貴的時光。' likes='133' comments='200'/>
-                  </div>
+              {postData.map((v,i)=>(
+                <PostArticle key={v.post_sid} className={Style.title} 
+                navTitle={v.post_title} 
+                profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' 
+                // profile={v.profile} 
+                author={v.nickname} 
+                id= {`@${v.member_ID}`} // 在這裡添加@符號
+                postTitle= {v.post_title}
+                boardImg= {v.board_img}
+                board={v.board_name} 
+                time={v.post_date}/>        
+                ))}
+                <div className={Style.hashtag}>
+                {hashtagData.map((v,i)=>(
+                  <PostHashtag text={v.hashtag_name}/>
+                ))}
+              
+              </div>
+                <div className={Style.postImg}>
+
+                  <PostImg images={imgData}/>
+                </div>
+                <div className={Style.content}>
+                {postData.map((v,i)=>(
+                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid} memberId={auth.id}/>
+                ))}
+                </div>
 
 
-                  <div className={Style.commentBlock}>
-                    <div className={Style.commentBTN}>
-                      <PostCommentBtn text="由舊至新" bc='white'/>
-                      <PostCommentBtn text="由舊至新" bc='var(--secondary)'/>
-                    </div>
-                    <div className={Style.commentNum}>共 200 則留言</div>
-                    <div className={Style.line}>
-                      <img className={Style.commentLine} src='/forum_img/commentLine.png'/>
-                    </div>
-                    <div className={Style.comments}>
-                      <PostComment profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' author='狗狗世家' comment='看起來很不錯耶！謝謝原po推薦！' floor='B1' date='一天前' moreComments='6'/>
-                      <PostComment profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' author='哈嚕屁屁' comment='推推！原po好人一生平安！' floor='B2' date='10小時前' moreComments='4'/>
-                      <PostComment profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' author='狗狗世家' comment='看起來很不錯耶！謝謝原po推薦！' floor='B1' date='一天前' moreComments='6'/>
-                      <PostComment profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' author='哈嚕屁屁' comment='推推！原po好人一生平安！' floor='B2' date='10小時前' moreComments='4'/>
-                    </div>
-                  </div>
+                <div className={Style.commentBlock}>
                   <div className={Style.PostCommentLaunch}>
-                    <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg'/>
+                  <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
+                </div>
+                  <div className={Style.commentBTN}>
+                    <PostCommentBtn text="由舊至新" bc='white'/>
+                    <PostCommentBtn text="由舊至新" bc='var(--secondary)'/>
                   </div>
+                  {postData.map((v,i)=>(
+                    <div className={Style.commentNum}>{`共 ${v.postComment} 則留言`}</div>
+                  ))}
+
+                  <div className={Style.line}>
+                    <img className={Style.commentLine} src='/forum_img/commentLine.png'/>
+                  </div>
+                  <div className={Style.comments}>
+                  {commentData.map((v,i)=>(
+                    <PostComment profile={v.profile} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
+                  ))}
+                  </div>
+                </div>
+
                   
               </div>
             </div>

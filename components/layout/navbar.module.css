@@ -8,14 +8,13 @@
   background-color: var(--light2);
   box-shadow: var(--shadow);
 }
-
-/* 根據classTitle傳入參數決定rwd順序 */
-.bigNone{
-  display: none;
+.homeHeader {
+  width: 100%;
+  padding-top: var(--p24);
+  padding-bottom: var(--p16);
 }
 
 .navbar {
-  /* border: 1px solid purple; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24,7 +23,13 @@
   padding: 10px;
   margin: 0 auto;
 }
-
+.homeNavbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  margin: 0 auto;
+}
 .logoMenu {
   display: flex;
   min-width: 100px;
@@ -33,6 +38,9 @@
 
 .logo{
   width: 85px;
+}
+.homeLogo{
+  width: 100px;
 }
 
 .linkMenu{
@@ -70,8 +78,8 @@
 }
 
 .link:hover{
-  background-color: var(--lightBrown);
   font-size: 20px;
+  font-weight: bold;
 }
 
 .iconMenu {
@@ -79,9 +87,100 @@
   min-width: 115px;
   width: 15%;
   justify-content: flex-end;
-  /* border: 1px solid green; */
+
 }
 
+.cartBtn{
+  position: relative;
+  /* border: 1px solid green; */
+  margin-right: 1rem;
+  border-radius: 50%;
+}
+.cartItemNum{
+  position: absolute;
+  bottom: 0;
+  left: 25px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--heartRed); 
+  cursor: pointer;
+}
+.cartItemNum p{
+  line-height: 20px;
+  text-align: center;
+  width: 21px;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+.alertbox{
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background-color: var(--light1);
+  border-radius: var(--br10);
+  width: 150px;
+  padding: var(--p16);
+  padding-right: var(--p8);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.alertbox p{
+  cursor: pointer;
+  font-size: var(--pfs16);
+  z-index: 100;
+}
+.alertbox p:hover{
+  color: var(--dark);
+  font-weight: bold;
+}
+
+.memBtn{
+  position: relative;
+  border-radius: 50%;
+
+}
+.profileBtn{
+  border-radius: 50%;
+}
+.profileImg{
+  width: 40px; 
+  height: 40px; 
+  border-radius: 50%;
+  border: 1px solid var(--secondary);
+}
+.memList{
+  z-index: 100;
+  position: absolute;
+  right: 0;
+  top: 45px;
+  background-color: var(--light1);
+  border-radius: var(--br10);
+  width: 110px;
+  padding: var(--p16);
+  box-shadow: var(--shadow);
+}
+.memListBtn{
+  font-size: var(--pfs16);
+  color: var(--gray);
+}
+.memListBtn:hover{
+  color: var(--dark);
+  font-weight: bold;
+}
+.memListBtn:not(:last-child){
+  padding-bottom: var(--p8);
+  border-bottom: 1px solid var(--light-gray);
+  cursor: pointer;
+}
+.memListBtn:not(:first-child){
+  margin-top: var(--p8);
+  cursor: pointer;
+}
 .navbarToggler{
   display: none;
 }
@@ -90,18 +189,23 @@
   .header{
     padding-bottom: 0;
   }
-
-  .bigNone{
-    display: block;
+  .homeHeader{
+    padding-bottom: 0;
   }
-
   .navbar {
     justify-content: space-between;
     padding: 10px;
     width: 100%;
   }
-
+  .homeNavbar {
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+  }
   .logo{
+    width: 60px;
+  }
+  .homeLogo{
     width: 60px;
   }
 
@@ -119,8 +223,8 @@
   .linkMenu {
     position: fixed;
     display: block;
-    top: 10px;
-    left: -100%;
+    top: -100%;
+    left: 0;
     margin-top: 65px;
     width: 100%;
     background-color: var(--light2);
@@ -167,7 +271,6 @@
     bottom: 5px;
   }
 
-
   .line,
   .line::before,
   .line::after {
@@ -185,5 +288,34 @@
   .line.active::before {
     transform: rotate(90deg);
     top: 0;
+  }
+
+  .cartBtn{
+  margin-right: 0.7rem;
+  }
+
+  .cartItemNum{
+    position: absolute;
+    bottom: -3px;
+    left: 25px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--heartRed); 
+    cursor: pointer;
+  }
+  .cartItemNum p{
+    line-height: 14px;
+    text-align: center;
+    width: 16px;
+    font-size: 8px;
+    font-weight: bold;
+    color: white;
+    /* pointer-events: none; */
+    cursor: pointer;
+  }
+  .profileImg{
+    width: 30px; 
+    height: 30px; 
   }
 }

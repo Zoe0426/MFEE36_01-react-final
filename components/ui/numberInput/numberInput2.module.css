@@ -1,0 +1,96 @@
+.numInputBlock {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-radius: var(--br8);
+  font-size: var(--pfs16);
+  background-color: transparent;
+  border: 1px solid var(--gray);
+  overflow: hidden;
+  text-align: center;
+}
+.alert_input {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-radius: var(--br8);
+  font-size: var(--pfs16);
+  background-color: transparent;
+  border: 1px solid red;
+  overflow: hidden;
+  text-align: center;
+}
+
+.title {
+  margin-right: 6px;
+}
+.title_area {
+  display: flex;
+  padding-bottom: 4px;
+}
+.disable {
+  padding: 0 var(--p16);
+  border: none;
+  font-size: var(--h6fs18);
+  background-color: var(--light-gray);
+  transition: 0.3s;
+  color: var(--dark-gray);
+  border-left: 1px solid var(--gray);
+}
+
+.minusBtn,
+.addBtn {
+  padding: 0 var(--p16);
+  border: none;
+  font-size: var(--h6fs18);
+  background-color: transparent;
+  transition: 0.3s;
+  color: var(--dark-gray);
+}
+.exceedingMessage {
+  color: red;
+  padding-top: 4px;
+  padding-left: 4px;
+}
+.alert_icon {
+  margin-right: 4px;
+}
+.minusBtn {
+  border-right: 1px solid var(--gray);
+}
+
+.addBtn {
+  border-left: 1px solid var(--gray);
+}
+
+.addBtn:hover,
+.minusBtn:hover {
+  /* color: var(--main); */
+  background-color: var(--light-gray);
+  cursor: pointer;
+}
+
+.input {
+  width: 100%;
+  /* min-width: 30px; */
+  height: 40px;
+  text-align: center;
+  border: none;
+  outline: none;
+  font-size: var(--pfs16);
+  color: var(--dark-gray);
+  background-color: transparent;
+}
+
+.no_input {
+  width: 100%;
+  /* min-width: 30px; */
+  height: 40px;
+  text-align: center;
+  border: none;
+  outline: none;
+  font-size: var(--pfs16);
+  color: var(--dark-gray);
+  background-color: transparent;
+  border: 1px solid red;
+}

@@ -1,0 +1,98 @@
+.card {
+    display: flex;
+    height:120px;
+    align-items: center;
+    padding: var(--p16);
+    border-bottom: 0.5px solid var(--light-gray);
+    /* margin-bottom: 34px; */
+  }
+
+    /*垃圾桶*/
+    .trash_icon{
+      font-size:var(--h5fs20) ;
+      color:var(--light-gray);
+      margin-right: var(--p16);
+    }
+  
+    .trash_icon:hover{
+      color:var(--gray);
+      cursor: pointer;
+    }
+  
+  /* -------左邊------- */
+  .left {
+    width: 40%;
+  }
+  
+  .image {
+    border-radius: var(--br10);
+    width: 100%;
+    object-fit: cover;
+    height:100px;
+  }
+  
+  
+  .text {
+    font-size: var(--pfs14);
+    color: white;
+  }
+  
+  .icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    background-color: #000000;
+  }
+  
+  /* -------右邊------- */
+  .right {
+    width: 90%;
+    margin-left: 1rem; /*左右間距*/
+    /* display: flex;
+    flex-direction: column; */
+    justify-content: space-between;
+  }
+  
+  .row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  /* 標題 */
+  .rowTextTitle {
+    font-weight: var(--fwbold);
+    margin-right: 8px;
+    color: var(--dark);
+    font-size: var(--h6fs18);
+  }
+
+  
+  /* 地址 */
+  .rowTextAddress {
+    color: var(--gray);
+  }
+
+  
+  .row_icon {
+    margin-right:5px;
+    font-size: var(--pfs14);
+    color: var(--main);
+  }
+  
+  .feature {
+    width: 130px;
+    height: 40px;
+    background-color: #FFD4C0;
+    color: #515151;
+    margin-right: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .row_price{
+    font-size: var(--pfs16);
+    color: var(--dark);
+  }

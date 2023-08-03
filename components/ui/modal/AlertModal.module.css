@@ -1,0 +1,102 @@
+.overlay {
+  z-index: 999;
+  background: rgba(49, 49, 49, 0.6);
+}
+.modal {
+  z-index: 9999;
+  font-size: var(--pfs16);
+}
+.modal,
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+.edit{
+    color: var(--gray);
+    cursor: pointer;
+}
+.edit:hover{
+    color: var(--dark-gray);
+}
+.modal_card {
+  position: absolute;
+  width: 45%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1.4;
+  background: #ffffff;
+  padding: 14px 0 0 0;
+  border-radius: 10px;
+  max-width: 450px;
+  min-width: 300px;
+  overflow: hidden;
+}
+
+.modal_title {
+  font-size: var(--h5fs20);
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgb(203, 203, 203);
+
+}
+.modal_content{
+  padding: var(--p16);
+  position: relative;
+}
+
+.modal_button{
+position: absolute;
+top: 10px;
+right: 20px;
+}
+
+.line {
+  height: 1px;
+  border-bottom: 1px solid rgb(203, 203, 203);
+}
+
+.modal_colse{
+  position: absolute;
+  right: 10px;
+}
+
+.badge{
+  margin-right: 5px;
+}
+
+.reviewContent{
+  padding: var(--p16);
+  background-color: var(--light1);
+  
+}
+
+.btns{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.secondaryBtn{
+  margin-right: 10px;
+}
+
+
+@media screen and (max-width: 767px) {
+  .modal_card {
+    width: 80%;
+    top: 48%;
+    max-width: 600px;
+    min-width: 350px;
+  }
+  .modal_title {
+    font-size: var(--h6fs18);
+    padding-bottom: 12px;
+  }
+  
+}

@@ -3,12 +3,14 @@
     --main: #FD8C46;
     --secondary: #FFD4C0;
     /* /圓btn, paginationHover */
-    --dark: #5f231B;
+    --dark: #5f231b;
     --flag:#F1C476;
     --lightBrown: #F7ECE3; /* 咖啡背景色 */
     --light1: #FFEFE8;/* footer背景色 */
-    --light2: #FFFAF6;/* 主背景色 */
+    --light2: #fffaf6;/* 主背景色 */
     --light3:#FFE8D6;/* 論壇背景色 */
+    --light4:#fAF7f4;/*首頁商城背景*/
+    --light5:#F7F0EB;/*首頁餐廳背景*/
     --light-gray:#DDDDDD;
     --gray:#909090;
     --dark-gray: #515151;
@@ -79,7 +81,7 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-  color: var(--dark-gray);
+  /* color: var(--dark-gray); */
 	vertical-align: baseline;
   box-sizing: border-box;
 }
@@ -89,6 +91,7 @@ h1, h2, h3, h4, h5, h6{
 
 a:hover,a:link,a:visited,a:active{
   color: var(--dark-gray);
+  text-decoration: none;
 }
 
 
@@ -105,8 +108,6 @@ body {
   letter-spacing: 1px;
   font-size: 16px;
 }
-
-
 
 ol, ul {
   list-style: none;
@@ -129,6 +130,11 @@ body{
   background-color: var(--light2);
 }
 
+.likeList-open{
+  overflow: hidden;
+  padding-right: 16px;
+}
+
 .container-outer{
 	min-height: 100%;
 	position: relative;
@@ -140,18 +146,23 @@ body{
 
 .container-inner{
     max-width: 1280px;
-    /* border: 1px solid purple; */
     margin: auto;
 }
-
-
-
-
-/* ---------------- */
-
-.order{
-  height: 1200px;
+/* -------------------- */
+.background{
+  width: 100%;
+  height: 780px; 
+  background-image: url("/pet_game/background.png");  
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: 50% 50%;
 }
+
+.pet{
+  position: absolute;
+  transition: all 1s ease-out;
+}
+
 
 /* -------------------- */
 
@@ -166,5 +177,6 @@ body{
 .container-inner{
     width: 85%;
 }
+
 } 
 

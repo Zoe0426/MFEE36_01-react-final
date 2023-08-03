@@ -1,12 +1,11 @@
 .main{
   width: 100%;
   margin-top: 65px;
-  padding-bottom: 150px;
-  border: 1px solid red;
+  padding-bottom: 100px;
 }
 
 @media screen and (max-width:768px){
   .main{
-    padding-bottom: 85px;
+    padding-bottom: 45px;
   }
 }

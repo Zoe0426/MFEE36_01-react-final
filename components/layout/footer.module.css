@@ -2,12 +2,10 @@
   position: absolute;
 	bottom: 0;
   width: 100%;
-  padding: 0 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 150px;
-  background-color: var(--light1);
+  height: 160px;
 }
 
 /* 根據classTitle傳入參數決定rwd順序 */
@@ -18,9 +16,22 @@
 .smNone{
   display: block;
 }
+.footerbg{
 
+  position:absolute;
+  top:0;
+}
 .footerInfo{
+  transform: translateY(15px);
+  padding: 0 10px;
   width: 1280px;
+  z-index: 1;
+}
+.homeFooterInfo{
+  transform: translateY(15px);
+  width: 85%;
+  z-index: 1;
+  padding: 0 10px;
 }
 
 .logoInfo{
@@ -28,15 +39,15 @@
   justify-content: space-between;
   align-items: center;
 } 
-
 .logo{
+  transform: translateY(10px);
   width: 100px;
+  cursor: pointer;
 }
 
 .linkMenu{
   display: flex;
   width: 300px;
-  /* flex-grow: 1; */
 }
 
 .linkItem {
@@ -46,8 +57,6 @@
   justify-content: right;
   align-items: center;
 }
-
-
 
 .linkMenu a {
   text-decoration: none;
@@ -73,7 +82,7 @@
 
 @media only screen and (max-width: 767px){
   .footer{
-    height: 85px;
+    height: 100px;
   }
 
   .bigNone{
@@ -89,6 +98,7 @@
 
   .footerInfo{
     width: 100%;
+    padding: 0 10px;
   }
 
   .linkItem {
@@ -96,7 +106,8 @@
   }
 
   .logo{
-    width: 60px;
+    width: 50px;
+    transform: translateY(8px);
   }
 
   .copyRight p{

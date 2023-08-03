@@ -8,9 +8,9 @@ import trees from '@/assets/trees.svg';
 export default function BGRecomandDecoration() {
   return (
     <div className={styles.head_decoration}>
-      <Image src={wave} alt="" />
-      <Image src={trees} alt="" />
-      <Image src={StretchDog} alt="" />
+      <Image src={wave} alt="wave" />
+      <Image src={trees} alt="trees" />
+      <Image src={StretchDog} alt="StretchDog" />
     </div>
   );
 }

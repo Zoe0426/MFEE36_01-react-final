@@ -12,7 +12,11 @@ export default function IconMainBtn({
   return (
     <>
       <button className={Styles.icon_btn} onClick={clickHandler}>
-        <FontAwesomeIcon icon={icon} className={Styles.icon} />
+        <FontAwesomeIcon
+          icon={icon}
+          className={Styles.icon}
+          style={{ maxWidth: '18px', maxHeight: '18px' }}
+        />
         {text}
       </button>
     </>

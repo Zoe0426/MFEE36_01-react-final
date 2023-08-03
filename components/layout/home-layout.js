@@ -1,13 +1,13 @@
-import HomeNavbar from './home-navbar';
+import Navbar from './navbar';
 import Footer from './footer';
-
+import Styles from './home-layout.module.css';
 export default function HomeLayout({ children }) {
   return (
     <>
       <div className="container-outer">
-        <HomeNavbar />
-        <main>{children}</main>
-        <Footer />
+        <Navbar type="home" />
+        <main className={Styles.main}>{children}</main>
+        <Footer type="home" />
       </div>
     </>
   );

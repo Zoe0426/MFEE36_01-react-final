@@ -11,6 +11,7 @@
 }
 .feature_card{
     display: flex;
+    height: 400px;
     background-color: white;
     border-radius: var(--br10);
     align-items: center;
@@ -18,27 +19,35 @@
 }
 
 .feature_card img{
-    width: 100%;
     border-radius: var(--br10);
     background-color: var(--lightBrown);
+    position: absolute; 
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
 }
 .feature_info{
-    width: 100%;
-    padding: 0 var(--p24);
+    width: 90%;
+    padding: 0 36px;
 }
 
 .feature_decorate{
-    width: 100%;
+    position: relative;
+    width: 80%;
+    height: 400px;
     border-radius: var(--br10);
     background-color: var(--secondary);
     border-radius: 12px;
     border-bottom: 6px solid var(--secondary);
     border-right: 8px solid var(--secondary);
 }
-
 .activity_date{
     display: flex;
-    color: var(--dark);
+    margin-bottom: 12px;
+    margin-top: 4px;
+}
+.jill_h3{
+    color: #5f231B;
     font-weight: var(--fwbold);
     margin-bottom: 20px;
 }
@@ -47,9 +56,12 @@
     .feature_decorate{
         border-radius: var(--br10);
         background-color: transparent;
-        border: none
+        border: none;
+        width: 100%;
     }
+    
     .feature_info{
+        width: 100%;
         padding: 0;
     }
     .feature_card{
@@ -59,5 +71,14 @@
     .jill_h2{
         margin-top: 20px;
         font-size: var( --h6fs18);
+    }
+    .jill_h3{
+        padding: 0;
+    }
+    .activity_date{
+        flex-direction: column;
+    }
+    .information{
+        margin-bottom: 0px;
     }
     }

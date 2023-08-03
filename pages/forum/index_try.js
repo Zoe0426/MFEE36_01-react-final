@@ -10,7 +10,7 @@ export default function Post() {
   const [data, setData] = useState([]);
   const [lateD, setlateD] = useState([]);
   const fetchData = async()=>{
-    const response = await fetch ('http://localhost:3002/forum-api', {method:"GET"});
+    const response = await fetch ('http://localhost:3002/forum-api/index_try', {method:"GET"});
     const forumData = await response.json();
     setForumData(forumData);
     setData(forumData); //在 fetchData 函式中，將獲取的數據存入了 forumData 狀態變數，同時也將數據存入了 data 狀態變數

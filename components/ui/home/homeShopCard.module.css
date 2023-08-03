@@ -1,0 +1,115 @@
+/* ====SHOPCARD==== */
+.hsCard{
+    margin-top: 20px;
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    width: 31%;
+    border-radius: var(--br20);
+    background-color: white;
+    margin-bottom: 16px;
+    border: 1px solid #ac7d77;
+    transition: all .3s;
+    cursor: pointer;
+}
+.hsCard:hover{
+    transform: scale(1.02);
+    box-shadow: var(--shadow);
+}
+.hsroof{
+    width: 100%;
+    position: absolute;
+    top: -10%;
+}
+.hsimg{
+    width: 70%;
+    margin-top: 10px;
+}
+
+.hslabel{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: var(--light1);
+}
+.hstype{
+    width: 35%;
+    background-color: var(--light1);
+    text-align: center;
+    font-size: var(--pfs14);
+    padding: var(--p8) 0;
+}
+.hssale{
+    flex-grow: 1;
+    background-color: var(--main);
+    text-align: center;
+    font-size: var(--pfs16);
+    font-weight: bold;
+    color: white;
+    border-radius: 28px 0 0 0;
+    width: 60%;
+    padding: var(--p8) 0;
+    
+}
+
+.hscardbody{
+    padding: var(--p8);
+    font-size: 16px;
+    line-height: 18px;
+}
+.namebox{
+    padding: 0 var(--p8);
+}
+.hsprodname{
+    font-size: var(--pfs16);
+    font-weight: bold;
+    line-height: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+     overflow: hidden;
+}
+.hsprodprice{
+    color: var(--main);
+    font-weight: bold;
+    text-align:end;
+    padding-top: 8px;
+}
+
+.hsCard:nth-child(2),
+.hsCard:nth-child(5){
+    margin-top: 20px;
+}
+
+@media screen and (max-width:1200px){
+.hsCard{
+    width: 47%;
+}
+
+
+}
+@media screen and (max-width:767px) {
+   .hsimg{
+    width: 65%;
+  } 
+
+}
+
+@media screen and (max-width:575px){
+    .hssale{
+        font-size: var(--pfs14);
+    }
+    .hstype{
+        font-size: var(--pfs14);
+    }
+    .hsprodprice{
+        font-size: var(--pfs14);
+    }
+    .hsprodname{
+        font-size: var(--pfs14);
+    }
+    .hstype{
+        font-size: 13px;
+    }
+}
