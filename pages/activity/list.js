@@ -784,7 +784,7 @@ export default function ActivityMain() {
                 type_name,
                 activity_pic,
                 name,
-                avg_star,
+                avg_rating,
                 recent_date,
                 farthest_date,
                 time,
@@ -804,7 +804,7 @@ export default function ActivityMain() {
                     type={type_name}
                     image={'/activity_img/' + activity_pic.split(',')[0]}
                     title={name}
-                    rating={avg_star}
+                    rating={avg_rating}
                     date_begin={recent_date}
                     date_end={farthest_date}
                     time={time}

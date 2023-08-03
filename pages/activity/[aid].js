@@ -337,7 +337,7 @@ export default function ActivityDetail() {
               <div className={styles.review}>
                 <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
                 <p className={styles.row_text_medium}>
-                  {actDetailRows.avg_star}
+                  {actDetailRows.avg_rating}
                 </p>
               </div>
 
@@ -643,6 +643,14 @@ export default function ActivityDetail() {
         <div className={styles.content}>
           <div ref={targetRef4}>
             <p className={styles.subtitle}>顧客評價：</p>
+            <div className={styles.review}>
+                <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
+                <p className={styles.row_text_medium}>
+                  {actDetailRows.avg_rating}
+                </p>
+                 <p className={styles.row_text_small}>(共{actDetailRows.rating_count}則評價)</p>
+              </div>
+           
 
             <div className={styles.comment_cards}>
               {actRatingRows &&
@@ -687,7 +695,7 @@ export default function ActivityDetail() {
                   type_name,
                   activity_pic,
                   name,
-                  avg_star,
+                  avg_rating,
                   recent_date,
                   farthest_date,
                   time,
@@ -705,7 +713,7 @@ export default function ActivityDetail() {
                     type={type_name}
                     image={'/activity_img/' + activity_pic.split(',')[0]}
                     title={name}
-                    rating={avg_star}
+                    rating={avg_rating}
                     date_begin={recent_date}
                     date_end={farthest_date}
                     time={time}

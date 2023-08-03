@@ -11,6 +11,7 @@ import styles from './ActivityCard1.module.css';
 import ActivityFeature from './ActivityFeature';
 import { Row } from 'antd';
 import Link from 'next/link';
+import RateStarPill from '../rateStar/RateStarPill';
 
 const ActivityCard1 = ({
   activity_sid = '', //link要用
@@ -81,8 +82,7 @@ const ActivityCard1 = ({
               <p className={styles.rowTextLarge}>{title}</p>
             </div>
             <div className={styles.review}>
-              <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
-              <p className={styles.rowTextLarge}>{rating}</p>
+            {rating && <RateStarPill score={rating} />}
             </div>
           </div>
 

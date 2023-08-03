@@ -13,6 +13,7 @@ import { Row, Col } from 'antd';
 import Link from 'next/link';
 import Modal from '@/components/ui/modal/modal';
 import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import RateStarPill from '../rateStar/RateStarPill';
 
 const ActivityCard4 = ({
   activity_sid = '', //link要用的
@@ -95,8 +96,7 @@ const ActivityCard4 = ({
                 <p className={styles.rowTextLarge}>{title}</p>
               </div>
               <div className={styles.review}>
-                <FontAwesomeIcon icon={faStar} className={styles.star_icon} />
-                <p className={styles.rowTextLarge}>{rating}</p>
+              {rating && <RateStarPill score={rating} />}
               </div>
             </div>
 
