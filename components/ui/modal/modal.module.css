@@ -5,6 +5,9 @@
 .modal {
   z-index: 9999;
   font-size: var(--pfs16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .modal,
 .overlay {
@@ -16,6 +19,7 @@
   bottom: 0;
   position: fixed;
 }
+
 .edit{
     color: var(--gray);
     cursor: pointer;
@@ -24,11 +28,11 @@
     color: var(--dark-gray);
 }
 .modal_card {
-  position: absolute;
+  /* position: absolute; */
   width: 60%;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* top: 40%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
   line-height: 1.4;
   background: #ffffff;
   padding: 14px 0;
@@ -64,6 +68,8 @@
 }
 .modal_content{
     padding: var(--p16);
+    overflow-y: auto;
+    max-height: 60vh;
 }
 .line {
   height: 1px;

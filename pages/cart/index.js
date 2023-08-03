@@ -11,7 +11,7 @@ import CartTab from '@/components/ui/cart/cartTab';
 import CartPostInfo from '@/components/ui/cart/cartpostinfo';
 import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
 import CartCouponList from '@/components/ui/cart/cartCouponList';
-//import CartAddressList from '@/components/ui/cart/cartAddressList';
+import CartAddressList from '@/components/ui/cart/cartAddressList';
 import Modal from '@/components/ui/modal/modal';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
@@ -203,7 +203,7 @@ export default function Cart() {
 
   //console.log(cartData);
   //console.log(paymentType);
-  //console.log({ checkoutType });
+  console.log({ postAddData });
 
   if (pageLoading) {
     return <Loading />;
@@ -337,14 +337,14 @@ export default function Cart() {
                   <Modal
                     btnType="text"
                     btnText="變更收件地址"
-                    title="選擇優惠券"
+                    title="選擇/新增收件地址"
                     confirmHandler={selectAddress}
-                    //content={
-                    // <CartAddressList
-                    //   couponData={couponData}
-                    //   setChosenAddress={setPostAddData}
-                    // />
-                    //}
+                    content={
+                      <CartAddressList
+                        postAddData={postAddData}
+                        setPostAddData={setPostAddData}
+                      />
+                    }
                   />
                 </div>
               </div>

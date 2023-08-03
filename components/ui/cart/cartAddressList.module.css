@@ -2,7 +2,6 @@
   display:block;
 
 }
-
 .radioGroup label{
   display:flex;
 }
@@ -11,4 +10,56 @@
 }
 .radioGroup label span:last-child{
   flex-grow: 1;
+}
+.tabs{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 90%;
+  height: 50px;
+  border-bottom: 2px solid var(--light3);
+  margin: 0 auto;
+  margin-bottom: 16px;
+}
+.postTypeTab{
+  height: 102%;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  padding: var(--p8) 0 var(--p16) 0;
+  cursor: pointer;
+  transition: all .3s;
+}
+.postTypeTabSelected{
+  height: 102%;
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  padding: var(--p8) 0 var(--p16) 0;
+  cursor: pointer;
+  transition: all .3s;
+  border-bottom: 3px solid var(--main);
+}
+.postTypeTab:hover{
+  border-bottom: 3px solid var(--main);
+}
+.postTypeTab img{
+  height: 24px;
+}
+.postTypeTabSelected img{
+  height: 24px;
+}
+@media screen and (max-width:576px){
+.postTypeTab img{
+  height: 18px;
+}
+.postTypeTabSelected img{
+  height: 18px;
+}
+.tabs{
+  margin-bottom: var(--p8);
+  /* border: 1px solid gray; */
+  height: 40px;
+}
+
 }
