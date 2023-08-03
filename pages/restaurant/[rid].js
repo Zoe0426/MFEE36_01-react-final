@@ -51,6 +51,7 @@ import CommentCard1 from '@/components/ui/restaurant/CommentCard';
 import Xicon from '@/assets/X.svg';
 import Success from '@/components/ui/restaurant/Success';
 import GoogleMap from '@/assets/GoogleMaps.svg';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
 export default function RestInfo() {
   const { query, asPath } = useRouter();
@@ -106,6 +107,18 @@ export default function RestInfo() {
   const [showFullCommentArrowRight, setShowFullCommentArrowRight] =
     useState(true);
   const [showFullCommentCard, setShowFullCommentCard] = useState(false);
+
+  //麵包屑
+  const [breadCrubText, setBreadCrubText] = useState([
+    {
+      id: 'restaurant',
+      text: '餐廳首頁',
+      href: `${process.env.WEB}/restaurant`,
+      show: true,
+    },
+    { id: 'search', text: '/ 餐廳列表', href: '', show: true },
+    { id: 'rid', text: '', href: '', show: false },
+  ]);
 
   const handleImageClick = (index) => {
     setSelectedImageIndex(index);
@@ -172,6 +185,21 @@ export default function RestInfo() {
       setActivityRows(...activityRows);
     }
     console.log(restDetailRows);
+
+    // 麵包屑
+    const newBreadCrubText = breadCrubText.map((v) => {
+      if (v.id === 'search') {
+        return {
+          ...v,
+          text: `/ ${restDetailRows[0].city_chinese_name} /`,
+          href: `${process.env.WEB}/restaurant/list?city=${restDetailRows[0].city_chinese_name}`,
+        };
+      }
+      if (v.id === 'rid') {
+        return { ...v, text: restDetailRows[0].name };
+      } else return { ...v };
+    });
+    setBreadCrubText(newBreadCrubText);
 
     setData(data);
 
@@ -642,7 +670,7 @@ export default function RestInfo() {
         <div className="container-inner">
           <div className={Styles.bgc}>
             <div className={Styles.breadcrumb}>
-              <ConfigProvider
+              {/* <ConfigProvider
                 theme={{
                   token: {
                     colorPrimary: '#FD8C46',
@@ -664,7 +692,8 @@ export default function RestInfo() {
                     },
                   ]}
                 />
-              </ConfigProvider>
+              </ConfigProvider> */}
+              <BreadCrumb breadCrubText={breadCrubText} />
             </div>
 
             {auth.token ? (
@@ -811,8 +840,8 @@ export default function RestInfo() {
                   {restDetailRows.address}
                 </p>
                 <div onClick={mapHandleClick} className={Styles.google_map}>
-                  地圖
-                  {/* <Image src={GoogleMap} alt="GoogleMap" /> */}
+                  <Image src={GoogleMap} alt="GoogleMap" />
+                  Google Map
                 </div>
               </div>
               <div className={Styles.contact_time}>
@@ -1093,7 +1122,7 @@ export default function RestInfo() {
           </div>
         </div>
       </div>
-      <div className={Styles.shop_container_inner}>
+      <div className={Styles.rest_container_inner}>
         <div className={Styles.comment_cards_box}>
           {showCommentArrowLeft && (
             <div className={Styles.detail_left_arrow_box}>
@@ -1175,7 +1204,7 @@ export default function RestInfo() {
         </div>
       </div>
       <div className="container-inner">
-        <ul className={Styles.shop_recommend_pages}>
+        <ul className={Styles.recommend_pages}>
           {totalCommentPage <= 1 ? (
             <div className={Styles.no_pages}></div>
           ) : (
@@ -1187,8 +1216,8 @@ export default function RestInfo() {
                     key={i}
                     className={
                       i === commentCurrent
-                        ? `${Styles.shop_sliders_pages_bttn} ${Styles.shop_sliders_pages_active}`
-                        : Styles.shop_sliders_pages_bttn
+                        ? `${Styles.sliders_pages_bttn} ${Styles.sliders_pages_active}`
+                        : Styles.sliders_pages_bttn
                     }
                     onClick={() => {
                       setCommentCurrent(i);
