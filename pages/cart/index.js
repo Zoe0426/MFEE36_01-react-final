@@ -294,20 +294,6 @@ export default function Cart() {
             {/* ========== 寄件方式 ==========*/}
             {checkoutType === 'shop' ? (
               <div className={style.section}>
-                {/* <ConfigProvider
-                  theme={{
-                    token: {
-                      colorPrimary: '#FD8C46',
-                      fontSize: 18,
-                    },
-                  }}
-                >
-                  <Radio.Group onChange={changePostType} value={postType}>
-                    <Radio value={1}>黑貓宅急便 $90</Radio>
-                    <Radio value={2}>7-ELEVEN $60</Radio>
-                    <Radio value={3}>全家 $60</Radio>
-                  </Radio.Group>
-                </ConfigProvider> */}
                 <CartSectionTitle text="收件地址" />
                 {postAddData.length > 0 ? (
                   postAddData
@@ -343,6 +329,8 @@ export default function Cart() {
                       <CartAddressList
                         postAddData={postAddData}
                         setPostAddData={setPostAddData}
+                        postType={postType}
+                        setPostType={setPostType}
                       />
                     }
                   />

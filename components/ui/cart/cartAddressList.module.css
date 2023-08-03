@@ -44,10 +44,17 @@
   border-bottom: 3px solid var(--main);
 }
 .postTypeTab img{
-  height: 24px;
+  height: 20px;
 }
 .postTypeTabSelected img{
-  height: 24px;
+  height: 20px;
+}
+
+.addNewAddBtn>span{
+  padding-top: var(--p8);
+  display: block;
+  text-align: end;
+  font-size: var(--pfs14);
 }
 @media screen and (max-width:576px){
 .postTypeTab img{

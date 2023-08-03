@@ -2,14 +2,17 @@ import { useState } from 'react';
 import { Radio, ConfigProvider } from 'antd';
 import style from './cartAddressList.module.css';
 import CartPostInfo from './cartpostinfo';
+import CartNewAddressForm from './cartNewAddressForm';
 import Modal from '../modal/modal';
 
 export default function CartAddressList({
   postAddData = [],
   setPostAddData = () => {},
+  postType = 1,
+  setPostType = () => {},
 }) {
   //sortData
-  const selectedListType = postAddData.filter((v) => v.selected === true)[0]
+  const selectedPostType = postAddData.filter((v) => v.selected === true)[0]
     .post_type;
   const originalSelectedSid = postAddData.filter((v) => v.selected === true)[0]
     .address_sid;
@@ -18,28 +21,34 @@ export default function CartAddressList({
   const familyData = postAddData.filter((v) => v.post_type === 3);
 
   //setData
-  const [listType, setListType] = useState(selectedListType);
   const [mapData, setMapData] = useState(
-    selectedListType === 1
+    selectedPostType === 1
       ? blackCatData
-      : selectedListType === 2
+      : selectedPostType === 2
       ? sevenData
       : familyData
   );
   const [editModal, setEditModal] = useState(
-    selectedListType === 1 ? <></> : selectedListType === 2 ? <></> : <></>
+    selectedPostType === 1 ? <></> : selectedPostType === 2 ? <></> : <></>
   );
-  const [selectedAddress, setSelectedAddress] = useState(originalSelectedSid);
+  const [selectedAddSid, setselectedAddSid] = useState(originalSelectedSid);
 
   //functions
   const onChange = (e) => {
-    console.log('radio checked', e.target.value);
-    // setSelectedAddress(e.target.value);
-    // setPostAddData(e.target.value);
+    const newData = postAddData.map((v) =>
+      v.address_sid === e.target.value
+        ? { ...v, selected: true }
+        : { ...v, selected: false }
+    );
+    setselectedAddSid(e.target.value);
+    setPostAddData(newData);
+    const selectedType = newData.filter((v) => v.selected === true)[0]
+      .post_type;
+    setPostType(selectedType);
   };
-  console.log(selectedAddress);
+
   const changePostTypeList = (type) => {
-    setListType(type);
+    setPostType(type);
     if (type === 1) {
       setMapData(blackCatData);
       setEditModal(<></>);
@@ -63,7 +72,7 @@ export default function CartAddressList({
       <div className={style.tabs}>
         <div
           className={`${
-            listType !== 1 ? style.postTypeTab : style.postTypeTabSelected
+            postType !== 1 ? style.postTypeTab : style.postTypeTabSelected
           }`}
           onClick={() => {
             changePostTypeList(1);
@@ -73,7 +82,7 @@ export default function CartAddressList({
         </div>
         <div
           className={`${
-            listType !== 2 ? style.postTypeTab : style.postTypeTabSelected
+            postType !== 2 ? style.postTypeTab : style.postTypeTabSelected
           }`}
           onClick={() => {
             changePostTypeList(2);
@@ -83,7 +92,7 @@ export default function CartAddressList({
         </div>
         <div
           className={`${
-            listType !== 3 ? style.postTypeTab : style.postTypeTabSelected
+            postType !== 3 ? style.postTypeTab : style.postTypeTabSelected
           }`}
           onClick={() => {
             changePostTypeList(3);
@@ -94,7 +103,7 @@ export default function CartAddressList({
       </div>
       <Radio.Group
         onChange={onChange}
-        value={selectedAddress}
+        value={selectedAddSid}
         className={style.radioGroup}
       >
         {mapData.length > 0 ? (
@@ -132,13 +141,15 @@ export default function CartAddressList({
           <p>無相關地址</p>
         )}
       </Radio.Group>
-      <Modal
-        btnType="text"
-        btnText="+ 新增地址"
-        title="請輸入地址"
-        mainBtnText="儲存地址"
-        content={editModal}
-      />
+      <div className={style.addNewAddBtn}>
+        <Modal
+          btnType="text"
+          btnText="+ 新增地址"
+          title="請輸入地址"
+          mainBtnText="儲存地址"
+          content=<CartNewAddressForm />
+        />
+      </div>
     </ConfigProvider>
   );
 }
