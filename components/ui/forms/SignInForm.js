@@ -44,7 +44,7 @@ export default function SignInForm({ handleSubmit }) {
           localStorage.setItem('petauth', JSON.stringify(obj));
           console.log('l30-', obj.profile);
           if (obj.profile) {
-            const photo = obj.profile;
+            const photo = `${process.env.API_SERVER}/img/${obj.profile}`;
             localStorage.setItem(`${obj.id}photoUrl`, JSON.stringify(photo));
             setPhoto(photo);
           } else {

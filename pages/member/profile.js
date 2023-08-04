@@ -51,6 +51,7 @@ export default function Profile() {
     } else if (auth.id) {
       setPageLoading(false);
       if (auth.token) {
+        console.log('token', auth.token);
         fetch(`${process.env.API_SERVER}/member-api/edit`, {
           headers: {
             Authorization: 'Bearer ' + auth.token,
@@ -58,7 +59,7 @@ export default function Profile() {
         })
           .then((r) => r.json())
           .then((data) => {
-            ////console.log(data);
+            console.log(data);
             setData(data);
             let array = data;
             let obj = array[0];
