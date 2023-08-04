@@ -4,8 +4,20 @@
   display: flex;
   justify-content: center;
   padding-top: 48px;
-
+  animation: 1s showUp ease-in-out;
 }
+
+@keyframes showUp {
+  0% {
+    opacity: 0;
+
+  }
+  100% {
+    opacity: 1;
+
+  }
+}
+
 .circle1 {
   margin-right: 5px;
   width: 20px;
