@@ -40,12 +40,9 @@ import {
   faCartShopping,
   faChevronRight,
   faChevronLeft,
+  faPaw,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faFacebookSquare,
-  faLine,
-  faSquareTwitter,
-} from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faLine } from '@fortawesome/free-brands-svg-icons';
 import Xicon from '@/assets/X.svg';
 
 export default function Product() {
@@ -924,7 +921,7 @@ export default function Product() {
                   }
                 />
                 <div className={styles.detail_price_box}>
-                  <h5 className={styles.detail_spec_title}>商品價格</h5>
+                  {/* <h5 className={styles.detail_spec_title}>商品價格</h5> */}
                   <div className={styles.detail_price}>
                     {`$${purchaseInfo.unitPrice.toLocaleString('en-US')}`}
                   </div>
@@ -982,7 +979,7 @@ export default function Product() {
                     />
                   </div>
                 </div>
-                <div>
+                <div className={styles.detail_pay}>
                   <h5 className={styles.detail_title}>付款方式</h5>
                   <p className={styles.detail_spec_text}>
                     VISA 信用卡 / MASTER 信用卡 / LINE Pay / Google Pay
