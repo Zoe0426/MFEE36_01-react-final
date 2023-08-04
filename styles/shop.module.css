@@ -506,11 +506,13 @@
 .detail_text_box,
 .detail_return_box {
   padding: var(--p24) 0;
+  padding: 48px 0;
 }
 
 .detail_return_box {
   border-top: 2px dashed rgb(95, 35, 27, 0.3);
-  padding-bottom: var(--h1fs36);
+  /* padding-bottom: var(--h1fs36); */
+  padding-bottom: 100px;
 }
 
 .detail_text_icon {
@@ -796,6 +798,12 @@
     width: 100%;
     margin-right: 16px;
   }
+
+  .pagination{
+    padding-bottom: 70px;
+
+  }
+
 
   /*--------------商品細節頁面-------------*/
   /* 主要訊息區 */
