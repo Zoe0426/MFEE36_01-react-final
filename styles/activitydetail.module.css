@@ -205,13 +205,24 @@
   .review{
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  margin:0 10px 30px 0;
   }
   
   .star_icon {
     margin-right: 5px;
     color: var(--starYellow);
     font-size: var(--h6fs18);
+  }
+
+  .star_icon_big{
+    margin-right: 5px;
+    color: var(--starYellow);
+    font-size: var(--h5fs20);
+  }
+
+  .rating {
+    margin-right: 5px;
+    font-size: var(--h4fs24);
   }
   
   .row_date{
