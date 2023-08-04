@@ -21,6 +21,7 @@ export default function CartAddressList({
   const familyData = postAddData.filter((v) => v.post_type === 3);
 
   //setData
+  const [addNewBox, setaddNewBox] = useState(false);
   const [mapData, setMapData] = useState(
     selectedPostType === 1
       ? blackCatData
@@ -141,15 +142,22 @@ export default function CartAddressList({
           <p>無相關地址</p>
         )}
       </Radio.Group>
+
       <div className={style.addNewAddBtn}>
-        <Modal
-          btnType="text"
-          btnText="+ 新增地址"
-          title="請輸入地址"
-          mainBtnText="儲存地址"
-          content=<CartNewAddressForm />
-        />
+        <p
+          onClick={() => {
+            setaddNewBox(!addNewBox);
+          }}
+        >
+          + 新增地址
+        </p>
       </div>
+      {/* <div className={style.formBox}></div> */}
+      {addNewBox && (
+        <div className={`${style.formBox} ${addNewBox ? 'active' : ''}`}>
+          <CartNewAddressForm />
+        </div>
+      )}
     </ConfigProvider>
   );
 }

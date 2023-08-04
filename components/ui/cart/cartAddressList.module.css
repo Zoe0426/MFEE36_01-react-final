@@ -50,11 +50,27 @@
   height: 20px;
 }
 
-.addNewAddBtn>span{
+.addNewAddBtn>p{
   padding-top: var(--p8);
   display: block;
   text-align: end;
   font-size: var(--pfs14);
+  cursor: pointer;
+}
+.addNewAddBtn>p:hover{
+  color:var(--dark);
+}
+
+.formBox{ 
+  /* height: 500px; */
+  margin-top: var(--p8);
+  padding: 0 var(--p16);
+  /* border: 1px solid var(--secondary);… */
+  z-index: 3;
+  display:block;
+}
+.formBox.active{
+ display:none;
 }
 @media screen and (max-width:576px){
 .postTypeTab img{

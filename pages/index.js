@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import HomeShopCard from '@/components/ui/home/homeShopCard';
 import style from '@/styles/home.module.css';
 import HomeLayout from '@/components/layout/home-layout';
@@ -78,6 +79,9 @@ export default function Home() {
     <Loading />
   ) : (
     <>
+      <Head>
+        <title>狗with咪 GO WITH ME</title>
+      </Head>
       <header>
         <main className="container-outer">
           <div className={style.headSection}>
