@@ -348,6 +348,9 @@
   font-weight: var(--fwbold);
 }
 @media screen and (max-width: 767px) {
+  .cloud1,.cloud2,.cloud3,.cloud4{
+    display: none;
+  }
   .bgc {
     padding-top: 16px;
     padding-bottom: 16px;
