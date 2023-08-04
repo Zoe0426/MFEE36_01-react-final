@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import Image from 'next/image';
+import webSocket from 'socket.io-client';
 // import Link from 'next/link';
 import styles from '@/styles/shop.module.css';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
@@ -49,6 +50,34 @@ import Xicon from '@/assets/X.svg';
 
 export default function Product() {
   const router = useRouter();
+  const [ws, setWs] = useState(null);
+
+  const connectWebSocket = () => {
+    // setWs(webSocket(`${process.env.WEB}/shop-api`));
+    setWs(webSocket(`http://localhost:3002/`));
+  };
+
+  useEffect(() => {
+    if (ws) {
+      //連線成功在 console 中打印訊息
+      console.log('success connect!');
+      //設定監聽
+      initWebSocket();
+    }
+  }, [ws]);
+
+  const initWebSocket = () => {
+    //對 getMessage 設定監聽，如果 server 有透過 getMessage 傳送訊息，將會在此被捕捉
+    ws.on('getMessage', (message) => {
+      console.log(message);
+    });
+  };
+
+  const sendMessage = () => {
+    //以 emit 送訊息，並以 getMessage 為名稱送給 server 捕捉
+    ws.emit('getMessage', '只回傳給發送訊息的 client');
+  };
+
   const productComment = useRef(null);
   const productReturn = useRef(null);
   const productSpecial = useRef(null);
@@ -746,6 +775,7 @@ export default function Product() {
 
   return (
     <>
+      <button onClick={connectWebSocket}>連線</button>
       <div className="outer-container">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
