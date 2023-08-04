@@ -52,8 +52,11 @@
 }
 
 .google{
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
+
+
 
 @media screen and (max-width:767px){
   .lineText{
