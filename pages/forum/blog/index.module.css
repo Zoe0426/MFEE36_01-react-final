@@ -4,6 +4,7 @@
     padding: 0;
     margin: 0;
     margin-bottom: 100px;
+
 }
 .blogContent{
     width:85%;
@@ -42,3 +43,7 @@
     margin:70px 0;
     text-align: center;
   }
+
+.container-outer{
+    margin-bottom: 100px;
+}
