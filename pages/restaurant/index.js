@@ -359,6 +359,7 @@ export default function Restindex() {
     setShowEndTimeError(false);
     setSelectedCity(null);
     setSelectedArea(null);
+    setShowFilter(false);
 
     // setStartTime('08:00');
 
@@ -992,7 +993,10 @@ export default function Restindex() {
             />
           </Col>
           <Col xl={4} xs={8}>
-            <LocationCard rest_image="/rest_image/dog_paw.png" />
+            <LocationCard
+              rest_image="/rest_image/city/penghu.png"
+              location="澎湖縣"
+            />
           </Col>
         </Row>
       </div>
@@ -1000,7 +1004,7 @@ export default function Restindex() {
       <div className="container-outer">
         <div className={Styles.CloudTop}>
           <Image src={CloudTop} />
-          {/* <div className={Styles.dog_print}>
+          <div className={Styles.dog_print}>
             <div className={Styles.paw_print_1}>
               <div className={`${Styles.pad} ${Styles.large}`}></div>
               <div className={`${Styles.pad} ${Styles.small_1}`}></div>
@@ -1024,7 +1028,15 @@ export default function Restindex() {
               <div className={`${Styles.pad} ${Styles.small_3}`}></div>
               <div className={`${Styles.pad} ${Styles.small_4}`}></div>
             </div>
-          </div> */}
+
+            <div className={Styles.paw_print_4}>
+              <div className={`${Styles.pad} ${Styles.large}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_1}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_2}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_3}`}></div>
+              <div className={`${Styles.pad} ${Styles.small_4}`}></div>
+            </div>
+          </div>
         </div>
 
         <div className={Styles.cloud_bgc}>

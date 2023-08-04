@@ -108,6 +108,8 @@ export default function RestInfo() {
     useState(true);
   const [showFullCommentCard, setShowFullCommentCard] = useState(false);
 
+  const [breadCrumbData, setBreadCrumbData] = useState([]);
+
   //麵包屑
   const [breadCrubText, setBreadCrubText] = useState([
     {
@@ -116,8 +118,8 @@ export default function RestInfo() {
       href: `${process.env.WEB}/restaurant`,
       show: true,
     },
-    { id: 'search', text: '/ 餐廳列表', href: '', show: true },
-    { id: 'rid', text: '', href: '', show: false },
+    { id: 'search', text: '> 餐廳列表', href: '', show: true },
+    { id: 'rid', text: '', href: '', show: true },
   ]);
 
   const handleImageClick = (index) => {
@@ -143,6 +145,7 @@ export default function RestInfo() {
       commentAvgRows,
       activityRows,
       menuRows,
+      breadCrumbData,
     } = await restInfo.json();
 
     // 更新 React 組件的狀態
@@ -160,8 +163,11 @@ export default function RestInfo() {
     if (menuRows && menuRows.length > 0) {
       setMenuRows(menuRows);
     }
+    if (breadCrumbData && breadCrumbData.length > 0) {
+      setBreadCrumbData(...breadCrumbData);
+    }
 
-    console.log(menuRows);
+    console.log(breadCrumbData[0].category_englsih);
     // if (imageRows && imageRows.length > 0) {
     //   setImageRows(imageRows);
     // }
@@ -191,12 +197,12 @@ export default function RestInfo() {
       if (v.id === 'search') {
         return {
           ...v,
-          text: `/ ${restDetailRows[0].city_chinese_name} /`,
-          href: `${process.env.WEB}/restaurant/list?city=${restDetailRows[0].city_chinese_name}`,
+          text: `> ${restDetailRows[0].city}餐廳`,
+          href: `${process.env.WEB}/restaurant/list?city=${restDetailRows[0].city}`,
         };
       }
       if (v.id === 'rid') {
-        return { ...v, text: restDetailRows.name };
+        return { ...v, text: `> ${restDetailRows[0].name}` };
       } else return { ...v };
     });
     setBreadCrubText(newBreadCrubText);
@@ -563,10 +569,6 @@ export default function RestInfo() {
 
     setTotalCommentPage(newCommentTotalPage);
   };
-  console.log(dataForCommentQty);
-  console.log(dataForComment);
-  console.log(commentFilter);
-  console.log(commentFiliterByRating);
 
   //分享頁面
   const handleLineShare = (type = '') => {
@@ -599,6 +601,33 @@ export default function RestInfo() {
       window.open(shareURL);
     }
   };
+
+  //貓咪跳動函式
+  const [catJumping, setCatJumping] = useState(false);
+  // 監聽滾動事件
+  useEffect(() => {
+    const handleScroll = () => {
+      const catSection = document.querySelector(`.${Styles.cat_section}`);
+      if (catSection) {
+        const catSectionTop = catSection.getBoundingClientRect().top;
+
+        const triggerPosition = catSectionTop + 1300;
+
+        // 判斷是否到達觸發位置
+        if (window.scrollY >= triggerPosition) {
+          setCatJumping(true);
+        } else {
+          setCatJumping(false);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   //複製餐廳地圖
   const mapHandleClick = () => {
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -606,8 +635,8 @@ export default function RestInfo() {
     )}`;
     window.open(mapUrl, '_blank');
   };
-  // 複製網址
 
+  // 複製網址
   const handleCopyUrl = () => {
     const urlToCopy = window.location.href;
     // 使用瀏覽器原生的剪貼板 API 將網址複製到剪貼板
@@ -670,29 +699,6 @@ export default function RestInfo() {
         <div className="container-inner">
           <div className={Styles.bgc}>
             <div className={Styles.breadcrumb}>
-              {/* <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: '#FD8C46',
-                    colorBgContainer: 'transparent',
-                    colorPrimaryTextHover: '#FFEFE8',
-                    colorBgTextActive: '#FD8C46',
-                    fontSize: 18,
-                  },
-                }}
-              >
-                <Breadcrumb
-                  items={[
-                    {
-                      title: '餐廳列表',
-                      href: `${process.env.WEB}/restaurant/list`,
-                    },
-                    {
-                      title: `${restDetailRows.name}`,
-                    },
-                  ]}
-                />
-              </ConfigProvider> */}
               <BreadCrumb breadCrubText={breadCrubText} />
             </div>
 
@@ -854,9 +860,10 @@ export default function RestInfo() {
                   className={Styles.information_detail}
                   onClick={() => setShowBusinessHours(!showBusinessHours)}
                 >
-                  {restDetailRows.rest_date === ''
-                    ? `${restDetailRows.start_at_1}~${restDetailRows.end_at_1}`
-                    : `${restDetailRows.start_at_1}~${restDetailRows.end_at_1}，星期${restDetailRows.rest_date}公休`}
+                  {restDetailRows.start_at_1}~{restDetailRows.end_at_1}
+                  {restDetailRows.rest_date !== ''
+                    ? `，星期${restDetailRows.rest_date}公休`
+                    : ''}
                 </p>
 
                 <FontAwesomeIcon
@@ -979,23 +986,38 @@ export default function RestInfo() {
         />
       </div>
       <div className="container-inner" id="serviceSection">
-        <h2 className={Styles.jill_h2}>服務項目</h2>
-        <Row gutter={[48, 48]} className={Styles.row_gutter}>
-          <Col xl={4} xs={8}>
-            <PinkBtn
-              text={serviceRows[0]?.service_name}
-              img={`/rest_image/service/${serviceRows[0]?.service_icon}`}
-            />
-          </Col>
-          <Col xl={4} xs={8}>
-            <PinkBtn
-              text={serviceRows[1]?.service_name}
-              img={`/rest_image/service/${serviceRows[1]?.service_icon}`}
-            />
-          </Col>
-        </Row>
+        <div className={Styles.try}>
+          <div className={Styles.service}>
+            <h2 className={Styles.jill_h2}>服務項目</h2>
+            <div className={Styles.service_kind}>
+              <PinkBtn
+                text={serviceRows[0]?.service_name}
+                img={`/rest_image/service/${serviceRows[0]?.service_icon}`}
+              />
+
+              <PinkBtn
+                text={serviceRows[1]?.service_name}
+                img={`/rest_image/service/${serviceRows[1]?.service_icon}`}
+              />
+            </div>
+          </div>
+          <div className={Styles.rule}>
+            <h2 className={Styles.jill_h2}>攜帶規則</h2>
+            <div className={Styles.service_kind}>
+              <PinkBtn
+                text={ruleRows[0]?.rule_name}
+                img={`/rest_image/rule/${ruleRows[0]?.rule_icon}`}
+              />
+
+              <PinkBtn
+                text={ruleRows[1]?.rule_name}
+                img={`/rest_image/rule/${ruleRows[1]?.rule_icon}`}
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="container-inner">
+      {/* <div className="container-inner">
         <h2 className={Styles.jill_h2}>攜帶規則</h2>
         <Row gutter={[48, 48]}>
           <Col xl={4} xs={8}>
@@ -1011,7 +1033,7 @@ export default function RestInfo() {
             />
           </Col>
         </Row>
-      </div>
+      </div> */}
       <div className="container-inner" id="feature">
         <h2 className={Styles.jill_h2}>餐廳特色</h2>
       </div>
@@ -1036,7 +1058,9 @@ export default function RestInfo() {
         <div className="container-inner" id="note">
           <div className={Styles.cat_section}>
             <h2 className={Styles.jill_h2_notion}>店家叮嚀</h2>
-            <Image src={catJump} alt="catJump" />
+            <div className={catJumping ? Styles.jumpingCat : Styles.catImage}>
+              <Image src={catJump} alt="catJump" />
+            </div>
           </div>
           <div className={Styles.notion_frame}>
             <p>
