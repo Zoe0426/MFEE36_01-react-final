@@ -51,9 +51,9 @@
 .paw_print_1 {
   opacity: 0;
   position: absolute;
-  left: 1590px;
+  left: 1640px;
   top: 280px;
-  transform: rotate(-40deg);
+  transform: rotate(-36deg);
   -webkit-animation: walk 3s linear infinite;
   animation: /*keyframe*/walk /*duration*/3s /*transition*/linear /*repeat*/infinite;
   }
@@ -62,8 +62,8 @@
 opacity: 0;
 position: absolute;
 left: 1655px;
-top: 160px;
-transform: rotate(-5deg); 
+top: 130px;
+transform: rotate(-10deg); 
 -webkit-animation: walk 3s linear infinite 0.25s;
 animation: walk 3s linear infinite /*delay*/0.25s;
 }
@@ -75,7 +75,17 @@ top: 180px;
 transform: rotate(-10deg); 
 -webkit-animation: walk 3s linear infinite 0.5s;
 animation: walk 3s linear infinite 0.5s;
-}     
+}    
+
+.paw_print_4 {
+  opacity: 0;
+  position: absolute;
+  left: 1755px;
+  top: 100px;
+  transform: rotate(-10deg); 
+  -webkit-animation: walk 3s linear infinite 0.5s;
+  animation: walk 3s linear infinite 0.5s;
+  }     
 
 /* walking effect animation keyframes */
 @-webkit-keyframes walk {

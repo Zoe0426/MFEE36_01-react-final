@@ -168,6 +168,10 @@
   cursor: pointer;
 }
 
+.pet_type_tabs span:hover{
+  color:var(--main)
+}
+
 .tab_active {
   display: flex;
   align-items: center;
@@ -310,10 +314,17 @@
   font-size: var(--h5fs20);
   margin-bottom: 16px;
   margin-top: 32px;
+  /* text-decoration: underline; */
+  /* font-weight: 500; */
 }
 
 .detail_spec_title {
   margin-top: 24px;
+}
+
+.detail_spec_title svg{
+  font-size: 16px;
+  color:var(--dark)
 }
 
 .detail_spec_warning {
@@ -408,9 +419,14 @@
   margin: 0 var(--p8);
  }
 
+
+ .detail_pay{
+  border-top: 1px solid;
+ }
 /*價格*/
 .detail_price {
   font-size: var(--h4fs24);
+  font-size: var(--h3fs28);
   font-weight: var(--fwbold);
 }
 
@@ -506,11 +522,13 @@
 .detail_text_box,
 .detail_return_box {
   padding: var(--p24) 0;
+  padding: 48px 0;
 }
 
 .detail_return_box {
   border-top: 2px dashed rgb(95, 35, 27, 0.3);
-  padding-bottom: var(--h1fs36);
+  /* padding-bottom: var(--h1fs36); */
+  padding-bottom: 100px;
 }
 
 .detail_text_icon {
@@ -796,6 +814,12 @@
     width: 100%;
     margin-right: 16px;
   }
+
+  .pagination{
+    padding-bottom: 70px;
+
+  }
+
 
   /*--------------商品細節頁面-------------*/
   /* 主要訊息區 */

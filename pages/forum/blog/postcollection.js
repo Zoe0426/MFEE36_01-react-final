@@ -125,6 +125,9 @@ export default function PostCollection() {
               setPostNum(postNum); // 設定文章數量
               // setPage(currentPage);
               console.log('postNum',postNum);
+              // const firstFavoriteNickname = newData[0].favorite_nickname;
+              // console.log(firstFavoriteNickname);
+
             });
         } else {
           console.log('User is not logged in. Cannot fetch posts.');
@@ -204,15 +207,10 @@ export default function PostCollection() {
       />
       <Row className={Style.antRow}>
         <Col span={6}>
-            {/* {data.rows.length > 0 && ( */}
-            {newData.map((v, i) => (
               <BlogSidebar
                 profile="/forum_img/kabo-p6yH8VmGqxo-unsplash.jpg"
-                memberName={v.favorite_nickname}
-                //memberName="莉莉安"
+                memberName={newData[0]?.favorite_nickname}
               />
-              ))}
-            {/* })} */}
           </Col>
         <Col span={16}>
             <div className={Style.blogContent}>

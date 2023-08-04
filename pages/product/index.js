@@ -16,7 +16,6 @@ import {
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
-
 //二大類圖示
 import dog from '@/assets/logo-dog.svg';
 import cat from '@/assets/logo-cat.svg';
@@ -493,7 +492,7 @@ export default function ProdoctIndex() {
                 role="presentation"
                 key={v.id}
                 className={v.display ? styles.tab_active : styles.tab_normal}
-                onMouseEnter={() => {
+                onClick={() => {
                   setTwotCatergoriesData(
                     toggleDisplayForDogCat(twotCatergoriesData, v.id)
                   );

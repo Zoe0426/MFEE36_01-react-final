@@ -25,7 +25,7 @@ export default function CommentCard({
       <div className={styles.card_head}>
         <div>
           {profile ? (
-            <img src={`/product-img/${profile}`} alt="" />
+            <img src={`${process.env.API_SERVER}/img/${profile}`} alt="" />
           ) : (
             <FontAwesomeIcon icon={faUser} className={styles.default_head} />
           )}

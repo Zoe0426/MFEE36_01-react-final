@@ -630,8 +630,8 @@ export default function ActivityDetail() {
           )}
           <div ref={targetRef2}>
             <p className={styles.subtitle}>活動規範：</p>
-            {actDetailRows.policy}
-            <p className={styles.row_text_small}></p>
+            
+            <p className={styles.row_text_small}>{actDetailRows.policy}</p>
           </div>
         </div>
       </div>
@@ -671,10 +671,10 @@ export default function ActivityDetail() {
             <div className={styles.review}>
               <FontAwesomeIcon
                 icon={faStar}
-                className={styles.star_icon}
+                className={styles.star_icon_big}
                 style={{ maxWidth: '20px', maxHeight: '20px' }}
               />
-              <p className={styles.row_text_medium}>
+              <p className={styles.rating}>
                 {actDetailRows.avg_rating}
               </p>
               <p className={styles.row_text_small}>

@@ -27,8 +27,14 @@ export default function Navbar({ type = '' }) {
       headers: { 'Content-Type': 'application/json' },
     });
     const itemAmount = await r.json();
-    const myItems = itemAmount.rel_sids.split(',');
-    localStorage.setItem(`${id}cart`, JSON.stringify(myItems));
+    let myItems = [];
+    if (itemAmount.length > 0) {
+      myItems = itemAmount.rel_sids.split(',');
+      localStorage.setItem(`${id}cart`, JSON.stringify(myItems));
+    } else {
+      localStorage.setItem(`${id}cart`, JSON.stringify(myItems));
+    }
+
     setCartItemNum(itemAmount.totalItem);
   };
 
@@ -78,13 +84,6 @@ export default function Navbar({ type = '' }) {
     router.push('/cart');
   };
 
-  // const toggleLine = document.querySelector('.line');
-  // const toggleMenu = document.querySelector('.link-menu');
-  // const navbar = document.querySelector('.navbar');
-  // toggleLine.addEventListener('click', () => {
-  //   toggleLine.classList.toggle('active');
-  //   toggleMenu.classList.toggle('active');
-  // });
   const handleClick = () => {
     setIsActive(!isActive);
   };

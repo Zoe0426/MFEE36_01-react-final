@@ -71,6 +71,8 @@ export default function ActivityMain() {
   const [selectedDates, setSelectedDates] = useState([]);
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState(filterDatas);
+  const [updatedQuery, setUpdatedQuery] = useState({});
+
 
   const { auth } = useContext(AuthContext);
   const authId = auth.id;
@@ -84,7 +86,6 @@ export default function ActivityMain() {
       }/restaurant/list?${new URLSearchParams(from).toString()}`
     );
   };
-
 
   // 取資料
   const [datas, setDatas] = useState({
@@ -107,8 +108,6 @@ export default function ActivityMain() {
   //取台灣的地區
   const cities = cityDatas;
   // const areas = getAreasByCity(selectedCity);
-
-  
 
   // 小麵包屑------------------------------------------------------------
   const [breadCrubText, setBreadCrubText] = useState([
@@ -147,8 +146,6 @@ export default function ActivityMain() {
   };
 
   useEffect(() => {
-
-   
     const hasQueryString = Object.keys(router.query).length > 0;
 
     if (!hasQueryString) {
@@ -162,7 +159,6 @@ export default function ActivityMain() {
         });
     }
 
-    
     console.log('router.query:', router.query);
     const {
       activity_type_sid,
@@ -237,16 +233,21 @@ export default function ActivityMain() {
   // };
 
   //進入畫面時將checkbox依據queryString設定勾選狀態
-  const resetCheckBox = (key, str) => {
-    const selectedValues = str.split(',');
-    const newCheckBox = filters[key].map((v) => {
-      if (selectedValues.includes(String(v.value))) {
-        return { ...v, checked: true };
-      }
-      return { ...v, checked: false };
-    });
-    setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
-  };
+const resetCheckBox = (key, str) => {
+  if (typeof str !== 'string') {
+    return;
+  }
+
+  const selectedValues = str.split(',');
+  const newCheckBox = filters[key].map((v) => {
+    if (selectedValues.includes(String(v.value))) {
+      return { ...v, checked: true };
+    }
+    return { ...v, checked: false };
+  });
+  setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
+};
+
 
   //searchBar相關的函式------------------------------------------------------------
   const searchBarHandler = (e) => {
@@ -302,58 +303,126 @@ export default function ActivityMain() {
   //篩選 搜尋btn 觸發事件
   const filterHandler = () => {
     let query = {};
-
-    // 將activity_type_sid設定回來
+    let newQuery = { ...router.query };
+  
     const selectedActivityTypeSid = filters.activity_type_sid
       .filter((item) => item.checked)
       .map((item) => item.value);
-
-    if (selectedActivityTypeSid.length > 0) {
-      query.activity_type_sid = selectedActivityTypeSid.join(',');
-    }
-
+  
+    const selectedActivityTypeQueries = selectedActivityTypeSid.map(
+      (value) => `activity_type_sid=${value}`
+    );
+  
     if (selectedCity) {
       query.city = selectedCity;
     }
-
+  
     if (selectedArea) {
       query.area = selectedArea;
     }
-
+  
     if (selectedMinPrice !== null) {
       query.minPrice = selectedMinPrice;
     } else {
       delete query.minPrice;
     }
-
+  
     if (selectedMaxPrice !== null) {
       query.maxPrice = selectedMaxPrice;
     } else {
       delete query.maxPrice;
     }
-
+  
     if (startDate) {
       query.startDate = startDate.format('YYYY-MM-DD');
     } else {
       delete query.startDate;
     }
-
+  
     if (endDate) {
       query.endDate = endDate.format('YYYY-MM-DD');
     } else {
       delete query.endDate;
     }
-
-    console.log(minPrice);
-    console.log('query:', query);
-
-    router.push(
-      `?${new URLSearchParams({
-        ...query,
-        page: 1,
-      }).toString()}`
-    );
+  
+    // const queryString = [
+    //   ...selectedActivityTypeQueries,
+    //   ...Object.entries(query).map(([key, value]) => `${key}=${value}`),
+    //   `page=1`, // Always add page parameter
+    // ].join('&');
+  
+    // router.push(`?${queryString}`);
+    newQuery = {
+      ...newQuery,
+      page: 1,
+      activity_type_sid: selectedActivityTypeSid.length > 0 ? selectedActivityTypeSid.join(',') : undefined,
+      city: selectedCity || undefined,
+      area: selectedArea || undefined,
+      minPrice: selectedMinPrice || undefined,
+      maxPrice: selectedMaxPrice || undefined,
+      startDate: startDate ? startDate.format('YYYY-MM-DD') : undefined,
+      endDate: endDate ? endDate.format('YYYY-MM-DD') : undefined,
+    };
+  
+    setUpdatedQuery((prevQuery) => ({ ...prevQuery, ...newQuery }));
   };
+  
+
+  const handleConfirmClick = () => {
+    filterHandler();
+  
+    // 获取选中的 activity_type_sid 的值
+    const selectedActivityTypeSids = filters.activity_type_sid
+      .filter(item => item.checked)
+      .map(item => item.value);
+  
+    // 构建新的 query 对象
+    const newQuery = {
+      ...router.query,
+      page: 1,
+      city: selectedCity || undefined,
+      area: selectedArea || undefined,
+      minPrice: selectedMinPrice || undefined,
+      maxPrice: selectedMaxPrice || undefined,
+      startDate: startDate ? startDate.format('YYYY-MM-DD') : undefined,
+      endDate: endDate ? endDate.format('YYYY-MM-DD') : undefined,
+    };
+  
+    // 设置 activity_type_sid 的值为数组
+    newQuery.activity_type_sid = selectedActivityTypeSids;
+
+    // if (selectedActivityTypeSids && selectedActivityTypeSids.length > 0) {
+    //   // 將陣列轉換為字串，以逗號分隔
+    //   newQuery.activity_type_sid = selectedActivityTypeSids.join(',');
+    // }
+  
+    // 使用新的 query 对象更新 URL
+    router.push({
+      pathname: router.pathname,
+      query: newQuery,
+    });
+  };
+  
+  
+  
+
+  //給checkbox
+  const updateCheckboxState = (name, newData) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: newData,
+    }));
+  };
+
+  const checkboxToggleHandler = (name, selectedLabel) => {
+    const updatedData = filters[name].map((item) =>
+      item.label === selectedLabel ? { ...item, checked: !item.checked } : item
+    );
+
+    updateCheckboxState(name, updatedData);
+  };
+  
+  
 
   //重置篩選條件
   const clearAllFilter = () => {
@@ -586,12 +655,12 @@ export default function ActivityMain() {
             <BreadCrumb breadCrubText={breadCrubText} />
 
             <div className={styles.btns}>
-            {auth.token ? (
-              <IconBtn
-                icon={faHeart}
-                text="收藏列表"
-                clickHandler={toggleLikeList}
-              />
+              {auth.token ? (
+                <IconBtn
+                  icon={faHeart}
+                  text="收藏列表"
+                  clickHandler={toggleLikeList}
+                />
               ) : (
                 <Modal
                   btnType="iconBtn"
@@ -627,9 +696,9 @@ export default function ActivityMain() {
                   text="活動類別："
                   name="activity_type_sid"
                   data={filters.activity_type_sid}
-                  selectedValue={selectedActivityTypeSid}
-                  setSelectedValue={setSelectedActivityTypeSid}
-                  filterHandler={filterHandler}
+                  // selectedValue={selectedActivityTypeSid}
+                  // setSelectedValue={setSelectedActivityTypeSid}
+                  checkboxToggleHandler={checkboxToggleHandler}
                 />
                 <ActivityFilterPrice onPriceChange={handlePriceChange} />
 
@@ -689,7 +758,9 @@ export default function ActivityMain() {
                       >
                         <Button>
                           <Space>
-                            <p className={styles.dropdown_arrow}>{selectedCity ? selectedCity : '縣市'}</p>
+                            <p className={styles.dropdown_arrow}>
+                              {selectedCity ? selectedCity : '縣市'}
+                            </p>
                             <DownOutlined />
                           </Space>
                         </Button>
@@ -710,8 +781,9 @@ export default function ActivityMain() {
                       >
                         <Button>
                           <Space>
-                            <p className={styles.dropdown_arrow}
-                            >{selectedArea ? selectedArea : '地區'}</p>
+                            <p className={styles.dropdown_arrow}>
+                              {selectedArea ? selectedArea : '地區'}
+                            </p>
                             <DownOutlined />
                           </Space>
                         </Button>
@@ -721,10 +793,12 @@ export default function ActivityMain() {
                 </div>
 
                 <div className={styles.filter_btns}>
-                  <SecondaryBtn
-                  text="重置" 
-                  clickHandler={clearAllFilter} />
-                  <MainBtn text="確定" clickHandler={filterHandler} />
+                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
+                  <MainBtn 
+                  text="確定" 
+                  // clickHandler={filterHandler}
+                  clickHandler={handleConfirmClick}
+                  />
                 </div>
               </div>
             </div>
