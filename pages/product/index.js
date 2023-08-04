@@ -122,46 +122,50 @@ export default function ProdoctIndex() {
 
   const getData = async (token = '') => {
     //拿回卡片資訊
-    const res_cards = await fetch(
-      `${process.env.API_SERVER}/shop-api/hompage-cards`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const { dogDatas, catDatas, brandData, newData, keywords } =
-      await res_cards.json();
-
-    if (dogDatas.length > 0) {
-      setDataForDog(dogDatas);
-    }
-    if (catDatas.length > 0) {
-      setDataForCat(catDatas);
-    }
-    if (brandData.length > 0) {
-      setDataForBrand(brandData);
-    }
-    if (newData.length > 0) {
-      setDataForNew(newData);
-    }
-    if (keywords.length > 0) {
-      const newKeywords = keywords.map((v) => {
-        return { name: v, count: 0 };
-      });
-      setKeywordDatats(newKeywords);
-    }
-
-    setTwotCatergoriesData(
-      twotCatergoriesData.map((v) => {
-        if (v.id === 'dog') {
-          return { ...v, data: dogDatas };
-        } else {
-          return { ...v, data: catDatas };
+    try {
+      const res_cards = await fetch(
+        `${process.env.API_SERVER}/shop-api/hompage-cards`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
         }
-      })
-    );
+      );
+      const { dogDatas, catDatas, brandData, newData, keywords } =
+        await res_cards.json();
+
+      if (dogDatas.length > 0) {
+        setDataForDog(dogDatas);
+      }
+      if (catDatas.length > 0) {
+        setDataForCat(catDatas);
+      }
+      if (brandData.length > 0) {
+        setDataForBrand(brandData);
+      }
+      if (newData.length > 0) {
+        setDataForNew(newData);
+      }
+      if (keywords.length > 0) {
+        const newKeywords = keywords.map((v) => {
+          return { name: v, count: 0 };
+        });
+        setKeywordDatats(newKeywords);
+      }
+
+      setTwotCatergoriesData(
+        twotCatergoriesData.map((v) => {
+          if (v.id === 'dog') {
+            return { ...v, data: dogDatas };
+          } else {
+            return { ...v, data: catDatas };
+          }
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -337,21 +341,25 @@ export default function ProdoctIndex() {
 
   //將資料送到後端
   const sendLike = async (arr, token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/handle-like-list`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: arr }),
-      }
-    );
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/shop-api/handle-like-list`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: arr }),
+        }
+      );
+      const data = await res.json();
 
-    if (data.success) {
-      console.log(data);
+      if (data.success) {
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
