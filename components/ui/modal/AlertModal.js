@@ -22,7 +22,7 @@ export default function AlertModal({
   const [modal, setModal] = useState(false);
   const [data, setData] = useState([]);
   const [show, setShow] = useState(false);
-  const [review, setReview] = useState(false);
+  const [review, setReview] = useState(true);
   const router = useRouter();
   const from = router.asPath;
   const [form] = Form.useForm();
@@ -98,7 +98,8 @@ export default function AlertModal({
         .then((r) => r.json())
         .then((data) => {
           console.log(data);
-          setReview(true);
+          setShow(false);
+          setReview(false);
         });
     } else if (type === 'error') {
       fetch(`${process.env.API_SERVER}/member-api/restReviews`, {
@@ -109,7 +110,8 @@ export default function AlertModal({
         .then((r) => r.json())
         .then((data) => {
           //console.log(data);
-          setReview(true);
+          setShow(false);
+          setReview(false);
         });
     }
     router.push(from);
@@ -150,9 +152,9 @@ export default function AlertModal({
               <div className={Styles.modal_content}>
                 {content}
                 <div className={Styles.modal_button}>
-                  {formatToday > formatActday ? (
+                  {formatToday > formatActday && (
                     <MainBtn text={'評價'} clickHandler={getReviews} />
-                  ) : null}
+                  )}
                 </div>
               </div>
 
@@ -213,6 +215,12 @@ export default function AlertModal({
                           label={'環境品質'}
                           name={'environment'}
                           style={{ padding: '0px', margin: '5px' }}
+                          rules={[
+                            {
+                              required: true,
+                              message: '請輸入星星數唷！',
+                            },
+                          ]}
                         >
                           <Rate
                             allowClear={false}
@@ -224,6 +232,12 @@ export default function AlertModal({
                           label={'餐點品質'}
                           name={'food'}
                           style={{ padding: '0px', margin: '5px' }}
+                          rules={[
+                            {
+                              required: true,
+                              message: '請輸入星星數唷！',
+                            },
+                          ]}
                         >
                           <Rate
                             allowClear={false}
@@ -235,6 +249,12 @@ export default function AlertModal({
                           label={'寵物友善'}
                           name={'friendly'}
                           style={{ padding: '0px', margin: '5px' }}
+                          rules={[
+                            {
+                              required: true,
+                              message: '請輸入星星數唷！',
+                            },
+                          ]}
                         >
                           <Rate
                             allowClear={false}
@@ -245,7 +265,16 @@ export default function AlertModal({
                       </>
                     ) : (
                       <>
-                        <Form.Item name={'actStar'} style={{ padding: '0px' }}>
+                        <Form.Item
+                          name={'actStar'}
+                          style={{ padding: '0px' }}
+                          rules={[
+                            {
+                              required: true,
+                              message: '請輸入星星數唷！',
+                            },
+                          ]}
+                        >
                           <Rate
                             allowClear={false}
                             style={{ color: '#FCC917' }}
@@ -285,10 +314,10 @@ export default function AlertModal({
                       !data[0]?.rest_commtent_id && (
                         <div className={Styles.btns}>
                           <div className={Styles.secondaryBtn}>
-                            <SecondaryBtn text="取消" htmltype="reset" />
+                            <SecondaryBtn text="重填" htmltype="reset" />
                           </div>
                           <div className={Styles.mainBtn}>
-                            <MainBtn text="確定" htmltype="submit" />
+                            <MainBtn text="送出" htmltype="submit" />
                           </div>
                         </div>
                       )}
