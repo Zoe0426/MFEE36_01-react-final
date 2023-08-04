@@ -161,13 +161,33 @@
   overflow: hidden;
   position: relative;
 }
-.cat_section{
+.cat_section {
   position: relative;
 }
-.cat_section img{
+
+.catImage {
   position: absolute;
   right: -8%;
-  top: -200%;
+  top: 20%;
+  transition: top 0.8s; 
+}
+
+.jumpingCat {
+  position: absolute;
+  right: -8%;
+  top: -180px; 
+  transition: top 0.8s;
+}
+.service, .rule{
+  width: 100%;
+}
+.service_kind{
+  display: flex;
+  gap: 32px;
+}
+.try{
+  display: flex;
+  justify-content: space-between;
 }
 /* .comment_cards {
   display: flex;
@@ -511,6 +531,8 @@
     transform: scale(1);
   }
 }
+/* 貓咪跳躍 */
+
 /* 分享網頁 */
 .clone{
   cursor: pointer;
@@ -590,7 +612,9 @@
   opacity: 0.7;
 }
 @media screen and (max-width: 767px) {
-
+  .try{
+    flex-direction: column;
+  }
     .left_arrow_box,
     .right_arrow_box,
     .slider_right_arrow_box,

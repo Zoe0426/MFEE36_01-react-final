@@ -9,6 +9,10 @@ import faArrowRight from '@/assets/arrow-right.svg';
 import faArrowLeft from '@/assets/arrow-left.svg';
 import calendar from '@/assets/calendar.svg';
 import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import Cat from '@/assets/cat_with_body.svg';
+import Dog from '@/assets/dog_with_body.svg';
+import Cloud from '@/assets/cloud.svg';
 
 function WeekCalendar() {
   const uniqueDates = new Set();
@@ -17,6 +21,19 @@ function WeekCalendar() {
   const [memberRows, setMemberRows] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [startDateIndex, setStartDateIndex] = useState(0); // 添加這個狀態變量
+
+  //麵包屑
+  const [breadCrubText, setBreadCrubText] = useState([
+    {
+      id: 'restaurant',
+      text: '餐廳首頁',
+      href: `${process.env.WEB}/restaurant`,
+      show: true,
+    },
+    { id: 'search', text: '> 餐廳列表', href: '', show: true },
+    { id: 'rid', text: '', href: '', show: true },
+    { id: 'booking', text: '> 預約時間表', href: '', show: true },
+  ]);
 
   // // 新增處理下一個七天預約資訊的函式
   // const goToNextWeek = () => {
@@ -64,7 +81,26 @@ function WeekCalendar() {
         if (memberRows && memberRows.length > 0) {
           setMemberRows(...memberRows);
         }
-        console.log(bookingRows);
+
+        // 麵包屑
+        const newBreadCrubText = breadCrubText.map((v) => {
+          if (v.id === 'search') {
+            return {
+              ...v,
+              text: `> ${bookingRows[0].city}餐廳`,
+              href: `${process.env.WEB}/restaurant/list?city=${bookingRows[0].city}`,
+            };
+          }
+          if (v.id === 'rid') {
+            return {
+              ...v,
+              text: `> ${bookingRows[0].name}`,
+              href: `${process.env.WEB}/restaurant/${bookingRows[0].rest_sid}`,
+            };
+          } else return { ...v };
+        });
+        setBreadCrubText(newBreadCrubText);
+        console.log(bookingRows[0].rest_sid);
         setData(data);
       })
       .catch((error) => {
@@ -164,33 +200,7 @@ function WeekCalendar() {
         <div className="container-inner">
           <div className={Styles.bgc}>
             <div className={Styles.breadcrumb}>
-              <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: '#FD8C46',
-                    colorBgContainer: 'transparent',
-                    colorPrimaryTextHover: '#FFEFE8',
-                    colorBgTextActive: '#FD8C46',
-                    fontSize: 18,
-                  },
-                }}
-              >
-                <Breadcrumb
-                  items={[
-                    {
-                      title: '餐廳列表',
-                      href: `${process.env.WEB}/restaurant/list`,
-                    },
-                    {
-                      title: `曜日義式餐酒館`,
-                      href: `${process.env.WEB}/restaurant/4`,
-                    },
-                    {
-                      title: `曜日義式餐酒館預約時間表`,
-                    },
-                  ]}
-                />
-              </ConfigProvider>
+              <BreadCrumb breadCrubText={breadCrubText} />
             </div>
           </div>
         </div>
@@ -269,6 +279,32 @@ function WeekCalendar() {
               }
             })}
         </div>
+        <Image src={Cat} alt="cat" className={Styles.cat} draggable="false" />
+        <Image src={Dog} alt="dog" className={Styles.dog} draggable="false" />
+        <Image
+          src={Cloud}
+          alt="cloud"
+          className={Styles.cloud1}
+          draggable="false"
+        />
+        <Image
+          src={Cloud}
+          alt="cloud"
+          className={Styles.cloud2}
+          draggable="false"
+        />
+        <Image
+          src={Cloud}
+          alt="cloud"
+          className={Styles.cloud3}
+          draggable="false"
+        />
+        <Image
+          src={Cloud}
+          alt="cloud"
+          className={Styles.cloud4}
+          draggable="false"
+        />
       </div>
     </div>
   );

@@ -5,7 +5,189 @@
   padding-top: 28px;
   padding-bottom: 28px;
   margin-bottom: 20px;
+  position: relative;
 }
+.cloud1{
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 26%;
+  left: 12%;
+  user-select: none;
+  scale: 0.6;
+  animation: 8s cloudsmallFloat ease-in infinite;
+}
+@keyframes cloudsmallFloat {
+  0%{
+    left: 8%;
+    opacity: 0;
+    scale: 0.6;
+  }
+  25%{
+    left: 10%;
+    opacity: 1;
+    scale: 0.8;
+  }
+  50%{
+    left: 12%;
+  }
+  100%{
+    left: 14%;
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+.cloud2{
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 17%;
+  left: 3%;
+  user-select: none;
+  animation: 8s cloudLeftFloat ease-in infinite;
+}
+@keyframes cloudLeftFloat {
+  0%{
+    left: 0%;
+    opacity: 0;
+    scale: 0.8;
+  }
+  25%{
+    left: 4%;
+    opacity: 1;
+    scale: 1;
+  }
+  50%{
+    left: 8%;
+    opacity: 1;
+  }
+  100%{
+    left: 12%;
+    opacity: 0;
+    scale: 0.8;
+  }
+}
+.cloud3{
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 20%;
+  right: 16%;
+  user-select: none;
+  animation: 8s cloudFloat ease-in infinite;
+}
+
+@keyframes cloudFloat {
+  0%{
+    right: 12%;
+    opacity: 0;
+    scale: 0.8;
+  }
+  25%{
+    right: 8%;
+    opacity: 1;
+    scale: 1;
+  }
+  50%{
+    right: 4%;
+    opacity: 1;
+  }
+  100%{
+    right: 0%;
+    opacity: 0;
+    scale: 0.8;
+  }
+}
+.cloud4{
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 28%;
+  right: 12%;
+  user-select: none;
+  scale: 0.6;
+  animation: 8s cloudendFloat ease-in infinite;
+}
+@keyframes cloudendFloat {
+  0%{
+    right: 14%;
+    opacity: 0;
+    scale: 0.6;
+  }
+  25%{
+    right: 12%;
+    opacity: 1;
+    scale: 0.8;
+  }
+  50%{
+    right: 8%;
+  }
+  100%{
+    right: 4%;
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+.cat{
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 74%;
+  left: 10%;
+  user-select: none;
+  animation: 1s catWalk ease-in-out;
+}
+@keyframes catWalk {
+  0%{
+    left: 6%;
+    top: 70%;
+    opacity: 0;
+  }
+  25%{
+    left: 8%;
+    top: 74%;
+  }
+  50%{
+    left: 9%;
+    top: 70%;
+  }
+  100%{
+    left: 10%;
+    top: 74%;
+    opacity: 1;
+  }
+}
+.dog{
+  position: absolute;
+  width: 85px;
+  height: auto;
+  top: 74%;
+  right: 10%;
+  user-select: none;
+  animation: 1s dogWalk ease-in-out;
+}
+
+@keyframes dogWalk {
+  0%{
+    right: 6%;
+    top: 70%;
+    opacity: 0;
+  }
+  25%{
+    right: 8%;
+    top: 74%;
+  }
+  50%{
+    right: 9%;
+    top: 70%;
+  }
+  100%{
+    right: 10%;
+    top: 74%;
+    opacity: 1;
+  }
+}
+
 .dates_modal {
   width: 100%;
   display: flex;

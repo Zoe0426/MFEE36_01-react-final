@@ -39,6 +39,7 @@ import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import NotFindCard from '@/components/ui/cards/not-find-card';
 
 export default function FilterPage() {
   const router = useRouter();
@@ -99,7 +100,7 @@ export default function FilterPage() {
       href: `${process.env.WEB}/restaurant`,
       show: true,
     },
-    { id: 'search', text: '/ 餐廳列表', href: '', show: true },
+    { id: 'search', text: '> 餐廳列表', href: '', show: true },
     { id: 'rid', text: '', href: '', show: false },
   ]);
 
@@ -185,32 +186,31 @@ export default function FilterPage() {
 
     console.log(router.query);
 
-    const newBreadCrubText = breadCrubText.map((v) => {
-      if (v.id === 'search') {
-        return { ...v, text: `/ 餐廳列表` };
-      } else return { ...v };
-    });
-    setBreadCrubText(newBreadCrubText);
+    // const newBreadCrubText = breadCrubText.map((v) => {
+    //   if (v.id === 'search') {
+    //     return { ...v, text: `> 餐廳列表` };
+    //   } else return { ...v };
+    // });
+    // setBreadCrubText(newBreadCrubText);
 
-    if (category) {
-      resetCheckBox('category', category);
-      const newArr = category.split(',');
-      if (newArr.length === 1) {
-        const selctCategory = filters.category.find(
-          (v) => v.value === category
-        );
-        const newBreadCrubText = breadCrubText.map((v) => {
-          if (v.id === 'search') {
-            return { ...v, text: `/ ${selctCategory.label}列表` };
-          } else return { ...v };
-        });
-        setBreadCrubText(newBreadCrubText);
-      }
-    }
+    // if (city.length > 0) {
+    //   const newBreadCrubText = breadCrubText.map((v) => {
+    //     if (v.id === 'search') {
+    //       return { ...v, text: `> ${city.label}餐廳` };
+    //     } else return { ...v };
+    //   });
+    //   setBreadCrubText(newBreadCrubText);
+    // }
 
     setRule(rule || '');
     setService(service || '');
     if (city) {
+      const newBreadCrubText = breadCrubText.map((v) => {
+        if (v.id === 'search') {
+          return { ...v, text: `> ${city}餐廳` };
+        } else return { ...v };
+      });
+      setBreadCrubText(newBreadCrubText);
       setSelectedCity(city);
     }
     if (area) {
@@ -568,6 +568,7 @@ export default function FilterPage() {
     setShowEndTimeError(false);
     setSelectedCity(null);
     setSelectedArea(null);
+    setShowFilter(false);
 
     // setStartTime('08:00');
 
@@ -815,29 +816,6 @@ export default function FilterPage() {
         <div className="container-inner">
           <div className={Styles.bread_btn}>
             <div className={Styles.breadcrumb}>
-              {/* <ConfigProvider
-                theme={{
-                  token: {
-                    colorPrimary: '#FD8C46',
-                    colorBgContainer: 'transparent',
-                    colorPrimaryTextHover: '#FFEFE8',
-                    colorBgTextActive: '#FD8C46',
-                    fontSize: 18,
-                  },
-                }}
-              >
-                <Breadcrumb
-                  items={[
-                    {
-                      title: '餐廳首頁',
-                      href: `${process.env.WEB}/restaurant`,
-                    },
-                    {
-                      title: '餐廳列表',
-                    },
-                  ]}
-                />
-              </ConfigProvider> */}
               <BreadCrumb breadCrubText={breadCrubText} />
             </div>
             <div className={Styles.function_group}>
@@ -1032,44 +1010,48 @@ export default function FilterPage() {
       </div>
 
       <div className="container-inner">
-        <Row gutter={{ xs: 16, xl: 32 }}>
-          {data.rows.map((v) => {
-            const {
-              rest_sid,
-              name,
-              city,
-              area,
-              img_names,
-              rule_names,
-              service_names,
-              average_friendly,
-              like,
-            } = v;
+        {data.totalRows > 0 ? (
+          <Row gutter={{ xs: 16, xl: 32 }}>
+            {data.rows.map((v) => {
+              const {
+                rest_sid,
+                name,
+                city,
+                area,
+                img_names,
+                rule_names,
+                service_names,
+                average_friendly,
+                like,
+              } = v;
 
-            return (
-              <Col xl={8} xs={12} key={rest_sid}>
-                <div className={Styles.card}>
-                  <RestCard
-                    rest_sid={rest_sid}
-                    image={'/rest_image/image/' + img_names.split(',')[0]}
-                    name={name}
-                    city={city}
-                    area={area}
-                    rule_names={rule_names}
-                    service_names={service_names}
-                    average_friendly={average_friendly}
-                    like={like}
-                    token={auth.token}
-                    singinHandler={toSingIn}
-                    clickHandler={() => {
-                      clickHeartHandler(rest_sid);
-                    }}
-                  />
-                </div>
-              </Col>
-            );
-          })}
-        </Row>
+              return (
+                <Col xl={8} xs={12} key={rest_sid}>
+                  <div className={Styles.card}>
+                    <RestCard
+                      rest_sid={rest_sid}
+                      image={'/rest_image/image/' + img_names.split(',')[0]}
+                      name={name}
+                      city={city}
+                      area={area}
+                      rule_names={rule_names}
+                      service_names={service_names}
+                      average_friendly={average_friendly}
+                      like={like}
+                      token={auth.token}
+                      singinHandler={toSingIn}
+                      clickHandler={() => {
+                        clickHeartHandler(rest_sid);
+                      }}
+                    />
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        ) : (
+          <NotFindCard textForCat="非常抱歉!" textForDog="沒有找到相關餐廳!" />
+        )}
       </div>
 
       <div className={Styles.pagination}>
