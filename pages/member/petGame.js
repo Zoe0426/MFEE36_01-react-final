@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-
-const ANIMATION_DURATION = 1000;
 const OFFSET_X = 300;
 const OFFSET_Y = 200;
 
 export default function PetGame() {
+  const lastImageSwitchTime = useRef(null);
+  const [moveImageIndex, setMoveImageIndex] = useState(0);
   const [direction, setDirection] = useState('right');
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [targetPosition, setTargetPosition] = useState({ x: 0, y: 0 });
@@ -12,7 +12,11 @@ export default function PetGame() {
   const background = useRef(null);
   const startAnimationTime = useRef(null);
   const [isResting, setIsResting] = useState(false);
+  const [moveCount, setMoveCount] = useState(0);
   const [isMoving, setIsMoving] = useState(false);
+  const [isCatVisible, setIsCatVisible] = useState(false);
+  // 將 ANIMATION_DURATION 搬到 state
+  const [animationDuration, setAnimationDuration] = useState(50);
 
   useEffect(() => {
     let restTimeout = null;
@@ -25,8 +29,17 @@ export default function PetGame() {
       const minY = rect.top + OFFSET_X;
       const maxY = rect.bottom - OFFSET_Y;
 
-      const targetX = Math.random() * (maxX - minX) + minX;
-      const targetY = Math.random() * (maxY - minY) + minY;
+      let targetX;
+      let targetY;
+      if (moveCount === 0) {
+        // 如果 moveCount 為 1，則將目標設為中心
+        targetX = rect.width / 2 - 100;
+        targetY = rect.height / 2;
+      } else {
+        // 如果不是，就隨機位置
+        targetX = Math.random() * (maxX - minX) + minX;
+        targetY = Math.random() * (maxY - minY) + minY;
+      }
 
       setTargetPosition((prevPos) => ({ ...prevPos, x: targetX, y: targetY }));
 
@@ -39,7 +52,15 @@ export default function PetGame() {
         }
 
         const timeElapsed = animationTime - startAnimationTime.current;
-        const progress = Math.min(timeElapsed / ANIMATION_DURATION, 1);
+        const progress = Math.min(timeElapsed / animationDuration, 1);
+
+        if (
+          !lastImageSwitchTime.current ||
+          animationTime - lastImageSwitchTime.current > 100
+        ) {
+          setMoveImageIndex((prevIndex) => (prevIndex + 1) % 2);
+          lastImageSwitchTime.current = animationTime;
+        }
 
         // Calculate new position
         const newPosition = {
@@ -60,12 +81,22 @@ export default function PetGame() {
         } else {
           setIsAnimating(false);
           startAnimationTime.current = null;
+          lastImageSwitchTime.current = null;
           setIsMoving(false);
           setIsResting(true);
-          restTimeout = setTimeout(
-            () => setIsResting(false),
-            Math.random() * 2000 + 1000
-          );
+          setMoveCount((prevCount) => prevCount + 1);
+          if (moveCount === 1) {
+            setIsCatVisible(true);
+            setAnimationDuration(1000);
+          }
+          if (moveCount < 1) {
+            setIsResting(false);
+          } else {
+            restTimeout = setTimeout(
+              () => setIsResting(false),
+              Math.random() * 2000 + 1000
+            );
+          }
         }
       };
 
@@ -77,13 +108,19 @@ export default function PetGame() {
 
   return (
     <div className="background" ref={background}>
-      <Cat position={position} direction={direction} isMoving={isMoving} />{' '}
-      {/* Changes here */}
+      {isCatVisible && (
+        <Cat
+          position={position}
+          direction={direction}
+          isMoving={isMoving}
+          moveImageIndex={moveImageIndex}
+        />
+      )}
     </div>
   );
 }
 
-const Cat = ({ position, direction, isMoving }) => {
+const Cat = ({ position, direction, isMoving, moveImageIndex }) => {
   const petStyle = {
     position: 'absolute',
     left: position.x,
@@ -92,8 +129,8 @@ const Cat = ({ position, direction, isMoving }) => {
     transform: direction === 'left' ? 'scaleX(-1)' : 'scaleX(1)',
   };
   const imageSource = isMoving
-    ? '/pet_game/cat_move.png'
-    : '/pet_game/cat_idle.png'; // Changes here
+    ? `/pet_game/cat_move0${moveImageIndex + 1}.png`
+    : '/pet_game/cat_idle.png';
 
   return <img src={imageSource} style={petStyle} alt="pet" />;
 };

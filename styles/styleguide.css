@@ -151,9 +151,9 @@ body{
 /* -------------------- */
 .background{
   width: 100%;
-  height: 780px; 
+  height: 740px; 
   background-image: url("/pet_game/background.png");  
-  background-repeat: no-repeat;
+  background-repeat:repeat-x;
   background-size: contain;
   background-position: 50% 50%;
 }
@@ -162,6 +162,7 @@ body{
   position: absolute;
   transition: all 1s ease-out;
 }
+
 
 
 /* -------------------- */
