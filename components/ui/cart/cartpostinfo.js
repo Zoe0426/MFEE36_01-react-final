@@ -1,4 +1,3 @@
-import React from 'react';
 import style from './cartpostinfo.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,13 +17,13 @@ export default function CartPostInfo({
   name = '',
   mobile = '',
   email = '',
-  selected = false,
   postType,
-  edit = false,
   forModal = false,
+  defaultStatus = false,
+  checkDefaultAdd = () => {},
 }) {
+  console.log(defaultStatus);
   let img = '';
-
   if (postType === 1) {
     forModal
       ? (img = '/cart_img/c-blackcat2.png')
@@ -76,7 +75,6 @@ export default function CartPostInfo({
         </div>
         <div>
           <p className={style.price}>$60</p>
-          {/* <img src={img} alt="postType" className={style.modalPostTypeImg} /> */}
         </div>
       </div>
     );
@@ -145,7 +143,12 @@ export default function CartPostInfo({
                 },
               }}
             >
-              <Checkbox />
+              <Checkbox
+                onChange={() => {
+                  checkDefaultAdd(addressSid, defaultStatus);
+                }}
+                checked={defaultStatus}
+              />
             </ConfigProvider>
 
             <span className={style.text}>預設地址</span>

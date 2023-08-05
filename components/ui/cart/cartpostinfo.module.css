@@ -65,6 +65,13 @@
     min-width: 20px;
     text-align: start;
 }
+.defaultCheckbox{
+
+    margin-left: 0px;
+}
+.text{
+    margin-left: 5px;
+}
 
 } 
 @media screen and (max-width:576px){

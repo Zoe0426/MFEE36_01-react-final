@@ -33,7 +33,6 @@ export default function Cart() {
   const [shopData, setShopData] = useState([]);
   const [activityData, setActivityData] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  // const [itemsAmount, setItemsAmount] = useState(0);
   //寄送資訊
   const [postType, setPostType] = useState(1);
   const [postAddData, setPostAddData] = useState([]);
@@ -73,10 +72,6 @@ export default function Cart() {
     setActivityData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
   };
 
-  // const changePostType = (e) => {
-  //   setPostType(e.target.value);
-  // };
-
   const selectCoupon = () => {
     setCouponData((old) =>
       old.map((v) =>
@@ -86,9 +81,20 @@ export default function Cart() {
       )
     );
   };
-  const selectAddress = () => {};
+  const checkDefaultAdd = (sid, status) => {
+    const newData = postAddData.map((v) => {
+      if (status === true) {
+        return { ...v, default_status: 0 };
+      } else {
+        return v.address_sid == sid
+          ? { ...v, default_status: 1 }
+          : { ...v, default_status: 0 };
+      }
+    });
+    // console.log(newData);
+    setPostAddData(newData);
+  };
   const getCart = async (id) => {
-    //console.log(id);
     setLoading(true);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/get-cart-items`, {
       method: 'POST',
@@ -201,8 +207,6 @@ export default function Cart() {
     }
   };
 
-  //console.log(cartData);
-  //console.log(paymentType);
   console.log({ postAddData });
   console.log({ postType });
   if (pageLoading) {
@@ -311,6 +315,9 @@ export default function Cart() {
                           selected={v.selected}
                           postType={v.post_type}
                           edit={true}
+                          defaultStatus={!!v.default_status}
+                          // defaultPostStatus={defaultPostStatus}
+                          checkDefaultAdd={checkDefaultAdd}
                         />
                       ) : (
                         ''
@@ -324,7 +331,6 @@ export default function Cart() {
                     btnType="text"
                     btnText="變更收件地址"
                     title="選擇/新增收件地址"
-                    confirmHandler={selectAddress}
                     content={
                       <CartAddressList
                         postAddData={postAddData}
