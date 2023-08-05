@@ -53,7 +53,6 @@ export default function Product() {
   const [displayChatRoom, setDisplayChatRoom] = useState(false);
 
   const connectWebSocket = () => {
-    // setWs(webSocket(`http://localhost:3002/`));
     setWs(io(`${process.env.API_SERVER}`));
   };
 
@@ -68,12 +67,17 @@ export default function Product() {
       //設定監聽
       initWebSocket();
     }
+
+    return () => {
+      if (ws) {
+        ws.disconnect(); // 關閉WebSocket連線
+      }
+    };
   }, [ws]);
 
   const initWebSocket = () => {
     //對 getMessage 設定監聽，如果 server 有透過 getMessageAll 傳送訊息，將會在此被捕捉,並塞入之前的對話框
     ws.on('receiveMessage', (message) => {
-      console.log(message);
       setMessages((prevMessages) => [...prevMessages, message]);
     });
   };
@@ -816,6 +820,7 @@ export default function Product() {
     }
   };
 
+  //聊天室相關函式---------------------------------------
   const chatTextHandler = (e) => {
     const newText = e.target.value;
     setInputText(newText);
@@ -833,19 +838,28 @@ export default function Product() {
     }
   };
 
+  const chatCloseHandler = () => {
+    ws.emit('disConnection', `${username}離開了聊天室`);
+    setMessages([]);
+    setDisplayChatRoom(false);
+  };
+
   return (
     <>
-      <div className={styles.online_img} onClick={connectWebSocket}>
-        <img src="/product-img/onLineService.jpg" alt="onlineService" />
-      </div>
+      {!displayChatRoom && (
+        <div className={styles.online_img} onClick={connectWebSocket}>
+          <img src="/product-img/onLineService.jpg" alt="onlineService" />
+        </div>
+      )}
       {displayChatRoom && (
         <Chatroom
+          auth={auth}
           chatroomDatas={messages}
           inputText={inputText}
           changeHandler={chatTextHandler}
           keyDownHandler={chatKeyDownHandler}
           clickHandler={chatSendHandler}
-          auth={auth}
+          closeHandler={chatCloseHandler}
         />
       )}
       <div className="outer-container">

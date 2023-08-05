@@ -702,7 +702,7 @@
   height: 75px;
   position: fixed;
   top: 50%;
-  left:calc(((100% - 1920px) / 2) + 1750px);
+  /* left:calc(((100% - 1920px) / 2) + 1750px); */
   transform: translateY(-50%);
   z-index: 99999;
   cursor: pointer;

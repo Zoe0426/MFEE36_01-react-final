@@ -1,16 +1,24 @@
-import React from 'react';
+import { useRef, useEffect } from 'react';
 import styles from './chatroom.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function Chatroom({
+  auth = { nickname: '' },
   chatroomDatas = [{ sender: '', message: '', time: '' }],
   inputText = '',
   changeHandler = () => {},
   keyDownHandler = () => {},
   clickHandler = () => {},
-  auth = { nickname: '' },
+  closeHandler = () => {},
 }) {
+  const chatroomRef = useRef();
+
+  useEffect(() => {
+    // 當 chatroomDatas 更新後，滾動到最底部
+    chatroomRef.current.scrollTop = chatroomRef.current.scrollHeight;
+  }, [chatroomDatas]);
+
   return (
     <div className={styles.chatroom_box}>
       <div className={styles.chatroom_head}>
@@ -19,10 +27,10 @@ export default function Chatroom({
           style={{ maxWidth: '16px', maxHeight: '16px' }}
           icon={faXmark}
           className={styles.btn_clear_text}
-          //   onClick={clearHandler}
+          onClick={closeHandler}
         />
       </div>
-      <div className={styles.chatroom_textarea}>
+      <div className={styles.chatroom_textarea} ref={chatroomRef}>
         <ul>
           {chatroomDatas.map((v, i) => {
             return (
@@ -35,15 +43,31 @@ export default function Chatroom({
                 }
               >
                 {v.sender === '狗with咪客服' && (
-                  <div className={styles.head_img}>
+                  <div className={`${styles.head_img}`}>
                     <img
                       src={`${process.env.WEB}/product-img/logo-10.png`}
                       alt={auth.profile}
                     />
                   </div>
                 )}
-                <span className={styles.text}>{v.message.message}</span>
-
+                <span
+                  className={
+                    v.sender === '狗with咪客服'
+                      ? `${styles.time} ${styles.order3}`
+                      : `${styles.time} ${styles.order0}`
+                  }
+                >
+                  {v.message.time}
+                </span>
+                <span
+                  className={
+                    v.sender === '狗with咪客服'
+                      ? styles.text
+                      : `${styles.text} ${styles.bgc}`
+                  }
+                >
+                  {v.message.message}
+                </span>
                 {v.sender !== '狗with咪客服' && (
                   <div
                     className={
