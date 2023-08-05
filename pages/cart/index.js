@@ -73,9 +73,9 @@ export default function Cart() {
     setActivityData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
   };
 
-  const changePostType = (e) => {
-    setPostType(e.target.value);
-  };
+  // const changePostType = (e) => {
+  //   setPostType(e.target.value);
+  // };
 
   const selectCoupon = () => {
     setCouponData((old) =>
@@ -204,7 +204,7 @@ export default function Cart() {
   //console.log(cartData);
   //console.log(paymentType);
   console.log({ postAddData });
-
+  console.log({ postType });
   if (pageLoading) {
     return <Loading />;
   } else if (!pageLoading) {

@@ -48,6 +48,17 @@
 .price{
 
 }
+.defaultCheckbox{
+    font-size: var(--pfs16);
+    display: flex;
+    align-items: center;
+    /* border: 1px solid pink; */
+    color: var(--gray);
+    margin-left: 12px;
+}
+.text{
+    margin-left: 13px;
+}
 @media screen and (max-width:767px){
 
 .icon{

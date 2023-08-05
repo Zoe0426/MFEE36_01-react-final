@@ -3,7 +3,6 @@ import { Radio, ConfigProvider } from 'antd';
 import style from './cartAddressList.module.css';
 import CartPostInfo from './cartpostinfo';
 import CartNewAddressForm from './cartNewAddressForm';
-import Modal from '../modal/modal';
 
 export default function CartAddressList({
   postAddData = [],
@@ -12,14 +11,17 @@ export default function CartAddressList({
   setPostType = () => {},
 }) {
   //sortData
+
   const selectedPostType = postAddData.filter((v) => v.selected === true)[0]
     .post_type;
   const originalSelectedSid = postAddData.filter((v) => v.selected === true)[0]
     .address_sid;
   const blackCatData = postAddData.filter((v) => v.post_type === 1);
+  console.log({ blackCatData });
   const sevenData = postAddData.filter((v) => v.post_type === 2);
+  console.log({ sevenData });
   const familyData = postAddData.filter((v) => v.post_type === 3);
-
+  console.log({ familyData });
   //setData
   const [addNewBox, setaddNewBox] = useState(false);
   const [mapData, setMapData] = useState(
@@ -155,7 +157,14 @@ export default function CartAddressList({
       {/* <div className={style.formBox}></div> */}
       {addNewBox && (
         <div className={`${style.formBox} ${addNewBox ? 'active' : ''}`}>
-          <CartNewAddressForm />
+          <CartNewAddressForm
+            postType={postType}
+            postAddData={postAddData}
+            setaddNewBox={setaddNewBox}
+            setPostAddData={setPostAddData}
+            setMapData={setMapData}
+            setselectedAddSid={setselectedAddSid}
+          />
         </div>
       )}
     </ConfigProvider>

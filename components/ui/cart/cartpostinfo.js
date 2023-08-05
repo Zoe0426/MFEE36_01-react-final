@@ -1,5 +1,6 @@
 import React from 'react';
 import style from './cartpostinfo.module.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faLocationDot,
@@ -8,6 +9,7 @@ import {
   faEnvelope,
   faCalendarDays,
 } from '@fortawesome/free-solid-svg-icons';
+import { Checkbox, ConfigProvider } from 'antd';
 
 export default function CartPostInfo({
   addressSid = '',
@@ -134,6 +136,20 @@ export default function CartPostInfo({
             預計到貨&nbsp;&nbsp;
             <span>6月8日&nbsp;&nbsp;-&nbsp;&nbsp;6月16日</span>
           </p>
+          <div className={style.defaultCheckbox}>
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimary: '#FD8C46',
+                  fontSize: 18,
+                },
+              }}
+            >
+              <Checkbox />
+            </ConfigProvider>
+
+            <span className={style.text}>預設地址</span>
+          </div>
         </div>
         <div>
           <img src={img} alt="" className={style.postTypeImg} />
