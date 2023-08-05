@@ -57,6 +57,7 @@ export default function ActivityDetail() {
     actFeatureRows: [],
     actRatingRows: [],
     actRecommend: [],
+    actCartTotalQtyRows:[],
   });
 
   const [actDetailRows, setActDetailRows] = useState([]);
@@ -67,6 +68,7 @@ export default function ActivityDetail() {
   const [actFeatureRows, setActFeatureRows] = useState([]);
   const [actRatingRows, setActRatingRows] = useState([]);
   const [actRecommend, setActRecommend] = useState([]);
+  const [actCartTotalQtyRows,setActCartTotalQtyRows]=useState([]);
 
   const totalPrice =
     actDetailRows.price_adult * countAdult +
@@ -105,6 +107,7 @@ export default function ActivityDetail() {
             actFeatureRows,
             actRatingRows,
             actRecommend,
+            actCartTotalQtyRows,
           } = data;
 
           // 更新 React 組件的狀態
@@ -139,6 +142,11 @@ export default function ActivityDetail() {
 
           if (actRecommend && actRecommend.length > 0) {
             setActRecommend(actRecommend);
+          }
+
+
+          if (actCartTotalQtyRows && actCartTotalQtyRows.length > 0) {
+            setActCartTotalQtyRows(...actCartTotalQtyRows);
           }
 
           setData(data);
@@ -352,7 +360,7 @@ export default function ActivityDetail() {
               </div>
 
               <div>
-                <p className={styles.row_text_medium}>(TODO: 30人參加過)</p>
+                <p className={styles.purchase_count}>(已有{actCartTotalQtyRows.purchase_count}人參加)</p>
               </div>
             </div>
 

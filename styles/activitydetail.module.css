@@ -291,6 +291,12 @@
     font-size: var(--h5fs20);
   }
 
+  .purchase_count{
+    font-size: var(--h5fs20);
+    margin-left: 10px;
+    color: var(--gray);
+  }
+
   .row_text_small {
     font-size: var(--h6fs18);
   }
