@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function CommentCard({
-  member_sid = '',
   date = '',
   rating = 0,
   content = '',
@@ -25,7 +24,10 @@ export default function CommentCard({
       <div className={styles.card_head}>
         <div>
           {profile ? (
-            <img src={`${process.env.API_SERVER}/img/${profile}`} alt="" />
+            <img
+              src={`${process.env.API_SERVER}/img/${profile}`}
+              alt={profile}
+            />
           ) : (
             <FontAwesomeIcon icon={faUser} className={styles.default_head} />
           )}

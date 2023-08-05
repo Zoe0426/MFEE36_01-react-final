@@ -3,9 +3,10 @@ import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import Image from 'next/image';
-import webSocket from 'socket.io-client';
+import { io } from 'socket.io-client';
 import styles from '@/styles/shop.module.css';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
+import Chatroom from '@/components/ui/shop/chatroom';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
@@ -46,31 +47,51 @@ import Xicon from '@/assets/X.svg';
 export default function Product() {
   const router = useRouter();
   const [ws, setWs] = useState(null);
+  const [inputText, setInputText] = useState('');
+  const [username, setUsername] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [displayChatRoom, setDisplayChatRoom] = useState(false);
 
   const connectWebSocket = () => {
-    // setWs(webSocket(`${process.env.WEB}/shop-api`));
-    setWs(webSocket(`http://localhost:3002/`));
+    // setWs(webSocket(`http://localhost:3002/`));
+    setWs(io(`${process.env.API_SERVER}`));
   };
 
   useEffect(() => {
     if (ws) {
       //連線成功在 console 中打印訊息
       console.log('success connect!');
+      const userID = auth.nickname || '狗with咪客服';
+      setUsername(userID);
+      joinRoom(userID);
+      setDisplayChatRoom(true);
       //設定監聽
       initWebSocket();
     }
   }, [ws]);
 
   const initWebSocket = () => {
-    //對 getMessage 設定監聽，如果 server 有透過 getMessage 傳送訊息，將會在此被捕捉
-    ws.on('getMessage', (message) => {
+    //對 getMessage 設定監聽，如果 server 有透過 getMessageAll 傳送訊息，將會在此被捕捉,並塞入之前的對話框
+    ws.on('receiveMessage', (message) => {
       console.log(message);
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
   };
 
-  const sendMessage = () => {
-    //以 emit 送訊息，並以 getMessage 為名稱送給 server 捕捉
-    ws.emit('getMessage', '只回傳給發送訊息的 client');
+  const joinRoom = (username) => {
+    ws.emit('joinRoom', username); // 將使用者名稱傳送到後端
+  };
+
+  const sendMessage = (text) => {
+    const today = new Date();
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    ws.emit('sendMessage', {
+      sender: username,
+      message: text,
+      time: hours + ':' + minutes,
+    }); // 將使用者名稱和訊息一併傳送到後端
+    setInputText('');
   };
 
   const productComment = useRef(null);
@@ -519,23 +540,6 @@ export default function Product() {
   };
 
   //取得蒐藏列表資料
-  // const getLikeList = async (token = '') => {
-  //   const res = await fetch(
-  //     `${process.env.API_SERVER}/shop-api/show-like-list`,
-  //     {
-  //       method: 'GET',
-  //       headers: {
-  //         Authorization: 'Bearer ' + token,
-  //       },
-  //     }
-  //   );
-  //   const data = await res.json();
-
-  //   if (data.likeDatas.length > 0) {
-  //     setLikeDatas(data.likeDatas);
-  //   }
-  // };
-
   const getLikeList = async (token = '') => {
     try {
       const res = await fetch(
@@ -812,9 +816,38 @@ export default function Product() {
     }
   };
 
+  const chatTextHandler = (e) => {
+    const newText = e.target.value;
+    setInputText(newText);
+  };
+
+  const chatKeyDownHandler = (e) => {
+    if (e.key === 'Enter' && inputText.trim()) {
+      sendMessage(inputText);
+    }
+  };
+
+  const chatSendHandler = () => {
+    if (inputText.trim()) {
+      sendMessage(inputText);
+    }
+  };
+
   return (
     <>
-      <button onClick={connectWebSocket}>連線</button>
+      <div className={styles.online_img} onClick={connectWebSocket}>
+        <img src="/product-img/onLineService.jpg" alt="onlineService" />
+      </div>
+      {displayChatRoom && (
+        <Chatroom
+          chatroomDatas={messages}
+          inputText={inputText}
+          changeHandler={chatTextHandler}
+          keyDownHandler={chatKeyDownHandler}
+          clickHandler={chatSendHandler}
+          auth={auth}
+        />
+      )}
       <div className="outer-container">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">

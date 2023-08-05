@@ -140,7 +140,7 @@ export default function List() {
         setFiltersReady(true);
       }
     } catch (error) {
-      console.lor(error);
+      console.log(error);
     }
   };
 

@@ -697,6 +697,21 @@
   font-weight: var(--fwbold);
 }
 
+.online_img{
+  width: 75px;
+  height: 75px;
+  position: fixed;
+  top: 50%;
+  left:calc(((100% - 1920px) / 2) + 1750px);
+  transform: translateY(-50%);
+  z-index: 99999;
+  cursor: pointer;
+}
+
+.online_img>img{
+  width: 100%;
+}
+
 @media screen and (max-width: 1920px) and (min-width: 768px) {
   .shop_container_inner {
     width: 68%;
