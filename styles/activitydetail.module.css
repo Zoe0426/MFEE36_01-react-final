@@ -45,7 +45,7 @@
   height: 46px;
   line-height: 100%;
   text-align: center;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 }
 
 .numInputBlock {
@@ -101,8 +101,8 @@
   /* -------左邊------- */
   .left {
     position: relative;
-    width: 60%;
-    height:610px;
+    width: 50%;
+    height:450px;
 
   }
   
@@ -191,7 +191,8 @@
   
   .row_price{
     font-size: var(--h5fs20);
-    color: var(--dark);
+    color: var(--main);
+    margin-right: 10px;
   }
   
   /* 四-六段 icon */
@@ -237,12 +238,29 @@
   }
   
   
-  .ppl_qty{
+  /* .ppl_qty{
     display: flex;
+  } */
+
+.ppl_qty_title{
+  display: flex;
+  margin-bottom: 20px;
+}
+
+/* .ppl_qty_outer{
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+} */
+
+  .ppl_qty_inner{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
   }
   
   .ppl_qty_row{
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
     font-size: var(--h6fs18);
   }
   
@@ -254,7 +272,7 @@
   }
 
   .total_price{
-    font-size: var(--h4fs24);
+    font-size: var(--h3fs28);
     color: var(--main);
   }
 
@@ -280,12 +298,14 @@
 /* ------------------下方資訊---------------------- */
 
 .nav_detail{
-    margin: 100px 0;
+    margin-top: 150px;
 }
 
 .feature{
    display: flex;
-   justify-content: center; 
+   justify-content: space-between; 
+   margin-top: 37px;
+   align-items: center;
 }
 
 .subtitle{

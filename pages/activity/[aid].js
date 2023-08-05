@@ -19,7 +19,7 @@ import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import CommentCard from '@/components/ui/cards/comment-card';
-import { Button, Select, ConfigProvider } from 'antd';
+import { Button, Select, ConfigProvider, Row, Col } from 'antd';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
@@ -287,7 +287,7 @@ export default function ActivityDetail() {
 
       <div className="container-inner">
         <div className={styles.card}>
-          {/* -------右邊------- */}
+          {/* -------左邊------- */}
 
           <div className={styles.left}>
             <button
@@ -324,27 +324,21 @@ export default function ActivityDetail() {
               />
             </button>
 
-            {/* <div className={styles.overlay_left}></div>
-            <div className={styles.overlay_right}></div> */}
-            <div className={styles.icon}></div>
+            <div className={styles.feature}>
+              {actFeatureRows.map((row, index) => (
+                <ActivityFeatureDetail key={index} feature={row.name} />
+              ))}
+            </div>
           </div>
 
-          {/* -------左邊------- */}
+          {/* -------右邊------- */}
           <div className={styles.right}>
-            {/* 第一行 */}
+            {/* 標題 */}
             <div className={styles.row_text_title}>
               <p>{actDetailRows.name}</p>
             </div>
 
-            {/* 第二行 */}
-            <div className={styles.row}>
-              <p className={styles.row_price}>
-                ${actDetailRows.price_adult}/大人 $
-                {actDetailRows.price_adult / 2}/小孩
-              </p>
-            </div>
-
-            {/* 第三行 */}
+            {/* 評分＋總參加人數 */}
             <div className={styles.row}>
               <div className={styles.review}>
                 <FontAwesomeIcon
@@ -362,7 +356,7 @@ export default function ActivityDetail() {
               </div>
             </div>
 
-            {/* 第四行 */}
+            {/* 日期 */}
             <div className={styles.row}>
               <FontAwesomeIcon
                 icon={faCalendarDays}
@@ -376,7 +370,7 @@ export default function ActivityDetail() {
               </div>
             </div>
 
-            {/* 第五行 */}
+            {/* 時間 */}
             <div className={styles.row}>
               <FontAwesomeIcon
                 icon={faClock}
@@ -388,7 +382,7 @@ export default function ActivityDetail() {
               </div>
             </div>
 
-            {/* 第六行 */}
+            {/* 地點 */}
             <div className={styles.row}>
               <FontAwesomeIcon
                 icon={faLocationDot}
@@ -404,7 +398,7 @@ export default function ActivityDetail() {
               </div>
             </div>
 
-            {/* 第七行 */}
+            {/* 報名日期 */}
             <div className={styles.row}>
               <div className={styles.row_date}>
                 <p className={styles.row_text_small}>選擇日期：</p>
@@ -434,31 +428,21 @@ export default function ActivityDetail() {
                     ))}
                   </Select>
                 </ConfigProvider>
-                {/* <Select defaultValue="選擇活動日期">
-                  {actDateRows.map((row, index) => (
-                    <Select.Option
-                      className={styles.dateSelect}
-                      key={index}
-                      value={row.date}
-                    >
-                      {row.date}
-                    </Select.Option>
-                  ))}
-                </Select> */}
               </div>
             </div>
 
-            {/* 第八行 */}
+            {/* 報名人數 */}
             <div className={styles.ppl_qty}>
-              {/* 左邊 */}
-              <div>
+              <div className={styles.ppl_qty_title}>
                 <p className={styles.row_text_small}>報名人數：</p>
               </div>
 
-              {/* 右邊 */}
               <div>
-                <div>
+                <div className={styles.ppl_qty_inner}>
                   <p className={styles.ppl_qty_row}>大人：</p>
+                  <p className={styles.row_price}>
+                    ${actDetailRows.price_adult}/人
+                  </p>
                   <div className={styles.detail_qty}>
                     <div className={styles.numInputBlock}>
                       <button
@@ -494,8 +478,11 @@ export default function ActivityDetail() {
                   </div>
                   {/* <input className={styles.ppl_qty_row}></input> */}
                 </div>
-                <div>
+                <div className={styles.ppl_qty_inner}>
                   <p className={styles.ppl_qty_row}>小孩：</p>
+                  <p className={styles.row_price}>
+                    ${actDetailRows.price_adult / 2}/人
+                  </p>
                   <div className={styles.detail_qty}>
                     <div className={styles.numInputBlock}>
                       <button
@@ -577,19 +564,12 @@ export default function ActivityDetail() {
         <div className={styles.nav_detail}>
           <NavDetailPage items={items} handleClick={handleClick} />
         </div>
-
-        <div className={styles.feature}>
-          {actFeatureRows.map((row, index) => (
-            <ActivityFeatureDetail key={index} feature={row.name} />
-          ))}
-        </div>
       </div>
 
-      {/* .........下方資訊......... */}
-
       {/* ....銜接處圖片1.... */}
-      <img src="/activity_img/detail_bg_5.jpg" alt="Activity" />
+      <img src="/activity_img/detail_bg_8.jpg" alt="Activity" />
 
+      {/* .........下方資訊......... */}
       <div className="container-inner">
         <div className={styles.content}>
           <div ref={targetRef1}>
@@ -598,7 +578,7 @@ export default function ActivityDetail() {
             <p className={styles.row_text_small}>{actDetailRows.content}</p>
             <br />
             <br />
-            <p> {actDetailRows.schedule}</p>
+            <p className={styles.row_text_small}>活動行程：{actDetailRows.schedule}</p>
           </div>
 
           {/* <img
@@ -630,7 +610,7 @@ export default function ActivityDetail() {
           )}
           <div ref={targetRef2}>
             <p className={styles.subtitle}>活動規範：</p>
-            
+
             <p className={styles.row_text_small}>{actDetailRows.policy}</p>
           </div>
         </div>
@@ -674,9 +654,7 @@ export default function ActivityDetail() {
                 className={styles.star_icon_big}
                 style={{ maxWidth: '20px', maxHeight: '20px' }}
               />
-              <p className={styles.rating}>
-                {actDetailRows.avg_rating}
-              </p>
+              <p className={styles.rating}>{actDetailRows.avg_rating}</p>
               <p className={styles.row_text_small}>
                 (共{actDetailRows.rating_count}則評價)
               </p>
@@ -711,8 +689,8 @@ export default function ActivityDetail() {
         </div>
       </div>
 
- {/* ....銜接處圖片5.... */}
- <img src="/activity_img/detail_bg_7.jpg" alt="Activity" />
+      {/* ....銜接處圖片5.... */}
+      <img src="/activity_img/detail_bg_7.jpg" alt="Activity" />
 
       {/* .........推薦商品......... */}
 
