@@ -110,7 +110,7 @@ export default function Post() {
               {postData.map((v,i)=>(
                 <PostArticle key={v.post_sid} className={Style.title} 
                 navTitle={v.post_title} 
-                profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' 
+                profile={v.profile}
                 // profile={v.profile} 
                 author={v.nickname} 
                 id= {`@${v.member_ID}`} // 在這裡添加@符號
