@@ -588,7 +588,7 @@ export default function ActivityDetail() {
       {/* .........下方資訊......... */}
 
       {/* ....銜接處圖片1.... */}
-      <img src="/activity_img/detail_bg_1.jpg" alt="Activity" />
+      <img src="/activity_img/detail_bg_5.jpg" alt="Activity" />
 
       <div className="container-inner">
         <div className={styles.content}>
@@ -660,7 +660,7 @@ export default function ActivityDetail() {
       </div>
 
       {/* ....銜接處圖片4.... */}
-      <img src="/activity_img/detail_bg_1.jpg" alt="Activity" />
+      <img src="/activity_img/detail_bg_6.jpg" alt="Activity" />
 
       {/* .........顧客評價......... */}
 
@@ -668,7 +668,7 @@ export default function ActivityDetail() {
         <div className={styles.content}>
           <div ref={targetRef4}>
             <p className={styles.subtitle}>顧客評價：</p>
-            <div className={styles.review}>
+            <div className={styles.review_big}>
               <FontAwesomeIcon
                 icon={faStar}
                 className={styles.star_icon_big}
@@ -711,14 +711,17 @@ export default function ActivityDetail() {
         </div>
       </div>
 
+ {/* ....銜接處圖片5.... */}
+ <img src="/activity_img/detail_bg_7.jpg" alt="Activity" />
+
       {/* .........推薦商品......... */}
 
       <div className="container-inner">
-        <div className={styles.content}>
+        <div className={styles.recommend_section}>
           <div ref={targetRef4}>
             <p className={styles.subtitle}>為您推薦：</p>
 
-            <div className={styles.comment_cards}>
+            <div className={styles.recommend_cards}>
               {actRecommend.map((i) => {
                 const {
                   activity_sid,

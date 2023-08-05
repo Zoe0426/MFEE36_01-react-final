@@ -201,11 +201,10 @@
     color: var(--main);
   }
   
-  /* 評分 */
+  /* 上方評分 */
   .review{
   display: flex;
   align-items: center;
-  margin:0 10px 30px 0;
   }
   
   .star_icon {
@@ -213,6 +212,13 @@
     color: var(--starYellow);
     font-size: var(--h6fs18);
   }
+
+  /* 下方顧客評分 */
+  .review_big{
+    display: flex;
+    align-items: center;
+    margin:0 10px 30px 0;
+    }
 
   .star_icon_big{
     margin-right: 5px;
@@ -307,7 +313,19 @@
     border-radius: var(--br10);
 }
 
+
+
 .comment_cards{
   display: flex;
   flex-wrap: nowrap;
 }
+
+.recommend_section{
+  margin: 30px 0 200px 0;
+  }
+
+
+  .recommend_cards{
+    display: flex;
+    flex-wrap: nowrap;
+  }
