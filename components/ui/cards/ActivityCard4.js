@@ -11,9 +11,8 @@ import styles from './ActivityCard4.module.css';
 import ActivityFeature from './ActivityFeature';
 import { Row, Col } from 'antd';
 import Link from 'next/link';
-import Modal from '@/components/ui/modal/modal';
-import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 import RateStarPill from '../rateStar/RateStarPill';
+import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
 
 const ActivityCard4 = ({
   activity_sid = '', //link要用的
@@ -69,17 +68,17 @@ const ActivityCard4 = ({
         className={isLiked ? styles.heart_icon_liked : styles.heart_icon}
       />
       ) : (
-        <Modal
+        <ActivityAlertModal
           btnType="heart"
           title="貼心提醒"
-          content={<ModoalReminder text="登入會員，才能收藏活動喔~" />}
+          content="收藏活動"
           mainBtnText="前往登入"
           subBtnText="暫時不要"
           confirmHandler={singinHandler}
         />
       )}
 
-      <Link href={`http://localhost:3000/activity/${activity_sid}`}>
+      <Link href={`${process.env.WEB}/activity/${activity_sid}`}>
         <div className={styles.card}>
           {/* -------右邊------- */}
           <div className={styles.left}>

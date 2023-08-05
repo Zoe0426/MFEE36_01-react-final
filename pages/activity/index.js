@@ -2,7 +2,16 @@ import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Head from 'next/head';
-import { Row, Col, ConfigProvider, Dropdown, Menu, Button, Space,DatePicker, } from 'antd';
+import {
+  Row,
+  Col,
+  ConfigProvider,
+  Dropdown,
+  Menu,
+  Button,
+  Space,
+  DatePicker,
+} from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import styles from '../../styles/activityindex.module.css';
@@ -24,12 +33,10 @@ import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
 import ActivityFilter from '@/components/ui/cards/ActivityFilter';
 import ActivityFilterPrice from '@/components/ui/cards/ActivityFilterPrice';
-import ActivityFilterDate from '@/components/ui/cards/ActivityFilterDate';
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
-import Modal from '@/components/ui/modal/modal';
-import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
 
 export default function ActivityHome() {
   // 主卡片
@@ -41,6 +48,7 @@ export default function ActivityHome() {
   // 會員登入
   const { auth } = useContext(AuthContext);
   const authId = auth.id;
+  const router = useRouter();
 
   // 其他
   const [keyword, setKeyword] = useState('');
@@ -72,9 +80,9 @@ export default function ActivityHome() {
   const toSingIn = () => {
     const from = router.query;
     router.push(
-      `/member/sign-in?from=${
-        process.env.WEB
-      }/restaurant/list?${new URLSearchParams(from).toString()}`
+      `/member/sign-in?from=${process.env.WEB}/activity/${new URLSearchParams(
+        from
+      ).toString()}`
     );
   };
 
@@ -82,7 +90,7 @@ export default function ActivityHome() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3002/activity-api');
+        const response = await fetch(`${process.env.API_SERVER}/activity-api`);
         const { data, topCityData, wish, popularCount } = await response.json();
         setData(data);
         setTopCityData(topCityData);
@@ -101,7 +109,7 @@ export default function ActivityHome() {
     {
       id: 'activity',
       text: '活動首頁',
-      href: 'http://localhost:3000/activity',
+      href: `${process.env.WEB}/activity`,
       show: true,
     },
     { id: 'search', text: '', href: '', show: true },
@@ -136,7 +144,7 @@ export default function ActivityHome() {
   const toggleFilter = () => {
     setShowFilter(!showfilter);
   };
-  
+
   const handleCityClick = (e) => {
     setSelectedCity(e.key);
     setSelectedArea(null);
@@ -147,8 +155,6 @@ export default function ActivityHome() {
   };
   //取台灣的地區
   const cities = cityDatas;
-
-  
 
   // 進階篩 日期區間
   const handleDateChange = (dates) => {
@@ -429,7 +435,6 @@ export default function ActivityHome() {
       {/* .........banner......... */}
       <div className={styles.banner}>
         <div className={styles.search}>
-          <h1>想找活動嗎？來這裡就對了！</h1>
           <SearchBar
             placeholder="搜尋活動名稱"
             btn_text="尋找活動"
@@ -447,24 +452,21 @@ export default function ActivityHome() {
             <BreadCrumb breadCrubText={breadCrubText} />
 
             <div className={styles.btns}>
-               {auth.token ? (
-              <IconBtn
-                icon={faHeart}
-                text="收藏列表"
-                clickHandler={toggleLikeList}
-              />
-               ) : (
-                <Modal
+              {auth.token ? (
+                <IconBtn
+                  icon={faHeart}
+                  text="收藏列表"
+                  clickHandler={toggleLikeList}
+                />
+              ) : (
+                <ActivityAlertModal
                   btnType="iconBtn"
                   btnText="收藏列表"
-                  title="貼心提醒"
-                  content={
-                    <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
-                  }
+                  icon={faHeart}
+                  content="可查看收藏列表"
                   mainBtnText="前往登入"
                   subBtnText="暫時不要"
                   confirmHandler={toSingIn}
-                  icon={faHeart}
                 />
               )}
               <IconBtn
@@ -550,7 +552,9 @@ export default function ActivityHome() {
                       >
                         <Button>
                           <Space>
-                            <p className={styles.dropdown_arrow}>{selectedCity ? selectedCity : '縣市'}</p>
+                            <p className={styles.dropdown_arrow}>
+                              {selectedCity ? selectedCity : '縣市'}
+                            </p>
                             <DownOutlined />
                           </Space>
                         </Button>
@@ -571,8 +575,9 @@ export default function ActivityHome() {
                       >
                         <Button>
                           <Space>
-                            <p className={styles.dropdown_arrow}
-                            >{selectedArea ? selectedArea : '地區'}</p>
+                            <p className={styles.dropdown_arrow}>
+                              {selectedArea ? selectedArea : '地區'}
+                            </p>
                             <DownOutlined />
                           </Space>
                         </Button>
@@ -582,9 +587,7 @@ export default function ActivityHome() {
                 </div>
 
                 <div className={styles.filter_btns}>
-                  <SecondaryBtn
-                  text="重置" 
-                  clickHandler={clearAllFilter} />
+                  <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
                   <MainBtn text="確定" clickHandler={filterHandler} />
                 </div>
               </div>
@@ -614,7 +617,6 @@ export default function ActivityHome() {
           </>
         </div>
       </div>
-      
 
       {/* .........分類bar......... */}
       <div className={styles.type}>
@@ -631,37 +633,37 @@ export default function ActivityHome() {
               alt=""
             />
             <Link
-              href="http://localhost:3000/activity/list?activity_type_sid=1"
+              href={`${process.env.WEB}/activity/list?activity_type_sid=1`}
               className={styles.custom_link}
             >
               <SubBtn img="./activity_img/subicon_1.png" text="主題派對" />
             </Link>
             <Link
-              href="http://localhost:3000/activity/list?activity_type_sid=2"
+              href={`${process.env.WEB}/activity/list?activity_type_sid=2`}
               className={styles.custom_link}
             >
               <SubBtn img="./activity_img/subicon_2.png" text="在地活動" />
             </Link>
             <Link
-              href="http://localhost:3000/activity/list?activity_type_sid=3"
+              href={`${process.env.WEB}/activity/list?activity_type_sid=3`}
               className={styles.custom_link}
             >
               <SubBtn img="./activity_img/subicon_3.png" text="市集展覽" />
             </Link>
             <Link
-              href="http://localhost:3000/activity/list?activity_type_sid=4"
+              href={`${process.env.WEB}/activity/list?activity_type_sid=4`}
               className={styles.custom_link}
             >
               <SubBtn img="./activity_img/subicon_4.png" text="毛孩講座" />
             </Link>
             <Link
-              href="http://localhost:3000/activity/list?activity_type_sid=5"
+              href={`${process.env.WEB}/activity/list?activity_type_sid=5`}
               className={styles.custom_link}
             >
               <SubBtn img="./activity_img/subicon_5.png" text="寵物學校" />
             </Link>
             <Link
-              href="http://localhost:3000/activity/list?activity_type_sid=6"
+              href={`${process.env.WEB}/activity/list?activity_type_sid=6`}
               className={styles.custom_link}
             >
               <SubBtn img="./activity_img/subicon_6.png" text="願望清單" />
@@ -681,9 +683,7 @@ export default function ActivityHome() {
         </div>
       </div>
 
-      
-<BGUpperDecoration />
-
+      <BGUpperDecoration />
 
       {/* .........section1......... */}
       <div className={styles.section1}>
@@ -730,19 +730,19 @@ export default function ActivityHome() {
                     handleLikeClick={() =>
                       handleLikeClick(activity_sid, auth.token)
                     } // 傳遞handleLikeClick函式給子組件
+                    singinHandler={toSingIn}
+                    token={auth.token}
                   />
                 </Col>
               );
             })}
-
-            {/* <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' /> */}
           </Row>
         </div>
       </div>
 
-      {/* .........銜接處圖片1......... */}
-      {/* <img src="/activity_img/index_bg_1.jpg" alt="Activity" /> */}
-      <img src="/activity_img/index_bg_2.jpg" alt="Activity" />
+      <div className={styles.bg_cover1}>
+        <img src="/activity_img/index_bg_2.jpg" alt="Activity" />
+      </div>
 
       {/* .........section2......... */}
       <div className={styles.section2}>
@@ -788,12 +788,12 @@ export default function ActivityHome() {
                     handleLikeClick={() =>
                       handleLikeClick(activity_sid, auth.token)
                     } // 傳遞handleLikeClick函式給子組件
+                    singinHandler={toSingIn}
+                    token={auth.token}
                   />
                 </Col>
               );
             })}
-
-            {/* <ActivityCard1 image='/activity_img/asian-young-girl-holding-kittens-park.jpg' type='市集展覽' name='2022台北與毛家庭有約' rating='4.5' date_begin='2023-04-09' date_end='2023-05-09' time='每週六 8:00-18:00' city='台北市' area='大安區' address='大安路一段234號' price='250' /> */}
           </Row>
         </div>
       </div>
@@ -817,7 +817,9 @@ export default function ActivityHome() {
       </div>
 
       {/* .........銜接處圖片3......... */}
-      <img src="/activity_img/index_bg_4.jpg" alt="Activity" />
+      <div className={styles.bg_cover2}>
+        <img src="/activity_img/index_bg_4.jpg" alt="Activity" />
+      </div>
       {/* .........section4......... */}
       <div className={styles.section4}>
         <div className="container-inner">

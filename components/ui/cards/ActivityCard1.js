@@ -1,4 +1,4 @@
-import React , { useState, useEffect }from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faStar,
@@ -12,6 +12,7 @@ import ActivityFeature from './ActivityFeature';
 import { Row } from 'antd';
 import Link from 'next/link';
 import RateStarPill from '../rateStar/RateStarPill';
+import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
 
 const ActivityCard1 = ({
   activity_sid = '', //link要用
@@ -29,14 +30,14 @@ const ActivityCard1 = ({
   price = 0,
   isInLikeList = false,
   handleLikeClick,
+  singinHandler = () => {},
+  token = '',
 }) => {
-
   const [isLiked, setIsLiked] = useState(isInLikeList);
 
   useEffect(() => {
     setIsLiked(isInLikeList);
   }, [isInLikeList]);
-
 
   const handleLikeIconClick = (e) => {
     e.preventDefault();
@@ -49,89 +50,108 @@ const ActivityCard1 = ({
 
   const addItemToLikeList = () => {
     setIsLiked(true);
-    handleLikeClick(activity_sid, true); 
+    handleLikeClick(activity_sid, true);
   };
 
   const removeItemFromLikeList = () => {
     setIsLiked(false);
-    handleLikeClick(activity_sid, false); 
+    handleLikeClick(activity_sid, false);
   };
 
   return (
-    <Link href={`http://localhost:3000/activity/${activity_sid}`}>
-      <div className={styles.card}>
-        {/* -------左邊------- */}
-        <div className={styles.left}>
-          <img src={image} alt="activity" className={styles.image} />
-          <div className={styles.overlay}>
-            <span className={styles.text}>{type}</span>
-          </div>
-          <div className={styles.icon}></div>
-        </div>
-
+    <>
+      {token ? (
         <FontAwesomeIcon
-              onClick={handleLikeIconClick}
-              icon={faHeart}
-              className={isLiked ? styles.heart_icon_liked : styles.heart_icon}
-            />
+          onClick={handleLikeIconClick}
+          icon={faHeart}
+          className={isLiked ? styles.heart_icon_liked : styles.heart_icon}
+        />
+      ) : (
+        <ActivityAlertModal
+          btnType="heart"
+          title="貼心提醒"
+          content="收藏活動"
+          mainBtnText="前往登入"
+          subBtnText="暫時不要"
+          confirmHandler={singinHandler}
+        />
+      )}
 
-        {/* -------右邊------- */}
-        <div className={styles.right}>
-          <div className={styles.row}>
-            <div className={styles.rowTextTitle}>
-              <p className={styles.rowTextLarge}>{title}</p>
-            </div>
-            <div className={styles.review}>
-            {rating && <RateStarPill score={rating} />}
-            </div>
-          </div>
-
-          <div className={styles.row}>
-            <FontAwesomeIcon
-              icon={faCalendarDays}
-              className={styles.row_icon}
-            />
-            <div>
-              <p className={styles.pText}>
-                {date_begin}~{date_end}
-              </p>
+      <Link href={`${process.env.WEB}/activity/${activity_sid}`}>
+        <div className={styles.card}>
+          {/* -------左邊------- */}
+          <div className={styles.left}>
+            <img src={image} alt="activity" className={styles.image} />
+            <div className={styles.overlay}>
+              <span className={styles.text}>{type}</span>
             </div>
           </div>
 
-          <div className={styles.row}>
-            <FontAwesomeIcon icon={faClock} className={styles.row_icon} />
-            <div>
-              <p className={styles.pText}>{time}</p>
-            </div>
-          </div>
-
-          <div className={styles.row}>
-            <FontAwesomeIcon icon={faLocationDot} className={styles.row_icon} />
-            <div>
-              <p className={styles.pText}>
-                {city}
-                {area}
-                {address}
-              </p>
-            </div>
-          </div>
-
-          <Row>
-            {features.map((feature, i) => (
-              <div className={styles.row} key={i}>
-                <ActivityFeature className={styles.feature} feature={feature} />
+          {/* -------右邊------- */}
+          <div className={styles.right}>
+            <div className={styles.row}>
+              <div className={styles.rowTextTitle}>
+                <p className={styles.rowTextLarge}>{title}</p>
               </div>
-            ))}
-          </Row>
+              <div className={styles.review}>
+                {rating && <RateStarPill score={rating} />}
+              </div>
+            </div>
 
-          <div>
-            <p className={styles.row_price}>
-            ${(price).toLocaleString()} (大人) ${(price / 2).toLocaleString()} (小孩)
-            </p>
+            <div className={styles.row}>
+              <FontAwesomeIcon
+                icon={faCalendarDays}
+                className={styles.row_icon}
+              />
+              <div>
+                <p className={styles.pText}>
+                  {date_begin}~{date_end}
+                </p>
+              </div>
+            </div>
+
+            <div className={styles.row}>
+              <FontAwesomeIcon icon={faClock} className={styles.row_icon} />
+              <div>
+                <p className={styles.pText}>{time}</p>
+              </div>
+            </div>
+
+            <div className={styles.row}>
+              <FontAwesomeIcon
+                icon={faLocationDot}
+                className={styles.row_icon}
+              />
+              <div>
+                <p className={styles.pText}>
+                  {city}
+                  {area}
+                  {address}
+                </p>
+              </div>
+            </div>
+
+            <Row>
+              {features.map((feature, i) => (
+                <div className={styles.row} key={i}>
+                  <ActivityFeature
+                    className={styles.feature}
+                    feature={feature}
+                  />
+                </div>
+              ))}
+            </Row>
+
+            <div>
+              <p className={styles.row_price}>
+                ${price.toLocaleString()} (大人) ${(price / 2).toLocaleString()}{' '}
+                (小孩)
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </>
   );
 };
 

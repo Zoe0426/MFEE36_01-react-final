@@ -36,8 +36,7 @@ import ActivityPageOrder from '@/components/ui/cards/ActivityPageOrder';
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
-import Modal from '@/components/ui/modal/modal';
-import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
@@ -83,7 +82,7 @@ export default function ActivityMain() {
     router.push(
       `/member/sign-in?from=${
         process.env.WEB
-      }/restaurant/list?${new URLSearchParams(from).toString()}`
+      }/activity/list?${new URLSearchParams(from).toString()}`
     );
   };
 
@@ -114,7 +113,7 @@ export default function ActivityMain() {
     {
       id: 'activity',
       text: '活動首頁',
-      href: 'http://localhost:3000/activity',
+      href: `${process.env.WEB}/activity`,
       show: true,
     },
     { id: 'search', text: '/ 活動列表', href: '', show: true },
@@ -652,7 +651,7 @@ const resetCheckBox = (key, str) => {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} />
+            <BreadCrumb breadCrubText={breadCrubText} className={styles.breadCrub}/>
 
             <div className={styles.btns}>
               {auth.token ? (
@@ -662,17 +661,14 @@ const resetCheckBox = (key, str) => {
                   clickHandler={toggleLikeList}
                 />
               ) : (
-                <Modal
+                <ActivityAlertModal
                   btnType="iconBtn"
                   btnText="收藏列表"
-                  title="貼心提醒"
-                  content={
-                    <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
-                  }
+                  icon={faHeart}
+                  content="可查看收藏列表"
                   mainBtnText="前往登入"
                   subBtnText="暫時不要"
                   confirmHandler={toSingIn}
-                  icon={faHeart}
                 />
               )}
               <IconBtn

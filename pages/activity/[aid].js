@@ -79,13 +79,13 @@ export default function ActivityDetail() {
     {
       id: 'activity',
       text: '活動首頁',
-      href: 'http://localhost:3000/activity',
+      href: `${process.env.WEB}/activity`,
       show: true,
     },
-    { id: 'search', text: '/ 活動列表', href: '', show: true },
+    { id: 'search', text: '/ 活動列表', href: `${process.env.WEB}/activity/list`, show: true },
     {
       id: 'aid',
-      text: '/ 夏日水樂園',
+      text: '',
       href: '',
       show: true,
     },
@@ -97,7 +97,7 @@ export default function ActivityDetail() {
 
     if (aid) {
       setActivitySid(aid);
-      fetch(`http://localhost:3002/activity-api/activity/${aid}`)
+      fetch(`${process.env.API_SERVER}/activity-api/activity/${aid}`)
         .then((r) => r.json())
         .then((data) => {
           const {
