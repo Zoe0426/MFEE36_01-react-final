@@ -52,10 +52,6 @@ export default function Product() {
   const [messages, setMessages] = useState([]);
   const [displayChatRoom, setDisplayChatRoom] = useState(false);
 
-  const connectWebSocket = () => {
-    setWs(io(`${process.env.API_SERVER}`));
-  };
-
   useEffect(() => {
     if (ws) {
       //連線成功在 console 中打印訊息
@@ -70,33 +66,10 @@ export default function Product() {
 
     return () => {
       if (ws) {
-        ws.disconnect(); // 關閉WebSocket連線
+        ws.disconnect(); // 關閉socket連線
       }
     };
   }, [ws]);
-
-  const initWebSocket = () => {
-    //對 getMessage 設定監聽，如果 server 有透過 getMessageAll 傳送訊息，將會在此被捕捉,並塞入之前的對話框
-    ws.on('receiveMessage', (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
-  };
-
-  const joinRoom = (username) => {
-    ws.emit('joinRoom', username); // 將使用者名稱傳送到後端
-  };
-
-  const sendMessage = (text) => {
-    const today = new Date();
-    const hours = String(today.getHours()).padStart(2, '0');
-    const minutes = String(today.getMinutes()).padStart(2, '0');
-    ws.emit('sendMessage', {
-      sender: username,
-      message: text,
-      time: hours + ':' + minutes,
-    }); // 將使用者名稱和訊息一併傳送到後端
-    setInputText('');
-  };
 
   const productComment = useRef(null);
   const productReturn = useRef(null);
@@ -337,6 +310,11 @@ export default function Product() {
       setShowCommentArrowLeft(false);
       setRecommendCurrent(0);
       setPurchaseQty(1);
+      setWs(null);
+      setInputText('');
+      setUsername('');
+      setMessages([]);
+      setDisplayChatRoom(false);
     }
   }, [router.query, first]);
 
@@ -821,6 +799,51 @@ export default function Product() {
   };
 
   //聊天室相關函式---------------------------------------
+  const connectWebSocket = () => {
+    //建立socket連線
+    setWs(io(`${process.env.API_SERVER}`));
+  };
+
+  const joinRoom = (username) => {
+    ws.emit('joinRoom', username); // 將使用者名稱傳送到後端
+  };
+
+  const initWebSocket = () => {
+    //將server傳送回來的訊息，塞入之前的對話框
+    ws.on('receiveMessage', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+  };
+
+  const sendMessage = (text) => {
+    const today = new Date();
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    ws.emit('sendMessage', {
+      sender: username,
+      message: text,
+      time: hours + ':' + minutes,
+    }); // 將使用者名稱和訊息一併傳送到後端
+    setInputText('');
+  };
+
+  const leaveRoom = () => {
+    //通知伺服器離開聊天室
+    ws.emit('leaveRoom');
+
+    //從伺服器收到廣播的消息
+    ws.on('leaveRoom', (message) => {
+      console.log(message);
+      //通知伺服器關閉連線
+      ws.emit('disConnection');
+    });
+
+    // Server 通知完後再傳送 disConnection 通知關閉連線
+    ws.on('disConnection', () => {
+      ws.close();
+    });
+  };
+
   const chatTextHandler = (e) => {
     const newText = e.target.value;
     setInputText(newText);
@@ -839,7 +862,7 @@ export default function Product() {
   };
 
   const chatCloseHandler = () => {
-    ws.emit('disConnection', `${username}離開了聊天室`);
+    leaveRoom();
     setMessages([]);
     setDisplayChatRoom(false);
   };
