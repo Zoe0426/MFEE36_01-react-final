@@ -78,6 +78,7 @@ export default function CartAddressList({
       const data = await r.json();
       if (data.success) {
         //alert('success');
+        //TODO: show success card
         const newData = postAddData.filter((v) => v.address_sid !== sid);
         const newMapData = mapData.filter((v) => v.address_sid !== sid);
         const selectedSid = postAddData.filter((v) => v.selected === true)[0]

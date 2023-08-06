@@ -300,6 +300,10 @@ export default function Cart() {
             {/* ========== 寄件方式 ==========*/}
             {checkoutType === 'shop' ? (
               <div className={style.section}>
+                <div className={style.postPrice}>
+                  <span>運費: </span>
+                  {postType !== 1 ? '$60' : '$90'}
+                </div>
                 <CartSectionTitle text="收件地址" />
                 {postAddData.length > 0 ? (
                   postAddData
@@ -318,7 +322,6 @@ export default function Cart() {
                           postType={v.post_type}
                           edit={true}
                           defaultStatus={!!v.default_status}
-                          // defaultPostStatus={defaultPostStatus}
                           checkDefaultAdd={checkDefaultAdd}
                         />
                       ) : (
@@ -399,6 +402,8 @@ export default function Cart() {
               createOrder={createOrder}
               paymentType={paymentType}
               setPaymentType={setPaymentType}
+              setChosenCoupon={setChosenCoupon}
+              selectCoupon={selectCoupon}
             />
           </Col>
         </Row>
