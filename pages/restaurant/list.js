@@ -888,8 +888,9 @@ export default function FilterPage() {
                           </Menu>
                         }
                         className={Styles.city}
-                        placement="bottomLeft"
                         trigger={['click']}
+                        placement="bottom"
+
                       >
                         <Button>
                           <Space>

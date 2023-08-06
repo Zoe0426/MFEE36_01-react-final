@@ -132,15 +132,24 @@
   gap: 12px;
   margin-bottom: 60px;
 }
-
+.contact_location{
+  display: flex;
+  align-items: center;
+}
 .info_icon {
   color: var(--main);
   margin-right: 10px;
   font-size: var(--pfs16);
 }
 
-
-
+.column{
+  display: flex;
+align-items: center;
+}
+.row{
+align-items: center;
+display: flex; 
+}
 .notion_bgc {
   padding-top: 80px;
   padding-bottom: 80px;
@@ -327,9 +336,28 @@
   user-select: none;
   margin-top: 8px;
   margin-left: 26px;
+  animation: 0.3s businessHour ease-in-out;
 }
 
+@keyframes businessHour {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
 
+.dropdown_overlay{
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: -1;
+}
 .business_time{
   padding: 10px 20px;
 }
@@ -436,6 +464,7 @@
   min-width: 300px;
   z-index: 1001;
 }
+
 
 .left_arrow_box,
 .right_arrow_box,
@@ -567,7 +596,7 @@
 
 }
 .google_map{
-  margin-left: 4px;
+  margin-left: 6px;
   cursor: pointer;
   border:  1px solid var(--light-gray); 
   background-color: white;
@@ -576,6 +605,7 @@
   transition: 0.3s;
   display: flex;
   align-items: center;
+  border-radius: 8px;
 }
 .google_map img{
   width: 20px;
@@ -678,6 +708,7 @@
     gap: 8px;
     margin-bottom: 0;
   }
+
   .icon_btn {
     margin-top: 20px;
   }
@@ -713,5 +744,51 @@
     font-size: var(--pfs16);
     display: flex;
     justify-content: space-between;
+  }
+  .google_map{
+    margin-right: 0;
+    margin-top: 12px;
+  }
+  .column{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 4px;
+  }
+  .contact_location{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .row{
+    display: flex; 
+  }
+  /*評論區*/
+
+  .comment_cards {
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .comment_btn {
+    border-radius: var(--br8);
+    font-size: var(--pfs14);
+    margin-right: 8px;
+    margin-bottom: 8px;
+  }
+
+  .comment_title {
+    font-size: var(--h5fs20);
+  }
+  .comment_title > p {
+    font-size: var(--pfs14);
+  }
+  .rest_container_inner {
+    width: 85%;
+  }
+  .recommend_pages {
+    visibility: hidden;
+    padding: var(--p32) 0 48px 0;
   }
 }
