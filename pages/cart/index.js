@@ -28,6 +28,7 @@ export default function Cart() {
     postAddress: [],
     coupon: [],
   });
+  const [memEmail, setMemEmail] = useState('');
   const [checkoutType, setCheckoutType] = useState('shop');
   //商品選擇區
   const [shopData, setShopData] = useState([]);
@@ -134,6 +135,7 @@ export default function Cart() {
       const defaultPostType = data.postAddress[0].post_type;
       setPostType(defaultPostType);
     }
+    setMemEmail(data.email);
     setLoading(false);
     setCartData(data);
   };
@@ -206,7 +208,7 @@ export default function Cart() {
       sendOrderRequest(data);
     }
   };
-
+  console.log({ cartData });
   console.log({ postAddData });
   console.log({ postType });
   if (pageLoading) {
@@ -331,12 +333,14 @@ export default function Cart() {
                     btnType="text"
                     btnText="變更收件地址"
                     title="選擇/新增收件地址"
+                    showSubBtn={false}
                     content={
                       <CartAddressList
                         postAddData={postAddData}
                         setPostAddData={setPostAddData}
                         postType={postType}
                         setPostType={setPostType}
+                        memEmail={memEmail}
                       />
                     }
                   />

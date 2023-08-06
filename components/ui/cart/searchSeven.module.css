@@ -1,0 +1,35 @@
+.showInfo{
+    width: 100%;
+    padding: var(--p8) 0;
+    border-radius: var(--br8);
+    background-color: white;
+    margin-top: var(--p8);
+    /* box-shadow: var(--shadow); */
+}
+.showInfo p{
+    padding: 3px;
+}
+.shopName{
+    color: var(--dark);
+    font-weight: bold;
+}
+.date{
+    color: var(--gray);
+}
+.icon{
+    display: inline-block;
+    min-width: 40px;
+    font-size: 16px;
+    color: var(--secondary);
+    text-align: center;
+    /* border: 1px solid red; */
+}
+@media screen and (max-width:767px){
+.showInfo p{
+    font-size: var(--pfs14);
+}
+.icon{
+    min-width: 20px;
+    text-align: center;
+}
+}

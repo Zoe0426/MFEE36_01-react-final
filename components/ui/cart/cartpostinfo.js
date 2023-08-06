@@ -22,7 +22,26 @@ export default function CartPostInfo({
   defaultStatus = false,
   checkDefaultAdd = () => {},
 }) {
-  console.log(defaultStatus);
+  //預計到貨日期
+  function formatDateRange(startDate, endDate) {
+    const options = { month: 'numeric', day: 'numeric' };
+    const dateFormatter = new Intl.DateTimeFormat('zh-TW', options);
+
+    const formattedStartDate = dateFormatter.format(startDate);
+    const formattedEndDate = dateFormatter.format(endDate);
+
+    return `${formattedStartDate} - ${formattedEndDate}`;
+  }
+  const today = new Date();
+  const threeDaysLater = new Date();
+  threeDaysLater.setDate(today.getDate() + 2);
+
+  const tenDaysLater = new Date();
+  tenDaysLater.setDate(today.getDate() + 5);
+
+  const dateRange = formatDateRange(threeDaysLater, tenDaysLater);
+  console.log(dateRange); // 6月8日 - 6月16日
+
   let img = '';
   if (postType === 1) {
     forModal
@@ -55,8 +74,8 @@ export default function CartPostInfo({
               />
             </span>
             <span>{mobile}</span>
+            <span></span>
           </p>
-
           <p>
             <span className={style.icon}>
               <FontAwesomeIcon
@@ -72,9 +91,16 @@ export default function CartPostInfo({
               {address}&nbsp;&nbsp;&nbsp;{storeName}
             </span>
           </p>
-        </div>
-        <div>
-          <p className={style.price}>$60</p>
+          <p>
+            <span className={style.icon}>
+              <FontAwesomeIcon
+                icon={faCalendarDays}
+                style={{ maxWidth: '20px', maxHeight: '20px' }}
+              />
+            </span>
+            預計到貨&nbsp;&nbsp;
+            <span>{dateRange}</span>
+          </p>
         </div>
       </div>
     );
@@ -132,7 +158,7 @@ export default function CartPostInfo({
               />
             </span>
             預計到貨&nbsp;&nbsp;
-            <span>6月8日&nbsp;&nbsp;-&nbsp;&nbsp;6月16日</span>
+            <span>{dateRange}</span>
           </p>
           <div className={style.defaultCheckbox}>
             <ConfigProvider
