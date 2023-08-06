@@ -66,7 +66,9 @@ export default function Product() {
 
     return () => {
       if (ws) {
-        ws.disconnect(); // 關閉socket連線
+        //ws.disconnect(); // 關閉socket連線
+        ws.emit('leaveRoom');
+        ws.close();
       }
     };
   }, [ws]);
@@ -800,8 +802,25 @@ export default function Product() {
 
   //聊天室相關函式---------------------------------------
   const connectWebSocket = () => {
+    disconnectWebSocket();
     //建立socket連線
     setWs(io(`${process.env.API_SERVER}`));
+  };
+
+  const disconnectWebSocket = () => {
+    if (ws) {
+      // const today = new Date();
+      // const hours = String(today.getHours()).padStart(2, '0');
+      // const minutes = String(today.getMinutes()).padStart(2, '0');
+      // ws.emit('leaveRoom', {
+      //   sender: username,
+      //   message: `${username} 已離開聊天室`,
+      //   img: auth.profile,
+      //   time: hours + ':' + minutes,
+      // });
+      ws.emit('leaveRoom');
+      ws.close();
+    }
   };
 
   const joinRoom = (username) => {
@@ -822,26 +841,10 @@ export default function Product() {
     ws.emit('sendMessage', {
       sender: username,
       message: text,
+      img: auth.profile,
       time: hours + ':' + minutes,
     }); // 將使用者名稱和訊息一併傳送到後端
     setInputText('');
-  };
-
-  const leaveRoom = () => {
-    //通知伺服器離開聊天室
-    ws.emit('leaveRoom');
-
-    //從伺服器收到廣播的消息
-    ws.on('leaveRoom', (message) => {
-      console.log(message);
-      //通知伺服器關閉連線
-      ws.emit('disConnection');
-    });
-
-    // Server 通知完後再傳送 disConnection 通知關閉連線
-    ws.on('disConnection', () => {
-      ws.close();
-    });
   };
 
   const chatTextHandler = (e) => {
@@ -862,7 +865,8 @@ export default function Product() {
   };
 
   const chatCloseHandler = () => {
-    leaveRoom();
+    // leaveRoom();
+    disconnectWebSocket();
     setMessages([]);
     setDisplayChatRoom(false);
   };

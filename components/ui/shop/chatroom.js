@@ -42,17 +42,17 @@ export default function Chatroom({
                     : styles.service_text
                 }
               >
-                {v.sender === '狗with咪客服' && (
+                {v.sender !== auth.nickname && (
                   <div className={`${styles.head_img}`}>
                     <img
-                      src={`${process.env.WEB}/product-img/logo-10.png`}
-                      alt={auth.profile}
+                      src={`${process.env.API_SERVER}/img/${v.message.img}`}
+                      alt={v.sender}
                     />
                   </div>
                 )}
                 <span
                   className={
-                    v.sender === '狗with咪客服'
+                    v.sender !== auth.nickname
                       ? `${styles.time} ${styles.order3}`
                       : `${styles.time} ${styles.order0}`
                   }
@@ -61,17 +61,17 @@ export default function Chatroom({
                 </span>
                 <span
                   className={
-                    v.sender === '狗with咪客服'
+                    v.sender !== auth.nickname
                       ? styles.text
                       : `${styles.text} ${styles.bgc}`
                   }
                 >
                   {v.message.message}
                 </span>
-                {v.sender !== '狗with咪客服' && (
+                {v.sender === auth.nickname && (
                   <div
                     className={
-                      i !== 0 && chatroomDatas[i - 1].sender !== '狗with咪客服'
+                      i !== 0 && chatroomDatas[i - 1].sender === auth.nickname
                         ? styles.head_img_no_show
                         : styles.head_img
                     }
