@@ -43,7 +43,7 @@ export default function ActivityMain() {
 
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(16);
+  const [perPage, setPerPage] = useState(8);
   const [keyword, setKeyword] = useState('');
   const [activity_type_sid, setActivity_type_sid] = useState(0);
   const [selectedActivityTypeSid, setSelectedActivityTypeSid] = useState(0);
@@ -89,11 +89,10 @@ export default function ActivityMain() {
   // 取資料
   const [datas, setDatas] = useState({
     totalRows: 0,
-    perPage: 16,
+    perPage: 8,
     totalPages: 0,
     page: 1,
     rows: [],
-    // likeDatas:[],
   });
 
   const handleCityClick = (e) => {
@@ -370,7 +369,7 @@ const resetCheckBox = (key, str) => {
   const handleConfirmClick = () => {
     filterHandler();
   
-    // 获取选中的 activity_type_sid 的值
+    
     const selectedActivityTypeSids = filters.activity_type_sid
       .filter(item => item.checked)
       .map(item => item.value);
@@ -387,15 +386,9 @@ const resetCheckBox = (key, str) => {
       endDate: endDate ? endDate.format('YYYY-MM-DD') : undefined,
     };
   
-    // 设置 activity_type_sid 的值为数组
+    
     newQuery.activity_type_sid = selectedActivityTypeSids;
 
-    // if (selectedActivityTypeSids && selectedActivityTypeSids.length > 0) {
-    //   // 將陣列轉換為字串，以逗號分隔
-    //   newQuery.activity_type_sid = selectedActivityTypeSids.join(',');
-    // }
-  
-    // 使用新的 query 对象更新 URL
     router.push({
       pathname: router.pathname,
       query: newQuery,
@@ -530,6 +523,7 @@ const resetCheckBox = (key, str) => {
       }
     });
     setDatas({ ...datas, rows: newData });
+    updateLikeList(aid, false);
     //將請求送到後端作業
     removeLikeListToDB(aid, token);
   };

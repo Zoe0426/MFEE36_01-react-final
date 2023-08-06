@@ -295,7 +295,6 @@ export default function ActivityHome() {
   //控制展開收藏列表
   const toggleLikeList = () => {
     const newShowLikeList = !showLikeList;
-    console.log(newShowLikeList);
     setShowLikeList(newShowLikeList);
     if (newShowLikeList) {
       document.body.classList.add('likeList-open');
@@ -304,40 +303,54 @@ export default function ActivityHome() {
       document.body.classList.remove('likeList-open');
     }
   };
+
+  const closeLikeList = () => {
+    setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+
   // 刪除所有收藏
   const removeAllLikeList = (token) => {
     if (likeDatas.length > 0) {
-      //將列表顯示為空的
+      // 將列表顯示為空的
       setLikeDatas([]);
-      //將畫面上的愛心清除
-      const newData = datas.rows.map((v) => {
+      // 將畫面上的愛心清除
+      const newData = data.map((v) => {
         return { ...v, like: false };
       });
-      setDatas({ ...datas, rows: newData });
-      //將請求送到後端作業
+      setData(newData);
+      // 將請求送到後端作業
       removeLikeListToDB('all', token);
     }
   };
+  
 
   // 刪除單一收藏
-  const removeLikeListItem = (aid, token = '') => {
-    //將列表該項目刪除
+  const removeLikeListItem = async (aid, token = '') => {
+    
     const newLikeList = likeDatas.filter((arr) => {
       return arr.acitvity_sid !== aid;
     });
     setLikeDatas(newLikeList);
-    //將若取消的為畫面上的，則須將愛心清除
-    const newData = datas.rows.map((v) => {
+  
+   
+    const newData = data.map((v) => {
       if (v.activity_sid === aid) {
         return { ...v, like: false };
       } else {
         return { ...v };
       }
     });
-    setDatas({ ...datas, rows: newData });
-    //將請求送到後端作業
-    removeLikeListToDB(aid, token);
+  
+   
+    updateLikeList(aid, false);
+  
+   
+    await removeLikeListToDB(aid, token);
   };
+  
+  
+  
 
   //將刪除收藏的請求送到後端作業
   const removeLikeListToDB = async (aid = '', token = '') => {
