@@ -18,14 +18,14 @@ import {
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import SearchBar from '@/components/ui/buttons/SearchBar';
-import Likelist from '@/components/ui/like-list/like-list';
+// import Likelist from '@/components/ui/like-list/like-list';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
-import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
+import Likelist from '@/components/ui/like-list/LikeListDrawer';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ActivityFilter from '@/components/ui/cards/ActivityFilter';
 import ActivityFilterPrice from '@/components/ui/cards/ActivityFilterPrice';
@@ -124,7 +124,7 @@ export default function ActivityMain() {
   const rankOptions = {
     1: 'hot_DESC',
     2: 'date_ASC',
-    3: 'date_DESC', // TODO: 需再確認cart的欄位名稱
+    3: 'date_DESC', 
   };
 
   const orderByHandler = (e) => {
@@ -485,7 +485,6 @@ const resetCheckBox = (key, str) => {
   //控制展開收藏列表
   const toggleLikeList = () => {
     const newShowLikeList = !showLikeList;
-    console.log(newShowLikeList);
     setShowLikeList(newShowLikeList);
     if (newShowLikeList) {
       document.body.classList.add('likeList-open');
@@ -494,6 +493,12 @@ const resetCheckBox = (key, str) => {
       document.body.classList.remove('likeList-open');
     }
   };
+
+  const closeLikeList = () => {
+    setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+  
   // 刪除所有收藏
   const removeAllLikeList = (token) => {
     if (likeDatas.length > 0) {
@@ -651,7 +656,7 @@ const resetCheckBox = (key, str) => {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} className={styles.breadCrub}/>
+            <BreadCrumb breadCrubText={breadCrubText}/>
 
             <div className={styles.btns}>
               {auth.token ? (
@@ -805,13 +810,14 @@ const resetCheckBox = (key, str) => {
         <div className="container-inner">
           <>
             {showLikeList && (
-              <LikeListDrawer
+              <Likelist
                 datas={likeDatas}
                 customCard={
                   <ActivityLikeListCard
                     datas={likeDatas}
                     token={auth.token}
                     removeLikeListItem={removeLikeListItem}
+                    closeLikeList={closeLikeList}
                   />
                 }
                 closeHandler={toggleLikeList}

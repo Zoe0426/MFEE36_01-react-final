@@ -126,7 +126,7 @@ export default function ActivityHome() {
         const searchText = e.target.value;
         copyURL = { ...copyURL, keyword: searchText };
       }
-      router.push(`?${new URLSearchParams(copyURL).toString()}`);
+      router.push(`/activity/list?${new URLSearchParams(copyURL).toString()}`);
     }
   };
 

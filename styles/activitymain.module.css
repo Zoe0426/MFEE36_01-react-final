@@ -34,7 +34,6 @@
 }
 
 .btns {
-  width: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -55,7 +54,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--p32) 0 var(--p32) 0;
 }
 
 .filter {
