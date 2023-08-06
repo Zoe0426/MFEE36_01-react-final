@@ -212,6 +212,9 @@ export default function ProdoctIndex() {
 
   //searchBar相關的函式-------------------------------------------------------
   const filterKeywordDatas = (datas, keyword, keyin) => {
+    datas = datas
+      .map((v) => ({ ...v, count: 0 }))
+      .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hant'));
     if (!keyin) {
       const searchWord = keyword.split('');
 
