@@ -87,3 +87,34 @@
     align-items: center;
 }
 
+.cardBody:hover {
+    background-color: rgba(87, 85, 85, 0.7);
+    z-index: 90;
+  }
+
+  /* 顯示 icon 的容器，預設隱藏 */
+.iconContainer {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+  }
+  /* 在 .post-card 元件上的 hover 狀態時顯示 icon 容器 */
+.cardBody:hover .iconContainer {
+    display: block;
+    display: flex;
+  }
+  
+  /* 這裡的 .icon 代表您的圖示，您需要添加實際的圖示樣式 */
+  .icon {
+    margin: 0 10px;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    padding:10px;
+    text-align: center;
+  }
+  .word{
+    padding: 10px;
+  }

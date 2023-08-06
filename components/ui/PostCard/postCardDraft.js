@@ -1,6 +1,5 @@
 import React from "react";
-import Style from "./postCard.module.css";
-// import PostImg from "../postImg/postImg";
+import Style from "./postCardDraft.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTrashCan, faEye, faPen} from '@fortawesome/free-solid-svg-icons';
 export default function PostCardDraft({profile='', boardName='', author='', postTitle='', postContent='', img='', deletePost=()=>{}, viewPost=()=>{}, editPost=()=>{}}){

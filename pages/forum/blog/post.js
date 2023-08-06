@@ -306,7 +306,6 @@ export default function Post() {
       //antd
     setOptions(antTag.doctor);
     setBoardSid(1);
-    console.log('setBoardSid',setBoardSid);
   }
   //住宿版
   const home = ()=>{
