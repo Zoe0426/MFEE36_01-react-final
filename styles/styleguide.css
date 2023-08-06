@@ -151,7 +151,7 @@ body{
 /* -------------------- */
 .background{
   width: 100%;
-  height: 740px; 
+  height: 780px; 
   background-image: url("/pet_game/background.png");  
   background-repeat:repeat-x;
   background-size: contain;
