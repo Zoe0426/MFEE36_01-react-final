@@ -115,13 +115,19 @@
   align-items: flex-start;
 }
 
-
-
 .service_text {
   display: flex;
   padding: 3px 0;
   align-items: flex;
 }
+
+.leave_text{
+  justify-content: center;
+  padding: 3px 0;
+  display: flex;
+  align-items: flex-start;
+}
+
 
 .time{
     font-size: 10px;

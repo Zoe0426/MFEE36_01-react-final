@@ -809,15 +809,6 @@ export default function Product() {
 
   const disconnectWebSocket = () => {
     if (ws) {
-      // const today = new Date();
-      // const hours = String(today.getHours()).padStart(2, '0');
-      // const minutes = String(today.getMinutes()).padStart(2, '0');
-      // ws.emit('leaveRoom', {
-      //   sender: username,
-      //   message: `${username} 已離開聊天室`,
-      //   img: auth.profile,
-      //   time: hours + ':' + minutes,
-      // });
       ws.emit('leaveRoom');
       ws.close();
     }
@@ -865,7 +856,6 @@ export default function Product() {
   };
 
   const chatCloseHandler = () => {
-    // leaveRoom();
     disconnectWebSocket();
     setMessages([]);
     setDisplayChatRoom(false);

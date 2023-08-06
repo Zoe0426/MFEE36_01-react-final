@@ -37,28 +37,41 @@ export default function Chatroom({
               <li
                 key={i}
                 className={
-                  v.message.sender === auth.nickname
+                  v.message.message.includes('已離開聊天室')
+                    ? styles.leave_text
+                    : v.message.sender === auth.nickname
                     ? styles.custom_text
                     : styles.service_text
                 }
               >
-                {v.sender !== auth.nickname && (
-                  <div className={`${styles.head_img}`}>
-                    <img
-                      src={`${process.env.API_SERVER}/img/${v.message.img}`}
-                      alt={v.sender}
-                    />
-                  </div>
+                {v.message.message.includes('已離開聊天室')
+                  ? ''
+                  : v.sender !== auth.nickname && (
+                      <div
+                        className={
+                          i !== 0 &&
+                          chatroomDatas[i - 1].sender !== auth.nickname
+                            ? `${styles.head_img_no_show} ${styles.order0}`
+                            : styles.head_img
+                        }
+                      >
+                        <img
+                          src={`${process.env.API_SERVER}/img/${v.message.img}`}
+                          alt={v.sender}
+                        />
+                      </div>
+                    )}
+                {!v.message.message.includes('已離開聊天室') && (
+                  <span
+                    className={
+                      v.sender !== auth.nickname
+                        ? `${styles.time} ${styles.order3}`
+                        : `${styles.time} ${styles.order0}`
+                    }
+                  >
+                    {v.message.time}
+                  </span>
                 )}
-                <span
-                  className={
-                    v.sender !== auth.nickname
-                      ? `${styles.time} ${styles.order3}`
-                      : `${styles.time} ${styles.order0}`
-                  }
-                >
-                  {v.message.time}
-                </span>
                 <span
                   className={
                     v.sender !== auth.nickname
