@@ -19,6 +19,8 @@ import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import CommentCard from '@/components/ui/cards/comment-card';
+import CommentCard1 from '@/components/ui/restaurant/CommentCard';
+import NoCommentCard from '@/components/ui/cards/comment-card-no';
 import { Button, Select, ConfigProvider, Row, Col } from 'antd';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import IconBtn from '@/components/ui/buttons/IconBtn';
@@ -57,7 +59,7 @@ export default function ActivityDetail() {
     actFeatureRows: [],
     actRatingRows: [],
     actRecommend: [],
-    actCartTotalQtyRows:[],
+    actCartTotalQtyRows: [],
   });
 
   const [actDetailRows, setActDetailRows] = useState([]);
@@ -68,7 +70,52 @@ export default function ActivityDetail() {
   const [actFeatureRows, setActFeatureRows] = useState([]);
   const [actRatingRows, setActRatingRows] = useState([]);
   const [actRecommend, setActRecommend] = useState([]);
-  const [actCartTotalQtyRows,setActCartTotalQtyRows]=useState([]);
+  const [actCartTotalQtyRows, setActCartTotalQtyRows] = useState([]);
+
+  //評論區
+  const [commentWindowWidth, setCommentWindowWidth] = useState(null);
+  const [commentCurrent, setCommentCurrent] = useState(0);
+  const [totalCommentPage, setTotalCommentPage] = useState(0);
+  const [showCommentCard, setShowCommentCard] = useState([]);
+  const [showCommentCardQty, setShowCommentCardQty] = useState(4);
+  const [showCommentArrowLeft, setShowCommentArrowLeft] = useState(false);
+  const [showCommentArrowRight, setShowCommentArrowRight] = useState(true);
+  const [showFullCommentArrowLeft, setShowFullCommentArrowLeft] =
+    useState(false);
+  const [showFullCommentArrowRight, setShowFullCommentArrowRight] =
+    useState(true);
+  const [showFullCommentCard, setShowFullCommentCard] = useState(false);
+  const commentStyle = {
+    position: 'relative',
+    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
+    transition: '0.3s',
+  };
+  const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
+  const [dataForComment, setDataForComment] = useState([]);
+  const [showWarning, setShowWarning] = useState(false);
+
+  const [dataForCommentQty, setDataForCommentQty] = useState([
+    { star: 6, count: 0 },
+    { star: 5, count: 0 },
+    { star: 4, count: 0 },
+    { star: 3, count: 0 },
+    { star: 2, count: 0 },
+    { star: 1, count: 0 },
+  ]);
+
+  /*用來過濾評價星的，要保持原本的dataForComment*/
+  const commentFiliterByRating = (dataForComment, type) => {
+    switch (type) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        return dataForComment.filter((v) => v.star === type);
+      default:
+        return dataForComment;
+    }
+  };
 
   const totalPrice =
     actDetailRows.price_adult * countAdult +
@@ -82,7 +129,12 @@ export default function ActivityDetail() {
       href: `${process.env.WEB}/activity`,
       show: true,
     },
-    { id: 'search', text: '/ 活動列表', href: `${process.env.WEB}/activity/list`, show: true },
+    {
+      id: 'search',
+      text: '/ 活動列表',
+      href: `${process.env.WEB}/activity/list`,
+      show: true,
+    },
     {
       id: 'aid',
       text: '',
@@ -144,10 +196,31 @@ export default function ActivityDetail() {
             setActRecommend(actRecommend);
           }
 
-
           if (actCartTotalQtyRows && actCartTotalQtyRows.length > 0) {
             setActCartTotalQtyRows(...actCartTotalQtyRows);
           }
+
+          //評論區
+          if (Array.isArray(actRatingRows)) {
+            setDataForComment(actRatingRows);
+
+            let newCommentEachQty = dataForCommentQty.map((v) => {
+              const eachCommentQty =
+                v.star === 6
+                  ? actRatingRows.length
+                  : actRatingRows.filter((c) => parseInt(c.star) === v.star)
+                      .length;
+
+              return { ...v, count: eachCommentQty };
+            });
+            setDataForCommentQty(newCommentEachQty);
+          }
+
+          setShowWarning(false);
+          setCommentFilter(6);
+          setCommentCurrent(0);
+          countTotalCommentPage();
+          setShowCommentArrowLeft(false);
 
           setData(data);
         })
@@ -245,6 +318,94 @@ export default function ActivityDetail() {
     const from = router.asPath;
     router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
   };
+
+  //評價相關的函示-----------------------------------------------------
+  //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態
+  const toggleCommentCard = (arr = [], ratingNow = 6, id = '') => {
+    const newShowFullCommentCard = !showFullCommentCard;
+    if (arr.length > 0 && id) {
+      const newArr = commentFiliterByRating(arr, ratingNow).map((v) => {
+        if (v.activity_rating_sid === id) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      const currentIndex = newArr.findIndex((v) => v.display === true);
+      if (currentIndex === 0) {
+        setShowFullCommentArrowLeft(false);
+      } else {
+        setShowFullCommentArrowLeft(true);
+      }
+      if (currentIndex < newArr.length - 1) {
+        setShowFullCommentArrowRight(true);
+      } else {
+        setShowFullCommentArrowRight(false);
+      }
+    }
+
+    setShowFullCommentCard(newShowFullCommentCard);
+    if (newShowFullCommentCard) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  //轉換到下一張評價卡片
+  const slideNextComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex < arr.length - 1) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex + 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowLeft(true);
+    }
+    if (currentIndex === arr.length - 2) {
+      setShowFullCommentArrowRight(false);
+    }
+  };
+  //轉換到上一張評價卡片
+  const slidePreComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex > 0) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex - 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowRight(true);
+    }
+    if (currentIndex <= 1) {
+      setShowFullCommentArrowLeft(false);
+    }
+  };
+
+  //一般顯示區的評價卡相關function
+  const countTotalCommentPage = () => {
+    const currentCommentCardsQty = dataForCommentQty.filter((v) => {
+      return parseInt(v.star) === parseInt(commentFilter);
+    })[0].count;
+
+    const newCommentTotalPage = Math.ceil(
+      currentCommentCardsQty / showCommentCardQty
+    );
+    if (newCommentTotalPage <= 1) {
+      setShowCommentArrowRight(false);
+    } else {
+      setShowCommentArrowRight(true);
+    }
+
+    setTotalCommentPage(newCommentTotalPage);
+  };
+
+  //處理評論頁碼更動
+  useEffect(() => {
+    countTotalCommentPage();
+  }, [commentFilter, dataForCommentQty, showCommentCardQty]);
 
   //內頁導覽設定--------------------------------------------------
   //設定 目標位置的參考
@@ -360,7 +521,9 @@ export default function ActivityDetail() {
               </div>
 
               <div>
-                <p className={styles.purchase_count}>(已有{actCartTotalQtyRows.purchase_count}人參加)</p>
+                <p className={styles.purchase_count}>
+                  (已有{actCartTotalQtyRows.purchase_count}人參加)
+                </p>
               </div>
             </div>
 
@@ -563,7 +726,7 @@ export default function ActivityDetail() {
                 />
               )}
               {successAddToCard && (
-                <ModalWithoutBtn text="成功加入購物車!" img="success.svg" />
+                <ModalWithoutBtn text="成功加入購物車!" img="/product-img/success.svg" />
               )}
             </div>
           </div>
@@ -586,7 +749,9 @@ export default function ActivityDetail() {
             <p className={styles.row_text_small}>{actDetailRows.content}</p>
             <br />
             <br />
-            <p className={styles.row_text_small}>活動行程：{actDetailRows.schedule}</p>
+            <p className={styles.row_text_small}>
+              活動行程：{actDetailRows.schedule}
+            </p>
           </div>
 
           {/* <img
@@ -652,9 +817,9 @@ export default function ActivityDetail() {
 
       {/* .........顧客評價......... */}
 
-      <div className="container-inner">
-        <div className={styles.content}>
-          <div ref={targetRef4}>
+      <div className="container-outer">
+        <div ref={targetRef4}>
+          <div className="container-inner">
             <p className={styles.subtitle}>顧客評價：</p>
             <div className={styles.review_big}>
               <FontAwesomeIcon
@@ -666,9 +831,217 @@ export default function ActivityDetail() {
               <p className={styles.row_text_small}>
                 (共{actDetailRows.rating_count}則評價)
               </p>
-            </div>
 
-            <div className={styles.comment_cards}>
+              <div className={styles.comment_btns}>
+                {dataForCommentQty.map((v) => {
+                  const { star, count } = v;
+                  return (
+                    <button
+                      key={star}
+                      className={
+                        commentFilter === star
+                          ? `${styles.comment_btn} ${styles.active_comment_btn}`
+                          : styles.comment_btn
+                      }
+                      onClick={() => {
+                        setCommentFilter(star);
+                        setCommentCurrent(0);
+                        setShowCommentArrowLeft(false);
+                      }}
+                    >
+                      {star === 6 ? '全部評論' : `${star}星 (${count})`}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.act_container_inner}>
+            <div className={styles.comment_cards_box}>
+              {showCommentArrowLeft && (
+                <div className={styles.detail_left_arrow_box}>
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    className={styles.left_arrow}
+                    onClick={() => {
+                      if (commentCurrent <= 0) {
+                        setShowCommentArrowLeft(false);
+                      } else if (commentCurrent === 1) {
+                        setCommentCurrent(commentCurrent - 1);
+                        setShowCommentArrowRight(true);
+                        setShowCommentArrowLeft(false);
+                      } else {
+                        setCommentCurrent(commentCurrent - 1);
+                        setShowCommentArrowRight(true);
+                      }
+                    }}
+                  />
+                </div>
+              )}
+              {showCommentArrowRight && (
+                <div
+                  className={`${styles.detail_right_arrow_box} ${styles.comment_right_arrow_box}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className={styles.right_arrow}
+                    onClick={() => {
+                      if (commentCurrent === totalCommentPage - 1) {
+                        setShowCommentArrowRight(false);
+                      } else if (commentCurrent === totalCommentPage - 2) {
+                        setCommentCurrent(commentCurrent + 1);
+                        setShowCommentArrowLeft(true);
+                        setShowCommentArrowRight(false);
+                      } else {
+                        setCommentCurrent(commentCurrent + 1);
+                        setShowCommentArrowLeft(true);
+                      }
+                    }}
+                  />
+                </div>
+              )}
+              <div className={styles.comment_cards} style={commentStyle}>
+                {dataForComment &&
+                commentFiliterByRating(dataForComment, commentFilter).length <=
+                  0 ? (
+                  <NoCommentCard star={commentFilter} />
+                ) : (
+                  commentFiliterByRating(dataForComment, commentFilter).map(
+                    (v) => {
+                      const {
+                        activity_rating_sid,
+                        member_sid,
+                        date,
+                        star,
+                        content,
+                        name,
+                        profile,
+                      } = v;
+                      return (
+                        <CommentCard
+                          key={activity_rating_sid}
+                          member_sid={member_sid}
+                          date={date}
+                          rating={star}
+                          content={content}
+                          name={name}
+                          profile={profile}
+                          clickHandler={() => {
+                            toggleCommentCard(
+                              dataForComment,
+                              commentFilter,
+                              activity_rating_sid
+                            );
+                          }}
+                        />
+                      );
+                    }
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="container-inner">
+            <ul className={styles.recommend_pages}>
+              {totalCommentPage <= 1 ? (
+                <div className={styles.no_pages}></div>
+              ) : (
+                Array(totalCommentPage)
+                  .fill(0)
+                  .map((v, i) => {
+                    return (
+                      <li
+                        key={i}
+                        className={
+                          i === commentCurrent
+                            ? `${styles.sliders_pages_bttn} ${styles.sliders_pages_active}`
+                            : styles.sliders_pages_bttn
+                        }
+                        onClick={() => {
+                          setCommentCurrent(i);
+                          if (i === 0) {
+                            setShowCommentArrowLeft(false);
+                            setShowCommentArrowRight(true);
+                          } else if (i === totalCommentPage - 1) {
+                            setShowCommentArrowRight(false);
+                            setShowCommentArrowLeft(true);
+                          } else {
+                            setShowCommentArrowLeft(true);
+                            setShowCommentArrowRight(true);
+                          }
+                        }}
+                      ></li>
+                    );
+                  })
+              )}
+            </ul>
+          </div>
+        </div>
+        {/* 全螢幕的評價顯示 */}
+        {/* {showFullCommentCard && (
+          <div className={styles.show_full_comment_card}>
+            <div
+              className={styles.bgc_comment_card}
+              onClick={toggleCommentCard}
+            ></div>
+            <div className={styles.comment_card_display}>
+              {showFullCommentArrowLeft && (
+                <div className={styles.detail_left_arrow_box}>
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    className={styles.left_arrow}
+                    onClick={() => {
+                      slidePreComment(showCommentCard);
+                    }}
+                  />
+                </div>
+              )}
+              {showFullCommentArrowRight && (
+                <div
+                  className={`${styles.detail_right_arrow_box} ${styles.full_right_arrow_box}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className={styles.right_arrow}
+                    onClick={() => {
+                      slideNextComment(showCommentCard);
+                    }}
+                  />
+                </div>
+              )}
+
+              {showCommentCard.map((v) => {
+                const {
+                  activity_rating_sid,
+                  date,
+                  star,
+                  content,
+                  name,
+                  profile,
+                  display,
+                } = v;
+                return (
+                  display && (
+                    <div className={styles.test} key={activity_rating_sid}>
+                      <CommentCard1
+                        date={date}
+                        rating={star}
+                        content={content}
+                        name={name}
+                        profile={profile}
+                        clickHandler={toggleCommentCard}
+                      />
+                    </div>
+                  )
+                );
+              })}
+            </div>
+          </div>
+        )} */}
+
+        {/* <div className={styles.comment_cards}>
               {actRatingRows &&
                 actRatingRows.map((v) => {
                   const {
@@ -692,9 +1065,7 @@ export default function ActivityDetail() {
                     />
                   );
                 })}
-            </div>
-          </div>
-        </div>
+            </div> */}
       </div>
 
       {/* ....銜接處圖片5.... */}
