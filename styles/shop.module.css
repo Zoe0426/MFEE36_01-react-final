@@ -697,19 +697,29 @@
   font-weight: var(--fwbold);
 }
 
+/*客服*/
 .online_img{
   width: 75px;
   height: 75px;
   position: fixed;
   top: 50%;
-  /* left:calc(((100% - 1920px) / 2) + 1750px); */
+  left:calc(((100% - 1920px) / 2) + 1750px);
   transform: translateY(-50%);
-  z-index: 99999;
+  z-index: 3;
   cursor: pointer;
 }
 
 .online_img>img{
   width: 100%;
+}
+
+@media screen and (max-width: 1920px) {
+  .online_img{
+    left:99%;
+    transform: translateX(-100%);
+    z-index:4;
+    cursor: pointer;
+  }
 }
 
 @media screen and (max-width: 1920px) and (min-width: 768px) {
@@ -969,4 +979,16 @@
   .reconmand_products_title {
     font-size: var(--h5fs20);
   }
+
+  /*客服*/
+  .online_img{
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  top:calc(100% - 80px);
+  left:99.5%;
+  transform: translate(-100%,-100%);
+  z-index: 1;
+  cursor: pointer;
+}
 }

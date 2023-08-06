@@ -37,7 +37,6 @@
   max-height: 300px;
   overflow-x: hidden;
   overflow-y: scroll;
-  /* scroll-behavior: smooth; */
   border-bottom: 2px solid var(--light-gray);
   padding: var(--p16);
 }
@@ -162,4 +161,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+@media screen and (max-width:390px){
+    .chatroom_box {
+        right: 0px;
+      }
 }

@@ -1479,7 +1479,6 @@ export default function Product() {
                 display && (
                   <div className={styles.test} key={product_comment_sid}>
                     <CommentCard1
-                      // member_sid={member_sid}
                       date={date}
                       rating={rating}
                       content={content}
