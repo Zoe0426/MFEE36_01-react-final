@@ -8,11 +8,11 @@ import {
   Col,
   Row,
   ConfigProvider,
-  Breadcrumb,
   Button,
   Dropdown,
   Space,
   Menu,
+  Select,
 } from 'antd';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Styles from './list.module.css';
@@ -104,13 +104,20 @@ export default function FilterPage() {
     { id: 'rid', text: '', href: '', show: false },
   ]);
 
-  const handleCityClick = ({ key }) => {
-    setSelectedCity(key);
+  // const handleCityClick = ({ key }) => {
+  //   setSelectedCity(key);
+  //   setSelectedArea(null);
+  // };
+
+  // const handleAreaClick = ({ key }) => {
+  //   setSelectedArea(key);
+  // };
+  const handleProvinceChange = (value) => {
+    setSelectedCity(value);
     setSelectedArea(null);
   };
-
-  const handleAreaClick = ({ key }) => {
-    setSelectedArea(key);
+  const onSecondCityChange = (value) => {
+    setSelectedArea(value);
   };
   //取台灣的地區
   const cities = cityDatas;
@@ -186,22 +193,6 @@ export default function FilterPage() {
 
     console.log(router.query);
 
-    // const newBreadCrubText = breadCrubText.map((v) => {
-    //   if (v.id === 'search') {
-    //     return { ...v, text: `> 餐廳列表` };
-    //   } else return { ...v };
-    // });
-    // setBreadCrubText(newBreadCrubText);
-
-    // if (city.length > 0) {
-    //   const newBreadCrubText = breadCrubText.map((v) => {
-    //     if (v.id === 'search') {
-    //       return { ...v, text: `> ${city.label}餐廳` };
-    //     } else return { ...v };
-    //   });
-    //   setBreadCrubText(newBreadCrubText);
-    // }
-
     setRule(rule || '');
     setService(service || '');
     if (city) {
@@ -245,80 +236,6 @@ export default function FilterPage() {
     }
     return () => {};
   }, [router.query, auth.token]);
-
-  // useEffect(() => {
-  //   //取得用戶拜訪的類別選項
-  //   const {
-  //     keyword,
-  //     rule,
-  //     service,
-  //     city,
-  //     area,
-  //     category,
-  //     startTime,
-  //     endTime,
-  //     selectedDate,
-  //   } = router.query;
-
-  //   console.log(router.query);
-  //   if (Object.keys(router.query).length === 0) {
-  //     console.log(router.query);
-  //     fetch(`${process.env.API_SERVER}/restaurant-api/list`)
-  //       .then((r) => r.json())
-  //       .then((data) => {
-  //         if (Array.isArray(data.rows)) {
-  //           setData(data);
-  //           console.log(data);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   } else if (Object.keys(router.query).length !== 0) {
-  //     console.log(router.query);
-  //     setRule(rule || '');
-  //     setService(service || '');
-  //     if (city) {
-  //       setSelectedCity(city);
-  //     }
-  //     if (area) {
-  //       setSelectedArea(area);
-  //     }
-
-  //     if (startTime) {
-  //       setStartTime(startTime);
-  //     }
-
-  //     if (endTime) {
-  //       setEndTime(endTime);
-  //     }
-
-  //     if (selectedDate) {
-  //       setDatePickerValue(selectedDate); // 設置日期狀態
-  //     }
-  //     if (category) {
-  //       resetCheckBox('category', category);
-  //     }
-
-  //     setArea(area || '');
-  //     setCategory(category || '');
-  //     setKeyword(keyword || '');
-  //     // setOrderBy(orderBy);
-  //     const usp = new URLSearchParams(router.query);
-
-  //     fetch(`${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`)
-  //       .then((r) => r.json())
-  //       .then((data) => {
-  //         if (Array.isArray(data.rows)) {
-  //           setData(data);
-  //           console.log(data);
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   }
-  // }, [router.query]);
 
   //進入畫面時將checkbox依據queryString設定勾選狀態
   const resetCheckBox = (key, str) => {
@@ -443,32 +360,32 @@ export default function FilterPage() {
   };
 
   //輸入時間的框框是否成為焦點
-  const handleBlur = () => {
-    // 檢查是否填寫了開始時間和結束時間
-    if (startTime && !endTime) {
-      setStartShowTimeError(false);
-      setShowEndTimeError(true);
-    } else if (!startTime && endTime) {
-      setStartShowTimeError(true);
-      setShowEndTimeError(false);
-    } else if (startTime && endTime) {
-      // 如果開始時間和結束時間相同，顯示相同時間錯誤提示訊息
-      if (startTime === endTime) {
-        setStartShowTimeError(true);
-        setShowEndTimeError(true);
-        setErrorMsg('不可填寫相同時間');
-      } else {
-        setStartShowTimeError(false);
-        setShowEndTimeError(false);
-        setErrorMsg(null);
-      }
-    } else {
-      // 時間填寫正確，清除錯誤提示訊息
-      setStartShowTimeError(false);
-      setShowEndTimeError(false);
-      setErrorMsg(null);
-    }
-  };
+  // const handleBlur = () => {
+  //   // 檢查是否填寫了開始時間和結束時間
+  //   if (startTime && !endTime) {
+  //     setStartShowTimeError(false);
+  //     setShowEndTimeError(true);
+  //   } else if (!startTime && endTime) {
+  //     setStartShowTimeError(true);
+  //     setShowEndTimeError(false);
+  //   } else if (startTime && endTime) {
+  //     // 如果開始時間和結束時間相同，顯示相同時間錯誤提示訊息
+  //     if (startTime === endTime) {
+  //       setStartShowTimeError(true);
+  //       setShowEndTimeError(true);
+  //       setErrorMsg('不可填寫相同時間');
+  //     } else {
+  //       setStartShowTimeError(false);
+  //       setShowEndTimeError(false);
+  //       setErrorMsg(null);
+  //     }
+  //   } else {
+  //     // 時間填寫正確，清除錯誤提示訊息
+  //     setStartShowTimeError(false);
+  //     setShowEndTimeError(false);
+  //     setErrorMsg(null);
+  //   }
+  // };
 
   //篩選的部分
   const filterHandler = () => {
@@ -486,36 +403,37 @@ export default function FilterPage() {
     //console.log(selectedDate);
 
     // 檢查是否填寫了開始時間和結束時間
-    if (startTime && !endTime) {
-      setStartShowTimeError(false);
-      setShowEndTimeError(true);
-      setShowFilter(true);
-    } else if (!startTime && endTime) {
-      setStartShowTimeError(true);
-      setShowEndTimeError(false);
-      setShowFilter(true);
-    } else if (startTime && endTime) {
-      // 如果開始時間和結束時間相同，顯示相同時間錯誤提示訊息
-      if (startTime === endTime) {
-        setStartShowTimeError(true);
-        setShowEndTimeError(true);
-        setErrorMsg('不可填寫相同時間');
-      } else {
-        setStartShowTimeError(false);
-        setShowEndTimeError(false);
-        setErrorMsg(null);
-      }
-    } else {
-      // 時間填寫正確，清除錯誤提示訊息
-      setStartShowTimeError(false);
-      setShowEndTimeError(false);
-      setErrorMsg(null);
-    }
+    // if (startTime && !endTime) {
+    //   setStartShowTimeError(false);
+    //   setShowEndTimeError(true);
+    //   setShowFilter(true);
+    // } else if (!startTime && endTime) {
+    //   setStartShowTimeError(true);
+    //   setShowEndTimeError(false);
+    //   setShowFilter(true);
+    // } else if (startTime && endTime) {
+    //   // 如果開始時間和結束時間相同，顯示相同時間錯誤提示訊息
+    //   if (startTime === endTime) {
+    //     setStartShowTimeError(true);
+    //     setShowEndTimeError(true);
+    //     setErrorMsg('不可填寫相同時間');
+    //   } else {
+    //     setStartShowTimeError(false);
+    //     setShowEndTimeError(false);
+    //     setErrorMsg(null);
+    //   }
+    // } else {
+    //   // 時間填寫正確，清除錯誤提示訊息
+    //   setStartShowTimeError(false);
+    //   setShowEndTimeError(false);
+    //   setErrorMsg(null);
+    // }
 
-    //如果有錯誤訊息就不送出篩選
-    if (errorMsg && showStartTimeError && showEndTimeError) {
-      return;
-    }
+    // //如果有錯誤訊息就不送出篩選
+    // if (errorMsg && showStartTimeError && showEndTimeError) {
+    //   return;
+    // }
+
     const checkedOptions = filterCate
       .filter((v) => v.checked === true)
       .map((v) => v.value);
@@ -530,9 +448,6 @@ export default function FilterPage() {
       query.area = selectedArea;
     }
 
-    // console.log(selectedCity);
-    // console.log(selectedArea);
-
     if (checkedOptions.length > 0) {
       query.category = checkedOptions;
     }
@@ -545,9 +460,6 @@ export default function FilterPage() {
     if (selectedDayOfWeek) {
       query.weekly = selectedDayOfWeek;
     }
-    // console.log(start);
-    // console.log(end);
-    // console.log(checkedOptions);
 
     //收起篩選區域
     //setShowFilter(false);
@@ -569,6 +481,13 @@ export default function FilterPage() {
     setSelectedCity(null);
     setSelectedArea(null);
     setShowFilter(false);
+
+    // 修改麵包屑
+    setBreadCrubText((prevBreadCrubText) => {
+      return prevBreadCrubText.map((v) =>
+        v.id === 'search' ? { ...v, text: '> 餐廳列表' } : { ...v }
+      );
+    });
 
     // setStartTime('08:00');
 
@@ -879,7 +798,38 @@ export default function FilterPage() {
                       <label className={Styles.labels}>用餐地點</label>
                     </div>
                     <div className={Styles.dropdowns}>
-                      <Dropdown
+                      <Space wrap>
+                        <Select
+                          value={selectedCity ? selectedCity : undefined}
+                          placeholder="城市"
+                          style={{
+                            width: 200,
+                          }}
+                          onChange={handleProvinceChange}
+                          options={Object.keys(cities).map((city) => ({
+                            label: city,
+                            value: city,
+                          }))}
+                        />
+                        <Select
+                          style={{
+                            width: 200,
+                          }}
+                          value={selectedArea}
+                          placeholder="地區"
+                          onChange={onSecondCityChange}
+                          options={
+                            selectedCity
+                              ? cities[selectedCity].map((area) => ({
+                                  label: area,
+                                  value: area,
+                                }))
+                              : []
+                          }
+                          disabled={!selectedCity}
+                        />
+                      </Space>
+                      {/* <Dropdown
                         overlay={
                           <Menu onClick={handleCityClick}>
                             {Object.keys(cities).map((city) => (
@@ -890,17 +840,23 @@ export default function FilterPage() {
                         className={Styles.city}
                         trigger={['click']}
                         placement="bottom"
-
+                        autoAdjustOverflow="true"
+                        overlayStyle={{
+                          maxHeight: '280px',
+                          overflow: 'auto',
+                        }}
                       >
                         <Button>
                           <Space>
                             <p className={Styles.dropdown_arrow}>
                               {selectedCity ? selectedCity : '城市'}
                             </p>
+
                             <DownOutlined />
                           </Space>
                         </Button>
                       </Dropdown>
+
                       <Dropdown
                         overlay={
                           <Menu onClick={handleAreaClick}>
@@ -912,6 +868,8 @@ export default function FilterPage() {
                         }
                         className={Styles.section}
                         placement="bottomLeft"
+                        overlayStyle={{ maxHeight: '280px', overflow: 'auto' }}
+                        trigger={['click']}
                       >
                         <Button>
                           <Space>
@@ -921,7 +879,7 @@ export default function FilterPage() {
                             <DownOutlined />
                           </Space>
                         </Button>
-                      </Dropdown>
+                      </Dropdown> */}
                     </div>
                   </div>
                 </ConfigProvider>
@@ -932,7 +890,7 @@ export default function FilterPage() {
                   handlerChange2={handlerChange2}
                   onDateChange={handleDatePickerChange}
                   value={datePickerValue}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   alert_start={
                     showStartTimeError && (
                       <p style={{ color: 'red' }}>

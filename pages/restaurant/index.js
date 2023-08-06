@@ -265,24 +265,24 @@ export default function Restindex() {
     setEndTime(time);
   };
   //輸入時間的框框是否成為焦點
-  const handleBlur = () => {
-    // 檢查是否填寫了開始時間和結束時間
-    if (startTime && !endTime) {
-      setStartShowTimeError(false);
-      setShowEndTimeError(true);
-      setShowFilter(true);
-    } else if (!startTime && endTime) {
-      setStartShowTimeError(true);
-      setShowEndTimeError(false);
-      setShowFilter(true);
-    } else if (startTime && endTime) {
-      setStartShowTimeError(false); // 將開始時間警告框框隱藏
-      setShowEndTimeError(false); // 將結束時間警告框框隱藏
-    } else if (!startTime && !endTime) {
-      setStartShowTimeError(false); // 將開始時間警告框框隱藏
-      setShowEndTimeError(false); // 將結束時間警告框框隱藏
-    }
-  };
+  // const handleBlur = () => {
+  //   // 檢查是否填寫了開始時間和結束時間
+  //   if (startTime && !endTime) {
+  //     setStartShowTimeError(false);
+  //     setShowEndTimeError(true);
+  //     setShowFilter(true);
+  //   } else if (!startTime && endTime) {
+  //     setStartShowTimeError(true);
+  //     setShowEndTimeError(false);
+  //     setShowFilter(true);
+  //   } else if (startTime && endTime) {
+  //     setStartShowTimeError(false); // 將開始時間警告框框隱藏
+  //     setShowEndTimeError(false); // 將結束時間警告框框隱藏
+  //   } else if (!startTime && !endTime) {
+  //     setStartShowTimeError(false); // 將開始時間警告框框隱藏
+  //     setShowEndTimeError(false); // 將結束時間警告框框隱藏
+  //   }
+  // };
   //篩選的部分
   const filterHandler = () => {
     const filterCate = filters.category;
@@ -299,15 +299,15 @@ export default function Restindex() {
     console.log(selectedDate);
 
     // 檢查是否填寫了開始時間和結束時間
-    if (startTime && !endTime) {
-      setStartShowTimeError(false);
-      setShowEndTimeError(true);
-      // setShowFilter(true);
-    } else if (!startTime && endTime) {
-      setStartShowTimeError(true);
-      setShowEndTimeError(false);
-      // setShowFilter(true);
-    }
+    // if (startTime && !endTime) {
+    //   setStartShowTimeError(false);
+    //   setShowEndTimeError(true);
+    //   // setShowFilter(true);
+    // } else if (!startTime && endTime) {
+    //   setStartShowTimeError(true);
+    //   setShowEndTimeError(false);
+    //   // setShowFilter(true);
+    // }
 
     const checkedOptions = filterCate
       .filter((v) => v.checked === true)
@@ -768,17 +768,25 @@ export default function Restindex() {
                           </Menu>
                         }
                         className={Styles.city}
-                        placement="bottomLeft"
+                        trigger={['click']}
+                        placement="bottom"
+                        autoAdjustOverflow="true"
+                        overlayStyle={{
+                          maxHeight: '280px',
+                          overflow: 'auto',
+                        }}
                       >
                         <Button>
                           <Space>
                             <p className={Styles.dropdown_arrow}>
                               {selectedCity ? selectedCity : '城市'}
                             </p>
+
                             <DownOutlined />
                           </Space>
                         </Button>
                       </Dropdown>
+
                       <Dropdown
                         overlay={
                           <Menu onClick={handleAreaClick}>
@@ -790,6 +798,8 @@ export default function Restindex() {
                         }
                         className={Styles.section}
                         placement="bottomLeft"
+                        overlayStyle={{ maxHeight: '280px', overflow: 'auto' }}
+                        trigger={['click']}
                       >
                         <Button>
                           <Space>
@@ -810,7 +820,7 @@ export default function Restindex() {
                   handlerChange2={handlerChange2}
                   onDateChange={handleDatePickerChange}
                   value={datePickerValue}
-                  onBlur={handleBlur}
+                  // onBlur={handleBlur}
                   alert_start={
                     showStartTimeError && (
                       <p style={{ color: 'red' }}>

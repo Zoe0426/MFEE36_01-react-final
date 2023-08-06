@@ -133,9 +133,9 @@
   transform: scale(1.08);
 }
 /* 卷軸 */
-.slider::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 
 @media screen and (max-width: 767px) {
   .slider {
