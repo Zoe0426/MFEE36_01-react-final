@@ -28,12 +28,12 @@ export default function Cart() {
     postAddress: [],
     coupon: [],
   });
+  const [memEmail, setMemEmail] = useState('');
   const [checkoutType, setCheckoutType] = useState('shop');
   //商品選擇區
   const [shopData, setShopData] = useState([]);
   const [activityData, setActivityData] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  // const [itemsAmount, setItemsAmount] = useState(0);
   //寄送資訊
   const [postType, setPostType] = useState(1);
   const [postAddData, setPostAddData] = useState([]);
@@ -73,10 +73,6 @@ export default function Cart() {
     setActivityData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
   };
 
-  const changePostType = (e) => {
-    setPostType(e.target.value);
-  };
-
   const selectCoupon = () => {
     setCouponData((old) =>
       old.map((v) =>
@@ -86,9 +82,20 @@ export default function Cart() {
       )
     );
   };
-  const selectAddress = () => {};
+  const checkDefaultAdd = (sid, status) => {
+    const newData = postAddData.map((v) => {
+      if (status === true) {
+        return { ...v, default_status: 0 };
+      } else {
+        return v.address_sid == sid
+          ? { ...v, default_status: 1 }
+          : { ...v, default_status: 0 };
+      }
+    });
+    // console.log(newData);
+    setPostAddData(newData);
+  };
   const getCart = async (id) => {
-    //console.log(id);
     setLoading(true);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/get-cart-items`, {
       method: 'POST',
@@ -128,6 +135,7 @@ export default function Cart() {
       const defaultPostType = data.postAddress[0].post_type;
       setPostType(defaultPostType);
     }
+    setMemEmail(data.email);
     setLoading(false);
     setCartData(data);
   };
@@ -200,11 +208,9 @@ export default function Cart() {
       sendOrderRequest(data);
     }
   };
-
-  //console.log(cartData);
-  //console.log(paymentType);
+  console.log({ cartData });
   console.log({ postAddData });
-
+  console.log({ postType });
   if (pageLoading) {
     return <Loading />;
   } else if (!pageLoading) {
@@ -294,6 +300,10 @@ export default function Cart() {
             {/* ========== 寄件方式 ==========*/}
             {checkoutType === 'shop' ? (
               <div className={style.section}>
+                <div className={style.postPrice}>
+                  <span>運費: </span>
+                  {postType !== 1 ? '$60' : '$90'}
+                </div>
                 <CartSectionTitle text="收件地址" />
                 {postAddData.length > 0 ? (
                   postAddData
@@ -311,6 +321,8 @@ export default function Cart() {
                           selected={v.selected}
                           postType={v.post_type}
                           edit={true}
+                          defaultStatus={!!v.default_status}
+                          checkDefaultAdd={checkDefaultAdd}
                         />
                       ) : (
                         ''
@@ -324,13 +336,14 @@ export default function Cart() {
                     btnType="text"
                     btnText="變更收件地址"
                     title="選擇/新增收件地址"
-                    confirmHandler={selectAddress}
+                    showSubBtn={false}
                     content={
                       <CartAddressList
                         postAddData={postAddData}
                         setPostAddData={setPostAddData}
                         postType={postType}
                         setPostType={setPostType}
+                        memEmail={memEmail}
                       />
                     }
                   />
@@ -389,6 +402,8 @@ export default function Cart() {
               createOrder={createOrder}
               paymentType={paymentType}
               setPaymentType={setPaymentType}
+              setChosenCoupon={setChosenCoupon}
+              selectCoupon={selectCoupon}
             />
           </Col>
         </Row>

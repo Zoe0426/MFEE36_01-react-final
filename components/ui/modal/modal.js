@@ -5,7 +5,7 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart,faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { Input, ConfigProvider, Button } from 'antd';
 export default function Modal({
   btnType = 'main', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn-RWD後只剩icon)、iconSeconBtn(iconSeconBtn-RWD後還有文字)、input(ant d input)、text(純文字)六種
@@ -45,7 +45,7 @@ export default function Modal({
           onClick={toggleModal}
           className={Styles.bookmark}
         />
-      ) :btnType === 'iconBtn' ? (
+      ) : btnType === 'iconBtn' ? (
         <IconBtn icon={icon} text={btnText} clickHandler={toggleModal} />
       ) : btnType === 'iconSeconBtn' ? (
         <IconSeconBtn icon={icon} text={btnText} clickHandler={toggleModal} />

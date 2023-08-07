@@ -411,3 +411,8 @@ export const townships = countries.map((v, i, array) =>
 export const postcodes = countries.map((v, i, array) =>
   Object.values(data[array[i]])
 );
+
+// Lily補加～～
+const areaData = {};
+Object.keys(data).forEach((city) => (areaData[city] = Object.keys(data[city])));
+export default areaData;

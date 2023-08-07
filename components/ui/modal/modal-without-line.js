@@ -3,6 +3,7 @@ import Styles from './modal-without-line.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import IconBtn from '@/components/ui/buttons/IconBtn';
+import CloseBtn from '../buttons/closeBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Input, ConfigProvider } from 'antd';
@@ -41,6 +42,8 @@ export default function ModalWithoutLine({
         />
       ) : btnType === 'iconBtn' ? (
         <IconBtn icon={icon} text={btnText} clickHandler={toggleModal} />
+      ) : btnType === 'closeBtn' ? (
+        <CloseBtn closeHandler={toggleModal} />
       ) : btnType === 'iconSeconBtn' ? (
         <IconSeconBtn icon={icon} text={btnText} clickHandler={toggleModal} />
       ) : btnType === 'IconMainBtn' ? (

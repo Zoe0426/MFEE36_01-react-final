@@ -15,7 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  width: 90%;
+  width: 100%;
   height: 50px;
   border-bottom: 2px solid var(--light3);
   margin: 0 auto;
@@ -52,6 +52,8 @@
 
 .addNewAddBtn>p{
   padding-top: var(--p8);
+  padding-right: var(--p8);
+  
   display: block;
   text-align: end;
   font-size: var(--pfs14);
@@ -64,14 +66,27 @@
 .formBox{ 
   /* height: 500px; */
   margin-top: var(--p8);
-  padding: 0 var(--p16);
-  /* border: 1px solid var(--secondary);… */
+  padding: var(--p8) var(--p16);
+  /* border: 1px solid var(--secondary); */
+  background-color: var(--light4);
   z-index: 3;
   display:block;
 }
 .formBox.active{
  display:none;
 }
+.radioBox{
+  position: relative;
+}
+.delete{
+    position: absolute;
+    top: 8px;
+    right: 0;
+}
+.nodataCard{
+padding-top: var(--p16);
+}
+
 @media screen and (max-width:576px){
 .postTypeTab img{
   height: 18px;

@@ -1,0 +1,45 @@
+.box{
+    width: 100%;
+    display:flex;
+}
+.img{
+    max-width: 80px;
+}
+.message{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--h5fs20);
+    width: 100%;
+    color: var(--dark-gray);
+}
+.textArea{
+    display: flex;
+    flex-direction: column;
+    margin-left: var(--p32);
+
+}
+
+.content{
+    font-size: var(--h5fs20);
+    padding: 3px 0;
+    text-align: center;
+    font-weight: 400;
+}
+
+@media screen and (max-width:767px){
+.img{
+    max-width: 50px;
+}
+.content{
+    font-size: var(--pfs16);
+    text-align: start;
+    padding: 0;
+}
+.textArea{
+    display: flex;
+    flex-direction: column;
+    margin-left: var(--p16);
+
+}
+} 

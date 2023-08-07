@@ -4,6 +4,7 @@ import MainBtn from '../buttons/MainBtn';
 import SecondaryBtn from '../buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaw } from '@fortawesome/free-solid-svg-icons';
+import CartAlertContent from './cartAlertContent';
 
 export default function CartTab({
   type = '',
@@ -89,17 +90,7 @@ export default function CartTab({
                 />
               </h2>
               <div className={style.modal_content}>
-                <div className={style.box}>
-                  <img
-                    src="/home-images/h-logo.png"
-                    alt="logo"
-                    className={style.img}
-                  />
-                  <div className={style.message}>
-                    <p>前往活動結帳頁面？</p>
-                    <p></p>
-                  </div>
-                </div>
+                <CartAlertContent h2title="" content="" />
               </div>
 
               <div className={style.line}></div>

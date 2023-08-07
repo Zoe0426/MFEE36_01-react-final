@@ -1,0 +1,9 @@
+.cardBox{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.sorryImg{
+  max-width: 30%;
+  margin-bottom: var(--p8);
+}

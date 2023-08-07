@@ -1,0 +1,14 @@
+.formBox{
+    /* border: 1px solid pink; */
+    padding-left: var(--p16);
+    position: relative;
+}
+.searchSeven>div{
+    width: 100%;
+}
+.decoImg{
+    position: absolute;
+    right:0;
+    bottom:3%;
+    width: 10%;
+}

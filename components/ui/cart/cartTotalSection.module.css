@@ -17,11 +17,18 @@
 }
 .subtotals{
     display: flex;
-    margin-bottom: 18px;
-    
+    margin-bottom: 16px;
+    align-items: center;
+    font-size: var(--h6fs18);
+}
+.subtotals2{
+    display: flex;
+    margin-bottom: 8px;
+    align-items: center;
+   font-size: var(--h6fs18);
 }
 .amount{
-    font-weight: bold;
+    /* font-weight: bold; */
     display: block;
     margin-left: auto;
 }
@@ -29,7 +36,7 @@
     display: flex;
     font-weight: bold;
     margin-bottom: 16px;
-    font-size: var(--h6fs18);
+    font-size: var(--h5fs20);
     /* color: var(--dark); */
    
 }
@@ -39,10 +46,36 @@
     margin-left: auto;
     font-size: var(--h6fs18);
 }
+.couponBtn{
+    border-top: 1px dashed var(--light-gray);
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: var(--p16);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    display: flex;
+}
+.couponBtn:hover{
+    border: 1px solid #fd8c46db;
+}
+.couponBtn span{
+    color: var(--dark-gray);
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid pink; */
+    display: block;
+    padding: 8px;
+}
+
 .paymentArea{
     /* border: 1px solid red; */
     border-top: 1px dashed var(--light-gray);
-    padding-top: var(--p16);
+    padding: var(--p16) 0;
+    
 }
 .checkoutBtn{
 width: 100%;
@@ -88,8 +121,8 @@ flex-direction: column;
     z-index: 3;
     width: 100%;
     bottom:0;
-    padding: var(--p8)var(--p32);
-    background-color: var(--light1);
+    padding: var(--p8) 60px;
+    background-color: var(--light4);
 }
 .totalSelectedNum{
     right: 50px;
@@ -107,7 +140,6 @@ flex-direction: column;
     bottom:0px;
     height: 12%;
     background-color: var(--light1);
-   
     font-size: var(--h6fs18);
     font-weight: bold;
     color: var(--dark);
@@ -133,5 +165,8 @@ flex-direction: column;
 @media screen and (max-width:767px){
 .toggleCard{
     height: 10.5%;
+}
+.showTotalCard{
+padding: var(--p8) var(--p32);
 }
 }
