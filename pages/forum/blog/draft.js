@@ -159,7 +159,7 @@ export default function BlogIndex() {
   }
   // edit post
   const editPost = (post_sid) => {
-    router.push(`forum/blog/post/${post_sid}`)
+    router.push(`/forum/blog/edit/${post_sid}`)
   }
 
   return (

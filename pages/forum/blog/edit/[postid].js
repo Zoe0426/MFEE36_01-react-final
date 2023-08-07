@@ -53,23 +53,19 @@ export default function Post() {
 
   // 動態路由
   const router = useRouter();
-  const { pathname } = router; //看路徑
-  const {query} = router; 
-  // console.log("query",query);
-  // console.log("pathname",pathname);
+
   const postid = router.query.postid; 
   console.log(auth.id);
 
-  // const [content, setContent] = useState('');
 
   //塞值進去post title和post content
   const [post, setPost] = useState({title:'', content:''});
   //塞值進去hashtag
   const [hashtagNames, setHashtagNames] = useState([]);
   //塞值進去board_sid
-  const [board, setBoard] = useState(1);
+  //const [board, setBoard] = useState(1);
   //設定發文狀態
-  const [postStatus, setPostStatus] = useState(0);
+  // const [postStatus, setPostStatus] = useState(0);
 
 
   const fetchData = async (postid) => {
@@ -86,31 +82,19 @@ export default function Post() {
       const newImgData = data.imgData.map(v=>v.file)
       setImgData(newImgData || []);
       if (data.imgData.length>0){
+        console.log('in');
         const myFileList = [];
         data.imgData.map((v,i)=>{
-          return myFileList.push([
+          return myFileList.push(
             {
               uid:i,
               name:v.file,
               status:'done',
               url:`${process.env.API_SERVER}/img/${v.file}`
             },
-          ]);
+          );
         });
-        // data.imgData.map((v) => {
-        //   const url = `${process.env.API_SERVER}/img/${v.file}`;
-        //   // public/img/Post001.jpeg
-        //   console.log('Generated URL:', url);
-        //   return myFileList.push([
-        //     {
-        //       uid: v.post_sid, // You can use v.post_sid if it's unique
-        //       name: v.file,
-        //       status: 'done',
-        //       url: url,
-        //   },
-        // ]);
-        // });
-        
+        console.log(myFileList);
         setFileList(myFileList);
       }else{
         setFileList([]);
@@ -127,18 +111,17 @@ export default function Post() {
       console.log(postid);
       console.log('data.newData[0].post_title',data.newData[0].post_title);
       const post=data.newData[0];
-      console.log('post',post);
+      console.log('post',post.post_content);
       setPost({title:post.post_title, content:post.post_content})
 
       const hashtagNames = data.tagData.map(item => item.hashtag_name);
       console.log(hashtagNames);
       setHashtagNames(hashtagNames);
 
-      const board = data.newData[0].board_sid;
-      console.log('board',board);
-      setBoard(board);
-      setBoardSid(board);
+      const boardSid = data.newData[0].board_sid;
       console.log('boardSid',boardSid);
+      setBoardSid(boardSid);
+
 
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -161,43 +144,12 @@ export default function Post() {
       setPost(newTitle);
     }
     const editContent = (e)=>{
+      console.log({post});
       const newContent = {...post, content: e.target.value}
       setPost(newContent);
     }
 
 
-
-  //發布文章
-
-  // const handleSubmit = (values) => {
-  //   const formData = new FormData();
-  //   // 後端用req.body...可以拿到以下資料
-  //   // console.log('submitType', submitType);
-  //   formData.append('title', post.title);
-  //   formData.append('content', post.content); 
-  //   formData.append('memberSid', auth.id);
-  //   formData.append('boardSid', boardSid);
-  //   formData.append('choseHashtag', choseHashtag);
-  //   // 後端用req.files, 會拿到照片們的資料，記得append要用photo，因為後端這麼設定的
-  //   fileList.forEach((file)=>{
-  //     formData.append('photo', file.originFileObj);
-  //   }); // ant design上傳照片時，會一直更新setFileList，我們送出，只要拿fileList的結果就好
-
-
-  //   fetch(`${process.env.API_SERVER}/forum-api/forum/blog/edit`,{
-  //     method:'PUT',
-  //     // body:JSON.stringify(newValue),
-  //     body: formData,
-  //     // headers: {
-  //     //   'Content-Type': 'application/json',
-  //     // },
-  //   })
-  //   .then((r) => r.json())
-  //   .then((data)=>{
-  //     console.log('data', data);
-  //     // 拿到資料庫加文字的回傳結果後，成功的話router.push到你要的頁面去，失敗的話，看要怎麼處理
-  //   })
-  // }
   // 提交表单到后端的函数
 const submitForm = (formData) => {
   fetch(`${process.env.API_SERVER}/forum-api/forum/blog/edit`,{
@@ -218,16 +170,18 @@ const submitForm = (formData) => {
 const handlePublish = () => {
   const formData = new FormData();
   // 将需要提交的数据添加到 formData 中
+  formData.append('postid', postid);
   formData.append('title', post.title);
   formData.append('content', post.content); 
   formData.append('memberSid', auth.id);
   formData.append('boardSid', boardSid);
   formData.append('choseHashtag', choseHashtag);
+  console.log('choseHashtag',choseHashtag);
   fileList.forEach((file) => {
     formData.append('photo', file.originFileObj);
   });
-  formData.append('postStatus', postStatus); // 设置发布状态为已发布 (0) 或草稿 (1)
-  setPostStatus(0); 
+  formData.append('postStatus', 0); // 設置發布狀態為已發佈 (0) 或草稿 (1)
+  // setPostStatus(0); 
   submitForm(formData); // 提交表单
   console.log('publish_formData',formData);
 };
@@ -235,7 +189,8 @@ const handlePublish = () => {
 // 儲存草稿夾
 const handleDraft = () => {
   const formData = new FormData();
-  // 将需要提交的数据添加到 formData 中
+  // 將需要提交的數據添加到 formData 中
+  formData.append('postid', postid);
   formData.append('title', post.title);
   formData.append('content', post.content); 
   formData.append('memberSid', auth.id);
@@ -244,27 +199,11 @@ const handleDraft = () => {
   fileList.forEach((file) => {
     formData.append('photo', file.originFileObj);
   });
-  formData.append('postStatus', postStatus); // 设置发布状态为已发布 (0) 或草稿 (1)
-  setPostStatus(1);
-  submitForm(formData); // 提交表单
+  formData.append('postStatus', 1); // 設置發布狀態為已發佈 (0) 或草稿 (1)
+  // setPostStatus(1);
+  submitForm(formData); // 提交表單
   console.log('draft_formData',formData);
 };
-
-//   // 提交表單
-//   const [form] = Form.useForm();
-
-//   const onFinish = (values) => {
-//     console.log('Success:', values);
-//   };
-// const handlePublish = () => {
-//   form.setFieldsValue({ postStatus: 'published' });
-//   form.submit();
-// };
-
-// const handleDraft = () => {
-//   form.setFieldsValue({ postStatus: 'draft' });
-//   form.submit();
-// };
 
 
   
@@ -296,7 +235,7 @@ const handleDraft = () => {
         Upload
       </div>
     </div>
-  );
+  ); 
 
 
   // Antd 點選看板篩選話題
@@ -410,127 +349,49 @@ const handleDraft = () => {
       setChoseHashtag(value);
       console.log(`selected ${value}`);
     };
-
-  // 篩選看板的話題
-  //醫療版
-  const doctor = ()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===1
-    //   );
-    //   setData(newHashtag); //將篩選後的數據存入 newHashtag  //使用 setHashtag 更新 hashtag 狀態變數，將篩選後的數據存入其中
-      //antd
-    setOptions(antTag.doctor);
-    setBoardSid(1);
-    console.log('setBoardSid',setBoardSid);
+    const changeBoardSid=(boardSid)=>{
+    console.log('inchangebs function, ', boardSid);
+    switch (boardSid){
+      case 1:
+        setOptions(antTag.doctor);
+        break;
+      case 2:
+        setOptions(antTag.home);
+        break;
+      case 3:
+        setOptions(antTag.site);
+        break;
+        case 4:
+        setOptions(antTag.salon);
+        break;
+        case 5:
+        setOptions(antTag.hang);
+        break;
+        case 6:
+        setOptions(antTag.diary);
+        break;
+        case 7:
+        setOptions(antTag.school);
+        break;
+        case 8:
+        setOptions(antTag.restaurant);
+        break;
+        case 9:
+        setOptions(antTag.product);
+        break;
+        case 11:
+        setOptions(antTag.young);
+        break;
+        case 12:
+        setOptions(antTag.old);
+        break;
+    }
+    setBoardSid(boardSid);
+    
   }
-  //住宿版
-  const home = ()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===2
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.home);
-    setBoardSid(2);
-  }
-  //景點版
-  const site = ()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===3
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.site);
-    setBoardSid(3);
-  }
-  //餐廳版
-  const restaurant=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===8
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.restaurant);
-    setBoardSid(8);
-  }
-  //美容版
-  const salon=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===4
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.salon);
-    setBoardSid(4);
-  }
-  //學校版
-  const school=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===7
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.school);
-    setBoardSid(7);
-  }
-  //狗貓聚版
-  const hang=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===5
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.hang);
-    setBoardSid(5);
-  }
-  //幼犬貓板
-  const young=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===11
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.young);
-    setBoardSid(11);
-  }
-  //老犬貓板
-  const old=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===12
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.old);
-    setBoardSid(12);
-  }
-  //好物版
-  const product=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===9
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.product);
-    setBoardSid(9);
-  }
-  //毛孩日記
-  const diary=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===6
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.diary);
-    setBoardSid(6);
-  }
-
-
-
-
-
-
 
   
+
   return (
     
     <div className="container-outer">
@@ -550,47 +411,15 @@ const handleDraft = () => {
               {/*<p>{currentDateTime}</p>*/}
               <div><FontAwesomeIcon icon={faLayerGroup} style={{maxWidth:20, maxHeight:20}}/>選擇發文看板</div>
               <BlogBoardNav
-                doctor={()=>{
-                  doctor(1);
-                }}
-                home={()=>{
-                  home(2);
-                }}
-                site={()=>{
-                  site(3);
-                }}
-                restaurant={()=>{
-                  restaurant(8);
-                }}
-                salon={()=>{
-                  salon(4);
-                }}
-                school={()=>{
-                  school(7);
-                }}
-                hang={()=>{
-                  hang(5);
-                }}
-                young={()=>{
-                  young(11);
-                }}
-                old={()=>{
-                  old(12);
-                }}
-                product={()=>{
-                  product(9);
-                }}
-                diary={()=>{
-                  diary(6)
-                }}
-                selectedBoardSid={boardSid} // 傳遞 selectedBoardSid
+              changeBoardSid={changeBoardSid}
+              boardSid={boardSid}
                 />
               <div><FontAwesomeIcon icon={faFileLines} style={{maxWidth:20, maxHeight:20}}/>發佈文章內容</div>
               {/* <Form.Item name='title'> */}
                 <Input placeholder="文章標題" value={post.title} onChange={editTitle}/>
               {/* </Form.Item> */}
               {/* <Form.Item name='content'> */}
-                <TextArea rows={20} placeholder="撰寫新文章內容" maxLength={50} value={post.content} onChange={editContent}/> 
+                <TextArea rows={20} placeholder="撰寫新文章內容" value={post.content} onChange={editContent}/> 
               {/* </Form.Item> */}
               <div><FontAwesomeIcon icon={faImage} style={{maxWidth:20, maxHeight:20}}/>新增相片</div>
               <Form.Item name='photo'>
@@ -614,12 +443,6 @@ const handleDraft = () => {
                 </Modal>
               </Form.Item> 
               <div><FontAwesomeIcon icon={faHashtag} style={{maxWidth:20, maxHeight:20}}/>新增話題</div>
-              {/*<div className={Style.hashtagField}>
-              {data.map((v,i)=>(
-                <PostHashtag key={i} text={v.hashtag_name}/>
-              ))}
-              </div>*/}
-              {/*<Form.Item name={'value'}>*/}
                 <Space
                   style={{
                     width: '100%',
@@ -628,15 +451,15 @@ const handleDraft = () => {
                 >
                 <Select
                   mode="multiple"
-                  allowClear
+                  // allowClear
                   style={{
                     width: '100%',
                   }}
                   placeholder="選擇話題"
-                  // defaultValue={['a10', 'c12']}
+                  defaultValue={['寵物版']}
                   onChange={handleChangeTag}
                   options={options}
-                  value={hashtagNames}
+                  // value={hashtagNames}
                 />
                 </Space>
               {/*</Form.Item>*/}

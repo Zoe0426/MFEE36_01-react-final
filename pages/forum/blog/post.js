@@ -40,31 +40,8 @@ export default function Post() {
   const [value, setValue] = useState('');
   // 選到的話題 (要click到的hashtag -> onclick)
   const [choseHashtag, setChoseHashtag] = useState([]);
-  // member...
-  //-----------------
 
-  // const [submitType, setSubmitType] = useState(0);
-
-  //如果用antd也不用這個了
-  // const handleTitleChange = (event)=>{
-  //   setTitle(event.target.value);
-  //   console.log("title", event.target.value);
-  // };
-  // const handleContentChange = (event)=>{
-  //   setContent(event.target.value);
-  //   console.log("content", event.target.value); 
-  // };
-
-  // const currentDateTime = new Date().toLocaleString(); // 取得現在的日期和時間
   console.log(auth.id);
-
-
-
-  // 給會員一個初始值
-  // const initialValues = {
-  //   memberSid: auth.id
-  // };
-
 
   //發布文章
 
@@ -101,50 +78,12 @@ export default function Post() {
     })
   }
 
-  
-  
-
   // Ant design上傳圖片
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState([
-    // {
-    //   uid: '-1',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-2',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-3',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-4',
-    //   name: 'image.png',
-    //   status: 'done',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-xxx',
-    //   percent: 50,
-    //   name: 'image.png',
-    //   status: 'uploading',
-    //   url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    // },
-    // {
-    //   uid: '-5',
-    //   name: 'image.png',
-    //   status: 'error',
-    // },
+
   ]);
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
@@ -169,20 +108,6 @@ export default function Post() {
     </div>
   );
 
-  // // 選取看板出現相對應話題
-  // const [hashtag, setHashtag] = useState([]);
-  // const [data, setData] = useState([]); //儲存篩選後的data
-  // const fetchData = async()=>{
-  //   const response = await fetch(`${process.env.API_SERVER}/forum-api/forum/blog/hashtag`, {method:"GET"});
-  //   const hashtagData = await response.json();
-  //   setHashtag(hashtagData);
-  //   setData(hashtagData);
-  //   // console.log('hashtag',hashtagData);
-  //   // console.log('data',data);
-  // };
-  // useEffect(()=>{
-  //   fetchData();
-  // }, []);
 
   // Antd 點選看板篩選話題
   const antTag = {
@@ -285,10 +210,7 @@ export default function Post() {
       {label:'寵物', value:'寵物'},
       {label:'毛小孩', value:'毛小孩'},
     ],
-
-
-  } 
-
+  }
   const [options, setOptions] = useState([]);
   
     const handleChangeTag = (value) => {
@@ -296,119 +218,46 @@ export default function Post() {
       console.log(`selected ${value}`);
     };
 
-  // 篩選看板的話題
-  //醫療版
-  const doctor = ()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===1
-    //   );
-    //   setData(newHashtag); //將篩選後的數據存入 newHashtag  //使用 setHashtag 更新 hashtag 狀態變數，將篩選後的數據存入其中
-      //antd
-    setOptions(antTag.doctor);
-    setBoardSid(1);
+  const changeBoardSid=(boardSid)=>{
+    console.log('inchangebs function, ', boardSid);
+    switch (boardSid){
+      case 1:
+        setOptions(antTag.doctor);
+        break;
+      case 2:
+        setOptions(antTag.home);
+        break;
+      case 3:
+        setOptions(antTag.site);
+        break;
+        case 4:
+        setOptions(antTag.salon);
+        break;
+        case 5:
+        setOptions(antTag.hang);
+        break;
+        case 6:
+        setOptions(antTag.diary);
+        break;
+        case 7:
+        setOptions(antTag.school);
+        break;
+        case 8:
+        setOptions(antTag.restaurant);
+        break;
+        case 9:
+        setOptions(antTag.product);
+        break;
+        case 11:
+        setOptions(antTag.young);
+        break;
+        case 12:
+        setOptions(antTag.old);
+        break;
+    }
+    setBoardSid(boardSid);
+    
   }
-  //住宿版
-  const home = ()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===2
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.home);
-    setBoardSid(2);
-  }
-  //景點版
-  const site = ()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===3
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.site);
-    setBoardSid(3);
-  }
-  //餐廳版
-  const restaurant=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===8
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.restaurant);
-    setBoardSid(8);
-  }
-  //美容版
-  const salon=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===4
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.salon);
-    setBoardSid(4);
-  }
-  //學校版
-  const school=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===7
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.school);
-    setBoardSid(7);
-  }
-  //狗貓聚版
-  const hang=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===5
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.hang);
-    setBoardSid(5);
-  }
-  //幼犬貓板
-  const young=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===11
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.young);
-    setBoardSid(11);
-  }
-  //老犬貓板
-  const old=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===12
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.old);
-    setBoardSid(12);
-  }
-  //好物版
-  const product=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===9
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.product);
-    setBoardSid(9);
-  }
-  //毛孩日記
-  const diary=()=>{
-    // const newHashtag=hashtag.filter((data)=>
-    //   data.board_sid===6
-    // );
-    // setData(newHashtag);
-    //antd
-    setOptions(antTag.diary);
-    setBoardSid(6);
-  }
-
-
 
   
   return (
@@ -432,39 +281,9 @@ export default function Post() {
               {/*<p>{currentDateTime}</p>*/}
               <div><FontAwesomeIcon icon={faLayerGroup} />選擇發文看板</div>
               <BlogBoardNav
-                doctor={()=>{
-                  doctor();
-                }}
-                home={()=>{
-                  home();
-                }}
-                site={()=>{
-                  site();
-                }}
-                restaurant={()=>{
-                  restaurant();
-                }}
-                salon={()=>{
-                  salon();
-                }}
-                school={()=>{
-                  school();
-                }}
-                hang={()=>{
-                  hang();
-                }}
-                young={()=>{
-                  young();
-                }}
-                old={()=>{
-                  old();
-                }}
-                product={()=>{
-                  product();
-                }}
-                diary={()=>{
-                  diary()
-                }}/>
+              changeBoardSid={changeBoardSid}
+              boardSid={boardSid}
+                />
               <div><FontAwesomeIcon icon={faFileLines} />發佈文章內容</div>
               <Form.Item name={'title'}>
                 <Input placeholder="文章標題"/>
@@ -519,7 +338,7 @@ export default function Post() {
                 />
                 </Space>
               {/*</Form.Item>*/}
-            <MainBtn className={Style.subBtn} text='發佈文章' htmltype="button" 
+            <MainBtn className={Style.subBtn} text='發佈文章' htmltype="submit" 
             //clickHandler={setSubmitType(1)}
             /> 
             <MainBtn text='儲存至草稿夾' htmltype="button" 
