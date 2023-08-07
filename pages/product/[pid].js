@@ -899,6 +899,7 @@ export default function Product() {
           keyDownHandler={chatKeyDownHandler}
           clickHandler={chatSendHandler}
           closeHandler={chatCloseHandler}
+          username={username}
         />
       )}
       <div className="outer-container">

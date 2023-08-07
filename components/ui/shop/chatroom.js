@@ -7,6 +7,7 @@ export default function Chatroom({
   auth = { nickname: '' },
   chatroomDatas = [{ sender: '', message: '', time: '' }],
   inputText = '',
+  username = '',
   changeHandler = () => {},
   keyDownHandler = () => {},
   clickHandler = () => {},
@@ -34,13 +35,12 @@ export default function Chatroom({
         <ul>
           {chatroomDatas.map((v, i) => {
             return (
-
               <li
                 key={i}
                 className={
                   v.message.message.includes('已離開聊天室')
                     ? styles.leave_text
-                    : v.message.sender === auth.nickname
+                    : v.message.sender !== auth.nickname
                     ? styles.custom_text
                     : styles.service_text
                 }
