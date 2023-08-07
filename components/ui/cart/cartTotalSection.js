@@ -16,6 +16,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../modal/modal';
 import CartCouponList from './cartCouponList';
+import ModalWithoutLine from '../modal/modal-without-line';
+import CartAlertContent from './cartAlertContent';
 export default function CartTotalSection({
   checkoutType = '',
   shopData = [],
@@ -240,10 +242,6 @@ export default function CartTotalSection({
               </Dropdown>
             </div>
           </div>
-
-          {/* <div className={style.checkoutBtn}>
-            <MainBtn text="結帳" clickHandler={createOrder}></MainBtn>
-          </div> */}
           <div className={style.checkoutBtn}>
             <CartPayBtn
               btnText="結帳"

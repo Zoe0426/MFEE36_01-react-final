@@ -64,7 +64,11 @@ export default function CartPayBtn({
                 />
               </h2>
               <div className={Styles.modal_content}>
-                <CartAlertContent h2title="" content="" />
+                <CartAlertContent
+                  // h2title=""
+                  contentP1="前往付款後,您所選的商品及使用的優惠券"
+                  contentP2="將會從購物車移除"
+                />
               </div>
 
               <div className={Styles.line}></div>

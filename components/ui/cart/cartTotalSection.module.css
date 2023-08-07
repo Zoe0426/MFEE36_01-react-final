@@ -19,16 +19,16 @@
     display: flex;
     margin-bottom: 16px;
     align-items: center;
-    font-size: var(--pfs16);
+    font-size: var(--h6fs18);
 }
 .subtotals2{
     display: flex;
     margin-bottom: 8px;
     align-items: center;
-    font-size: var(--pfs16);
+   font-size: var(--h6fs18);
 }
 .amount{
-    font-weight: bold;
+    /* font-weight: bold; */
     display: block;
     margin-left: auto;
 }
@@ -36,7 +36,7 @@
     display: flex;
     font-weight: bold;
     margin-bottom: 16px;
-    font-size: var(--h6fs18);
+    font-size: var(--h5fs20);
     /* color: var(--dark); */
    
 }
@@ -74,7 +74,7 @@
 .paymentArea{
     /* border: 1px solid red; */
     border-top: 1px dashed var(--light-gray);
-    padding: var(--p8) 0;
+    padding: var(--p16) 0;
     
 }
 .checkoutBtn{
