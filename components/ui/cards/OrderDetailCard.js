@@ -202,7 +202,16 @@ export default function OrderDetailCard({
             </Form.Item>
             {relType === 'shop' ? (
               <>
-                <Form.Item name={'shopStar'} style={{ padding: '0px' }}>
+                <Form.Item
+                  name={'shopStar'}
+                  style={{ padding: '0px' }}
+                  rules={[
+                    {
+                      required: true,
+                      message: '請輸入星星數唷！',
+                    },
+                  ]}
+                >
                   <Rate
                     allowClear={false}
                     style={{ color: '#FCC917' }}
@@ -212,7 +221,16 @@ export default function OrderDetailCard({
               </>
             ) : (
               <>
-                <Form.Item name={'actStar'} style={{ padding: '0px' }}>
+                <Form.Item
+                  name={'actStar'}
+                  style={{ padding: '0px' }}
+                  rules={[
+                    {
+                      required: true,
+                      message: '請輸入星星數唷！',
+                    },
+                  ]}
+                >
                   <Rate
                     allowClear={false}
                     style={{ color: '#FCC917' }}
@@ -245,10 +263,10 @@ export default function OrderDetailCard({
             {!prodCommentSid && !actCommentSid && (
               <div className={Style.btns}>
                 <div className={Style.secondaryBtn}>
-                  <SecondaryBtn text="取消" htmltype="reset" />
+                  <SecondaryBtn text="重填" htmltype="reset" />
                 </div>
                 <div className={Style.mainBtn}>
-                  <MainBtn text="確定" htmltype="submit" />
+                  <MainBtn text="送出" htmltype="submit" />
                 </div>
               </div>
             )}

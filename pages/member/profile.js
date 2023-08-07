@@ -354,11 +354,11 @@ export default function Profile() {
 
               <div className={Styles.btns}>
                 <div className={Styles.btn}>
-                  <SecondaryBtn text="取消" htmltype="reset" />
+                  <SecondaryBtn text="取消變更" htmltype="reset" />
                 </div>
                 <div className={Styles.btn}>
                   <MainBtn
-                    text="完成"
+                    text="確定更新"
                     htmltype="submit"
                     disable={!imgSize && !imgSize}
                   />

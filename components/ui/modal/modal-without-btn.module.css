@@ -91,6 +91,18 @@
     transform: translate(-50%,-50%);
 }
 
+.active{
+  top:40%;
+}
+
+.modal_content2{
+  position: absolute;
+  font-size: var(--h4fs24);
+  font-weight: var(--fwbold);
+  top:60%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
 
 
 @media screen and (max-width: 767px) {

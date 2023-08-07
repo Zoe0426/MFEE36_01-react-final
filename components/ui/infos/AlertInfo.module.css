@@ -1,6 +1,5 @@
 .alet_card{
 	background-color: #fff;
-
 }
 
 .alet_date,.alet_time,.alet_adult,.alet_child,.alet_place,.alet_phone,.alet_people,.alet_pet,.alet_content{
@@ -13,6 +12,11 @@
     word-wrap: break-word; 
     overflow-wrap: break-word;
 		line-height: 1.5;
+		max-height: 200px;
+		overflow: auto;
+
 }
+
+
 
 

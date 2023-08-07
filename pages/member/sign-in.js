@@ -20,8 +20,6 @@ export default function SignIn() {
   const fromPath2 = router.asPath.split('from=')[1] || '/';
   //console.log({ mem: router.asPath.split('from=')[1] });
 
- 
-
   //送出表單
   const handleSubmit = (values) => {
     fetch(`${process.env.API_SERVER}/member-api/login`, {
