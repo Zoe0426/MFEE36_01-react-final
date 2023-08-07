@@ -7,6 +7,7 @@ import MemberCenterLayout from '@/components/layout/member-center-layout';
 import AuthContext from '@/context/AuthContext';
 import { useRouter } from 'next/router';
 import Loading from '@/components/ui/loading/loading';
+import Head from 'next/head';
 
 export default function Wallet() {
   const { auth, setAuth } = useContext(AuthContext);
@@ -93,6 +94,9 @@ export default function Wallet() {
   } else if (!pageLoading) {
     return (
       <>
+        <Head>
+          <title>狗with咪 | 我的錢包</title>
+        </Head>
         <div className="pageTag">
           <PageTag
             title="coupon"

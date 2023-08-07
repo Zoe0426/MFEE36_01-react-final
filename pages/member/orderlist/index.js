@@ -8,6 +8,7 @@ import OrderCard from '@/components/ui/cards/OrderCard';
 import MemberCenterLayout from '@/components/layout/member-center-layout';
 import AuthContext from '@/context/AuthContext';
 import Loading from '@/components/ui/loading/loading';
+import Head from 'next/head';
 
 export default function OrderList() {
   const [pageTag, setPageTag] = useState('shop');
@@ -141,6 +142,9 @@ export default function OrderList() {
   } else if (!pageLoading) {
     return (
       <>
+        <Head>
+          <title>狗with咪 | 訂單記錄</title>
+        </Head>
         <div className="orderPageTag">
           <div className="orderTag">
             <PageTag

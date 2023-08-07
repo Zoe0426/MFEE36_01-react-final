@@ -5,6 +5,7 @@ import SignUpForm from '@/components/ui/forms/SignUpForm';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Loading from '@/components/ui/loading/loading';
+import Head from 'next/head';
 
 export default function SignIn() {
   const { auth, setAuth } = useContext(AuthContext);
@@ -30,6 +31,9 @@ export default function SignIn() {
   } else if (!pageLoading) {
     return (
       <>
+        <Head>
+          <title>狗with咪 | 註冊</title>
+        </Head>
         <SignCard title="會員註冊">
           <SignUpForm />
         </SignCard>
