@@ -20,7 +20,10 @@ import Loading from '@/components/ui/loading/loading';
 export default function Cart() {
   const { auth } = useContext(AuthContext);
   const router = useRouter();
-  const orderSid = router.query.orderSid;
+  const query = router.query;
+  const orderSid = query.orderSid;
+  //const  = router.query.orderSid;
+  console.log(orderSid);
   const [first, setFirst] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
@@ -53,23 +56,18 @@ export default function Cart() {
     if (!auth.id && first) {
       const from = router.asPath;
       router.push(`/member/sign-in?from=${from}`);
-    } else if (auth.id) {
+    } else if (auth.id && query.orderSid) {
       setPageLoading(false);
       getOrder(orderSid);
     }
-  }, [auth, first]);
+  }, [auth, first, query]);
+
   const getOrder = async (id) => {
     setLoading(true);
     try {
       const r = await fetch(
-        `${process.env.API_SERVER}/cart-api/get-repay-order`,
-        {
-          method: 'POST',
-          body: JSON.stringify({ order_sid: orderSid }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
+        `${process.env.API_SERVER}/cart-api/get-repay-order/${orderSid}`,
+        { method: 'GET' }
       );
       const data = await r.json();
       console.log(data);
