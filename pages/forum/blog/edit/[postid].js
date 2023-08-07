@@ -184,6 +184,7 @@ const handlePublish = () => {
   // setPostStatus(0); 
   submitForm(formData); // 提交表单
   console.log('publish_formData',formData);
+  router.push(`/forum/${postid}`)
 };
 
 // 儲存草稿夾
@@ -203,6 +204,7 @@ const handleDraft = () => {
   // setPostStatus(1);
   submitForm(formData); // 提交表單
   console.log('draft_formData',formData);
+  router.push(`/forum/blog/draft`)
 };
 
 
