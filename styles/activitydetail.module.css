@@ -213,12 +213,12 @@
 .star_icon_big {
   margin-right: 5px;
   color: var(--starYellow);
-  font-size: var(--h5fs20);
+  font-size: var(--h4fs24);
 }
 
 .rating {
   margin-right: 5px;
-  font-size: var(--h4fs24);
+  font-size: var(--h3fs28);
 }
 
 .row_date {
@@ -429,7 +429,7 @@
 }
 
 .comment_btns {
-  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .comment_btn {

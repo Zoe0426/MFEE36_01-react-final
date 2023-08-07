@@ -825,7 +825,6 @@ export default function ActivityDetail() {
               <FontAwesomeIcon
                 icon={faStar}
                 className={styles.star_icon_big}
-                style={{ maxWidth: '20px', maxHeight: '20px' }}
               />
               <p className={styles.rating}>{actDetailRows.avg_rating}</p>
               <p className={styles.row_text_small}>
