@@ -60,6 +60,7 @@
 .signNoPass{
 	color: var(--heartRed);
 	text-align: center;
+  font-size: var(--h6fs18);
 }
 
 .signPass{
@@ -95,7 +96,20 @@
 
 
 
-/* ----------------------------- */
+/* petGame */
+.background{
+  width: 100%;
+  height: 780px; 
+  background-image: url("/pet_game/background.png");  
+  background-repeat:repeat-x;
+  background-size: contain;
+  background-position: 50% 50%;
+}
+
+.pet{
+  position: absolute;
+  transition: all 1s ease-out;
+}
 
 
 

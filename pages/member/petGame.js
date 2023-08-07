@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import AuthContext from '@/context/AuthContext';
 import SecondNavbar from '@/components/layout/SecondNavbar';
+import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
+import { useRouter } from 'next/router';
 import Draggable from 'react-draggable';
 const OFFSET_X = 206;
 const OFFSET_Y = 150;
@@ -28,6 +31,14 @@ export default function PetGame() {
   const [catTransform, setCatTransform] = useState('scaleX(1)');
   let [transform, setTransform] = useState('scaleX(1)');
   const [foods, setFoods] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
+  const { auth, setAuth } = useContext(AuthContext);
+  const [first, setFirst] = useState(false);
+  const [isOver24, setIsOver24] = useState(false);
+  const [signTime, setSignTime] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
   // 在拖曳開始時設定 isDragging 為 true 和 isPaused 為 true
   const onStartDrag = (e) => {
     e.preventDefault();
@@ -75,6 +86,48 @@ export default function PetGame() {
     setMousePosition({ x: e.clientX, y: e.clientY });
     setDragPosition({ x: data.x, y: data.y });
   };
+
+  useEffect(() => {
+    setFirst(true);
+  }, []);
+
+  useEffect(() => {
+    if (!auth.id && first) {
+      const from = router.asPath;
+      router.push(`/member/sign-in?from=${from}`);
+    } else if (auth.id) {
+      setPageLoading(false);
+      if (auth.token) {
+        fetch(`${process.env.API_SERVER}/member-api/getSignGame`, {
+          headers: {
+            Authorization: 'Bearer ' + auth.token,
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            console.log(data);
+            //計算上次簽到時間是否超過24小時;
+            const lastTime = new Date(data[0].signin_time);
+            const currentTime = new Date();
+            const diffMillis = Math.abs(
+              currentTime.getTime() - lastTime.getTime()
+            );
+            const differenceHr = diffMillis / (1000 * 60 * 60);
+            // console.log('lastTime', lastTime);
+            // console.log('currentTime', currentTime);
+            // console.log('differenceHr', differenceHr);
+            if (differenceHr > 24) {
+              setIsOver24(true);
+            }
+
+            setSignTime(data.signin_time);
+          });
+      } else {
+        console.log('User is not logged in. Cannot fetch coupons.');
+      }
+    }
+  }, [auth, first]);
+
   useEffect(() => {
     if (isDragging) {
       // 如果正在拖動，則強制更新貓的組件
@@ -174,6 +227,23 @@ export default function PetGame() {
             setFoods((prevFoods) =>
               prevFoods.filter((_, index) => index !== closestFood.index)
             );
+            if (isOver24) {
+              fetch(`${process.env.API_SERVER}/member-api/createSignGame`, {
+                method: 'POST',
+                headers: {
+                  Authorization: 'Bearer ' + auth.token,
+                },
+              })
+                .then((r) => r.json())
+                .then((data) => {
+                  console.log(data);
+                  setShowModal(true);
+                  setTimeout(() => {
+                    setShowModal(false);
+                    setIsOver24(false);
+                  }, 1200);
+                });
+            }
           }
 
           setMoveCount((prevCount) => prevCount + 1);
@@ -238,6 +308,14 @@ export default function PetGame() {
 
   return (
     <div className="background" ref={background}>
+      {showModal && isOver24 && (
+        <ModalWithoutBtn
+          text="每日簽到成功～"
+          text2="恭喜獲得10元優惠券！"
+          img="/member-center-images/Icon/happy.svg"
+          classTitle="active"
+        />
+      )}
       <SecondNavbar />
       {isCatVisible && (
         <Cat
@@ -257,7 +335,8 @@ export default function PetGame() {
         onDrag={onDrag}
       >
         <img
-          src="/pet_game/Food_01.png"ﬁ
+          src="/pet_game/Food_01.png"
+          ﬁ
           style={{
             position: 'absolute',
             bottom: isDragging ? '170px' : '170px',

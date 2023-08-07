@@ -636,7 +636,16 @@ export default function SignUpForm() {
               <Radio value="其他"> 其他 </Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item label="寵物" name="pet">
+          <Form.Item
+            label="寵物"
+            name="pet"
+            rules={[
+              {
+                required: true,
+                message: '請填寫寵物',
+              },
+            ]}
+          >
             <Radio.Group>
               <Radio value="狗"> 狗 </Radio>
               <Radio value="貓"> 貓 </Radio>
