@@ -40,15 +40,6 @@ export default function ShopProductCard({
           confirmHandler={singinHandler}
         />
       )}
-
-      {/* <Modal
-          btnType="heart"
-          title="貼心提醒"
-          content={<ModoalReminder text="登入會員，才能收藏商品喔~" />}
-          mainBtnText="前往登入"
-          subBtnText="暫時不要"
-          confirmHandler={singinHandler}
-        /> */}
       <Link
         className={styles.normal_card}
         href={`${process.env.WEB}/product/${product_sid}`}
@@ -64,7 +55,6 @@ export default function ShopProductCard({
           <div>
             <img src={`/product-img/${img}`} alt={name} />
           </div>
-          {/* <FontAwesomeIcon icon={faHeart} className={styles.heart_icon} /> */}
         </div>
         <div className={styles.card_body}>
           <p className={styles.card_title}>{name}</p>

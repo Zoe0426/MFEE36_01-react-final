@@ -93,46 +93,54 @@ export default function List() {
   const [priceErrorText2, setPriceErrorText2] = useState('');
 
   const getData = async (obj = {}, token = '') => {
-    const usp = new URLSearchParams(obj);
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/products?${usp.toString()}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
+    try {
+      const usp = new URLSearchParams(obj);
+      const res = await fetch(
+        `${process.env.API_SERVER}/shop-api/products?${usp.toString()}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const data = await res.json();
 
-    if (Array.isArray(data.rows)) {
-      setDatas(data);
+      if (Array.isArray(data.rows)) {
+        setDatas(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   const getBrandKeywordData = async () => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/search-brand-list`,
-      {
-        method: 'GET',
-      }
-    );
-    const data = await res.json();
-
-    if (Array.isArray(data.brand)) {
-      const newBrand = data.brand.map((v) => {
-        return { ...v, checked: false };
-      });
-
-      setFilters({ ...filters, brand: newBrand });
-      setCopyFilters(
-        JSON.parse(JSON.stringify({ ...filters, brand: newBrand }))
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/shop-api/search-brand-list`,
+        {
+          method: 'GET',
+        }
       );
-      const newKeywords = data.keywords.map((v) => {
-        return { name: v, count: 0 };
-      });
-      setKeywordDatats(newKeywords);
-      setFiltersReady(true);
+      const data = await res.json();
+
+      if (Array.isArray(data.brand)) {
+        const newBrand = data.brand.map((v) => {
+          return { ...v, checked: false };
+        });
+
+        setFilters({ ...filters, brand: newBrand });
+        setCopyFilters(
+          JSON.parse(JSON.stringify({ ...filters, brand: newBrand }))
+        );
+        const newKeywords = data.keywords.map((v) => {
+          return { name: v, count: 0 };
+        });
+        setKeywordDatats(newKeywords);
+        setFiltersReady(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -342,40 +350,48 @@ export default function List() {
 
   //將資料送到後端
   const sendLikeList = async (arr, token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/handle-like-list`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: arr }),
-      }
-    );
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/shop-api/handle-like-list`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: arr }),
+        }
+      );
+      const data = await res.json();
 
-    if (data.success) {
-      console.log(data);
+      if (data.success) {
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   //收藏列表相關的函式-------------------------------------------------------
   //取得蒐藏列表資料
   const getLikeList = async (token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/show-like-list`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/shop-api/show-like-list`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const data = await res.json();
 
-    if (data.likeDatas.length > 0) {
-      setLikeDatas(data.likeDatas);
+      if (data.likeDatas.length > 0) {
+        setLikeDatas(data.likeDatas);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -457,6 +473,9 @@ export default function List() {
 
   //searchBar相關的函式-------------------------------------------------------
   const filterKeywordDatas = (datas, keyword, keyin) => {
+    datas = datas
+      .map((v) => ({ ...v, count: 0 }))
+      .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hant'));
     if (!keyin) {
       const searchWord = keyword.split('');
 
@@ -770,8 +789,6 @@ export default function List() {
     setLocalStorageHistory([]);
     localStorage.removeItem('petProductHistory');
   };
-  // console.log(selectedCheckBox);
-  // console.log(1, filters);
 
   return (
     <>

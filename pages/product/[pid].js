@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import Image from 'next/image';
-import webSocket from 'socket.io-client';
-// import Link from 'next/link';
+import { io } from 'socket.io-client';
 import styles from '@/styles/shop.module.css';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
+import Chatroom from '@/components/ui/shop/chatroom';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
@@ -41,42 +41,39 @@ import {
   faChevronRight,
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faFacebookSquare,
-  faLine,
-  faSquareTwitter,
-} from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faLine } from '@fortawesome/free-brands-svg-icons';
 import Xicon from '@/assets/X.svg';
 
 export default function Product() {
   const router = useRouter();
+
+  /*聊天室相關控制 */
   const [ws, setWs] = useState(null);
-
-  const connectWebSocket = () => {
-    // setWs(webSocket(`${process.env.WEB}/shop-api`));
-    setWs(webSocket(`http://localhost:3002/`));
-  };
-
+  const [inputText, setInputText] = useState('');
+  const [username, setUsername] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [displayChatRoom, setDisplayChatRoom] = useState(false);
+  const [showToolTips, setShowToolTips] = useState(false);
   useEffect(() => {
     if (ws) {
       //連線成功在 console 中打印訊息
       console.log('success connect!');
+      const userID = auth.nickname || '訪客';
+      setUsername(userID);
+      joinRoom(userID);
+      setDisplayChatRoom(true);
       //設定監聽
       initWebSocket();
     }
+
+    return () => {
+      if (ws) {
+        // 關閉socket連線
+        ws.emit('leaveRoom');
+        ws.close();
+      }
+    };
   }, [ws]);
-
-  const initWebSocket = () => {
-    //對 getMessage 設定監聽，如果 server 有透過 getMessage 傳送訊息，將會在此被捕捉
-    ws.on('getMessage', (message) => {
-      console.log(message);
-    });
-  };
-
-  const sendMessage = () => {
-    //以 emit 送訊息，並以 getMessage 為名稱送給 server 捕捉
-    ws.emit('getMessage', '只回傳給發送訊息的 client');
-  };
 
   const productComment = useRef(null);
   const productReturn = useRef(null);
@@ -185,99 +182,98 @@ export default function Product() {
   };
 
   const getData = async (pid = '', token = '') => {
-    //拿回特定商品的相關資訊 與評價
-    const res_productInfo = await fetch(
-      `${process.env.API_SERVER}/shop-api/product/${pid}`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const {
-      shopMainData,
-      shopDetailData,
-      commentDatas,
-      // commentEachQty,
-      reccomandData,
-    } = await res_productInfo.json();
-
-    if (Array.isArray(shopMainData)) {
-      //將進入頁面的都存在localStorage，作為瀏覽紀錄的資料
-      if (shopMainData[0].img && first) {
-        if (
-          localStorageHistory.length &&
-          localStorageHistory[0].product_sid === pid
-        ) {
-          setLocalStorageHistory(localStorageHistory);
-        } else {
-          if (localStorageHistory.length >= 3) {
-            localStorageHistory.pop();
-          }
-          setLocalStorageHistory([
-            {
-              product_sid: pid,
-              img: shopMainData[0].img,
-            },
-            ...localStorageHistory,
-          ]);
+    try {
+      //拿回特定商品的相關資訊 與評價
+      const res_productInfo = await fetch(
+        `${process.env.API_SERVER}/shop-api/product/${pid}`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
         }
-      }
-      const innitDescription = shopMainData[0].description;
-      const description = innitDescription
-        .replace(/\n/g, '<br/>')
-        .replace(/amp;/g, '&');
-      setDataForProductMain({ ...shopMainData[0], description });
-
-      const newBreadCrubText = breadCrubText.map((v) => {
-        if (v.id === 'search') {
-          return {
-            ...v,
-            text: `/ ${shopMainData[0].catergory_chinese_name} /`,
-            href: `${process.env.WEB}/product/list?category=${shopMainData[0].catergory_english_name}`,
-          };
-        }
-        if (v.id === 'pid') {
-          return { ...v, text: shopMainData[0].name };
-        } else return { ...v };
-      });
-      setBreadCrubText(newBreadCrubText);
-    }
-
-    if (Array.isArray(commentDatas)) {
-      setDataForComment(commentDatas);
-
-      let newCommentEachQty = dataForCommentQty.map((v) => {
-        const eachCommentQty =
-          v.rating === 6
-            ? commentDatas.length
-            : commentDatas.filter((c) => parseInt(c.rating) === v.rating)
-                .length;
-
-        return { ...v, count: eachCommentQty };
-      });
-      setDataForCommentQty(newCommentEachQty);
-    }
-
-    if (Array.isArray(shopDetailData)) {
-      setDataForProductDetail(
-        shopDetailData.map((v, i) => {
-          if (i === 0) {
-            return { ...v, count: 0, display: true, active: false };
-          } else return { ...v, count: 0, display: false, active: false };
-        })
       );
-      setPurchaseInfo({
-        pid: shopMainData[0].product_sid,
-        spec: '',
-        unitPrice: shopDetailData[0].price,
-        qty: 1,
-      });
-    }
+      const { shopMainData, shopDetailData, commentDatas, reccomandData } =
+        await res_productInfo.json();
 
-    if (Array.isArray(reccomandData)) {
-      setDataForRecomand(reccomandData);
+      if (Array.isArray(shopMainData)) {
+        //將進入頁面的都存在localStorage，作為瀏覽紀錄的資料
+        if (shopMainData[0].img && first) {
+          if (
+            localStorageHistory.length &&
+            localStorageHistory[0].product_sid === pid
+          ) {
+            setLocalStorageHistory(localStorageHistory);
+          } else {
+            if (localStorageHistory.length >= 3) {
+              localStorageHistory.pop();
+            }
+            setLocalStorageHistory([
+              {
+                product_sid: pid,
+                img: shopMainData[0].img,
+              },
+              ...localStorageHistory,
+            ]);
+          }
+        }
+        const innitDescription = shopMainData[0].description;
+        const description = innitDescription
+          .replace(/\n/g, '<br/>')
+          .replace(/amp;/g, '&');
+        setDataForProductMain({ ...shopMainData[0], description });
+
+        const newBreadCrubText = breadCrubText.map((v) => {
+          if (v.id === 'search') {
+            return {
+              ...v,
+              text: `/ ${shopMainData[0].catergory_chinese_name} /`,
+              href: `${process.env.WEB}/product/list?category=${shopMainData[0].catergory_english_name}`,
+            };
+          }
+          if (v.id === 'pid') {
+            return { ...v, text: shopMainData[0].name };
+          } else return { ...v };
+        });
+        setBreadCrubText(newBreadCrubText);
+      }
+
+      if (Array.isArray(commentDatas)) {
+        setDataForComment(commentDatas);
+
+        let newCommentEachQty = dataForCommentQty.map((v) => {
+          const eachCommentQty =
+            v.rating === 6
+              ? commentDatas.length
+              : commentDatas.filter((c) => parseInt(c.rating) === v.rating)
+                  .length;
+
+          return { ...v, count: eachCommentQty };
+        });
+        setDataForCommentQty(newCommentEachQty);
+      }
+
+      if (Array.isArray(shopDetailData)) {
+        setDataForProductDetail(
+          shopDetailData.map((v, i) => {
+            if (i === 0) {
+              return { ...v, count: 0, display: true, active: false };
+            } else return { ...v, count: 0, display: false, active: false };
+          })
+        );
+        setPurchaseInfo({
+          pid: shopMainData[0].product_sid,
+          spec: '',
+          unitPrice: shopDetailData[0].price,
+          qty: 1,
+        });
+      }
+
+      if (Array.isArray(reccomandData)) {
+        setDataForRecomand(reccomandData);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -318,6 +314,11 @@ export default function Product() {
       setShowCommentArrowLeft(false);
       setRecommendCurrent(0);
       setPurchaseQty(1);
+      setWs(null);
+      setInputText('');
+      setUsername('');
+      setMessages([]);
+      setDisplayChatRoom(false);
     }
   }, [router.query, first]);
 
@@ -422,25 +423,31 @@ export default function Product() {
 
   //購物車相關函式----------------------------
   const sendToCart = async (obj = {}, token = '', type = '') => {
-    // updateCart(obj.pid, obj.spec, 'add');
-    const res = await fetch(`${process.env.API_SERVER}/shop-api/sent-to-cart`, {
-      method: 'POST',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(obj),
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      setSuccessAddToCard(true);
-      setTimeout(() => {
-        setSuccessAddToCard(false);
-        if (type === 'toCart') {
-          router.push('/cart');
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/shop-api/sent-to-cart`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(obj),
         }
-      }, 1200);
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        setSuccessAddToCard(true);
+        setTimeout(() => {
+          setSuccessAddToCard(false);
+          if (type === 'toCart') {
+            router.push('/cart');
+          }
+        }, 1200);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -496,39 +503,48 @@ export default function Product() {
 
   //將資料送到後端
   const sendLike = async (arr, token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/handle-like-list`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: arr }),
-      }
-    );
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/shop-api/handle-like-list`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: arr }),
+        }
+      );
+      const data = await res.json();
 
-    if (data.success) {
-      console.log(data);
+      if (data.success) {
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   //取得蒐藏列表資料
   const getLikeList = async (token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/shop-api/show-like-list`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/shop-api/show-like-list`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
 
-    if (data.likeDatas.length > 0) {
-      setLikeDatas(data.likeDatas);
+      const data = await res.json();
+
+      if (data.likeDatas.length > 0) {
+        setLikeDatas(data.likeDatas);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -553,6 +569,11 @@ export default function Product() {
           setDataForProductMain({ ...datatForProductMain, like: false });
         }
       });
+      const newRecomandData = dataForRecomand.map((v) => {
+        return { ...v, like: false };
+      });
+
+      setDataForRecomand(newRecomandData);
 
       //將列表顯示為空的
       setLikeDatas([]);
@@ -569,8 +590,17 @@ export default function Product() {
       return arr.product_sid !== pid;
     });
     setLikeDatas(newLikeList);
-    //將若取消的為畫面上的，則BTN顯示改為加入收藏
 
+    const newDataForRecomand = dataForRecomand.map((v) => {
+      if (v.product_sid === pid) {
+        return { ...v, like: false };
+      } else return { ...v };
+    });
+
+    setDataForRecomand(newDataForRecomand);
+    // console.log(dataForRecomand);
+
+    //將若取消的為畫面上的，則BTN顯示改為加入收藏
     if (router.query.pid === pid) {
       setDataForProductMain({ ...datatForProductMain, like: false });
     }
@@ -747,7 +777,6 @@ export default function Product() {
   //分享頁面
   const handleLineShare = (type = '') => {
     const title = `狗with咪 || ${datatForProductMain.name}`; // 要分享的標題
-    const imageUrl = `${process.env.WEB}/product-img/${datatForProductDetail[0].img}`; // 圖片URL
     const shareUrl = window.location.href;
     let shareURL = '';
     switch (type) {
@@ -773,9 +802,106 @@ export default function Product() {
     }
   };
 
+  //聊天室相關函式---------------------------------------
+  const connectWebSocket = () => {
+    if (ws) {
+      chatCloseHandler();
+    } else {
+      //建立socket連線
+      setWs(io(`${process.env.API_SERVER}`));
+      setDisplayChatRoom(true);
+    }
+  };
+
+  const disconnectWebSocket = () => {
+    if (ws) {
+      ws.emit('leaveRoom');
+      ws.close();
+    }
+  };
+
+  const joinRoom = (username) => {
+    ws.emit('joinRoom', username); // 將使用者名稱傳送到後端
+  };
+
+  const initWebSocket = () => {
+    //將server傳送回來的訊息，塞入之前的對話框
+    ws.on('receiveMessage', (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+  };
+
+  const sendMessage = (text) => {
+    const today = new Date();
+    const hours = String(today.getHours()).padStart(2, '0');
+    const minutes = String(today.getMinutes()).padStart(2, '0');
+    ws.emit('sendMessage', {
+      sender: username,
+      message: text,
+      img: auth.profile,
+      time: hours + ':' + minutes,
+    }); // 將使用者名稱和訊息一併傳送到後端
+    setInputText('');
+  };
+
+  const chatTextHandler = (e) => {
+    const newText = e.target.value;
+    setInputText(newText);
+  };
+
+  const chatKeyDownHandler = (e) => {
+    if (e.key === 'Enter' && inputText.trim()) {
+      sendMessage(inputText);
+    }
+  };
+
+  const chatSendHandler = () => {
+    if (inputText.trim()) {
+      sendMessage(inputText);
+    }
+  };
+
+  const chatCloseHandler = () => {
+    disconnectWebSocket();
+    setMessages([]);
+    setDisplayChatRoom(false);
+    setWs(null);
+  };
+
   return (
     <>
-      <button onClick={connectWebSocket}>連線</button>
+      <div
+        className={styles.online_box}
+        onClick={connectWebSocket}
+        onMouseEnter={() => {
+          setShowToolTips(true);
+        }}
+        onMouseLeave={() => {
+          setShowToolTips(false);
+        }}
+      >
+        {showToolTips && (
+          <div className={styles.online_text_box}>
+            <p className={styles.online_text}>線上客服</p>
+          </div>
+        )}
+        <div className={styles.online_img}>
+          <img src="/product-img/cat_service.svg" alt="onlineService" />
+        </div>
+      </div>
+
+      {displayChatRoom && (
+        <Chatroom
+          auth={auth}
+          chatroomDatas={messages}
+          inputText={inputText}
+          changeHandler={chatTextHandler}
+          keyDownHandler={chatKeyDownHandler}
+          clickHandler={chatSendHandler}
+          closeHandler={chatCloseHandler}
+          username={username}
+        />
+      )}
       <div className="outer-container">
         <div className={styles.bgc_lightBrown}>
           <div className="container-inner">
@@ -908,7 +1034,7 @@ export default function Product() {
               </div>
             </div>
             <div className={styles.detail_main_info}>
-              <div className="detail_main_upper">
+              <div className={styles.detail_main_upper}>
                 <h2 className={styles.detail_main_title}>
                   {datatForProductMain.name}
                 </h2>
@@ -924,7 +1050,7 @@ export default function Product() {
                   }
                 />
                 <div className={styles.detail_price_box}>
-                  <h5 className={styles.detail_spec_title}>商品價格</h5>
+                  {/* <h5 className={styles.detail_spec_title}>商品價格</h5> */}
                   <div className={styles.detail_price}>
                     {`$${purchaseInfo.unitPrice.toLocaleString('en-US')}`}
                   </div>
@@ -932,7 +1058,7 @@ export default function Product() {
 
                 <div className={styles.detail_spec_box}>
                   <h5 className={styles.detail_spec_title}>
-                    <span>規格選項</span>
+                    <span>規格選項：</span>
                     {showWarning && (
                       <span className={styles.detail_spec_warning}>
                         &nbsp;(請選擇規格!)
@@ -974,7 +1100,7 @@ export default function Product() {
                   })}
                 </div>
                 <div className={styles.detail_qty_box}>
-                  <h5 className={styles.detail_title}>數量</h5>
+                  <h5 className={styles.detail_title}>數量：</h5>
                   <div className={styles.detail_qty}>
                     <NumberInput
                       defaultValue={purchaseQty}
@@ -982,14 +1108,14 @@ export default function Product() {
                     />
                   </div>
                 </div>
-                <div>
-                  <h5 className={styles.detail_title}>付款方式</h5>
+                <div className={styles.detail_pay}>
+                  <h5 className={styles.detail_title}>付款方式：</h5>
                   <p className={styles.detail_spec_text}>
                     VISA 信用卡 / MASTER 信用卡 / LINE Pay / Google Pay
                   </p>
                 </div>
                 <div>
-                  <h5 className={styles.detail_title}>運送方式</h5>
+                  <h5 className={styles.detail_title}>運送方式：</h5>
                   <p className={styles.detail_ship_text}>
                     黑貓宅配 / 7-11取貨 / 全家取貨
                   </p>
@@ -1370,7 +1496,6 @@ export default function Product() {
                 display && (
                   <div className={styles.test} key={product_comment_sid}>
                     <CommentCard1
-                      // member_sid={member_sid}
                       date={date}
                       rating={rating}
                       content={content}
