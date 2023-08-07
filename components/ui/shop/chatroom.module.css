@@ -1,14 +1,19 @@
 .chatroom_box {
   width: 390px;
   position: fixed;
-  right: 5px;
-  bottom: 0;
+  right: 90px;
+  bottom: 10px;
   z-index: 999;
   background-color: white;
   border-radius: var(--br8);
   --shadow: 2px 6px 8px rgba(0, 0, 0, 0.1);
   border: 2px solid var(--light-gray);
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
+
+
+
 
 .chatroom_head {
   padding: var(--p16);
@@ -16,6 +21,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background-color: var(--main);
+  color:white
 }
 
 .chatroom_head > h6 {
@@ -26,15 +33,20 @@
   font-size: var(--h6fs18);
   padding: 0px 5px;
   cursor: pointer;
+  border-radius: 50%;
+  padding: 0 2px;
 }
 
 .btn_clear_text:hover {
   color: var(--main);
+  background-color: white;
+  border-radius: 50%;
+  padding: 0 2px;
 }
 
 .chatroom_textarea {
-  min-height: 300px;
-  max-height: 300px;
+  min-height: 380px;
+  max-height: 380px;
   overflow-x: hidden;
   overflow-y: scroll;
   border-bottom: 2px solid var(--light-gray);
@@ -168,8 +180,16 @@
   height: 100%;
   object-fit: cover;
 }
+
+.default_head{
+  padding-top: 15%;
+  width: 100%;
+  height: 85%;
+  color:var(--light-gray);
+}
 @media screen and (max-width:390px){
     .chatroom_box {
         right: 0px;
+        bottom: 0px;
       }
 }

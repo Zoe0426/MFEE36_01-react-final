@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react';
 import styles from './chatroom.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function Chatroom({
   auth = { nickname: '' },
@@ -55,10 +55,17 @@ export default function Chatroom({
                             : styles.head_img
                         }
                       >
-                        <img
-                          src={`${process.env.API_SERVER}/img/${v.message.img}`}
-                          alt={v.sender}
-                        />
+                        {v.message.img ? (
+                          <img
+                            src={`${process.env.API_SERVER}/img/${v.message.img}`}
+                            alt={v.sender}
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faUser}
+                            className={styles.default_head}
+                          />
+                        )}
                       </div>
                     )}
                 {!v.message.message.includes('已離開聊天室') && (

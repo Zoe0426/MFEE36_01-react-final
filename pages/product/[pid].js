@@ -46,17 +46,19 @@ import Xicon from '@/assets/X.svg';
 
 export default function Product() {
   const router = useRouter();
+
+  /*聊天室相關控制 */
   const [ws, setWs] = useState(null);
   const [inputText, setInputText] = useState('');
   const [username, setUsername] = useState('');
   const [messages, setMessages] = useState([]);
   const [displayChatRoom, setDisplayChatRoom] = useState(false);
-
+  const [showToolTips, setShowToolTips] = useState(false);
   useEffect(() => {
     if (ws) {
       //連線成功在 console 中打印訊息
       console.log('success connect!');
-      const userID = auth.nickname || '狗with咪客服';
+      const userID = auth.nickname || '訪客';
       setUsername(userID);
       joinRoom(userID);
       setDisplayChatRoom(true);
@@ -66,7 +68,7 @@ export default function Product() {
 
     return () => {
       if (ws) {
-        //ws.disconnect(); // 關閉socket連線
+        // 關閉socket連線
         ws.emit('leaveRoom');
         ws.close();
       }
@@ -802,9 +804,13 @@ export default function Product() {
 
   //聊天室相關函式---------------------------------------
   const connectWebSocket = () => {
-    disconnectWebSocket();
-    //建立socket連線
-    setWs(io(`${process.env.API_SERVER}`));
+    if (ws) {
+      chatCloseHandler();
+    } else {
+      //建立socket連線
+      setWs(io(`${process.env.API_SERVER}`));
+      setDisplayChatRoom(true);
+    }
   };
 
   const disconnectWebSocket = () => {
@@ -859,15 +865,31 @@ export default function Product() {
     disconnectWebSocket();
     setMessages([]);
     setDisplayChatRoom(false);
+    setWs(null);
   };
 
   return (
     <>
-      {!displayChatRoom && (
-        <div className={styles.online_img} onClick={connectWebSocket}>
-          <img src="/product-img/onLineService.jpg" alt="onlineService" />
+      <div
+        className={styles.online_box}
+        onClick={connectWebSocket}
+        onMouseEnter={() => {
+          setShowToolTips(true);
+        }}
+        onMouseLeave={() => {
+          setShowToolTips(false);
+        }}
+      >
+        {showToolTips && (
+          <div className={styles.online_text_box}>
+            <p className={styles.online_text}>線上客服</p>
+          </div>
+        )}
+        <div className={styles.online_img}>
+          <img src="/product-img/cat_service.svg" alt="onlineService" />
         </div>
-      )}
+      </div>
+
       {displayChatRoom && (
         <Chatroom
           auth={auth}
