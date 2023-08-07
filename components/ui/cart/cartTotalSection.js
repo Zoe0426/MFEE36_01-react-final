@@ -5,6 +5,7 @@ import rundog from '@/assets/running-dog.svg';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import CartSectionTitle from './cartSectionTitle';
 import CloseBtn from '../buttons/closeBtn';
+import CartPayBtn from './cartPayBtn';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, ConfigProvider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,7 +16,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../modal/modal';
 import CartCouponList from './cartCouponList';
-
 export default function CartTotalSection({
   checkoutType = '',
   shopData = [],
@@ -240,16 +240,19 @@ export default function CartTotalSection({
               </Dropdown>
             </div>
           </div>
-          {/* {couponData.length > 0 ? (
-            
-          ) : (
-            ''
-          )} */}
 
-          <div className={style.checkoutBtn}>
+          {/* <div className={style.checkoutBtn}>
             <MainBtn text="結帳" clickHandler={createOrder}></MainBtn>
+          </div> */}
+          <div className={style.checkoutBtn}>
+            <CartPayBtn
+              btnText="結帳"
+              title="溫馨提醒"
+              mainBtnText="付款"
+              subBtnText="返回"
+              confirmHandler={createOrder}
+            />
           </div>
-
           <Image
             src={rundog}
             className={style.runningdog}

@@ -1,0 +1,18 @@
+.box{
+    width: 100%;
+    display:flex;
+}
+.img{
+    width: 30%;
+    padding: 5%;
+    /* border: 1px solid red; */
+}
+.message{
+    /* border: 1px solid gray; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--h6fs18);
+    width: 80%;
+    color: var(--dark-gray);
+}

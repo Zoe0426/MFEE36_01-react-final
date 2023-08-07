@@ -1,37 +1,13 @@
-
-.typeSelected{
-    border-radius: var(--br10) var(--br10) 0 0;
-    background-color: var(--main);
-    color: white;
-    text-align: center;
-    padding: var(--p16)var(--p24);
-    display: inline-block;
-    margin-right: 8px;
-    cursor: pointer;
-    font-size: var(--h6fs18);
-    font-weight: bold;
-}
-.type{
-     border-radius: var(--br10) var(--br10) 0 0;
-    border: 1px solid var(--main);
-    border-bottom: none;
-    color: var(--main);
-    text-align: center;
-    padding: var(--p16) var(--p24);
-    display: inline-block;
-    margin-right: 8px;
-    cursor: pointer;
-    font-size: var(--h6fs18);
-    font-weight: bold;
-}
-
 .overlay {
   z-index: 999;
   background: rgba(49, 49, 49, 0.6);
 }
 .modal {
-  z-index: 9999;
+  z-index: 1000;
   font-size: var(--pfs16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .modal,
 .overlay {
@@ -44,12 +20,19 @@
   position: fixed;
 }
 
+.edit{
+    color: var(--gray);
+    cursor: pointer;
+}
+.edit:hover{
+    color: var(--dark-gray);
+}
 .modal_card {
-  position: absolute;
+  /* position: absolute; */
   width: 60%;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* top: 40%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
   line-height: 1.4;
   background: #ffffff;
   padding: 14px 0;
@@ -58,9 +41,26 @@
   min-width: 300px;
 }
 
+.heart{
+  position: absolute;
+  right:var(--p16);
+  font-size: var(--h3fs28);
+  color:var(--light-gray);
+  cursor: pointer;
+  z-index: 9;
+  padding: var(--p24) var(--p24) var(--p16) var(--p16);
+  padding: var(--p16);
+
+}
+.bookmark{
+  width:30px;
+  height:30px;
+  color: var(--gray);
+  margin-right: 15px;
+}
+
 .modal_title {
   font-size: var(--h5fs20);
-  color:var(--dark-gray);
   font-weight: 600;
   text-align: center;
   padding-bottom: 16px;
@@ -68,6 +68,8 @@
 }
 .modal_content{
     padding: var(--p16);
+    overflow-y: auto;
+    max-height: 60vh;
 }
 .line {
   height: 1px;
@@ -76,7 +78,7 @@
 
 .btn_group {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 12px;
   height: 50px;
 }
@@ -90,15 +92,6 @@
 }
 
 @media screen and (max-width: 767px) {
-
-  .typeSelected{
-    padding: var(--p16)var(--p24);
-    font-size: var(--pfs16);
-  }
-  .type{
-    padding: var(--p16) var(--p24);
-    font-size: var(--pfs16);
-  }
   .modal_card {
     width: 80%;
     top: 48%;
