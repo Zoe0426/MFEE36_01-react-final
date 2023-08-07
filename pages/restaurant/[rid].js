@@ -831,23 +831,27 @@ export default function RestInfo() {
                   0{restDetailRows.phone}
                 </p>
               </div>
-              <div className={Styles.contact}>
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  style={{ maxWidth: '20px', maxHeight: '20px' }}
-                  className={Styles.info_icon}
-                />
-                <p
-                  className={Styles.information_detail_map}
-                  onClick={mapHandleClick}
-                >
-                  {restDetailRows.city}
-                  {restDetailRows.area}
-                  {restDetailRows.address}
-                </p>
-                <div onClick={mapHandleClick} className={Styles.google_map}>
-                  <Image src={GoogleMap} alt="GoogleMap" />
-                  Google Map
+              <div className={Styles.contact_location}>
+                <div className={Styles.column}>
+                  <div className={Styles.row}>
+                    <FontAwesomeIcon
+                      icon={faLocationDot}
+                      style={{ maxWidth: '20px', maxHeight: '20px' }}
+                      className={Styles.info_icon}
+                    />
+                    <p
+                      className={Styles.information_detail_map}
+                      onClick={mapHandleClick}
+                    >
+                      {restDetailRows.city}
+                      {restDetailRows.area}
+                      {restDetailRows.address}
+                    </p>
+                  </div>
+                  <div onClick={mapHandleClick} className={Styles.google_map}>
+                    <Image src={GoogleMap} alt="GoogleMap" />
+                    <p>Google Map</p>
+                  </div>
                 </div>
               </div>
               <div className={Styles.contact_time}>
@@ -872,8 +876,13 @@ export default function RestInfo() {
                   style={{ maxWidth: '20px', maxHeight: '20px' }}
                   onClick={() => setShowBusinessHours(!showBusinessHours)}
                 />
-                <div className={Styles.dropdown_wrapper}>
-                  {showBusinessHours && (
+                {/* 下拉選單點擊旁邊消失 */}
+                {/* <div
+                  className={Styles.dropdown_overlay}
+                  onClick={() => setShowBusinessHours(!showBusinessHours)}
+                ></div> */}
+                {showBusinessHours && (
+                  <div className={Styles.dropdown_wrapper}>
                     <div className={Styles.dropdown_content}>
                       {generateBusinessHours().map((businessHour, index) => (
                         <p key={index} className={Styles.business_time}>
@@ -881,8 +890,8 @@ export default function RestInfo() {
                         </p>
                       ))}
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
               <div className={Styles.contact}>
                 <FontAwesomeIcon
@@ -953,7 +962,7 @@ export default function RestInfo() {
                   icon={faCalendar}
                   text="我要預約"
                   clickHandler={() => {
-                    router.push(`/restaurant/booking`);
+                    router.push(`/restaurant/calendar`);
                   }}
                 />
               ) : (
