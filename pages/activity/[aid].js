@@ -17,7 +17,7 @@ import styles from '../../styles/activitydetail.module.css';
 import NavDetailPage from '@/components/ui/cards/NavDetailPage';
 import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
-import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
+import ActivityIconSeconBtn from '@/components/ui/buttons/ActivityIconSeconBtn';
 import CommentCard from '@/components/ui/cards/comment-card';
 import CommentCard1 from '@/components/ui/restaurant/CommentCard';
 import NoCommentCard from '@/components/ui/cards/comment-card-no';
@@ -334,7 +334,7 @@ export default function ActivityDetail() {
     );
   };
 
-  //收藏列表相關的函式------------------------------------------------------------
+  //收藏相關-----------------------------------------------------
 
   // 更新收藏清單
   const updateLikeList = (activitySid, isLiked) => {
@@ -446,12 +446,13 @@ export default function ActivityDetail() {
     }
   };
 
-  // 給faheart的 新增與刪除------------------------------------------------------------
-  // 判斷活動是否在收藏列表中
-  const isInLikeList = (activitySid) => {
-    return likeDatas.some((item) => item.activity_sid === activitySid);
-  };
-  const [isLiked, setIsLiked] = useState(isInLikeList);
+  //faheart相關
+  useEffect(() => {
+    // 在進入頁面時取得收藏清單資料, faheart也會立即更新
+    if (auth.token) {
+      getLikeList(auth.token);
+    }
+  }, [auth.token]);
 
 
   const handleLikeClick = async (activitySid, token, authId) => {
@@ -508,9 +509,11 @@ export default function ActivityDetail() {
     }
   };
 
-
-  
-  
+  // 判斷活動是否在收藏列表中
+  const isInLikeList = (activitySid) => {
+    return likeDatas.some((item) => item.activity_sid === activitySid);
+  };
+  const liked = isInLikeList(activitySid);
 
   //評價相關的函示-----------------------------------------------------
   //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態
@@ -929,14 +932,18 @@ export default function ActivityDetail() {
             <div className={styles.row_btn}>
               <div className={styles.btn}>
                 {auth.token ? (
-                  <IconSeconBtn
-                    red={isInLikeList}
-                    icon={faHeart}
-                    text={isInLikeList ? '已收藏' : '加入收藏'}
-                    clickHandler={() => {
-                      handleLikeClick(activitySid, auth.token)
-                    }}
-                  />
+                  <ActivityIconSeconBtn
+                  icon={faHeart}
+                  text={liked ? '已收藏' : '加入收藏'}
+                  activity_sid={activitySid}
+                  isInLikeList={liked}
+                  handleLikeClick={() =>
+                    handleLikeClick(activitySid, auth.token)
+                  }
+                  auth={auth} 
+                />
+                
+                
                 ) : (
                   <ActivityAlertModal
                     btnType="heart"
