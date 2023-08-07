@@ -15,6 +15,7 @@ import {
   faChevronRight,
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
+import Head from 'next/head';
 
 //二大類圖示
 import dog from '@/assets/logo-dog.svg';
@@ -368,6 +369,9 @@ export default function ProdoctIndex() {
 
   return (
     <>
+      <Head>
+        <title>狗with咪 | 商城</title>
+      </Head>
       <div className="container-outer">
         <nav className={styles.shop_sliders}>
           <div className={styles.left_arrow_box}>

@@ -5,6 +5,7 @@ import { Pagination, Row, Col, ConfigProvider } from 'antd';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 import AuthContext from '@/context/AuthContext';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+import Head from 'next/head';
 
 /*引用的卡片+篩選*/
 import Likelist from '@/components/ui/like-list/LikeListDrawer';
@@ -21,7 +22,8 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SearchBar from '@/components/ui/buttons/SearchBar1';
-import Modal from '@/components/ui/modal/modal';
+// import Modal from '@/components/ui/modal/modal';
+import Modal1 from '@/components/ui/modal/modal-without-line';
 import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 
 /*引用的背景+icon+圖示*/
@@ -667,9 +669,6 @@ export default function List() {
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      // [name]: newFilters.map((item) => ({
-      //   ...item,
-      // })),
       brand: newBrand,
       [name]: newFilters,
     }));
@@ -792,6 +791,9 @@ export default function List() {
 
   return (
     <>
+      <Head>
+        <title>狗with咪 | 商城</title>
+      </Head>
       {/* <div className="container-outer"> */}
       <div className={styles.bgc_lightBrown}>
         <nav className="container-inner">
@@ -836,13 +838,11 @@ export default function List() {
                   clickHandler={toggleLikeList}
                 />
               ) : (
-                <Modal
+                <Modal1
                   btnType="iconBtn"
                   btnText="收藏列表"
                   title="貼心提醒"
-                  content={
-                    <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
-                  }
+                  content={<ModoalReminder text="登入，才能看收藏列表喔~" />}
                   mainBtnText="前往登入"
                   subBtnText="暫時不要"
                   confirmHandler={toSingIn}
@@ -961,7 +961,6 @@ export default function List() {
           />
         )}
       </div>
-
       {/* </div> */}
       {/* <div className="container-outer"> */}
       <main className="container-inner">

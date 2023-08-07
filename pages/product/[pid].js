@@ -7,6 +7,7 @@ import { io } from 'socket.io-client';
 import styles from '@/styles/shop.module.css';
 import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 import Chatroom from '@/components/ui/shop/chatroom';
+import Head from 'next/head';
 
 /*引用的卡片*/
 import CommentCard from '@/components/ui/cards/comment-card';
@@ -778,6 +779,7 @@ export default function Product() {
   const handleLineShare = (type = '') => {
     const title = `狗with咪 || ${datatForProductMain.name}`; // 要分享的標題
     const shareUrl = window.location.href;
+    console.log(shareUrl);
     let shareURL = '';
     switch (type) {
       case 'shareOnLine':
@@ -870,6 +872,10 @@ export default function Product() {
 
   return (
     <>
+      <Head>
+        {' '}
+        <title>狗with咪 | 商城</title>
+      </Head>
       <div
         className={styles.online_box}
         onClick={connectWebSocket}
@@ -919,9 +925,7 @@ export default function Product() {
                     btnType="iconBtn"
                     btnText="收藏列表"
                     title="貼心提醒"
-                    content={
-                      <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
-                    }
+                    content={<ModoalReminder text="登入，才能看收藏列表喔~" />}
                     mainBtnText="前往登入"
                     subBtnText="暫時不要"
                     confirmHandler={toSingIn}
@@ -1127,9 +1131,7 @@ export default function Product() {
                     btnType="iconSeconBtn"
                     btnText="加入收藏"
                     title="貼心提醒"
-                    content={
-                      <ModoalReminder text="登入會員，才能收藏商品喔~" />
-                    }
+                    content={<ModoalReminder text="登入，才能收藏喔~" />}
                     mainBtnText="前往登入"
                     subBtnText="暫時不要"
                     confirmHandler={toSingIn}
@@ -1154,9 +1156,7 @@ export default function Product() {
                     btnType="iconSeconBtn"
                     btnText="加入購物車"
                     title="貼心提醒"
-                    content={
-                      <ModoalReminder text="登入會員，才能加入購物車喔~" />
-                    }
+                    content={<ModoalReminder text="登入，才能加入購物車喔~" />}
                     mainBtnText="前往登入"
                     subBtnText="暫時不要"
                     confirmHandler={toSingIn}
@@ -1187,9 +1187,7 @@ export default function Product() {
                     btnType="main"
                     btnText="立即購買"
                     title="貼心提醒"
-                    content={
-                      <ModoalReminder text="登入會員，才能購買商品喔~" />
-                    }
+                    content={<ModoalReminder text="登入，才能購買商品喔~" />}
                     mainBtnText="前往登入"
                     subBtnText="暫時不要"
                     confirmHandler={toSingIn}

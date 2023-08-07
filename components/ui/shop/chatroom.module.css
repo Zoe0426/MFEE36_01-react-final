@@ -12,9 +12,6 @@
   overflow: hidden;
 }
 
-
-
-
 .chatroom_head {
   padding: var(--p16);
   border-bottom: 1px solid var(--light-gray);
@@ -125,14 +122,12 @@
   padding: 3px 0;
   display: flex;
   align-items: flex-start;
-  border: 1px solid green;
 }
 
 .service_text {
   display: flex;
   padding: 3px 0;
   align-items: flex;
-  border: 1px solid red;
 }
 
 .leave_text{
@@ -189,7 +184,7 @@
   height: 85%;
   color:var(--light-gray);
 }
-@media screen and (max-width:390px){
+@media screen and (max-width:500px){
     .chatroom_box {
         right: 0px;
         bottom: 0px;
