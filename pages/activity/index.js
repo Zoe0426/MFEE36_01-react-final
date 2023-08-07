@@ -329,7 +329,7 @@ export default function ActivityHome() {
   const removeLikeListItem = async (aid, token = '') => {
     
     const newLikeList = likeDatas.filter((arr) => {
-      return arr.acitvity_sid !== aid;
+      return arr.activity_sid !== aid;
     });
     setLikeDatas(newLikeList);
   

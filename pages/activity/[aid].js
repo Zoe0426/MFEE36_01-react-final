@@ -30,6 +30,8 @@ import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
+import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
+import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
 
 //likelist
 
@@ -71,6 +73,11 @@ export default function ActivityDetail() {
   const [actRatingRows, setActRatingRows] = useState([]);
   const [actRecommend, setActRecommend] = useState([]);
   const [actCartTotalQtyRows, setActCartTotalQtyRows] = useState([]);
+
+  //收藏區
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
+  
 
   //評論區
   const [commentWindowWidth, setCommentWindowWidth] = useState(null);
@@ -314,10 +321,196 @@ export default function ActivityDetail() {
   };
 
   //若未登入會員而點擊收藏，要跳轉至會員登入
+  // const toSingIn = () => {
+  //   const from = router.asPath;
+  //   router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
+  // };
   const toSingIn = () => {
-    const from = router.asPath;
-    router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=${process.env.WEB}/activity/${new URLSearchParams(
+        from
+      ).toString()}`
+    );
   };
+
+  //收藏列表相關的函式------------------------------------------------------------
+
+  // 更新收藏清單
+  const updateLikeList = (activitySid, isLiked) => {
+    if (isLiked) {
+      // 新增至收藏清單
+      setLikeDatas((prevLikeDatas) => [
+        ...prevLikeDatas,
+        { activity_sid: activitySid },
+      ]);
+    } else {
+      // 從收藏清單中移除
+      setLikeDatas((prevLikeDatas) =>
+        prevLikeDatas.filter((item) => item.activity_sid !== activitySid)
+      );
+    }
+  };
+
+  //取得蒐藏列表資料
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/activity-api/show-like-list`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+    }
+  };
+
+  //控制展開收藏列表
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  const closeLikeList = () => {
+    setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      // 將列表顯示為空的
+      setLikeDatas([]);
+      // 將畫面上的愛心清除
+      const newData = data.map((v) => {
+        return { ...v, like: false };
+      });
+      setData(newData);
+      // 將請求送到後端作業
+      removeLikeListToDB('all', token);
+    }
+  };
+
+  // 刪除單一收藏
+  const removeLikeListItem = async (aid, token = '') => {
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.activity_sid !== aid;
+    });
+    setLikeDatas(newLikeList);
+
+    const newData = data.map((v) => {
+      if (v.activity_sid === aid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+
+    updateLikeList(aid, false);
+
+    await removeLikeListToDB(aid, token);
+  };
+
+  //將刪除收藏的請求送到後端作業
+  const removeLikeListToDB = async (aid = '', token = '') => {
+    try {
+      const removeAll = await fetch(
+        `${process.env.API_SERVER}/activity-api/likelist/${aid}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+      if (aid === 'all') {
+        setTimeout(() => {
+          toggleLikeList();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 給faheart的 新增與刪除------------------------------------------------------------
+  // 判斷活動是否在收藏列表中
+  const isInLikeList = (activitySid) => {
+    return likeDatas.some((item) => item.activity_sid === activitySid);
+  };
+  const [isLiked, setIsLiked] = useState(isInLikeList);
+
+
+  const handleLikeClick = async (activitySid, token, authId) => {
+    try {
+      if (!token) {
+        throw new Error('未找到會員ID');
+      }
+
+      if (isInLikeList(activitySid)) {
+        // Perform the delete action to remove from the like list
+        const response = await fetch(
+          `${process.env.API_SERVER}/activity-api/likelist/${activitySid}`,
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          }
+        );
+        //console.log('會員ID:', token.id);
+
+        if (!response.ok) {
+          throw new Error('刪除收藏失敗');
+        }
+
+        updateLikeList(activitySid, false); // Successfully removed from like list
+        console.log('刪除收藏成功');
+      } else {
+        // Perform the post action to add to the like list
+        const response = await fetch(
+          `${process.env.API_SERVER}/activity-api/addlikelist/${activitySid}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + token,
+            },
+            body: JSON.stringify({
+              aid: activitySid,
+              mid: authId,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('新增收藏失敗');
+        }
+
+        updateLikeList(activitySid, true); // Successfully added to like list
+        console.log('新增收藏成功');
+      }
+    } catch (error) {
+      console.error('操作收藏失敗:', error);
+    }
+  };
+
+
+  
+  
 
   //評價相關的函示-----------------------------------------------------
   //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態
@@ -440,16 +633,48 @@ export default function ActivityDetail() {
           <div className={styles.nav_head}>
             {/* <p>TODO: BreadCrumb</p> */}
             <BreadCrumb breadCrubText={breadCrubText} />
-
-            {/* .........收藏列表/進階篩選 btn......... */}
             <div className={styles.btns}>
-              <IconBtn
-                icon={faHeart}
-                text="收藏列表"
-                // clickHandler={toggleLikeList}
-              />
+              {auth.token ? (
+                <IconBtn
+                  icon={faHeart}
+                  text="收藏列表"
+                  clickHandler={toggleLikeList}
+                />
+              ) : (
+                <ActivityAlertModal
+                  btnType="iconBtn"
+                  btnText="收藏列表"
+                  icon={faHeart}
+                  content="可查看收藏列表"
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                />
+              )}
             </div>
           </div>
+        </div>
+
+        {/* .........收藏列表......... */}
+        <div className="container-inner">
+          <>
+            {showLikeList && (
+              <LikeListDrawer
+                datas={likeDatas}
+                customCard={
+                  <ActivityLikeListCard
+                    datas={likeDatas}
+                    token={auth.token}
+                    removeLikeListItem={removeLikeListItem}
+                  />
+                }
+                closeHandler={toggleLikeList}
+                removeAllHandler={() => {
+                  removeAllLikeList(auth.token);
+                }}
+              />
+            )}
+          </>
         </div>
       </div>
       <BGUpperDecoration />
@@ -703,8 +928,27 @@ export default function ActivityDetail() {
             {/* 第十行 */}
             <div className={styles.row_btn}>
               <div className={styles.btn}>
-                <IconSeconBtn icon={faHeart} text="加入收藏" />
+                {auth.token ? (
+                  <IconSeconBtn
+                    red={isInLikeList}
+                    icon={faHeart}
+                    text={isInLikeList ? '已收藏' : '加入收藏'}
+                    clickHandler={() => {
+                      handleLikeClick(activitySid, auth.token)
+                    }}
+                  />
+                ) : (
+                  <ActivityAlertModal
+                    btnType="heart"
+                    title="貼心提醒"
+                    content="收藏活動"
+                    mainBtnText="前往登入"
+                    subBtnText="暫時不要"
+                    confirmHandler={toSingIn}
+                  />
+                )}
               </div>
+
               {!auth.token ? (
                 <Modal
                   btnType="iconSeconBtn"
@@ -726,7 +970,10 @@ export default function ActivityDetail() {
                 />
               )}
               {successAddToCard && (
-                <ModalWithoutBtn text="成功加入購物車!" img="/product-img/success.svg" />
+                <ModalWithoutBtn
+                  text="成功加入購物車!"
+                  img="/product-img/success.svg"
+                />
               )}
             </div>
           </div>
@@ -822,10 +1069,7 @@ export default function ActivityDetail() {
           <div className="container-inner">
             <p className={styles.subtitle}>顧客評價：</p>
             <div className={styles.review_big}>
-              <FontAwesomeIcon
-                icon={faStar}
-                className={styles.star_icon_big}
-              />
+              <FontAwesomeIcon icon={faStar} className={styles.star_icon_big} />
               <p className={styles.rating}>{actDetailRows.avg_rating}</p>
               <p className={styles.row_text_small}>
                 (共{actDetailRows.rating_count}則評價)
