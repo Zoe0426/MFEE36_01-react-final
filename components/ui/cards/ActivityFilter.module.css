@@ -1,8 +1,8 @@
 .filter {
-  margin: 48px 0;
-    /* display: flex;
+    display: flex;
     align-items: flex-start;
-    min-height: 50px; */
+    min-height: 50px;
+    justify-content: center;
   }
 
   .labels {
@@ -10,9 +10,10 @@
     font-weight: var(--fwbold);
     height: 100%;
     line-height: 50px;
-    /* width: 110px; */
-    /* text-align-last: justify; */
     margin-right: 16px;
-    /* margin-top: 4px; */
+    margin-top: 4px;
   }
  
+  .checkBoxs {
+    flex: 1;
+  }

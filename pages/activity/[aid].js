@@ -19,7 +19,9 @@ import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import CommentCard from '@/components/ui/cards/comment-card';
-import { Button, Select, ConfigProvider } from 'antd';
+import CommentCard1 from '@/components/ui/restaurant/CommentCard';
+import NoCommentCard from '@/components/ui/cards/comment-card-no';
+import { Button, Select, ConfigProvider, Row, Col } from 'antd';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
@@ -28,6 +30,8 @@ import ModoalReminder from '@/components/ui/shop/modoal-reminder';
 import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
+import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
+import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
 
 //likelist
 
@@ -57,6 +61,7 @@ export default function ActivityDetail() {
     actFeatureRows: [],
     actRatingRows: [],
     actRecommend: [],
+    actCartTotalQtyRows: [],
   });
 
   const [actDetailRows, setActDetailRows] = useState([]);
@@ -67,6 +72,57 @@ export default function ActivityDetail() {
   const [actFeatureRows, setActFeatureRows] = useState([]);
   const [actRatingRows, setActRatingRows] = useState([]);
   const [actRecommend, setActRecommend] = useState([]);
+  const [actCartTotalQtyRows, setActCartTotalQtyRows] = useState([]);
+
+  //收藏區
+  const [likeDatas, setLikeDatas] = useState([]);
+  const [showLikeList, setShowLikeList] = useState(false);
+  
+
+  //評論區
+  const [commentWindowWidth, setCommentWindowWidth] = useState(null);
+  const [commentCurrent, setCommentCurrent] = useState(0);
+  const [totalCommentPage, setTotalCommentPage] = useState(0);
+  const [showCommentCard, setShowCommentCard] = useState([]);
+  const [showCommentCardQty, setShowCommentCardQty] = useState(4);
+  const [showCommentArrowLeft, setShowCommentArrowLeft] = useState(false);
+  const [showCommentArrowRight, setShowCommentArrowRight] = useState(true);
+  const [showFullCommentArrowLeft, setShowFullCommentArrowLeft] =
+    useState(false);
+  const [showFullCommentArrowRight, setShowFullCommentArrowRight] =
+    useState(true);
+  const [showFullCommentCard, setShowFullCommentCard] = useState(false);
+  const commentStyle = {
+    position: 'relative',
+    left: `calc(382px * ${showCommentCardQty} * -${commentCurrent})`,
+    transition: '0.3s',
+  };
+  const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
+  const [dataForComment, setDataForComment] = useState([]);
+  const [showWarning, setShowWarning] = useState(false);
+
+  const [dataForCommentQty, setDataForCommentQty] = useState([
+    { star: 6, count: 0 },
+    { star: 5, count: 0 },
+    { star: 4, count: 0 },
+    { star: 3, count: 0 },
+    { star: 2, count: 0 },
+    { star: 1, count: 0 },
+  ]);
+
+  /*用來過濾評價星的，要保持原本的dataForComment*/
+  const commentFiliterByRating = (dataForComment, type) => {
+    switch (type) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+        return dataForComment.filter((v) => v.star === type);
+      default:
+        return dataForComment;
+    }
+  };
 
   const totalPrice =
     actDetailRows.price_adult * countAdult +
@@ -77,13 +133,18 @@ export default function ActivityDetail() {
     {
       id: 'activity',
       text: '活動首頁',
-      href: 'http://localhost:3000/activity',
+      href: `${process.env.WEB}/activity`,
       show: true,
     },
-    { id: 'search', text: '/ 活動列表', href: '', show: true },
+    {
+      id: 'search',
+      text: '/ 活動列表',
+      href: `${process.env.WEB}/activity/list`,
+      show: true,
+    },
     {
       id: 'aid',
-      text: '/ 夏日水樂園',
+      text: '',
       href: '',
       show: true,
     },
@@ -95,7 +156,7 @@ export default function ActivityDetail() {
 
     if (aid) {
       setActivitySid(aid);
-      fetch(`http://localhost:3002/activity-api/activity/${aid}`)
+      fetch(`${process.env.API_SERVER}/activity-api/activity/${aid}`)
         .then((r) => r.json())
         .then((data) => {
           const {
@@ -105,6 +166,7 @@ export default function ActivityDetail() {
             actFeatureRows,
             actRatingRows,
             actRecommend,
+            actCartTotalQtyRows,
           } = data;
 
           // 更新 React 組件的狀態
@@ -140,6 +202,32 @@ export default function ActivityDetail() {
           if (actRecommend && actRecommend.length > 0) {
             setActRecommend(actRecommend);
           }
+
+          if (actCartTotalQtyRows && actCartTotalQtyRows.length > 0) {
+            setActCartTotalQtyRows(...actCartTotalQtyRows);
+          }
+
+          //評論區
+          if (Array.isArray(actRatingRows)) {
+            setDataForComment(actRatingRows);
+
+            let newCommentEachQty = dataForCommentQty.map((v) => {
+              const eachCommentQty =
+                v.star === 6
+                  ? actRatingRows.length
+                  : actRatingRows.filter((c) => parseInt(c.star) === v.star)
+                      .length;
+
+              return { ...v, count: eachCommentQty };
+            });
+            setDataForCommentQty(newCommentEachQty);
+          }
+
+          setShowWarning(false);
+          setCommentFilter(6);
+          setCommentCurrent(0);
+          countTotalCommentPage();
+          setShowCommentArrowLeft(false);
 
           setData(data);
         })
@@ -233,10 +321,284 @@ export default function ActivityDetail() {
   };
 
   //若未登入會員而點擊收藏，要跳轉至會員登入
+  // const toSingIn = () => {
+  //   const from = router.asPath;
+  //   router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
+  // };
   const toSingIn = () => {
-    const from = router.asPath;
-    router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
+    const from = router.query;
+    router.push(
+      `/member/sign-in?from=${process.env.WEB}/activity/${new URLSearchParams(
+        from
+      ).toString()}`
+    );
   };
+
+  //收藏列表相關的函式------------------------------------------------------------
+
+  // 更新收藏清單
+  const updateLikeList = (activitySid, isLiked) => {
+    if (isLiked) {
+      // 新增至收藏清單
+      setLikeDatas((prevLikeDatas) => [
+        ...prevLikeDatas,
+        { activity_sid: activitySid },
+      ]);
+    } else {
+      // 從收藏清單中移除
+      setLikeDatas((prevLikeDatas) =>
+        prevLikeDatas.filter((item) => item.activity_sid !== activitySid)
+      );
+    }
+  };
+
+  //取得蒐藏列表資料
+  const getLikeList = async (token = '') => {
+    const res = await fetch(
+      `${process.env.API_SERVER}/activity-api/show-like-list`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    const data = await res.json();
+
+    if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+    }
+  };
+
+  //控制展開收藏列表
+  const toggleLikeList = () => {
+    const newShowLikeList = !showLikeList;
+    setShowLikeList(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+      getLikeList(auth.token);
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  const closeLikeList = () => {
+    setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+
+  // 刪除所有收藏
+  const removeAllLikeList = (token) => {
+    if (likeDatas.length > 0) {
+      // 將列表顯示為空的
+      setLikeDatas([]);
+      // 將畫面上的愛心清除
+      const newData = data.map((v) => {
+        return { ...v, like: false };
+      });
+      setData(newData);
+      // 將請求送到後端作業
+      removeLikeListToDB('all', token);
+    }
+  };
+
+  // 刪除單一收藏
+  const removeLikeListItem = async (aid, token = '') => {
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.activity_sid !== aid;
+    });
+    setLikeDatas(newLikeList);
+
+    const newData = data.map((v) => {
+      if (v.activity_sid === aid) {
+        return { ...v, like: false };
+      } else {
+        return { ...v };
+      }
+    });
+
+    updateLikeList(aid, false);
+
+    await removeLikeListToDB(aid, token);
+  };
+
+  //將刪除收藏的請求送到後端作業
+  const removeLikeListToDB = async (aid = '', token = '') => {
+    try {
+      const removeAll = await fetch(
+        `${process.env.API_SERVER}/activity-api/likelist/${aid}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const result = await removeAll.json();
+      console.log(JSON.stringify(result, null, 4));
+      if (aid === 'all') {
+        setTimeout(() => {
+          toggleLikeList();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 給faheart的 新增與刪除------------------------------------------------------------
+  // 判斷活動是否在收藏列表中
+  const isInLikeList = (activitySid) => {
+    return likeDatas.some((item) => item.activity_sid === activitySid);
+  };
+  const [isLiked, setIsLiked] = useState(isInLikeList);
+
+
+  const handleLikeClick = async (activitySid, token, authId) => {
+    try {
+      if (!token) {
+        throw new Error('未找到會員ID');
+      }
+
+      if (isInLikeList(activitySid)) {
+        // Perform the delete action to remove from the like list
+        const response = await fetch(
+          `${process.env.API_SERVER}/activity-api/likelist/${activitySid}`,
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          }
+        );
+        //console.log('會員ID:', token.id);
+
+        if (!response.ok) {
+          throw new Error('刪除收藏失敗');
+        }
+
+        updateLikeList(activitySid, false); // Successfully removed from like list
+        console.log('刪除收藏成功');
+      } else {
+        // Perform the post action to add to the like list
+        const response = await fetch(
+          `${process.env.API_SERVER}/activity-api/addlikelist/${activitySid}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + token,
+            },
+            body: JSON.stringify({
+              aid: activitySid,
+              mid: authId,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error('新增收藏失敗');
+        }
+
+        updateLikeList(activitySid, true); // Successfully added to like list
+        console.log('新增收藏成功');
+      }
+    } catch (error) {
+      console.error('操作收藏失敗:', error);
+    }
+  };
+
+
+  
+  
+
+  //評價相關的函示-----------------------------------------------------
+  //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態
+  const toggleCommentCard = (arr = [], ratingNow = 6, id = '') => {
+    const newShowFullCommentCard = !showFullCommentCard;
+    if (arr.length > 0 && id) {
+      const newArr = commentFiliterByRating(arr, ratingNow).map((v) => {
+        if (v.activity_rating_sid === id) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      const currentIndex = newArr.findIndex((v) => v.display === true);
+      if (currentIndex === 0) {
+        setShowFullCommentArrowLeft(false);
+      } else {
+        setShowFullCommentArrowLeft(true);
+      }
+      if (currentIndex < newArr.length - 1) {
+        setShowFullCommentArrowRight(true);
+      } else {
+        setShowFullCommentArrowRight(false);
+      }
+    }
+
+    setShowFullCommentCard(newShowFullCommentCard);
+    if (newShowFullCommentCard) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
+
+  //轉換到下一張評價卡片
+  const slideNextComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex < arr.length - 1) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex + 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowLeft(true);
+    }
+    if (currentIndex === arr.length - 2) {
+      setShowFullCommentArrowRight(false);
+    }
+  };
+  //轉換到上一張評價卡片
+  const slidePreComment = (arr = []) => {
+    const currentIndex = arr.findIndex((v) => v.display === true);
+    if (currentIndex > 0) {
+      const newArr = arr.map((v, i) => {
+        if (i === currentIndex - 1) {
+          return { ...v, display: true };
+        } else return { ...v, display: false };
+      });
+      setShowCommentCard(newArr);
+      setShowFullCommentArrowRight(true);
+    }
+    if (currentIndex <= 1) {
+      setShowFullCommentArrowLeft(false);
+    }
+  };
+
+  //一般顯示區的評價卡相關function
+  const countTotalCommentPage = () => {
+    const currentCommentCardsQty = dataForCommentQty.filter((v) => {
+      return parseInt(v.star) === parseInt(commentFilter);
+    })[0].count;
+
+    const newCommentTotalPage = Math.ceil(
+      currentCommentCardsQty / showCommentCardQty
+    );
+    if (newCommentTotalPage <= 1) {
+      setShowCommentArrowRight(false);
+    } else {
+      setShowCommentArrowRight(true);
+    }
+
+    setTotalCommentPage(newCommentTotalPage);
+  };
+
+  //處理評論頁碼更動
+  useEffect(() => {
+    countTotalCommentPage();
+  }, [commentFilter, dataForCommentQty, showCommentCardQty]);
 
   //內頁導覽設定--------------------------------------------------
   //設定 目標位置的參考
@@ -271,23 +633,55 @@ export default function ActivityDetail() {
           <div className={styles.nav_head}>
             {/* <p>TODO: BreadCrumb</p> */}
             <BreadCrumb breadCrubText={breadCrubText} />
-
-            {/* .........收藏列表/進階篩選 btn......... */}
             <div className={styles.btns}>
-              <IconBtn
-                icon={faHeart}
-                text="收藏列表"
-                // clickHandler={toggleLikeList}
-              />
+              {auth.token ? (
+                <IconBtn
+                  icon={faHeart}
+                  text="收藏列表"
+                  clickHandler={toggleLikeList}
+                />
+              ) : (
+                <ActivityAlertModal
+                  btnType="iconBtn"
+                  btnText="收藏列表"
+                  icon={faHeart}
+                  content="可查看收藏列表"
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                />
+              )}
             </div>
           </div>
+        </div>
+
+        {/* .........收藏列表......... */}
+        <div className="container-inner">
+          <>
+            {showLikeList && (
+              <LikeListDrawer
+                datas={likeDatas}
+                customCard={
+                  <ActivityLikeListCard
+                    datas={likeDatas}
+                    token={auth.token}
+                    removeLikeListItem={removeLikeListItem}
+                  />
+                }
+                closeHandler={toggleLikeList}
+                removeAllHandler={() => {
+                  removeAllLikeList(auth.token);
+                }}
+              />
+            )}
+          </>
         </div>
       </div>
       <BGUpperDecoration />
 
       <div className="container-inner">
         <div className={styles.card}>
-          {/* -------右邊------- */}
+          {/* -------左邊------- */}
 
           <div className={styles.left}>
             <button
@@ -324,27 +718,21 @@ export default function ActivityDetail() {
               />
             </button>
 
-            {/* <div className={styles.overlay_left}></div>
-            <div className={styles.overlay_right}></div> */}
-            <div className={styles.icon}></div>
+            <div className={styles.feature}>
+              {actFeatureRows.map((row, index) => (
+                <ActivityFeatureDetail key={index} feature={row.name} />
+              ))}
+            </div>
           </div>
 
-          {/* -------左邊------- */}
+          {/* -------右邊------- */}
           <div className={styles.right}>
-            {/* 第一行 */}
+            {/* 標題 */}
             <div className={styles.row_text_title}>
               <p>{actDetailRows.name}</p>
             </div>
 
-            {/* 第二行 */}
-            <div className={styles.row}>
-              <p className={styles.row_price}>
-                ${actDetailRows.price_adult}/大人 $
-                {actDetailRows.price_adult / 2}/小孩
-              </p>
-            </div>
-
-            {/* 第三行 */}
+            {/* 評分＋總參加人數 */}
             <div className={styles.row}>
               <div className={styles.review}>
                 <FontAwesomeIcon
@@ -358,11 +746,13 @@ export default function ActivityDetail() {
               </div>
 
               <div>
-                <p className={styles.row_text_medium}>(TODO: 30人參加過)</p>
+                <p className={styles.purchase_count}>
+                  (已有{actCartTotalQtyRows.purchase_count}人參加)
+                </p>
               </div>
             </div>
 
-            {/* 第四行 */}
+            {/* 日期 */}
             <div className={styles.row}>
               <FontAwesomeIcon
                 icon={faCalendarDays}
@@ -376,7 +766,7 @@ export default function ActivityDetail() {
               </div>
             </div>
 
-            {/* 第五行 */}
+            {/* 時間 */}
             <div className={styles.row}>
               <FontAwesomeIcon
                 icon={faClock}
@@ -388,7 +778,7 @@ export default function ActivityDetail() {
               </div>
             </div>
 
-            {/* 第六行 */}
+            {/* 地點 */}
             <div className={styles.row}>
               <FontAwesomeIcon
                 icon={faLocationDot}
@@ -404,7 +794,7 @@ export default function ActivityDetail() {
               </div>
             </div>
 
-            {/* 第七行 */}
+            {/* 報名日期 */}
             <div className={styles.row}>
               <div className={styles.row_date}>
                 <p className={styles.row_text_small}>選擇日期：</p>
@@ -434,31 +824,21 @@ export default function ActivityDetail() {
                     ))}
                   </Select>
                 </ConfigProvider>
-                {/* <Select defaultValue="選擇活動日期">
-                  {actDateRows.map((row, index) => (
-                    <Select.Option
-                      className={styles.dateSelect}
-                      key={index}
-                      value={row.date}
-                    >
-                      {row.date}
-                    </Select.Option>
-                  ))}
-                </Select> */}
               </div>
             </div>
 
-            {/* 第八行 */}
+            {/* 報名人數 */}
             <div className={styles.ppl_qty}>
-              {/* 左邊 */}
-              <div>
+              <div className={styles.ppl_qty_title}>
                 <p className={styles.row_text_small}>報名人數：</p>
               </div>
 
-              {/* 右邊 */}
               <div>
-                <div>
+                <div className={styles.ppl_qty_inner}>
                   <p className={styles.ppl_qty_row}>大人：</p>
+                  <p className={styles.row_price}>
+                    ${actDetailRows.price_adult}/人
+                  </p>
                   <div className={styles.detail_qty}>
                     <div className={styles.numInputBlock}>
                       <button
@@ -494,8 +874,11 @@ export default function ActivityDetail() {
                   </div>
                   {/* <input className={styles.ppl_qty_row}></input> */}
                 </div>
-                <div>
+                <div className={styles.ppl_qty_inner}>
                   <p className={styles.ppl_qty_row}>小孩：</p>
+                  <p className={styles.row_price}>
+                    ${actDetailRows.price_adult / 2}/人
+                  </p>
                   <div className={styles.detail_qty}>
                     <div className={styles.numInputBlock}>
                       <button
@@ -545,8 +928,27 @@ export default function ActivityDetail() {
             {/* 第十行 */}
             <div className={styles.row_btn}>
               <div className={styles.btn}>
-                <IconSeconBtn icon={faHeart} text="加入收藏" />
+                {auth.token ? (
+                  <IconSeconBtn
+                    red={isInLikeList}
+                    icon={faHeart}
+                    text={isInLikeList ? '已收藏' : '加入收藏'}
+                    clickHandler={() => {
+                      handleLikeClick(activitySid, auth.token)
+                    }}
+                  />
+                ) : (
+                  <ActivityAlertModal
+                    btnType="heart"
+                    title="貼心提醒"
+                    content="收藏活動"
+                    mainBtnText="前往登入"
+                    subBtnText="暫時不要"
+                    confirmHandler={toSingIn}
+                  />
+                )}
               </div>
+
               {!auth.token ? (
                 <Modal
                   btnType="iconSeconBtn"
@@ -568,7 +970,10 @@ export default function ActivityDetail() {
                 />
               )}
               {successAddToCard && (
-                <ModalWithoutBtn text="成功加入購物車!" img="success.svg" />
+                <ModalWithoutBtn
+                  text="成功加入購物車!"
+                  img="/product-img/success.svg"
+                />
               )}
             </div>
           </div>
@@ -577,19 +982,12 @@ export default function ActivityDetail() {
         <div className={styles.nav_detail}>
           <NavDetailPage items={items} handleClick={handleClick} />
         </div>
-
-        <div className={styles.feature}>
-          {actFeatureRows.map((row, index) => (
-            <ActivityFeatureDetail key={index} feature={row.name} />
-          ))}
-        </div>
       </div>
 
-      {/* .........下方資訊......... */}
-
       {/* ....銜接處圖片1.... */}
-      <img src="/activity_img/detail_bg_1.jpg" alt="Activity" />
+      <img src="/activity_img/detail_bg_8.jpg" alt="Activity" />
 
+      {/* .........下方資訊......... */}
       <div className="container-inner">
         <div className={styles.content}>
           <div ref={targetRef1}>
@@ -598,7 +996,9 @@ export default function ActivityDetail() {
             <p className={styles.row_text_small}>{actDetailRows.content}</p>
             <br />
             <br />
-            <p> {actDetailRows.schedule}</p>
+            <p className={styles.row_text_small}>
+              活動行程：{actDetailRows.schedule}
+            </p>
           </div>
 
           {/* <img
@@ -630,7 +1030,7 @@ export default function ActivityDetail() {
           )}
           <div ref={targetRef2}>
             <p className={styles.subtitle}>活動規範：</p>
-            
+
             <p className={styles.row_text_small}>{actDetailRows.policy}</p>
           </div>
         </div>
@@ -660,29 +1060,231 @@ export default function ActivityDetail() {
       </div>
 
       {/* ....銜接處圖片4.... */}
-      <img src="/activity_img/detail_bg_1.jpg" alt="Activity" />
+      <img src="/activity_img/detail_bg_6.jpg" alt="Activity" />
 
       {/* .........顧客評價......... */}
 
-      <div className="container-inner">
-        <div className={styles.content}>
-          <div ref={targetRef4}>
+      <div className="container-outer">
+        <div ref={targetRef4}>
+          <div className="container-inner">
             <p className={styles.subtitle}>顧客評價：</p>
-            <div className={styles.review}>
-              <FontAwesomeIcon
-                icon={faStar}
-                className={styles.star_icon_big}
-                style={{ maxWidth: '20px', maxHeight: '20px' }}
-              />
-              <p className={styles.rating}>
-                {actDetailRows.avg_rating}
-              </p>
+            <div className={styles.review_big}>
+              <FontAwesomeIcon icon={faStar} className={styles.star_icon_big} />
+              <p className={styles.rating}>{actDetailRows.avg_rating}</p>
               <p className={styles.row_text_small}>
                 (共{actDetailRows.rating_count}則評價)
               </p>
-            </div>
 
-            <div className={styles.comment_cards}>
+              <div className={styles.comment_btns}>
+                {dataForCommentQty.map((v) => {
+                  const { star, count } = v;
+                  return (
+                    <button
+                      key={star}
+                      className={
+                        commentFilter === star
+                          ? `${styles.comment_btn} ${styles.active_comment_btn}`
+                          : styles.comment_btn
+                      }
+                      onClick={() => {
+                        setCommentFilter(star);
+                        setCommentCurrent(0);
+                        setShowCommentArrowLeft(false);
+                      }}
+                    >
+                      {star === 6 ? '全部評論' : `${star}星 (${count})`}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.act_container_inner}>
+            <div className={styles.comment_cards_box}>
+              {showCommentArrowLeft && (
+                <div className={styles.detail_left_arrow_box}>
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    className={styles.left_arrow}
+                    onClick={() => {
+                      if (commentCurrent <= 0) {
+                        setShowCommentArrowLeft(false);
+                      } else if (commentCurrent === 1) {
+                        setCommentCurrent(commentCurrent - 1);
+                        setShowCommentArrowRight(true);
+                        setShowCommentArrowLeft(false);
+                      } else {
+                        setCommentCurrent(commentCurrent - 1);
+                        setShowCommentArrowRight(true);
+                      }
+                    }}
+                  />
+                </div>
+              )}
+              {showCommentArrowRight && (
+                <div
+                  className={`${styles.detail_right_arrow_box} ${styles.comment_right_arrow_box}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className={styles.right_arrow}
+                    onClick={() => {
+                      if (commentCurrent === totalCommentPage - 1) {
+                        setShowCommentArrowRight(false);
+                      } else if (commentCurrent === totalCommentPage - 2) {
+                        setCommentCurrent(commentCurrent + 1);
+                        setShowCommentArrowLeft(true);
+                        setShowCommentArrowRight(false);
+                      } else {
+                        setCommentCurrent(commentCurrent + 1);
+                        setShowCommentArrowLeft(true);
+                      }
+                    }}
+                  />
+                </div>
+              )}
+              <div className={styles.comment_cards} style={commentStyle}>
+                {dataForComment &&
+                commentFiliterByRating(dataForComment, commentFilter).length <=
+                  0 ? (
+                  <NoCommentCard star={commentFilter} />
+                ) : (
+                  commentFiliterByRating(dataForComment, commentFilter).map(
+                    (v) => {
+                      const {
+                        activity_rating_sid,
+                        member_sid,
+                        date,
+                        star,
+                        content,
+                        name,
+                        profile,
+                      } = v;
+                      return (
+                        <CommentCard
+                          key={activity_rating_sid}
+                          member_sid={member_sid}
+                          date={date}
+                          rating={star}
+                          content={content}
+                          name={name}
+                          profile={profile}
+                          clickHandler={() => {
+                            toggleCommentCard(
+                              dataForComment,
+                              commentFilter,
+                              activity_rating_sid
+                            );
+                          }}
+                        />
+                      );
+                    }
+                  )
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="container-inner">
+            <ul className={styles.recommend_pages}>
+              {totalCommentPage <= 1 ? (
+                <div className={styles.no_pages}></div>
+              ) : (
+                Array(totalCommentPage)
+                  .fill(0)
+                  .map((v, i) => {
+                    return (
+                      <li
+                        key={i}
+                        className={
+                          i === commentCurrent
+                            ? `${styles.sliders_pages_bttn} ${styles.sliders_pages_active}`
+                            : styles.sliders_pages_bttn
+                        }
+                        onClick={() => {
+                          setCommentCurrent(i);
+                          if (i === 0) {
+                            setShowCommentArrowLeft(false);
+                            setShowCommentArrowRight(true);
+                          } else if (i === totalCommentPage - 1) {
+                            setShowCommentArrowRight(false);
+                            setShowCommentArrowLeft(true);
+                          } else {
+                            setShowCommentArrowLeft(true);
+                            setShowCommentArrowRight(true);
+                          }
+                        }}
+                      ></li>
+                    );
+                  })
+              )}
+            </ul>
+          </div>
+        </div>
+        {/* 全螢幕的評價顯示 */}
+        {/* {showFullCommentCard && (
+          <div className={styles.show_full_comment_card}>
+            <div
+              className={styles.bgc_comment_card}
+              onClick={toggleCommentCard}
+            ></div>
+            <div className={styles.comment_card_display}>
+              {showFullCommentArrowLeft && (
+                <div className={styles.detail_left_arrow_box}>
+                  <FontAwesomeIcon
+                    icon={faChevronLeft}
+                    className={styles.left_arrow}
+                    onClick={() => {
+                      slidePreComment(showCommentCard);
+                    }}
+                  />
+                </div>
+              )}
+              {showFullCommentArrowRight && (
+                <div
+                  className={`${styles.detail_right_arrow_box} ${styles.full_right_arrow_box}`}
+                >
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    className={styles.right_arrow}
+                    onClick={() => {
+                      slideNextComment(showCommentCard);
+                    }}
+                  />
+                </div>
+              )}
+
+              {showCommentCard.map((v) => {
+                const {
+                  activity_rating_sid,
+                  date,
+                  star,
+                  content,
+                  name,
+                  profile,
+                  display,
+                } = v;
+                return (
+                  display && (
+                    <div className={styles.test} key={activity_rating_sid}>
+                      <CommentCard1
+                        date={date}
+                        rating={star}
+                        content={content}
+                        name={name}
+                        profile={profile}
+                        clickHandler={toggleCommentCard}
+                      />
+                    </div>
+                  )
+                );
+              })}
+            </div>
+          </div>
+        )} */}
+
+        {/* <div className={styles.comment_cards}>
               {actRatingRows &&
                 actRatingRows.map((v) => {
                   const {
@@ -706,19 +1308,20 @@ export default function ActivityDetail() {
                     />
                   );
                 })}
-            </div>
-          </div>
-        </div>
+            </div> */}
       </div>
+
+      {/* ....銜接處圖片5.... */}
+      <img src="/activity_img/detail_bg_7.jpg" alt="Activity" />
 
       {/* .........推薦商品......... */}
 
       <div className="container-inner">
-        <div className={styles.content}>
+        <div className={styles.recommend_section}>
           <div ref={targetRef4}>
             <p className={styles.subtitle}>為您推薦：</p>
 
-            <div className={styles.comment_cards}>
+            <div className={styles.recommend_cards}>
               {actRecommend.map((i) => {
                 const {
                   activity_sid,

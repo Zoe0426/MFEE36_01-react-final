@@ -8,6 +8,7 @@ const ActivityLikeListCard = ({
     datas = [], //需要渲染的陣列資料
     token = '',
     removeLikeListItem = () => {}, //用來清除某一項蒐藏清單的函式
+    closeLikeList = () => {}, //前往某一項商品細節頁時，收藏列表需要關閉
   }) => {
     const router = useRouter();
     return datas.map((v) => {
@@ -33,7 +34,8 @@ const ActivityLikeListCard = ({
             alt="activity" 
             className={styles.image} 
             onClick={() => {
-              router.push(`http://localhost:3000/activity/${activity_sid}`);
+              closeLikeList();
+              router.push(`${process.env.WEB}/activity/${activity_sid}`);
             }}
             />
           </div>
@@ -41,7 +43,8 @@ const ActivityLikeListCard = ({
           {/* -------右邊------- */}
           <div className={styles.right} role="presentation"
            onClick={() => {
-            router.push(`http://localhost:3000/activity/${activity_sid}`);
+            closeLikeList();
+            router.push(`${process.env.WEB}/activity/${activity_sid}`);
           }}
           >
             <div className={styles.row}>

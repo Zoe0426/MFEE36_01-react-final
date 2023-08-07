@@ -18,14 +18,14 @@ import {
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import SearchBar from '@/components/ui/buttons/SearchBar';
-import Likelist from '@/components/ui/like-list/like-list';
+// import Likelist from '@/components/ui/like-list/like-list';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
-import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
+import Likelist from '@/components/ui/like-list/LikeListDrawer';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ActivityFilter from '@/components/ui/cards/ActivityFilter';
 import ActivityFilterPrice from '@/components/ui/cards/ActivityFilterPrice';
@@ -36,15 +36,14 @@ import ActivityPageOrder from '@/components/ui/cards/ActivityPageOrder';
 import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
-import Modal from '@/components/ui/modal/modal';
-import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
 
 export default function ActivityMain() {
   // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
 
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(16);
+  const [perPage, setPerPage] = useState(8);
   const [keyword, setKeyword] = useState('');
   const [activity_type_sid, setActivity_type_sid] = useState(0);
   const [selectedActivityTypeSid, setSelectedActivityTypeSid] = useState(0);
@@ -83,18 +82,17 @@ export default function ActivityMain() {
     router.push(
       `/member/sign-in?from=${
         process.env.WEB
-      }/restaurant/list?${new URLSearchParams(from).toString()}`
+      }/activity/list?${new URLSearchParams(from).toString()}`
     );
   };
 
   // 取資料
   const [datas, setDatas] = useState({
     totalRows: 0,
-    perPage: 16,
+    perPage: 8,
     totalPages: 0,
     page: 1,
     rows: [],
-    // likeDatas:[],
   });
 
   const handleCityClick = (e) => {
@@ -114,7 +112,7 @@ export default function ActivityMain() {
     {
       id: 'activity',
       text: '活動首頁',
-      href: 'http://localhost:3000/activity',
+      href: `${process.env.WEB}/activity`,
       show: true,
     },
     { id: 'search', text: '/ 活動列表', href: '', show: true },
@@ -125,7 +123,7 @@ export default function ActivityMain() {
   const rankOptions = {
     1: 'hot_DESC',
     2: 'date_ASC',
-    3: 'date_DESC', // TODO: 需再確認cart的欄位名稱
+    3: 'date_DESC', 
   };
 
   const orderByHandler = (e) => {
@@ -371,7 +369,7 @@ const resetCheckBox = (key, str) => {
   const handleConfirmClick = () => {
     filterHandler();
   
-    // 获取选中的 activity_type_sid 的值
+    
     const selectedActivityTypeSids = filters.activity_type_sid
       .filter(item => item.checked)
       .map(item => item.value);
@@ -388,15 +386,9 @@ const resetCheckBox = (key, str) => {
       endDate: endDate ? endDate.format('YYYY-MM-DD') : undefined,
     };
   
-    // 设置 activity_type_sid 的值为数组
+    
     newQuery.activity_type_sid = selectedActivityTypeSids;
 
-    // if (selectedActivityTypeSids && selectedActivityTypeSids.length > 0) {
-    //   // 將陣列轉換為字串，以逗號分隔
-    //   newQuery.activity_type_sid = selectedActivityTypeSids.join(',');
-    // }
-  
-    // 使用新的 query 对象更新 URL
     router.push({
       pathname: router.pathname,
       query: newQuery,
@@ -486,7 +478,6 @@ const resetCheckBox = (key, str) => {
   //控制展開收藏列表
   const toggleLikeList = () => {
     const newShowLikeList = !showLikeList;
-    console.log(newShowLikeList);
     setShowLikeList(newShowLikeList);
     if (newShowLikeList) {
       document.body.classList.add('likeList-open');
@@ -495,6 +486,12 @@ const resetCheckBox = (key, str) => {
       document.body.classList.remove('likeList-open');
     }
   };
+
+  const closeLikeList = () => {
+    setShowLikeList(false);
+    document.body.classList.remove('likeList-open');
+  };
+  
   // 刪除所有收藏
   const removeAllLikeList = (token) => {
     if (likeDatas.length > 0) {
@@ -526,6 +523,7 @@ const resetCheckBox = (key, str) => {
       }
     });
     setDatas({ ...datas, rows: newData });
+    updateLikeList(aid, false);
     //將請求送到後端作業
     removeLikeListToDB(aid, token);
   };
@@ -652,7 +650,7 @@ const resetCheckBox = (key, str) => {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} />
+            <BreadCrumb breadCrubText={breadCrubText}/>
 
             <div className={styles.btns}>
               {auth.token ? (
@@ -662,17 +660,14 @@ const resetCheckBox = (key, str) => {
                   clickHandler={toggleLikeList}
                 />
               ) : (
-                <Modal
+                <ActivityAlertModal
                   btnType="iconBtn"
                   btnText="收藏列表"
-                  title="貼心提醒"
-                  content={
-                    <ModoalReminder text="請先登入會員，才能看收藏列表喔~" />
-                  }
+                  icon={faHeart}
+                  content="可查看收藏列表"
                   mainBtnText="前往登入"
                   subBtnText="暫時不要"
                   confirmHandler={toSingIn}
-                  icon={faHeart}
                 />
               )}
               <IconBtn
@@ -809,13 +804,14 @@ const resetCheckBox = (key, str) => {
         <div className="container-inner">
           <>
             {showLikeList && (
-              <LikeListDrawer
+              <Likelist
                 datas={likeDatas}
                 customCard={
                   <ActivityLikeListCard
                     datas={likeDatas}
                     token={auth.token}
                     removeLikeListItem={removeLikeListItem}
+                    closeLikeList={closeLikeList}
                   />
                 }
                 closeHandler={toggleLikeList}
