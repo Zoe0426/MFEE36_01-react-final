@@ -13,7 +13,6 @@ export default function CartCouponInfo({
           <p className={style.name}>{name}</p>
           <p className={style.price}>折抵${price}</p>
         </div>
-
         <p className={style.expDate}>有效期限：{exp_date}</p>
       </div>
       <img src="/home-images/h-logo.png" alt="" className={style.img} />

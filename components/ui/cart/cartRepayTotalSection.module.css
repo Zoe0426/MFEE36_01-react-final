@@ -1,0 +1,172 @@
+.totalCard{
+    position: fixed;
+    width: 21%;
+    background-color: white;
+    box-shadow: var(--shadow);
+    padding: var(--p8) var(--p16) var(--p24) var(--p16);
+    border-radius: var(--br10);
+    font-size: var(--pfs16);
+}
+.closeBtn{
+    display:none;
+}
+.totalSelectedNum{
+    position: absolute;
+    right: 16px;
+    top: 28px;
+}
+.subtotals{
+    display: flex;
+    margin-bottom: 16px;
+    align-items: center;
+    font-size: var(--h6fs18);
+}
+.subtotals2{
+    display: flex;
+    margin-bottom: 8px;
+    align-items: center;
+   font-size: var(--h6fs18);
+}
+.amount{
+    /* font-weight: bold; */
+    display: block;
+    margin-left: auto;
+}
+.total{
+    display: flex;
+    font-weight: bold;
+    margin-bottom: 16px;
+    font-size: var(--h5fs20);
+    /* color: var(--dark); */
+   
+}
+.totalamount{
+    /* color: var(--main); */
+    display: block;
+    margin-left: auto;
+    font-size: var(--h6fs18);
+}
+.couponBtn{
+    border-top: 1px dashed var(--light-gray);
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: var(--p16);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    display: flex;
+}
+.couponBtn:hover{
+    border: 1px solid #fd8c46db;
+}
+.couponBtn span{
+    color: var(--dark-gray);
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid pink; */
+    display: block;
+    padding: 8px;
+}
+
+.paymentArea{
+    /* border: 1px solid red; */
+    border-top: 1px dashed var(--light-gray);
+    padding: var(--p16) 0;
+    
+}
+.checkoutBtn{
+width: 100%;
+display: flex;
+flex-direction: column;
+/* border: 1px solid green; */
+}
+.checkoutBtn button{
+    padding: 12px;
+    font-size: var(--h6fs18);
+}
+.runningdog{
+    transform: scaleX(-1) rotate(20deg);
+    position: absolute;
+    right: -17%;
+    bottom: -8%;
+    width: 100px;
+}
+.toggleCard{
+    display: none;
+}
+@media screen and (max-width:992px){
+.closeBtn{
+    display:block;
+    position:absolute;
+    right: 16px;
+    top:24px;
+}
+.totalCard{
+    z-index: 3;
+    width: 100%;
+    bottom:0;
+    padding: var(--p8)var(--p32);
+    background-color: var(--light1);
+    transform: translateY(100%);
+    
+}
+
+.showTotalCard{
+    position: fixed;
+    border-radius: var(--br10);
+    font-size: var(--pfs16);
+    z-index: 3;
+    width: 100%;
+    bottom:0;
+    padding: var(--p8) 60px;
+    background-color: var(--light4);
+}
+.totalSelectedNum{
+    right: 50px;
+    top: 28px;
+}
+.runningdog{
+    display: none;
+}
+.toggleCard{
+    /* border: 1px solid red; */
+    position: fixed;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    bottom:0px;
+    height: 12%;
+    background-color: var(--light1);
+    font-size: var(--h6fs18);
+    font-weight: bold;
+    color: var(--dark);
+    padding: var(--p16);
+    
+}
+.toggleInfoBox{
+    display: flex; 
+    align-items:center ;
+    justify-content: space-between;
+}
+.bottomDeco{
+    position:absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height:20%;
+    background-color: var(--secondary);
+
+}
+}
+
+@media screen and (max-width:767px){
+.toggleCard{
+    height: 10.5%;
+}
+.showTotalCard{
+padding: var(--p8) var(--p32);
+}
+}
