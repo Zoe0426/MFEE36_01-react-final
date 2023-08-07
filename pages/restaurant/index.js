@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import { useState, useEffect, useContext } from 'react';
 import AuthContext from '@/context/AuthContext';
 import { useRouter } from 'next/router';
@@ -687,6 +688,9 @@ export default function Restindex() {
 
   return (
     <>
+      <Head>
+        <title>狗with咪 | 餐廳</title>
+      </Head>
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>

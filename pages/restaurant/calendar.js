@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Head from 'next/head';
 import BookingModal from '@/components/ui/restaurant/Bookingmodal2';
 import Styles from './calendar.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -188,6 +189,9 @@ function App() {
 
   return (
     <>
+      <Head>
+        <title>狗with咪 | 餐廳</title>
+      </Head>
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>

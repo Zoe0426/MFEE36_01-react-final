@@ -5,7 +5,6 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <link rel="icon" href="/favicon.ico" />
-        <title>狗with咪 GO WITH ME</title>
         <script
           src="https://accounts.google.com/gsi/client"
           async

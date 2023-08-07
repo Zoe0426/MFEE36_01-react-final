@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useRef } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import { Fragment } from 'react';
@@ -695,6 +696,9 @@ export default function RestInfo() {
 
   return (
     <>
+      <Head>
+        <title>狗with咪 | 餐廳</title>
+      </Head>
       <div className={Styles.abc}>
         <div className="container-inner">
           <div className={Styles.bgc}>
