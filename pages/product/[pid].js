@@ -871,6 +871,7 @@ export default function Product() {
   };
 
   return (
+    
     <>
       <Head>
         {' '}
