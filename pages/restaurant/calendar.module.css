@@ -1,0 +1,361 @@
+.bgc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 28px;
+  padding-bottom: 28px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.abc {
+  background-color: var(--lightBrown);
+}
+
+.section {
+  display: flex;
+  padding-top: 30px;
+}
+.calendar {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  height: 480px;
+  width: 600px;
+  box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.1);
+}
+.date_date {
+  padding-top: 30px;
+  width: 100%;
+  font-size: 18px;
+}
+.date_text {
+  font-weight: 800;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px ;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--light-gray);
+}
+.month_btns {
+  display: flex;
+  padding: 0;
+  height: 36px;
+  gap: 6px;
+}
+.select_date {
+  font-size: 24px;
+  padding-left: 20px;
+  padding-bottom: 20px;
+  font-weight: 600;
+}
+.month_btns > button {
+  border: 0;
+  background-color: var(--main);
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.4s;
+  padding: 12px;
+}
+
+.month_btns > button:hover {
+  background-color: var(--light1);
+  color: var(--main);
+}
+/* .row_all {
+  display: flex;
+  justify-content: space-between;
+} */
+.time_section {
+  display: flex;
+  /* gap: 20px; */
+  align-items: center;
+  margin: 0;
+  padding-bottom: 20px;
+}
+.card_head {
+  display: flex;
+  height: 100px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 80px;
+}
+.card_head img {
+  height: 100%;
+}
+.no_find_text {
+  font-size: 20px;
+  padding-top: 20px;
+}
+.afternoon_title {
+  font-size: 18px;
+  text-align: center;
+  width: 160px;
+  padding-bottom: 0px;
+  padding-top: 30px;
+  font-weight: 600;
+  color: var(--dark);
+  padding-right: 20px;
+}
+
+.modal {
+  padding: 0;
+  margin-right: 30px;
+  /* flex: 1; */
+}
+.can_book {
+  display: flex;
+  flex-direction: column;
+  /* height: 470px; */
+  width: 100%;
+  margin-left: 40px;
+  /* border: 1px solid var(--light-gray); */
+  background-color: var(--light2);
+  /* background-color: rgba(255, 216, 208, 0.215); */
+  border-radius: 10px;
+  /* padding: 40px 0px; */
+}
+.weekly {
+  padding-bottom: 12px;
+}
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px dashed var(--secondary);
+}
+.timetable {
+  font-size: var(--h3fs28);
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: 28px;
+}
+.date {
+  cursor: pointer;
+  padding: 18px;
+  text-align: center;
+  transition: 0.4s;
+  border-radius: 10px;
+  user-select: none;
+}
+.today_date {
+  cursor: pointer;
+  padding: 18px;
+  text-align: center;
+  transition: 0.4s;
+  border-radius: 10px;
+  border: 1px solid var(--main);
+  user-select: none;
+}
+.calendar_icon {
+  margin-right: 10px;
+}
+.past_date {
+    padding: 18px;
+  text-align: center;
+  color: var(--light-gray);
+  transition: 0.4s;
+  border-radius: 10px;
+  user-select: none;
+  pointer-events: none;
+}
+.selected_date {
+  background-color: var(--secondary);
+  cursor: pointer;
+  padding: 18px;
+  text-align: center;
+  transition: 0.4s;
+  border-radius: 10px;
+  user-select: none;
+}
+.date:hover {
+  background-color: var(--secondary);
+}
+.section {
+  height: 600px;
+}
+.cloud1 {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 26%;
+  left: 12%;
+  user-select: none;
+  scale: 0.6;
+  animation: 8s cloudsmallFloat ease-in infinite;
+}
+@keyframes cloudsmallFloat {
+  0% {
+    left: 8%;
+    opacity: 0;
+    scale: 0.6;
+  }
+  25% {
+    left: 10%;
+    opacity: 1;
+    scale: 0.8;
+  }
+  50% {
+    left: 12%;
+  }
+  100% {
+    left: 14%;
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+.cloud2 {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 17%;
+  left: 3%;
+  user-select: none;
+  animation: 8s cloudLeftFloat ease-in infinite;
+}
+@keyframes cloudLeftFloat {
+  0% {
+    left: 0%;
+    opacity: 0;
+    scale: 0.8;
+  }
+  25% {
+    left: 4%;
+    opacity: 1;
+    scale: 1;
+  }
+  50% {
+    left: 8%;
+    opacity: 1;
+  }
+  100% {
+    left: 12%;
+    opacity: 0;
+    scale: 0.8;
+  }
+}
+.cloud3 {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 20%;
+  right: 16%;
+  user-select: none;
+  animation: 8s cloudFloat ease-in infinite;
+}
+
+@keyframes cloudFloat {
+  0% {
+    right: 12%;
+    opacity: 0;
+    scale: 0.8;
+  }
+  25% {
+    right: 8%;
+    opacity: 1;
+    scale: 1;
+  }
+  50% {
+    right: 4%;
+    opacity: 1;
+  }
+  100% {
+    right: 0%;
+    opacity: 0;
+    scale: 0.8;
+  }
+}
+.cloud4 {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 28%;
+  right: 12%;
+  user-select: none;
+  scale: 0.6;
+  animation: 8s cloudendFloat ease-in infinite;
+}
+@keyframes cloudendFloat {
+  0% {
+    right: 14%;
+    opacity: 0;
+    scale: 0.6;
+  }
+  25% {
+    right: 12%;
+    opacity: 1;
+    scale: 0.8;
+  }
+  50% {
+    right: 8%;
+  }
+  100% {
+    right: 4%;
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+.cat {
+  position: absolute;
+  width: 80px;
+  height: auto;
+  top: 74%;
+  left: 10%;
+  user-select: none;
+  animation: 1s catWalk ease-in-out;
+}
+@keyframes catWalk {
+  0% {
+    left: 6%;
+    top: 70%;
+    opacity: 0;
+  }
+  25% {
+    left: 8%;
+    top: 74%;
+  }
+  50% {
+    left: 9%;
+    top: 70%;
+  }
+  100% {
+    left: 10%;
+    top: 74%;
+    opacity: 1;
+  }
+}
+.dog {
+  position: absolute;
+  width: 85px;
+  height: auto;
+  top: 74%;
+  right: 10%;
+  user-select: none;
+  animation: 1s dogWalk ease-in-out;
+}
+
+@keyframes dogWalk {
+  0% {
+    right: 6%;
+    top: 70%;
+    opacity: 0;
+  }
+  25% {
+    right: 8%;
+    top: 74%;
+  }
+  50% {
+    right: 9%;
+    top: 70%;
+  }
+  100% {
+    right: 10%;
+    top: 74%;
+    opacity: 1;
+  }
+}

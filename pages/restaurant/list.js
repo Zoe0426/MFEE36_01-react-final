@@ -829,57 +829,6 @@ export default function FilterPage() {
                           disabled={!selectedCity}
                         />
                       </Space>
-                      {/* <Dropdown
-                        overlay={
-                          <Menu onClick={handleCityClick}>
-                            {Object.keys(cities).map((city) => (
-                              <Menu.Item key={city}>{city}</Menu.Item>
-                            ))}
-                          </Menu>
-                        }
-                        className={Styles.city}
-                        trigger={['click']}
-                        placement="bottom"
-                        autoAdjustOverflow="true"
-                        overlayStyle={{
-                          maxHeight: '280px',
-                          overflow: 'auto',
-                        }}
-                      >
-                        <Button>
-                          <Space>
-                            <p className={Styles.dropdown_arrow}>
-                              {selectedCity ? selectedCity : '城市'}
-                            </p>
-
-                            <DownOutlined />
-                          </Space>
-                        </Button>
-                      </Dropdown>
-
-                      <Dropdown
-                        overlay={
-                          <Menu onClick={handleAreaClick}>
-                            {selectedCity &&
-                              cities[selectedCity].map((area) => (
-                                <Menu.Item key={area}>{area}</Menu.Item>
-                              ))}
-                          </Menu>
-                        }
-                        className={Styles.section}
-                        placement="bottomLeft"
-                        overlayStyle={{ maxHeight: '280px', overflow: 'auto' }}
-                        trigger={['click']}
-                      >
-                        <Button>
-                          <Space>
-                            <p className={Styles.dropdown_arrow}>
-                              {selectedArea ? selectedArea : '地區'}
-                            </p>
-                            <DownOutlined />
-                          </Space>
-                        </Button>
-                      </Dropdown> */}
                     </div>
                   </div>
                 </ConfigProvider>

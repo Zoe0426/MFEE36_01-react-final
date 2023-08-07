@@ -962,7 +962,7 @@ export default function RestInfo() {
                   icon={faCalendar}
                   text="我要預約"
                   clickHandler={() => {
-                    router.push(`/restaurant/booking`);
+                    router.push(`/restaurant/calendar`);
                   }}
                 />
               ) : (

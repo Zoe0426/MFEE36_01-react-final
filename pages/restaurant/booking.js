@@ -1,14 +1,10 @@
 import { useState, useEffect } from 'react';
 import Styles from './booking.module.css';
 import BookingModal from '@/components/ui/restaurant/Bookingmodal';
-import IconBtn from '@/components/ui/buttons/IconBtn';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import faArrowRight from '@/assets/arrow-right.svg';
 import faArrowLeft from '@/assets/arrow-left.svg';
 import calendar from '@/assets/calendar.svg';
-import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import Cat from '@/assets/cat_with_body.svg';
 import Dog from '@/assets/dog_with_body.svg';
@@ -19,7 +15,7 @@ function WeekCalendar() {
   const [data, setData] = useState({ bookingRows: [], memberRows: [] });
   const [bookingRows, setBookingRows] = useState();
   const [memberRows, setMemberRows] = useState();
-  const [currentIndex, setCurrentIndex] = useState(0);
+
   const [startDateIndex, setStartDateIndex] = useState(0); // 添加這個狀態變量
 
   //麵包屑
@@ -35,21 +31,6 @@ function WeekCalendar() {
     { id: 'booking', text: '> 預約時間表', href: '', show: true },
   ]);
 
-  // // 新增處理下一個七天預約資訊的函式
-  // const goToNextWeek = () => {
-  //   const nextIndex = startDateIndex + 35;
-  //   if (nextIndex < bookingRows.length) {
-  //     setStartDateIndex(nextIndex);
-  //   }
-  // };
-
-  // // 新增處理返回前一個七天預約資訊的函式
-  // const goToPreviousWeek = () => {
-  //   const previousIndex = startDateIndex - 35;
-  //   if (previousIndex >= 0) {
-  //     setStartDateIndex(previousIndex);
-  //   }
-  // };
   // 新增處理下一個七天預約資訊的函式
   const goToNextWeek = () => {
     const itemsPerPage = window.innerWidth < 768 ? 10 : 35;
@@ -108,31 +89,6 @@ function WeekCalendar() {
       });
   }, []);
 
-  // //日期格式轉換回來
-  // bookingRows.forEach((v) => {
-  //   const dateStr = v.date;
-
-  //   // 分割日期字串
-  //   const [monthDay, weekday] = dateStr.split(' (');
-
-  //   // 獲取月份、日期和星期幾
-  //   const [month, day] = monthDay.split('/');
-  //   const [, weekdayStr] = weekday.split(')');
-
-  //   // 獲取星期幾對應的數字
-  //   const weekdayNum = ['日', '一', '二', '三', '四', '五', '六'].indexOf(
-  //     weekdayStr
-  //   );
-
-  //   // 構建新的日期字串，格式為 "yyyy-MM-dd"
-  //   const year = 2023; // 這裡可以根據需要指定年份
-  //   const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(
-  //     2,
-  //     '0'
-  //   )}`;
-
-  //   v.date = formattedDate;
-  // });
   // const handleSubmit = async (event) => {
   //   event.preventDefault();
 
@@ -205,7 +161,7 @@ function WeekCalendar() {
           </div>
         </div>
       </div>
-      <div></div>
+
       <div className="container-inner">
         <div className={Styles.head}>
           <h1 className={Styles.timetable}>
