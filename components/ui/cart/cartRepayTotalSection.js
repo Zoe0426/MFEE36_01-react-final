@@ -172,7 +172,7 @@ export default function CartTotalSection({
             </div>
           </div>
           <div className={style.checkoutBtn}>
-            <MainBtn text="確認付款" clickHandler={repay} />
+            <MainBtn text="重新付款" clickHandler={repay} />
           </div>
           <Image
             src={rundog}

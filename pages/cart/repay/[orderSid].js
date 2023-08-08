@@ -33,6 +33,7 @@ export default function Cart() {
   const [couponData, setCouponData] = useState([]);
   //付款
   const [subtotal, setSubtotal] = useState(0);
+  const [total, setTotal] = useState(0);
   const [paymentType, setPaymentType] = useState(1);
 
   useEffect(() => {
@@ -64,6 +65,13 @@ export default function Cart() {
           v.prod_price * v.prod_qty;
         return a + subtotal;
       }, 0);
+      let couponPrice = 0;
+      if (data.coupon.length > 0) {
+        couponPrice = data.coupon[0].price;
+      }
+      let postPrice = data.orderInfo[0].post_amount;
+      const t = sub + postPrice - couponPrice;
+      setTotal(t);
       setSubtotal(sub);
       setCheckoutType(data.checkoutType);
       setdetails(data.details);
@@ -78,192 +86,121 @@ export default function Cart() {
       throw new Error('取訂單資料時出錯');
     }
   };
-  const repay = () => {
-    console.log('clicked');
-  };
-  // const checkDefaultAdd = (sid, status) => {
-  //   const newData = postAddData.map((v) => {
-  //     if (status === true) {
-  //       return { ...v, default_status: 0 };
-  //     } else {
-  //       return v.address_sid == sid
-  //         ? { ...v, default_status: 1 }
-  //         : { ...v, default_status: 0 };
-  //     }
-  //   });
-  //   // console.log(newData);
-  //   setPostAddData(newData);
-  // };
 
-  const sendOrderRequest = async (data) => {
-    //console.log('sentData:', data);
-    const r = await fetch(`${process.env.API_SERVER}/cart-api/create-order`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const createOrderResult = await r.json();
-    //訂單若成立，前往結帳
-    if (createOrderResult.success) {
-      const id = createOrderResult.orderSid;
-      const total = createOrderResult.finalTotal;
-      const checkoutType = createOrderResult.checkoutType;
-      const memberSid = createOrderResult.memberSid;
+  const repay = async () => {
+    const id = orderSid;
+    const mytotal = total;
+    const myCheckoutType = checkoutType;
+    const memberSid = auth.id;
 
-      if (createOrderResult.paymentType === 1) {
-        //console.log('paymentType in createOrderResult:', paymentType);
-        window.location.href =
-          process.env.API_SERVER +
-          `/cart-api/ecpay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
-      } else if (createOrderResult.paymentType === 2) {
-        window.location.href =
-          process.env.API_SERVER +
-          `/cart-api/linepay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
-      }
-    } else {
-      //TODO: 訂單成立失敗不前往付款頁面
-      alert('訂單成立失敗無法前往付款頁面');
-      //console.log('訂單成立失敗不前往付款頁面');
+    if (paymentType === 1) {
+      window.location.href =
+        process.env.API_SERVER +
+        `/cart-api/ecpay?orderSid=${id}&totalAmount=${mytotal}&checkoutType=${myCheckoutType}&memberSid=${memberSid}`;
+    } else if (paymentType === 2) {
+      window.location.href =
+        process.env.API_SERVER +
+        `/cart-api/linepay?orderSid=${id}&totalAmount=${mytotal}&checkoutType=${myCheckoutType}&memberSid=${memberSid}`;
     }
   };
 
-  // const createOrder = () => {
-  //   let isPass = false;
-  //   const data = {};
-  //   const checkoutItems =
-  //     checkoutType === 'shop'
-  //       ? shopData.filter((v) => v.selected)
-  //       : activityData.filter((v) => v.selected);
-
-  //   if (auth) {
-  //     if (checkoutItems.length === 0) {
-  //       //console.log('no items selected');
-  //       alert('請至少選擇一樣商品');
-  //     } else {
-  //       isPass = true;
-  //     }
-  //   } else {
-  //     //console.log('not loged in');
-  //     // TODO: need to login
-  //   }
-
-  //   if (isPass) {
-  //     data.member_sid = auth.id;
-  //     data.checkoutType = checkoutType;
-  //     data.paymentType = paymentType;
-  //     data.checkoutItems = checkoutItems;
-  //     data.postInfo =
-  //       checkoutType === 'shop'
-  //         ? postAddData.filter((v) => v.default_status === 1 || v.selected)
-  //         : [];
-  //     data.couponInfo =
-  //       couponData.length && couponData.filter((v) => v.selected);
-  //     sendOrderRequest(data);
-  //   }
-  // };
-  // console.log({ cartData });
-  // console.log({ postAddData });
-  // console.log({ postType });
-
-  // if (pageLoading) {
-  //   return <Loading />;
-  // } else if (!pageLoading) {
-  return (
-    <>
-      {/* {loading && <Loading />} */}
-      <BgCartHead text="重新付款" />
-      <Row>
-        <Col xs={2} sm={2} md={2} lg={4} />
-        <Col xs={20} sm={20} md={20} lg={11} className={style.detailSection}>
-          {/* ========== 顯示商品 ==========*/}
-          <div className={style.section}>
-            <CartSectionTitle text={`待付款訂單：${orderSid}`} />
-            {checkoutType === 'shop'
-              ? details.map((v) => (
-                  <CartRepayProduct
-                    key={v.order_detail_sid}
-                    img={v.img}
-                    prodtitle={v.rel_name}
-                    prodSubtitle={v.rel_seq_name}
-                    price={v.prod_price}
-                    qty={v.prod_qty}
-                  />
-                ))
-              : details.map((v) => (
-                  <CartRepayActivity
-                    key={v.order_detail_sid}
-                    img={v.img}
-                    prodtitle={v.rel_name}
-                    prodSubtitle={v.rel_seq_name}
-                    adPrice={v.adult_price}
-                    adQty={v.adult_qty}
-                    kidPrice={v.child_price}
-                    kidQty={v.child_qty}
-                  />
-                ))}
-          </div>
-          {/* ========== 寄件方式 ==========*/}
-          {checkoutType === 'shop' ? (
+  if (pageLoading) {
+    return <Loading />;
+  } else if (!pageLoading) {
+    return (
+      <>
+        {/* {loading && <Loading />} */}
+        <BgCartHead text="重新付款" />
+        <Row>
+          <Col xs={2} sm={2} md={2} lg={4} />
+          <Col xs={20} sm={20} md={20} lg={11} className={style.detailSection}>
+            {/* ========== 顯示商品 ==========*/}
             <div className={style.section}>
-              <div className={style.postPrice}>
-                <span>運費: </span>
-                {postType !== 1 ? '$60' : '$90'}
-              </div>
-              <CartSectionTitle text="收件地址" />
-              {orderInfo.map((v) => (
-                <CartPostInfo
-                  key={v.address_sid}
-                  storeName={v.post_store}
-                  address={v.post_address}
-                  name={v.recipient}
-                  mobile={v.recipient_phone}
-                  email={v.email}
-                  postType={v.post_type}
-                  edit={false}
-                />
-              ))}
+              <CartSectionTitle text={`待付款訂單：${orderSid}`} />
+              {checkoutType === 'shop'
+                ? details.map((v) => (
+                    <CartRepayProduct
+                      key={v.order_detail_sid}
+                      img={v.img}
+                      prodtitle={v.rel_name}
+                      prodSubtitle={v.rel_seq_name}
+                      price={v.prod_price}
+                      qty={v.prod_qty}
+                    />
+                  ))
+                : details.map((v) => (
+                    <CartRepayActivity
+                      key={v.order_detail_sid}
+                      img={v.img}
+                      prodtitle={v.rel_name}
+                      prodSubtitle={v.rel_seq_name}
+                      adPrice={v.adult_price}
+                      adQty={v.adult_qty}
+                      kidPrice={v.child_price}
+                      kidQty={v.child_qty}
+                    />
+                  ))}
             </div>
-          ) : (
-            ''
-          )}
-          {/* ========== 優惠券 ==========*/}
-          {couponData.length > 0 ? (
-            <div className={style.section}>
-              <CartSectionTitle text="使用優惠券" />
-              <div>
-                {couponData.map((v) => (
-                  <CartCouponInfo
-                    key={v.coupon_send_sid}
-                    coupon_send_sid={v.coupon_send_sid}
-                    exp_date={v.exp_date}
-                    name={v.name}
-                    price={v.price}
+            {/* ========== 寄件方式 ==========*/}
+            {checkoutType === 'shop' ? (
+              <div className={style.section}>
+                <div className={style.postPrice}>
+                  <span>運費: </span>
+                  {postType !== 1 ? '$60' : '$90'}
+                </div>
+                <CartSectionTitle text="收件地址" />
+                {orderInfo.map((v) => (
+                  <CartPostInfo
+                    key={v.address_sid}
+                    storeName={v.post_store}
+                    address={v.post_address}
+                    name={v.recipient}
+                    mobile={v.recipient_phone}
+                    email={v.email}
+                    postType={v.post_type}
+                    edit={false}
                   />
                 ))}
               </div>
-            </div>
-          ) : (
-            ''
-          )}
-        </Col>
-        {/* ========== 金額統計 ==========*/}
-        <Col xs={2} sm={2} md={2} lg={1} />
-        <Col xs={20} sm={20} md={20} lg={5} className={style.totalSection}>
-          <CartRepayTotalSection
-            details={details}
-            subtotal={subtotal}
-            checkoutType={checkoutType}
-            postType={postType}
-            couponData={couponData}
-            paymentType={paymentType}
-            setPaymentType={setPaymentType}
-            repay={repay}
-          />
-        </Col>
-      </Row>
-    </>
-  );
-  // }
+            ) : (
+              ''
+            )}
+            {/* ========== 優惠券 ==========*/}
+            {couponData.length > 0 ? (
+              <div className={style.section}>
+                <CartSectionTitle text="使用優惠券" />
+                <div>
+                  {couponData.map((v) => (
+                    <CartCouponInfo
+                      key={v.coupon_send_sid}
+                      coupon_send_sid={v.coupon_send_sid}
+                      exp_date={v.exp_date}
+                      name={v.name}
+                      price={v.price}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              ''
+            )}
+          </Col>
+          {/* ========== 金額統計 ==========*/}
+          <Col xs={2} sm={2} md={2} lg={1} />
+          <Col xs={20} sm={20} md={20} lg={5} className={style.totalSection}>
+            <CartRepayTotalSection
+              details={details}
+              subtotal={subtotal}
+              checkoutType={checkoutType}
+              postType={postType}
+              couponData={couponData}
+              paymentType={paymentType}
+              setPaymentType={setPaymentType}
+              repay={repay}
+            />
+          </Col>
+        </Row>
+      </>
+    );
+  }
 }
