@@ -14,7 +14,6 @@ export default function CartTab({
   activityData = [],
   changeTypeHandler = () => {},
   title = '  溫馨提醒  ',
-  showSubBtn = true,
   mainBtnText = '確認',
   subBtnText = '返回',
 }) {
@@ -35,6 +34,7 @@ export default function CartTab({
         console.log({ actSelectStatus });
         if (actSelectStatus) {
           setModal(!modal);
+          document.body.classList.add('likeList-open');
         } else {
           changeTypeHandler('shop');
         }
@@ -44,11 +44,16 @@ export default function CartTab({
         console.log({ shopSelectStatus });
         if (shopSelectStatus) {
           setModal(!modal);
+          document.body.classList.add('likeList-open');
         } else {
           changeTypeHandler('activity');
         }
       }
     }
+  };
+  const closeHandler = () => {
+    setModal(false);
+    document.body.classList.remove('likeList-open');
   };
   const confirmHandler = () => {
     checkoutType === 'shop'
@@ -67,7 +72,7 @@ export default function CartTab({
           <div className={style.modal}>
             <div className={style.modal_card}>
               <h2 className={style.modal_title}>
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={faPaw}
                   style={{
                     maxHeight: 16,
@@ -76,9 +81,9 @@ export default function CartTab({
                     color: '#FFD4C0',
                     marginRight: '16px',
                   }}
-                />
+                /> */}
                 {title}
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={faPaw}
                   style={{
                     maxHeight: 16,
@@ -87,7 +92,7 @@ export default function CartTab({
                     color: '#FFD4C0',
                     marginLeft: '16px',
                   }}
-                />
+                /> */}
               </h2>
               <div className={style.modal_content}>
                 <CartAlertContent
@@ -100,9 +105,7 @@ export default function CartTab({
                 />
               </div>
               <div className={style.btn_group}>
-                {showSubBtn && (
-                  <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />
-                )}
+                <SecondaryBtn text={subBtnText} clickHandler={closeHandler} />
                 <MainBtn clickHandler={confirmHandler} text={mainBtnText} />
               </div>
             </div>

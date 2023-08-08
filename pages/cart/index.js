@@ -248,6 +248,7 @@ export default function Cart() {
                 shopData={shopData}
                 activityData={activityData}
                 changeTypeHandler={changeCheckoutType}
+                mainBtnText="確認前往活動結帳"
               />
               <CartTab
                 type="activity"
@@ -256,6 +257,7 @@ export default function Cart() {
                 shopData={shopData}
                 activityData={activityData}
                 changeTypeHandler={changeCheckoutType}
+                mainBtnText="確認前往商品結帳"
               />
             </div>
             {/* ========== 顯示商品 ==========*/}
@@ -490,7 +492,7 @@ export default function Cart() {
             <div className={style.modal}>
               <div className={style.modal_card}>
                 <h2 className={style.modal_title}>
-                  <FontAwesomeIcon
+                  {/* <FontAwesomeIcon
                     icon={faPaw}
                     style={{
                       maxHeight: 16,
@@ -499,9 +501,9 @@ export default function Cart() {
                       color: '#FFD4C0',
                       marginRight: '16px',
                     }}
-                  />
+                  /> */}
                   溫馨提醒
-                  <FontAwesomeIcon
+                  {/* <FontAwesomeIcon
                     icon={faPaw}
                     style={{
                       maxHeight: 16,
@@ -510,7 +512,7 @@ export default function Cart() {
                       color: '#FFD4C0',
                       marginLeft: '16px',
                     }}
-                  />
+                  /> */}
                 </h2>
                 <div className={style.cmodal_content}>
                   <CartAlertContent

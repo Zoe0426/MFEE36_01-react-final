@@ -252,13 +252,6 @@ export default function CartTotalSection({
           </div>
           <div className={style.checkoutBtn}>
             <MainBtn text="結帳" clickHandler={createOrder} />
-            {/* <CartPayBtn
-              btnText="結帳"
-              title="溫馨提醒"
-              mainBtnText="付款"
-              subBtnText="返回"
-              confirmHandler={createOrder}
-            /> */}
           </div>
           <img
             src="/home-images/dog.svg"
