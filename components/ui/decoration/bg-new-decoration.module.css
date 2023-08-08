@@ -10,14 +10,19 @@
 .head_decoration img:nth-child(2){
     position: absolute;
     left:35%;
-    top:40%;
+    top:20%;
 }
 
 .head_decoration img:nth-child(3){
     transform: rotateY(180deg);
     position: absolute;
     right:35%;
-    top:30%;
+    top:10%;
+}
+
+.wave_box{
+    background-color: var(--lightBrown);
+    height: 105px;
 }
 
 @media screen and (max-width:767px){

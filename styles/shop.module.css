@@ -119,11 +119,56 @@
 
 .bgc_lightBrown {
   background-color: var(--lightBrown);
+  position: relative;
 }
+
+
+
+/* @keyframes fly {
+    0% {
+      transform: translateY(150%) rotate(-6deg);
+      opacity: 1;
+    }
+
+    80% {
+      transform: translateY(10%) rotate(6deg);
+      opacity: 0 ;
+    }
+
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+}
+
+@keyframes fly2 {
+  0% {
+    transform: translateY(150%) rotate(-6deg -180deg) ;
+    opacity: 1;
+  }
+
+  80% {
+    transform: translateY(10%) rotate(6deg -180deg);
+    opacity: 0 ;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+} */
 
 .search_bar {
   text-align: center;
   padding: var(--p32) 0;
+}
+
+.nav_head_list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .nav_head {
@@ -168,8 +213,8 @@
   cursor: pointer;
 }
 
-.pet_type_tabs span:hover{
-  color:var(--main)
+.pet_type_tabs span:hover {
+  color: var(--main);
 }
 
 .tab_active {
@@ -301,11 +346,11 @@
   justify-content: space-between; */
 }
 
-.detail_main_upper>div{
+.detail_main_upper > div {
   padding: var(--p8) 0;
 }
 
-.detail_main_upper>div:nth-child(5){
+.detail_main_upper > div:nth-child(5) {
   margin-bottom: var(--p16);
 }
 
@@ -323,9 +368,9 @@
   padding: 16px 0;
 }
 
-.detail_spec_title svg{
+.detail_spec_title svg {
   font-size: 16px;
-  color:var(--dark)
+  color: var(--dark);
 }
 
 .detail_spec_warning {
@@ -379,22 +424,22 @@
 }
 
 /*分享社群的按鈕們*/
-.share_box{
-  margin:var(--p16) 0;
+.share_box {
+  margin: var(--p16) 0;
   display: flex;
   align-items: center;
 }
 
-.share_title{
+.share_title {
   font-size: var(--h6fs18);
 }
 
-.share_icons{
+.share_icons {
   display: flex;
   align-items: center;
 }
 
-.share_icons svg{
+.share_icons svg {
   margin: 0 var(--p8);
   font-size: var(--h2fs32);
   cursor: pointer;
@@ -402,34 +447,32 @@
   max-height: 32px;
 }
 
-.share_icons svg.line{
+.share_icons svg.line {
   font-size: 29px;
-  color:#35BE00;
+  color: #35be00;
 }
 
-.share_icons svg.fb{
-  color:#1B74E4;
+.share_icons svg.fb {
+  color: #1b74e4;
 }
 
- .twitter{
+.twitter {
   width: 28px;
   height: 29px;
   cursor: pointer;
   margin: 0 var(--p8);
- }
+}
 
-
- .detail_pay{
+.detail_pay {
   border-top: 1.6px dashed rgb(95, 35, 27, 0.3);
   border-top: 1.6px solid var(--light-gray);
- }
+}
 /*價格*/
 .detail_price {
   font-size: var(--h3fs28);
   font-weight: var(--fwbold);
-  color:var(--main)
+  color: var(--main);
 }
-
 
 /*規格按鈕*/
 .detail_spec_btn {
@@ -493,7 +536,6 @@
   margin-right: 16px;
 }
 
-
 /*產品詳述區*/
 .detail_tabs {
   display: flex;
@@ -510,14 +552,13 @@
 }
 
 .detail_tabs > li:hover {
-  border-bottom: 4px solid  rgb(95, 35, 27, 0.8);
+  border-bottom: 4px solid rgb(95, 35, 27, 0.8);
   cursor: pointer;
 }
 
-.detail_tabs > li.active{
+.detail_tabs > li.active {
   border-bottom: 4px solid rgb(95, 35, 27, 0.8);
 }
-
 
 .detail_text_box,
 .detail_return_box {
@@ -646,7 +687,7 @@
   background: rgba(49, 49, 49, 0.6);
   z-index: 999;
 }
-.bgc_comment_card{
+.bgc_comment_card {
   top: 0;
   left: 0;
   right: 0;
@@ -669,7 +710,7 @@
   z-index: 1001;
 }
 
-.test{
+.test {
   animation: 0.5s showCard ease-in-out;
 }
 @keyframes showCard {
@@ -698,23 +739,22 @@
 }
 
 /*客服*/
-.online_box{
+.online_box {
   position: fixed;
   bottom: 10px;
   /* left:calc(((100% - 1920px) / 2) + 1750px); */
-  right:10px;
+  right: 10px;
   z-index: 3;
   cursor: pointer;
   /* width: 100px; */
   display: flex;
   text-align: center;
 }
-.online_box:hover{
-  color:var(--main)
+.online_box:hover {
+  color: var(--main);
 }
 
-
-.online_img{
+.online_img {
   width: 75px;
   height: 75px;
   background-color: white;
@@ -723,28 +763,28 @@
   margin: 0 auto;
 }
 
-.online_img>img{
+.online_img > img {
   width: 100%;
 }
 
-.online_text_box{
- display: flex;
- align-items: center;
+.online_text_box {
+  display: flex;
+  align-items: center;
 }
 
-.online_text{
+.online_text {
   text-align: center;
   margin-right: 8px;
   padding: 6px 8px;
   border-radius: var(--br8);
   background-color: white;
-  border:1px solid var(--light-gray)
+  border: 1px solid var(--light-gray);
 }
 
 @media screen and (max-width: 1920px) {
-  .online_box{
-    right:10px;
-    z-index:4;
+  .online_box {
+    right: 10px;
+    z-index: 4;
     cursor: pointer;
   }
 }
@@ -864,11 +904,9 @@
     margin-right: 16px;
   }
 
-  .pagination{
+  .pagination {
     padding-bottom: 70px;
-
   }
-
 
   /*--------------商品細節頁面-------------*/
   /* 主要訊息區 */
@@ -886,9 +924,8 @@
     font-size: var(--h6fs18);
   }
 
-  .detail_main_upper>div{
-       padding: 4px 0;
- 
+  .detail_main_upper > div {
+    padding: 4px 0;
   }
 
   .detail_spec_warning {
@@ -961,7 +998,6 @@
     padding: 10px 6px;
   }
 
-
   .detail_text_box > li,
   .detail_return_box > li {
     flex-direction: column;
@@ -1008,19 +1044,18 @@
   }
 
   /*客服*/
-  .online_box{
+  .online_box {
     /* top:calc(100% - 100px); */
     z-index: 1;
     /* width: 75px; */
   }
-  .online_img{
-  width: 60px;
-  height: 60px;
-}
+  .online_img {
+    width: 60px;
+    height: 60px;
+  }
 
-.online_text{
-  font-size: var(--pfs14);
-  padding: 6px 4px; 
-}
-
+  .online_text {
+    font-size: var(--pfs14);
+    padding: 6px 4px;
+  }
 }

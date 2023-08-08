@@ -828,7 +828,7 @@ export default function List() {
               }}
             />
           </div>
-          <div className={styles.nav_head}>
+          <div className={styles.nav_head_list}>
             <BreadCrumb breadCrubText={breadCrubText} />
             <div className={styles.btns}>
               {auth.token ? (
@@ -897,13 +897,6 @@ export default function List() {
                   data={filters.category}
                   changeHandler={checkboxToggleHandler}
                 />
-                {/* <ProductFilter
-                  text="品牌"
-                  name="brand"
-                  data={filters.brand}
-                  needSpan={false}
-                  changeHandler={checkboxToggleHandler}
-                /> */}
                 <ProductFilter
                   text="品牌"
                   name="brand"
