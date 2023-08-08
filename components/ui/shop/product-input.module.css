@@ -1,8 +1,8 @@
 .filter_price {
   display: flex;
   align-items: center;
-  height: 50px;
-  margin-top: 20px;
+  height: 44px;
+  margin-top: 10px;
 }
 .labels, .colon {
   font-size: var(--h6fs18);

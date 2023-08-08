@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
+import Balloom from '@/components/ui/shop/balloom';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
 import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration';
@@ -15,11 +16,14 @@ import {
   faChevronRight,
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
+import Head from 'next/head';
 
 //二大類圖示
-import dog from '@/assets/logo-dog.svg';
 import cat from '@/assets/logo-cat.svg';
+import dog from '@/assets/logo-dog.svg';
+
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
+
 //載入八大類icon資料
 import eightCatergoriesData from '@/data/product/eight-catergories-data.json';
 
@@ -368,6 +372,9 @@ export default function ProdoctIndex() {
 
   return (
     <>
+      <Head>
+        <title>狗with咪 | 商城</title>
+      </Head>
       <div className="container-outer">
         <nav className={styles.shop_sliders}>
           <div className={styles.left_arrow_box}>
@@ -613,7 +620,11 @@ export default function ProdoctIndex() {
       </section>
       {/* 第二區推薦品牌 */}
       <section className="container-outer reccomand-brand">
-        <div className={styles.bgc_lightBrown}>
+       
+        <div className={styles.bgc_lightBrown}> 
+        <Balloom />
+          
+
           <div className="container-inner">
             <Row
               gutter={[

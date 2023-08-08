@@ -63,7 +63,7 @@
 
 @media screen and (max-width: 1920px) {
   .history_box {
-    left: 99%;
+    left: 97%;
     top: 50%;    
     transform: translate(-100%,-50%);
 

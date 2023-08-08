@@ -40,18 +40,17 @@ export default function Chatroom({
                 className={
                   v.message.message.includes('已離開聊天室')
                     ? styles.leave_text
-                    : v.message.sender !== auth.nickname
+                    : v.message.sender === username
                     ? styles.custom_text
                     : styles.service_text
                 }
               >
                 {v.message.message.includes('已離開聊天室')
                   ? ''
-                  : v.sender !== auth.nickname && (
+                  : v.sender !== username && (
                       <div
                         className={
-                          i !== 0 &&
-                          chatroomDatas[i - 1].sender !== auth.nickname
+                          i !== 0 && chatroomDatas[i - 1].sender !== username
                             ? `${styles.head_img_no_show} ${styles.order0}`
                             : styles.head_img
                         }
@@ -72,7 +71,7 @@ export default function Chatroom({
                 {!v.message.message.includes('已離開聊天室') && (
                   <span
                     className={
-                      v.sender !== auth.nickname
+                      v.sender !== username
                         ? `${styles.time} ${styles.order3}`
                         : `${styles.time} ${styles.order0}`
                     }
@@ -82,25 +81,32 @@ export default function Chatroom({
                 )}
                 <span
                   className={
-                    v.sender !== auth.nickname
+                    v.sender !== username
                       ? styles.text
                       : `${styles.text} ${styles.bgc}`
                   }
                 >
                   {v.message.message}
                 </span>
-                {v.sender === auth.nickname && (
+                {v.sender === username && (
                   <div
                     className={
-                      i !== 0 && chatroomDatas[i - 1].sender === auth.nickname
+                      i !== 0 && chatroomDatas[i - 1].sender === username
                         ? styles.head_img_no_show
                         : styles.head_img
                     }
                   >
-                    <img
-                      src={`${process.env.API_SERVER}/img/${auth.profile}`}
-                      alt="serviceHead"
-                    />
+                    {v.message.img ? (
+                      <img
+                        src={`${process.env.API_SERVER}/img/${v.message.img}`}
+                        alt={v.sender}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faUser}
+                        className={styles.default_head}
+                      />
+                    )}
                   </div>
                 )}
               </li>
