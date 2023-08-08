@@ -1,9 +1,4 @@
-import { useState, useContext } from 'react';
 import style from './cartRepayActivity.module.css';
-import { Checkbox } from 'antd';
-import CloseBtn from '../buttons/closeBtn';
-import NumberInput from '../numberInput/numberInput';
-import AuthContext from '@/context/AuthContext';
 
 export default function CartRepayActivity({
   img = '',
@@ -28,16 +23,19 @@ export default function CartRepayActivity({
           <p className={style.prodSubtitle}>{prodSubtitle}</p>
         </div>
         <div className={style.priceSet}>
-          <div className={style.qtyset}>
-            <p className={style.price}>大人${adPrice}</p>
-            <div className={style.numberstyle}>{adQty}</div>
+          <div className={style.pricebox}>
+            <div className={style.qtyset}>
+              <p className={style.price}>大人${adPrice.toLocaleString()}</p>
+              <p className={style.numberstyle}>x {adQty}</p>
+            </div>
+            <div className={style.qtyset}>
+              <p className={style.price}>小孩${kidPrice.toLocaleString()}</p>
+              <div className={style.numberstyle}>x {kidQty}</div>
+            </div>
           </div>
-          <div className={style.qtyset}>
-            <p className={style.price}>小孩${kidPrice}</p>
-            <div className={style.numberstyle}>{kidQty}</div>
-          </div>
+
           <p className={style.subtotal}>
-            ${adPrice * adQty + kidPrice * kidQty}
+            ${(adPrice * adQty + kidPrice * kidQty).toLocaleString()}
           </p>
         </div>
       </div>

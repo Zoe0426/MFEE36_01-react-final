@@ -11,6 +11,7 @@ import CartRepayTotalSection from '@/components/ui/cart/cartRepayTotalSection';
 import AuthContext from '@/context/AuthContext';
 import Loading from '@/components/ui/loading/loading';
 import CartRepayProduct from '@/components/ui/cart/cartRepayProduct';
+import CartRepayActivity from '@/components/ui/cart/cartRepayActivity';
 
 export default function Cart() {
   const { auth } = useContext(AuthContext);
@@ -80,19 +81,19 @@ export default function Cart() {
   const repay = () => {
     console.log('clicked');
   };
-  const checkDefaultAdd = (sid, status) => {
-    const newData = postAddData.map((v) => {
-      if (status === true) {
-        return { ...v, default_status: 0 };
-      } else {
-        return v.address_sid == sid
-          ? { ...v, default_status: 1 }
-          : { ...v, default_status: 0 };
-      }
-    });
-    // console.log(newData);
-    setPostAddData(newData);
-  };
+  // const checkDefaultAdd = (sid, status) => {
+  //   const newData = postAddData.map((v) => {
+  //     if (status === true) {
+  //       return { ...v, default_status: 0 };
+  //     } else {
+  //       return v.address_sid == sid
+  //         ? { ...v, default_status: 1 }
+  //         : { ...v, default_status: 0 };
+  //     }
+  //   });
+  //   // console.log(newData);
+  //   setPostAddData(newData);
+  // };
 
   const sendOrderRequest = async (data) => {
     //console.log('sentData:', data);
@@ -191,7 +192,7 @@ export default function Cart() {
                   />
                 ))
               : details.map((v) => (
-                  <CartRepayProduct
+                  <CartRepayActivity
                     key={v.order_detail_sid}
                     img={v.img}
                     prodtitle={v.rel_name}

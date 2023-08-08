@@ -4,6 +4,7 @@
     align-items: center;
     padding: var(--p24) 0px;
     border-bottom: 1px dashed #FFD4C0;
+    font-size: var(--pfs16);
 }
 .checkbox{
      margin-right: 16px;
@@ -14,8 +15,8 @@
     margin-right: 16px;
 }
 .forRwd{
-    display: flex;
-    align-items: center;
+    /* display: flex;
+    align-items: center; */
     flex-grow:1;
     /* border: 1px solid red; */
 }
@@ -23,6 +24,10 @@
     flex-grow: 1;
     margin-right: 16px;
     /* border: 1px solid blue; */
+    margin-bottom: 16px;
+}
+.pricebox{
+    display:flex;
 }
 .prodtitle{
     font-size: var(--h6fs18);
@@ -36,15 +41,17 @@
 .priceSet{
     display: flex;
     /* border: 1px solid orange; */
+        justify-content: space-between;
 }
 .qtyset{
+    display: flex;
+
     margin-right: 16px;
     /* border: 1px solid green; */
 }
 
 .price{
     color: var(--dark-gray);
-    text-align: end;
     margin-bottom: 8px;
     width: 75px;
 
@@ -69,6 +76,9 @@
 }
 
 @media screen and (max-width:1300px) and (min-width:768px){
+.priceSet{
+    /* border: 1px solid orange; */
+}
 .forRwd{
     flex-direction: column;
     align-items: stretch;
@@ -79,6 +89,9 @@
 }
 .subtotal{
     flex-grow: 1;
+}
+.pricebox{
+    display:block;
 }
 }
 
@@ -101,6 +114,9 @@
 .prodname{
     margin-bottom: 16px;
 }
+.pricebox{
+    display:block;
+}
 .price{
     margin-bottom: 8px;
 }
@@ -121,8 +137,8 @@
 }
 
 @media screen and (max-width:500px){
-.subtotal{
-    display:none
 
+.pricebox{
+    display:block;
 }
 }

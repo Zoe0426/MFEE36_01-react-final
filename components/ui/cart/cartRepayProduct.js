@@ -1,5 +1,4 @@
 import style from './cartRepayProduct.module.css';
-import NumberInput from '../numberInput/numberInput';
 
 export default function CartRepayProduct({
   img = '',

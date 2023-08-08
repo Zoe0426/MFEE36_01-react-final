@@ -428,7 +428,7 @@ export default function Home() {
                       redirectToPost(v.post_sid);
                     }}
                     rotate={(i + 1) % 3}
-                    img={`/forum_img/post_img/${v.img}`}
+                    img={`${process.env.API_SERVER}/img/${v.img}`}
                     boardName={v.board_name}
                     title={v.post_title}
                     content={v.post_content}
