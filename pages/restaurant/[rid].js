@@ -129,7 +129,7 @@ export default function RestInfo() {
 
   const getData = async (rid = '', token = '') => {
     const restInfo = await fetch(
-      `http://localhost:3002/restaurant-api/restaurant/${rid}`,
+      `${process.env.API_SERVER}/restaurant-api/restaurant/${rid}`,
       {
         method: 'GET',
         headers: {

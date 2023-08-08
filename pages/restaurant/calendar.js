@@ -8,8 +8,10 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import calendar from '@/assets/calendar.svg';
 import Cloud from '@/assets/cloud.svg';
-import Cat from '@/assets/cat_with_body.svg';
-import Dog from '@/assets/dog_with_body.svg';
+import Cat from '@/assets/cat_without_tail.svg';
+import CatTail from '@/assets/cat_tail.svg';
+import Dog from '@/assets/dog_without_tail.svg';
+import DogTail from '@/assets/dog_tail.svg';
 import SorryImg from '@/assets/no_found.svg';
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
@@ -146,6 +148,7 @@ function App() {
     setSelectedTimeSlots(selectedDateSlots);
   }, [collectDate]);
 
+  //下個月
   const handleNextMonth = () => {
     if (myMonth === 12) {
       setMyYear((prevYear) => prevYear + 1);
@@ -155,6 +158,7 @@ function App() {
     }
   };
 
+  //上個月
   const handlePreviousMonth = () => {
     if (myMonth === 1) {
       setMyYear((prevYear) => prevYear - 1);
@@ -173,6 +177,7 @@ function App() {
   const eveningSlots = selectedTimeSlots.filter(
     (slot) => slot.time >= '18:00' && slot.time < '24:00'
   );
+
   // 判斷日期是否在今天之前
   const isPastDate = (year, month, date) => {
     const now = new Date();
@@ -187,6 +192,15 @@ function App() {
     return dayOfWeek;
   };
 
+  // 判斷日期是否在 30 天之後
+  const isFutureDate = (year, month, date) => {
+    const now = new Date();
+    const thirtyDaysLater = new Date();
+    thirtyDaysLater.setDate(now.getDate() + 30);
+
+    const selectedDate = new Date(year, month - 1, date);
+    return selectedDate > thirtyDaysLater;
+  };
   return (
     <>
       <Head>
@@ -217,17 +231,19 @@ function App() {
         <div className={Styles.section}>
           <div className={Styles.calendar}>
             <div className={Styles.header}>
+              <button
+                className={Styles.month_btns}
+                onClick={handlePreviousMonth}
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
+
               <h2 id="yearAndMonth" className={Styles.date_text}>
                 {nowY + '年' + nowM + '月'}
               </h2>
-              <div className={Styles.month_btns}>
-                <button onClick={handlePreviousMonth}>
-                  <FontAwesomeIcon icon={faChevronLeft} />
-                </button>
-                <button onClick={handleNextMonth}>
-                  <FontAwesomeIcon icon={faChevronRight} />
-                </button>
-              </div>
+              <button className={Styles.month_btns} onClick={handleNextMonth}>
+                <FontAwesomeIcon icon={faChevronRight} />
+              </button>
             </div>
             <div className={Styles.date_date}>
               <table border="1">
@@ -254,6 +270,8 @@ function App() {
                                   collectDate === `${nowY}-${nowM}-${item}`
                                     ? Styles.selected_date
                                     : isPastDate(nowY, nowM, item)
+                                    ? Styles.past_date
+                                    : isFutureDate(nowY, nowM, item)
                                     ? Styles.past_date
                                     : todayYear === nowY &&
                                       todayMonth === nowM &&
@@ -285,7 +303,7 @@ function App() {
             {/* 顯示所選日期對應的時間區段 */}
             {selectedTimeSlots.length > 0 ? (
               <>
-                <div className={Styles.time_section}>
+                <div className={Styles.time_section1}>
                   <p className={Styles.afternoon_title}>中午時段</p>
                   {noonSlots.map((slot, index) => (
                     <div key={index} className={Styles.modal}>
@@ -301,6 +319,7 @@ function App() {
                         countPeople={countPeople}
                         countPet={countPet}
                       />
+                      <div className={Styles.fake_modal}></div>
                     </div>
                   ))}{' '}
                 </div>
@@ -354,6 +373,18 @@ function App() {
       </div>
       <Image src={Cat} alt="cat" className={Styles.cat} draggable="false" />
       <Image src={Dog} alt="dog" className={Styles.dog} draggable="false" />
+      <Image
+        src={DogTail}
+        alt="dog_tail"
+        className={Styles.dog_tail}
+        draggable="false"
+      />
+      <Image
+        src={CatTail}
+        alt="cat_tail"
+        className={Styles.cat_tail}
+        draggable="false"
+      />
       <Image
         src={Cloud}
         alt="cloud"

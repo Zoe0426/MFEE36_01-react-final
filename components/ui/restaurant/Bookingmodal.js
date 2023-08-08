@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 import Styles from './Bookingmodal.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import NumberInput from '../numberInput/numberInput2';
-import AlertModal from './AlertModal';
-import Modal from '../modal/modal';
 
 export default function BookingModal({
   datas = [],
@@ -34,8 +31,17 @@ export default function BookingModal({
   // };
 
   const toggleModal = () => {
-    setModal(!modal);
+    //setModal(!modal);
+    const newModal = !modal;
+    console.log(newModal);
+    setModal(newModal);
+    if (newModal) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
   };
+
   // 彈跳視窗確認按鈕的點擊處理函數
   const handleModalConfirm = () => {
     // 重新載入頁面

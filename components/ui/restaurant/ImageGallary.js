@@ -42,10 +42,17 @@ export default function ImageGallary({ data = [] }) {
   }, [isDragging]);
 
   const toggleModal = () => {
-    setModalOpen(!modalOpen);
+    // setModalOpen(!modalOpen);
     setCurrent(0);
     setZoomLevel(1);
     setIsDragging(false);
+    const newModalOpen = !modalOpen;
+    setModalOpen(newModalOpen);
+    if (newModalOpen) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
   };
 
   const nextSlide = () => {
