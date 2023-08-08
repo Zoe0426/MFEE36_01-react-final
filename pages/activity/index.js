@@ -334,8 +334,8 @@ export default function ActivityHome() {
     setLikeDatas(newLikeList);
   
    
-    const newData = data.map((v) => {
-      if (v.activity_sid === aid) {
+    const newData = likeDatas.map((v) => {
+      if (v.activity_sid == aid) {
         return { ...v, like: false };
       } else {
         return { ...v };

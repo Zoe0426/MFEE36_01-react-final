@@ -15,6 +15,7 @@ import {
   Space,
   Item,
   DatePicker,
+  Radio,
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import SearchBar from '@/components/ui/buttons/SearchBar';
@@ -72,7 +73,6 @@ export default function ActivityMain() {
   const [filters, setFilters] = useState(filterDatas);
   const [updatedQuery, setUpdatedQuery] = useState({});
 
-
   const { auth } = useContext(AuthContext);
   const authId = auth.id;
 
@@ -123,7 +123,7 @@ export default function ActivityMain() {
   const rankOptions = {
     1: 'hot_DESC',
     2: 'date_ASC',
-    3: 'date_DESC', 
+    3: 'date_DESC',
   };
 
   const orderByHandler = (e) => {
@@ -231,21 +231,20 @@ export default function ActivityMain() {
   // };
 
   //進入畫面時將checkbox依據queryString設定勾選狀態
-const resetCheckBox = (key, str) => {
-  if (typeof str !== 'string') {
-    return;
-  }
-
-  const selectedValues = str.split(',');
-  const newCheckBox = filters[key].map((v) => {
-    if (selectedValues.includes(String(v.value))) {
-      return { ...v, checked: true };
+  const resetCheckBox = (key, str) => {
+    if (typeof str !== 'string') {
+      return;
     }
-    return { ...v, checked: false };
-  });
-  setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
-};
 
+    const selectedValues = str.split(',');
+    const newCheckBox = filters[key].map((v) => {
+      if (selectedValues.includes(String(v.value))) {
+        return { ...v, checked: true };
+      }
+      return { ...v, checked: false };
+    });
+    setFilters((prev) => ({ ...prev, [key]: newCheckBox }));
+  };
 
   //searchBar相關的函式------------------------------------------------------------
   const searchBarHandler = (e) => {
@@ -293,67 +292,93 @@ const resetCheckBox = (key, str) => {
   };
 
   // 進階篩 價格
-  const handlePriceChange = (minPrice, maxPrice) => {
-    setSelectedMinPrice(minPrice);
-    setSelectedMaxPrice(maxPrice);
+  const plainOptions = [
+    { label: '$200', value: '0-200' },
+    { label: '$200-$400', value: '200-400' },
+    { label: '$400-$600', value: '400-600' },
+    { label: '$600-$800', value: '600-800' },
+    { label: '$800-$1000', value: '800-1000' },
+    { label: '$1000以上', value: '1000-' },
+  ];
+  const [value1, setValue1] = useState('');
+
+  
+
+  const onChange1 = (e) => {
+    const selectedValue = e.target.value;
+    console.log('radio1 checked', selectedValue);
+    setValue1(selectedValue);
+
+    const [minPrice, maxPrice] = selectedValue.split('-').map((price) => {
+      if (price === '') return null;
+      return parseInt(price);
+    });
+
+   
+      setSelectedMinPrice(minPrice);
+      setSelectedMaxPrice(maxPrice);
+   
   };
 
   //篩選 搜尋btn 觸發事件
   const filterHandler = () => {
     let query = {};
     let newQuery = { ...router.query };
-  
+
     const selectedActivityTypeSid = filters.activity_type_sid
       .filter((item) => item.checked)
       .map((item) => item.value);
-  
+
     const selectedActivityTypeQueries = selectedActivityTypeSid.map(
       (value) => `activity_type_sid=${value}`
     );
-  
+
     if (selectedCity) {
       query.city = selectedCity;
     }
-  
+
     if (selectedArea) {
       query.area = selectedArea;
     }
-  
+
     if (selectedMinPrice !== null) {
       query.minPrice = selectedMinPrice;
     } else {
       delete query.minPrice;
     }
-  
+
     if (selectedMaxPrice !== null) {
       query.maxPrice = selectedMaxPrice;
     } else {
       delete query.maxPrice;
     }
-  
+
     if (startDate) {
       query.startDate = startDate.format('YYYY-MM-DD');
     } else {
       delete query.startDate;
     }
-  
+
     if (endDate) {
       query.endDate = endDate.format('YYYY-MM-DD');
     } else {
       delete query.endDate;
     }
-  
+
     // const queryString = [
     //   ...selectedActivityTypeQueries,
     //   ...Object.entries(query).map(([key, value]) => `${key}=${value}`),
     //   `page=1`, // Always add page parameter
     // ].join('&');
-  
+
     // router.push(`?${queryString}`);
     newQuery = {
       ...newQuery,
       page: 1,
-      activity_type_sid: selectedActivityTypeSid.length > 0 ? selectedActivityTypeSid.join(',') : undefined,
+      activity_type_sid:
+        selectedActivityTypeSid.length > 0
+          ? selectedActivityTypeSid.join(',')
+          : undefined,
       city: selectedCity || undefined,
       area: selectedArea || undefined,
       minPrice: selectedMinPrice || undefined,
@@ -361,19 +386,17 @@ const resetCheckBox = (key, str) => {
       startDate: startDate ? startDate.format('YYYY-MM-DD') : undefined,
       endDate: endDate ? endDate.format('YYYY-MM-DD') : undefined,
     };
-  
+
     setUpdatedQuery((prevQuery) => ({ ...prevQuery, ...newQuery }));
   };
-  
 
   const handleConfirmClick = () => {
     filterHandler();
-  
-    
+
     const selectedActivityTypeSids = filters.activity_type_sid
-      .filter(item => item.checked)
-      .map(item => item.value);
-  
+      .filter((item) => item.checked)
+      .map((item) => item.value);
+
     // 构建新的 query 对象
     const newQuery = {
       ...router.query,
@@ -385,8 +408,7 @@ const resetCheckBox = (key, str) => {
       startDate: startDate ? startDate.format('YYYY-MM-DD') : undefined,
       endDate: endDate ? endDate.format('YYYY-MM-DD') : undefined,
     };
-  
-    
+
     newQuery.activity_type_sid = selectedActivityTypeSids;
 
     router.push({
@@ -394,9 +416,6 @@ const resetCheckBox = (key, str) => {
       query: newQuery,
     });
   };
-  
-  
-  
 
   //給checkbox
   const updateCheckboxState = (name, newData) => {
@@ -413,8 +432,6 @@ const resetCheckBox = (key, str) => {
 
     updateCheckboxState(name, updatedData);
   };
-  
-  
 
   //重置篩選條件
   const clearAllFilter = () => {
@@ -424,8 +441,7 @@ const resetCheckBox = (key, str) => {
     setSelectedDates([]);
     setSelectedCity(null);
     setSelectedArea(null);
-    setMinPrice('');
-    setMaxPrice('');
+    setValue1('');
 
     const { keyword } = router.query;
     const query = { page: 1 };
@@ -491,7 +507,7 @@ const resetCheckBox = (key, str) => {
     setShowLikeList(false);
     document.body.classList.remove('likeList-open');
   };
-  
+
   // 刪除所有收藏
   const removeAllLikeList = (token) => {
     if (likeDatas.length > 0) {
@@ -650,7 +666,7 @@ const resetCheckBox = (key, str) => {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText}/>
+            <BreadCrumb breadCrubText={breadCrubText} />
 
             <div className={styles.btns}>
               {auth.token ? (
@@ -695,7 +711,26 @@ const resetCheckBox = (key, str) => {
                   // setSelectedValue={setSelectedActivityTypeSid}
                   checkboxToggleHandler={checkboxToggleHandler}
                 />
-                <ActivityFilterPrice onPriceChange={handlePriceChange} />
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: '#FD8C46',
+                      colorText: 'rgb(81, 81, 81)',
+                      fontSize: 18,
+                      controlInteractiveSize: 18,
+                      lineHeight: 1.8,
+                    },
+                  }}
+                >
+                  <div className={styles.filter}>
+                    <label className={styles.labels}>活動價格：</label>
+                    <Radio.Group
+                      options={plainOptions}
+                      onChange={onChange1}
+                      value={value1}
+                    />
+                  </div>
+                </ConfigProvider>
 
                 <div className={styles.filter_date}>
                   <ConfigProvider
@@ -789,10 +824,10 @@ const resetCheckBox = (key, str) => {
 
                 <div className={styles.filter_btns}>
                   <SecondaryBtn text="重置" clickHandler={clearAllFilter} />
-                  <MainBtn 
-                  text="確定" 
-                  // clickHandler={filterHandler}
-                  clickHandler={handleConfirmClick}
+                  <MainBtn
+                    text="確定"
+                    // clickHandler={filterHandler}
+                    clickHandler={handleConfirmClick}
                   />
                 </div>
               </div>
