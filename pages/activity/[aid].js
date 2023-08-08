@@ -394,7 +394,7 @@ export default function ActivityDetail() {
       // 將列表顯示為空的
       setLikeDatas([]);
       // 將畫面上的愛心清除
-      const newData = data.map((v) => {
+      const newData = likeDatas.map((v) => {
         return { ...v, like: false };
       });
       setData(newData);
@@ -410,8 +410,8 @@ export default function ActivityDetail() {
     });
     setLikeDatas(newLikeList);
 
-    const newData = data.map((v) => {
-      if (v.activity_sid === aid) {
+    const newData = likeDatas.map((v) => {
+      if (v.activity_sid == aid) {
         return { ...v, like: false };
       } else {
         return { ...v };
