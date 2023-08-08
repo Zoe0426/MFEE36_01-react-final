@@ -45,7 +45,7 @@ export default function RestCard({
         />
       )}
 
-      <Link href={`http://localhost:3000/restaurant/${rest_sid}`}>
+      <Link href={`${process.env.WEB}/restaurant/${rest_sid}`}>
         <div className={Styles.card}>
           <div className={Styles.rest_img}>
             <img src={image} alt="rest_image" />

@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import AuthContext from '@/context/AuthContext';
 import RestCard from '@/components/ui/cards/rest_card';
 import { DownOutlined } from '@ant-design/icons';
+import Head from 'next/head';
 import {
   Pagination,
   Col,
@@ -687,6 +688,9 @@ export default function FilterPage() {
 
   return (
     <>
+      <Head>
+        <title>狗with咪 | 餐廳</title>
+      </Head>
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>

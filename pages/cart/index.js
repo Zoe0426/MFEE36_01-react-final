@@ -184,7 +184,8 @@ export default function Cart() {
         //console.log('no items selected');
         alert('請至少選擇一樣商品');
       }
-      if (checkoutType === 'shop' && data.postInfo.length < 0) {
+      console.log(postAddData);
+      if (checkoutType === 'shop' && postAddData.length < 0) {
         alert('請編輯收件地址');
       }
     } else {

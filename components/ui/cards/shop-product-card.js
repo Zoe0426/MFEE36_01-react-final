@@ -34,7 +34,7 @@ export default function ShopProductCard({
       ) : (
         <Modal1
           btnType="heart"
-          content={<ModoalReminder text="登入會員，才能收藏商品喔~" />}
+          content={<ModoalReminder text="登入，才能收藏喔~" />}
           mainBtnText="前往登入"
           subBtnText="暫時不要"
           confirmHandler={singinHandler}

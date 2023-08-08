@@ -5,6 +5,7 @@ import Style from '@/styles/orderdetail.module.css';
 import MemberCenterLayout from '@/components/layout/member-center-layout';
 import AuthContext from '@/context/AuthContext';
 import OrderDetailCard from '@/components/ui/cards/OrderDetailCard';
+import Head from 'next/head';
 
 export default function OrderDetail() {
   const { auth, setAuth } = useContext(AuthContext);
@@ -90,6 +91,9 @@ export default function OrderDetail() {
 
     return (
       <>
+        <Head>
+          <title>狗with咪 | 詳細訂單</title>
+        </Head>
         <div className="content">
           <div className={Style.orderCardContent}>
             <div className={Style.orderSid}>
@@ -108,6 +112,7 @@ export default function OrderDetail() {
                 <div className={Style.text}>{statusName}</div>
               </div>
             </div>
+            {}
             <div className={Style.icons}>
               <div className={Style.iconBtn}>
                 <svg

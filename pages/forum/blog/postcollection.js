@@ -230,12 +230,12 @@ export default function PostCollection() {
                 {newData.map((v, i) => (
                   <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
                     <PostCard
-                      profile="/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg"
+                      profile={`${process.env.API_SERVER}/img/${v.profile}`}
                       boardName={v.board_name}
                       author={v.author_nickname}
                       postTitle={v.post_title}
                       postContent={v.post_content}
-                      img={`http://localhost:3000/forum_img/post_img/${v.file}`}
+                      img={`${process.env.API_SERVER}/img/${v.file}`}
                       likes={v.postLike}
                       comments={v.postComment}
                       favorites={v.postFavlist}

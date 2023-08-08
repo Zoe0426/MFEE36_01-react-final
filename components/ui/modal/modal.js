@@ -21,12 +21,19 @@ export default function Modal({
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
-    setModal(!modal);
+    const style = !modal;
+    console.log(style);
+    setModal(style);
+    if (style) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
   };
 
   const confirmBtn = () => {
     confirmHandler();
-    setModal(!modal);
+    toggleModal();
   };
 
   return (

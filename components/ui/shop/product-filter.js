@@ -16,13 +16,13 @@ export default function ProductFilter({
           colorText: 'rgb(81, 81, 81)',
           fontSize: 18,
           controlInteractiveSize: 18,
-          lineHeight: 1.8,
+          lineHeight: 1.2,
         },
       }}
     >
       <div className={styles.filter}>
         <label className={styles.labels}>{text}</label>
-         <span className={styles.colon}>:</span>
+        <span className={styles.colon}>:</span>
         <div className={styles.checkBoxs}>
           <Checkbox.Group style={{ width: '100%' }} />
           <Row gutter={[16, 8]}>
@@ -42,7 +42,9 @@ export default function ProductFilter({
                       changeHandler(data, name, v.label);
                     }}
                   >
-                    {v.label}
+                    {v.label.includes('-')
+                      ? v.label.split('-').join(' ')
+                      : v.label}
                   </Checkbox>
                 </Col>
               );

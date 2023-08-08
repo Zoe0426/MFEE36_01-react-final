@@ -23,7 +23,7 @@ const PostImg = (props) => {
     <Carousel afterChange={onChange} className={Style.carousel}>
       {images.map((image, index) => (
         <div key={index}>
-          <img className={Style.img} src={`/forum_img/post_img/${image}`} alt={`Image ${index + 1}`} style={contentStyle} />
+          <img className={Style.img} src={`${process.env.API_SERVER}/img/${image}`} alt={`Image ${index + 1}`} style={contentStyle} />
         </div>
       ))}
     </Carousel>
