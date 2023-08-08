@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
-    // 平常開發使用本端
+    //平常開發使用本端
     API_SERVER: 'http://localhost:3002',
     WEB: 'http://localhost:3000',
     //發表時使用

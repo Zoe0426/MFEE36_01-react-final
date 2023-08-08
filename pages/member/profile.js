@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import Loading from '@/components/ui/loading/loading';
+import Head from 'next/head';
 import {
   Form,
   Input,
@@ -218,6 +219,9 @@ export default function Profile() {
   } else if (!pageLoading) {
     return (
       <>
+        <Head>
+          <title>狗with咪 | 會員編輯</title>
+        </Head>
         <div className={Styles.content}>
           <ConfigProvider
             theme={{

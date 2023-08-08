@@ -6,6 +6,7 @@ import AuthContext from '@/context/AuthContext';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 export default function SignIn() {
   const { setAuth, setPhoto } = useContext(AuthContext);
@@ -63,6 +64,9 @@ export default function SignIn() {
   };
   return (
     <>
+      <Head>
+        <title>狗with咪 | 登入</title>
+      </Head>
       <SignCard title="會員登入">
         {nopass && !pass && <div className="signNoPass">帳號密碼錯誤 ！</div>}
         {/* {pass && <div className="signPass">登入成功 ！</div>} */}

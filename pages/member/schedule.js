@@ -9,6 +9,7 @@ import AlertInfo from '@/components/ui/infos/AlertInfo';
 import { Badge, Calendar } from 'antd';
 import Loading from '@/components/ui/loading/loading';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 export default function Schedule() {
   const { auth, setAuth } = useContext(AuthContext);
@@ -204,6 +205,9 @@ export default function Schedule() {
     } else if (!pageLoading) {
       return (
         <>
+          <Head>
+            <title>狗with咪 | 我的預約</title>
+          </Head>
           <div className={Styles.content}>
             <div className={Styles.title}>我的預約</div>
             <div className={Styles.calendar}>

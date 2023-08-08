@@ -10,13 +10,34 @@
   margin-bottom: 30px;
 }
 
+.couponDisale{
+  width: 45%;
+  height: 120px;
+  background-color: #fff;
+  border-radius: var(--br10);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-bottom: 30px;
+  opacity: 0.7;
+}
+
 .couponTitle,.couponText,.couponExpire{
   margin-bottom: 10px;
 }
 
+.couponText{
+  width: 95px;
+  padding: var(--p8) 0;
+  border-radius: var(--br8);
+  text-align: center;
+}
+
 .couponTitle{
   color: var(--main);
-  font-size: var(--h3fs28);
+  font-size: var(--h4fs24);
+  padding-top: 10px;
 }
 
 .couponExpire{
@@ -29,7 +50,6 @@
   .couponExpire{
     display: block;
 }
-
 }
 
 @media screen and (max-width:1300px) and (min-width:501px){

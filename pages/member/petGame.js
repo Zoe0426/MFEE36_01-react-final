@@ -4,6 +4,7 @@ import SecondNavbar from '@/components/layout/SecondNavbar';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 import { useRouter } from 'next/router';
 import Draggable from 'react-draggable';
+import Head from 'next/head';
 const OFFSET_X = 206;
 const OFFSET_Y = 150;
 const waitTimeMin = 500;
@@ -308,6 +309,9 @@ export default function PetGame() {
 
   return (
     <div className="background" ref={background}>
+      <Head>
+        <title>狗with咪 | 我的寵物</title>
+      </Head>
       {showModal && isOver24 && (
         <ModalWithoutBtn
           text="每日簽到成功～"

@@ -86,11 +86,11 @@ export default function MemberSidebar() {
             let sameDayProjects = sameDate(item.date);
             let backgroundColor;
             if (sameDayProjects.length > 1) {
-              backgroundColor = '#1677ff';
+              backgroundColor = '#FDEDD3';
             } else if (item.type === 'activity') {
-              backgroundColor = '#317F46';
+              backgroundColor = '#E1ECE5';
             } else {
-              backgroundColor = '#EC5353';
+              backgroundColor = '#FCD8DA';
             }
 
             return (
@@ -102,7 +102,7 @@ export default function MemberSidebar() {
                   position: 'absolute',
                   top: 0,
                   left: 0,
-                  opacity: 0.3,
+                  zIndex: -9,
                   // borderRadius: '50%',
                 }}
               ></div>
@@ -141,7 +141,12 @@ export default function MemberSidebar() {
                       },
                     }}
                   >
-                    <Calendar fullscreen={false} cellRender={dateCellRender} />
+                    <div className={Styles.calendarBox}>
+                      <Calendar
+                        fullscreen={false}
+                        cellRender={dateCellRender}
+                      />
+                    </div>
                   </ConfigProvider>
                 </div>
 
