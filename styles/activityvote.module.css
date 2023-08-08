@@ -132,13 +132,14 @@
 
 .type_btn_group {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding-top: 30px 0 0 0;
 }
 
 .custom_link {
   text-decoration: none;
+  margin: 0 30px;
 }
 
 .title {
@@ -146,3 +147,4 @@
   color: var(--dark);
   font-weight: var(--fwbold);
 }
+

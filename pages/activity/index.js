@@ -679,7 +679,7 @@ export default function ActivityHome() {
               href={`${process.env.WEB}/activity/wishlist`}
               className={styles.custom_link}
             >
-              <SubBtn img="./activity_img/subicon_6.png" text="願望清單" />
+              <SubBtn img="./activity_img/subicon_8.png" text="許願池" />
             </Link>
 
             <img
