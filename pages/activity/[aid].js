@@ -364,6 +364,7 @@ export default function ActivityDetail() {
       }
     );
     const data = await res.json();
+    console.log(data);
 
     if (data.likeDatas.length > 0) {
       setLikeDatas(data.likeDatas);
@@ -511,9 +512,10 @@ export default function ActivityDetail() {
 
   // 判斷活動是否在收藏列表中
   const isInLikeList = (activitySid) => {
-    return likeDatas.some((item) => item.activity_sid === activitySid);
+    return likeDatas.some((item) => item.activity_sid == activitySid);
   };
   const liked = isInLikeList(activitySid);
+  console.log({likeDatas,activitySid })
 
   //評價相關的函示-----------------------------------------------------
   //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態

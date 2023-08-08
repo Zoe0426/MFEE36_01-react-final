@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Styles from './ActivityIconSeconBtn.module.css';
 
+
 export default function ActivityIconSeconBtn({
   activity_sid,
   isInLikeList = false,
@@ -11,15 +12,16 @@ export default function ActivityIconSeconBtn({
   text = '',
   auth,
 }) {
-  const [isLiked, setIsLiked] = useState(isInLikeList);
+  // const [isLiked, setIsLiked] = useState(isInLikeList);
+  // console.log(isInLikeList)
 
-  useEffect(() => {
-    setIsLiked(isInLikeList);
-  }, [isInLikeList]);
+  // useEffect(() => {
+  //   setIsLiked(isInLikeList);
+  // }, [isInLikeList]);
 
   const handleLikeIconClick = (e) => {
     e.preventDefault();
-    if (isLiked) {
+    if (isInLikeList) {
       removeItemFromLikeList();
     } else {
       addItemToLikeList();
@@ -29,7 +31,7 @@ export default function ActivityIconSeconBtn({
   const addItemToLikeList = async () => {
     try {
       await handleLikeClick(activity_sid, auth.token);
-      setIsLiked(true);
+      // setIsLiked(true);
     } catch (error) {
       console.error('Error adding to likelist:', error);
     }
@@ -38,7 +40,7 @@ export default function ActivityIconSeconBtn({
   const removeItemFromLikeList = async () => {
     try {
       await handleLikeClick(activity_sid, auth.token);
-      setIsLiked(false); 
+      // setIsLiked(false); 
     } catch (error) {
       console.error('Error removing from likelist:', error);
     }
@@ -49,7 +51,7 @@ export default function ActivityIconSeconBtn({
     <button className={Styles.icon_btn} onClick={handleLikeIconClick}>
       <FontAwesomeIcon
         icon={icon}
-        className={isLiked ? `${Styles.icon} ${Styles.icon_red}` : Styles.icon}
+        className={isInLikeList ? `${Styles.icon} ${Styles.icon_red}` : Styles.icon}
         style={{ maxWidth: '18px', maxHeight: '18px' }}
       />
 
