@@ -620,11 +620,8 @@ export default function ProdoctIndex() {
       </section>
       {/* 第二區推薦品牌 */}
       <section className="container-outer reccomand-brand">
-       
-        <div className={styles.bgc_lightBrown}> 
-        <Balloom />
-          
-
+        <div className={styles.bgc_lightBrown}>
+          <Balloom />
           <div className="container-inner">
             <Row
               gutter={[
