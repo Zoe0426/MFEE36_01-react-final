@@ -1,7 +1,7 @@
 import React from 'react'
 import Style from './postComment.module.css'
 
-export default function PostComment({profile='',author='',comment='',floor='',date='',moreComments=''}) {
+export default function PostComment({profile='',author='',comment='',floor='',date=''}) {
   return (
     <div className={Style.comments}>
         <div className={Style.commentBody}>
@@ -15,11 +15,6 @@ export default function PostComment({profile='',author='',comment='',floor='',da
             <div className={Style.details}>
                 <div className={Style.floor}>{floor}</div>
                 <div className={Style.date}>{date}</div>
-                <div className={Style.reply}>回覆</div>
-            </div>
-            <div>
-                <div className={Style.moreComments}>⎯⎯⎯⎯⎯⎯⎯⎯ 查看其他{moreComments}則留言</div>
-                <div className={Style.hideComment}>⎯⎯⎯⎯⎯⎯⎯⎯ 隱藏留言</div>
             </div>
         </div>
     </div>

@@ -1,4 +1,5 @@
 import React,{ useState, useEffect, useContext } from 'react'
+import { useRouter } from 'next/router';
 import Style from './post.module.css'
 import BlogBanner from '@/components/ui/blogBanner/blogBanner'
 import { Col, Row } from 'antd';
@@ -30,45 +31,62 @@ const getBase64 = (file) =>
 export default function Post() {
 
   const {auth, setAuth} = useContext(AuthContext);
+    // 動態路由
+    const router = useRouter();
   //紀錄body要放的東西：
   // 看板 (已做)
   const [boardSid, setBoardSid] = useState(1);
   // 文章標題 (onChange)
-  // const [title, setTitle] = useState('');
+  const [title, setTitle] = useState('');
   // 文章內容 (onChange)
-  // const [content, setContent] = useState('');
+  const [content, setContent] = useState('');
   const [value, setValue] = useState('');
   // 選到的話題 (要click到的hashtag -> onclick)
   const [choseHashtag, setChoseHashtag] = useState([]);
 
   console.log(auth.id);
 
+
+
+
+
   // 提交表单到后端的函数
-const submitForm = () => {
-  const formData = new FormData();
+const submitForm = (values, directTo) => {
+  console.log(values);
+
   fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
     method:'POST',
-    body: formData,
+    body: values,
   })
   .then((r) => r.json())
   .then((data) => {
     console.log('data', data);
+    console.log(data.mySid);
     // 根据后端返回的数据来处理结果
+    if(directTo){
+      router.push(`/forum/blog/draft`)
+    }else{
+      router.push(`/forum/${data.mySid}`)
+    }
   })
   .catch((error) => {
     console.error('Error submitting form:', error);
   });
+
 };
 
 // 发布文章
-const handlePublish = (values) => {
+const handlePublish = () => {
+  console.log('clicked');
   const formData = new FormData();
-  // 将需要提交的数据添加到 formData 中
+
+
+  console.log({formData});
+  //将需要提交的数据添加到 formData 中
   // formData.append('postid', postid);
-  formData.append('title', values.title);
-  formData.append('content', values.content); 
+  formData.append('title', title);
+  formData.append('content', content); 
   formData.append('memberSid', auth.id);
-  console.log('memberSid',memberSid);
   formData.append('boardSid', boardSid);
   formData.append('choseHashtag', choseHashtag);
   console.log('choseHashtag',choseHashtag);
@@ -76,19 +94,19 @@ const handlePublish = (values) => {
     formData.append('photo', file.originFileObj);
   });
   formData.append('postStatus', 0); // 設置發布狀態為已發佈 (0) 或草稿 (1)
-  // setPostStatus(0); 
-  submitForm(formData); // 提交表单
+  // // setPostStatus(0); 
+  submitForm(formData, 0); // 提交表单
   console.log('publish_formData',formData);
   // router.push(`/forum/${postid}`)
 };
 
 // 儲存草稿夾
-const handleDraft = (values) => {
+const handleDraft = () => {
   const formData = new FormData();
   // 將需要提交的數據添加到 formData 中
   // formData.append('postid', postid);
-  formData.append('title', values.title);
-  formData.append('content', values.content); 
+  formData.append('title', title);
+  formData.append('content', content); 
   formData.append('memberSid', auth.id);
   formData.append('boardSid', boardSid);
   formData.append('choseHashtag', choseHashtag);
@@ -97,7 +115,7 @@ const handleDraft = (values) => {
   });
   formData.append('postStatus', 1); // 設置發布狀態為已發佈 (0) 或草稿 (1)
   // setPostStatus(1);
-  submitForm(formData); // 提交表單
+  submitForm(formData, 1); // 提交表單
   console.log('draft_formData',formData);
   // router.push(`/forum/blog/draft`)
 };
@@ -283,7 +301,15 @@ const handleDraft = (values) => {
     setBoardSid(boardSid);
     
   }
-
+   // 編輯文章title跟content
+   const editTitle = (e)=>{
+    const newTitle = e.target.value
+    setTitle(newTitle);
+  }
+  const editContent = (e)=>{
+    const newContent = e.target.value
+    setContent(newContent);
+  }
   
   return (
     
@@ -307,12 +333,8 @@ const handleDraft = (values) => {
               boardSid={boardSid}
                 />
               <div><FontAwesomeIcon icon={faFileLines} />發佈文章內容</div>
-              <Form.Item name={'title'}>
-                <Input placeholder="文章標題"/>
-              </Form.Item>
-              <Form.Item name={'content'}>
-                <TextArea rows={20} placeholder="撰寫新文章內容" maxLength={50}/>  
-              </Form.Item>
+                <Input placeholder="文章標題" value={title} onChange={editTitle}/>
+                <TextArea rows={20} placeholder="撰寫新文章內容" value={content} onChange={editContent}/>  
               <div><FontAwesomeIcon icon={faImage} />新增相片</div>
               <Form.Item name={'photo'}>
                 <Upload

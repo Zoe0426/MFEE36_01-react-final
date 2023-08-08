@@ -154,8 +154,17 @@ export default function BlogIndex() {
   };
 
   //delete post
-  const deletePost = () => {
-
+  const deletePost = (post_sid) => {
+    fetch(`${process.env.API_SERVER}/forum-api/forum/blog/delete?post_sid=${post_sid}`,{
+      method: 'DELETE',
+    })
+    .then((r)=> r.json())
+    .then((data)=> {
+      console.log('data', data);
+    })
+    .catch((error) => {
+      console.error('Error delete:', error);
+    });
   }
   // edit post
   const editPost = (post_sid) => {
@@ -185,12 +194,12 @@ export default function BlogIndex() {
               {/*<Link key={v.post_sid} href={`/forum/${v.post_sid}`}> */}
               {newData.map((v, i) => ( 
                      <PostCardDraft
-                       profile="/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg"
+                       profile={`${process.env.API_SERVER}/img/${v.profile}`}
                        boardName={v.board_name}
                        author={v.nickname}
                        postTitle={v.post_title}
                        postContent={v.post_content}
-                       img={`http://localhost:3000/forum_img/post_img/${v.file}`}
+                       img={`${process.env.API_SERVER}/img/${v.file}`}
                        deletePost={() => deletePost(v.post_sid)}
                        viewPost={() => viewPost(v.post_sid)}
                        editPost={() => editPost(v.post_sid)}
