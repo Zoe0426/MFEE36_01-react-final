@@ -25,13 +25,13 @@ export default function Cart() {
   const [checkoutType, setCheckoutType] = useState('');
   //訂單品項
   const [details, setdetails] = useState([]);
-
   //寄送資訊
   const [postType, setPostType] = useState(0);
   const [orderInfo, setOrderInfo] = useState([]);
   //優惠券
   const [couponData, setCouponData] = useState([]);
   //付款
+  const [subtotal, setSubtotal] = useState(0);
   const [paymentType, setPaymentType] = useState(1);
 
   useEffect(() => {
@@ -56,6 +56,14 @@ export default function Cart() {
         { method: 'GET' }
       );
       const data = await r.json();
+      const sub = data.details.reduce((a, v) => {
+        const subtotal =
+          v.adult_price * v.adult_qty +
+          v.child_price * v.child_qty +
+          v.prod_price * v.prod_qty;
+        return a + subtotal;
+      }, 0);
+      setSubtotal(sub);
       setCheckoutType(data.checkoutType);
       setdetails(data.details);
       setCouponData(data.coupon);
@@ -69,7 +77,9 @@ export default function Cart() {
       throw new Error('取訂單資料時出錯');
     }
   };
-
+  const repay = () => {
+    console.log('clicked');
+  };
   const checkDefaultAdd = (sid, status) => {
     const newData = postAddData.map((v) => {
       if (status === true) {
@@ -162,12 +172,13 @@ export default function Cart() {
   return (
     <>
       {/* {loading && <Loading />} */}
-      <BgCartHead text="購物車" />
+      <BgCartHead text="重新付款" />
       <Row>
         <Col xs={2} sm={2} md={2} lg={4} />
         <Col xs={20} sm={20} md={20} lg={11} className={style.detailSection}>
           {/* ========== 顯示商品 ==========*/}
           <div className={style.section}>
+            <CartSectionTitle text={`待付款訂單：${orderSid}`} />
             {checkoutType === 'shop'
               ? details.map((v) => (
                   <CartRepayProduct
@@ -241,11 +252,13 @@ export default function Cart() {
         <Col xs={20} sm={20} md={20} lg={5} className={style.totalSection}>
           <CartRepayTotalSection
             details={details}
+            subtotal={subtotal}
             checkoutType={checkoutType}
             postType={postType}
             couponData={couponData}
             paymentType={paymentType}
             setPaymentType={setPaymentType}
+            repay={repay}
           />
         </Col>
       </Row>

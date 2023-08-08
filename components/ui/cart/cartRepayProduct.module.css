@@ -15,10 +15,7 @@
     margin-right: 16px;
 }
 .forRwd{
-    display: flex;
-    align-items: center;
     flex-grow: 1;
-    /* border: 1px solid gray; */
 }
 .prodname{
     margin-right: 16px;
@@ -33,36 +30,29 @@
 .prodSubtitle{
     font-size: var(--pfs16);
     color: var(--main);
+     margin-bottom: 8px;
 }
 .priceQty{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-width: 240px;
+    min-width: 180px;
     /* border: 1px solid purple; */
 }
 .price{
-    min-width: 55px;
     font-size: var(--pfs16);
     color: var(--dark-gray);
-    text-align: end;
-    margin-right: 32px;
+    margin-right: 16px;
     /* border: 1px solid green; */
 }
 .mobileprice{
     display:none;
 }
-.qtyNsubTotal{
-    display: flex;
-    align-items: center;
-    
-    /* border: 1px solid red; */
-}
+
 .numberstyle{
-    width: 80px;
-    text-align: center;
-    color: var(--dark-gray);
-    /* margin-left: auto; */
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: baseline;
 }
 .subtotal{
     text-align: end;
@@ -118,19 +108,7 @@
     margin-bottom: 16px;
     /* border: 1px solid green; */
 }
-.price{
-    display:none;
-}
-.mobileprice{
-    display:block;
-    text-align: center;
-    margin-top: 8px;
-}
-.numberstyle{
-    min-width: 80px;
-    margin-left: 0;
-    font-size: var(--pfs14);
-}
+
 .prodtitle{
     font-size: var(--pfs16);
 }

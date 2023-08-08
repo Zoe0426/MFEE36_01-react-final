@@ -138,7 +138,7 @@ flex-direction: column;
     display: block;
     width: 100%;
     bottom:0px;
-    height: 12%;
+    height: 16%;
     background-color: var(--light1);
     font-size: var(--h6fs18);
     font-weight: bold;

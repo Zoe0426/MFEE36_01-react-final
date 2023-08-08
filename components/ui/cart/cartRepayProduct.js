@@ -16,20 +16,18 @@ export default function CartRepayProduct({
           alt="productimg"
           className={style.prodimg}
         />
-        <p className={style.mobileprice}>${price}</p>
       </div>
-
       <div className={style.forRwd}>
         <div className={style.prodname}>
           <p className={style.prodtitle}>{prodtitle}</p>
           <p className={style.prodSubtitle}>{prodSubtitle}</p>
         </div>
         <div className={style.priceQty}>
-          <p className={style.price}>${price}</p>
-          <div className={style.qtyNsubTotal}>
-            <div className={style.numberstyle}>{qty}</div>
-            <p className={style.subtotal}>${price * qty}</p>
+          <div className={style.numberstyle}>
+            <p className={style.price}>${price.toLocaleString()} x</p>
+            <p>{qty}</p>
           </div>
+          <p className={style.subtotal}>${(price * qty).toLocaleString()}</p>
         </div>
       </div>
     </div>

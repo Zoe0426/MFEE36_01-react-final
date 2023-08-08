@@ -5,59 +5,31 @@ import rundog from '@/assets/running-dog.svg';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import CartSectionTitle from './cartSectionTitle';
 import CloseBtn from '../buttons/closeBtn';
-import CartPayBtn from './cartPayBtn';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, ConfigProvider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCreditCard,
-  faPaw,
-  faTicket,
-} from '@fortawesome/free-solid-svg-icons';
-import Modal from '../modal/modal';
-import CartCouponList from './cartCouponList';
+import { faCreditCard, faPaw } from '@fortawesome/free-solid-svg-icons';
 export default function CartTotalSection({
-  checkoutType = '',
   details = [],
+  checkoutType = '',
+  subtotal = 0,
   postType = 0,
   couponData = [],
   paymentType = 1,
   setPaymentType = () => {},
+  repay = () => {},
 }) {
   const [showCard, setShowCard] = useState(false);
-  const postAmount = postType === 'blackcat' ? 90 : 60;
-  // const shopSelected = shopData.reduce((a, v) => {
-  //   return v.selected ? a + 1 : a;
-  // }, 0);
-  // const shopSubtotal = shopData.reduce((a, v) => {
-  //   if (v.selected) {
-  //     const subtotal = v.prod_price * v.prod_qty;
-  //     return a + subtotal;
-  //   }
-  //   return a;
-  // }, 0);
-  // const activitySelected = activityData.reduce((a, v) => {
-  //   return v.selected ? a + 1 : a;
-  // }, 0);
-  // const activitySubtotal = activityData.reduce((a, v) => {
-  //   if (v.selected) {
-  //     const subtotal =
-  //       v.adult_price * v.adult_qty + v.child_price * v.child_qty;
-  //     return a + subtotal;
-  //   }
-  //   return a;
-  // }, 0);
-
-  // const couponPrice =
-  //   couponData.length > 0 &&
-  //   couponData.filter((v) => v.selected === true)[0].price;
-  // const shopTotal =
-  //   shopSubtotal > 0 ? shopSubtotal + postAmount - couponPrice : 0;
-  // const activityTotal =
-  //   activitySubtotal > 0 ? activitySubtotal - couponPrice : 0;
-  // const selectPaymentType = (e) => {
-  //   setPaymentType(parseInt(e.key));
-  // };
+  const couponPrice = couponData.length > 0 ? couponData[0].price : 0;
+  let postAmount = 0;
+  checkoutType !== 'shop'
+    ? 0
+    : postType !== 1
+    ? (postAmount = 60)
+    : (postAmount = 90);
+  paymentType;
+  const total = subtotal + postAmount - couponPrice;
+  const totalQty = details.length;
   const items = [
     {
       label: '信用卡',
@@ -68,9 +40,12 @@ export default function CartTotalSection({
       key: 2,
     },
   ];
+  const selectPaymentType = (e) => {
+    setPaymentType(parseInt(e.key));
+  };
   const menuProps = {
     items,
-    //onClick: selectPaymentType,
+    onClick: selectPaymentType,
   };
   const showInfoCard = () => {
     console.log('clicked');
@@ -104,7 +79,7 @@ export default function CartTotalSection({
                 }}
               />
               <span style={{ color: '#515151' }}>應付總額 &nbsp;</span>
-              <span>{/* 要算總金額 */}</span>
+              <span>${total.toLocaleString()}</span>
             </div>
 
             <MainBtn text="確認明細" clickHandler={showInfoCard}></MainBtn>
@@ -118,28 +93,32 @@ export default function CartTotalSection({
           </div>
           <CartSectionTitle text="訂單詳情" />
 
-          <div className={style.totalSelectedNum}>{/* 算商品數量 */}</div>
+          <div className={style.totalSelectedNum}>
+            {checkoutType === 'shop'
+              ? `共${totalQty}項商品`
+              : `共${totalQty}項活動`}
+          </div>
 
           <div className={style.subtotals}>
             <span>小計</span>
-            <span className={style.amount}>{/* 算總金額 */}</span>
+            <span className={style.amount}>${subtotal.toLocaleString()}</span>
           </div>
 
           {checkoutType === 'shop' ? (
             <div className={style.subtotals}>
               <span>運費</span>
               <span className={style.amount}>
-                {postType === 1 ? `$90` : `$60`}
+                ${postAmount.toLocaleString()}
               </span>
             </div>
           ) : (
             ''
           )}
           {couponData.length > 0 ? (
-            <div className={style.subtotals2}>
+            <div className={style.subtotals}>
               <span style={{ color: '#FD8C46' }}>優惠券</span>
               <span className={style.amount} style={{ color: '#FD8C46' }}>
-                -$
+                -${couponPrice.toLocaleString()}
               </span>
             </div>
           ) : (
@@ -148,10 +127,10 @@ export default function CartTotalSection({
 
           <div className={style.total}>
             <span>應付總額</span>
-            <span className={style.totalamount}>{/* {total} */}</span>
+            <span className={style.totalamount}>${total.toLocaleString()}</span>
           </div>
           <div className={style.paymentArea}>
-            <div className={style.subtotals2}>
+            <div className={style.subtotals}>
               <span>付款方式</span>
               <span className={style.amount}>
                 {paymentType === 1 ? (
@@ -193,13 +172,7 @@ export default function CartTotalSection({
             </div>
           </div>
           <div className={style.checkoutBtn}>
-            <CartPayBtn
-              btnText="結帳"
-              title="溫馨提醒"
-              mainBtnText="付款"
-              subBtnText="返回"
-              //confirmHandler={createOrder}
-            />
+            <MainBtn text="確認付款" clickHandler={repay} />
           </div>
           <Image
             src={rundog}
