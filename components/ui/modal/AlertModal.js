@@ -36,10 +36,20 @@ export default function AlertModal({
 
   const toggleModal = () => {
     setModal(!modal);
+    if (!modal) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
   };
 
   const closeHandler = () => {
     setModal(!modal);
+    if (!modal) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
   };
 
   const getReviews = () => {

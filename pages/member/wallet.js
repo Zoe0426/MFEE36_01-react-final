@@ -40,8 +40,13 @@ export default function Wallet() {
           .then((r) => r.json())
           .then((data) => {
             console.log(data);
+            let filterData = data.filter((data) => {
+              const currentTime = new Date();
+              const expireTime = new Date(data.exp_date);
+              return currentTime < expireTime && data.coupon_status === 0;
+            });
             setAllCoupons(data);
-            setCoupons(data);
+            setCoupons(filterData);
             setLoading(false);
           });
       } else {
@@ -55,6 +60,18 @@ export default function Wallet() {
   }
 
   // 篩選條件
+  const allHandleFilter = () => {
+    // 全部未過期未使用
+    const newCoupons = allCoupons.filter((data) => {
+      const currentTime = new Date();
+      const expireTime = new Date(data.exp_date);
+      return currentTime < expireTime && data.coupon_status === 0;
+    });
+    setCoupons(newCoupons);
+    setExpire(false);
+    setUsed(false);
+  };
+
   const usedHandleFilter = () => {
     // 已使用
     const newCoupons = allCoupons.filter((data) => data.coupon_status === 1);
@@ -94,7 +111,8 @@ export default function Wallet() {
     newCoupons = newCoupons.sort((a, b) => {
       return new Date(a.exp_date) - new Date(b.exp_date);
     });
-
+    setExpire(false);
+    setUsed(false);
     setCoupons(newCoupons);
   };
 
@@ -113,7 +131,8 @@ export default function Wallet() {
             pageTag={pageTag}
             onClick={() => {
               setPageTag('coupon');
-              setCoupons(allCoupons);
+              setCoupons(coupons);
+              allHandleFilter();
             }}
           />
           <PageTag
