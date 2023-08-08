@@ -1,11 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
 import { Row, Col, ConfigProvider, Checkbox } from 'antd';
 import style from '@/styles/cart.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaw } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 //components
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import CartProductCard from '@/components/ui/cart/cartProductCard';
 import CartActivityCard from '@/components/ui/cart/cartActivityCard';
+import CartAlertContent from '@/components/ui/cart/cartAlertContent';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
 import CartTab from '@/components/ui/cart/cartTab';
 import CartPostInfo from '@/components/ui/cart/cartpostinfo';
@@ -13,11 +16,12 @@ import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
 import CartCouponList from '@/components/ui/cart/cartCouponList';
 import CartAddressList from '@/components/ui/cart/cartAddressList';
 import Modal from '@/components/ui/modal/modal';
+import MainBtn from '@/components/ui/buttons/MainBtn';
+import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
 import Loading from '@/components/ui/loading/loading';
 import CartNoInfoCard from '@/components/ui/cart/cartNoInfoCard';
-
 export default function Cart() {
   const { auth } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
@@ -43,7 +47,10 @@ export default function Cart() {
   const [chosenCoupon, setChosenCoupon] = useState();
   //付款
   const [paymentType, setPaymentType] = useState(1);
-
+  //Alerts
+  const [amodal, setaModal] = useState(false);
+  const [bmodal, setbModal] = useState(false);
+  const [cmodal, setcModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -67,13 +74,11 @@ export default function Cart() {
     setActivityData((old) => old.map((v) => ({ ...v, selected: false })));
     setCouponData((old) => old.map((v, i) => ({ ...v, selected: i === 0 })));
   };
-
   const checkAllHandler = () => {
     setSelectAll((old) => !old);
     setShopData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
     setActivityData((old) => old.map((v) => ({ ...v, selected: !selectAll })));
   };
-
   const selectCoupon = () => {
     setCouponData((old) =>
       old.map((v) =>
@@ -125,6 +130,7 @@ export default function Cart() {
         selected: i === 0,
       }));
       setCouponData(myCouponData);
+      setChosenCoupon(myCouponData[0].coupon_send_sid);
       // console.log('nocouponData');
     }
     if (data.postAddress.length > 0) {
@@ -140,7 +146,6 @@ export default function Cart() {
     setLoading(false);
     setCartData(data);
   };
-
   const sendOrderRequest = async (data) => {
     //console.log('sentData:', data);
     const r = await fetch(`${process.env.API_SERVER}/cart-api/create-order`, {
@@ -170,10 +175,7 @@ export default function Cart() {
       }
     }
   };
-
-  const createOrder = () => {
-    let isPass = false;
-    const data = {};
+  const checkOrderRequest = () => {
     const checkoutItems =
       checkoutType === 'shop'
         ? shopData.filter((v) => v.selected)
@@ -181,40 +183,57 @@ export default function Cart() {
 
     if (auth) {
       if (checkoutItems.length === 0) {
-        //console.log('no items selected');
-        alert('請至少選擇一樣商品');
+        setaModal(true);
+        document.body.classList.add('likeList-open');
+        //alert('請至少選擇一樣商品');
+        return;
       }
-      console.log(postAddData);
       if (checkoutType === 'shop' && postAddData.length < 0) {
-        alert('請編輯收件地址');
+        setaModal(true);
+        document.body.classList.add('likeList-open');
+        //alert('請編輯收件地址');
+        return;
+      } else {
+        setcModal(true);
+        document.body.classList.add('likeList-open');
       }
-    } else {
-      //need login
-      alert('請先登入');
-    }
-
-    if (isPass) {
-      data.member_sid = auth.id;
-      data.checkoutType = checkoutType;
-      data.paymentType = paymentType;
-      data.checkoutItems = checkoutItems;
-      data.postInfo =
-        checkoutType === 'shop'
-          ? postAddData.filter((v) => v.default_status === 1 || v.selected)
-          : [];
-      data.couponInfo =
-        couponData.length && couponData.filter((v) => v.selected);
-      sendOrderRequest(data);
     }
   };
-  console.log({ cartData });
-  console.log({ postAddData });
-  console.log({ postType });
+  const createOrder = () => {
+    const data = {};
+    const checkoutItems =
+      checkoutType === 'shop'
+        ? shopData.filter((v) => v.selected)
+        : activityData.filter((v) => v.selected);
+    data.member_sid = auth.id;
+    data.checkoutType = checkoutType;
+    data.paymentType = paymentType;
+    data.checkoutItems = checkoutItems;
+    data.postInfo =
+      checkoutType === 'shop'
+        ? postAddData.filter((v) => v.default_status === 1 || v.selected)
+        : [];
+    data.couponInfo = couponData.length && couponData.filter((v) => v.selected);
+    sendOrderRequest(data);
+  };
+  const aModalHandler = () => {
+    setaModal(false);
+    document.body.classList.remove('likeList-open');
+  };
+  const bModalHandler = () => {
+    setbModal(false);
+    document.body.classList.remove('likeList-open');
+  };
+  const cModalHandler = () => {
+    setcModal(false);
+    document.body.classList.remove('likeList-open');
+  };
   if (pageLoading) {
     return <Loading />;
   } else if (!pageLoading) {
     return (
       <>
+        {/* <ModalWithoutLine /> */}
         {loading && <Loading />}
         <BgCartHead text="購物車" />
         <Row>
@@ -427,7 +446,7 @@ export default function Cart() {
               activityData={activityData}
               postType={postType}
               couponData={couponData}
-              createOrder={createOrder}
+              createOrder={checkOrderRequest}
               paymentType={paymentType}
               setPaymentType={setPaymentType}
               setChosenCoupon={setChosenCoupon}
@@ -435,6 +454,81 @@ export default function Cart() {
             />
           </Col>
         </Row>
+        {amodal && (
+          <>
+            <div className={style.overlay}></div>
+            <div className={style.modal}>
+              <div className={style.modal_card}>
+                <div className={style.modal_content}>
+                  {checkoutType === 'shop'
+                    ? '請至少選擇一樣商品'
+                    : '請至少選擇一樣商品'}
+                </div>
+                <div className={style.btn_group}>
+                  <MainBtn clickHandler={aModalHandler} text="確認" />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {bmodal && (
+          <>
+            <div className={style.overlay}></div>
+            <div className={style.modal}>
+              <div className={style.modal_card}>
+                <div className={style.modal_content}>請編輯收件地址</div>
+                <div className={style.btn_group}>
+                  <MainBtn clickHandler={bModalHandler} text={'aaa'} />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {cmodal && (
+          <>
+            <div className={style.overlay}></div>
+            <div className={style.modal}>
+              <div className={style.modal_card}>
+                <h2 className={style.modal_title}>
+                  <FontAwesomeIcon
+                    icon={faPaw}
+                    style={{
+                      maxHeight: 16,
+                      maxWidth: 16,
+                      transform: 'rotate(-15deg)',
+                      color: '#FFD4C0',
+                      marginRight: '16px',
+                    }}
+                  />
+                  溫馨提醒
+                  <FontAwesomeIcon
+                    icon={faPaw}
+                    style={{
+                      maxHeight: 16,
+                      maxWidth: 16,
+                      transform: 'rotate(15deg)',
+                      color: '#FFD4C0',
+                      marginLeft: '16px',
+                    }}
+                  />
+                </h2>
+                <div className={style.cmodal_content}>
+                  <CartAlertContent
+                    contentP1="付款後，本訂單之商品及使用的優惠券"
+                    contentP2="將會從購物車移除，可於會員中心查看"
+                  />
+                </div>
+                <div className={style.btn_group}>
+                  <SecondaryBtn
+                    text="返回購物車"
+                    clickHandler={cModalHandler}
+                  />
+                  <MainBtn clickHandler={createOrder} text="付款" />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </>
     );
   }

@@ -59,12 +59,11 @@
 }
 
 .modal_title {
-  font-size: var(--h5fs20);
+  font-size: var(--h4fs24);
   color:var(--dark-gray);
   font-weight: 600;
   text-align: center;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgb(203, 203, 203);
 }
 .modal_content{
     padding: var(--p16);

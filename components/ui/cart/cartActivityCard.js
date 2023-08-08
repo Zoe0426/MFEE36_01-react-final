@@ -4,7 +4,7 @@ import { Checkbox } from 'antd';
 import CloseBtn from '../buttons/closeBtn';
 import NumberInput from '../numberInput/numberInput';
 import AuthContext from '@/context/AuthContext';
-
+import ModalWithoutLine from '../modal/modal-without-line';
 export default function CartActivityCard({
   cartSid = '',
   relSid = '',
@@ -86,7 +86,7 @@ export default function CartActivityCard({
         </div>
         <div className={style.priceSet}>
           <div className={style.qtyset}>
-            <p className={style.price}>大人${adPrice}</p>
+            <p className={style.price}>大人${adPrice.toLocaleString()}</p>
             <div className={style.numberstyle}>
               <NumberInput
                 min={1}
@@ -96,7 +96,7 @@ export default function CartActivityCard({
             </div>
           </div>
           <div className={style.qtyset}>
-            <p className={style.price}>小孩${kidPrice}</p>
+            <p className={style.price}>小孩${kidPrice.toLocaleString()}</p>
             <div className={style.numberstyle}>
               <NumberInput
                 min={0}
@@ -106,16 +106,24 @@ export default function CartActivityCard({
             </div>
           </div>
           <p className={style.subtotal}>
-            ${adPrice * myAdQty + kidPrice * myKidQty}
+            ${(adPrice * myAdQty + kidPrice * myKidQty).toLocaleString()}
           </p>
         </div>
       </div>
-
-      <CloseBtn
-        closeHandler={() => {
+      <ModalWithoutLine
+        btnType="closeBtn"
+        subBtnText="不要移除"
+        mainBtnText="確定移除"
+        content="您從購物車移除此活動嗎？"
+        confirmHandler={() => {
           removeItemFromDb(cartSid);
         }}
       />
+      {/* <CloseBtn
+        closeHandler={() => {
+          removeItemFromDb(cartSid);
+        }}
+      /> */}
     </div>
   );
 }

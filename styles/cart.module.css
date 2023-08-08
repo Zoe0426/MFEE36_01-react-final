@@ -40,18 +40,116 @@
 }
 
 
-
 .totalSection{
     padding: 32px 0;
     /* border: 1px solid red; */
 }
+/* ========below are for modal without line ==========*/
+
+.overlay {
+    z-index: 999;
+    background: rgba(49, 49, 49, 0.6);
+  }
+  .modal {
+    z-index: 9999;
+    font-size: var(--pfs16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal,
+  .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+  }
+  
+  
+  .modal_card {
+    position: absolute;
+    width: 60%;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1.4;
+    background: #ffffff;
+    padding: 16px 0;
+    border-radius: 10px;
+    max-width: 570px;
+    min-width: 300px;
+  }
+  .cmodal_card {
+  width: 60%;
+  line-height: 1.4;
+  background: #ffffff;
+  padding: 14px 0;
+  border-radius: 10px;
+  max-width: 600px;
+  min-width: 300px;
+}
+.modal_title {
+  font-size: var(--h4fs24);
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 8px;
+  /* border-bottom: 1px solid rgb(203, 203, 203); */
+}
+  .modal_content{
+   font-weight: 800;
+   font-size: 24px;
+   display: flex;
+   justify-content: center;
+   padding: 36px 0;
+  }
+  .cmodal_content{
+    padding: var(--p16);
+    overflow-y: auto;
+    max-height: 60vh;
+}
+  .btn_group {
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    margin-bottom: 20px;
+    gap: 16px;
+  }
+  .btn_group > button {
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 100%;
+    text-align: center;
+  }
 
 @media screen and (max-width:767px){
 
 .totalSection{
     padding-left: 0px;
 }
-
+  .cmodal_card {
+    width: 80%;
+    top: 48%;
+    max-width: 600px;
+    min-width: 350px;
+  }
+    .modal_title {
+    font-size: var(--h6fs18);
+    padding-bottom: 12px;
+  }
+    .cbtn_group > button {
+    margin-right: 0;
+    width: 100%;
+    line-height: 100%;
+  }
+  .cbtn_group {
+    gap: 16px;
+    justify-content: space-around;
+    padding: 0 16px;
+  }
 .headcat{
     left: 3%;
     width: 60px;
@@ -63,4 +161,32 @@
 .heading{
     text-align: center;
 }
+/* ========below are for modal without line ==========*/
+
+   .modal_card {
+      width: 80%;
+      top: 48%;
+      max-width: 600px;
+      min-width: 350px;
+      padding: 8px 0;
+    }
+
+    .modal_content{
+      font-size: 18px;
+      padding: 30px 0;
+     }
+
+    .btn_group > button {
+      margin-right: 0;
+      width: 100%;
+      line-height: 100%;
+      padding: 0;
+    }
+    .btn_group {
+      gap: 16px;
+      justify-content: space-around;
+      padding: 0 60px;
+      height: 48px;
+    }
+
 }

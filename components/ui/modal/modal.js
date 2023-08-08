@@ -21,10 +21,8 @@ export default function Modal({
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
-    const style = !modal;
-    console.log(style);
-    setModal(style);
-    if (style) {
+    setModal(!modal);
+    if (!modal) {
       document.body.classList.add('likeList-open');
     } else {
       document.body.classList.remove('likeList-open');
