@@ -68,6 +68,12 @@
 }
 .active{
     color:var(--heartRed);
+    position: absolute;
+    top: 2%;
+    right: 4%;
+    font-size: 30px;
+    z-index: 1;
+    cursor: pointer;
 }
 
 @media screen and (max-width:767px){

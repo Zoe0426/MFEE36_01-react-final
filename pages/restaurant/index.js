@@ -725,7 +725,7 @@ export default function Restindex() {
       <div className={Styles.bgc}>
         <div className="container-inner">
           <div className={Styles.function_group}>
-            <IconBtn icon={faMap} text="餐廳地圖" />
+            {/* <IconBtn icon={faMap} text="餐廳地圖" /> */}
             {auth.token ? (
               <IconBtn
                 icon={faHeart}
@@ -1012,7 +1012,7 @@ export default function Restindex() {
 
       <div className="container-outer">
         <div className={Styles.CloudTop}>
-          <Image src={CloudTop} />
+          <Image src={CloudTop} alt="CloudTop" />
           <div className={Styles.dog_print}>
             <div className={Styles.paw_print_1}>
               <div className={`${Styles.pad} ${Styles.large}`}></div>
@@ -1054,6 +1054,7 @@ export default function Restindex() {
               <FontAwesomeIcon
                 icon={faFaceLaugh}
                 className={Styles.title_icon}
+                style={{ maxWidth: '45px', maxHeight: '45px' }}
               />
               <h2 className={Styles.jill_h2}>友善條件</h2>
             </div>

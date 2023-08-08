@@ -742,7 +742,7 @@ export default function FilterPage() {
               <BreadCrumb breadCrubText={breadCrubText} />
             </div>
             <div className={Styles.function_group}>
-              <IconBtn icon={faMap} text="餐廳地圖" />
+              {/* <IconBtn icon={faMap} text="餐廳地圖" /> */}
               {auth.token ? (
                 <IconBtn
                   icon={faHeart}
