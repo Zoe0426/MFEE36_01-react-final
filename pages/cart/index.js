@@ -4,8 +4,8 @@ import style from '@/styles/cart.module.css';
 import { useRouter } from 'next/router';
 //components
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
-import CartProductCard from '@/components/ui/cards/cartProductCard';
-import CartActivityCard from '@/components/ui/cards/cartActivityCard';
+import CartProductCard from '@/components/ui/cart/cartProductCard';
+import CartActivityCard from '@/components/ui/cart/cartActivityCard';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
 import CartTab from '@/components/ui/cart/cartTab';
 import CartPostInfo from '@/components/ui/cart/cartpostinfo';
