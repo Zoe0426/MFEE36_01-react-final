@@ -1,5 +1,6 @@
 .totalCard{
     position: fixed;
+    top: 235px;
     width: 21%;
     background-color: white;
     box-shadow: var(--shadow);
@@ -88,11 +89,11 @@ flex-direction: column;
     font-size: var(--h6fs18);
 }
 .runningdog{
-    transform: scaleX(-1) rotate(20deg);
+    /* transform:  rotate(20deg); */
     position: absolute;
-    right: -17%;
-    bottom: -8%;
-    width: 100px;
+    right: -10%;
+    top: -60px;
+    width: 120px;
 }
 .toggleCard{
     display: none;

@@ -188,7 +188,7 @@ export default function CartAddressList({
         </Radio.Group>
       ) : (
         <div className={style.nodataCard}>
-          <CartNoInfoCard />
+          <CartNoInfoCard text="沒有相關地址，您要新增地址嗎？" />
         </div>
       )}
       <div className={style.addNewAddBtn}>

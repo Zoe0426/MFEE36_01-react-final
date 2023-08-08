@@ -17,11 +17,10 @@ export default function Cart() {
   const { auth } = useContext(AuthContext);
   const router = useRouter();
   const query = router.query;
-  const orderSid = query.orderSid;
-  //const  = router.query.orderSid;
-  console.log(orderSid);
+  const orderSid = query.orderSid.slice(0, 8);
   const [first, setFirst] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [fromMem, setFromMem] = useState(false);
+  const [showRepayAlert, setShowRepayAlert] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [checkoutType, setCheckoutType] = useState('');
   //訂單品項
@@ -45,13 +44,15 @@ export default function Cart() {
       const from = router.asPath;
       router.push(`/member/sign-in?from=${from}`);
     } else if (auth.id && query.orderSid) {
+      query.orderSid.slice(-3) === 'mem'
+        ? setFromMem(true)
+        : setShowRepayAlert(true);
       setPageLoading(false);
-      getOrder();
+      getOrder(orderSid);
     }
   }, [auth, first, query]);
 
   const getOrder = async () => {
-    setLoading(true);
     try {
       const r = await fetch(
         `${process.env.API_SERVER}/cart-api/get-repay-order/${orderSid}`,
@@ -77,6 +78,7 @@ export default function Cart() {
       setdetails(data.details);
       setCouponData(data.coupon);
       setOrderInfo(data.orderInfo);
+
       console.log(data);
       if (data.postType) {
         setPostType(data.postType);
@@ -109,8 +111,7 @@ export default function Cart() {
   } else if (!pageLoading) {
     return (
       <>
-        {/* {loading && <Loading />} */}
-        <BgCartHead text="重新付款" />
+        <BgCartHead text={fromMem ? '重新付款' : '付款失敗 重新付款'} />
         <Row>
           <Col xs={2} sm={2} md={2} lg={4} />
           <Col xs={20} sm={20} md={20} lg={11} className={style.detailSection}>

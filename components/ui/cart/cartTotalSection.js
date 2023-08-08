@@ -257,11 +257,16 @@ export default function CartTotalSection({
               confirmHandler={createOrder}
             />
           </div>
-          <Image
+          <img
+            src="/home-images/dog.svg"
+            alt="dog"
+            className={style.runningdog}
+          />
+          {/* <Image
             src={rundog}
             className={style.runningdog}
             alt="runningdog"
-          ></Image>
+          ></Image> */}
         </div>
       </ConfigProvider>
     </>

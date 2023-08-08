@@ -16,6 +16,7 @@ import Modal from '@/components/ui/modal/modal';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
 import Loading from '@/components/ui/loading/loading';
+import CartNoInfoCard from '@/components/ui/cart/cartNoInfoCard';
 
 export default function Cart() {
   const { auth } = useContext(AuthContext);
@@ -167,10 +168,6 @@ export default function Cart() {
           process.env.API_SERVER +
           `/cart-api/linepay?orderSid=${id}&totalAmount=${total}&checkoutType=${checkoutType}&memberSid=${memberSid}`;
       }
-    } else {
-      //TODO: 訂單成立失敗不前往付款頁面
-      alert('訂單成立失敗無法前往付款頁面');
-      //console.log('訂單成立失敗不前往付款頁面');
     }
   };
 
@@ -186,12 +183,13 @@ export default function Cart() {
       if (checkoutItems.length === 0) {
         //console.log('no items selected');
         alert('請至少選擇一樣商品');
-      } else {
-        isPass = true;
+      }
+      if (checkoutType === 'shop' && data.postInfo.length < 0) {
+        alert('請編輯收件地址');
       }
     } else {
-      //console.log('not loged in');
-      // TODO: need to login
+      //need login
+      alert('請先登入');
     }
 
     if (isPass) {
@@ -250,16 +248,32 @@ export default function Cart() {
                   },
                 }}
               >
-                <Checkbox
-                  onChange={checkAllHandler}
-                  checked={selectAll}
-                  className={style.selectAll}
-                >
-                  全選
-                </Checkbox>
+                {checkoutType === 'shop' && shopData.length > 0 ? (
+                  <Checkbox
+                    onChange={checkAllHandler}
+                    checked={selectAll}
+                    className={style.selectAll}
+                  >
+                    全選
+                  </Checkbox>
+                ) : (
+                  ''
+                )}
+                {checkoutType === 'activity' && activityData.length > 0 ? (
+                  <Checkbox
+                    onChange={checkAllHandler}
+                    checked={selectAll}
+                    className={style.selectAll}
+                  >
+                    全選
+                  </Checkbox>
+                ) : (
+                  ''
+                )}
 
-                {checkoutType === 'shop'
-                  ? shopData.map((v) => (
+                {checkoutType === 'shop' ? (
+                  shopData.length > 0 ? (
+                    shopData.map((v) => (
                       <CartProductCard
                         key={v.cart_sid}
                         relSid={v.rel_sid}
@@ -276,25 +290,32 @@ export default function Cart() {
                         setSelectAll={setSelectAll}
                       />
                     ))
-                  : activityData.map((v) => (
-                      <CartActivityCard
-                        key={v.cart_sid}
-                        cartSid={v.cart_sid}
-                        relSid={v.rel_sid}
-                        relSeqSid={v.rel_seq_sid}
-                        selected={v.selected}
-                        img={'/activity_img/' + v.img}
-                        prodtitle={v.rel_name}
-                        prodSubtitle={v.rel_seq_name}
-                        adPrice={v.adult_price}
-                        adQty={v.adult_qty}
-                        kidPrice={v.child_price}
-                        kidQty={v.child_qty}
-                        activityData={activityData}
-                        setActivityData={setActivityData}
-                        setSelectAll={setSelectAll}
-                      />
-                    ))}
+                  ) : (
+                    <CartNoInfoCard text="目前無商城相關商品" />
+                  )
+                ) : activityData.length > 0 ? (
+                  activityData.map((v) => (
+                    <CartActivityCard
+                      key={v.cart_sid}
+                      cartSid={v.cart_sid}
+                      relSid={v.rel_sid}
+                      relSeqSid={v.rel_seq_sid}
+                      selected={v.selected}
+                      img={'/activity_img/' + v.img}
+                      prodtitle={v.rel_name}
+                      prodSubtitle={v.rel_seq_name}
+                      adPrice={v.adult_price}
+                      adQty={v.adult_qty}
+                      kidPrice={v.child_price}
+                      kidQty={v.child_qty}
+                      activityData={activityData}
+                      setActivityData={setActivityData}
+                      setSelectAll={setSelectAll}
+                    />
+                  ))
+                ) : (
+                  <CartNoInfoCard text="目前無活動相關商品" />
+                )}
               </ConfigProvider>
             </div>
             {/* ========== 寄件方式 ==========*/}
@@ -329,13 +350,17 @@ export default function Cart() {
                       )
                     )
                 ) : (
-                  <p>沒有可使用的優惠券</p>
+                  <CartNoInfoCard />
                 )}
                 <div className={style.couponModal}>
                   <Modal
                     btnType="text"
                     btnText="變更收件地址"
-                    title="選擇/新增收件地址"
+                    title={
+                      postAddData.length > 0
+                        ? '選擇/新增收件地址'
+                        : '新增收件地址'
+                    }
                     showSubBtn={false}
                     content={
                       <CartAddressList
@@ -371,22 +396,24 @@ export default function Cart() {
                     )
                   )
                 ) : (
-                  <p>沒有可使用的優惠券</p>
+                  <CartNoInfoCard text="很抱歉目前沒有可以使用的優惠券" />
                 )}
-                <div className={style.couponModal}>
-                  <Modal
-                    btnType="text"
-                    btnText="查看其它優惠券"
-                    title="選擇優惠券"
-                    confirmHandler={selectCoupon}
-                    content={
-                      <CartCouponList
-                        couponData={couponData}
-                        setChosenCoupon={setChosenCoupon}
-                      />
-                    }
-                  />
-                </div>
+                {couponData.length > 0 && (
+                  <div className={style.couponModal}>
+                    <Modal
+                      btnType="text"
+                      btnText="查看其它優惠券"
+                      title="選擇優惠券"
+                      confirmHandler={selectCoupon}
+                      content={
+                        <CartCouponList
+                          couponData={couponData}
+                          setChosenCoupon={setChosenCoupon}
+                        />
+                      }
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </Col>
