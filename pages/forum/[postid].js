@@ -99,18 +99,24 @@ export default function Post() {
     })
   }
   },[auth]);
+  console.log('imgData',imgData);
+  const PostAuthorBTNHandler =()=>{
+    router.push(`/forum/blog`)
+  }
 
   return (
     <div className="container-outer">
         <div className={Style.body}>
             <PostBanner/>
-            <BoardNav/>
+            <BoardNav
+             PostAuthorBTNHandler={PostAuthorBTNHandler}
+             img='/forum_img/board_img/個人頁面.png' text='首頁'/>
             <div className={Style.postAll}>
               <div className="container-inner">
               {postData.map((v,i)=>(
                 <PostArticle key={v.post_sid} className={Style.title} 
                 navTitle={v.post_title} 
-                profile={v.profile}
+                profile={`${process.env.API_SERVER}/img/${v.profile}`}
                 // profile={v.profile} 
                 author={v.nickname} 
                 id= {`@${v.member_ID}`} // 在這裡添加@符號
@@ -126,7 +132,6 @@ export default function Post() {
               
               </div>
                 <div className={Style.postImg}>
-
                   <PostImg images={imgData}/>
                 </div>
                 <div className={Style.content}>
@@ -138,7 +143,9 @@ export default function Post() {
 
                 <div className={Style.commentBlock}>
                   <div className={Style.PostCommentLaunch}>
-                  <PostCommentLaunch profile='/forum_img/victor-grabarczyk-N04FIfHhv_k-unsplash.jpg' commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
+                  {postData.map((v,i)=>(
+                  <PostCommentLaunch profile={`${process.env.API_SERVER}/img/${v.profile}`} commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
+                  ))}
                 </div>
                   <div className={Style.commentBTN}>
                     <PostCommentBtn text="由舊至新" bc='white'/>
@@ -153,7 +160,7 @@ export default function Post() {
                   </div>
                   <div className={Style.comments}>
                   {commentData.map((v,i)=>(
-                    <PostComment profile={v.profile} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
+                    <PostComment profile={`${process.env.API_SERVER}/img/${v.profile}`} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
                   ))}
                   </div>
                 </div>

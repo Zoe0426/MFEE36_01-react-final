@@ -28,7 +28,7 @@ export default function PostBottom() {
             <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
               <PostPhotoCard
                 key={v.post_sid}
-                img={`http://localhost:3000/forum_img/post_img/${v.file}`}
+                img={`${process.env.API_SERVER}/img/${v.file}`}
                 boardImg={`http://localhost:3000/forum_img/board_img/${v.board_img}`}
                 boardName={v.board_name}
                 // bc= 'var(--main)'
