@@ -1,0 +1,121 @@
+.productCard{
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    padding: var(--p16) 0px;
+    border-bottom: 1px dashed var(--secondary);
+}
+.checkbox{
+     margin-right: 16px;
+    
+}
+.prodimg{
+    width: 80px;
+    border-radius: var(--br8);
+    margin-right: 16px;
+}
+.forRwd{
+    flex-grow: 1;
+}
+.prodname{
+    margin-right: 16px;
+    width: 100%;
+    line-height: 24px;
+    /* border: 1px solid red; */
+}
+.prodtitle{
+    font-size: var(--h6fs18);
+    margin-bottom: 8px;
+}
+.prodSubtitle{
+    font-size: var(--pfs16);
+    color: var(--main);
+     margin-bottom: 8px;
+}
+.priceQty{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 180px;
+    /* border: 1px solid purple; */
+}
+.price{
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    margin-right: 16px;
+    /* border: 1px solid green; */
+}
+.mobileprice{
+    display:none;
+}
+
+.numberstyle{
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: baseline;
+}
+.subtotal{
+    text-align: end;
+    min-width: 70px;
+    color: var(--main);
+    margin-right: 16px;
+    font-size: var(--pfs16);
+    /* border: 1px solid pink; */
+}
+@media screen and (max-width:1300px) and (min-width:768px){
+  .forRwd{
+    flex-direction: column;
+    align-items: flex-start;
+}
+.price{
+    text-align: start;
+}
+.priceQty{
+    min-width: 100%;
+}
+.prodname{
+    margin-bottom: 16px;
+}
+.subtotal{
+    /* margin-left: 24px; */
+}
+
+}
+
+@media screen and (max-width:767px){
+.checkbox{
+    margin-right: 0;
+}
+.prodimg{
+    width: 60px;
+    margin-right: 5px;
+    /* border: 1px solid red; */
+}
+.forRwd{
+    flex-direction: column;
+    align-items: stretch;
+    /* border: 1px solid orange */
+}
+.subtotal{
+    margin-left: auto;
+    /* font-size: var(--pfs14); */
+}
+.priceQty{
+    min-width: 90%;
+    /* border: 1px solid red; */
+}
+.prodname{
+    margin-bottom: 16px;
+    /* border: 1px solid green; */
+}
+
+.prodtitle{
+    font-size: var(--pfs16);
+}
+.prodSubtitle{
+    font-size: var(--pfs14);
+}
+.qtyNsubTotal{
+margin-left: auto;
+}
+}

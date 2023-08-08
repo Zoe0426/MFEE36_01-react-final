@@ -8,7 +8,7 @@ export default function CartNoInfoCard({ text = '' }) {
         alt="sorry"
         className={style.sorryImg}
       />
-      <p>沒有相關地址，您要新增地址嗎？</p>
+      <p>{text}</p>
     </div>
   );
 }

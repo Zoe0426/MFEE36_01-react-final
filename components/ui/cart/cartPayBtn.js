@@ -16,15 +16,23 @@ export default function CartPayBtn({
 }) {
   const [modal, setModal] = useState(false);
 
-  const toggleModal = () => {
-    setModal(!modal);
-  };
+  // const toggleModal = () => {
+  //   setModal(!modal);
+  // };
 
   const confirmBtn = () => {
     confirmHandler();
     setModal(!modal);
   };
-
+  const toggleModal = () => {
+    const newShowLikeList = !modal;
+    setModal(newShowLikeList);
+    if (newShowLikeList) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
+  };
   return (
     <>
       {btnType === 'main' ? (
@@ -66,8 +74,8 @@ export default function CartPayBtn({
               <div className={Styles.modal_content}>
                 <CartAlertContent
                   // h2title=""
-                  contentP1="前往付款後,您所選的商品及使用的優惠券"
-                  contentP2="將會從購物車移除"
+                  contentP1="本訂單之商品及使用的優惠券"
+                  contentP2="將會從購物車移除，可於會員中心查看"
                 />
               </div>
 

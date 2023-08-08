@@ -16,8 +16,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../modal/modal';
 import CartCouponList from './cartCouponList';
-import ModalWithoutLine from '../modal/modal-without-line';
-import CartAlertContent from './cartAlertContent';
 export default function CartTotalSection({
   checkoutType = '',
   shopData = [],
@@ -111,7 +109,10 @@ export default function CartTotalSection({
               />
               <span style={{ color: '#515151' }}>應付總額 &nbsp;</span>
               <span>
-                ${checkoutType === 'shop' ? shopTotal : activityTotal}
+                $
+                {checkoutType === 'shop'
+                  ? shopTotal.toLocaleString()
+                  : activityTotal.toLocaleString()}
               </span>
             </div>
 
@@ -137,7 +138,9 @@ export default function CartTotalSection({
           <div className={style.subtotals}>
             <span>小計</span>
             <span className={style.amount}>
-              {checkoutType === 'shop' ? shopSubtotal : activitySubtotal}
+              {checkoutType === 'shop'
+                ? shopSubtotal.toLocaleString()
+                : activitySubtotal.toLocaleString()}
             </span>
           </div>
 
@@ -145,7 +148,7 @@ export default function CartTotalSection({
             <div className={style.subtotals}>
               <span>運費</span>
               <span className={style.amount}>
-                ${shopSubtotal === 0 ? 0 : postAmount}
+                ${shopSubtotal === 0 ? 0 : postAmount.toLocaleString()}
               </span>
             </div>
           ) : (
@@ -160,7 +163,7 @@ export default function CartTotalSection({
                   {(checkoutType === 'shop' && shopSubtotal === 0) ||
                   (checkoutType !== 'shop' && activitySubtotal === 0)
                     ? 0
-                    : couponPrice}
+                    : couponPrice.toLocaleString()}
                 </span>
               </div>
               <div className={style.couponBtn}>
@@ -197,7 +200,10 @@ export default function CartTotalSection({
           <div className={style.total}>
             <span>應付總額</span>
             <span className={style.totalamount}>
-              ${checkoutType === 'shop' ? shopTotal : activityTotal}
+              $
+              {checkoutType === 'shop'
+                ? shopTotal.toLocaleString()
+                : activityTotal.toLocaleString()}
             </span>
           </div>
           <div className={style.paymentArea}>
@@ -251,11 +257,16 @@ export default function CartTotalSection({
               confirmHandler={createOrder}
             />
           </div>
-          <Image
+          <img
+            src="/home-images/dog.svg"
+            alt="dog"
+            className={style.runningdog}
+          />
+          {/* <Image
             src={rundog}
             className={style.runningdog}
             alt="runningdog"
-          ></Image>
+          ></Image> */}
         </div>
       </ConfigProvider>
     </>

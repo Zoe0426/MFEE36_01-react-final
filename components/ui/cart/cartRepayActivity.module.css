@@ -1,0 +1,144 @@
+.productCard{
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    padding: var(--p24) 0px;
+    border-bottom: 1px dashed #FFD4C0;
+    font-size: var(--pfs16);
+}
+.checkbox{
+     margin-right: 16px;
+}
+.prodimg{
+    width: 120px;
+    border-radius: var(--br8);
+    margin-right: 16px;
+}
+.forRwd{
+    /* display: flex;
+    align-items: center; */
+    flex-grow:1;
+    /* border: 1px solid red; */
+}
+.prodname{
+    flex-grow: 1;
+    margin-right: 16px;
+    /* border: 1px solid blue; */
+    margin-bottom: 16px;
+}
+.pricebox{
+    display:flex;
+}
+.prodtitle{
+    font-size: var(--h6fs18);
+    margin-bottom: 8px;
+}
+.prodSubtitle{
+    font-size: var(--pfs16);
+    color: var(--main);
+ 
+}
+.priceSet{
+    display: flex;
+    /* border: 1px solid orange; */
+        justify-content: space-between;
+}
+.qtyset{
+    display: flex;
+
+    margin-right: 16px;
+    /* border: 1px solid green; */
+}
+
+.price{
+    color: var(--dark-gray);
+    margin-bottom: 8px;
+    width: 75px;
+
+}
+.numberstyle{
+
+    width: 80px;
+    text-align: center;
+    color: var(--dark-gray);
+    margin-left: auto;
+   
+}
+.subtotal{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: var(--main);
+    margin-right: 16px;
+    min-width: 60px;
+    font-size: var(--pfs16);
+    /* border: 1px solid red; */
+}
+
+@media screen and (max-width:1300px) and (min-width:768px){
+.priceSet{
+    /* border: 1px solid orange; */
+}
+.forRwd{
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.prodname{
+    margin-bottom: 16px;
+}
+.subtotal{
+    flex-grow: 1;
+}
+.pricebox{
+    display:block;
+}
+}
+
+@media screen and (max-width:767px){
+.checkbox{
+     margin-right: 8px;
+}
+.prodimg{
+    width: 60px;
+    margin-right: 12px;
+}
+.forRwd{
+    flex-direction: column;
+    align-items: stretch;
+}
+.subtotal{
+    /* display:none */
+    flex-grow: 1;
+}
+.prodname{
+    margin-bottom: 16px;
+}
+.pricebox{
+    display:block;
+}
+.price{
+    margin-bottom: 8px;
+}
+.prodtitle{
+    font-size: var(--pfs16);
+
+}
+.prodSubtitle{
+    font-size: var(--pfs14);
+
+}
+.qtyset{
+    margin-right: 8px;
+}
+.prodname{
+    margin-bottom: 8px;
+}
+}
+
+@media screen and (max-width:500px){
+
+.pricebox{
+    display:block;
+}
+}

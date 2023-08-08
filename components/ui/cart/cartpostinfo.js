@@ -18,6 +18,7 @@ export default function CartPostInfo({
   mobile = '',
   email = '',
   postType,
+  edit = true,
   forModal = false,
   defaultStatus = false,
   checkDefaultAdd = () => {},
@@ -91,6 +92,7 @@ export default function CartPostInfo({
               {address}&nbsp;&nbsp;&nbsp;{storeName}
             </span>
           </p>
+
           <p>
             <span className={style.icon}>
               <FontAwesomeIcon
@@ -150,35 +152,39 @@ export default function CartPostInfo({
             </span>
             {email}
           </p>
-          <p>
-            <span className={style.icon}>
-              <FontAwesomeIcon
-                icon={faCalendarDays}
-                style={{ maxWidth: '20px', maxHeight: '20px' }}
-              />
-            </span>
-            預計到貨&nbsp;&nbsp;
-            <span>{dateRange}</span>
-          </p>
-          <div className={style.defaultCheckbox}>
-            <ConfigProvider
-              theme={{
-                token: {
-                  colorPrimary: '#FD8C46',
-                  fontSize: 18,
-                },
-              }}
-            >
-              <Checkbox
-                onChange={() => {
-                  checkDefaultAdd(addressSid, defaultStatus);
-                }}
-                checked={defaultStatus}
-              />
-            </ConfigProvider>
+          {edit && (
+            <>
+              <p>
+                <span className={style.icon}>
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    style={{ maxWidth: '20px', maxHeight: '20px' }}
+                  />
+                </span>
+                預計到貨&nbsp;&nbsp;
+                <span>{dateRange}</span>
+              </p>
+              <div className={style.defaultCheckbox}>
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: '#FD8C46',
+                      fontSize: 18,
+                    },
+                  }}
+                >
+                  <Checkbox
+                    onChange={() => {
+                      checkDefaultAdd(addressSid, defaultStatus);
+                    }}
+                    checked={defaultStatus}
+                  />
+                </ConfigProvider>
 
-            <span className={style.text}>預設地址</span>
-          </div>
+                <span className={style.text}>預設地址</span>
+              </div>
+            </>
+          )}
         </div>
         <div>
           <img src={img} alt="" className={style.postTypeImg} />
