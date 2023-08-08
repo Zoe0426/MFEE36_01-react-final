@@ -15,6 +15,8 @@ export default function Wallet() {
   const [pageTag, setPageTag] = useState('coupon');
   const [allCoupons, setAllCoupons] = useState([]);
   const [coupons, setCoupons] = useState([]);
+  const [used, setUsed] = useState(false);
+  const [expire, setExpire] = useState(false);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
@@ -57,6 +59,7 @@ export default function Wallet() {
     // 已使用
     const newCoupons = allCoupons.filter((data) => data.coupon_status === 1);
     setCoupons(newCoupons);
+    setUsed(true);
   };
 
   const expiredHandleFilter = () => {
@@ -66,6 +69,7 @@ export default function Wallet() {
       (data) => new Date(data.exp_date) < today
     );
     setCoupons(newCoupons);
+    setExpire(true);
   };
 
   const soonHandleFilter = () => {
@@ -76,7 +80,7 @@ export default function Wallet() {
       thisMonthStart.getMonth() + 1
     );
 
-    const newCoupons = allCoupons.filter((data) => {
+    let newCoupons = allCoupons.filter((data) => {
       const expDate = new Date(data.exp_date);
 
       return (
@@ -84,6 +88,11 @@ export default function Wallet() {
         expDate <= thisMonthEnd &&
         expDate >= thisMonthStart
       );
+    });
+
+    // 使用 sort 函數排序
+    newCoupons = newCoupons.sort((a, b) => {
+      return new Date(a.exp_date) - new Date(b.exp_date);
     });
 
     setCoupons(newCoupons);
@@ -143,6 +152,8 @@ export default function Wallet() {
                 title={data.name}
                 text={data.price}
                 expire={data.exp_date}
+                isused={used}
+                isexpire={expire}
               />
             ))}
           </div>

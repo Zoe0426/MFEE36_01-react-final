@@ -28,11 +28,15 @@ margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: var(--secondary);
+  background-color: #fff;
   border: 1px solid var(--secondary);
   border-radius: var(--br20);
   margin-bottom: 30px;
   overflow: hidden;
+}
+
+.calendarBox{
+  border-bottom: 1px solid var(--secondary);
 }
 
 /* .gameInfo{
@@ -99,21 +103,21 @@ margin: 0 auto;
 }
 
 .redCircle{
-  background-color: #EC5353;
+  background-color: #FCD8DA;
 }
 
 .greenCircle{
-  background-color: #317F46;
+  background-color: #E1ECE5;
 }
 
 .blueCircle{
-  background-color: #1677ff;
+  background-color: #FDEDD3;
 }
 
 .redCircle,.greenCircle,.blueCircle{
   width: 1vw;
   height: 1vw;
-  border-radius: 50%;
+  border-radius: 4px;
   margin-right: 5px;
 }
 

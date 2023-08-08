@@ -21,6 +21,7 @@ export default function OrderList() {
   const [keyword, setKeyword] = useState('');
   const [shop, setShop] = useState(false);
   const [activity, setActivity] = useState(false);
+  const [repay, setRepay] = useState(false);
   const router = useRouter();
 
   const searchBarClickHandler = (keyword) => {
@@ -103,7 +104,9 @@ export default function OrderList() {
             .then((r) => r.json())
             .then((data) => {
               console.log(data);
-              const firstData = data.filter((data) => data.rel_type === 'shop');
+              const firstData = data.filter(
+                (data) => data.rel_type === 'shop' && data.orderStatus === 1
+              );
               setData(firstData);
               setAllData(data);
               setLoading(false);
@@ -118,11 +121,14 @@ export default function OrderList() {
   }, [first, router.query]);
 
   const shopOrder = () => {
-    const newData = allData.filter((data) => data.rel_type === 'shop');
+    const newData = allData.filter(
+      (data) => data.rel_type === 'shop' && data.orderStatus === 1
+    );
     console.log(newData);
     setData(newData);
     setShop(true);
     setActivity(false);
+    setRepay(false);
   };
 
   const actOrder = () => {
@@ -130,6 +136,16 @@ export default function OrderList() {
     console.log(newData);
     setData(newData);
     setActivity(true);
+    setShop(false);
+    setRepay(false);
+  };
+
+  const repayOrder = () => {
+    const newData = allData.filter((data) => data.orderStatus === 0);
+    console.log(newData);
+    setData(newData);
+    setRepay(true);
+    setActivity(false);
     setShop(false);
   };
 
@@ -165,6 +181,15 @@ export default function OrderList() {
                 actOrder();
               }}
             />
+            <PageTag
+              title="repay"
+              text="未付款"
+              pageTag={pageTag}
+              onClick={() => {
+                setPageTag('repay');
+                repayOrder();
+              }}
+            />
           </div>
           <div className="orderSearch">
             <OrderSearchBar
@@ -198,6 +223,9 @@ export default function OrderList() {
                 length={data.order_product}
                 type={data.rel_type}
                 actAddress={data.actAddress}
+                orderStatus={data.orderStatus}
+                createDt={data.createDt}
+                orderExpire={data.orderExpire}
               />
             );
           })}

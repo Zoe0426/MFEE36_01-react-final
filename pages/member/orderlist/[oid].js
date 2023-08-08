@@ -112,6 +112,7 @@ export default function OrderDetail() {
                 <div className={Style.text}>{statusName}</div>
               </div>
             </div>
+            {}
             <div className={Style.icons}>
               <div className={Style.iconBtn}>
                 <svg
