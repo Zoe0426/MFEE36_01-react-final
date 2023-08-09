@@ -154,6 +154,12 @@
   order:0
 }
 
+.head_img>img{
+  height: 42px;
+  object-fit: cover;
+  object-position: top center;
+}
+
 .head_img_no_show {
   width: 40px;
   height: 40px;
