@@ -122,44 +122,6 @@
   position: relative;
 }
 
-
-
-/* @keyframes fly {
-    0% {
-      transform: translateY(150%) rotate(-6deg);
-      opacity: 1;
-    }
-
-    80% {
-      transform: translateY(10%) rotate(6deg);
-      opacity: 0 ;
-    }
-
-    100% {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-
-}
-
-@keyframes fly2 {
-  0% {
-    transform: translateY(150%) rotate(-6deg -180deg) ;
-    opacity: 1;
-  }
-
-  80% {
-    transform: translateY(10%) rotate(6deg -180deg);
-    opacity: 0 ;
-  }
-
-  100% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-
-} */
-
 .search_bar {
   text-align: center;
   padding: var(--p32) 0;

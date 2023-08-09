@@ -1,12 +1,11 @@
 import React from 'react';
 import balloon from '@/assets/balloon.svg';
 import cloud from '@/assets/cloud_white.svg';
-// import cloudTop from '@/assets/cloud_top.svg';
 import Image from 'next/image';
 import styles from './balloom.module.css';
 export default function Balloom() {
   return (
-    <>
+    <div className={styles.balloon_box}>
       <div>
         <div className={styles.left_cloud2}>
           <Image src={cloud} alt="cloud" />
@@ -51,6 +50,6 @@ export default function Balloom() {
           <Image src={balloon} alt="balloon" />
         </div>
       </div>
-    </>
+    </div>
   );
 }

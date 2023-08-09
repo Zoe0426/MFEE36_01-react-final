@@ -65,8 +65,10 @@ export default function ProductInput({
                 }
               }}
             />
-            {showErrorMessage2 && (
+            {showErrorMessage2 ? (
               <div className={styles.message_box}> {errorMessage2}</div>
+            ) : (
+              <div className={styles.message_box}></div>
             )}
           </Col>
         </Row>
