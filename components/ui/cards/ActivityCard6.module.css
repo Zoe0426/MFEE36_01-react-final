@@ -1,0 +1,61 @@
+.card {
+    /* width: 32%; */
+    /* height: 152px; */
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.right_section{
+    text-align: center;
+}
+  
+.image {
+    aspect-ratio: 1/1; /* 設置寬高比為1:1 */
+    width: 152px;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+
+  
+.content {
+    padding: 0 0 0 var(--p24);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+  
+.title {
+    color: var(--dark);
+    font-size: var(--h4fs24);
+    font-weight: var(--fwbold);
+}
+  
+.count {
+    font-size: var(--h5fs20);
+    color: var(--dark-gray);
+    font-weight: var(--fwbold);
+}
+  
+.location {
+    display: flex;
+    align-items: center;
+    color: #666666;
+}
+
+.location_text{
+    font-size: var(--h5fs20);
+}
+  
+.icon {
+    font-size: var(--h5fs20);
+    margin-right: 4px;
+    color: var(--main);
+}
+
+.description{
+    font-size: var(--h6fs18);
+    line-height: 22px;
+}
+  
