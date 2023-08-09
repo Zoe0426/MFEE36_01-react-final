@@ -188,11 +188,7 @@ export default function ActivityVote() {
                   confirmHandler={toSingIn}
                 />
               )}
-              <IconBtn
-                icon={faFilter}
-                text="進階篩選"
-                // clickHandler={toggleFilter}
-              />
+             
             </div>
           </div>
         </div>
