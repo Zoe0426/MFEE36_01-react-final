@@ -101,7 +101,7 @@ export default function Post() {
   },[auth]);
   console.log('imgData',imgData);
   const PostAuthorBTNHandler =()=>{
-    router.push(`/forum/blog`)
+    router.push(`/forum`)
   }
 
   return (
@@ -110,7 +110,7 @@ export default function Post() {
             <PostBanner/>
             <BoardNav
              PostAuthorBTNHandler={PostAuthorBTNHandler}
-             img='/forum_img/board_img/個人頁面.png' text='首頁'/>
+             img='/forum_img/blog_func_img/首頁.png' text='論壇首頁'/>
             <div className={Style.postAll}>
               <div className="container-inner">
               {postData.map((v,i)=>(

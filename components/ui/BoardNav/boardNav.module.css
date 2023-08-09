@@ -2,6 +2,7 @@
   background-color:#F7ECE3;
   width:100%;
   height:150px;
+  position: absolute;
   position: relative;
   display: flex;
   justify-content: center;
@@ -17,18 +18,20 @@
 .boardBTM{
   width:100%;
   position: absolute;
-  top:455px;
+  top:450px;
 }
 .boardNavbar{
   margin-bottom: 50px;
 }
 .boardRange{
-  width:1100px;
+  width:1120px;
   height:100%;
-  overflow-y: hidden;
+  /* overflow-y: hidden; */
   display:flex;
+  position: relative;
   /* justify-content: center; */
   margin-left:20px;
+  transition: left 0.5s ease; /* 添加过渡效果 */
 }
 .boardRange::-webkit-scrollbar{
   display: none;
@@ -41,6 +44,14 @@
   z-index: 90;
   
 }
+.boardHidden{
+  overflow: hidden;
+}
+.moveIcon{
+  padding-top: 60px;
+  padding-left:10px;
+}
+
 
 /* 橘色btn */
 .PostAuthorBTNHandler {
@@ -82,8 +93,9 @@
   pointer-events: none;
   color:white;
   font-weight: var(--fwbold);
-  text-shadow: rgb(135, 135, 135) 0.1em 0.1em 0.1em;
+  /* text-shadow: rgb(135, 135, 135) 0.1em 0.1em 0.1em; */
 }
+
 
 
 

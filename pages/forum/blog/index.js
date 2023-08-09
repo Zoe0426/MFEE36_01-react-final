@@ -4,7 +4,7 @@ import BlogBanner from '@/components/ui/blogBanner/blogBanner';
 import { Col, Row, Pagination} from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
 import BlogNav from '@/components/ui/blogNav/blogNav';
-import PostCard from '@/components/ui/PostCard/postCard';
+import PostCardBlog from '@/components/ui/PostCard/postCardmyPost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import AuthContext from '@/context/AuthContext';
@@ -74,6 +74,9 @@ export default function BlogIndex() {
         console.log('data', data);
         console.log('data.rows', data.rows);
         // console.log('newData', newData);
+        
+              setPostNum(data.totalRows); // 設定文章數量
+        
       });
   };
 
@@ -99,7 +102,7 @@ export default function BlogIndex() {
           const from = router.asPath;
           router.push(`/member/sign-in?from=${from}`);
         }else if (auth.token) {
-          fetch(`${process.env.API_SERVER}/forum-api/forum/blog/favlist`, {
+          fetch(`${process.env.API_SERVER}/forum-api/forum/blog`, {
             headers: {
               Authorization: 'Bearer ' + auth.token,
             },
@@ -108,11 +111,9 @@ export default function BlogIndex() {
             .then((newData) => {
               console.log(newData);
               setData(newData.rows);
-              const postNum = data.totalRows;
-              setPostNum(postNum); // 設定文章數量
-              console.log('postNum',postNum);
               console.log('newData',newData);
               console.log('newData.rows',newData.rows);
+              console.log(newData.totalRows);
               console.log('data',data);
             });
         } else {
@@ -147,6 +148,28 @@ export default function BlogIndex() {
       }).toString()}`
     );
   };
+  // view post
+  const viewPost = (post_sid) => {
+    router.push(`/forum/${post_sid}`);
+  };
+
+  //delete post
+  const deletePost = (post_sid) => {
+    fetch(`${process.env.API_SERVER}/forum-api/forum/blog/delete?post_sid=${post_sid}`,{
+      method: 'DELETE',
+    })
+    .then((r)=> r.json())
+    .then((data)=> {
+      console.log('data', data);
+    })
+    .catch((error) => {
+      console.error('Error delete:', error);
+    });
+  }
+  // edit post
+  const editPost = (post_sid) => {
+    router.push(`/forum/blog/edit/${post_sid}`)
+  }
 
   return (
     <div className="container-outer">
@@ -169,8 +192,7 @@ export default function BlogIndex() {
 
               <div className={Style.postContent}>
                {newData.map((v, i) => ( 
-                   <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
-                     <PostCard
+                     <PostCardBlog
                        profile={`${process.env.API_SERVER}/img/${v.profile}`}
                        boardName={v.board_name}
                        author={v.nickname}
@@ -180,8 +202,10 @@ export default function BlogIndex() {
                        likes={v.postLike}
                        comments={v.postComment}
                        favorites={v.postFavlist}
+                       deletePost={() => deletePost(v.post_sid)}
+                       viewPost={() => viewPost(v.post_sid)}
+                       editPost={() => editPost(v.post_sid)}
                      />
-                   </Link>
                  ))}             
                 <div className={Style.editBg}>
                   <FontAwesomeIcon icon={faPenToSquare} className={Style.editIcon} />

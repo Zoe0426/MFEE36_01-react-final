@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Style from './boardNav.module.css'
 import SubBtn from '../buttons/subBtn'
 import PostAuthorBTN from '../postAuthorBtn/postAuthorBtn'
 import BlogDecoration from '../blogBanner/blogDecoration'
+import BGUpperDecoration from '../decoration/bg-upper-decoration'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faChevronRight,faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 
 export default function BoardNav({doctor,home,site,restaurant,salon,school,hang,young,old,product,diary, img='',text='',PostAuthorBTNHandler=()=>{}}) {
+
+  const [move, setMove] = useState(0);
+
+  const moveBoard = () => {
+    setMove(move === 0 ? 1 : 0); // 切换状态
+  };
+
   return (
     <div className={Style.boardNavbar}>
       <div className={Style.boardNav}>
@@ -35,7 +45,8 @@ export default function BoardNav({doctor,home,site,restaurant,salon,school,hang,
       </div>
 
 
-        <div className={Style.boardRange}>
+      <div className={Style.boardHidden}>
+        <div className={Style.boardRange} style={{ left: move === 1 ? '-650px' : '0' }}>
             <div className={Style.board} onClick={doctor}>
               <SubBtn img = '/forum_img/board_img/寵物醫療版.png' text ='醫療板'/>
             </div>
@@ -69,11 +80,15 @@ export default function BoardNav({doctor,home,site,restaurant,salon,school,hang,
             <div className={Style.board} onClick={diary}>
               <SubBtn img = '/forum_img/board_img/毛孩日記版.png' text ='毛孩日記板'/>
             </div>
+            </div>
           </div>
+            <div className={Style.moveIcon} onClick={moveBoard}>
+              <FontAwesomeIcon icon={move === 0 ? faChevronRight:faChevronLeft} />
+            </div>
       </div>
         </div>
         <div className={Style.boardBTM}>
-          <BlogDecoration/>
+          <BGUpperDecoration/>
         </div>
     </div>
   )
