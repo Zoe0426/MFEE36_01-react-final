@@ -32,7 +32,12 @@ export default function ProductInput({
         <label className={styles.labels}>價格範圍</label>
         <span className={styles.colon}>:</span>
         <Row align="middle" style={{ flex: 1 }} className={styles.toBox}>
-          <Col xs={{ span: 10 }} sm={{ span: 10 }} md={{ span: 3 }}>
+          <Col
+            xs={{ span: 10 }}
+            sm={{ span: 10 }}
+            md={{ span: 3 }}
+            className={styles.input_text}
+          >
             <Input
               placeholder="$ 最小金額"
               value={minPrice ? minPrice : null}
@@ -52,7 +57,12 @@ export default function ProductInput({
           <Col xs={{ span: 4 }} sm={{ span: 4 }} md={{ span: 1 }}>
             <div className={styles.symboTo}>~</div>
           </Col>
-          <Col xs={{ span: 10 }} sm={{ span: 10 }} md={{ span: 3 }}>
+          <Col
+            xs={{ span: 10 }}
+            sm={{ span: 10 }}
+            md={{ span: 3 }}
+            className={styles.input_text}
+          >
             <Input
               placeholder="$ 最大金額"
               value={maxPrice ? maxPrice : null}
