@@ -22,11 +22,16 @@ export default function Modal({
 
   const toggleModal = () => {
     setModal(!modal);
+    if (!modal) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
   };
 
   const confirmBtn = () => {
     confirmHandler();
-    setModal(!modal);
+    toggleModal();
   };
 
   return (

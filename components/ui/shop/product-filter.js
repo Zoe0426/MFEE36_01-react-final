@@ -25,7 +25,7 @@ export default function ProductFilter({
         <span className={styles.colon}>:</span>
         <div className={styles.checkBoxs}>
           <Checkbox.Group style={{ width: '100%' }} />
-          <Row gutter={[16, 8]}>
+          <Row gutter={[16, 16]}>
             {data.map((v) => {
               return (
                 <Col

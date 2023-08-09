@@ -819,7 +819,7 @@ export default function RestInfo() {
               <Success clickHandler={handleCopyUrl} />
             </div>
             <RateStar
-              score={commentAvgRows.avg_friendly}
+              score={restDetailRows.average_friendly}
               className={Styles.rate_star}
             />
             <p className={Styles.information}>{restDetailRows.info}</p>

@@ -30,8 +30,10 @@
 }
 .rest_img>img {
     width: 100%; 
-    height: auto; 
     transition: 0.5s;
+    height: 280px;
+    object-fit: cover;
+    object-position: top center;
   }
 .rest_img img:hover {
     scale: 1.1;
@@ -68,6 +70,12 @@
 }
 .active{
     color:var(--heartRed);
+    position: absolute;
+    top: 2%;
+    right: 4%;
+    font-size: 30px;
+    z-index: 1;
+    cursor: pointer;
 }
 
 @media screen and (max-width:767px){
@@ -102,4 +110,7 @@
     .hash_tag_group{
         display: none;
     }
+    .rest_img>img {
+        height: 120px;
+      }
     }

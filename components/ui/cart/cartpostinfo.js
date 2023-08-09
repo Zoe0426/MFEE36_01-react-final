@@ -41,7 +41,7 @@ export default function CartPostInfo({
   tenDaysLater.setDate(today.getDate() + 5);
 
   const dateRange = formatDateRange(threeDaysLater, tenDaysLater);
-  console.log(dateRange); // 6月8日 - 6月16日
+  //console.log(dateRange); // 6月8日 - 6月16日
 
   let img = '';
   if (postType === 1) {

@@ -52,9 +52,11 @@ export default function CartTotalSection({
     return a;
   }, 0);
 
-  const couponPrice =
-    couponData.length > 0 &&
-    couponData.filter((v) => v.selected === true)[0].price;
+  let couponPrice = 0;
+  if (couponData.length > 0) {
+    couponPrice = couponData.filter((v) => v.selected === true)[0].price;
+  }
+
   const shopTotal =
     shopSubtotal > 0 ? shopSubtotal + postAmount - couponPrice : 0;
   const activityTotal =
@@ -160,8 +162,8 @@ export default function CartTotalSection({
                 <span style={{ color: '#FD8C46' }}>優惠券</span>
                 <span className={style.amount} style={{ color: '#FD8C46' }}>
                   -$
-                  {(checkoutType === 'shop' && shopSubtotal === 0) ||
-                  (checkoutType !== 'shop' && activitySubtotal === 0)
+                  {(checkoutType === 'shop' && shopSubtotal < couponPrice) ||
+                  (checkoutType !== 'shop' && activitySubtotal < couponPrice)
                     ? 0
                     : couponPrice.toLocaleString()}
                 </span>
@@ -182,7 +184,7 @@ export default function CartTotalSection({
                 />
                 <Modal
                   btnType="text"
-                  btnText={`更換優惠券 (${couponData.length})`}
+                  btnText={`我的優惠券 (${couponData.length})`}
                   title="選擇優惠券"
                   confirmHandler={selectCoupon}
                   content={
@@ -249,13 +251,7 @@ export default function CartTotalSection({
             </div>
           </div>
           <div className={style.checkoutBtn}>
-            <CartPayBtn
-              btnText="結帳"
-              title="溫馨提醒"
-              mainBtnText="付款"
-              subBtnText="返回"
-              confirmHandler={createOrder}
-            />
+            <MainBtn text="結帳" clickHandler={createOrder} />
           </div>
           <img
             src="/home-images/dog.svg"

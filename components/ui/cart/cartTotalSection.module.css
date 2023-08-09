@@ -91,9 +91,9 @@ flex-direction: column;
 .runningdog{
     /* transform:  rotate(20deg); */
     position: absolute;
-    right: -10%;
-    top: -60px;
-    width: 120px;
+    right: -15%;
+    top: -50px;
+    width: 105px;
 }
 .toggleCard{
     display: none;

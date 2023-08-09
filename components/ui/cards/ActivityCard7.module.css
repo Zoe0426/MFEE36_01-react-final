@@ -1,0 +1,55 @@
+.card {
+    /* width: 32%; */
+    /* height: 152px; */
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+  
+.image {
+    aspect-ratio: 1/1; /* 設置寬高比為1:1 */
+    width: 200px;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+/* 
+.user_default{
+border-radius: 50px;
+font-size: 50px;
+} */
+  
+  
+.content {
+    padding: 0 0 0 var(--p16);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+  
+.title {
+    color: var(--dark);
+    font-size: var(--h4fs24);
+    font-weight: var(--fwbold);
+}
+  
+.count {
+    font-size: var(--h5fs20);
+}
+  
+.location {
+    display: flex;
+    align-items: center;
+    color: #666666;
+}
+
+.location_text{
+    font-size: var(--h5fs20);
+}
+  
+.icon {
+    font-size: var(--h5fs20);
+    margin-right: 4px;
+    color: var(--main);
+}
+  

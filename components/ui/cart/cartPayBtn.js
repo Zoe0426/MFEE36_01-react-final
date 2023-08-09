@@ -79,7 +79,7 @@ export default function CartPayBtn({
                 />
               </div>
 
-              <div className={Styles.line}></div>
+              {/* <div className={Styles.line}></div> */}
               <div className={Styles.btn_group}>
                 {showSubBtn && (
                   <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />

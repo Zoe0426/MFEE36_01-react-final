@@ -397,7 +397,7 @@ export default function ActivityMain() {
       .filter((item) => item.checked)
       .map((item) => item.value);
 
-    // 构建新的 query 对象
+    
     const newQuery = {
       ...router.query,
       page: 1,

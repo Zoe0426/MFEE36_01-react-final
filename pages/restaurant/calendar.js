@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import BookingModal from '@/components/ui/restaurant/Bookingmodal2';
+import BookingModal from '@/components/ui/restaurant/Calendar';
 import Styles from './calendar.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -41,7 +41,7 @@ function App() {
   ]);
 
   useEffect(() => {
-    fetch(`${process.env.API_SERVER}/restaurant-api/booking2`)
+    fetch(`${process.env.API_SERVER}/restaurant-api/calendar`)
       .then((r) => r.json())
       .then((data) => {
         const { bookingRows, memberRows } = data;

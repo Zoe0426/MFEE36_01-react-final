@@ -1,27 +1,27 @@
-.jill_h1{
+.jill_h1 {
   font-size: var(--h1fs36);
   font-weight: var(--fwbold);
   padding-bottom: var(--p32);
-  color: #fff; 
+  color: #fff;
 }
 
-.search{
+.search {
   width: 100%;
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
 }
-.search_bar{
+.search_bar {
   position: absolute;
   top: 60%;
 }
-.banner{
+.banner {
   height: 280px;
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   background-repeat: no-repeat;
   background-position: center;
   overflow: hidden;
@@ -37,7 +37,6 @@
   width: auto;
 }
 
-
 .jill_h2 {
   font-size: var(--h3fs28);
   font-weight: var(--fwbold);
@@ -49,7 +48,7 @@
   justify-content: space-between;
   align-items: center;
 }
-.bread_btn{
+.bread_btn {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -86,11 +85,11 @@
 .filter_btns > button:last-child {
   margin-right: 0;
 }
-.card{
+.card {
   position: relative;
   width: 100%;
 }
- .function_group {
+.function_group {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -106,77 +105,74 @@
 
 .bgc {
   background-color: var(--lightBrown);
-
 }
-.pagination{
-  margin:70px 0;
+.pagination {
+  margin: 70px 0;
   text-align: center;
 }
 
 /* 地區樣式 */
-.location_search_area{
-  margin:48px 12px 48px 0px;
+.location_search_area {
+  margin: 48px 12px 48px 0px;
   display: flex;
 }
 
-.location_search_area>div>p{
+.location_search_area > div > p {
   font-size: var(--h6fs18);
 }
-.category_area{
+.category_area {
   display: flex;
   align-items: center;
   justify-content: center;
-  
 }
-.labels{
-  font-size:var(--h6fs18) ;
+.labels {
+  font-size: var(--h6fs18);
   font-weight: var(--fwbold);
   height: 100%;
   line-height: 50px;
-  width:110px;
+  width: 110px;
   margin-right: 16px;
 }
 
-.paw{
+.paw {
   font-size: var(--h6fs18);
   color: var(--dark);
   margin-right: 10px;
 }
-
-.city{
-  margin-right: 16px;
-  padding: 0 16px;
+.dropdowns{
+  display: flex;
+  gap: 16px;
+}
+.city {
   width: 200px;
 }
-.dropdown_arrow{
+.dropdown_arrow {
   margin-right: 100px;
 }
-.section{
-  padding: 0 16px;
+.section {
   width: 200px;
 }
 
-
 @media screen and (max-width: 767px) {
-  .jill_h1{
+  .jill_h1 {
     font-size: var(--h5fs20);
     padding-bottom: var(--p16);
-}
-.banner{
+  }
+  .banner {
     height: 220px;
-}
+  }
   .jill_h2 {
     font-size: var(--h6fs18);
     padding-bottom: var(--p8);
   }
   .second_area {
-    margin: 0
+    margin: 0;
   }
   .function_group {
     display: flex;
     justify-content: space-between;
-    padding-right: 36px;
-    padding-left: 36px;
+    padding-right: 60px;
+    padding-left: 60px;
     padding-bottom: var(--p8);
     padding-top: var(--p8);
   }
@@ -212,54 +208,49 @@
   }
   .bread_btn {
     justify-content: space-between;
-    padding-bottom: var(--p8);
-    padding-top: var(--p8);
+    padding-bottom: 0;
+    padding-top: 0;
   }
-  .function_group{
+  .function_group {
     width: 100%;
   }
   .function_group > * {
-    margin-right: 0px; 
+    margin-right: 0px;
   }
-  .breadcrumb{
+  .breadcrumb {
     display: none;
-    
   }
-  .category_area{
+  .category_area {
     width: 100%;
     padding-bottom: 16px;
   }
-  .location_img{
+  .location_img {
     height: 88px;
     width: 88px;
     margin-bottom: 6px;
+  }
+  .city {
+    margin-bottom: 6px;
+    width: 100%;
+    margin-right:0 ;
+  }
+  .section {
+    width: 100%;
+  }
+  .location_search_area {
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+  }
+  .location_name {
+    font-size: var(--pfs12);
+  }
 
-}
-.city {
-  width: 100%;
-  padding: 0 ;
-}
-.section {
-  width: 100%;
-  padding: 0 ;
-}
-.location_search_area{
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 0;
-}
-.location_name{
-  font-size: var(--pfs12);
-}
-.dropdowns{
-  width: 100%;
-  display: flex;
-}
-.dropdown_arrow{
-  margin-right: 70px;
-}
-.pagination{
-  padding-bottom: 60px;
-  margin-top: 20px;
-}
+  .dropdown_arrow {
+    margin-right: 70px;
+  }
+  .pagination {
+    padding-bottom: 60px;
+    margin-top: 20px;
+  }
 }

@@ -17,7 +17,9 @@ export default function Cart() {
   const { auth } = useContext(AuthContext);
   const router = useRouter();
   const query = router.query;
-  const orderSid = query.orderSid.slice(0, 8);
+  console.log(query.orderSid);
+
+  const [orderSid, setOrderSid] = useState('');
   const [first, setFirst] = useState(false);
   const [fromMem, setFromMem] = useState(false);
   const [showRepayAlert, setShowRepayAlert] = useState(false);
@@ -44,18 +46,20 @@ export default function Cart() {
       const from = router.asPath;
       router.push(`/member/sign-in?from=${from}`);
     } else if (auth.id && query.orderSid) {
+      const s = query.orderSid.slice(0, 8);
+      setOrderSid(s);
       query.orderSid.slice(-3) === 'mem'
         ? setFromMem(true)
         : setShowRepayAlert(true);
       setPageLoading(false);
-      getOrder(orderSid);
+      getOrder(s);
     }
   }, [auth, first, query]);
 
-  const getOrder = async () => {
+  const getOrder = async (sid) => {
     try {
       const r = await fetch(
-        `${process.env.API_SERVER}/cart-api/get-repay-order/${orderSid}`,
+        `${process.env.API_SERVER}/cart-api/get-repay-order/${sid}`,
         { method: 'GET' }
       );
       const data = await r.json();

@@ -111,6 +111,23 @@
   transition: all 1s ease-out;
 }
 
+@keyframes yoyo {
+	0% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-20px);
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+.food {
+	animation: yoyo 2s infinite ease-in-out;
+}
 
 
 /* -------------------- */

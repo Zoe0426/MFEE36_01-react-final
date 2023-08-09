@@ -10,7 +10,7 @@ import { Input, ConfigProvider } from 'antd';
 import IconMainBtn from '../buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 export default function ModalWithoutLine({
-  btnType = 'main', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn)、input(ant d input)、text(純文字)五種
+  btnType = 'main', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn)、input(ant d input)、closeBtn(x), text(純文字)六種
   icon = '', //選擇iconBtn的，請先把要用的icon引入到主頁面，並傳給此參數
   btnText = '點我展開modal', // 選點了展開modal的Btn文字內容
   mainBtnText = '確認', //確認btn的文字
@@ -23,11 +23,16 @@ export default function ModalWithoutLine({
 
   const toggleModal = () => {
     setModal(!modal);
+    if (!modal) {
+      document.body.classList.add('likeList-open');
+    } else {
+      document.body.classList.remove('likeList-open');
+    }
   };
 
   const confirmBtn = () => {
     confirmHandler();
-    setModal(!modal);
+    toggleModal();
   };
 
   return (
