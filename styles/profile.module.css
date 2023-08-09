@@ -67,11 +67,38 @@
   object-fit: cover;
 }
 
-
-
 .warning{
   font-size: var(--pfs14);
   color: var( --heartRed);
+}
+
+.faPenToSquareBox{
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 30px;
+  cursor: pointer;
+  border: 1px dashed var(--light-gray);
+  border-radius: var(--br8);
+  background-color: #ffffff91;
+}
+
+.faPenToSquareImg{
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.faPenToSquare{
+  font-size: 30px;
+  color: var(--main);
+}
+
+.faPenToSquareText{
+  font-size: var(--pfs14);
+  color: var(--main);
+  text-align: center;
 }
 
 @media screen and (max-width:1440px) and (min-width:769px){

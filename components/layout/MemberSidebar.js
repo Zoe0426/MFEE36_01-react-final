@@ -86,11 +86,11 @@ export default function MemberSidebar() {
             let sameDayProjects = sameDate(item.date);
             let backgroundColor;
             if (sameDayProjects.length > 1) {
-              backgroundColor = '#FDEDD3';
+              backgroundColor = '#FEEBC1';
             } else if (item.type === 'activity') {
-              backgroundColor = '#E1ECE5';
+              backgroundColor = '#C8EFD6';
             } else {
-              backgroundColor = '#FCD8DA';
+              backgroundColor = '#FAC3C6';
             }
 
             return (

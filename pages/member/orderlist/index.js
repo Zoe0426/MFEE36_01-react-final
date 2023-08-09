@@ -40,6 +40,13 @@ export default function OrderList() {
         }).toString()}`
       );
     }
+    if (repay) {
+      router.push(
+        `?${new URLSearchParams({
+          keywordR: keyword,
+        }).toString()}`
+      );
+    }
   };
 
   useEffect(() => {
@@ -55,6 +62,8 @@ export default function OrderList() {
       if (auth.token) {
         const keywordS = router.query.keywordS;
         const keywordA = router.query.keywordA;
+        const keywordR = router.query.keywordR;
+        console.log('keywordR', keywordR);
         if (keywordS) {
           fetch(
             `${process.env.API_SERVER}/member-api/order?${new URLSearchParams({
@@ -69,7 +78,9 @@ export default function OrderList() {
             .then((r) => r.json())
             .then((data) => {
               console.log(data);
-              const firstData = data.filter((data) => data.rel_type === 'shop');
+              const firstData = data.filter(
+                (data) => data.rel_type === 'shop' && data.orderStatus === 1
+              );
               setData(firstData);
               setAllData(data);
               setLoading(false);
@@ -89,11 +100,32 @@ export default function OrderList() {
             .then((data) => {
               console.log(data);
               const firstData = data.filter(
-                (data) => data.rel_type === 'activity'
+                (data) => data.rel_type === 'activity' && data.orderStatus === 1
               );
               setData(firstData);
               setAllData(data);
               setLoading(false);
+            });
+        } else if (keywordR) {
+          fetch(
+            `${process.env.API_SERVER}/member-api/order?${new URLSearchParams({
+              keywordR: keywordR,
+            }).toString()}`,
+            {
+              headers: {
+                Authorization: 'Bearer ' + auth.token,
+              },
+            }
+          )
+            .then((r) => r.json())
+            .then((data) => {
+              console.log(data);
+              const firstData = data.filter((data) => data.orderStatus === 0);
+              setData(firstData);
+              setAllData(data);
+              setLoading(false);
+              setShop(true);
+              setActivity(false);
             });
         } else {
           fetch(`${process.env.API_SERVER}/member-api/order`, {
@@ -104,9 +136,7 @@ export default function OrderList() {
             .then((r) => r.json())
             .then((data) => {
               console.log(data);
-              const firstData = data.filter(
-                (data) => data.rel_type === 'shop' && data.orderStatus === 1
-              );
+              const firstData = data.filter((data) => data.orderStatus === 1);
               setData(firstData);
               setAllData(data);
               setLoading(false);
@@ -132,7 +162,9 @@ export default function OrderList() {
   };
 
   const actOrder = () => {
-    const newData = allData.filter((data) => data.rel_type === 'activity');
+    const newData = allData.filter(
+      (data) => data.rel_type === 'activity' && data.orderStatus === 1
+    );
     console.log(newData);
     setData(newData);
     setActivity(true);

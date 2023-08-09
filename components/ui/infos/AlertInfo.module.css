@@ -14,7 +14,8 @@
 		line-height: 1.5;
 		max-height: 200px;
 		overflow: auto;
-
+		border: 1px solid var(--light-gray);
+		padding: 0 5px;
 }
 
 
