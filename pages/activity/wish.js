@@ -2,10 +2,9 @@ import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
-import styles from '../../styles/activityvote.module.css';
+import styles from '../../styles/activitywish.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
-import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
-import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
+
 import {
   Row,
   Col,
@@ -22,6 +21,7 @@ import {
   Item,
   DatePicker,
   Radio,
+  faUserPlus,
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import SearchBar from '@/components/ui/buttons/SearchBar';
@@ -47,6 +47,10 @@ import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
 import ActivityCard6 from '@/components/ui/cards/ActivityCard6';
 import ActivityCard7 from '@/components/ui/cards/ActivityCard7';
 
+import Modal from '@/components/ui/modal/modal';
+import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
+
 export default function ActivityWish() {
   const router = useRouter();
 
@@ -55,16 +59,29 @@ export default function ActivityWish() {
 
   const { TextArea } = Input;
 
+  const [successAddToCard, setSuccessAddToCard] = useState(false);
+
+  const initialFormValues = {
+    name: '',
+    city: '請選擇',
+    area: '請選擇',
+    content: '',
+    other_message: '',
+  };
+
+  const [formData, setFormData] = useState(initialFormValues);
+
+  
+
   //沒登入會員收藏，跳轉登入
   const toSingIn = () => {
     const from = router.query;
     router.push(
       `/member/sign-in?from=${
         process.env.WEB
-      }/activity/vote?${new URLSearchParams(from).toString()}`
+      }/activity/wish?${new URLSearchParams(from).toString()}`
     );
   };
-
 
   // 小麵包屑------------------------------------------------------------
   const [breadCrubText, setBreadCrubText] = useState([
@@ -76,18 +93,18 @@ export default function ActivityWish() {
     },
     {
       id: 'search',
-      text: '/ 願望列表',
+      text: '> 願望列表',
       href: `${process.env.WEB}/activity/wishlist`,
       show: true,
     },
-    { id: 'wish', text: '/ 我要許願', href: '', show: true },
+    { id: 'wish', text: '> 我要許願', href: '', show: true },
   ]);
 
   //form 表單驗證
   const [form] = Form.useForm();
   const onFinish = (values) => {
     console.log('選中的值:', values);
-    handleSubmit(values)
+    handleSubmit(values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -482,14 +499,13 @@ export default function ActivityWish() {
     金門縣: ['金城鎮', '金湖鎮', '金沙鎮', '金寧鄉', '烈嶼鄉', '烏坵鄉'],
     連江縣: ['南竿鄉', '北竿鄉', '莒光鄉', '東引鄉'],
   };
+  
+  
+
   const cityList = Object.keys(area_data);
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedArea, setSelectedArea] = useState('');
 
-  const initialValues = {
-    city: '請選擇',
-    area: '請選擇',
-  };
   const handleCityChange = (value) => {
     setSelectedCity(value);
     setSelectedArea('');
@@ -503,26 +519,43 @@ export default function ActivityWish() {
     setSelectedArea(value);
   };
 
- 
   const onChange = (e) => {
     console.log('Change:', e.target.value);
   };
 
+
+  
   const handleSubmit = async (values) => {
     const { name, city, area, content, other_message } = values;
-  
+
     try {
-      await orderActivityClick(auth.token, authId, name, city, area, content, other_message);
+      await orderActivityClick(
+        auth.token,
+        authId,
+        name,
+        city,
+        area,
+        content,
+        other_message
+      );
       console.log('Wish submitted successfully');
-    
+
+      form.resetFields(); 
+      setSelectedCity('');
+      setSelectedArea('');
     } catch (error) {
       console.error('Error submitting wish:', error);
-    
     }
   };
 
 
- 
+  const handleResetForm = () => {
+    setFormData(initialFormValues);
+    setSelectedCity('');
+    setSelectedArea('');
+  };
+
+
   const orderActivityClick = async (
     token,
     authId,
@@ -536,36 +569,48 @@ export default function ActivityWish() {
       if (!token) {
         throw new Error('Authentication token not found');
       }
-  
+
       const requestBody = {
         member_sid: authId,
-        name:name,
-        city:city,
-        area:area,
-        content:content,
-        other_message:other_message,
+        name: name,
+        city: city,
+        area: area,
+        content: content,
+        other_message: other_message,
       };
-  
-      const response = await fetch(`${process.env.API_SERVER}/activity-api/wish`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
-        },
-        body: JSON.stringify(requestBody),
-      });
-  
+
+      const response = await fetch(
+        `${process.env.API_SERVER}/activity-api/wish`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
       if (!response.ok) {
         throw new Error('送出願望 失敗');
       }
-  
+
+      setSuccessAddToCard(true);
+      setTimeout(() => {
+        setSuccessAddToCard(false);
+      }, 1200);
+
       console.log('送出願望 成功');
+
     } catch (error) {
       throw new Error('Error submitting wish: ' + error.message);
     }
-  };
-  
 
+   
+  };
+
+
+  
 
   return (
     <div>
@@ -574,35 +619,8 @@ export default function ActivityWish() {
 
       <div className={styles.bgc}>
         <div className="container-inner">
-          <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} />
-
-            <div className={styles.btns}>
-              {auth.token ? (
-                <IconBtn
-                  icon={faHeart}
-                  text="收藏列表"
-                  // clickHandler={toggleLikeList}
-                />
-              ) : (
-                <ActivityAlertModal
-                  btnType="iconBtn"
-                  btnText="收藏列表"
-                  icon={faHeart}
-                  content="可查看收藏列表"
-                  mainBtnText="前往登入"
-                  subBtnText="暫時不要"
-                  confirmHandler={toSingIn}
-                />
-              )}
-            </div>
-          </div>
+          <BreadCrumb breadCrubText={breadCrubText} />
         </div>
-
-        {/* .........進階篩選......... */}
-
-        {/* .........收藏列表......... */}
-        <div className="container-inner"></div>
       </div>
 
       {/* .........分類bar......... */}
@@ -658,12 +676,11 @@ export default function ActivityWish() {
           <Form
             form={form}
             name="activityWishForm"
-            initialValues={initialValues}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             onSubmit={handleSubmit}
             className={styles.form_outer}
-            
+            initialValues={formData}
           >
             <Form.Item
               label="活動名稱"
@@ -684,6 +701,7 @@ export default function ActivityWish() {
                 <Form.Item
                   name="city"
                   label="縣市"
+                  className={styles.formItem}
                   rules={[
                     {
                       required: true,
@@ -708,6 +726,7 @@ export default function ActivityWish() {
                 <Form.Item
                   name="area"
                   label="地區"
+                  className={styles.formItem}
                   rules={[
                     {
                       required: true,
@@ -743,14 +762,14 @@ export default function ActivityWish() {
               ]}
             >
               <TextArea
-              showCount
-              style={{
-                height: 500,
-                resize: 'none',
-              }}
-              onChange={onChange}
-              placeholder="活動內容..."
-            />
+                showCount
+                style={{
+                  height: 500,
+                  resize: 'none',
+                }}
+                onChange={onChange}
+                placeholder="活動內容..."
+              />
             </Form.Item>
             <Form.Item
               label="其他內容"
@@ -764,27 +783,45 @@ export default function ActivityWish() {
               ]}
             >
               <TextArea
-              showCount
-              style={{
-                height: 200,
-                resize: 'none',
-              }}
-              onChange={onChange}
-              placeholder="其他想說的話..."
-            />
+                showCount
+                style={{
+                  height: 200,
+                  resize: 'none',
+                }}
+                onChange={onChange}
+                placeholder="其他想說的話..."
+              />
             </Form.Item>
-            
 
-            <div className={styles.btns}>
+            <div className={styles.btns_bottom}>
               <div className={styles.btn}>
-                <SecondaryBtn text="清空" htmltype="reset" />
+                <SecondaryBtn 
+                text="清空" 
+                htmltype="reset" 
+                onClick={handleResetForm}
+                />
               </div>
               <div className={styles.btn}>
-                <MainBtn 
-                text="送出願望" 
-                htmltype="submit" 
-                // clickHandler={orderActivityClick}
-                />
+                {!auth.token ? (
+                  <Modal
+                    btnType="iconSeconBtn"
+                    btnText="送出願望"
+                    title="貼心提醒"
+                    content={<ModoalReminder text="登入會員，才能許願喔~" />}
+                    mainBtnText="前往登入"
+                    subBtnText="暫時不要"
+                    confirmHandler={toSingIn}
+                    icon={faUserPlus}
+                  />
+                ) : (
+                  <MainBtn text="送出願望" htmltype="submit" />
+                )}
+                {successAddToCard && (
+                  <ModalWithoutBtn
+                    text="許願成功！"
+                    img="/product-img/success.svg"
+                  />
+                )}
               </div>
             </div>
           </Form>
