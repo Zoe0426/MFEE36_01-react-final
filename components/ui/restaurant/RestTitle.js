@@ -16,7 +16,11 @@ export default function RestTitle({
     <>
       <div className={Styles.group}>
         <div className={Styles.explore_title}>
-          <FontAwesomeIcon icon={icon} className={Styles.title_icon} />
+          <FontAwesomeIcon
+            icon={icon}
+            className={Styles.title_icon}
+            style={{ maxWidth: '45px', maxHeight: '45px' }}
+          />
           <h2 className={Styles.jill_h2}>{text}</h2>
         </div>
         <div className={Styles.show_more}>

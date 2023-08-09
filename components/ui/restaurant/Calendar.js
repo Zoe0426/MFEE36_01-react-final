@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import Styles from './Bookingmodal2.module.css';
+import Styles from './Calendar.module.css';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import NumberInput from '../numberInput/numberInput2';
+import { useRouter } from 'next/router';
 
 export default function BookingModal({
   datas = [],
@@ -19,6 +20,7 @@ export default function BookingModal({
   countPeople = 1,
   countPet = 1,
 }) {
+  const router = useRouter();
   const [modal, setModal] = useState(false);
   const [reservationSuccess, setReservationSuccess] = useState(false); // 新增狀態來控制預約成功的彈跳視窗
   // const [countPeople, setCountPeople] = useState(1);
@@ -44,7 +46,8 @@ export default function BookingModal({
   // 彈跳視窗確認按鈕的點擊處理函數
   const handleModalConfirm = () => {
     // 重新載入頁面
-    window.location.reload();
+    // window.location.reload();
+    router.push(`${process.env.WEB}/restaurant`);
   };
 
   // const handleChangePeople = (newCount) => {

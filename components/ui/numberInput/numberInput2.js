@@ -37,6 +37,23 @@ export default function NumberInput({
     }
   };
 
+  // const handleChange = (e) => {
+  //   const inputValue = e.target.value;
+  //   const reisNumber = /^[.\d]*$/;
+  //   if (reisNumber.test(inputValue)) {
+  //     const numericValue = parseInt(inputValue); // 將輸入轉換為數字
+  //     if (!isNaN(numericValue) && numericValue <= maxValue) {
+  //       setValue(numericValue);
+  //       handleNumber(numericValue);
+  //       if (needMax) {
+  //         setIsExceedingMaxValue(false);
+  //       }
+  //     } else {
+  //       setIsExceedingMaxValue(true);
+  //     }
+  //   }
+  // };
+
   const handleChange = (e) => {
     const inputValue = e.target.value;
     const reisNumber = /^[.\d]*$/;
@@ -50,11 +67,14 @@ export default function NumberInput({
         }
       } else {
         setIsExceedingMaxValue(true);
+        // 如果輸入值超過最大值，則將輸入值重設為預設值 (即1)
+        setValue(defaultValue);
+        handleNumber(defaultValue);
       }
     }
   };
 
-  -console.log(isExceedingMaxValue);
+  console.log(isExceedingMaxValue);
   const handleBlur = () => {
     const newValue = isNaN(value) || value === '' ? 1 : value;
     setValue(newValue);

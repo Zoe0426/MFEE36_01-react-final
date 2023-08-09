@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DownOutlined } from '@ant-design/icons';
 import {
   faFire,
-  faMap,
   faHeart,
   faFilter,
   faFaceLaugh,
@@ -17,16 +16,7 @@ import {
   faPaw,
 } from '@fortawesome/free-solid-svg-icons';
 import RestCard from '@/components/ui/cards/rest_card';
-import {
-  Col,
-  Row,
-  ConfigProvider,
-  Button,
-  Dropdown,
-  Space,
-  Menu,
-  Select,
-} from 'antd';
+import { Col, Row, ConfigProvider, Select } from 'antd';
 import RestTitle from '@/components/ui/restaurant/RestTitle';
 import LocationCard from '@/components/ui/restaurant/LocationCard';
 import Styles from './index.module.css';
@@ -725,7 +715,7 @@ export default function Restindex() {
       <div className={Styles.bgc}>
         <div className="container-inner">
           <div className={Styles.function_group}>
-            <IconBtn icon={faMap} text="餐廳地圖" />
+            {/* <IconBtn icon={faMap} text="餐廳地圖" /> */}
             {auth.token ? (
               <IconBtn
                 icon={faHeart}
@@ -778,37 +768,39 @@ export default function Restindex() {
                       <label className={Styles.labels}>用餐地點</label>
                     </div>
                     <div className={Styles.dropdowns}>
-                      <Space wrap>
-                        <Select
-                          value={selectedCity ? selectedCity : undefined}
-                          placeholder="城市"
-                          style={{
-                            width: 200,
-                          }}
-                          onChange={handleProvinceChange}
-                          options={Object.keys(cities).map((city) => ({
-                            label: city,
-                            value: city,
-                          }))}
-                        />
-                        <Select
-                          style={{
-                            width: 200,
-                          }}
-                          value={selectedArea}
-                          placeholder="地區"
-                          onChange={onSecondCityChange}
-                          options={
-                            selectedCity
-                              ? cities[selectedCity].map((area) => ({
-                                  label: area,
-                                  value: area,
-                                }))
-                              : []
-                          }
-                          disabled={!selectedCity}
-                        />
-                      </Space>
+                      {/* <Space wrap> */}
+                      <Select
+                        value={selectedCity ? selectedCity : undefined}
+                        placeholder="城市"
+                        // style={{
+                        //   width: 200,
+                        // }}
+                        onChange={handleProvinceChange}
+                        options={Object.keys(cities).map((city) => ({
+                          label: city,
+                          value: city,
+                        }))}
+                        className={Styles.city}
+                      />
+                      <Select
+                        // style={{
+                        //   width: 200,
+                        // }}
+                        value={selectedArea}
+                        placeholder="地區"
+                        onChange={onSecondCityChange}
+                        options={
+                          selectedCity
+                            ? cities[selectedCity].map((area) => ({
+                                label: area,
+                                value: area,
+                              }))
+                            : []
+                        }
+                        disabled={!selectedCity}
+                        className={Styles.section}
+                      />
+                      {/* </Space> */}
                     </div>
                   </div>
                 </ConfigProvider>
@@ -1012,7 +1004,7 @@ export default function Restindex() {
 
       <div className="container-outer">
         <div className={Styles.CloudTop}>
-          <Image src={CloudTop} />
+          <Image src={CloudTop} alt="CloudTop" />
           <div className={Styles.dog_print}>
             <div className={Styles.paw_print_1}>
               <div className={`${Styles.pad} ${Styles.large}`}></div>
@@ -1054,6 +1046,7 @@ export default function Restindex() {
               <FontAwesomeIcon
                 icon={faFaceLaugh}
                 className={Styles.title_icon}
+                style={{ maxWidth: '45px', maxHeight: '45px' }}
               />
               <h2 className={Styles.jill_h2}>友善條件</h2>
             </div>

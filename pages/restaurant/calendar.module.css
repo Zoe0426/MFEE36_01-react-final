@@ -14,6 +14,7 @@
 .section {
   display: flex;
   padding-top: 16px;
+  height: 640px;
 }
 .calendar {
   background-color: white;
@@ -203,9 +204,7 @@
 .date:hover {
   background-color: var(--secondary);
 }
-.section {
-  height: 640px;
-}
+
 .cloud1 {
   position: absolute;
   width: 80px;
@@ -437,5 +436,149 @@
     right: 9%;
     top: 68%;
     opacity: 1;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .abc{
+    background-color: transparent;
+  }
+  .breadcrumb{
+    display: none;
+  }
+  .cloud1,.cloud2,.cloud3,.cloud4,.cat,.cat_tail,.dog,.dog_tail{
+    display: none;
+  }
+  .date_text{
+    font-size: 20px;
+  }
+  .timetable {
+    font-size: var(--h5fs20);
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-bottom: 12px;
+  }
+  .calendar {
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px;
+    height: 380px;
+    width: 100%;
+    box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.1);
+  }
+  .can_book{
+    width: 100%;
+    height: 800px;
+  }
+  .time_section1{
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    background-color: transparent;
+    gap: 20px;
+
+  }
+  .time_section{
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    background-color: transparent;
+    gap: 20px;
+  }
+  .afternoon_title{
+    padding-bottom: 0px;
+    padding-left: 0;
+  }
+  .select_date{
+    font-size: 20px;
+    padding-left: 0;
+    padding-bottom: 12px;
+    text-align: center;
+  }
+  .date_date {
+    padding-top: 30px;
+    width: 100%;
+    font-size: 16px;
+  }
+  .date {
+    cursor: pointer;
+    padding: 12px;
+    text-align: center;
+    transition: 0.4s;
+    border-radius: 8px;
+    user-select: none;
+  }
+  .today_date {
+    cursor: pointer;
+    padding: 11px;
+    text-align: center;
+    transition: 0.4s;
+    border-radius: 8px;
+    border: 1px solid var(--main);
+    user-select: none;
+  }
+  .calendar_icon {
+    margin-right: 10px;
+  }
+  .past_date {
+    padding: 12px;
+    text-align: center;
+    color: var(--light-gray);
+    transition: 0.4s;
+    border-radius: 8px;
+    user-select: none;
+    pointer-events: none;
+  }
+  .selected_date {
+    background-color: var(--secondary);
+    cursor: pointer;
+    padding: 12px;
+    text-align: center;
+    transition: 0.4s;
+    border-radius: 8px;
+    user-select: none;
+  }
+  .date:hover {
+    background-color: var(--secondary);
+  }
+  .section {
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16px;
+    height: 1380px;
+    gap: 40px;
+  }
+  .can_book{
+    margin-left: 0;
+  }
+  .fake_modal{
+    display: none;
+  }
+  .header{
+    padding-bottom: 12px;
+    padding-top: 4px;
+  }
+  .month_btns {
+    border: 0;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+  .bgc {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+  }
+  .card_head {
+    display: flex;
+    height: 80px;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
   }
 }

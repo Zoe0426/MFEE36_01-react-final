@@ -43,6 +43,7 @@
   align-items: center;
   font-size: var(--pfs14);
   outline: 1px solid rgba(0, 0, 0, 0.06);
+  cursor: not-allowed;
 }
 .rest_num {
   font-size: 20px;
