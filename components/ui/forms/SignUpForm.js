@@ -451,6 +451,13 @@ export default function SignUpForm() {
     router.push('/member/sign-in');
   };
 
+  const validatePhone = (_, value) => {
+    if (!value || /^09\d{8}$/.test(value)) {
+      return Promise.resolve();
+    }
+    return Promise.reject('手機格式不正確');
+  };
+
   // 密碼驗證
   const [lengthValid, setLengthValid] = useState(false);
   const [lowerValid, setLowerValid] = useState(false);
@@ -540,10 +547,8 @@ export default function SignUpForm() {
                 className={Styles.formItem}
                 name={'mobile'}
                 rules={[
-                  {
-                    required: true,
-                    message: '請輸入手機',
-                  },
+                  { required: true, message: '請輸入手機號碼' },
+                  { validator: validatePhone },
                 ]}
               >
                 <Input size="large" />

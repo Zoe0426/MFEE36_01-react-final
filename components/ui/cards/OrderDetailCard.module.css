@@ -80,7 +80,24 @@
 
 .filedItem{
   width: 40px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-left: 0px;
+  color: var(--gray);
+}
+
+.filedItemL{
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  margin-left: 0px;
+  color: var(--gray);
+}
+
+.filedItemR{
+  width: 40px;
+  display: flex;
+  justify-content: flex-end;
   margin-left: 0px;
   color: var(--gray);
 }
