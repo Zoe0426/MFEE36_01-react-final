@@ -1,10 +1,9 @@
-
-.city_section{
+.city_section {
   display: flex;
   justify-content: space-between;
 }
 
-.dog_print{
+.dog_print {
   z-index: 99;
   /* top: 0%;
   left:  100%; */
@@ -13,41 +12,41 @@
   width: 10px;
   height: 12px;
   background-color: var(--dark);
-  -webkit-border-radius: 63px 63px 63px 63px / 108px     108px 72px 72px;
-  border-radius: 50%  50%  50%  50%  / 60%   60%         40%  40%;
+  -webkit-border-radius: 63px 63px 63px 63px / 108px 108px 72px 72px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
   display: block;
   position: absolute;
-}       
+}
 .large {
- width: 24px;
- height: 24px;
- transform: rotate(80deg);
- left: 100px;
- top: 50px;
-} 
+  width: 24px;
+  height: 24px;
+  transform: rotate(80deg);
+  left: 100px;
+  top: 50px;
+}
 .small_1 {
- transform: rotate(50deg);
- left: 110px;
- top: 32px;
+  transform: rotate(50deg);
+  left: 110px;
+  top: 32px;
 }
 .small_2 {
- transform: rotate(65deg);
- left: 128px;
- top: 40px;
-}  
+  transform: rotate(65deg);
+  left: 128px;
+  top: 40px;
+}
 .small_3 {
- transform: rotate(98deg);
- position: absolute;
- left: 132px;
- top: 58px;
+  transform: rotate(98deg);
+  position: absolute;
+  left: 132px;
+  top: 58px;
 }
 .small_4 {
- transform: rotate(140deg);
- position: absolute;
- left: 120px;
- top: 72px;
+  transform: rotate(140deg);
+  position: absolute;
+  left: 120px;
+  top: 72px;
 }
-  
+
 .paw_print_1 {
   opacity: 0;
   position: absolute;
@@ -55,73 +54,81 @@
   top: 280px;
   transform: rotate(-36deg);
   -webkit-animation: walk 3s linear infinite;
-  animation: /*keyframe*/walk /*duration*/3s /*transition*/linear /*repeat*/infinite;
-  }
+  animation: /*keyframe*/ walk /*duration*/ 3s /*transition*/ linear /*repeat*/
+    infinite;
+}
 
 .paw_print_2 {
-opacity: 0;
-position: absolute;
-left: 1655px;
-top: 130px;
-transform: rotate(-10deg); 
--webkit-animation: walk 3s linear infinite 0.25s;
-animation: walk 3s linear infinite /*delay*/0.25s;
+  opacity: 0;
+  position: absolute;
+  left: 1655px;
+  top: 130px;
+  transform: rotate(-10deg);
+  -webkit-animation: walk 3s linear infinite 0.25s;
+  animation: walk 3s linear infinite /*delay*/ 0.25s;
 }
 .paw_print_3 {
-opacity: 0;
-position: absolute;
-left: 1725px;
-top: 180px;
-transform: rotate(-10deg); 
--webkit-animation: walk 3s linear infinite 0.5s;
-animation: walk 3s linear infinite 0.5s;
-}    
+  opacity: 0;
+  position: absolute;
+  left: 1725px;
+  top: 180px;
+  transform: rotate(-10deg);
+  -webkit-animation: walk 3s linear infinite 0.5s;
+  animation: walk 3s linear infinite 0.5s;
+}
 
 .paw_print_4 {
   opacity: 0;
   position: absolute;
   left: 1755px;
   top: 100px;
-  transform: rotate(-10deg); 
+  transform: rotate(-10deg);
   -webkit-animation: walk 3s linear infinite 0.5s;
   animation: walk 3s linear infinite 0.5s;
-  }     
+}
 
 /* walking effect animation keyframes */
 @-webkit-keyframes walk {
-25%  {opacity: 1;}
-100% {opacity: 0;}
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
-  
+
 @keyframes walk {
-/* appear */
-25%  {opacity: 1;}
-/* disappear */
-100% {opacity: 0;}
+  /* appear */
+  25% {
+    opacity: 1;
+  }
+  /* disappear */
+  100% {
+    opacity: 0;
+  }
 }
 
-
-.jill_h1{
+.jill_h1 {
   font-size: var(--h1fs36);
   font-weight: var(--fwbold);
   padding-bottom: var(--p32);
-  color: #fff; 
+  color: #fff;
 }
 
-.search{
+.search {
   width: 100%;
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
 }
 
-.banner{
+.banner {
   height: 280px;
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
   background-repeat: no-repeat;
   background-position: center;
   overflow: hidden;
@@ -253,7 +260,6 @@ animation: walk 3s linear infinite 0.5s;
 }
 .middle_bgc {
   padding-bottom: 80px;
-
 }
 
 .CloudTop {
@@ -264,38 +270,37 @@ animation: walk 3s linear infinite 0.5s;
 .hot_card_group {
   width: 100%;
   overflow-x: auto;
-  overflow-y: hidden; 
+  overflow-y: hidden;
   display: flex;
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
   padding-bottom: 50px;
 }
-.space{
+.space {
   margin-top: 60px;
 }
-.hot_card{
-  flex: 0 0 33.33%; 
-  padding: 0 10px; 
-  box-sizing: border-box; 
+.hot_card {
+  flex: 0 0 33.33%;
+  padding: 0 10px;
+  box-sizing: border-box;
   position: relative;
 }
-.friendly_card{
-  flex: 0 0 33.33%; 
-  padding: 0 10px; 
-  box-sizing: border-box; 
+.friendly_card {
+  flex: 0 0 33.33%;
+  padding: 0 10px;
+  box-sizing: border-box;
   position: relative;
 }
 
-.friendly_card_group{
+.friendly_card_group {
   width: 100%;
   overflow-x: auto;
-  overflow-y: hidden; 
+  overflow-y: hidden;
   display: flex;
-  flex-wrap: nowrap; 
+  flex-wrap: nowrap;
   padding-bottom: 80px;
 }
 
-
-.card_width{
+.card_width {
   width: 400px;
 }
 .hot_card_group::-webkit-scrollbar {
@@ -306,57 +311,62 @@ animation: walk 3s linear infinite 0.5s;
   display: none;
 }
 /* 地區樣式 */
-.location_search_area{
-  margin:48px 12px 48px 0px;
+.location_search_area {
+  margin: 48px 12px 48px 0px;
   display: flex;
 }
 
-.location_search_area>div>p{
+.location_search_area > div > p {
   font-size: var(--h6fs18);
 }
-.category_area{
+.category_area {
   display: flex;
   align-items: center;
-
-  
 }
-.labels{
-  font-size:var(--h6fs18) ;
+.labels {
+  font-size: var(--h6fs18);
   font-weight: var(--fwbold);
   height: 100%;
   line-height: 50px;
-  width:110px;
+  width: 110px;
   margin-right: 16px;
 }
 
-.paw{
+.paw {
   font-size: var(--h6fs18);
   color: var(--dark);
   margin-right: 10px;
 }
 
-.city{
-  margin-right: 16px;
-  padding: 0 16px;
+.city {
   width: 200px;
 }
-.dropdown_arrow{
+.dropdowns{
+  display: flex;
+  gap: 16px;
+}
+.dropdown_arrow {
   margin-right: 100px;
 }
-.section{
-  padding: 0 16px;
+.section {
   width: 200px;
 }
+
 @media screen and (max-width: 767px) {
-.card{
-  position: relative;
-  width:80%;
-}
-  .jill_h1{
-    font-size: var(--h4fs24); 
+  .jill_h1 {
+    font-size: var(--h5fs20);
+    padding-bottom: var(--p16);
+  }
+  .banner {
+    height: 220px;
   }
   .jill_h2 {
     font-size: var(--h6fs18);
+    padding-bottom: var(--p8);
+  }
+  .card {
+    position: relative;
+    width: 80%;
   }
   .title_icon {
     font-size: var(--h6fs18);
@@ -378,6 +388,7 @@ animation: walk 3s linear infinite 0.5s;
     padding-bottom: 100px;
   }
   .function_group {
+    display: flex;
     justify-content: space-between;
     padding-right: 60px;
     padding-left: 60px;
@@ -385,12 +396,14 @@ animation: walk 3s linear infinite 0.5s;
     padding-top: var(--p8);
   }
   .function_group > * {
-    margin-right: 0px; 
+    margin-right: 0px;
   }
   .filter_btns {
     margin-top: 60px;
   }
-
+  .filter {
+    padding: var(--p8) 12px;
+  }
   .filter_btns > button {
     margin-right: 16px;
     padding-top: 0;
@@ -400,49 +413,49 @@ animation: walk 3s linear infinite 0.5s;
     text-align: center;
   }
   .filter_box {
-    padding-top: 0;
-    padding-bottom: 40px;
+    margin-top: 0px;
+    padding-bottom: 50px
   }
-  .category_area{
+  .category_area {
     width: 100%;
     padding-bottom: 16px;
   }
-  .location_img{
+  .location_img {
     height: 88px;
     width: 88px;
     margin-bottom: 6px;
+  }
+  .city {
+    margin-bottom: 6px;
+    width: 330px;
+    margin-right: 0 ;
+  }
+  .section {
+    width: 330px;
+  }
+  .location_search_area {
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+  }
 
-}
-.city {
-  width: 100%;
-  padding: 0 ;
-}
-.section {
-  width: 100%;
-  padding: 0 ;
-}
-.location_search_area{
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 0;
-}
-.location_name{
-  font-size: var(--pfs12);
-}
-.dropdowns{
-  width: 100%;
-  display: flex;
-}
-.dropdown_arrow{
-  margin-right: 70px;
-}
-.hot_card_group{
-  padding-bottom: 0;
-}
-.hot_card {
-  flex: 0 0 60%; /* 將卡片的寬度設置為一個半的寬度 */
-}
-.friendly_card {
-  flex: 0 0 60%; /* 將卡片的寬度設置為一個半的寬度 */
-}
+  .location_name {
+    font-size: var(--pfs12);
+  }
+  .dropdowns {
+    width: 100%;
+    display: flex;
+  }
+  .dropdown_arrow {
+    margin-right: 70px;
+  }
+  .hot_card_group {
+    padding-bottom: 0;
+  }
+  .hot_card {
+    flex: 0 0 60%; /* 將卡片的寬度設置為一個半的寬度 */
+  }
+  .friendly_card {
+    flex: 0 0 60%; /* 將卡片的寬度設置為一個半的寬度 */
+  }
 }

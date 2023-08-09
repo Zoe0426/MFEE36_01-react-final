@@ -41,6 +41,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-right: 10px;
   padding-top: var(--p8);
   padding-bottom: var(--p8);
 }
@@ -648,8 +649,14 @@ display: flex;
   opacity: 0.7;
 }
 @media screen and (max-width: 767px) {
+  .breadcrumb{
+    display: none;
+  }
   .try{
     flex-direction: column;
+  }
+  .share_box{
+    padding-top: 30px;
   }
     .left_arrow_box,
     .right_arrow_box,
@@ -688,6 +695,7 @@ display: flex;
     justify-content: space-between;
     flex-direction: column;
     margin-top: 20px;
+    margin-bottom: 10px;
   }
   .information {
     font-size: var(--pfs14);
@@ -724,7 +732,9 @@ display: flex;
   .comment_cards {
     flex-direction: column;
   }
-
+  .bgc {
+    justify-content: flex-end;
+  }
   .detail_main_buttom {
     margin-top: 32px;
     flex-wrap: wrap;

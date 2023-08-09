@@ -4,17 +4,7 @@ import AuthContext from '@/context/AuthContext';
 import RestCard from '@/components/ui/cards/rest_card';
 import { DownOutlined } from '@ant-design/icons';
 import Head from 'next/head';
-import {
-  Pagination,
-  Col,
-  Row,
-  ConfigProvider,
-  Button,
-  Dropdown,
-  Space,
-  Menu,
-  Select,
-} from 'antd';
+import { Pagination, Col, Row, ConfigProvider, Select } from 'antd';
 import TopAreaBgc from '@/components/ui/restaurant/TopAreaBgc';
 import Styles from './list.module.css';
 import filterDatas from '@/data/restaurnt/categories.json';
@@ -795,44 +785,45 @@ export default function FilterPage() {
                     },
                   }}
                 >
-                  {/* <LocationFilter text={'用餐地點'} /> */}
                   <div className={Styles.location_search_area}>
                     <div className={Styles.category_area}>
                       <FontAwesomeIcon icon={faPaw} className={Styles.paw} />
                       <label className={Styles.labels}>用餐地點</label>
                     </div>
                     <div className={Styles.dropdowns}>
-                      <Space wrap>
-                        <Select
-                          value={selectedCity ? selectedCity : undefined}
-                          placeholder="城市"
-                          style={{
-                            width: 200,
-                          }}
-                          onChange={handleProvinceChange}
-                          options={Object.keys(cities).map((city) => ({
-                            label: city,
-                            value: city,
-                          }))}
-                        />
-                        <Select
-                          style={{
-                            width: 200,
-                          }}
-                          value={selectedArea}
-                          placeholder="地區"
-                          onChange={onSecondCityChange}
-                          options={
-                            selectedCity
-                              ? cities[selectedCity].map((area) => ({
-                                  label: area,
-                                  value: area,
-                                }))
-                              : []
-                          }
-                          disabled={!selectedCity}
-                        />
-                      </Space>
+                      {/* <Space wrap> */}
+                      <Select
+                        value={selectedCity ? selectedCity : undefined}
+                        placeholder="城市"
+                        // style={{
+                        //   width: 200,
+                        // }}
+                        onChange={handleProvinceChange}
+                        options={Object.keys(cities).map((city) => ({
+                          label: city,
+                          value: city,
+                        }))}
+                        className={Styles.city}
+                      />
+                      <Select
+                        // style={{
+                        //   width: 200,
+                        // }}
+                        value={selectedArea}
+                        placeholder="地區"
+                        onChange={onSecondCityChange}
+                        className={Styles.section}
+                        options={
+                          selectedCity
+                            ? cities[selectedCity].map((area) => ({
+                                label: area,
+                                value: area,
+                              }))
+                            : []
+                        }
+                        disabled={!selectedCity}
+                      />
+                      {/* </Space> */}
                     </div>
                   </div>
                 </ConfigProvider>

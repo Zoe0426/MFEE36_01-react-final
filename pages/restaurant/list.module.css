@@ -139,17 +139,17 @@
   color: var(--dark);
   margin-right: 10px;
 }
-
+.dropdowns{
+  display: flex;
+  gap: 16px;
+}
 .city {
-  margin-right: 16px;
-  padding: 0 16px;
   width: 200px;
 }
 .dropdown_arrow {
   margin-right: 100px;
 }
 .section {
-  padding: 0 16px;
   width: 200px;
 }
 
@@ -208,8 +208,8 @@
   }
   .bread_btn {
     justify-content: space-between;
-    padding-bottom: var(--p8);
-    padding-top: var(--p8);
+    padding-bottom: 0;
+    padding-top: 0;
   }
   .function_group {
     width: 100%;
@@ -230,25 +230,22 @@
     margin-bottom: 6px;
   }
   .city {
+    margin-bottom: 6px;
     width: 100%;
-    padding: 0;
+    margin-right:0 ;
   }
   .section {
     width: 100%;
-    padding: 0;
   }
   .location_search_area {
     flex-direction: column;
     width: 100%;
-    margin-bottom: 0;
+    margin: 0;
   }
   .location_name {
     font-size: var(--pfs12);
   }
-  .dropdowns {
-    width: 100%;
-    display: flex;
-  }
+
   .dropdown_arrow {
     margin-right: 70px;
   }

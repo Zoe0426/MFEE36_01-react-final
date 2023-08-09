@@ -110,4 +110,7 @@
     .hash_tag_group{
         display: none;
     }
+    .rest_img>img {
+        height: 120px;
+      }
     }
