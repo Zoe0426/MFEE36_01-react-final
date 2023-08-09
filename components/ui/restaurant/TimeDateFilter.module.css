@@ -24,6 +24,7 @@
   border-radius: 10px;
   font-size: var(--pfs16);
   color: var(--dark-gra);
+  height: 50px;
 }
 .input_frame:focus {
   border: 0;
@@ -59,6 +60,7 @@
 .date {
   width: 416px;
   margin-right: 100px;
+  height: 50px
 }
 .time {
   margin-right: 16px;
@@ -89,10 +91,12 @@
     margin-bottom: 20px;
   }
   .date {
-    width: 100%;
+    width:100%;
+
   }
   .input_area {
     width: 100%;
+
   }
   .input_section {
     width: 100%;
