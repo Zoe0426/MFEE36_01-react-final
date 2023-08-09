@@ -1,21 +1,19 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Radio, ConfigProvider } from 'antd';
 import style from './cartAddressList.module.css';
 import CartPostInfo from './cartpostinfo';
 import CartNewAddressForm from './cartNewAddressForm';
-import CloseBtn from '../buttons/closeBtn';
 import ModalWithoutLine from '../modal/modal-without-line';
 import CartNoInfoCard from './cartNoInfoCard';
 import ModalWithoutBtn from '../modal/modal-without-btn';
 export default function CartAddressList({
   postAddData = [],
   setPostAddData = () => {},
-  postType = 1,
   setPostType = () => {},
   memEmail = '',
 }) {
   //sortData
-
+  const myref = useRef(null);
   const selectedPostType = postAddData.filter((v) => v.selected === true)[0]
     .post_type;
 
@@ -87,6 +85,17 @@ export default function CartAddressList({
       }
     } catch (er) {
       console.log(er);
+    }
+  };
+  const scrollToHandler = () => {
+    if (myref.current) {
+      const rect = myref.current.getBoundingClientRect();
+      const offsetTop = window.scrollY + rect.top;
+
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth',
+      });
     }
   };
   return (
@@ -195,8 +204,10 @@ export default function CartAddressList({
       )}
       <div className={style.addNewAddBtn}>
         <p
+          ref={myref}
           onClick={() => {
             setaddNewBox(!addNewBox);
+            scrollToHandler();
           }}
         >
           + 新增地址
