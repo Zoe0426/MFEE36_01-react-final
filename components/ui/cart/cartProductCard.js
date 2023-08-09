@@ -60,7 +60,9 @@ export default function CartProductCard({
     }
   };
   return (
-    <div className={style.productCard}>
+    <div
+      className={selected ? `${style.productCard2}` : `${style.productCard}`}
+    >
       <Checkbox
         onChange={() => {
           onChecked(cartSid);

@@ -22,6 +22,7 @@ import CartTotalSection from '@/components/ui/cart/cartTotalSection';
 import AuthContext from '@/context/AuthContext';
 import Loading from '@/components/ui/loading/loading';
 import CartNoInfoCard from '@/components/ui/cart/cartNoInfoCard';
+
 export default function Cart() {
   const { auth } = useContext(AuthContext);
   const [first, setFirst] = useState(false);
@@ -233,7 +234,6 @@ export default function Cart() {
   } else if (!pageLoading) {
     return (
       <>
-        {/* <ModalWithoutLine /> */}
         {loading && <Loading />}
         <BgCartHead text="購物車" />
         <Row>

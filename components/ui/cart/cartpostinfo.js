@@ -21,6 +21,7 @@ export default function CartPostInfo({
   edit = true,
   forModal = false,
   defaultStatus = false,
+  selectedAddSid = 0,
   checkDefaultAdd = () => {},
 }) {
   //預計到貨日期
@@ -57,7 +58,13 @@ export default function CartPostInfo({
   }
   if (forModal === true) {
     return (
-      <div className={style.modalBox}>
+      <div
+        className={
+          selectedAddSid === addressSid
+            ? `${style.modalBox2}`
+            : `${style.modalBox}`
+        }
+      >
         <div className={style.details}>
           <p>
             <span className={style.icon}>

@@ -6,6 +6,7 @@
     padding-bottom: var(--p8);
     font-size: var(--h6fs18);
     line-height: 24px;
+    
 
 }
 .modalBox{
@@ -18,7 +19,18 @@
     font-size: var(--pfs16);
     line-height: 20px;
     width: 95%;
-
+}
+.modalBox2{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dashed var(--secondary);
+    padding: var(--p8) 0;
+    font-size: var(--pfs16);
+    line-height: 20px;
+    width: 95%;
+    background-color: var(--light5);
 }
 
 .info span{
@@ -88,6 +100,13 @@
         line-height: 18px;
         flex-direction: column;
         align-items: flex-start;
+    }
+        .modalBox2{
+        font-size: var(--pfs14);
+        line-height: 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: var(--light5);
     }
     .postTypeImg{
         order:1;

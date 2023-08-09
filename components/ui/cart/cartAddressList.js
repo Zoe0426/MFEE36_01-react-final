@@ -1,23 +1,23 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Radio, ConfigProvider } from 'antd';
 import style from './cartAddressList.module.css';
 import CartPostInfo from './cartpostinfo';
 import CartNewAddressForm from './cartNewAddressForm';
-import CloseBtn from '../buttons/closeBtn';
 import ModalWithoutLine from '../modal/modal-without-line';
 import CartNoInfoCard from './cartNoInfoCard';
-
+import ModalWithoutBtn from '../modal/modal-without-btn';
 export default function CartAddressList({
   postAddData = [],
   setPostAddData = () => {},
-  postType = 1,
   setPostType = () => {},
   memEmail = '',
 }) {
   //sortData
-
+  const myref = useRef(null);
   const selectedPostType = postAddData.filter((v) => v.selected === true)[0]
     .post_type;
+
+  const [inModalPostType, setInModalPostType] = useState(selectedPostType);
   const originalSelectedSid = postAddData.filter((v) => v.selected === true)[0]
     .address_sid;
   const blackCatData = postAddData.filter((v) => v.post_type === 1);
@@ -32,11 +32,10 @@ export default function CartAddressList({
       ? sevenData
       : familyData
   );
-  const [editModal, setEditModal] = useState(
-    selectedPostType === 1 ? <></> : selectedPostType === 2 ? <></> : <></>
-  );
-  const [selectedAddSid, setselectedAddSid] = useState(originalSelectedSid);
 
+  const [selectedAddSid, setselectedAddSid] = useState(originalSelectedSid);
+  const [showAddSuccess, setShowAddSuccess] = useState(false);
+  const [showAddFail, setShowAddFail] = useState(false);
   //functions
   const onChange = (e) => {
     const newData = postAddData.map((v) =>
@@ -51,16 +50,13 @@ export default function CartAddressList({
     setPostType(selectedType);
   };
   const changePostTypeList = (type) => {
-    setPostType(type);
+    setInModalPostType(type);
     if (type === 1) {
       setMapData(blackCatData);
-      setEditModal(<></>);
     } else if (type === 2) {
       setMapData(sevenData);
-      setEditModal(<></>);
     } else if (type === 3) {
       setMapData(familyData);
-      setEditModal(<></>);
     }
   };
   const deleteAddress = async (sid) => {
@@ -77,8 +73,6 @@ export default function CartAddressList({
       );
       const data = await r.json();
       if (data.success) {
-        //alert('success');
-        //TODO: show success card
         const newData = postAddData.filter((v) => v.address_sid !== sid);
         const newMapData = mapData.filter((v) => v.address_sid !== sid);
         const selectedSid = postAddData.filter((v) => v.selected === true)[0]
@@ -93,6 +87,17 @@ export default function CartAddressList({
       console.log(er);
     }
   };
+  const scrollToHandler = () => {
+    if (myref.current) {
+      const rect = myref.current.getBoundingClientRect();
+      const offsetTop = window.scrollY + rect.top;
+
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth',
+      });
+    }
+  };
   return (
     <ConfigProvider
       theme={{
@@ -105,7 +110,9 @@ export default function CartAddressList({
       <div className={style.tabs}>
         <div
           className={`${
-            postType !== 1 ? style.postTypeTab : style.postTypeTabSelected
+            inModalPostType !== 1
+              ? style.postTypeTab
+              : style.postTypeTabSelected
           }`}
           onClick={() => {
             changePostTypeList(1);
@@ -115,7 +122,9 @@ export default function CartAddressList({
         </div>
         <div
           className={`${
-            postType !== 2 ? style.postTypeTab : style.postTypeTabSelected
+            inModalPostType !== 2
+              ? style.postTypeTab
+              : style.postTypeTabSelected
           }`}
           onClick={() => {
             changePostTypeList(2);
@@ -125,7 +134,9 @@ export default function CartAddressList({
         </div>
         <div
           className={`${
-            postType !== 3 ? style.postTypeTab : style.postTypeTabSelected
+            inModalPostType !== 3
+              ? style.postTypeTab
+              : style.postTypeTabSelected
           }`}
           onClick={() => {
             changePostTypeList(3);
@@ -142,47 +153,47 @@ export default function CartAddressList({
         >
           {mapData.map((v) => {
             return (
-              <>
-                <div className={style.radioBox}>
-                  <Radio
-                    value={v.address_sid}
-                    key={v.address_sid}
-                    className={style.radio}
+              <div className={style.radioBox} key={v.address_sid}>
+                <Radio
+                  value={v.address_sid}
+                  key={v.address_sid}
+                  className={style.radio}
+                >
+                  <div
+                    style={{
+                      paddingLeft: '16px',
+                      width: '100%',
+                    }}
                   >
-                    <div
-                      style={{
-                        paddingLeft: '16px',
-                        width: '100%',
+                    <CartPostInfo
+                      key={v.address_sid}
+                      addressSid={v.address_sid}
+                      storeName={v.store_name}
+                      address={v.city + v.area + v.address}
+                      name={v.recipient}
+                      mobile={v.recipient_phone}
+                      email={v.email}
+                      selectedAddSid={selectedAddSid}
+                      selected={v.selected}
+                      postType={v.post_type}
+                      forModal={true}
+                    />
+                  </div>
+                </Radio>
+                {v.address_sid !== selectedAddSid && (
+                  <div className={style.delete}>
+                    <ModalWithoutLine
+                      btnType="closeBtn"
+                      subBtnText="我再想想"
+                      mainBtnText="刪除地址"
+                      content="您確定要刪除地址嗎？"
+                      confirmHandler={() => {
+                        deleteAddress(v.address_sid);
                       }}
-                    >
-                      <CartPostInfo
-                        key={v.address_sid}
-                        addressSid={v.address_sid}
-                        storeName={v.store_name}
-                        address={v.city + v.area + v.address}
-                        name={v.recipient}
-                        mobile={v.recipient_phone}
-                        email={v.email}
-                        postType={v.post_type}
-                        forModal={true}
-                      />
-                    </div>
-                  </Radio>
-                  {v.address_sid !== selectedAddSid && (
-                    <div className={style.delete}>
-                      <ModalWithoutLine
-                        btnType="closeBtn"
-                        subBtnText="不要刪除"
-                        mainBtnText="刪除地址"
-                        content="您確定要刪除地址嗎？"
-                        confirmHandler={() => {
-                          deleteAddress(v.address_sid);
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-              </>
+                    />
+                  </div>
+                )}
+              </div>
             );
           })}
         </Radio.Group>
@@ -193,8 +204,10 @@ export default function CartAddressList({
       )}
       <div className={style.addNewAddBtn}>
         <p
+          ref={myref}
           onClick={() => {
             setaddNewBox(!addNewBox);
+            scrollToHandler();
           }}
         >
           + 新增地址
@@ -204,29 +217,30 @@ export default function CartAddressList({
       {addNewBox && (
         <div className={`${style.formBox} ${addNewBox ? 'active' : ''}`}>
           <CartNewAddressForm
-            postType={postType}
+            postType={inModalPostType}
             postAddData={postAddData}
             setaddNewBox={setaddNewBox}
             setPostAddData={setPostAddData}
             setMapData={setMapData}
             setselectedAddSid={setselectedAddSid}
+            setShowAddSuccess={setShowAddSuccess}
+            setShowAddFail={setShowAddFail}
             memEmail={memEmail}
           />
         </div>
       )}
+      {showAddSuccess && (
+        <ModalWithoutBtn
+          text="新增成功"
+          img="/member-center-images/Icon/happy.svg"
+        />
+      )}
+      {showAddFail && (
+        <ModalWithoutBtn
+          text="新增成功"
+          img="/member-center-images/Icon/happy.svg"
+        />
+      )}
     </ConfigProvider>
   );
 }
-
-// {
-//   addressSid !== selectedSid && (
-//     <div className={style.delete}>
-//       <ModalWithoutLine btnType="closeBtn" />
-//       <CloseBtn
-//         closeHandler={() => {
-//           deleteAddress(addressSid);
-//         }}
-//       />
-//     </div>
-//   );
-// }

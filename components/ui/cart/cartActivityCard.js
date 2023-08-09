@@ -4,7 +4,7 @@ import { Checkbox } from 'antd';
 import CloseBtn from '../buttons/closeBtn';
 import NumberInput from '../numberInput/numberInput';
 import AuthContext from '@/context/AuthContext';
-import ModalWithoutLine from '../modal/modal-without-line';
+
 export default function CartActivityCard({
   cartSid = '',
   relSid = '',
@@ -69,7 +69,9 @@ export default function CartActivityCard({
     }
   };
   return (
-    <div className={style.productCard}>
+    <div
+      className={selected ? `${style.productCard2}` : `${style.productCard}`}
+    >
       <Checkbox
         onChange={() => {
           onChecked(cartSid);

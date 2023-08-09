@@ -5,6 +5,14 @@
     padding: var(--p24) 0px;
     border-bottom: 1px dashed #FFD4C0;
 }
+.productCard2{
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    padding: var(--p24) 0px;
+    border-bottom: 1px dashed #FFD4C0;
+    background-color: var(--light5);
+}
 .checkbox{
      margin-right: 16px;
 }
