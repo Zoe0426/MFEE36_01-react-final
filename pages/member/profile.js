@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import Loading from '@/components/ui/loading/loading';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import Head from 'next/head';
 import {
   Form,
@@ -28,6 +30,7 @@ export default function Profile() {
   const [data, setData] = useState([]);
   const [imgType, setImgType] = useState(true);
   const [imgSize, setImgSize] = useState(true);
+  const [isPass, setIsPass] = useState(false);
   const [initialValues, setInitialValues] = useState({});
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
@@ -40,6 +43,13 @@ export default function Profile() {
   ////console.log('memProfileImg1', memProfileImg);
 
   const [fileList, setFileList] = useState([]);
+  const [toUpload, setToUpload] = useState(false);
+  console.log('isPass', isPass);
+
+  const changeToUpload = () => {
+    setToUpload(true);
+    //setIsPass(!isPass);
+  };
 
   useEffect(() => {
     setFirst(true);
@@ -76,16 +86,16 @@ export default function Profile() {
             });
             setLoading(false);
             setMemProfileImg(obj.profile);
-            if (memProfileImg) {
-              setFileList([
-                {
-                  uid: '-1',
-                  name: 'memProfileImg.jpg',
-                  status: 'done',
-                  url: `${process.env.API_SERVER}/img/${memProfileImg}`,
-                },
-              ]);
-            }
+            // if (memProfileImg) {
+            //   setFileList([
+            //     {
+            //       uid: '-1',
+            //       name: 'memProfileImg.jpg',
+            //       status: 'done',
+            //       url: `${process.env.API_SERVER}/img/${memProfileImg}`,
+            //     },
+            //   ]);
+            // }
             //console.log('obj', obj.profile);
           });
       } else {
@@ -97,19 +107,35 @@ export default function Profile() {
   //console.log('token', auth.token);
 
   const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
+    let isJpgOrPng = true;
+    if (file.type == 'image/jpeg' || file.type == 'image/png') {
+      console.log('not right type');
+      isJpgOrPng = true;
+      console.log('-117', isJpgOrPng);
+    } else {
+      isJpgOrPng = false;
+    }
+    if (isJpgOrPng === false) {
+      console.log('typefalse');
       //message.error('You can only upload JPG/PNG file!');
       setImgType(false);
+      setIsPass(!isPass);
+      return;
     } else {
+      console.log('hellojpgpng');
       setImgType(true);
+      setIsPass(false);
     }
+
+    
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       //message.error('Image must smaller than 2MB!');
       setImgSize(false);
+      setIsPass(true);
     } else {
       setImgSize(true);
+      setIsPass(false);
     }
     return isJpgOrPng && isLt2M;
   };
@@ -208,6 +234,7 @@ export default function Profile() {
         const photo = `${process.env.API_SERVER}/img/${data[0].profile}`;
         localStorage.setItem(`${auth.id}photoUrl`, JSON.stringify(photo));
         setPhoto(photo);
+        setToUpload(false);
       });
     ////console.log('memProfileImg2', memProfileImg);
 
@@ -278,21 +305,39 @@ export default function Profile() {
                   </Form.Item>
                 </div>
                 <div className={Styles.photo}>
-                  <Form.Item
-                    name="avatar"
-                    style={{ marginBottom: '0px', padding: '0px' }}
-                  >
-                    <Upload
-                      action={`${process.env.API_SERVER}/updateInfo`}
-                      listType="picture-card"
-                      fileList={fileList}
-                      onPreview={handlePreview}
-                      onChange={handleChange}
-                      beforeUpload={beforeUpload}
+                  {!toUpload && (
+                    <div
+                      className={Styles.faPenToSquareBox}
+                      onClick={changeToUpload}
                     >
-                      {fileList.length >= 1 ? null : uploadButton}
-                    </Upload>
-                  </Form.Item>
+                      <div className={Styles.faPenToSquareImg}>
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className={Styles.faPenToSquare}
+                        />
+                      </div>
+                      <div className={Styles.faPenToSquareText}>編輯照片</div>
+                    </div>
+                  )}
+
+                  {toUpload && (
+                    <Form.Item
+                      name="avatar"
+                      style={{ marginBottom: '0px', padding: '0px' }}
+                    >
+                      <Upload
+                        action={`${process.env.API_SERVER}/updateInfo`}
+                        listType="picture-card"
+                        fileList={fileList}
+                        onPreview={handlePreview}
+                        onChange={handleChange}
+                        beforeUpload={beforeUpload}
+                      >
+                        {fileList.length >= 1 ? null : uploadButton}
+                      </Upload>
+                    </Form.Item>
+                  )}
+
                   <Modal
                     open={previewOpen}
                     footer={null}
@@ -361,11 +406,7 @@ export default function Profile() {
                   <SecondaryBtn text="取消變更" htmltype="reset" />
                 </div>
                 <div className={Styles.btn}>
-                  <MainBtn
-                    text="確定更新"
-                    htmltype="submit"
-                    disable={!imgSize && !imgSize}
-                  />
+                  <MainBtn text="確定更新" htmltype="submit" disable={isPass} />
                 </div>
               </div>
             </Form>
