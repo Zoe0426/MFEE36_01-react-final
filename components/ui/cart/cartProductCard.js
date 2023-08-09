@@ -94,7 +94,7 @@ export default function CartProductCard({
           </div>
         </div>
       </div>
-      <ModalWithoutLine
+      {/* <ModalWithoutLine
         btnType="closeBtn"
         subBtnText="不要移除"
         mainBtnText="確定移除"
@@ -102,12 +102,12 @@ export default function CartProductCard({
         confirmHandler={() => {
           removeItemFromDb(cartSid);
         }}
-      />
-      {/* <CloseBtn
+      /> */}
+      <CloseBtn
         closeHandler={() => {
           removeItemFromDb(cartSid);
         }}
-      /> */}
+      />
     </div>
   );
 }
