@@ -45,7 +45,7 @@ export default function TimeDateFilter({
           colorPrimary: '#FD8C46',
           colorBgContainer: 'rgba(255,255,255)',
           borderRadius: 10,
-          controlHeight: 50,
+          controlHeight: 37,
           fontSize: 16,
           borderRadiusOuter: 10,
         },

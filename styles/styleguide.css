@@ -54,8 +54,18 @@
   License: none (public domain)
 */
 
+/* h1::selection,h2::selection,h3::selection,h4::selection,h5::selection,h6::selection,p::selection {
+  color: var(--gray);
+  background-color:var(--secondary);
+  background-color: rgb(183, 223, 239);
+} */
+*::selection {
+  background-color: rgb(195, 235, 251);
+}
 
-
+img,svg{
+  user-select: none;
+}
 
 html,body{
   height: 100%;

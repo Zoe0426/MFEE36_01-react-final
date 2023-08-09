@@ -21,7 +21,7 @@ export default function LikeListCard({
       <div className={Styles.like_rest} key={rest_sid}>
         <div>
           <FontAwesomeIcon
-            icon={faXmark}
+            icon={faTrashCan}
             className={Styles.trash_icon}
             onClick={() => {
               removeLikeListItem(rest_sid, token);
