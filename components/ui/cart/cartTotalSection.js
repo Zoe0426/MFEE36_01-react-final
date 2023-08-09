@@ -25,6 +25,7 @@ export default function CartTotalSection({
   paymentType = 1,
   createOrder = () => {},
   setPaymentType = () => {},
+  showCouponModalHandler = () => {},
   setChosenCoupon = () => {},
   selectCoupon = () => {},
 }) {
@@ -168,7 +169,7 @@ export default function CartTotalSection({
                     : couponPrice.toLocaleString()}
                 </span>
               </div>
-              <div className={style.couponBtn}>
+              <div className={style.couponBtn} onClick={showCouponModalHandler}>
                 <FontAwesomeIcon
                   icon={faTicket}
                   style={{
@@ -182,7 +183,8 @@ export default function CartTotalSection({
                     left: '16px',
                   }}
                 />
-                <Modal
+                {`我的優惠券 (${couponData.length})`}
+                {/* <Modal
                   btnType="text"
                   btnText={`我的優惠券 (${couponData.length})`}
                   title="選擇優惠券"
@@ -193,7 +195,7 @@ export default function CartTotalSection({
                       setChosenCoupon={setChosenCoupon}
                     />
                   }
-                />
+                /> */}
               </div>
             </>
           ) : (

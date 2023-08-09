@@ -90,10 +90,10 @@ export default function CartAddressList({
   const scrollToHandler = () => {
     if (myref.current) {
       const rect = myref.current.getBoundingClientRect();
-      const offsetTop = window.scrollY + rect.top;
+      const offsetTop = rect.top;
 
-      window.scrollTo({
-        top: offsetTop,
+      myref.current.parentElement.scrollTo({
+        top: offsetTop + myref.current.parentElement.scrollTop,
         behavior: 'smooth',
       });
     }

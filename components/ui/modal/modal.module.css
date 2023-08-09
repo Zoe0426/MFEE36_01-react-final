@@ -68,7 +68,7 @@
 }
 .modal_content{
     padding: var(--p16);
-    overflow-y: auto;
+    overflow-y: scroll;
     max-height: 60vh;
 }
 .line {

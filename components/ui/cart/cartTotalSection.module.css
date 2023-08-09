@@ -52,6 +52,7 @@
     background-color: white;
     border: 1px solid #d9d9d9;
     border-radius: 6px;
+    height: 32px;
     font-size: 14px;
     text-align: center;
     margin-bottom: var(--p16);
@@ -59,6 +60,9 @@
     transition: all 0.3s ease-in-out;
     position: relative;
     display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
 }
 .couponBtn:hover{
     border: 1px solid #fd8c46db;
