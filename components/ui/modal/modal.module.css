@@ -5,9 +5,9 @@
 .modal {
   z-index: 1000;
   font-size: var(--pfs16);
-  /* display: flex;
+  display: flex;
   align-items: center;
-  justify-content: center; */
+  justify-content: center;
 }
 .modal,
 .overlay {
@@ -28,11 +28,11 @@
     color: var(--dark-gray);
 }
 .modal_card {
-  position: absolute;
+  /* position: absolute; */
   width: 60%;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* top: 40%;
+  left: 50%; */
+  /* transform: translate(-50%, -50%); */
   line-height: 1.4;
   background: #ffffff;
   padding: 14px 0;
