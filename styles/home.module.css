@@ -25,7 +25,7 @@
     width: 16%;
     top: 5%;
     left: 5.5%;
-    animation: heartBeat 1.5s ease-in 1.6s;
+    animation: heartBeat 1.5s ease-in 0.3s;
     animation-fill-mode: forwards;
 }
 .road,.cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
@@ -169,10 +169,21 @@
     justify-content: space-between;
 }
 .hrForumCards{
+    position: relative;
     padding-left: 3%;
     overflow: hidden;
+    /* border: 1px solid gray; */
 }
+.cardIn{
+    position: absolute;
+    z-index: 3;
+    height: 100%;
+    left:0;
+    width: 40px;
+    background-image: linear-gradient(to right, #fffaf6 40%, transparent);
+    /* border: 1px solid pink; */
 
+}
 @keyframes slide {
   0% { transform: translateX(0); }
   100% { transform: translateX(-65%); }
@@ -185,8 +196,9 @@
   animation: slide 65s linear infinite;
   overflow:hidden;
   padding: 20px 0;
+  /* border: 1px solid red; */
 }
-
+/* background-image: linear-gradient(to left, #f7ece3 80%, transparent); */
 .forumSlide:hover {
   animation-play-state: paused;
 }

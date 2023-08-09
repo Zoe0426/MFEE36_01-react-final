@@ -21,7 +21,7 @@ export default function OrderDetailActivity({
           <div className={style.detailblock}>
             <p className={style.times}>大人</p>
             <div className={style.qtyblock}>
-              <p className={style.price}>${adPrice}</p>
+              <p className={style.price}>${adPrice.toLocaleString()}</p>
               <p className={style.times}>*</p>
               <p className={style.qty}>{adQty}</p>
             </div>
@@ -30,13 +30,13 @@ export default function OrderDetailActivity({
           <div className={style.detailblock}>
             <p className={style.times}>小孩</p>
             <div className={style.qtyblock}>
-              <p className={style.price}>${kidPrice}</p>
+              <p className={style.price}>${kidPrice.toLocaleString()}</p>
               <p className={style.times}>*</p>
               <p className={style.qty}>{kidQty}</p>
             </div>
           </div>
           <p className={style.subtotal}>
-            ${adPrice * adQty + kidPrice * kidQty}
+            ${(adPrice * adQty + kidPrice * kidQty).toLocaleString()}
           </p>
         </div>
       </div>

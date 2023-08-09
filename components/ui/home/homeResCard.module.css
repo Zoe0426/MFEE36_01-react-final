@@ -17,7 +17,7 @@
 }
 .stickerbox{
     position: absolute;
-    top: -9%;
+    top: -40px;
     width: 86%;
     display: flex;
     justify-content: center;

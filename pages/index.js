@@ -14,6 +14,8 @@ import HomeMainText from '@/components/ui/home/homeMainText';
 import HomeMainBtns from '@/components/ui/home/homeMainBtns';
 import Loading from '@/components/ui/loading/loading';
 import HomeActInfoCard from '@/components/ui/home/homeActInfoCard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaw } from '@fortawesome/free-solid-svg-icons';
 
 //import useLocalStorageJson from '@/hooks/useLocalStorageJson';
 
@@ -33,6 +35,9 @@ export default function Home() {
   }, []);
   const toSectionHome = (section) => {
     router.push(`/${section}`); //前往各區首頁
+  };
+  const redirectTo = (where) => {
+    router.push(`/${where}`);
   };
   const redirectToProduct = (prodId) => {
     router.push(`/product/${prodId}`); //[pid].js
@@ -124,21 +129,33 @@ export default function Home() {
               src="/home-images/mainBtnArea/h-smShopBtn.svg"
               className={style.smShop}
               alt="smShop"
+              onClick={() => {
+                redirectTo('product');
+              }}
             />
             <img
               src="/home-images/mainBtnArea/h-smEventBtn.svg"
               className={style.smEvent}
               alt="smShop"
+              onClick={() => {
+                redirectTo('activity');
+              }}
             />
             <img
               src="/home-images/mainBtnArea/h-smResBtn.svg"
               className={style.smRes}
               alt="smShop"
+              onClick={() => {
+                redirectTo('restaurant');
+              }}
             />
             <img
               src="/home-images/mainBtnArea/h-smforumBtn.svg"
               className={style.smForum}
               alt="smShop"
+              onClick={() => {
+                redirectTo('forum');
+              }}
             />
             <img
               src="/home-images/mainBtnArea/road1.svg"
@@ -355,9 +372,46 @@ export default function Home() {
                 <p className={style.hstitle}>寵物餐廳</p>
                 <p className={style.hetitle}>EAT WITH ME</p>
                 <ul className={style.hsubtitle}>
-                  <li>* 地圖上玲瑯滿目的餐廳讓你們眼花撩亂？</li>
-                  <li>* 搜尋不找寵物友善餐廳相關的訊息?</li>
-                  <li>* 找到寵物友善餐廳好多規則不清楚？</li>
+                  <li>
+                    <FontAwesomeIcon
+                      icon={faPaw}
+                      style={{
+                        maxHeight: 10,
+                        maxWidth: 10,
+                        transform: 'rotate(-15deg)',
+                        marginRight: '5px',
+                        color: '#F1C476',
+                      }}
+                    />
+                    地圖上玲瑯滿目的餐廳讓你們眼花撩亂？
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      icon={faPaw}
+                      style={{
+                        maxHeight: 16,
+                        maxWidth: 10,
+
+                        transform: 'rotate(-15deg)',
+                        marginRight: '5px',
+                        color: '#F1C476',
+                      }}
+                    />
+                    搜尋不找寵物友善餐廳相關的訊息?
+                  </li>
+                  <li>
+                    <FontAwesomeIcon
+                      icon={faPaw}
+                      style={{
+                        maxHeight: 10,
+                        maxWidth: 10,
+                        transform: 'rotate(-15deg)',
+                        marginRight: '5px',
+                        color: '#F1C476',
+                      }}
+                    />
+                    找到寵物友善餐廳好多規則不清楚？
+                  </li>
                 </ul>
 
                 <p className={style.hpres}>
@@ -420,6 +474,7 @@ export default function Home() {
             </Col>
             <Col xs={0} sm={0} md={1}></Col>
             <Col className={style.hrForumCards} xs={24} sm={24} md={14}>
+              <div className={style.cardIn}></div>
               <div className={style.forumSlide}>
                 {postData.map((v, i) => (
                   <HomeForumCard
