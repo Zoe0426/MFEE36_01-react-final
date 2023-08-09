@@ -2,14 +2,26 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import AuthContext from '@/context/AuthContext';
 import SecondNavbar from '@/components/layout/SecondNavbar';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
-import { useRouter } from 'next/router';
 import Draggable from 'react-draggable';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
-const OFFSET_X = 206;
-const OFFSET_Y = 150;
-const waitTimeMin = 500;
+
+const waitTimeMin = 1000;
 const waitTimeMax = 3000;
+const moveDuration = 1000;
+
+const wallHeight = 370;
+const footerHeight = 50;
+const petWidth = 206;
+const petWidthHalf = petWidth * 0.5;
+const petHeight = 186;
+
 export default function PetGame() {
+  const [minX, setMinX] = useState(0);
+  const [maxX, setMaxX] = useState(0);
+  const [minY, setMinY] = useState(0);
+  const [maxY, setMaxY] = useState(0);
+  const [rect, setRect] = useState(0);
   const lastImageSwitchTime = useRef(null);
   const [moveImageIndex, setMoveImageIndex] = useState(0);
   const [direction, setDirection] = useState('right');
@@ -30,7 +42,7 @@ export default function PetGame() {
   const [count, setCount] = useState(0);
   const [catImage, setCatImage] = useState('/pet_game/cat_idle.png');
   const [catTransform, setCatTransform] = useState('scaleX(1)');
-  let [transform, setTransform] = useState('scaleX(1)');
+  const [isOutside, setIsOutside] = useState(false);
   const [foods, setFoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
@@ -40,6 +52,19 @@ export default function PetGame() {
   const [signTime, setSignTime] = useState('');
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+
+  let [transform, setTransform] = useState('scaleX(1)');
+
+  //取得有效範圍
+  useEffect(() => {
+    const rect = background.current.getBoundingClientRect();
+    setMinX(rect.left + petWidthHalf);
+    setMaxX(rect.right - petWidthHalf);
+    setMinY(rect.top + wallHeight);
+    setMaxY(rect.bottom - footerHeight);
+    setRect(rect);
+  }, []);
+
   // 在拖曳開始時設定 isDragging 為 true 和 isPaused 為 true
   const onStartDrag = (e) => {
     e.preventDefault();
@@ -57,16 +82,9 @@ export default function PetGame() {
 
     const finalPosition = { x: e.clientX, y: e.clientY };
 
-    const rect = background.current.getBoundingClientRect();
-    const offwidth = rect.width * 0.3;
-    const minX = rect.left + offwidth;
-    const maxX = rect.right - offwidth;
-    const minY = rect.top + OFFSET_Y;
-    const maxY = rect.bottom - OFFSET_Y;
-
     if (
-      // finalPosition.x >= minX &&
-      // finalPosition.x <= maxX &&
+      finalPosition.x >= minX &&
+      finalPosition.x <= maxX &&
       finalPosition.y <= maxY &&
       finalPosition.y >= minY
     ) {
@@ -86,6 +104,17 @@ export default function PetGame() {
   const onDrag = (e, data) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
     setDragPosition({ x: data.x, y: data.y });
+
+    if (
+      e.clientX >= minX &&
+      e.clientX <= maxX &&
+      e.clientY <= maxY &&
+      e.clientY >= minY
+    ) {
+      setIsOutside(true);
+    } else {
+      setIsOutside(false);
+    }
   };
 
   useEffect(() => {
@@ -148,14 +177,6 @@ export default function PetGame() {
   useEffect(() => {
     let restTimeout = null;
     if (!isAnimating && !isResting && background.current) {
-      const rect = background.current.getBoundingClientRect();
-      const offwidth = rect.width * 0.3;
-
-      const minX = rect.left + offwidth;
-      const maxX = rect.right - offwidth;
-      const minY = rect.top + OFFSET_Y;
-      const maxY = rect.bottom - OFFSET_Y;
-
       let closestFood = null;
       let minDistance = Infinity;
       foods.forEach((food, index) => {
@@ -172,8 +193,8 @@ export default function PetGame() {
       let targetY;
 
       if (moveCount === 0) {
-        targetX = rect.width / 2 - 100;
-        targetY = rect.height / 2;
+        targetX = rect.width / 2;
+        targetY = rect.height / 2 + 200;
       } else if (closestFood) {
         targetX = closestFood.x;
         targetY = closestFood.y;
@@ -182,7 +203,11 @@ export default function PetGame() {
         targetY = Math.random() * (maxY - minY) + minY;
       }
 
-      setTargetPosition((prevPos) => ({ ...prevPos, x: targetX, y: targetY }));
+      setTargetPosition((prevPos) => ({
+        ...prevPos,
+        x: targetX - petWidthHalf,
+        y: targetY - petHeight,
+      }));
 
       setIsAnimating(true);
 
@@ -223,7 +248,7 @@ export default function PetGame() {
           setIsMoving(false);
           setIsResting(true);
 
-          // Step 2: Remove the food at position.
+          //貓貓抵達食物，吃掉食物
           if (closestFood && progress >= 1) {
             setFoods((prevFoods) =>
               prevFoods.filter((_, index) => index !== closestFood.index)
@@ -250,7 +275,7 @@ export default function PetGame() {
           setMoveCount((prevCount) => prevCount + 1);
           if (moveCount === 1) {
             setIsCatVisible(true);
-            setAnimationDuration(1000);
+            setAnimationDuration(moveDuration);
           }
           if (moveCount < 1) {
             setIsResting(false);
@@ -270,14 +295,6 @@ export default function PetGame() {
   }, [isAnimating, isResting, position, foods]);
 
   useEffect(() => {
-    const rect = background.current.getBoundingClientRect();
-    const offwidth = rect.width;
-
-    const minX = rect.left + offwidth;
-    const maxX = rect.right - offwidth;
-    const minY = rect.top + OFFSET_Y;
-    const maxY = rect.bottom - OFFSET_Y;
-
     let closestFood = null;
     let minDistance = Infinity;
     foods.forEach((food, index) => {
@@ -294,17 +311,21 @@ export default function PetGame() {
     let targetY;
 
     if (moveCount === 0) {
-      targetX = rect.width / 2 - 100;
-      targetY = rect.height / 2;
+      targetX = rect.width / 2;
+      targetY = rect.height / 2 + 200;
     } else if (closestFood) {
-      targetX = closestFood.x - OFFSET_X * 0.5;
-      targetY = closestFood.y - OFFSET_Y;
+      targetX = closestFood.x;
+      targetY = closestFood.y;
     } else {
       targetX = Math.random() * (maxX - minX) + minX;
       targetY = Math.random() * (maxY - minY) + minY;
     }
 
-    setTargetPosition((prevPos) => ({ ...prevPos, x: targetX, y: targetY }));
+    setTargetPosition((prevPos) => ({
+      ...prevPos,
+      x: targetX - petWidthHalf,
+      y: targetY - petHeight,
+    }));
   }, [isAnimating, isResting, position, foods]);
 
   return (
@@ -340,28 +361,45 @@ export default function PetGame() {
       >
         <img
           src="/pet_game/Food_01.png"
-          ﬁ
           style={{
             position: 'absolute',
-            bottom: isDragging ? '170px' : '170px',
-            right: isDragging ? '130px' : '150px',
-            opacity: isDragging ? 1 : 1, // 在拖曳時，將 opacity 設為 0.5
+            bottom: 170,
+            right: 150,
+            opacity: isDragging ? (isOutside ? 1 : 0.25) : 0,
+            zIndex: 999,
           }}
           alt="Food"
         />
       </Draggable>
-      {/* Show a semi-transparent clone while dragging */}
       {
         <img
           src="/pet_game/Food_01.png"
           style={{
+            animationName: 'yoyo',
+            animationDuration: '2s',
+            animationIterationCount: 'infinite',
+            animationTimingFunction: 'ease-in-out',
+            position: 'absolute',
+            bottom: isDragging ? '170px' : '170px',
+            right: isDragging ? '130px' : '150px',
+            opacity: isDragging ? 0 : 1, // 在拖曳時，將 opacity 設為 0.5
+            zIndex: 100,
+          }}
+          alt=""
+        />
+      }
+      {
+        <img
+          src="/pet_game/Food_button.png"
+          style={{
             position: 'fixed',
             pointerEvents: 'none',
-            bottom: 170,
-            right: 150,
-            opacity: 0.5,
+            bottom: 155,
+            right: 140,
+            opacity: 1,
+            zIndex: 99,
           }}
-          alt="Dragging food"
+          alt=""
         />
       }
       {foods.map((foodPosition, index) => (

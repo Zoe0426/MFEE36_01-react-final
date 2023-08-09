@@ -53,7 +53,7 @@
 }
 
 @media screen and (max-width:1300px) and (min-width:501px){
-  .coupon{
+  .coupon,.couponDisale{
       width: 80%;
   }
   .couponExpire{
@@ -63,7 +63,7 @@
   }
   
 @media screen and (max-width:500px){
-  .coupon{
+  .coupon,.couponDisale{
     width: 100%;
 }
 .couponExpire{
