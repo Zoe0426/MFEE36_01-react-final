@@ -14,7 +14,6 @@ export default function CartTab({
   activityData = [],
   changeTypeHandler = () => {},
   title = '  溫馨提醒  ',
-  showSubBtn = true,
   mainBtnText = '確認',
   subBtnText = '返回',
 }) {
@@ -24,10 +23,10 @@ export default function CartTab({
     console.log(shopData);
     const shopSelectStatus =
       shopData.filter((v) => v.selected == true).length > 0;
-    console.log({ shopSelectStatus });
+    //console.log({ shopSelectStatus });
     const actSelectStatus =
       activityData.filter((v) => v.selected == true).length > 0;
-    console.log({ actSelectStatus });
+    //console.log({ actSelectStatus });
 
     if (type !== checkoutType) {
       if (type === 'shop') {
@@ -35,6 +34,7 @@ export default function CartTab({
         console.log({ actSelectStatus });
         if (actSelectStatus) {
           setModal(!modal);
+          document.body.classList.add('likeList-open');
         } else {
           changeTypeHandler('shop');
         }
@@ -44,11 +44,16 @@ export default function CartTab({
         console.log({ shopSelectStatus });
         if (shopSelectStatus) {
           setModal(!modal);
+          document.body.classList.add('likeList-open');
         } else {
           changeTypeHandler('activity');
         }
       }
     }
+  };
+  const closeHandler = () => {
+    setModal(false);
+    document.body.classList.remove('likeList-open');
   };
   const confirmHandler = () => {
     checkoutType === 'shop'
@@ -67,7 +72,7 @@ export default function CartTab({
           <div className={style.modal}>
             <div className={style.modal_card}>
               <h2 className={style.modal_title}>
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={faPaw}
                   style={{
                     maxHeight: 16,
@@ -76,9 +81,9 @@ export default function CartTab({
                     color: '#FFD4C0',
                     marginRight: '16px',
                   }}
-                />
+                /> */}
                 {title}
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={faPaw}
                   style={{
                     maxHeight: 16,
@@ -87,17 +92,20 @@ export default function CartTab({
                     color: '#FFD4C0',
                     marginLeft: '16px',
                   }}
-                />
+                /> */}
               </h2>
               <div className={style.modal_content}>
-                <CartAlertContent h2title="" content="" />
+                <CartAlertContent
+                  contentP1={`更換結帳種類後，將會重置所選之${
+                    checkoutType === 'shop' ? '商品' : '活動'
+                  }`}
+                  contentP2={`您要前住${
+                    checkoutType === 'shop' ? '活動' : '商品'
+                  }結帳嗎？`}
+                />
               </div>
-
-              <div className={style.line}></div>
               <div className={style.btn_group}>
-                {showSubBtn && (
-                  <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />
-                )}
+                <SecondaryBtn text={subBtnText} clickHandler={closeHandler} />
                 <MainBtn clickHandler={confirmHandler} text={mainBtnText} />
               </div>
             </div>
