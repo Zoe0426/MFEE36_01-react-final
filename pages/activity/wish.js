@@ -53,6 +53,8 @@ export default function ActivityWish() {
   const { auth } = useContext(AuthContext);
   const authId = auth.id;
 
+  const { TextArea } = Input;
+
   //沒登入會員收藏，跳轉登入
   const toSingIn = () => {
     const from = router.query;
@@ -63,15 +65,6 @@ export default function ActivityWish() {
     );
   };
 
-  // 取資料
-  const [datas, setDatas] = useState({
-    totalRows: 0,
-    perPage: 12,
-    totalPages: 0,
-    page: 1,
-    rows: [],
-    topVoteRows: [],
-  });
 
   // 小麵包屑------------------------------------------------------------
   const [breadCrubText, setBreadCrubText] = useState([
@@ -87,13 +80,14 @@ export default function ActivityWish() {
       href: `${process.env.WEB}/activity/wishlist`,
       show: true,
     },
-    { id: 'vote', text: '/ 我要許願', href: '', show: true },
+    { id: 'wish', text: '/ 我要許願', href: '', show: true },
   ]);
 
   //form 表單驗證
   const [form] = Form.useForm();
   const onFinish = (values) => {
     console.log('選中的值:', values);
+    handleSubmit(values)
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -514,20 +508,64 @@ export default function ActivityWish() {
     console.log('Change:', e.target.value);
   };
 
-  // 表單送出
-  //  const handleSubmit = (values) => {
-  //   fetch('http://localhost:3002/member-api', {
-  //     method: 'POST',
-  //     body: JSON.stringify(values),
-  //     headers: { 'Content-Type': 'application/json' },
-  //   })
-  //     .then((r) => r.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
-  //   form.resetFields();
-  //   router.push('/member/sign-in');
-  // };
+  const handleSubmit = async (values) => {
+    const { name, city, area, content, other_message } = values;
+  
+    try {
+      await orderActivityClick(auth.token, authId, name, city, area, content, other_message);
+      console.log('Wish submitted successfully');
+    
+    } catch (error) {
+      console.error('Error submitting wish:', error);
+    
+    }
+  };
+
+
+ 
+  const orderActivityClick = async (
+    token,
+    authId,
+    name,
+    city,
+    area,
+    content,
+    other_message
+  ) => {
+    try {
+      if (!token) {
+        throw new Error('Authentication token not found');
+      }
+  
+      const requestBody = {
+        member_sid: authId,
+        name:name,
+        city:city,
+        area:area,
+        content:content,
+        other_message:other_message,
+      };
+  
+      const response = await fetch(`${process.env.API_SERVER}/activity-api/wish`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify(requestBody),
+      });
+  
+      if (!response.ok) {
+        throw new Error('送出願望 失敗');
+      }
+  
+      console.log('送出願望 成功');
+    } catch (error) {
+      throw new Error('Error submitting wish: ' + error.message);
+    }
+  };
+  
+
 
   return (
     <div>
@@ -615,11 +653,6 @@ export default function ActivityWish() {
               fontSize: 18,
               controlInteractiveSize: 18,
             },
-            components: {
-              Radio: {
-                colorPrimary: '#FD8C46',
-              },
-            },
           }}
         >
           <Form
@@ -628,7 +661,9 @@ export default function ActivityWish() {
             initialValues={initialValues}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
+            onSubmit={handleSubmit}
             className={styles.form_outer}
+            
           >
             <Form.Item
               label="活動名稱"
@@ -707,31 +742,49 @@ export default function ActivityWish() {
                 },
               ]}
             >
-              <Input size="large" />
-            </Form.Item>
-
-           
-            {/* <TextArea
+              <TextArea
               showCount
-              maxLength={100}
               style={{
-                height: 120,
+                height: 500,
                 resize: 'none',
               }}
               onChange={onChange}
-              placeholder="disable resize"
-            /> */}
-
-            <Form.Item label="其他" className={styles.formItem} name="other">
-              <Input size="large" />
+              placeholder="活動內容..."
+            />
             </Form.Item>
+            <Form.Item
+              label="其他內容"
+              className={styles.formItem}
+              name="other_message"
+              rules={[
+                {
+                  required: false,
+                  // message: '請輸入活動內容',
+                },
+              ]}
+            >
+              <TextArea
+              showCount
+              style={{
+                height: 200,
+                resize: 'none',
+              }}
+              onChange={onChange}
+              placeholder="其他想說的話..."
+            />
+            </Form.Item>
+            
 
             <div className={styles.btns}>
               <div className={styles.btn}>
                 <SecondaryBtn text="清空" htmltype="reset" />
               </div>
               <div className={styles.btn}>
-                <MainBtn text="送出願望" htmltype="submit" />
+                <MainBtn 
+                text="送出願望" 
+                htmltype="submit" 
+                // clickHandler={orderActivityClick}
+                />
               </div>
             </div>
           </Form>
