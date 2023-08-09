@@ -22,6 +22,8 @@ export default function CartNewAddressForm({
   setaddNewBox = () => {},
   setMapData = () => {},
   setselectedAddSid = '',
+  setShowAddSuccess = () => {},
+  setShowAddFail = () => {},
   memEmail = '',
 }) {
   const [form] = Form.useForm();
@@ -108,12 +110,19 @@ export default function CartNewAddressForm({
     let sidupDatedData = [];
     //新增地址成功更新addressID
     if (r.success) {
-      alert('新增成功');
+      setShowAddSuccess(true);
+      setTimeout(() => {
+        setShowAddSuccess(false);
+      }, 1000);
       sidupDatedData = newData.map((v) =>
         v.address_sid === newSid ? { ...v, address_sid: r.newId } : { ...v }
       );
     } else {
       alert('新增失敗');
+      setShowAddFail(true);
+      setShowAddFail(() => {
+        setShowAddSuccess(false);
+      }, 1000);
       throw new Error('新增地址時出錯');
     }
     //整理展現清單

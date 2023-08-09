@@ -4,6 +4,15 @@
     align-items: center;
     padding: var(--p16) 0px;
     border-bottom: 1px dashed var(--secondary);
+
+}
+.productCard2{
+    /* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    padding: var(--p16) 0px;
+    border-bottom: 1px dashed var(--secondary);
+    background-color: var(--light5);
 }
 .checkbox{
      margin-right: 16px;

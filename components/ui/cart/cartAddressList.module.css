@@ -80,6 +80,7 @@
 }
 .delete{
     position: absolute;
+    padding-left: 10px;
     top: 8px;
     right: 0;
 }
