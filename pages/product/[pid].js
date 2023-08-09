@@ -60,7 +60,7 @@ export default function Product() {
       href: `${process.env.WEB}/product`,
       show: true,
     },
-    { id: 'search', text: '/ 飼料 /', href: '', show: true },
+    { id: 'search', text: '> 飼料 >', href: '', show: true },
     {
       id: 'pid',
       text: '',
@@ -206,7 +206,7 @@ export default function Product() {
           if (v.id === 'search') {
             return {
               ...v,
-              text: `/ ${shopMainData[0].catergory_chinese_name} /`,
+              text: `> ${shopMainData[0].catergory_chinese_name} >`,
               href: `${process.env.WEB}/product/list?category=${shopMainData[0].catergory_english_name}`,
             };
           }
