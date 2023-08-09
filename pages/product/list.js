@@ -67,7 +67,7 @@ export default function List() {
       href: `${process.env.WEB}/product`,
       show: true,
     },
-    { id: 'search', text: '/ 商品列表', href: '', show: true },
+    { id: 'search', text: '> 商品列表', href: '', show: true },
     { id: 'pid', text: '', href: '', show: false },
   ]);
 
@@ -213,7 +213,7 @@ export default function List() {
       };
       const newBreadCrubText = breadCrubText.map((v) => {
         if (v.id === 'search') {
-          return { ...v, text: `/ 商品列表` };
+          return { ...v, text: `> 商品列表` };
         } else return { ...v };
       });
       setBreadCrubText(newBreadCrubText);
@@ -239,7 +239,7 @@ export default function List() {
           );
           const newBreadCrubText = breadCrubText.map((v) => {
             if (v.id === 'search') {
-              return { ...v, text: `/ ${selctCategory.label}列表` };
+              return { ...v, text: `> ${selctCategory.label}列表` };
             } else return { ...v };
           });
           setBreadCrubText(newBreadCrubText);
