@@ -109,9 +109,6 @@
   justify-content: space-between;
 }
 
-.section_card {
-  margin-top: 6.5rem;
-}
 
 .card {
   display: flex;
@@ -146,5 +143,7 @@
   font-size: var(--h3fs28);
   color: var(--dark);
   font-weight: var(--fwbold);
+  margin: 50px 0;
+  text-align: center;
 }
 

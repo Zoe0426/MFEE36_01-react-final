@@ -1,51 +1,57 @@
 .card {
     /* width: 32%; */
     /* height: 152px; */
-    display: flex;
+    /* display: flex; */
     margin-bottom: 1.5rem;
+    text-align: center;
 }
+
+
   
 .image {
     aspect-ratio: 1/1; /* 設置寬高比為1:1 */
-    width: 200px;
+    width: 230px;
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    border: 15px solid var(--lightBrown);
   }
-/* 
-.user_default{
-border-radius: 50px;
-font-size: 50px;
-} */
-  
+
+.card_bottom{
+    background-color:var(--lightBrown);
+    border-radius: var(--br20);
+    padding: 80px var(--p32) var(--p32) var(--p32);
+    margin-top: -70px;
+}
   
 .content {
-    padding: 0 0 0 var(--p16);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
+    font-size: var(--h6fs18);
+    line-height: 23px;
+    text-align: start;
+    margin-bottom: 20px;
+    height: 255px;
 }
   
 .title {
     color: var(--dark);
-    font-size: var(--h4fs24);
+    font-size: var(--h3fs28);
     font-weight: var(--fwbold);
+    margin-bottom: 20px;
 }
   
 .count {
-    font-size: var(--h5fs20);
+    font-size: var(--h4fs24);
+    margin-bottom: 20px;
+    color: var(--main);
+    font-weight: var(--fwbold);
 }
   
 .location {
-    display: flex;
-    align-items: center;
+    font-size: var(--h5fs20);
     color: #666666;
+    margin-bottom: 20px;
 }
 
-.location_text{
-    font-size: var(--h5fs20);
-}
   
 .icon {
     font-size: var(--h5fs20);

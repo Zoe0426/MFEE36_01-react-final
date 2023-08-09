@@ -15,6 +15,7 @@ const ActivityCard7 = ({
   city = '',
   area = '',
   profile = null,
+  content = '',
 }) => {
   return (
     <div className={styles.card}>
@@ -30,16 +31,20 @@ const ActivityCard7 = ({
         )}
       </div>
 
-      <div className={styles.content}>
+      <div className={styles.card_bottom}>
         <div className={styles.title}>{title}</div>
+
         <div className={styles.count}>{count}人已投</div>
+
         <div className={styles.location}>
           <FontAwesomeIcon icon={faLocationDot} className={styles.icon} />
-          <div className={styles.location_text}>
-            {city}
-            {area}
-          </div>
+
+          {city}
+          {area}
         </div>
+
+        <div className={styles.content}>{content}</div>
+
         <IconMainBtn icon={faHand} text="投我一票" />
       </div>
     </div>

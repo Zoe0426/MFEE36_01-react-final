@@ -246,7 +246,7 @@ export default function ActivityVote() {
           <div>
             <p className={styles.text_large}>我要投票</p>
             <p>
-              {datas.totalRows != 0 ? `共${datas.totalRows}項願望` : '查無願望'}
+              {datas.totalRows != 0 ? `共${datas.totalRows}個投票項目` : '查無項目'}
             </p>
           </div>
           <div>
@@ -262,10 +262,10 @@ export default function ActivityVote() {
 
       <div className="container-inner">
         <div>
-          <p className={styles.title}>活動許願 呼聲最高TOP3</p>
-          <Row gutter={[30, 120]} className={styles.section_card}>
+          <p className={styles.title}>\ 活動許願·呼聲最高TOP3 /</p>
+          <Row gutter={[100, 120]}>
             {datas.topVoteRows.map((i) => {
-              const { member_sid, profile, name, city, area, vote_count } = i;
+              const { member_sid, profile, name, city, area,content, vote_count } = i;
               return (
                 <Col key={member_sid} span={8}>
                   <ActivityCard7
@@ -274,6 +274,7 @@ export default function ActivityVote() {
                     count={vote_count}
                     city={city}
                     area={area}
+                    content={content}
                   />
                 </Col>
               );
