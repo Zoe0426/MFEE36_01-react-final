@@ -30,8 +30,10 @@
 }
 .rest_img>img {
     width: 100%; 
-    height: auto; 
     transition: 0.5s;
+    height: 280px;
+    object-fit: cover;
+    object-position: top center;
   }
 .rest_img img:hover {
     scale: 1.1;
