@@ -289,6 +289,9 @@ const menuProps = {
     // const newData = forumData.rows.filter((data) => data.board_sid === 6);
     // setData(newData);
   }
+  const PostAuthorBTNHandler =()=>{
+    router.push(`/forum/blog`)
+  }
 
   return (
     <>
@@ -332,18 +335,19 @@ const menuProps = {
           diary={()=>{
             diary()
           }}
-          />
+          PostAuthorBTNHandler={PostAuthorBTNHandler}
+          img='/forum_img/board_img/個人頁面.png' text='個人頁面'/>
           <div className="container-inner">
-          {/*<PostNav postNav='熱門文章' optionCh='熱門文章' op1='最新文章'/>*/}
-          <div>
-              <Dropdown menu={menuProps}>
-              <Button>
-                <Space>
-                  {obText}
-                  <DownOutlined />
-                </Space>
-              </Button>
-            </Dropdown>
+          <div className={Style.postNav}>
+            <div className={Style.postNavText}>論壇文章</div>
+                <Dropdown menu={menuProps} className={Style.dropdown}>
+                <Button>
+                  <Space>
+                    {obText}
+                    <DownOutlined />
+                  </Space>
+                </Button>
+              </Dropdown>
           </div>
           {data.map((v,i)=>(
           <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>

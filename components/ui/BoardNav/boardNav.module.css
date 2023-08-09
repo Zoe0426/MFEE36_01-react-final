@@ -17,7 +17,7 @@
 .boardBTM{
   width:100%;
   position: absolute;
-  top:455px;
+  top:460px;
 }
 .boardNavbar{
   margin-bottom: 50px;
@@ -82,7 +82,7 @@
   pointer-events: none;
   color:white;
   font-weight: var(--fwbold);
-  text-shadow: rgb(135, 135, 135) 0.1em 0.1em 0.1em;
+  /* text-shadow: rgb(135, 135, 135) 0.1em 0.1em 0.1em; */
 }
 
 
