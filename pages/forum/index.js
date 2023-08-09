@@ -338,37 +338,42 @@ const menuProps = {
           PostAuthorBTNHandler={PostAuthorBTNHandler}
           img='/forum_img/board_img/個人頁面.png' text='個人頁面'/>
           <div className="container-inner">
-          <div className={Style.postNav}>
-            <div className={Style.postNavText}>論壇文章</div>
-                <Dropdown menu={menuProps} className={Style.dropdown}>
-                <Button>
-                  <Space>
-                    {obText}
-                    <DownOutlined />
-                  </Space>
-                </Button>
-              </Dropdown>
-          </div>
-          {data.map((v,i)=>(
-          <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
-          <PostCard key={v.post_sid}
-          profile={`${process.env.API_SERVER}/img/${v.profile}`} 
-          boardName={v.board_name} 
-          author={v.nickname}
-          postTitle={v.post_title} 
-          postContent={v.post_content} 
-          img={`${process.env.API_SERVER}/img/${v.file}`}
-          likes={v.postLike} 
-          comments={v.postComment} 
-          favorites={v.postFavlist}/>           
-          </Link>
-          ))}   
-        <Pagination
-          current={page}
-          total={forumData.totalRows}
-          pageSize={perPage}
-          onChange={PageChangeHandler}
-        />     
+            <div className={Style.postNav}>
+              <div className={Style.postNavText}>論壇文章</div>
+                  <Dropdown menu={menuProps} className={Style.dropdown}>
+                  <Button>
+                    <Space>
+                      {obText}
+                      <DownOutlined />
+                    </Space>
+                  </Button>
+                </Dropdown>
+            </div>
+            <div className={Style.postBody}>
+              {data.map((v,i)=>(
+              <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
+              <PostCard className={Style.postCard} key={v.post_sid}
+              profile={`${process.env.API_SERVER}/img/${v.profile}`} 
+              boardName={v.board_name} 
+              author={v.nickname}
+              postTitle={v.post_title} 
+              postContent={v.post_content} 
+              img={`${process.env.API_SERVER}/img/${v.file}`}
+              likes={v.postLike} 
+              comments={v.postComment} 
+              favorites={v.postFavlist}/>          
+              </Link>
+              ))}   
+              <div className={Style.page}>
+                <Pagination 
+                current={page}
+                total={forumData.totalRows}
+                pageSize={perPage}
+                onChange={PageChangeHandler}
+                />     
+              </div>
+              </div>
+
   </div>
   <PostBottom/>
         </div>

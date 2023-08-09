@@ -25,6 +25,19 @@
     width:80%;
 }
 .dropdown{
-    margin-top: 10px;
+    margin-top: 15px;
+    margin-left:10px;
+}
+.postBody{
+    background: #ffffffe1;
+    padding:3px 10px 10px 10px;
+}
+.postCard{
+    margin-bottom: 5px;
+}
+.page{
+    display: flex;
+    justify-content: center;
+    margin: 30px;
 }
 
