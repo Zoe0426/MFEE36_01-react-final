@@ -715,7 +715,6 @@ export default function Restindex() {
       <div className={Styles.bgc}>
         <div className="container-inner">
           <div className={Styles.function_group}>
-            {/* <IconBtn icon={faMap} text="餐廳地圖" /> */}
             {auth.token ? (
               <IconBtn
                 icon={faHeart}
