@@ -248,7 +248,7 @@ export default function Product() {
         });
         setTimeout(() => {
           setIsLoading(false);
-        }, 500);
+        }, 300);
       }
 
       if (Array.isArray(reccomandData)) {
