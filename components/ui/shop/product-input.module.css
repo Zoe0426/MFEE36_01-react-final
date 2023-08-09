@@ -59,6 +59,10 @@
     display: none;
   }
 
+  .input_text{
+    min-width: 50px;
+ }
+
   .toBox {
     padding-top: 0px;
   }
