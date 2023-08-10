@@ -50,6 +50,7 @@ export default function PetGame() {
   const [first, setFirst] = useState(false);
   const [isOver24, setIsOver24] = useState(false);
   const [signTime, setSignTime] = useState('');
+  const [firstSignTime, setFirstSignTime] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
@@ -136,21 +137,26 @@ export default function PetGame() {
           .then((r) => r.json())
           .then((data) => {
             console.log(data);
-            //計算上次簽到時間是否超過24小時;
-            const lastTime = new Date(data[0].signin_time);
-            const currentTime = new Date();
-            const diffMillis = Math.abs(
-              currentTime.getTime() - lastTime.getTime()
-            );
-            const differenceHr = diffMillis / (1000 * 60 * 60);
-            // console.log('lastTime', lastTime);
-            // console.log('currentTime', currentTime);
-            // console.log('differenceHr', differenceHr);
-            if (differenceHr > 24) {
-              setIsOver24(true);
-            }
+            if (data.length > 0) {
+              //計算上次簽到時間是否超過24小時;
+              const lastTime = new Date(data[0].signin_time);
+              const currentTime = new Date();
+              const diffMillis = Math.abs(
+                currentTime.getTime() - lastTime.getTime()
+              );
+              const differenceHr = diffMillis / (1000 * 60 * 60);
+              // console.log('lastTime', lastTime);
+              // console.log('currentTime', currentTime);
+              // console.log('differenceHr', differenceHr);
+              if (differenceHr > 24) {
+                setIsOver24(true);
+              }
 
-            setSignTime(data.signin_time);
+              setSignTime(data.signin_time);
+            } else {
+              console.log('no lastTime');
+              setFirstSignTime(true);
+            }
           });
       } else {
         console.log('User is not logged in. Cannot fetch coupons.');
@@ -253,7 +259,7 @@ export default function PetGame() {
             setFoods((prevFoods) =>
               prevFoods.filter((_, index) => index !== closestFood.index)
             );
-            if (isOver24) {
+            if (isOver24 || firstSignTime) {
               fetch(`${process.env.API_SERVER}/member-api/createSignGame`, {
                 method: 'POST',
                 headers: {
@@ -267,6 +273,7 @@ export default function PetGame() {
                   setTimeout(() => {
                     setShowModal(false);
                     setIsOver24(false);
+                    setFirstSignTime(false);
                   }, 1200);
                 });
             }
@@ -333,7 +340,7 @@ export default function PetGame() {
       <Head>
         <title>狗with咪 | 我的寵物</title>
       </Head>
-      {showModal && isOver24 && (
+      {showModal && (
         <ModalWithoutBtn
           text="每日簽到成功～"
           text2="恭喜獲得10元優惠券！"
