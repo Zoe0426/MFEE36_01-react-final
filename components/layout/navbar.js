@@ -77,6 +77,13 @@ export default function Navbar({ type = '' }) {
       setShowCartBox(true);
     }
   };
+  const redirectTo = (where) => {
+    console.log({ where });
+    router.push(`/${where}`);
+  };
+  const gohome = () => {
+    router.push(`/`);
+  };
   const toMemberCenter = () => {
     router.push('/member/orderlist');
   };
@@ -119,36 +126,70 @@ export default function Navbar({ type = '' }) {
                 className={`${Styles.line} ${isActive ? Styles.active : ''}`}
               ></div>
             </button>
-            <Link href="/">
-              <img
-                className={`${type === 'home' ? Styles.homeLogo : Styles.logo}`}
-                src="/layout-images/h-logo.svg"
-                alt=""
-              />
-            </Link>
+            {/* <Link href="/"> */}
+            <img
+              onClick={() => {
+                gohome();
+              }}
+              className={`${type === 'home' ? Styles.homeLogo : Styles.logo}`}
+              src="/layout-images/h-logo.svg"
+              alt=""
+            />
+            {/* </Link> */}
           </div>
           <div
             className={`${Styles.linkMenu} ${isActive ? Styles.active : ''}`}
           >
             <div className={Styles.linkItem}>
-              <Link href="/product" className={Styles.link}>
+              {/* <Link href="/product" > */}
+              <div
+                className={Styles.link}
+                onClick={() => {
+                  redirectTo('product');
+                }}
+              >
                 商城
-              </Link>
+              </div>
+              {/* </Link> */}
             </div>
             <div className={Styles.linkItem}>
-              <Link href="/activity" className={Styles.link}>
+              {/* <Link href="/activity" className={Styles.link}>
                 活動
-              </Link>
+              </Link> */}
+              <div
+                className={Styles.link}
+                onClick={() => {
+                  redirectTo('activity');
+                }}
+              >
+                活動
+              </div>
             </div>
             <div className={Styles.linkItem}>
-              <Link href="/restaurant" className={Styles.link}>
+              <div
+                className={Styles.link}
+                onClick={() => {
+                  redirectTo('restaurant');
+                }}
+              >
                 餐廳
-              </Link>
+              </div>
+              {/* <Link href="/restaurant" className={Styles.link}>
+                餐廳
+              </Link> */}
             </div>
             <div className={Styles.linkItem}>
-              <Link href="/forum" className={Styles.link}>
+              <div
+                className={Styles.link}
+                onClick={() => {
+                  redirectTo('forum');
+                }}
+              >
                 論壇
-              </Link>
+              </div>
+              {/* <Link href="/forum" className={Styles.link}>
+                論壇
+              </Link> */}
             </div>
           </div>
           <div className={Styles.iconMenu}>

@@ -376,8 +376,8 @@ export default function Home() {
                     <FontAwesomeIcon
                       icon={faPaw}
                       style={{
-                        maxHeight: 10,
-                        maxWidth: 10,
+                        maxHeight: 14,
+                        maxWidth: 14,
                         transform: 'rotate(-15deg)',
                         marginRight: '5px',
                         color: '#F1C476',
@@ -389,8 +389,8 @@ export default function Home() {
                     <FontAwesomeIcon
                       icon={faPaw}
                       style={{
-                        maxHeight: 16,
-                        maxWidth: 10,
+                        maxHeight: 14,
+                        maxWidth: 14,
 
                         transform: 'rotate(-15deg)',
                         marginRight: '5px',
@@ -403,8 +403,8 @@ export default function Home() {
                     <FontAwesomeIcon
                       icon={faPaw}
                       style={{
-                        maxHeight: 10,
-                        maxWidth: 10,
+                        maxHeight: 14,
+                        maxWidth: 14,
                         transform: 'rotate(-15deg)',
                         marginRight: '5px',
                         color: '#F1C476',

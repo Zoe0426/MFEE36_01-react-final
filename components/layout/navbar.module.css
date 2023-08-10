@@ -75,6 +75,11 @@
   width: 100%;
   font-size: 18px;
   transition: all 0.2s;
+  color: var(--dark);
+  font-weight: bold;
+  /* border: 1px solid red; */
+  padding: 8px 0;
+  text-align: center;
 }
 
 .link:hover{
