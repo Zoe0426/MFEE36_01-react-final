@@ -816,7 +816,9 @@ export default function RestInfo() {
                 onClick={handleCopyUrl}
                 style={{ maxWidth: '20px', maxHeight: '20px' }}
               /> */}
-              <Success clickHandler={handleCopyUrl} />
+              <div className={Styles.copy}>
+                <Success clickHandler={handleCopyUrl} />
+              </div>
             </div>
             <RateStar
               score={restDetailRows.average_friendly}

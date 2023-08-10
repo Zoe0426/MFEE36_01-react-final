@@ -186,9 +186,16 @@ function App() {
   };
 
   // 取得日期對應的星期幾
+  // const getDayOfWeek = (dateStr) => {
+  //   const date = new Date(dateStr);
+  //   const dayOfWeek = date.toLocaleDateString('zh-TW', { weekday: 'long' });
+  //   return dayOfWeek;
+  // };
+
   const getDayOfWeek = (dateStr) => {
     const date = new Date(dateStr);
-    const dayOfWeek = date.toLocaleDateString('zh-TW', { weekday: 'long' });
+    const dayOfWeekIndex = date.getDay();
+    const dayOfWeek = weekDayList[dayOfWeekIndex];
     return dayOfWeek;
   };
 
@@ -297,9 +304,12 @@ function App() {
             </div>
           </div>
           <div className={Styles.can_book}>
-            <p className={Styles.select_date}>
-              {collectDate} ({getDayOfWeek(collectDate)}) 可預約的時段
-            </p>
+            <div className={Styles.select_date}>
+              {collectDate} 可預約的時段
+              {/* <div className={Styles.week_date}>
+                ({getDayOfWeek(collectDate)})
+              </div> */}
+            </div>
             {/* 顯示所選日期對應的時間區段 */}
             {selectedTimeSlots.length > 0 ? (
               <>

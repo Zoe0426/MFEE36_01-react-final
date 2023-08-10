@@ -31,9 +31,8 @@
   justify-content: center;  */
 }
 
-
 .image {
-  max-height: 82vh; 
+  max-height: 82vh;
   /* max-width: 100%; */
 }
 .image_hovered {
@@ -123,7 +122,7 @@
   padding: 15px 16px;
   background-color: rgba(0, 0, 0, 0.8);
 }
-.page_indicator{
+.page_indicator {
   color: white;
   font-size: 20px;
   opacity: 0.7;
@@ -149,19 +148,36 @@
 @media screen and (max-width: 767px) {
   .slider {
     width: 40%;
-    top: 24%;
+    top: 20%;
     left: 30%; /* 調整置中的位置 */
     z-index: 9999;
   }
   .image {
-    max-height: 50vh; 
+    max-height: 50vh;
   }
   .right_arrow {
+    top: 46%;
     padding: 12px 13px;
     font-size: 0.75rem;
   }
   .left_arrow {
+    top: 46%;
     padding: 12px 13px;
     font-size: 0.75rem;
+  }
+  .page_indicator {
+    font-size: 14px;
+    display: flex;
+    width: 120px;
+  }
+  .plus {
+    margin-right: 12px;
+    font-size: 20px;
+  }
+  .plus1 {
+    font-size: 20px;
+  }
+  .zoom_buttons {
+    margin-bottom: 60px;
   }
 }

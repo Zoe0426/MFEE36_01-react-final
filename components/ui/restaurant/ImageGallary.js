@@ -192,7 +192,7 @@ export default function ImageGallary({ data = [] }) {
                   />
                 </button>
                 <button onClick={zoomIn}>
-                  <FontAwesomeIcon icon={faPlus} />
+                  <FontAwesomeIcon icon={faPlus} className={Styles.plus1} />
                 </button>
               </div>
             </div>

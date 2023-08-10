@@ -5,6 +5,7 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import NumberInput from '../numberInput/numberInput2';
+import Confirm from './confirm';
 
 export default function BookingModal({
   datas = [],
@@ -46,6 +47,7 @@ export default function BookingModal({
   const handleModalConfirm = () => {
     // 重新載入頁面
     window.location.reload();
+    document.body.classList.remove('likeList-open');
   };
 
   // const handleChangePeople = (newCount) => {
