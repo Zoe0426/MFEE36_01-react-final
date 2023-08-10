@@ -215,6 +215,9 @@
   scale: 0.6;
   animation: 8s cloudsmallFloat ease-in infinite;
 }
+.select_date{
+  display: flex;
+}
 @keyframes cloudsmallFloat {
   0% {
     left: 8%;
@@ -580,5 +583,8 @@
     flex-direction: column;
     align-items: center;
     margin-top: 40px;
+  }
+  .week_date{
+    display: none;
   }
 }

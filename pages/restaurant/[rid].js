@@ -269,7 +269,7 @@ export default function RestInfo() {
   //沒登入會員收藏，跳轉登入booking
   const toSingInBook = () => {
     const from = router.query;
-    router.push(`/member/sign-in?from=${process.env.WEB}/restaurant/booking`);
+    router.push(`/member/sign-in?from=${process.env.WEB}/restaurant/calendar`);
   };
   //沒登入會員收藏，跳轉登入likelist
   const toSingIn = () => {
@@ -810,13 +810,9 @@ export default function RestInfo() {
           <div className={Styles.rest_info}>
             <div className={Styles.title_share}>
               <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
-              {/* <FontAwesomeIcon
-                icon={faClone}
-                className={Styles.clone}
-                onClick={handleCopyUrl}
-                style={{ maxWidth: '20px', maxHeight: '20px' }}
-              /> */}
-              <Success clickHandler={handleCopyUrl} />
+              <div className={Styles.copy}>
+                <Success clickHandler={handleCopyUrl} />
+              </div>
             </div>
             <RateStar
               score={restDetailRows.average_friendly}

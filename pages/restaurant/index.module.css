@@ -386,6 +386,9 @@
     padding-top: 40px;
     padding-bottom: 100px;
   }
+  .space {
+    margin-top: 0;
+  }
   .function_group {
     display: flex;
     justify-content: space-between;
