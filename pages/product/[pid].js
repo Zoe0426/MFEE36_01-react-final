@@ -1131,7 +1131,7 @@ export default function Product() {
                     <div className={styles.detail_pay}>
                       <h5 className={styles.detail_title}>付款方式：</h5>
                       <p className={styles.detail_spec_text}>
-                        VISA 信用卡 / MASTER 信用卡 / LINE Pay / Google Pay
+                        VISA 信用卡 / MASTER 信用卡 / LINE Pay
                       </p>
                     </div>
                     <div>
