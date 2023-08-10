@@ -44,8 +44,6 @@ import ActivityCard6 from '@/components/ui/cards/ActivityCard6';
 import ActivityCard7 from '@/components/ui/cards/ActivityCard7';
 
 export default function ActivityVote() {
-
-
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(12);
@@ -71,7 +69,7 @@ export default function ActivityVote() {
     totalPages: 0,
     page: 1,
     rows: [],
-    topVoteRows:[],
+    topVoteRows: [],
   });
 
   // 小麵包屑------------------------------------------------------------
@@ -82,7 +80,12 @@ export default function ActivityVote() {
       href: `${process.env.WEB}/activity`,
       show: true,
     },
-    { id: 'search', text: '> 願望列表', href: `${process.env.WEB}/activity/wishlist`, show: true },
+    {
+      id: 'search',
+      text: '> 願望列表',
+      href: `${process.env.WEB}/activity/wishlist`,
+      show: true,
+    },
     { id: 'vote', text: '> 我要投票', href: '', show: true },
   ]);
 
@@ -147,6 +150,27 @@ export default function ActivityVote() {
     );
   };
 
+  //投票
+  const handleVote = async (activity_wish_sid) => {
+    try {
+      const response = await fetch(`${process.env.API_SERVER}/activity-api/addvote`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ activity_wish_sid }),
+      });
+
+      if (response.ok) {
+        console.log('投票 成功');
+      } else {
+        console.log('投票 失敗');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   // Pagination相關的函式------------------------------------------------------------
   const PageChangeHandler = (page) => {
     setPage(page);
@@ -161,16 +185,12 @@ export default function ActivityVote() {
   return (
     <div>
       {/* .........banner......... */}
-      <div className={styles.banner}>
-        
-      </div>
+      <div className={styles.banner}></div>
 
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
-
-           
           </div>
         </div>
 
@@ -184,7 +204,6 @@ export default function ActivityVote() {
       <div className={styles.type}>
         <div className="container-inner">
           <div className={styles.type_btn_group}>
-            
             <img
               className={styles.type_decoration}
               src="../activity_img/decoration1.png"
@@ -214,7 +233,6 @@ export default function ActivityVote() {
               src="../activity_img/decoration1.png"
               alt=""
             />
-           
           </div>
         </div>
       </div>
@@ -227,7 +245,11 @@ export default function ActivityVote() {
           <div>
             <p className={styles.text_large}>我要投票</p>
             <p>
-              ({datas.totalRows != 0 ? `共${datas.totalRows}個投票項目` : '查無項目'})
+              (
+              {datas.totalRows != 0
+                ? `共${datas.totalRows}個投票項目`
+                : '查無項目'}
+              )
             </p>
           </div>
           <div>
@@ -246,7 +268,15 @@ export default function ActivityVote() {
           <p className={styles.title}>\ 活動許願·呼聲最高TOP3 /</p>
           <Row gutter={[100, 120]}>
             {datas.topVoteRows.map((i) => {
-              const { member_sid, profile, name, city, area,content, vote_count } = i;
+              const {
+                member_sid,
+                profile,
+                name,
+                city,
+                area,
+                content,
+                vote_count,
+              } = i;
               return (
                 <Col key={member_sid} span={8}>
                   <ActivityCard7
@@ -283,6 +313,7 @@ export default function ActivityVote() {
                 vote_count,
                 content,
                 other_message,
+                activity_wish_sid, 
               } = i;
               return (
                 <Col key={member_sid} span={8}>
@@ -294,6 +325,7 @@ export default function ActivityVote() {
                     area={area}
                     content={content}
                     other_message={other_message}
+                    handleVote={() => handleVote(activity_wish_sid)}
                   />
                 </Col>
               );
