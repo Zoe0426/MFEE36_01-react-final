@@ -48,6 +48,7 @@ export default function BookingModal({
     // 重新載入頁面
     // window.location.reload();
     router.push(`${process.env.WEB}/restaurant`);
+    document.body.classList.remove('likeList-open');
   };
 
   // const handleChangePeople = (newCount) => {

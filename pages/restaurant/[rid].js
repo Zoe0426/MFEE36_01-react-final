@@ -810,12 +810,6 @@ export default function RestInfo() {
           <div className={Styles.rest_info}>
             <div className={Styles.title_share}>
               <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
-              {/* <FontAwesomeIcon
-                icon={faClone}
-                className={Styles.clone}
-                onClick={handleCopyUrl}
-                style={{ maxWidth: '20px', maxHeight: '20px' }}
-              /> */}
               <div className={Styles.copy}>
                 <Success clickHandler={handleCopyUrl} />
               </div>

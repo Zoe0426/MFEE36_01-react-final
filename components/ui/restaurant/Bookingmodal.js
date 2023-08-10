@@ -43,13 +43,6 @@ export default function BookingModal({
     }
   };
 
-  // 彈跳視窗確認按鈕的點擊處理函數
-  const handleModalConfirm = () => {
-    // 重新載入頁面
-    window.location.reload();
-    document.body.classList.remove('likeList-open');
-  };
-
   // const handleChangePeople = (newCount) => {
   //   // 在這裡處理人數的變更，不執行 handleSubmit
   //   console.log('人數');
@@ -216,49 +209,6 @@ export default function BookingModal({
               </div>
             </div>
           </div>
-
-          {reservationSuccess && (
-            <div className={Styles.modal_overlay}>
-              <div className={Styles.modal_bgc}>
-                <h3 className={Styles.success}>預約成功！</h3>
-                <div className={Styles.detail_info}>
-                  <div className={Styles.time}>
-                    <p className={Styles.booking_title}>預約餐廳</p>
-                    <p>{datas.name}</p>
-                  </div>
-                  <div className={Styles.time}>
-                    <p className={Styles.booking_title}>預約時間</p>
-                    <p className={Styles.date_time}>
-                      2023/{datas.date} {datas.time}
-                    </p>
-                  </div>
-                  <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約會員</p>
-                    <p>{memberDatas.name}</p>
-                  </div>
-                  <div className={Styles.member}>
-                    <p className={Styles.booking_title}>聯絡資訊</p>
-                    <p>{memberDatas.mobile}</p>
-                  </div>
-                  <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約人數</p>
-                    <p>{countPeople} 位</p>
-                  </div>
-                  <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約寵物</p>
-                    <p>{countPet} 隻</p>
-                  </div>
-                  <div className={Styles.booking_note}>
-                    <p className={Styles.booking_title}>預約備註</p>
-                    <p>{noteValue}</p>
-                  </div>
-                </div>
-                <div className={Styles.filter_btns}>
-                  <MainBtn clickHandler={handleModalConfirm} text="確定" />
-                </div>
-              </div>
-            </div>
-          )}
         </>
       )}
     </>
