@@ -20,31 +20,29 @@ export default function CartTab({
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
-    console.log(shopData);
+    //console.log(shopData);
     const shopSelectStatus =
       shopData.filter((v) => v.selected == true).length > 0;
-    //console.log({ shopSelectStatus });
     const actSelectStatus =
       activityData.filter((v) => v.selected == true).length > 0;
-    //console.log({ actSelectStatus });
 
     if (type !== checkoutType) {
       if (type === 'shop') {
-        //現在COtype 是activity
         console.log({ actSelectStatus });
         if (actSelectStatus) {
           setModal(!modal);
           document.body.classList.add('likeList-open');
+          console.log('add');
         } else {
           changeTypeHandler('shop');
         }
       }
       if (type === 'activity') {
-        //現在COtype 是shop
-        console.log({ shopSelectStatus });
+        //console.log({ shopSelectStatus });
         if (shopSelectStatus) {
           setModal(!modal);
           document.body.classList.add('likeList-open');
+          console.log('add');
         } else {
           changeTypeHandler('activity');
         }
@@ -54,21 +52,27 @@ export default function CartTab({
   const closeHandler = () => {
     setModal(false);
     document.body.classList.remove('likeList-open');
+    console.log('remove');
   };
   const confirmHandler = () => {
     checkoutType === 'shop'
       ? changeTypeHandler('activity')
       : changeTypeHandler('shop');
+    setModal(false);
+    document.body.classList.remove('likeList-open');
+    console.log('remove');
   };
   return (
-    <div
-      onClick={toggleModal}
-      className={`${checkoutType === type ? style.typeSelected : style.type}`}
-    >
-      {text}
+    <>
+      <div
+        onClick={toggleModal}
+        className={`${checkoutType === type ? style.typeSelected : style.type}`}
+      >
+        {text}
+      </div>
       {modal && (
         <>
-          <div onClick={toggleModal} className={style.overlay}></div>
+          <div className={style.overlay}></div>
           <div className={style.modal}>
             <div className={style.modal_card}>
               <h2 className={style.modal_title}>
@@ -112,6 +116,6 @@ export default function CartTab({
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }

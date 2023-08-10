@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Row, Col, ConfigProvider, Checkbox } from 'antd';
 import style from '@/styles/cart.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaw } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 //components
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';

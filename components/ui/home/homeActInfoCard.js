@@ -35,7 +35,7 @@ export default function HomeActInfoCard({
       </p>
       <div className={style.hhashes}>
         {hashTags.map((h, i) => {
-          return <HashTag key={i} text={h} marginB="mb8" />;
+          return <HashTag key={i} text={`#${h}`} marginB="mb8" />;
         })}
       </div>
 
