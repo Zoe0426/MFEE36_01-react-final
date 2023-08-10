@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import style from './cartTotalSection.module.css';
-import Image from 'next/image';
-import rundog from '@/assets/running-dog.svg';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import CartSectionTitle from './cartSectionTitle';
 import CloseBtn from '../buttons/closeBtn';
-import CartPayBtn from './cartPayBtn';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, ConfigProvider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,8 +11,6 @@ import {
   faPaw,
   faTicket,
 } from '@fortawesome/free-solid-svg-icons';
-import Modal from '../modal/modal';
-import CartCouponList from './cartCouponList';
 export default function CartTotalSection({
   checkoutType = '',
   shopData = [],
@@ -26,8 +21,6 @@ export default function CartTotalSection({
   createOrder = () => {},
   setPaymentType = () => {},
   showCouponModalHandler = () => {},
-  setChosenCoupon = () => {},
-  selectCoupon = () => {},
 }) {
   const [showCard, setShowCard] = useState(false);
   const postAmount = postType === 'blackcat' ? 90 : 60;

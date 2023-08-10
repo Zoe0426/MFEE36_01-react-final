@@ -1,7 +1,7 @@
 .box{
     z-index: 50;
     position:fixed;
-    top:60px;
+    /* top:60px; */
     width: 100vw;
     height: 100vh;
     display: flex;
