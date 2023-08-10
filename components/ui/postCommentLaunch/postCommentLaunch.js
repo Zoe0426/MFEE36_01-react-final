@@ -77,7 +77,7 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                   value={value}  //為了要清空留言的內容
                   onFocus={checkLogin}
                   autoSize={{
-                    minRows: 1,
+                    minRows: 2,
                     maxRows: 6,
                   }}
                   />
