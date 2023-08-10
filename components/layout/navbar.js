@@ -185,11 +185,7 @@ export default function Navbar({ type = '' }) {
               )}
               {login && (
                 <div className={Styles.profileBtn} onClick={toggleMemList}>
-                  <img
-                    src={photo}
-                    alt="profilePic"
-                    className={Styles.profileImg}
-                  />
+                  <img src={photo} alt="" className={Styles.profileImg} />
                 </div>
               )}
               {showMemList && (

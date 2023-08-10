@@ -152,6 +152,7 @@
   height: 40px; 
   border-radius: 50%;
   border: 1px solid var(--secondary);
+  background-color: var(--secondary);
 }
 .memList{
   z-index: 100;
