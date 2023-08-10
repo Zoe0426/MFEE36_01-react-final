@@ -141,8 +141,8 @@ export default function ActivityDetail() {
     },
     {
       id: 'search',
-      text: '/ 活動列表',
-      href: `${process.env.WEB}/activity/list`,
+      text: '> 在地活動 >',
+      href: ``,
       show: true,
     },
     {
@@ -209,6 +209,21 @@ export default function ActivityDetail() {
           if (actCartTotalQtyRows && actCartTotalQtyRows.length > 0) {
             setActCartTotalQtyRows(...actCartTotalQtyRows);
           }
+
+          //麵包屑
+          const newBreadCrubText = breadCrubText.map((v) => {
+            if (v.id === 'search') {
+              return {
+                ...v,
+                text: `> ${actDetailRows[0].type_name} >`,
+                href: `${process.env.WEB}/activity/list?activity_type_sid=${actDetailRows[0].activity_type_sid}`,
+              };
+            }
+            if (v.id === 'aid') {
+              return { ...v, text: actDetailRows[0].name };
+            } else return { ...v };
+          });
+          setBreadCrubText(newBreadCrubText);
 
           //評論區
           if (Array.isArray(actRatingRows)) {

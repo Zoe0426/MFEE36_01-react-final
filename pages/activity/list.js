@@ -115,7 +115,7 @@ export default function ActivityMain() {
       href: `${process.env.WEB}/activity`,
       show: true,
     },
-    { id: 'search', text: '/ 活動列表', href: '', show: true },
+    { id: 'search', text: '> 活動列表', href: '', show: true },
     { id: 'aid', text: '', href: '', show: false },
   ]);
 
