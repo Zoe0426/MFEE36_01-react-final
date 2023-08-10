@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import AuthContext from '@/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,6 +14,8 @@ import {
   faChevronRight,
   faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons';
+import { faFacebookSquare, faLine } from '@fortawesome/free-brands-svg-icons';
+import Xicon from '@/assets/X.svg';
 import styles from '../../styles/activitydetail.module.css';
 import NavDetailPage from '@/components/ui/cards/NavDetailPage';
 import ActivityFeatureDetail from '@/components/ui/cards/ActivityFeatureDetail';
@@ -32,6 +35,7 @@ import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
 import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
+import ActivityFeature from '@/components/ui/cards/ActivityFeature';
 
 //likelist
 
@@ -77,7 +81,6 @@ export default function ActivityDetail() {
   //收藏區
   const [likeDatas, setLikeDatas] = useState([]);
   const [showLikeList, setShowLikeList] = useState(false);
-  
 
   //評論區
   const [commentWindowWidth, setCommentWindowWidth] = useState(null);
@@ -138,8 +141,8 @@ export default function ActivityDetail() {
     },
     {
       id: 'search',
-      text: '/ 活動列表',
-      href: `${process.env.WEB}/activity/list`,
+      text: '> 在地活動 >',
+      href: ``,
       show: true,
     },
     {
@@ -206,6 +209,21 @@ export default function ActivityDetail() {
           if (actCartTotalQtyRows && actCartTotalQtyRows.length > 0) {
             setActCartTotalQtyRows(...actCartTotalQtyRows);
           }
+
+          //麵包屑
+          const newBreadCrubText = breadCrubText.map((v) => {
+            if (v.id === 'search') {
+              return {
+                ...v,
+                text: `> ${actDetailRows[0].type_name} >`,
+                href: `${process.env.WEB}/activity/list?activity_type_sid=${actDetailRows[0].activity_type_sid}`,
+              };
+            }
+            if (v.id === 'aid') {
+              return { ...v, text: actDetailRows[0].name };
+            } else return { ...v };
+          });
+          setBreadCrubText(newBreadCrubText);
 
           //評論區
           if (Array.isArray(actRatingRows)) {
@@ -455,7 +473,6 @@ export default function ActivityDetail() {
     }
   }, [auth.token]);
 
-
   const handleLikeClick = async (activitySid, token, authId) => {
     try {
       if (!token) {
@@ -515,7 +532,7 @@ export default function ActivityDetail() {
     return likeDatas.some((item) => item.activity_sid == activitySid);
   };
   const liked = isInLikeList(activitySid);
-  console.log({likeDatas,activitySid })
+  console.log({ likeDatas, activitySid });
 
   //評價相關的函示-----------------------------------------------------
   //控制顯示全螢幕的單一評價內容，並設定左右箭頭狀態
@@ -630,6 +647,35 @@ export default function ActivityDetail() {
     });
   };
 
+  //分享頁面
+  const handleLineShare = (type = '') => {
+    const title = `狗with咪 || ${actDetailRows.name}`; // 要分享的標題
+    const shareUrl = window.location.href;
+    console.log(shareUrl);
+    let shareURL = '';
+    switch (type) {
+      case 'shareOnLine':
+        shareURL = `https://line.me/R/msg/text/?${encodeURIComponent(
+          title
+        )}%0D%0A${encodeURIComponent(shareUrl)}`;
+        break;
+      case 'shareOnFB':
+        shareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          shareUrl
+        )}&quote=${encodeURIComponent(title)}`;
+        break;
+      case 'shareOnTwitter':
+        shareURL = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+          shareUrl
+        )}&text=${encodeURIComponent(title)}`;
+        break;
+    }
+
+    if (shareURL) {
+      window.open(shareURL);
+    }
+  };
+
   return (
     <div>
       {/* .........上方資訊......... */}
@@ -724,9 +770,45 @@ export default function ActivityDetail() {
             </button>
 
             <div className={styles.feature}>
-              {actFeatureRows.map((row, index) => (
-                <ActivityFeatureDetail key={index} feature={row.name} />
-              ))}
+              <p className={styles.feature_title}>活動特色：</p>
+              <Row>
+                {actFeatureRows.map((row, index) => (
+                  <div key={index}>
+                    <ActivityFeature
+                      className={styles.feature}
+                      feature={row.name}
+                    />
+                  </div>
+                ))}
+              </Row>
+            </div>
+
+            <div className={styles.share_box}>
+              <div className={styles.share_title}>分享活動：</div>
+              <div className={styles.share_icons}>
+                <FontAwesomeIcon
+                  icon={faLine}
+                  className={styles.line}
+                  onClick={() => {
+                    handleLineShare('shareOnLine');
+                  }}
+                />
+                <FontAwesomeIcon
+                  icon={faFacebookSquare}
+                  className={styles.fb}
+                  onClick={() => {
+                    handleLineShare('shareOnFB');
+                  }}
+                />
+                <Image
+                  src={Xicon}
+                  alt="Xicon"
+                  className={styles.twitter}
+                  onClick={() => {
+                    handleLineShare('shareOnTwitter');
+                  }}
+                />
+              </div>
             </div>
           </div>
 
@@ -755,6 +837,14 @@ export default function ActivityDetail() {
                   (已有{actCartTotalQtyRows.purchase_count}人參加)
                 </p>
               </div>
+            </div>
+
+            {/* 總金額 */}
+            <div className={styles.row_total_price}>
+              {/* <p className={styles.total_price}>總金額：</p> */}
+              <p className={styles.total_price}>
+                ${totalPrice.toLocaleString()}
+              </p>
             </div>
 
             {/* 日期 */}
@@ -838,12 +928,15 @@ export default function ActivityDetail() {
                 <p className={styles.row_text_small}>報名人數：</p>
               </div>
 
-              <div>
+              <div className={styles.ppl_qty_outer}>
                 <div className={styles.ppl_qty_inner}>
-                  <p className={styles.ppl_qty_row}>大人：</p>
-                  <p className={styles.row_price}>
-                    ${actDetailRows.price_adult}/人
-                  </p>
+                  <div>
+                    <p className={styles.ppl_qty_row}>大人</p>
+                    <p className={styles.row_price}>
+                      (${actDetailRows.price_adult}/人)
+                    </p>
+                  </div>
+
                   <div className={styles.detail_qty}>
                     <div className={styles.numInputBlock}>
                       <button
@@ -880,10 +973,13 @@ export default function ActivityDetail() {
                   {/* <input className={styles.ppl_qty_row}></input> */}
                 </div>
                 <div className={styles.ppl_qty_inner}>
-                  <p className={styles.ppl_qty_row}>小孩：</p>
-                  <p className={styles.row_price}>
-                    ${actDetailRows.price_adult / 2}/人
-                  </p>
+                  <div>
+                    <p className={styles.ppl_qty_row}>小孩</p>
+                    <p className={styles.row_price}>
+                      (${actDetailRows.price_adult / 2}/人)
+                    </p>
+                  </div>
+
                   <div className={styles.detail_qty}>
                     <div className={styles.numInputBlock}>
                       <button
@@ -923,18 +1019,11 @@ export default function ActivityDetail() {
             </div>
 
             {/* 第九行 */}
-            <div className={styles.row_total_price}>
-              <p className={styles.total_price}>總金額：</p>
-              <p className={styles.total_price}>
-                ${totalPrice.toLocaleString()}
-              </p>
-            </div>
 
             {/* 第十行 */}
-            <div className={styles.row_btn}>
-              <div className={styles.btn}>
-                {auth.token ? (
-                  <ActivityIconSeconBtn
+            <div className={styles.detail_main_buttom}>
+              {auth.token ? (
+                <ActivityIconSeconBtn
                   icon={faHeart}
                   text={liked ? '已收藏' : '加入收藏'}
                   activity_sid={activitySid}
@@ -942,21 +1031,18 @@ export default function ActivityDetail() {
                   handleLikeClick={() =>
                     handleLikeClick(activitySid, auth.token)
                   }
-                  auth={auth} 
+                  auth={auth}
                 />
-                
-                
-                ) : (
-                  <ActivityAlertModal
-                    btnType="heart"
-                    title="貼心提醒"
-                    content="收藏活動"
-                    mainBtnText="前往登入"
-                    subBtnText="暫時不要"
-                    confirmHandler={toSingIn}
-                  />
-                )}
-              </div>
+              ) : (
+                <ActivityAlertModal
+                  btnType="heart"
+                  title="貼心提醒"
+                  content="收藏活動"
+                  mainBtnText="前往登入"
+                  subBtnText="暫時不要"
+                  confirmHandler={toSingIn}
+                />
+              )}
 
               {!auth.token ? (
                 <Modal
@@ -987,14 +1073,16 @@ export default function ActivityDetail() {
             </div>
           </div>
         </div>
-
-        <div className={styles.nav_detail}>
-          <NavDetailPage items={items} handleClick={handleClick} />
-        </div>
       </div>
 
       {/* ....銜接處圖片1.... */}
       <img src="/activity_img/detail_bg_8.jpg" alt="Activity" />
+
+      <div className="container-inner">
+        <div className={styles.nav_detail}>
+          <NavDetailPage items={items} handleClick={handleClick} />
+        </div>
+      </div>
 
       {/* .........下方資訊......... */}
       <div className="container-inner">
@@ -1331,42 +1419,46 @@ export default function ActivityDetail() {
             <p className={styles.subtitle}>為您推薦：</p>
 
             <div className={styles.recommend_cards}>
-              {actRecommend.map((i) => {
-                const {
-                  activity_sid,
-                  type_name,
-                  activity_pic,
-                  name,
-                  avg_rating,
-                  recent_date,
-                  farthest_date,
-                  time,
-                  city,
-                  area,
-                  address,
-                  feature_names,
-                  price_adult,
-                } = i;
+              <Row gutter={[0, 64]} className={styles.section_card}>
+                {actRecommend.map((i) => {
+                  const {
+                    activity_sid,
+                    type_name,
+                    activity_pic,
+                    name,
+                    avg_rating,
+                    recent_date,
+                    farthest_date,
+                    time,
+                    city,
+                    area,
+                    address,
+                    feature_names,
+                    price_adult,
+                  } = i;
 
-                return (
-                  <ActivityCard1
-                    key={activity_sid}
-                    activity_sid={activity_sid}
-                    type={type_name}
-                    image={'/activity_img/' + activity_pic.split(',')[0]}
-                    title={name}
-                    rating={avg_rating}
-                    date_begin={recent_date}
-                    date_end={farthest_date}
-                    time={time}
-                    city={city}
-                    area={area}
-                    address={address}
-                    features={feature_names.split(',')}
-                    price={price_adult}
-                  />
-                );
-              })}
+                  return (
+                    <Col key={activity_sid} span={12}>
+                      <ActivityCard1
+                        // key={activity_sid}
+                        activity_sid={activity_sid}
+                        type={type_name}
+                        image={'/activity_img/' + activity_pic.split(',')[0]}
+                        title={name}
+                        rating={avg_rating}
+                        date_begin={recent_date}
+                        date_end={farthest_date}
+                        time={time}
+                        city={city}
+                        area={area}
+                        address={address}
+                        features={feature_names.split(',')}
+                        price={price_adult}
+                      />
+                    </Col>
+                  );
+                })}
+              </Row>
             </div>
           </div>
         </div>

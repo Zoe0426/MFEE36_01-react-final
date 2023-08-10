@@ -97,19 +97,19 @@
 .left {
   position: relative;
   width: 50%;
-  height: 450px;
+  /* height: 395px; */
 }
 
 .image {
   width: 100%;
-  height: 100%;
+  height: 395px;
   object-fit: cover;
   border-radius: var(--br20);
 }
 
 .overlay_left {
   position: absolute;
-  top: 46%;
+  top: 35%;
   left: 4%;
   width: 50px;
   height: 50px;
@@ -124,7 +124,7 @@
 
 .overlay_right {
   position: absolute;
-  top: 46%;
+  top: 35%;
   right: 4%;
   width: 50px;
   height: 50px;
@@ -179,8 +179,8 @@
 }
 
 .row_price {
-  font-size: var(--h5fs20);
-  color: var(--main);
+  font-size: var(--h6fs18);
+  /* color: var(--main); */
   margin-right: 10px;
 }
 
@@ -226,30 +226,33 @@
   align-items: center;
 }
 
-/* .ppl_qty{
+.ppl_qty{
     display: flex;
-  } */
+  }
 
 .ppl_qty_title {
   display: flex;
   margin-bottom: 20px;
 }
 
-/* .ppl_qty_outer{
+.ppl_qty_outer{
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-} */
+}
 
 .ppl_qty_inner {
-  display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 0 20px 20px 0;
+}
+
+.ppl_qty_inner>div{
+display: flex;
+margin-bottom: 15px;
 }
 
 .ppl_qty_row {
   /* margin-bottom: 15px; */
   font-size: var(--h6fs18);
+  margin-right: 10px;
 }
 
 .row_total_price {
@@ -264,14 +267,33 @@
   color: var(--main);
 }
 
-.row_btn {
+/* .row_btn {
   display: flex;
   align-items: center;
   margin-right: 20px;
+} */
+
+
+
+/* .btn {
+  margin-right: 20px;
+} */
+
+.detail_main_buttom {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto; /* 將按鈕推到最下面 */
+
 }
 
-.btn {
-  margin-right: 20px;
+.detail_main_buttom > button{
+  flex: 1;
+  margin-left: 16px; 
+}
+
+.detail_main_buttom > button:first-child {
+  margin-left: 0px;
 }
 
 /* 統一字體 */
@@ -292,14 +314,20 @@
 /* ------------------下方資訊---------------------- */
 
 .nav_detail {
-  margin-top: 150px;
+  margin-top: 50px;
+  margin-bottom: 100px;
 }
 
 .feature {
   display: flex;
-  justify-content: space-between;
   margin-top: 37px;
+  margin-right: var(--br8);
   align-items: center;
+}
+
+.feature_title{
+  font-size: var(--h6fs18);
+  margin-right: var(--br8);
 }
 
 .subtitle {
@@ -463,7 +491,7 @@
 .new_pages {
   display: flex;
   justify-content: center;
-  padding: var(--p32) 0 112px 0;
+  padding: var(--p32) 0 0 0;
   
 }
 
@@ -518,3 +546,43 @@
   animation: 0.5s showCard ease-in-out;
 }
 
+
+/*分享社群的按鈕們*/
+.share_box {
+  margin: var(--p16) 0;
+  display: flex;
+  align-items: center;
+}
+
+.share_title {
+  font-size: var(--h6fs18);
+}
+
+.share_icons {
+  display: flex;
+  align-items: center;
+}
+
+.share_icons svg {
+  margin: 0 var(--p8);
+  font-size: var(--h2fs32);
+  cursor: pointer;
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.share_icons svg.line {
+  font-size: 29px;
+  color: #35be00;
+}
+
+.share_icons svg.fb {
+  color: #1b74e4;
+}
+
+.twitter {
+  width: 28px;
+  height: 29px;
+  cursor: pointer;
+  margin: 0 var(--p8);
+}

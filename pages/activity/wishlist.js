@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
-import styles from '../../styles/activityvote.module.css';
+import styles from '../../styles/activitywishlist.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
 import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
@@ -86,7 +86,7 @@ export default function ActivityWishList() {
       href: `${process.env.WEB}/activity`,
       show: true,
     },
-    { id: 'search', text: '/ 願望列表', href: '', show: true },
+    { id: 'search', text: '> 願望列表', href: '', show: true },
     { id: 'aid', text: '', href: '', show: false },
   ]);
 
@@ -266,13 +266,7 @@ export default function ActivityWishList() {
     }
   };
 
-  // 給faheart的 新增與刪除------------------------------------------------------------
-  useEffect(() => {
-    // 在進入頁面時取得收藏清單資料, faheart也會立即更新
-    if (auth.token) {
-      getLikeList(auth.token);
-    }
-  }, [auth.token]);
+  
 
   const handleLikeClick = async (activitySid, token, authId) => {
     try {
@@ -443,7 +437,7 @@ export default function ActivityWishList() {
           <div>
             <p className={styles.text_large}>願望列表</p>
             <p>
-              {datas.totalRows != 0 ? `共${datas.totalRows}項願望` : '查無願望'}
+              ({datas.totalRows != 0 ? `共${datas.totalRows}項願望` : '查無願望'})
             </p>
           </div>
           <div>

@@ -17,6 +17,7 @@ const ActivityCard6 = ({
   profile = null,
   content= '',
   other_message= null,
+  handleVote,
 }) => {
   return (
     <div className={styles.card}>
@@ -32,7 +33,11 @@ const ActivityCard6 = ({
             <FontAwesomeIcon className={styles.image} icon={faUser} />
           )}
         </div>
-        <IconMainBtn icon={faHand} text="投我一票" />
+        <IconMainBtn 
+        icon={faHand} 
+        text="投我一票" 
+        clickHandler={handleVote}
+        />
       </div>
 
       <div className={styles.content}>
