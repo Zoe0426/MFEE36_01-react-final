@@ -2,7 +2,7 @@ import React,{ useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router';
 import Style from './post.module.css'
 import BlogBanner from '@/components/ui/blogBanner/blogBanner'
-import { Col, Row } from 'antd';
+import { Col, Row, ConfigProvider } from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
 import PostNavPure from '@/components/ui/postNavPure/postNavPure';
 import BlogBoardNav from '@/components/ui/blogBoardNav/blogBoardNav';

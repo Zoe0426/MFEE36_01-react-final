@@ -5,16 +5,18 @@
     width:100%;   
     /* margin-top:5px;  */
     padding:15px;
+    border-radius:10px 10px 0 0; 
 }
 .navTitle{
     font-size: var(--h4fs24);
     font-weight: var(--fwbold);
-    width:95%;
+    /* width:95%; */
+    margin-left:50px;
 }
 .navPre{
     height:22px;
     width:22px;
-    margin-right:10px;
+    margin-left:20px;
     color:var(--dark-gray);
 }
 .navShare{

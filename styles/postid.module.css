@@ -50,7 +50,7 @@
     align-items: center;
 }
 .comments{
-    padding-bottom:20px;
+    padding-bottom:100px;
 }
 .PostCommentLaunch{
     background-color:#ffff;
@@ -66,4 +66,7 @@
 }
 .postBody{
     width:1280px;
+}
+.singlecomment{
+    padding-bottom: 20px;
 }

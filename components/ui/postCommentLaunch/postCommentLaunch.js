@@ -3,7 +3,7 @@ import AuthContext from '@/context/AuthContext'
 import Style from './postCommentLaunch.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart,faBookmark} from '@fortawesome/free-solid-svg-icons';
-import { Input } from 'antd';
+import { Input, ConfigProvider } from 'antd';
 import CommentLogin from '../post_login/login';
 import Modal from '../modal/modal';
 import Router, { useRouter } from 'next/router';
@@ -70,6 +70,16 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
             <div className={Style.author}>
                 <div className={Style.profile}><img className={Style.proImg} src={profile}/></div>
                 {/*<Input className={Style.comment} placeholder='撰寫留言...'/>*/}
+                <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: '#FD8C46',
+                      colorText: 'rgb(81, 81, 81)',
+                      fontSize: 18,
+                      controlInteractiveSize: 18,
+                    }
+                  }}
+                >
                 {auth.id? <TextArea className={Style.comment}
                   placeholder="撰寫留言..."
                   onChange={(e) => setValue(e.target.value)}
@@ -80,6 +90,12 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                     minRows: 2,
                     maxRows: 6,
                   }}
+                  rules={[
+                    {
+                      required:true,
+                      message:'請輸入留言再送出噢！'
+                    }
+                  ]}
                   />
                   :<Modal btnType='input' title='前往登入會員' mainBtnText = '確認' subBtnText = '取消' content='留言需要會員登入，是否要繼續留言?' confirmHandler={goLogin} btnText = '撰寫留言...'/>}
                   <div className={Style.subBtn} >
@@ -88,6 +104,7 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
                   clickHandler = {sendComment}
                   /> : <Modal btnType = 'main' btnText = '送出'/>}
                   </div>
+                </ConfigProvider>
                 </div>
                 </div>
                 </div>
