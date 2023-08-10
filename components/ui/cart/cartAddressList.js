@@ -237,7 +237,7 @@ export default function CartAddressList({
       )}
       {showAddFail && (
         <ModalWithoutBtn
-          text="新增成功"
+          text="新增失敗"
           img="/member-center-images/Icon/happy.svg"
         />
       )}
