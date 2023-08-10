@@ -55,6 +55,7 @@ export default function Navbar({ type = '' }) {
     logout();
     setShowMemList(false);
     setLogin(false);
+    router.push('/');
   };
 
   useEffect(() => {
