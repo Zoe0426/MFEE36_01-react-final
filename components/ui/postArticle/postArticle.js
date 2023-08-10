@@ -2,14 +2,16 @@ import React from 'react'
 import Style from './postArticle.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleChevronLeft, faShareNodes} from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 
 export default function PostArticle({navTitle='', profile='', author='', id='', postTitle='',boardImg='', board='', time=''}) {
   return (
     <>
     <div className={Style.postNav}>
-        <FontAwesomeIcon className={Style.navPre} icon={faCircleChevronLeft}/>
+        <Link href='http://localhost:3000/forum'>
+            <FontAwesomeIcon className={Style.navPre} icon={faCircleChevronLeft}/>
+        </Link>
         <div className={Style.navTitle}>{navTitle}</div>
-        <FontAwesomeIcon className={Style.navShare} icon={faShareNodes} />
     </div>
     <div className={Style.article}>
         <div className={Style.articleTop}>

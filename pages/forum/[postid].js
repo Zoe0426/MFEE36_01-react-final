@@ -165,7 +165,7 @@ export default function Post() {
                   </div>
                   <div className={Style.comments}>
                   {commentData.map((v,i)=>(
-                    <PostComment profile={`${process.env.API_SERVER}/img/${v.profile}`} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
+                    <PostComment  className={Style.singlecomment} profile={`${process.env.API_SERVER}/img/${v.profile}`} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
                   ))}
                   </div>
                 </div>

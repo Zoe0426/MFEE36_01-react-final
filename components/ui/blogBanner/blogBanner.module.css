@@ -4,6 +4,7 @@
     height:290px;
     margin: 0;
     padding: 0;
+    position: relative;
     /* position:fixed; */
 }
 .bannerImg{
@@ -17,20 +18,22 @@
     background-color:var(--lightBrown);
     padding: 0;
     margin: 0;
-    height:120px;
     position: relative;
     display: flex;
     justify-content: center;
 }
 .searchBar{
     position: absolute;
-    top:5px;
-    z-index: 999;
+    top: -15px;
+    z-index: 90;
     display: flex;
-    margin-left:250px;
+    /* margin-left:250px; */
 }
 .blogDec{
     position: absolute;
-    top:20px;
+    top: 290px;
     /* z-index: 999; */
+}
+.bannerWhole{
+    margin-bottom: 100px;
 }
