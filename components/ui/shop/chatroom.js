@@ -19,7 +19,6 @@ export default function Chatroom({
     // 當 chatroomDatas 更新後，滾動到最底部
     chatroomRef.current.scrollTop = chatroomRef.current.scrollHeight;
   }, [chatroomDatas]);
-
   return (
     <div className={styles.chatroom_box}>
       <div className={styles.chatroom_head}>
@@ -57,7 +56,7 @@ export default function Chatroom({
                       >
                         {v.message.img ? (
                           <img
-                            src={`${process.env.API_SERVER}/img/${v.message.img}`}
+                            src={`${process.env.API_SERVER}/img/${v.message?.img}`}
                             alt={v.sender}
                           />
                         ) : (
@@ -91,14 +90,14 @@ export default function Chatroom({
                 {v.sender === username && (
                   <div
                     className={
-                      i !== 0 && chatroomDatas[i - 1].sender === username
+                      i !== 0 && chatroomDatas[i - 1]?.sender === username
                         ? styles.head_img_no_show
                         : styles.head_img
                     }
                   >
                     {v.message.img ? (
                       <img
-                        src={`${process.env.API_SERVER}/img/${v.message.img}`}
+                        src={`${process.env.API_SERVER}/img/${v.message?.img}`}
                         alt={v.sender}
                       />
                     ) : (
