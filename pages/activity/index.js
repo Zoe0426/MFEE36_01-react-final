@@ -323,17 +323,14 @@ export default function ActivityHome() {
       removeLikeListToDB('all', token);
     }
   };
-  
 
   // 刪除單一收藏
   const removeLikeListItem = async (aid, token = '') => {
-    
     const newLikeList = likeDatas.filter((arr) => {
       return arr.activity_sid !== aid;
     });
     setLikeDatas(newLikeList);
-  
-   
+
     const newData = likeDatas.map((v) => {
       if (v.activity_sid == aid) {
         return { ...v, like: false };
@@ -341,16 +338,11 @@ export default function ActivityHome() {
         return { ...v };
       }
     });
-  
-   
+
     updateLikeList(aid, false);
-  
-   
+
     await removeLikeListToDB(aid, token);
   };
-  
-  
-  
 
   //將刪除收藏的請求送到後端作業
   const removeLikeListToDB = async (aid = '', token = '') => {
@@ -445,6 +437,10 @@ export default function ActivityHome() {
 
   return (
     <div>
+      <Head>
+        <title>狗with咪 | 活動</title>
+      </Head>
+
       {/* .........banner......... */}
       <div className={styles.banner}>
         <div className={styles.search}>

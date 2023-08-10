@@ -52,8 +52,8 @@ export default function ActivityVote() {
   const { auth } = useContext(AuthContext);
   const authId = auth.id;
 
- 
-  
+  //投票
+  const [votedActivities, setVotedActivities] = useState([]);
 
   //沒登入會員收藏，跳轉登入
   const toSingIn = () => {
@@ -153,45 +153,48 @@ export default function ActivityVote() {
     );
   };
 
-  //投票
-  const [votedMembers, setVotedMembers] = useState([]);
- 
-
-
-  const handleVote = async (activity_wish_sid) => {
+  
+  const handleVoteClick = async (activity_wish_sid) => {
     try {
-      const { token } = auth; // 從 auth 對象中獲取 token
-      const response = await fetch(
-        `${process.env.API_SERVER}/activity-api/addvote`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ activity_wish_sid, member_sid: authId }),
-        }
-      );
-
+      if (!auth.id) {
+        return toSingIn();
+      }
+  
+      const response = await fetch(`${process.env.API_SERVER}/activity-api/addvote`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.token}`,
+        },
+        body: JSON.stringify({ activity_wish_sid }),
+      });
+  
       if (response.ok) {
-        console.log('投票 成功');
-        // 更新投票數
-        const updatedDatas = { ...datas };
-        const updatedRows = updatedDatas.rows.map((row) => {
-          if (row.activity_wish_sid == activity_wish_sid) {
-            return { ...row, vote_count: row.vote_count + 1 };
-          }
-          return row;
-        });
-        updatedDatas.rows = updatedRows;
-        setDatas(updatedDatas);
+        
+        const votedRowIndex = datas.rows.findIndex(
+          (row) => row.activity_wish_sid === activity_wish_sid
+        );
+  
+       
+        if (votedRowIndex !== -1) {
+          datas.rows[votedRowIndex].vote_count++;
+          datas.rows[votedRowIndex].hasVoted = true;
+          setDatas((prevDatas) => ({
+            ...prevDatas,
+            rows: datas.rows, 
+          }));
+        }
       } else {
-        console.log('投票 失敗');
+       
+        console.error('Vote failed:', response);
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
+  
+  
+
 
   // Pagination相關的函式------------------------------------------------------------
   const PageChangeHandler = (page) => {
@@ -324,53 +327,37 @@ export default function ActivityVote() {
         </div>
 
         <div className={styles.section_card}>
-          <Row gutter={[100, 120]} className={styles.section_card}>
-            {datas.rows.map((i) => {
-              const {
-                member_sid,
-                profile,
-                name,
-                city,
-                area,
-                vote_count,
-                content,
-                other_message,
-                activity_wish_sid,
-              } = i;
+        <Row gutter={[100, 120]} className={styles.section_card}>
+        {datas.rows.map((i) => {
+          const {
+            member_sid,
+            profile,
+            name,
+            city,
+            area,
+            vote_count,
+            content,
+            other_message,
+            activity_wish_sid,
+          } = i;
 
-              const hasVotedForMember = votedMembers.includes(member_sid);
-
-              return (
-                <Col key={member_sid} span={8}>
-                  <ActivityCard6
-                    profile={profile}
-                    title={name}
-                    count={vote_count}
-                    city={city}
-                    area={area}
-                    content={content}
-                    other_message={other_message}
-                    initialCount={vote_count} // 將投票數傳遞給 initialCount
-                    hasVoted={hasVotedForMember}
-                    setHasVoted={(value) => {
-                      if (value) {
-                        setVotedMembers((prevVotedMembers) => [
-                          ...prevVotedMembers,
-                          member_sid,
-                        ]);
-                      } else {
-                        setVotedMembers((prevVotedMembers) =>
-                          prevVotedMembers.filter((id) => id !== member_sid)
-                        );
-                      }
-                    }}
-                    handleVote={() => handleVote(activity_wish_sid, member_sid)}
-                    setVotedMembers={setVotedMembers}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
+          return (
+            <Col key={activity_wish_sid} span={8}>
+              <ActivityCard6
+                activity_wish_sid={activity_wish_sid}
+                title={name}
+                city={city}
+                area={area}
+                profile={profile}
+                content={content}
+                count={vote_count}
+                onVoteClick={handleVoteClick}
+                hasVoted={votedActivities.includes(activity_wish_sid)}
+              />
+            </Col>
+          );
+        })}
+      </Row>
         </div>
 
         {/* <div className={styles.section_card}>
