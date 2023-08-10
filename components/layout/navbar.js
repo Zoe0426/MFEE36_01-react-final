@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
 import Styles from './navbar.module.css';
 import AuthContext from '@/context/AuthContext';
-import Link from 'next/link';
 import NavRoundBtn from '../ui/buttons/NavRoundBtn';
 import CloseBtn from '../ui/buttons/closeBtn';
 import ModalWithoutBtn from '../ui/modal/modal-without-btn';
