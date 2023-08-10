@@ -10,7 +10,7 @@ import { Pagination } from 'antd'
 import { useRouter } from 'next/router'
 // 下拉選單
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Space, Tooltip } from 'antd';
+import { Button, Dropdown,ConfigProvider, message, Space, Tooltip } from 'antd';
 export default function Post() {
   const router = useRouter();
   const [page, setPage] = useState(1);
@@ -340,6 +340,19 @@ const menuProps = {
           <div className="container-inner">
             <div className={Style.postNav}>
               <div className={Style.postNavText}>論壇文章</div>
+              <ConfigProvider
+                    theme={{
+                      token: {
+                        colorBorder: '#DDDDDD',
+                        colorPrimary: '#FD8C46',
+                        colorBgContainer: 'rgba(255,255,255)',
+                        borderRadius: 10,
+                        controlHeight: 50,
+                        fontSize: 16,
+                        borderRadiusOuter: 10,
+                      },
+                    }}
+                  >
                   <Dropdown menu={menuProps} className={Style.dropdown}>
                   <Button>
                     <Space>
@@ -348,6 +361,7 @@ const menuProps = {
                     </Space>
                   </Button>
                 </Dropdown>
+              </ConfigProvider>
             </div>
             <div className={Style.postBody}>
               {data.map((v,i)=>(
@@ -365,12 +379,26 @@ const menuProps = {
               </Link>
               ))}   
               <div className={Style.page}>
+                <ConfigProvider
+                theme={{
+                token: {
+                  colorPrimary: '#FD8C46',
+                  colorBgContainer: 'transparent',
+                  colorBgTextHover: '#FFEFE8',
+                  colorBgTextActive: '#FFEFE8',
+                  fontSize: 18,
+                  controlHeight: 38,
+                  lineWidthFocus: 1,
+                    },
+                  }}
+                >
                 <Pagination 
                 current={page}
                 total={forumData.totalRows}
                 pageSize={perPage}
                 onChange={PageChangeHandler}
-                />     
+                />   
+                </ConfigProvider>  
               </div>
               </div>
 

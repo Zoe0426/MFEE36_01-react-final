@@ -12,7 +12,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 // 下拉選單
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Dropdown, message, Space, Tooltip } from 'antd';
+import { Button, Dropdown,ConfigProvider, message, Space, Tooltip } from 'antd';
 
 export default function PostCollection() {
   const [postNum, setPostNum] = useState(0); // 新增文章數量的 state
@@ -216,6 +216,19 @@ export default function PostCollection() {
             <div className={Style.blogContent}>
                 {/*<PostNav postNav='收藏文章' optionCh='收藏文章列表' op1='寵物醫院' op2='寵物住宿'/>*/}
                 <div>
+              <ConfigProvider
+                    theme={{
+                      token: {
+                        colorBorder: '#DDDDDD',
+                        colorPrimary: '#FD8C46',
+                        colorBgContainer: 'rgba(255,255,255)',
+                        borderRadius: 10,
+                        controlHeight: 50,
+                        fontSize: 16,
+                        borderRadiusOuter: 10,
+                      },
+                    }}
+                  >
                 <Dropdown menu={menuProps}>
                 <Button>
                   <Space>
@@ -224,6 +237,7 @@ export default function PostCollection() {
                   </Space>
                 </Button>
               </Dropdown>
+            </ConfigProvider>
             </div>
                 <div className={Style.postContent}>
 

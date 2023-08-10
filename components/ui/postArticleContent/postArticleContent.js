@@ -246,8 +246,6 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
           <Modal btnType="bookmark" title = '前往登入頁面' content='收藏功能需要登入會員噢～是否前往登入頁面？' confirmHandler={goLogin} inputText=""/>
         )}
         {/*)} */}
-
-        <FontAwesomeIcon icon={faShareNodes} className={Style.shareGray}/>
     </div>
     </div>
   )
