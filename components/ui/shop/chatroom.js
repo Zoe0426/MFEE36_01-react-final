@@ -1,17 +1,26 @@
 import { useRef, useEffect } from 'react';
 import styles from './chatroom.module.css';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faUser } from '@fortawesome/free-solid-svg-icons';
+import {
+  faXmark,
+  faUser,
+  faFaceSmile,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function Chatroom({
   auth = { nickname: '' },
   chatroomDatas = [{ sender: '', message: '', time: '' }],
   inputText = '',
   username = '',
+  showEmojiPicker = false,
   changeHandler = () => {},
   keyDownHandler = () => {},
   clickHandler = () => {},
   closeHandler = () => {},
+  pickHandler = () => {},
+  toggleDisplayForEmoji = () => {},
 }) {
   const chatroomRef = useRef();
 
@@ -112,14 +121,33 @@ export default function Chatroom({
             );
           })}
         </ul>
+        {showEmojiPicker && (
+          <div className={styles.emoji_box}>
+            <Picker
+              data={data}
+              searchPosition="none"
+              maxFrequentRows={0}
+              previewPosition="none"
+              onEmojiSelect={pickHandler}
+            />
+          </div>
+        )}
       </div>
+
       <div className={styles.sending_box}>
+        <FontAwesomeIcon
+          icon={faFaceSmile}
+          onClick={toggleDisplayForEmoji}
+          className={styles.emoji_smile}
+        />
         <textarea
           name="chatroomText"
           value={inputText}
           onChange={changeHandler}
           onKeyDown={keyDownHandler}
+          placeholder="請輸入訊息"
         />
+
         <button onClick={clickHandler}>傳送</button>
       </div>
     </div>

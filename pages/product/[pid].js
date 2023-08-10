@@ -833,7 +833,6 @@ export default function Product() {
 
   const joinRoom = (username) => {
     const productName = datatForProductMain.name;
-    console.log(productName);
     ws.emit('joinRoom', { username, productName }); // 將使用者名稱傳送到後端
   };
 
@@ -872,6 +871,15 @@ export default function Product() {
     if (e.key === 'Enter' && inputText.trim()) {
       sendMessage(inputText);
     }
+  };
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const handleEmojiSelect = (emoji) => {
+       setInputText((prevInput) => prevInput + emoji.native);
+    setShowEmojiPicker(false);
+  };
+  const toggleDisplayForEmoji = () => {
+    setShowEmojiPicker(!showEmojiPicker);
   };
 
   const chatSendHandler = () => {
@@ -922,11 +930,14 @@ export default function Product() {
               auth={auth}
               chatroomDatas={messages}
               inputText={inputText}
+              username={username}
+              showEmojiPicker={showEmojiPicker}
               changeHandler={chatTextHandler}
               keyDownHandler={chatKeyDownHandler}
               clickHandler={chatSendHandler}
               closeHandler={chatCloseHandler}
-              username={username}
+              pickHandler={handleEmojiSelect}
+              toggleDisplayForEmoji={toggleDisplayForEmoji}
             />
           )}
           <div className="outer-container">

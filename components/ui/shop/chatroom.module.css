@@ -48,6 +48,7 @@
   overflow-y: scroll;
   border-bottom: 2px solid var(--light-gray);
   padding: var(--p16);
+  position: relative;
 }
 
 .sending_box > textarea::-webkit-scrollbar,
@@ -77,6 +78,8 @@
   padding: var(--p16);
   display: flex;
   justify-content: center;
+  align-items: stretch;
+  position: relative;
 }
 
 .sending_box > textarea {
@@ -101,6 +104,37 @@
   border-radius: var(--br8);
   background-color: var(--main);
   color: white;
+}
+
+.emoji_box{
+  /* display: absolute;
+  top:0; */
+  /* transform: translateY(-100%); */
+  /* border: 1px solid;
+  height: 50px;
+  display: relative; */
+  display: absolute;
+  bottom:20px;
+}
+
+.emoji_box>div{
+  display: absolute;
+  bottom:20px;
+  transform: translateY(-100%);
+  background-color: pink;
+  width: 390px;
+  max-height: 20px;
+}
+
+.emoji_smile{
+  color:var(--light-gray);
+  font-size:var(--h5fs20); 
+  margin-right: var(--p8);
+  align-self: center;
+    /* position: absolute;
+  left:265px;
+  top:50%;
+  transform: translateY(-50%); */
 }
 
 .text {
