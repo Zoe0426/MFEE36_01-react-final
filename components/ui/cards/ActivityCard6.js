@@ -4,9 +4,10 @@ import {
   faHand,
   faLocationDot,
   faUser,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './ActivityCard6.module.css';
-import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
+import ActivityIconMainBtn from '@/components/ui/buttons/ActivityIconMainBtn';
 
 const ActivityCard6 = ({
   activity_wish_sid = '',
@@ -33,10 +34,11 @@ const ActivityCard6 = ({
             <FontAwesomeIcon className={styles.image} icon={faUser} />
           )}
         </div>
-        <IconMainBtn
-          icon={faHand}
+        <ActivityIconMainBtn
+          icon={hasVoted ?  faCheck : faHand}
           text={hasVoted ? '已投票' : '投我一票'}
           clickHandler={() => onVoteClick(activity_wish_sid)}
+          hasVoted={hasVoted}
         />
       </div>
 

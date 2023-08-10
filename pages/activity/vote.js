@@ -170,28 +170,28 @@ export default function ActivityVote() {
       });
   
       if (response.ok) {
-        
         const votedRowIndex = datas.rows.findIndex(
           (row) => row.activity_wish_sid === activity_wish_sid
         );
   
-       
         if (votedRowIndex !== -1) {
-          datas.rows[votedRowIndex].vote_count++;
           datas.rows[votedRowIndex].hasVoted = true;
+  
+          setVotedActivities((prevVotedActivities) => [...prevVotedActivities, activity_wish_sid]);
+  
           setDatas((prevDatas) => ({
             ...prevDatas,
-            rows: datas.rows, 
+            rows: datas.rows,
           }));
         }
       } else {
-       
         console.error('Vote failed:', response);
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
+  
   
   
 
