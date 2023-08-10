@@ -82,8 +82,8 @@ export default function ActivityVote() {
       href: `${process.env.WEB}/activity`,
       show: true,
     },
-    { id: 'search', text: '/ 願望列表', href: `${process.env.WEB}/activity/wishlist`, show: true },
-    { id: 'vote', text: '/ 我要投票', href: '', show: true },
+    { id: 'search', text: '> 願望列表', href: `${process.env.WEB}/activity/wishlist`, show: true },
+    { id: 'vote', text: '> 我要投票', href: '', show: true },
   ]);
 
   useEffect(() => {
@@ -170,26 +170,7 @@ export default function ActivityVote() {
           <div className={styles.nav_head}>
             <BreadCrumb breadCrubText={breadCrubText} />
 
-            <div className={styles.btns}>
-              {auth.token ? (
-                <IconBtn
-                  icon={faHeart}
-                  text="收藏列表"
-                  // clickHandler={toggleLikeList}
-                />
-              ) : (
-                <ActivityAlertModal
-                  btnType="iconBtn"
-                  btnText="收藏列表"
-                  icon={faHeart}
-                  content="可查看收藏列表"
-                  mainBtnText="前往登入"
-                  subBtnText="暫時不要"
-                  confirmHandler={toSingIn}
-                />
-              )}
-             
-            </div>
+           
           </div>
         </div>
 
@@ -246,7 +227,7 @@ export default function ActivityVote() {
           <div>
             <p className={styles.text_large}>我要投票</p>
             <p>
-              {datas.totalRows != 0 ? `共${datas.totalRows}個投票項目` : '查無項目'}
+              ({datas.totalRows != 0 ? `共${datas.totalRows}個投票項目` : '查無項目'})
             </p>
           </div>
           <div>
@@ -282,9 +263,9 @@ export default function ActivityVote() {
           </Row>
         </div>
 
-        <div>
-          <p className={styles.title}>為什麼要投票?</p>
-          <p>
+        <div className={styles.title_why}>
+          <p className={styles.title_text}>為什麼要投票?</p>
+          <p className={styles.intro}>
             狗with咪希望大家都有機會可以發起一場屬於自己與毛孩的活動，因此我們開放大家將活動需求填寫於發起表單中，並開放讓大家投票。
             我們將於每個月選出投票區中的三場新活動，在願望實現列表頁面開放讓大家自由報名。
           </p>

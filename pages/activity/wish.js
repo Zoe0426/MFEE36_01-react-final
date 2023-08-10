@@ -71,8 +71,6 @@ export default function ActivityWish() {
 
   const [formData, setFormData] = useState(initialFormValues);
 
-  
-
   //沒登入會員收藏，跳轉登入
   const toSingIn = () => {
     const from = router.query;
@@ -499,8 +497,6 @@ export default function ActivityWish() {
     金門縣: ['金城鎮', '金湖鎮', '金沙鎮', '金寧鄉', '烈嶼鄉', '烏坵鄉'],
     連江縣: ['南竿鄉', '北竿鄉', '莒光鄉', '東引鄉'],
   };
-  
-  
 
   const cityList = Object.keys(area_data);
   const [selectedCity, setSelectedCity] = useState('');
@@ -523,8 +519,6 @@ export default function ActivityWish() {
     console.log('Change:', e.target.value);
   };
 
-
-  
   const handleSubmit = async (values) => {
     const { name, city, area, content, other_message } = values;
 
@@ -540,7 +534,7 @@ export default function ActivityWish() {
       );
       console.log('Wish submitted successfully');
 
-      form.resetFields(); 
+      form.resetFields();
       setSelectedCity('');
       setSelectedArea('');
     } catch (error) {
@@ -548,13 +542,11 @@ export default function ActivityWish() {
     }
   };
 
-
   const handleResetForm = () => {
     setFormData(initialFormValues);
     setSelectedCity('');
     setSelectedArea('');
   };
-
 
   const orderActivityClick = async (
     token,
@@ -601,16 +593,10 @@ export default function ActivityWish() {
       }, 1200);
 
       console.log('送出願望 成功');
-
     } catch (error) {
       throw new Error('Error submitting wish: ' + error.message);
     }
-
-   
   };
-
-
-  
 
   return (
     <div>
@@ -661,6 +647,16 @@ export default function ActivityWish() {
       </div>
 
       <BGUpperDecoration />
+
+      <div className="container-inner">
+        <div className={styles.title}>
+          <div className={styles.title_text}>活動許願池</div>
+          <p className={styles.intro}>
+            歡迎想發起活動的大家，將活動需求填寫於下方表單中。
+          </p>
+          <p className={styles.intro}>表單送出後我們將會盡快與您聯繫！</p>
+        </div>
+      </div>
 
       <div className="container-inner">
         <ConfigProvider
@@ -795,10 +791,10 @@ export default function ActivityWish() {
 
             <div className={styles.btns_bottom}>
               <div className={styles.btn}>
-                <SecondaryBtn 
-                text="清空" 
-                htmltype="reset" 
-                onClick={handleResetForm}
+                <SecondaryBtn
+                  text="清空"
+                  htmltype="reset"
+                  onClick={handleResetForm}
                 />
               </div>
               <div className={styles.btn}>

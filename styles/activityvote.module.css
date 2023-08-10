@@ -1,6 +1,6 @@
 .text_large {
   font-size: var(--h3fs28);
-  margin-bottom: 0.375rem;
+  margin-bottom: 12px;
 }
 
 .banner {
@@ -54,6 +54,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 92.5px;
 }
 
 .filter {
@@ -146,4 +147,29 @@
   margin: 50px 0;
   text-align: center;
 }
+
+
+
+.title_text {
+  font-size: var(--h3fs28);
+  color: var(--dark);
+  font-weight: var(--fwbold);
+  margin: 50px 0;
+  /* text-align: center; */
+}
+
+
+.intro {
+  font-size: var(--h5fs20);
+  margin: 20px 0;
+  padding: 0 200px;
+  line-height: 30px;
+}
+
+
+.title_why{
+    text-align: center;
+    margin: 120px;
+}
+
 

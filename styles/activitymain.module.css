@@ -1,6 +1,6 @@
 .text_large {
   font-size: var(--h3fs28);
-  margin-bottom: 0.375rem;
+  margin-bottom: 12px;
 }
 
 .banner {
