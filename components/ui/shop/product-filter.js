@@ -34,6 +34,7 @@ export default function ProductFilter({
                   md={{ span: needSpan && 3 }}
                   //   span={needSpan && 3}
                   key={v.id}
+                  className={styles.checkbox}
                 >
                   <Checkbox
                     value={v.value}

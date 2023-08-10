@@ -37,6 +37,10 @@
   min-height: 20px;
 }
 
+.input_text{
+   min-width: 143px;
+}
+
 @media screen and (max-width: 767px) {
   .labels {
     width: 100%;
@@ -54,6 +58,10 @@
   .colon{
     display: none;
   }
+
+  .input_text{
+    min-width: 50px;
+ }
 
   .toBox {
     padding-top: 0px;

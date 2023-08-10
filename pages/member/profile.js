@@ -8,6 +8,7 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import Loading from '@/components/ui/loading/loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 import Head from 'next/head';
 import {
   Form,
@@ -35,6 +36,8 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
   const [memProfileImg, setMemProfileImg] = useState(`/default-profile.jpg`);
+  const [pass, setPass] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   //咦進來就要把嗟到的照片變成ＦＩＬＥ
   //const [avatar, setAvatar] = useState([]);
@@ -127,7 +130,6 @@ export default function Profile() {
       setIsPass(false);
     }
 
-    
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       //message.error('Image must smaller than 2MB!');
@@ -180,6 +182,13 @@ export default function Profile() {
   };
   const onFinishFailed = (errorInfo) => {
     //console.log('Failed:', errorInfo);
+  };
+
+  const validatePhone = (_, value) => {
+    if (!value || /^09\d{8}$/.test(value)) {
+      return Promise.resolve();
+    }
+    return Promise.reject('手機格式不正確');
   };
 
   if (loading) {
@@ -235,10 +244,14 @@ export default function Profile() {
         localStorage.setItem(`${auth.id}photoUrl`, JSON.stringify(photo));
         setPhoto(photo);
         setToUpload(false);
+        setPass(true);
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+          router.push(from);
+        }, 1000);
       });
     ////console.log('memProfileImg2', memProfileImg);
-
-    router.push(from);
   };
 
   if (pageLoading) {
@@ -296,9 +309,8 @@ export default function Profile() {
                     className={Styles.formItem}
                     name="mobile"
                     rules={[
-                      {
-                        message: '請輸入手機',
-                      },
+                      { message: '請輸入手機號碼' },
+                      { validator: validatePhone },
                     ]}
                   >
                     <Input size="large" />
@@ -412,6 +424,12 @@ export default function Profile() {
             </Form>
           </ConfigProvider>
         </div>
+        {pass && showAlert && (
+          <ModalWithoutBtn
+            text="更新成功"
+            img="/member-center-images/Icon/happy.svg"
+          />
+        )}
       </>
     );
   }

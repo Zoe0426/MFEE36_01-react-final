@@ -109,9 +109,6 @@
   justify-content: space-between;
 }
 
-.section_card {
-  margin-top: 6.5rem;
-}
 
 .card {
   display: flex;
@@ -122,4 +119,34 @@
   display: flex;
   justify-content: center;
   margin: 6rem;
+}
+
+/* 分類bar */
+.type {
+  width: 100%;
+  background: var(--lightBrown);
+}
+
+.type_btn_group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 30px 0 0 0;
+}
+
+.custom_link {
+  text-decoration: none;
+  margin: 0 30px;
+}
+
+.title {
+  font-size: var(--h3fs28);
+  color: var(--dark);
+  font-weight: var(--fwbold);
+  margin: 50px 0;
+  text-align: center;
+}
+
+.section_card {
+  margin-top: 6.5rem;
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Router, { useRouter } from 'next/router';
 import Styles from './SignUpForm.module.css';
 import SecondaryBtn from '../buttons/SecondaryBtn';
+import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 import MainBtn from '../buttons/MainBtn';
 import {
   Form,
@@ -15,6 +16,10 @@ import {
 } from 'antd';
 
 export default function SignUpForm() {
+  const [pass, setPass] = useState(false);
+  const [nopass, setNoPass] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(true);
   const router = useRouter();
 
   //form 表單驗證
@@ -446,11 +451,59 @@ export default function SignUpForm() {
       .then((r) => r.json())
       .then((data) => {
         console.log(data);
+        if (data.success === false) {
+          setPass(false);
+          setNoPass(true);
+          setShowAlert(true);
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 1000);
+        } else {
+          setNoPass(false);
+          setPass(true);
+          setShowAlert(true);
+          setTimeout(() => {
+            setShowAlert(false);
+            router.push('/member/sign-in');
+          }, 1000);
+          form.resetFields();
+        }
       });
-    form.resetFields();
-    router.push('/member/sign-in');
   };
 
+  const validatePhone = (_, value) => {
+    if (!value || /^09\d{8}$/.test(value)) {
+      return Promise.resolve();
+    }
+    return Promise.reject('手機格式不正確');
+  };
+
+  const handleChange = (event) => {
+    setNoPass(false);
+    const email = event.target.value;
+
+    // Check if the email is valid using a basic regex pattern.
+    const ValidEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    console.log('ValidEmail', ValidEmail);
+    setIsValidEmail(false);
+    if (ValidEmail) {
+      setIsValidEmail(true);
+    }
+  };
+
+  const getFormItemProps = () => {
+    if (nopass) return { validateStatus: 'error', help: '此帳號已註冊過！' };
+    if (pass) return { validateStatus: '', help: '' };
+    if (!isValidEmail)
+      return { validateStatus: 'error', help: '請輸入正確的Email！' };
+  };
+
+  // const getFormItemProps = () => {
+  // return {
+  //   ...nopass,
+  //   ...isValidEmail,
+  //   };
+  // };
   // 密碼驗證
   const [lengthValid, setLengthValid] = useState(false);
   const [lowerValid, setLowerValid] = useState(false);
@@ -540,10 +593,8 @@ export default function SignUpForm() {
                 className={Styles.formItem}
                 name={'mobile'}
                 rules={[
-                  {
-                    required: true,
-                    message: '請輸入手機',
-                  },
+                  { required: true, message: '請輸入手機號碼' },
+                  { validator: validatePhone },
                 ]}
               >
                 <Input size="large" />
@@ -554,16 +605,16 @@ export default function SignUpForm() {
             label="帳號"
             className={Styles.formItem}
             name="email"
-            rules={[
-              {
-                required: true,
-                type: 'email',
-                message: '請輸入正確Email',
-              },
-            ]}
+            onChange={handleChange}
+            {...getFormItemProps()}
+            // {...getFormItemProps2()}
+            rules={[{ required: true, message: '請輸入 Email' }]}
           >
             <Input placeholder="請輸入Email" size="large" />
           </Form.Item>
+          {/* {nopass && !pass && (
+            <div className="signNoPass">此帳號已註冊過 ！</div>
+          )} */}
           <Form.Item
             name="password"
             label="密碼"
@@ -704,6 +755,18 @@ export default function SignUpForm() {
           </div>
         </Form>
       </ConfigProvider>
+      {nopass && showAlert && (
+        <ModalWithoutBtn
+          text="註冊失敗"
+          img="/member-center-images/Icon/no.svg"
+        />
+      )}
+      {pass && showAlert && (
+        <ModalWithoutBtn
+          text="註冊成功"
+          img="/member-center-images/Icon/happy.svg"
+        />
+      )}
     </>
   );
 }

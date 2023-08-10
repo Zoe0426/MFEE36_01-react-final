@@ -884,7 +884,6 @@ export default function List() {
                   data={filters.typeForPet}
                   changeHandler={checkboxToggleHandler}
                 />
-
                 <ProductFilter
                   text="使用年齡"
                   name="typeForAge"

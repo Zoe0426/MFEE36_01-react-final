@@ -127,18 +127,26 @@ export default function OrderDetailCard({
         <div className={Style.filedR}>
           {relType === 'shop' ? (
             <>
-              <div className={Style.filedItem}>{productPrice}</div>
-              <div className={Style.filedItem}>{productQty}</div>
+              <div className={Style.filedItemL}>
+                {productPrice.toLocaleString()}
+              </div>
+              <div className={Style.filedItem}>
+                {productQty.toLocaleString()}
+              </div>
             </>
           ) : (
             <>
-              <div className={Style.filedItem}>{adultPrice}</div>
-              <div className={Style.filedItem}>{adultQty}</div>
-              <div className={Style.filedItem}>{childPrice}</div>
-              <div className={Style.filedItem}>{childQty}</div>
+              <div className={Style.filedItem}>
+                {adultPrice.toLocaleString()}
+              </div>
+              <div className={Style.filedItem}>{adultQty.toLocaleString()}</div>
+              <div className={Style.filedItem}>
+                {childPrice.toLocaleString()}
+              </div>
+              <div className={Style.filedItem}>{childQty.toLocaleString()}</div>
             </>
           )}
-          <div className={Style.filedItem}>{relSubtotal}</div>
+          <div className={Style.filedItemR}>{relSubtotal.toLocaleString()}</div>
         </div>
       </div>
       <div className={Style.btn}>

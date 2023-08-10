@@ -33,7 +33,7 @@ export default function LikeListCard({
           className={Styles.like_img}
           onClick={() => {
             closeLikeList();
-            router.push(`http://localhost:3000/restaurant/${rest_sid}`);
+            router.push(`${process.env.WEB}/restaurant/${rest_sid}`);
           }}
         >
           <img src={`/rest_image/image/${img_name}`} alt="" />

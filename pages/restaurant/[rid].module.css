@@ -814,4 +814,7 @@ display: flex;
     visibility: hidden;
     padding: var(--p32) 0 48px 0;
   }
+  .copy{
+    display: none;
+  }
 }

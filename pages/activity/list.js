@@ -115,7 +115,7 @@ export default function ActivityMain() {
       href: `${process.env.WEB}/activity`,
       show: true,
     },
-    { id: 'search', text: '/ 活動列表', href: '', show: true },
+    { id: 'search', text: '> 活動列表', href: '', show: true },
     { id: 'aid', text: '', href: '', show: false },
   ]);
 
@@ -866,7 +866,7 @@ export default function ActivityMain() {
           <div>
             <p className={styles.text_large}>活動列表</p>
             <p>
-              {datas.totalRows != 0 ? `共${datas.totalRows}項活動` : '查無活動'}
+              ({datas.totalRows != 0 ? `共${datas.totalRows}項活動` : '查無活動'})
             </p>
           </div>
           <div>

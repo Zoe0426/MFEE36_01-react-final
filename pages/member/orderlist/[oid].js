@@ -112,7 +112,6 @@ export default function OrderDetail() {
                 <div className={Style.text}>{statusName}</div>
               </div>
             </div>
-            {}
             <div className={Style.icons}>
               <div className={Style.iconBtn}>
                 <svg
@@ -496,7 +495,7 @@ export default function OrderDetail() {
             <div className={Style.priceContent}>
               <div className={Style.priceItem}>
                 <p className={Style.priceTitle}>商品小計</p>
-                <p>${data[0].originRelS}</p>
+                <p>${data[0].originRelS.toLocaleString()}</p>
               </div>
               {data[0].rel_type === 'shop' ? (
                 <>

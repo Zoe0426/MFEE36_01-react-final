@@ -22,6 +22,8 @@
 
 .orderExpire{
   color: var(--heartRed);
+  height: 22px;
+  align-items: center;
 }
 
 .orderSid{

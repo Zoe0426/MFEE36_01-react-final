@@ -14,6 +14,7 @@ import PostCommentLaunch from '@/components/ui/postCommentLaunch/postCommentLaun
 import PostBottom from '@/components/ui/postBottom/postBottom';
 
 
+
 export default function Post() {
   const router = useRouter();
   const { pathname } = router; //看路徑
@@ -113,6 +114,7 @@ export default function Post() {
              img='/forum_img/blog_func_img/首頁.png' text='論壇首頁'/>
             <div className={Style.postAll}>
               <div className="container-inner">
+              <div className={Style.postBody}>
               {postData.map((v,i)=>(
                 <PostArticle key={v.post_sid} className={Style.title} 
                 navTitle={v.post_title} 
@@ -139,14 +141,17 @@ export default function Post() {
                   <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid} memberId={auth.id}/>
                 ))}
                 </div>
+                <div>
+                  
+                </div>
 
+                <div className={Style.PostCommentLaunch}>
+                {postData.map((v,i)=>(
+                <PostCommentLaunch profile={`${process.env.API_SERVER}/img/${v.profile}`} commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
+                ))}
+              </div>
 
                 <div className={Style.commentBlock}>
-                  <div className={Style.PostCommentLaunch}>
-                  {postData.map((v,i)=>(
-                  <PostCommentLaunch profile={`${process.env.API_SERVER}/img/${v.profile}`} commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
-                  ))}
-                </div>
                   <div className={Style.commentBTN}>
                     <PostCommentBtn text="由舊至新" bc='white'/>
                     <PostCommentBtn text="由舊至新" bc='var(--secondary)'/>
@@ -163,6 +168,7 @@ export default function Post() {
                     <PostComment profile={`${process.env.API_SERVER}/img/${v.profile}`} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
                   ))}
                   </div>
+                </div>
                 </div>
 
                   

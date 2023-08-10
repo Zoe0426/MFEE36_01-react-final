@@ -1,24 +1,19 @@
-.text_large {
-  font-size: var(--h3fs28);
-  margin-bottom: 12px;
-}
-
 .banner {
- /* width: 100%; */
-    /* height: 280px; */
-    background: rgb(215, 215, 215);
-    position: relative;
-    height: 337px;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    background-repeat: no-repeat;
-    background-position: center;
-    overflow: hidden;
-    background-image: url('../public/activity_img/index_banner_3.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+  /* width: 100%; */
+  /* height: 280px; */
+  background: rgb(215, 215, 215);
+  position: relative;
+  height: 337px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  background-image: url('../public/activity_img/index_banner_3.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .banner_pic {
@@ -31,6 +26,10 @@
 
 .bgc {
   background-color: var(--lightBrown);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 92.5px;
 }
 
 .btns {
@@ -41,14 +40,21 @@
   padding-bottom: 20px;
 }
 
-.btns > * {
+.btns_bottom {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: var(--p16);
+  padding-bottom: 150px;
+}
+
+.btns_bottom > * {
   margin-right: 16px;
 }
 
-.btns > *:last-child {
+.btns_bottom > *:last-child {
   margin-right: 0;
 }
-
 
 .nav_head {
   display: flex;
@@ -58,12 +64,12 @@
 }
 
 .filter {
-  margin: 80px 0 0 0 ;
-  }
+  margin: 80px 0 0 0;
+}
 
 .filter_date {
   margin: 48px 0;
-  }
+}
 
 .line {
   border-bottom: 1px solid var(--gray);
@@ -77,7 +83,7 @@
   margin-top: 20px;
 }
 
-.filter_btns>button {
+.filter_btns > button {
   margin-left: 16px;
   text-align: center;
 }
@@ -90,16 +96,16 @@
   margin-right: 16px;
 }
 
-.dropdowns{
+.dropdowns {
   width: 100%;
   display: flex;
 }
 
-.dropdown_arrow{
+.dropdown_arrow {
   margin-right: 100px;
 }
 
-.location{
+.location {
   margin-right: 16px;
   padding: 0 16px;
   width: 200px;
@@ -109,7 +115,6 @@
   display: flex;
   justify-content: space-between;
 }
-
 
 .card {
   display: flex;
@@ -132,23 +137,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 30px 0 0 0;
 }
 
 .custom_link {
   text-decoration: none;
   margin: 0 30px;
 }
-
-.title {
-  font-size: var(--h3fs28);
-  color: var(--dark);
-  font-weight: var(--fwbold);
-  margin: 50px 0;
-  text-align: center;
-}
-
-
 
 .title_text {
   font-size: var(--h3fs28);
@@ -158,18 +152,17 @@
   /* text-align: center; */
 }
 
+.formItem label {
+  width: 150px;
+}
 
 .intro {
   font-size: var(--h5fs20);
   margin: 20px 0;
-  padding: 0 200px;
-  line-height: 30px;
 }
 
 
-.title_why{
+.title{
     text-align: center;
-    margin: 120px;
+    margin: 90px;
 }
-
-

@@ -21,9 +21,16 @@ export default function ImageGallary({ data = [] }) {
   const [dragStartY, setDragStartY] = useState(0);
   const [dragOffsetX, setDragOffsetX] = useState(0);
   const [dragOffsetY, setDragOffsetY] = useState(0);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [resetPage, setResetPage] = useState(false);
   const length = data.length;
   const maxZoomLevel = 3;
+
+  useEffect(() => {
+    if (!modalOpen) {
+      setCurrentPage(1);
+    }
+  }, [resetPage, modalOpen]);
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -56,12 +63,14 @@ export default function ImageGallary({ data = [] }) {
   };
 
   const nextSlide = () => {
+    setCurrentPage((currentPage) => Math.min(currentPage + 1, length));
     setCurrent((current) => (current + 1) % length);
     setZoomLevel(1);
   };
 
   const prevSlide = () => {
     setCurrent((current) => (current - 1 + length) % length);
+    setCurrentPage((currentPage) => Math.max(currentPage - 1, 1));
     setZoomLevel(1);
   };
 
@@ -124,7 +133,9 @@ export default function ImageGallary({ data = [] }) {
                 icon={faArrowLeft}
                 className={Styles.left_arrow}
                 onClick={prevSlide}
-                style={{ display: current === 0 ? 'none' : 'block' }}
+                style={{
+                  display: current === 0 ? 'none' : 'block',
+                }}
               />
               <FontAwesomeIcon
                 icon={faArrowRight}
@@ -168,6 +179,9 @@ export default function ImageGallary({ data = [] }) {
                 </div>
               ))}
               <div className={Styles.zoom_buttons}>
+                <div className={Styles.page_indicator}>
+                  頁面： {currentPage} / {length}
+                </div>
                 <button onClick={zoomOut}>
                   <FontAwesomeIcon icon={faMinus} className={Styles.plus} />
                 </button>
@@ -178,7 +192,7 @@ export default function ImageGallary({ data = [] }) {
                   />
                 </button>
                 <button onClick={zoomIn}>
-                  <FontAwesomeIcon icon={faPlus} />
+                  <FontAwesomeIcon icon={faPlus} className={Styles.plus1} />
                 </button>
               </div>
             </div>

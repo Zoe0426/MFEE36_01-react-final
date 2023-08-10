@@ -337,4 +337,7 @@
   .modal_content {
     padding: 20px;
   }
+  .modal_bgc {
+    width: 360px;
+  }
 }

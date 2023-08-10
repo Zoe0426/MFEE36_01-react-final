@@ -22,7 +22,7 @@ export default function SecondNavbar() {
           </Link>
           <Link href="/member/wallet" className={Styles.linkItem}>
             <img src="/member-center-images/Icon/coin.svg" alt="" />
-            <div className={Styles.linkTitile}>我的錢包</div>
+            <div className={Styles.linkTitile}>我的優惠</div>
           </Link>
           <Link href="/member/schedule" className={Styles.linkItem}>
             <img src="/member-center-images/Icon/calendar.svg" alt="" />

@@ -16,16 +16,16 @@
 .comment{
     /* padding:10px; */
     margin-left:20px;
-    padding-right: 10px;
+    margin-right: 10px;
     /* position: absolute; */
     /* left:20px; */
-    width:90%
+    width:1000px;
 }
 .subBtn{
-    width:50px;
+    width:100px;
 }
 .commentBody{
-    background-color: #fff;
+    background-color:var(--light1);
     width:85%;
     border-radius:var(--br10);
     margin-top:10px; 
