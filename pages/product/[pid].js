@@ -260,6 +260,13 @@ export default function Product() {
   };
 
   useEffect(() => {
+    if (!auth.id) {
+      const from = window.location.href;
+      router.push(from);
+    }
+  }, [auth]);
+
+  useEffect(() => {
     setFrist(true);
   }, [localStorageHistory]);
 
@@ -782,7 +789,6 @@ export default function Product() {
   const handleLineShare = (type = '') => {
     const title = `狗with咪 || ${datatForProductMain.name}`; // 要分享的標題
     const shareUrl = window.location.href;
-    console.log(shareUrl);
     let shareURL = '';
     switch (type) {
       case 'shareOnLine':
