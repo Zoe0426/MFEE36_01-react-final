@@ -269,7 +269,7 @@ export default function RestInfo() {
   //沒登入會員收藏，跳轉登入booking
   const toSingInBook = () => {
     const from = router.query;
-    router.push(`/member/sign-in?from=${process.env.WEB}/restaurant/booking`);
+    router.push(`/member/sign-in?from=${process.env.WEB}/restaurant/calendar`);
   };
   //沒登入會員收藏，跳轉登入likelist
   const toSingIn = () => {
