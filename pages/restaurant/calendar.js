@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/router';
+import AuthContext from '@/context/AuthContext';
 import Head from 'next/head';
 import BookingModal from '@/components/ui/restaurant/Calendar';
 import Styles from './calendar.module.css';
@@ -21,6 +23,7 @@ const chunk = (arr, size) =>
   );
 
 function App() {
+  const { auth } = useContext(AuthContext);
   const [selectedDate, setSelectedDate] = useState(null);
   const [bookingRows, setBookingRows] = useState([]); // 初始化為空陣列
   const [memberRows, setMemberRows] = useState([]);
@@ -39,6 +42,16 @@ function App() {
     { id: 'rid', text: '', href: '', show: true },
     { id: 'booking', text: '> 預約時間表', href: '', show: true },
   ]);
+  const router = useRouter();
+  useEffect(() => {
+    if (!auth.id) {
+      // const from = router.asPath;
+      //餐廳首頁
+      // router.push(`${process.env.WEB}/restaurant`);
+      //餐廳詳細頁
+      router.push(`${process.env.WEB}/restaurant/${bookingRows[0].rest_sid}`);
+    }
+  }, [auth]);
 
   useEffect(() => {
     fetch(`${process.env.API_SERVER}/restaurant-api/calendar`)
