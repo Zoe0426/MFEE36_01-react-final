@@ -1,7 +1,11 @@
 import React from 'react';
 import style from './homeMainBtns.module.css';
-
+import { useRouter } from 'next/router';
 export default function HomeMainBtns() {
+  const router = useRouter();
+  const redirectTo = (where) => {
+    router.push(`/${where}`);
+  };
   return (
     <div className={style.box}>
       <div className={style.shopbg}></div>
@@ -45,21 +49,33 @@ export default function HomeMainBtns() {
         src="/home-images/mainBtnArea/h-shopbtn.svg"
         alt="demo"
         className={style.shopBtn}
+        onClick={() => {
+          redirectTo('product');
+        }}
       />
       <img
         src="/home-images/mainBtnArea/h-actbtn.svg"
         alt="demo"
         className={style.actBtn}
+        onClick={() => {
+          redirectTo('activity');
+        }}
       />
       <img
         src="/home-images/mainBtnArea/h-resbtn.svg"
         alt="demo"
         className={style.resBtn}
+        onClick={() => {
+          redirectTo('restaurant');
+        }}
       />
       <img
         src="/home-images/mainBtnArea/h-forumbtn.svg"
         alt="demo"
         className={style.forumBtn}
+        onClick={() => {
+          redirectTo('forum');
+        }}
       />
       <img
         src="/home-images/trafficLight.png"

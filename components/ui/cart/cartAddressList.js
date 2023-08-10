@@ -90,10 +90,10 @@ export default function CartAddressList({
   const scrollToHandler = () => {
     if (myref.current) {
       const rect = myref.current.getBoundingClientRect();
-      const offsetTop = window.scrollY + rect.top;
+      const offsetTop = rect.top;
 
-      window.scrollTo({
-        top: offsetTop,
+      myref.current.parentElement.scrollTo({
+        top: offsetTop + myref.current.parentElement.scrollTop,
         behavior: 'smooth',
       });
     }
@@ -237,7 +237,7 @@ export default function CartAddressList({
       )}
       {showAddFail && (
         <ModalWithoutBtn
-          text="新增成功"
+          text="新增失敗"
           img="/member-center-images/Icon/happy.svg"
         />
       )}

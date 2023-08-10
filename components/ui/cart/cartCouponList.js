@@ -6,6 +6,7 @@ export default function CartCouponList({
   couponData = [],
   setChosenCoupon = () => {},
 }) {
+  console.log({ couponData });
   const originalSelectedSid = couponData.filter((v) => v.selected === true)[0]
     .coupon_send_sid;
   console.log(originalSelectedSid);
@@ -49,7 +50,8 @@ export default function CartCouponList({
                     exp_date={v.exp_date}
                     name={v.name}
                     price={v.price}
-                    selected={v.selected}
+                    selectedCoupon={selectedCoupon}
+                    inmodal={true}
                   />
                 </div>
               </Radio>

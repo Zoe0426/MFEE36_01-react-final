@@ -17,6 +17,10 @@
     font-size: var(--pfs16);
     line-height: 20px;
     margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 8;
+     overflow: hidden;
 }
 
 .hhashes{
@@ -28,6 +32,10 @@
     margin-bottom: var(--p8);
 }
 @media screen and (max-width:575px){
+    .infoBox{
+    padding-right: 0%;
+
+}
   .hsubtitle{
         font-size: var(--pfs16);
     }
@@ -36,5 +44,10 @@
     }
       .hp{
         font-size: var(--pfs14);
+         display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+        overflow: hidden;
+        
     }
 }

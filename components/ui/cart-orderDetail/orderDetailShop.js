@@ -16,10 +16,10 @@ export default function OrderDetailShop({
           <p className={style.prodSubtitle}>{prodSubtitle}</p>
         </div>
         <div className={style.prodDetail}>
-          <p className={style.price}>${price}</p>
+          <p className={style.price}>${price.toLocaleString()}</p>
           <p className={style.times}>*</p>
           <p className={style.qty}>{qty}</p>
-          <p className={style.subtotal}>${price * qty}</p>
+          <p className={style.subtotal}>${(price * qty).toLocaleString()}</p>
         </div>
       </div>
     </div>

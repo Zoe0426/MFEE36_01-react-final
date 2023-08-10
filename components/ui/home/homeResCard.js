@@ -30,7 +30,7 @@ export default function HomeResCard({
         <div className={style.reshash}>
           {reshash &&
             reshash.map((h, i) => {
-              return <HashTag key={i} text={h} />;
+              return <HashTag key={i} text={`#${h}`} />;
             })}
         </div>
       </div>

@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Row, Col, ConfigProvider, Checkbox } from 'antd';
 import style from '@/styles/cart.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaw } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 //components
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
@@ -45,13 +43,14 @@ export default function Cart() {
   const [postAddData, setPostAddData] = useState([]);
   //優惠券
   const [couponData, setCouponData] = useState([]);
-  const [chosenCoupon, setChosenCoupon] = useState();
+  const [chosenCoupon, setChosenCoupon] = useState(0);
   //付款
   const [paymentType, setPaymentType] = useState(1);
   //Alerts
   const [amodal, setaModal] = useState(false);
   const [bmodal, setbModal] = useState(false);
   const [cmodal, setcModal] = useState(false);
+  const [couponmodal, setCouponmodal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -88,6 +87,8 @@ export default function Cart() {
           : { ...v, selected: false }
       )
     );
+    setCouponmodal(false);
+    document.body.classList.remove('likeList-open');
   };
   const checkDefaultAdd = (sid, status) => {
     const newData = postAddData.map((v) => {
@@ -112,6 +113,7 @@ export default function Cart() {
       },
     });
     const data = await r.json();
+    console.log(data);
     if (data.shop.length > 0) {
       const myShopData = data.shop.map((v) => ({ ...v, selected: false }));
       setShopData(myShopData);
@@ -229,6 +231,16 @@ export default function Cart() {
     setcModal(false);
     document.body.classList.remove('likeList-open');
   };
+  const couponModalHandler = () => {
+    setCouponmodal(false);
+    document.body.classList.remove('likeList-open');
+  };
+  const showCouponModalHandler = () => {
+    setCouponmodal(true);
+    document.body.classList.add('likeList-open');
+  };
+  console.log(couponData);
+  console.log(cartData);
   if (pageLoading) {
     return <Loading />;
   } else if (!pageLoading) {
@@ -453,6 +465,7 @@ export default function Cart() {
               setPaymentType={setPaymentType}
               setChosenCoupon={setChosenCoupon}
               selectCoupon={selectCoupon}
+              showCouponModalHandler={showCouponModalHandler}
             />
           </Col>
         </Row>
@@ -526,6 +539,28 @@ export default function Cart() {
                     clickHandler={cModalHandler}
                   />
                   <MainBtn clickHandler={createOrder} text="付款" />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {couponmodal && (
+          <>
+            <div onClick={couponModalHandler} className={style.overlay}></div>
+            <div className={style.modal}>
+              <div className={style.cmodal_card}>
+                <h2 className={style.cou_modal_tital}>選擇優惠券</h2>
+                <div className={style.cmodal_content}>
+                  <CartCouponList
+                    couponData={couponData}
+                    setChosenCoupon={setChosenCoupon}
+                  />
+                </div>
+
+                <div className={style.line}></div>
+                <div className={style.coubtn_group}>
+                  <SecondaryBtn text="取消" clickHandler={couponModalHandler} />
+                  <MainBtn clickHandler={selectCoupon} text="確認" />
                 </div>
               </div>
             </div>

@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import style from './cartTotalSection.module.css';
-import Image from 'next/image';
-import rundog from '@/assets/running-dog.svg';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import CartSectionTitle from './cartSectionTitle';
 import CloseBtn from '../buttons/closeBtn';
-import CartPayBtn from './cartPayBtn';
 import { DownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, ConfigProvider } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,8 +11,6 @@ import {
   faPaw,
   faTicket,
 } from '@fortawesome/free-solid-svg-icons';
-import Modal from '../modal/modal';
-import CartCouponList from './cartCouponList';
 export default function CartTotalSection({
   checkoutType = '',
   shopData = [],
@@ -25,8 +20,7 @@ export default function CartTotalSection({
   paymentType = 1,
   createOrder = () => {},
   setPaymentType = () => {},
-  setChosenCoupon = () => {},
-  selectCoupon = () => {},
+  showCouponModalHandler = () => {},
 }) {
   const [showCard, setShowCard] = useState(false);
   const postAmount = postType === 'blackcat' ? 90 : 60;
@@ -168,7 +162,7 @@ export default function CartTotalSection({
                     : couponPrice.toLocaleString()}
                 </span>
               </div>
-              <div className={style.couponBtn}>
+              <div className={style.couponBtn} onClick={showCouponModalHandler}>
                 <FontAwesomeIcon
                   icon={faTicket}
                   style={{
@@ -182,7 +176,8 @@ export default function CartTotalSection({
                     left: '16px',
                   }}
                 />
-                <Modal
+                {`我的優惠券 (${couponData.length})`}
+                {/* <Modal
                   btnType="text"
                   btnText={`我的優惠券 (${couponData.length})`}
                   title="選擇優惠券"
@@ -193,7 +188,7 @@ export default function CartTotalSection({
                       setChosenCoupon={setChosenCoupon}
                     />
                   }
-                />
+                /> */}
               </div>
             </>
           ) : (

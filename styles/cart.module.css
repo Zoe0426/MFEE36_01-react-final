@@ -94,8 +94,14 @@
 }
 .modal_title {
   font-size: var(--h4fs24);
-  /* font-weight: 600; */
   text-align: center;
+}
+.cou_modal_tital{
+  font-size: var(--h5fs20);
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgb(203, 203, 203);
 }
   .modal_content{
    font-weight: 800;
@@ -124,6 +130,24 @@
     min-width:150px;
   }
 
+.coubtn_group{
+    display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  height: 50px;
+}
+
+.coubtn_group > button{
+    margin-right: 16px;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 100%;
+  text-align: center;
+}
+.line {
+  height: 1px;
+  border-bottom: 1px solid rgb(203, 203, 203);
+}
 @media screen and (max-width:767px){
 
 .totalSection{
@@ -138,6 +162,10 @@
     .modal_title {
     font-size: var(--h6fs18);
   }
+    .cou_modal_title {
+    font-size: var(--h6fs18);
+    padding-bottom: 12px;
+  }
     .cbtn_group {
     gap: 16px;
     justify-content: space-around;
@@ -149,7 +177,20 @@
     width: 100%;
     line-height: 100%;
   }
-
+  .coubtn_group > button {
+    margin-right: 0;
+    width: 100%;
+    line-height: 100%;
+  }
+  .coubtn_group {
+    gap: 16px;
+    justify-content: space-around;
+    padding: 0 16px;
+  }
+  .coumodal_title {
+    font-size: var(--h6fs18);
+    padding-bottom: 12px;
+  }
 .headcat{
     left: 3%;
     width: 60px;

@@ -5,8 +5,7 @@ import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
 import NavRoundBtn from '../ui/buttons/NavRoundBtn';
 import CloseBtn from '../ui/buttons/closeBtn';
-import { split } from 'lodash';
-
+import ModalWithoutBtn from '../ui/modal/modal-without-btn';
 export default function Navbar({ type = '' }) {
   const { auth, logout, cartItemNum, setCartItemNum, photo } =
     useContext(AuthContext);
@@ -14,6 +13,7 @@ export default function Navbar({ type = '' }) {
   const [showMemList, setShowMemList] = useState(false);
   const [showCartBox, setShowCartBox] = useState(false);
   const [showLoginBox, setShowLoginBox] = useState(false);
+  const [showLogoutSuccess, setShowLogoutSuccess] = useState(false);
   const [memProfileImg, setMemProfileImg] = useState(
     `${process.env.API_SERVER}/img/default-profile.jpg`
   );
@@ -55,7 +55,10 @@ export default function Navbar({ type = '' }) {
     logout();
     setShowMemList(false);
     setLogin(false);
-    router.push('/');
+    setShowLogoutSuccess(true);
+    setTimeout(() => {
+      setShowLogoutSuccess(false);
+    }, 1500);
   };
 
   useEffect(() => {
@@ -203,6 +206,30 @@ export default function Navbar({ type = '' }) {
           </div>
         </nav>
       </header>
+      {/* {showLogoutSuccess && (
+        <div className={Styles.modal}>
+          <div className={Styles.modal_card}>
+            <div className={Styles.box}>
+              <Image src={img} width={70} height={70} alt="rightImg" />
+              <div
+                className={`${Styles.modal_content} ${
+                  classTitle === 'active' ? Styles.active : ''
+                }`}
+              >
+                {text}
+              </div>
+              <div className={Styles.modal_content2}>{text2}</div>
+              <Image src={img} width={70} height={70} alt="leftImg" />
+            </div>
+          </div>
+        </div>
+      )} */}
+      {showLogoutSuccess && (
+        <ModalWithoutBtn
+          text="登出成功，再來唷！"
+          img="/member-center-images/Icon/happy.svg"
+        />
+      )}
     </>
   );
 }
