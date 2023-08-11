@@ -20,7 +20,13 @@ import {
   Modal,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default function Profile() {
   const { auth, setPhoto } = useContext(AuthContext);
@@ -51,7 +57,11 @@ export default function Profile() {
 
   const changeToUpload = () => {
     setToUpload(true);
-    //setIsPass(!isPass);
+  };
+  const dateFormat = 'YYYY/MM/DD';
+  const customFormat = (value) => {
+    value = dayjs(value).hour(12);
+    return dayjs(value).tz('Asia/Taipei').format(dateFormat);
   };
 
   useEffect(() => {
@@ -77,6 +87,10 @@ export default function Profile() {
             setData(data);
             let array = data;
             let obj = array[0];
+            console.log('tt', obj.birthday);
+            let birthday =
+              obj && obj.birthday ? dayjs(obj.birthday, dateFormat) : null;
+            console.log('birthday', birthday);
             setInitialValues({
               memberSid: obj ? obj.memberSid : '',
               name: obj ? obj.name : '',
@@ -84,7 +98,8 @@ export default function Profile() {
               avarta: obj ? obj.profile : '',
               email: obj ? obj.email : '',
               gender: obj ? obj.gender : '',
-              birthday: obj ? moment(obj.birthday) : '',
+              birthday: birthday,
+              // birthday: moment('2023-04-09'),
               pet: obj ? obj.pet : '',
             });
             setLoading(false);
@@ -106,7 +121,7 @@ export default function Profile() {
       }
     }
   }, [auth, first, memProfileImg]);
-
+  console.log('birthday', initialValues.birthday);
   //console.log('token', auth.token);
 
   const beforeUpload = (file) => {
@@ -224,6 +239,7 @@ export default function Profile() {
     console.log('formData', formData.get('avatar'));
     // //console.log('formData', formData.get('memberSid'));
     console.log('formData', formData.get('name'));
+    console.log('表格寫入生日', formData.get('birthday'));
     // //console.log('formData', formData.get('mobile'));
     // //console.log('formData', formData.get('birthday'));
     // //console.log('formData', formData.get('gender'));
@@ -338,7 +354,7 @@ export default function Profile() {
                       style={{ marginBottom: '0px', padding: '0px' }}
                     >
                       <Upload
-                        action={`${process.env.API_SERVER}/updateInfo`}
+                        // action={`${process.env.API_SERVER}/updateInfo`}
                         listType="picture-card"
                         fileList={fileList}
                         onPreview={handlePreview}
@@ -392,6 +408,7 @@ export default function Profile() {
               <Form.Item label="生日" name="birthday">
                 <DatePicker
                   size="large"
+                  format={customFormat}
                   style={{
                     width: '100%',
                   }}

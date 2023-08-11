@@ -159,6 +159,8 @@ export default function Navbar({ type = '' }) {
                 className={Styles.link}
                 onClick={() => {
                   redirectTo('activity');
+                  // router.push('/activity');
+                  // console.log('act');
                 }}
               >
                 活動
