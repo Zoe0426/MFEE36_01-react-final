@@ -95,7 +95,7 @@
   /* 顯示 icon 的容器，預設隱藏 */
 .iconContainer {
     display: none;
-    position: absolute;
+    position: absolute; 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%)

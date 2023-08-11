@@ -62,6 +62,7 @@ export default function Post() {
     const forumData = await response.json();
     setData(forumData.rows);
     setForumData(forumData);
+    setPage(forumData.page);
   
     // setData(forumData.rows);
     console.log('forumData', forumData);

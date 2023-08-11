@@ -2,6 +2,7 @@ import React from "react";
 import Style from "./postCardDraft.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faTrashCan, faEye, faPen} from '@fortawesome/free-solid-svg-icons';
+import ModalDelete from "../modal/modal_delete";
 export default function PostCardDraft({profile='', boardName='', author='', postTitle='', postContent='', img='', deletePost=()=>{}, viewPost=()=>{}, editPost=()=>{}}){
     return(
         <>
@@ -21,7 +22,7 @@ export default function PostCardDraft({profile='', boardName='', author='', post
             <div className={Style.iconContainer}>
             {/* 刪除、查看、編輯 icon */}
             <div className={Style.icon} onClick={deletePost}>
-                <div><FontAwesomeIcon icon={faTrashCan} /></div>
+                <ModalDelete btnType = 'trash' text='確定要刪除嗎？'/>
                 <div className={Style.word}>刪除</div>
             </div>
             <div className={Style.icon} onClick={viewPost}>
