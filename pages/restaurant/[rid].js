@@ -468,7 +468,7 @@ export default function RestInfo() {
 
   const commentFiliterByRating = (dataForComment, type) => {
     console.log('Type:', type);
-    console.log('Data for Comment:', dataForComment);
+    // console.log('Data for Comment:', dataForComment);
 
     switch (type) {
       case 1:

@@ -52,6 +52,17 @@
   transition: 0.4s;
   padding: 10px 14px;
 }
+.disable_month_btn{
+  border: 0;
+  background-color: var(--main);
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  transition: 0.4s;
+  padding: 10px 14px;
+  opacity: 0.2;
+}
 .month_btns:hover {
   background-color: var(--light1);
   color: var(--main);
