@@ -60,7 +60,6 @@ export default function Profile() {
   };
   const dateFormat = 'YYYY/MM/DD';
   const customFormat = (value) => {
-    value = dayjs(value).hour(12);
     return dayjs(value).tz('Asia/Taipei').format(dateFormat);
   };
 
@@ -229,7 +228,11 @@ export default function Profile() {
     formData.append('memberSid', values.memberSid);
     formData.append('name', values.name);
     formData.append('mobile', values.mobile);
-    formData.append('birthday', values.birthday);
+    formData.append(
+      'birthday',
+      dayjs(values.birthday).tz('Asia/Taipei').format('YYYY-MM-DD')
+    );
+
     formData.append('gender', values.gender);
     formData.append('pet', values.pet);
 

@@ -12,6 +12,10 @@
   position: static;
 }
 
+:where(.css-dev-only-do-not-override-1wghlqb).ant-picker-calendar .ant-picker-cell .ant-picker-cell-inner {
+  position: static;
+}
+
 /* antd sm calendar */
 
 /* 小日曆外框 */
@@ -22,13 +26,17 @@
 /* header */
 :where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-calendar-header {
   display: flex;
-  flex-wrap: wrap;
   justify-content: flex-end;
   padding: 12px 8px;
 }
 
 /* 當天樣式 */
 :where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner, :where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner, :where(.css-dev-only-do-not-override-6h52ir).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  color: #000;
+  background: #fff;
+}
+
+:where(.css-dev-only-do-not-override-1id5oux).ant-picker-calendar .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner{
   color: #000;
   background: #fff;
 }
