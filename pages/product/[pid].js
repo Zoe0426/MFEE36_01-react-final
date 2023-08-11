@@ -121,7 +121,7 @@ export default function Product() {
   const [messages, setMessages] = useState([]);
   const [displayChatRoom, setDisplayChatRoom] = useState(false);
   const [showToolTips, setShowToolTips] = useState(false);
-
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   //控制主商品照片放大的
   const [countEnterMainPic, setCoutEnterMainPic] = useState(1);
   const [isMouseOverOnMainPic, setIsMouseOverOnMainPic] = useState(false);
@@ -330,6 +330,7 @@ export default function Product() {
       setUsername('');
       setMessages([]);
       setDisplayChatRoom(false);
+      setShowEmojiPicker(false);
     }
   }, [router.query, first]);
 
@@ -819,8 +820,9 @@ export default function Product() {
       chatCloseHandler();
     } else {
       //建立socket連線
-      setWs(io(`${process.env.API_SERVER}`));
-      // setWs(io(`${process.env.API_SERVER}`,{transports:['websocket']}));
+      // setWs(io(`ws://${location.host.split(':')[0]}:3002`));
+      // setWs(io(`${process.env.API_SERVER}`));
+      setWs(io(`${process.env.WS}`));
       setDisplayChatRoom(true);
     }
   };
@@ -873,10 +875,9 @@ export default function Product() {
       sendMessage(inputText);
     }
   };
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const handleEmojiSelect = (emoji) => {
-       setInputText((prevInput) => prevInput + emoji.native);
+    setInputText((prevInput) => prevInput + emoji.native);
     setShowEmojiPicker(false);
   };
   const toggleDisplayForEmoji = () => {
