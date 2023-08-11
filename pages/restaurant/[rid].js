@@ -2,12 +2,9 @@ import React, { useEffect, useContext, useRef } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
-import { Fragment } from 'react';
 import { useState } from 'react';
-import { SlideImage } from '@/components/ui/restaurant/ImageSample';
 import Styles from './[rid].module.css';
 import IconBtn from '@/components/ui/buttons/IconBtn';
-import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import RateStar from '@/components/ui/rateStar/RateStar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,19 +16,13 @@ import {
   faClock,
   faPaw,
   faCalendar,
-  faStar,
   faChevronLeft,
   faChevronRight,
   faChevronDown,
   faChevronUp,
   faClone,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faFacebookSquare,
-  faLine,
-  faSquareInstagram,
-  faSquareTwitter,
-} from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faLine } from '@fortawesome/free-brands-svg-icons';
 import Tab from '@/components/ui/restaurant/Tab';
 import FeatureCard from '@/components/ui/restaurant/featureCard';
 import ActivityCard from '@/components/ui/restaurant/ActivityCard';
@@ -39,7 +30,6 @@ import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
 import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
 import PinkBtn from '@/components/ui/restaurant/PinkBtn';
-import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
 import catJump from '@/assets/jump_cat.svg';
@@ -638,16 +628,16 @@ export default function RestInfo() {
   };
 
   // 複製網址
-  const handleCopyUrl = () => {
-    const urlToCopy = window.location.href;
-    // 使用瀏覽器原生的剪貼板 API 將網址複製到剪貼板
-    navigator.clipboard
-      .writeText(urlToCopy)
-      .then(() => {})
-      .catch((error) => {
-        console.error('複製網址失敗:', error);
-      });
-  };
+  // const handleCopyUrl = () => {
+  //   const urlToCopy = window.location.href;
+  //   // 使用瀏覽器原生的剪貼板 API 將網址複製到剪貼板
+  //   navigator.clipboard
+  //     .writeText(urlToCopy)
+  //     .then(() => {})
+  //     .catch((error) => {
+  //       console.error('複製網址失敗:', error);
+  //     });
+  // };
 
   //營業時間的函式
   const [showBusinessHours, setShowBusinessHours] = useState(false);
@@ -811,7 +801,7 @@ export default function RestInfo() {
             <div className={Styles.title_share}>
               <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
               <div className={Styles.copy}>
-                <Success clickHandler={handleCopyUrl} />
+                {/* <Success clickHandler={handleCopyUrl} /> */}
               </div>
             </div>
             <RateStar

@@ -139,10 +139,12 @@
 }
 
 .banner img {
-  position: absolute;
-  height: 100%;
-  width: auto;
+  height: 120px;
+  object-fit: cover;
+  object-position: top center;
 }
+
+
 
 .jill_h2 {
   font-size: var(--h4fs24);
