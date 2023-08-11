@@ -8,38 +8,44 @@ export default function OrderDetailActivity({
   adQty = 0,
   kidPrice = 0,
   kidQty = 0,
+  policy = '',
 }) {
   return (
-    <div className={style.productCard}>
-      <img src={img} alt="activityImg" className={style.prodimg} />
-      <div className={style.forRwd}>
-        <div className={style.prodname}>
-          <p className={style.prodtitle}>{prodtitle}</p>
-          <p className={style.prodSubtitle}>{prodSubtitle}</p>
-        </div>
-        <div className={style.prodDetail}>
-          <div className={style.detailblock}>
-            <p className={style.times}>大人</p>
-            <div className={style.qtyblock}>
-              <p className={style.price}>${adPrice.toLocaleString()}</p>
-              <p className={style.times}>*</p>
-              <p className={style.qty}>{adQty}</p>
-            </div>
+    <>
+      <div className={style.productCard}>
+        <img src={img} alt="activityImg" className={style.prodimg} />
+        <div className={style.forRwd}>
+          <div className={style.prodname}>
+            <p className={style.prodtitle}>{prodtitle}</p>
+            <p className={style.prodSubtitle}>{prodSubtitle}</p>
           </div>
+          <div className={style.prodDetail}>
+            <div className={style.detailblock}>
+              <p className={style.label}>大人</p>
+              <div className={style.qtyblock}>
+                <p className={style.price}>${adPrice.toLocaleString()}</p>
+                <p className={style.times}>*</p>
+                <p className={style.qty}>{adQty}</p>
+              </div>
+            </div>
 
-          <div className={style.detailblock}>
-            <p className={style.times}>小孩</p>
-            <div className={style.qtyblock}>
-              <p className={style.price}>${kidPrice.toLocaleString()}</p>
-              <p className={style.times}>*</p>
-              <p className={style.qty}>{kidQty}</p>
+            <div className={style.detailblock}>
+              <p className={style.label}>小孩</p>
+              <div className={style.qtyblock}>
+                <p className={style.price}>${kidPrice.toLocaleString()}</p>
+                <p className={style.times}>*</p>
+                <p className={style.qty}>{kidQty}</p>
+              </div>
             </div>
+            <p className={style.subtotal}>
+              ${(adPrice * adQty + kidPrice * kidQty).toLocaleString()}
+            </p>
           </div>
-          <p className={style.subtotal}>
-            ${(adPrice * adQty + kidPrice * kidQty).toLocaleString()}
-          </p>
         </div>
       </div>
-    </div>
+      <div className={style.policy}>
+        <span style={{ fontWeight: 'bold' }}>注意事項:</span> {policy}
+      </div>
+    </>
   );
 }

@@ -10,6 +10,7 @@ import AuthContext from '@/context/AuthContext';
 import CartDetailTotalSection from '@/components/ui/cart-orderDetail/cartDetailTotalSection';
 import Loading from '@/components/ui/loading/loading';
 import OrderDetailPostInfo from '@/components/ui/cart-orderDetail/orderDetailpostinfo';
+import OrderDetailInfo from '@/components/ui/cart-orderDetail/orderDetailInfo';
 
 export default function OrderComplete() {
   const { auth } = useContext(AuthContext);
@@ -97,7 +98,11 @@ export default function OrderComplete() {
                   create_dt={orderInfo.create_dt}
                 />
               ) : (
-                ''
+                <OrderDetailInfo
+                  name={orderInfo.name}
+                  phone={orderInfo.mobile}
+                  create_dt={orderInfo.create_dt}
+                />
               )}
 
               {orderInfo.checkoutType === 'shop'
@@ -121,6 +126,7 @@ export default function OrderComplete() {
                       adQty={v.adult_qty}
                       kidPrice={v.child_price}
                       kidQty={v.child_qty}
+                      policy={v.policy}
                     />
                   ))}
               {

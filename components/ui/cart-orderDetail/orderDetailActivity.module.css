@@ -2,12 +2,16 @@
 .productCard{
     display: flex;
     align-items: center;
-    padding: var(--p16) ;
-    border-bottom: 1px dashed var(--secondary);
-    background-color: var(--light2);
+    padding: var(--p16) ; 
 }
+.policy{
+  background-color: var(--light4);
+  padding: var(--p16);
+  /* padding-left: 100px; */
+  line-height: 20px;
+  border-bottom: 1px dashed var(--secondary);
 
-
+}
 .prodimg{
     width: 80px;
     border-radius: var(--br8);
@@ -25,7 +29,7 @@
 }
 .prodtitle{
     font-size: var(--h6fs18);
-     line-height: 20px;
+     line-height: 16px;
     margin-bottom: 8px;
 }
 .prodSubtitle{
@@ -40,24 +44,34 @@
 }
 .detailblock{
   width: 35%;
+  /* border: 1px solid orange; */
+  display: flex;
+  align-items: center;
 
+}
+.label{
+  margin-right: var(--p8);
+  padding-right: var(--p16);
 }
 .price{
   width: 50%;
   color: var(--gray);
   text-align: end; 
   font-size: var(--pfs16);
+  /* border:1px solid purple; */
 }
 
 .times{
-  display: none;
+ /* // display: none; */
    color: var(--gray);
+   /* border:1px solid red; */
 }
 .qty{
   text-align: end;
   color: var(--gray);
   font-size: var(--pfs16);
   padding-right: var(--p16);
+  /* border: 1px solid green; */
 }
 .subtotal{
     flex-grow: 1;
