@@ -1,0 +1,42 @@
+.icon_btn{
+    padding: var(--p16) 20px;
+    border-radius: var(--br10);
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color: var(--main);
+    transition: 0.3s;
+    color: white;
+}
+.icon_btn:hover{
+    color: var(--main);
+    background-color: var(--secondary);
+    cursor: pointer;
+
+}
+
+.icon{
+    margin-right: 10px;
+    font-size: var(--pfs16);
+}
+
+.icon_btn_voted {
+    padding: var(--p16) 20px;
+    border-radius: var(--br10);
+    border: 0;
+    font-size: var(--pfs16);
+    color: var(--dark-gray);
+    background-color:var(--flag);
+    transition: 0.3s;
+    color: white;
+  }
+  
+
+
+@media screen and (max-width:767px){
+    .icon_btn{
+        padding: 12px var(--p16) ;
+        border-radius: var(--br8);
+        font-size: var(--pfs14);
+    }
+    }

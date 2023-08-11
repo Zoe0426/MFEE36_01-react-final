@@ -6,23 +6,20 @@ import {
   Row,
   Col,
   ConfigProvider,
-  Dropdown,
-  Menu,
-  Button,
-  Space,
   DatePicker,
+  Select,
 } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+
 import Link from 'next/link';
 import styles from '../../styles/activityindex.module.css';
-import ActivityLikeWithSelector from '@/components/ui/cards/ActivityLikeWithSelector';
+
 import SubBtn from '@/components/ui/buttons/subBtn';
 import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 import ActivityCard2 from '@/components/ui/cards/ActivityCard2';
 import ActivityCard3 from '@/components/ui/cards/ActivityCard3';
-import ActivityFormSelectors from '@/components/ui/cards/ActivityFormSelectors';
+
 import SearchBar from '@/components/ui/buttons/SearchBar';
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
@@ -37,6 +34,7 @@ import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
 import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
+
 
 export default function ActivityHome() {
   // 主卡片
@@ -86,6 +84,18 @@ export default function ActivityHome() {
     );
   };
 
+
+  //篩選地點
+  const handleProvinceChange = (value) => {
+    setSelectedCity(value);
+    setSelectedArea(null);
+  };
+  const onSecondCityChange = (value) => {
+    setSelectedArea(value);
+  };
+  //取台灣的地區
+  const cities = cityDatas;
+
   // 主卡片資訊
   useEffect(() => {
     const fetchData = async () => {
@@ -104,17 +114,7 @@ export default function ActivityHome() {
     fetchData();
   }, []);
 
-  // 小麵包屑------------------------------------------------------------
-  const [breadCrubText, setBreadCrubText] = useState([
-    {
-      id: 'activity',
-      text: '活動首頁',
-      href: `${process.env.WEB}/activity`,
-      show: true,
-    },
-    { id: 'search', text: '', href: '', show: true },
-    { id: 'aid', text: '', href: '', show: false },
-  ]);
+ 
 
   //searchBar相關的函式------------------------------------------------------------
   const searchBarHandler = (e) => {
@@ -153,8 +153,7 @@ export default function ActivityHome() {
   const handleAreaClick = (e) => {
     setSelectedArea(e.key);
   };
-  //取台灣的地區
-  const cities = cityDatas;
+
 
   // 進階篩 日期區間
   const handleDateChange = (dates) => {
@@ -323,17 +322,14 @@ export default function ActivityHome() {
       removeLikeListToDB('all', token);
     }
   };
-  
 
   // 刪除單一收藏
   const removeLikeListItem = async (aid, token = '') => {
-    
     const newLikeList = likeDatas.filter((arr) => {
       return arr.activity_sid !== aid;
     });
     setLikeDatas(newLikeList);
-  
-   
+
     const newData = likeDatas.map((v) => {
       if (v.activity_sid == aid) {
         return { ...v, like: false };
@@ -341,16 +337,11 @@ export default function ActivityHome() {
         return { ...v };
       }
     });
-  
-   
+
     updateLikeList(aid, false);
-  
-   
+
     await removeLikeListToDB(aid, token);
   };
-  
-  
-  
 
   //將刪除收藏的請求送到後端作業
   const removeLikeListToDB = async (aid = '', token = '') => {
@@ -445,6 +436,10 @@ export default function ActivityHome() {
 
   return (
     <div>
+      <Head>
+        <title>狗with咪 | 活動</title>
+      </Head>
+
       {/* .........banner......... */}
       <div className={styles.banner}>
         <div className={styles.search}>
@@ -462,7 +457,6 @@ export default function ActivityHome() {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} />
 
             <div className={styles.btns}>
               {auth.token ? (
@@ -551,50 +545,37 @@ export default function ActivityHome() {
                       <label className={styles.labels}>活動地點：</label>
                     </div>
                     <div>
-                      {/* City Dropdown */}
-                      <Dropdown
-                        overlay={
-                          <Menu onClick={handleCityClick}>
-                            {Object.keys(cityDatas).map((city) => (
-                              <Menu.Item key={city}>{city}</Menu.Item>
-                            ))}
-                          </Menu>
+                    <Select
+                        value={selectedCity ? selectedCity : undefined}
+                        placeholder="城市"
+                        // style={{
+                        //   width: 200,
+                        // }}
+                        onChange={handleProvinceChange}
+                        options={Object.keys(cities).map((city) => ({
+                          label: city,
+                          value: city,
+                        }))}
+                        className={styles.city}
+                      />
+                      <Select
+                        // style={{
+                        //   width: 200,
+                        // }}
+                        value={selectedArea}
+                        placeholder="地區"
+                        onChange={onSecondCityChange}
+                        className={styles.area}
+                        options={
+                          selectedCity
+                            ? cities[selectedCity].map((area) => ({
+                                label: area,
+                                value: area,
+                              }))
+                            : []
                         }
-                        className={styles.location}
-                        placement="bottomLeft"
-                      >
-                        <Button>
-                          <Space>
-                            <p className={styles.dropdown_arrow}>
-                              {selectedCity ? selectedCity : '縣市'}
-                            </p>
-                            <DownOutlined />
-                          </Space>
-                        </Button>
-                      </Dropdown>
-
-                      {/* Area Dropdown */}
-                      <Dropdown
-                        overlay={
-                          <Menu onClick={handleAreaClick}>
-                            {selectedCity &&
-                              cityDatas[selectedCity].map((area) => (
-                                <Menu.Item key={area}>{area}</Menu.Item>
-                              ))}
-                          </Menu>
-                        }
-                        className={styles.location}
-                        placement="bottomLeft"
-                      >
-                        <Button>
-                          <Space>
-                            <p className={styles.dropdown_arrow}>
-                              {selectedArea ? selectedArea : '地區'}
-                            </p>
-                            <DownOutlined />
-                          </Space>
-                        </Button>
-                      </Dropdown>
+                        disabled={!selectedCity}
+                      />
                     </div>
                   </ConfigProvider>
                 </div>

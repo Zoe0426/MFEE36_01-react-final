@@ -2,44 +2,22 @@ import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
+import Head from 'next/head';
 import styles from '../../styles/activityvote.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
-import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
-import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
+
 import {
   Row,
   Col,
   Pagination,
   ConfigProvider,
-  Dropdown,
-  Menu,
-  Button,
-  Space,
-  Item,
-  DatePicker,
-  Radio,
+ 
 } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import SearchBar from '@/components/ui/buttons/SearchBar';
-// import Likelist from '@/components/ui/like-list/like-list';
-import IconBtn from '@/components/ui/buttons/IconBtn';
-import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
-import MainBtn from '@/components/ui/buttons/MainBtn';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
-import Likelist from '@/components/ui/like-list/LikeListDrawer';
-import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
-import ActivityFilter from '@/components/ui/cards/ActivityFilter';
-import ActivityFilterPrice from '@/components/ui/cards/ActivityFilterPrice';
-import ActivityFilterDate from '@/components/ui/cards/ActivityFilterDate';
-import orderByOptions from '@/data/activity/orderby.json';
-import ActivityPageOrder from '@/components/ui/cards/ActivityPageOrder';
 
-import cityDatas from '@/data/activity/location.json';
-import filterDatas from '@/data/activity/filters.json';
-import moment from 'moment';
-import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+
+import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+
 import ActivityCard6 from '@/components/ui/cards/ActivityCard6';
 import ActivityCard7 from '@/components/ui/cards/ActivityCard7';
 
@@ -52,8 +30,8 @@ export default function ActivityVote() {
   const { auth } = useContext(AuthContext);
   const authId = auth.id;
 
- 
-  
+  //投票
+  const [votedActivities, setVotedActivities] = useState([]);
 
   //沒登入會員收藏，跳轉登入
   const toSingIn = () => {
@@ -153,40 +131,44 @@ export default function ActivityVote() {
     );
   };
 
-  //投票
-  const [votedMembers, setVotedMembers] = useState([]);
- 
-
-
-  const handleVote = async (activity_wish_sid) => {
+  const handleVoteClick = async (activity_wish_sid) => {
     try {
-      const { token } = auth; // 從 auth 對象中獲取 token
+      if (!auth.id) {
+        return toSingIn();
+      }
+
       const response = await fetch(
         `${process.env.API_SERVER}/activity-api/addvote`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${auth.token}`,
           },
-          body: JSON.stringify({ activity_wish_sid, member_sid: authId }),
+          body: JSON.stringify({ activity_wish_sid }),
         }
       );
 
       if (response.ok) {
-        console.log('投票 成功');
-        // 更新投票數
-        const updatedDatas = { ...datas };
-        const updatedRows = updatedDatas.rows.map((row) => {
-          if (row.activity_wish_sid == activity_wish_sid) {
-            return { ...row, vote_count: row.vote_count + 1 };
-          }
-          return row;
-        });
-        updatedDatas.rows = updatedRows;
-        setDatas(updatedDatas);
+        const votedRowIndex = datas.rows.findIndex(
+          (row) => row.activity_wish_sid === activity_wish_sid
+        );
+
+        if (votedRowIndex !== -1) {
+          datas.rows[votedRowIndex].hasVoted = true;
+
+          setVotedActivities((prevVotedActivities) => [
+            ...prevVotedActivities,
+            activity_wish_sid,
+          ]);
+
+          setDatas((prevDatas) => ({
+            ...prevDatas,
+            rows: datas.rows,
+          }));
+        }
       } else {
-        console.log('投票 失敗');
+        console.error('Vote failed:', response);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -206,6 +188,10 @@ export default function ActivityVote() {
 
   return (
     <div>
+      <Head>
+        <title>狗with咪 | 活動</title>
+      </Head>
+
       {/* .........banner......... */}
       <div className={styles.banner}></div>
 
@@ -338,34 +324,18 @@ export default function ActivityVote() {
                 activity_wish_sid,
               } = i;
 
-              const hasVotedForMember = votedMembers.includes(member_sid);
-
               return (
-                <Col key={member_sid} span={8}>
+                <Col key={activity_wish_sid} span={8}>
                   <ActivityCard6
-                    profile={profile}
+                    activity_wish_sid={activity_wish_sid}
                     title={name}
-                    count={vote_count}
                     city={city}
                     area={area}
+                    profile={profile}
                     content={content}
-                    other_message={other_message}
-                    initialCount={vote_count} // 將投票數傳遞給 initialCount
-                    hasVoted={hasVotedForMember}
-                    setHasVoted={(value) => {
-                      if (value) {
-                        setVotedMembers((prevVotedMembers) => [
-                          ...prevVotedMembers,
-                          member_sid,
-                        ]);
-                      } else {
-                        setVotedMembers((prevVotedMembers) =>
-                          prevVotedMembers.filter((id) => id !== member_sid)
-                        );
-                      }
-                    }}
-                    handleVote={() => handleVote(activity_wish_sid, member_sid)}
-                    setVotedMembers={setVotedMembers}
+                    count={vote_count}
+                    onVoteClick={handleVoteClick}
+                    hasVoted={votedActivities.includes(activity_wish_sid)}
                   />
                 </Col>
               );
@@ -373,56 +343,6 @@ export default function ActivityVote() {
           </Row>
         </div>
 
-        {/* <div className={styles.section_card}>
-          <Row gutter={[0, 106]} className={styles.card}>
-            {datas.rows.map((i) => {
-              const {
-                activity_sid,
-                type_name,
-                activity_pic,
-                name,
-                avg_rating,
-                recent_date,
-                farthest_date,
-                time,
-                city,
-                area,
-                address,
-                content,
-                feature_names,
-                price_adult,
-              } = i;
-              const liked = isInLikeList(activity_sid);
-              return (
-                <Col key={activity_sid} span={12}>
-                  <ActivityCard4
-                    key={activity_sid}
-                    activity_sid={activity_sid}
-                    type={type_name}
-                    image={'/activity_img/' + activity_pic.split(',')[0]}
-                    title={name}
-                    rating={avg_rating}
-                    date_begin={recent_date}
-                    date_end={farthest_date}
-                    time={time}
-                    city={city}
-                    area={area}
-                    address={address}
-                    content={content}
-                    features={feature_names?.split(',') || []}
-                    price={price_adult}
-                    isInLikeList={liked}
-                    handleLikeClick={() =>
-                      handleLikeClick(activity_sid, auth.token)
-                    } // 傳遞handleLikeClick函式給子組件
-                    singinHandler={toSingIn}
-                    token={auth.token}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
-        </div> */}
 
         {/* .........頁碼......... */}
         <div className={styles.pagination}>
