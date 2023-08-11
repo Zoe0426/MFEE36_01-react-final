@@ -4,15 +4,9 @@
     align-items: center;
     padding: var(--p16);
     border-bottom: 1px dashed var(--secondary);
-    background-color: var(--light1);
+   background-color: var(--light2);
 }
-.productCard:nth-child(2n){
-    display: flex;
-    align-items: center;
-    padding: var(--p16);
-    border-bottom: 1px dashed var(--secondary);
-    background-color: white;
-}
+
 
 .prodimg{
     width: 80px;

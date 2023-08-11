@@ -76,12 +76,17 @@ export default function OrderComplete() {
     console.log('pc pt', orderInfo.post_type);
     return (
       <>
-        <BgCartHeadTextMiddle text="完成結帳" />
+        <BgCartHeadTextMiddle
+          src="/cart_img/complete.png"
+          title="謝謝您！付款成功！"
+          text="訂單確認郵件已經發送到您的電子信箱： ilwitu@mail.com"
+        />
         <Row>
           <Col xs={2} sm={2} md={2} lg={4} />
           <Col xs={20} sm={20} md={20} lg={16} className={style.box}>
             <div className={style.orderDetail}>
               <CartSectionTitle text={'訂單編號： ' + orderInfo.order_sid} />
+              {orderInfo.checkoutType === 'activity' && <div></div>}
               {orderInfo.checkoutType === 'shop' ? (
                 <OrderDetailPostInfo
                   recipient={orderInfo.recipient}
@@ -94,6 +99,7 @@ export default function OrderComplete() {
               ) : (
                 ''
               )}
+
               {orderInfo.checkoutType === 'shop'
                 ? orderInfo.orderDetailItems.map((v) => (
                     <OrderDetailShop
