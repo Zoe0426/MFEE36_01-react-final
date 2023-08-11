@@ -25,7 +25,7 @@
     width: 16%;
     top: 5%;
     left: 5.5%;
-    animation: heartBeat 1.5s ease-in 0.3s;
+    animation: heartBeat 0.5s ease-in 1.4s;
     animation-fill-mode: forwards;
 }
 .road,.cat,.nextbg, .pinkroad,.smShop,.smEvent,.smRes,.smForum,.r1,.r2,.r3,.smGwm,.trafficlight1,.tree1,.tree2,.tree3{
@@ -504,7 +504,7 @@
     }
 }
 
-@keyframes heartBeat {
+/* @keyframes heartBeat {
   0%{
     transform:  scale(0.5) translateX(150%) translateY(100%);
     visibility: visible;
@@ -518,6 +518,25 @@
   75%{
     transform: scale(1.1);
   }
+  100%{
+    transform: scale(1);
+    visibility: visible;
+  }
+} */
+@keyframes heartBeat {
+  0%{
+    transform:  scale(0.5) translateX(150%) translateY(100%);
+    visibility: visible;
+  }
+  /* 20%{
+    transform: scale(1) translateX(50%) translateY(33%) ;
+  }
+  40% {
+    transform: scale(.5) translateX(150%) translateY(100%);
+  }
+  75%{
+    transform: scale(1.1);
+  } */
   100%{
     transform: scale(1);
     visibility: visible;

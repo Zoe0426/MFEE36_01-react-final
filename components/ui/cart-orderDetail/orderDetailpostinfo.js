@@ -1,7 +1,7 @@
 import React from 'react';
-import style from './cartpostinfo.module.css';
+import style from './orderDetailpostinfo.module.css';
 
-export default function CartPostInfo({
+export default function OrderDetailPostInfo({
   recipient = '',
   recipient_phone = '',
   post_type = '',
@@ -21,7 +21,7 @@ export default function CartPostInfo({
         </div>
         <div className={style.detail}>
           <p className={style.detailtitle}>成立時間</p>
-          <p>: &nbsp;&nbsp;2023-06-12 16:32</p>
+          <p>: &nbsp;&nbsp;2023-08-16 14:32</p>
         </div>
       </div>
       <div className={style.postAdd}>

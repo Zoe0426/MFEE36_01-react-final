@@ -1,20 +1,27 @@
 
 .postDetails{
     display: flex;
+    /* background-color: var(--light1); */
+    
 }
 .postTo{
     min-width: 220px;
     margin-right: 20px;
+    /* border: 1px solid red; */
+    margin-right: 60px;
 }
 .detail{
     display: flex;
     margin-bottom: var(--p16);
+
 }
 .detail p{
-    font-style: var(--h6fs18);
+    font-size: var(--h6fs18);
+    /* border: 1px solid purple; */
 }
 .detailtitle{
-    width: 70px;
+    min-width: 78px;
+
 }
 
 @media screen and (max-width:767px){
@@ -32,7 +39,7 @@
         min-width: 300px;
     }
     .detail p{
-        font-style: var(--pfs16);
+        font-size: var(--pfs14);
     }
 
 

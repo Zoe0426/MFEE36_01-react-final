@@ -23,7 +23,8 @@ export default function CartTotalSection({
   showCouponModalHandler = () => {},
 }) {
   const [showCard, setShowCard] = useState(false);
-  const postAmount = postType === 'blackcat' ? 90 : 60;
+  console.log(postType);
+  const postAmount = postType === 1 ? 90 : 60;
   const shopSelected = shopData.reduce((a, v) => {
     return v.selected ? a + 1 : a;
   }, 0);

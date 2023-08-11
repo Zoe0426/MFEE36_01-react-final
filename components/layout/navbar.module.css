@@ -64,11 +64,11 @@
   height: 35px;
   display: flex;
   align-items: center;
-  border-left: 1px dashed #5f231b;
+  border-left: 1px dashed var(--dark);
 }
 
 .linkItem:last-child {
-  border-right: 1px dashed #5f231b;
+  border-right: 1px dashed var(--dark);
 }
 
 .link{
@@ -80,6 +80,7 @@
   /* border: 1px solid red; */
   padding: 8px 0;
   text-align: center;
+  cursor: pointer;
 }
 
 .link:hover{
@@ -255,7 +256,7 @@
     position: relative;
     width: 20px;
     height: 2px;
-    background-color: #fd8c46;
+    background-color: var(--main);
     margin: 0 auto;
   }
 
@@ -266,7 +267,7 @@
     width: 20px;
     height: 2px;
     display: block;
-    background-color: #fd8c46;
+    background-color: var(--main);
   }
 
   .line::before {

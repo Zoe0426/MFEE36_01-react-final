@@ -37,6 +37,7 @@
   width: 33%;
   color: var(--gray);
   text-align: end; 
+  font-size: var(--pfs16);
 }
 
 .times{
@@ -46,6 +47,7 @@
   width: 33%;
   text-align: end;
   color: var(--gray);
+  font-size: var(--pfs16);
 }
 .subtotal{
     flex-grow: 1;
@@ -53,6 +55,7 @@
     width: 40px;
     color: var(--gray);
     font-weight: bold;
+    font-size: var(--pfs16);
 }
 
 @media screen and (max-width:767px){

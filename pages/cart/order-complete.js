@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import CartPostInfo from '@/components/ui/cart-orderDetail/cartpostinfo';
-import BgCartHead from '@/components/ui/decoration/bg-cartHead';
+import { Row, Col } from 'antd';
+import BgCartHeadTextMiddle from '@/components/ui/decoration/bg-cartHead-textMiddle';
 import style from '@/styles/cartOrderdetail.module.css';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
 import OrderDetailShop from '@/components/ui/cart-orderDetail/orderDetailShop';
@@ -9,6 +9,7 @@ import OrderDetailActivity from '@/components/ui/cart-orderDetail/orderDetailAct
 import AuthContext from '@/context/AuthContext';
 import CartDetailTotalSection from '@/components/ui/cart-orderDetail/cartDetailTotalSection';
 import Loading from '@/components/ui/loading/loading';
+import OrderDetailPostInfo from '@/components/ui/cart-orderDetail/orderDetailpostinfo';
 
 export default function OrderComplete() {
   const { auth } = useContext(AuthContext);
@@ -73,54 +74,57 @@ export default function OrderComplete() {
   } else {
     return (
       <>
-        <BgCartHead text="完成結帳" />
-        <div className="container-inner">
-          <div className={style.orderDetail}>
-            <CartSectionTitle text={'訂單編號： ' + orderInfo.order_sid} />
-            {orderInfo.checkoutType === 'shop' ? (
-              <CartPostInfo
-                recipient={orderInfo.recipient}
-                recipient_phone={orderInfo.recipient_phone}
-                post_type={orderInfo.post_type}
-                post_address={orderInfo.post_address}
-                post_store_name={orderInfo.post_store_name}
-              />
-            ) : (
-              ''
-            )}
-            {orderInfo.checkoutType === 'shop'
-              ? orderInfo.orderDetailItems.map((v) => (
-                  <OrderDetailShop
-                    key={v.order_detail_sid}
-                    img={`/product-img/${v.img}`}
-                    prodtitle={v.rel_name}
-                    prodSubtitle={v.rel_seq_name}
-                    price={v.product_price}
-                    qty={v.product_qty}
-                  />
-                ))
-              : orderInfo.orderDetailItems.map((v) => (
-                  <OrderDetailActivity
-                    key={v.order_detail_sid}
-                    img={`/activity_img/${v.activity_pic}`}
-                    prodtitle={v.rel_name}
-                    prodSubtitle={v.rel_seq_name}
-                    adPrice={v.adult_price}
-                    adQty={v.adult_qty}
-                    kidPrice={v.child_price}
-                    kidQty={v.child_qty}
-                  />
-                ))}
-            {
-              <CartDetailTotalSection
-                checkoutType={checkoutType}
-                coupon_amount={orderInfo.coupon_amount}
-                post_amount={orderInfo.post_amount}
-                subtotal_amount={orderInfo.subtotal_amount}
-              />
-            }
-          </div>
-        </div>
+        <BgCartHeadTextMiddle text="完成結帳" />
+        <Row>
+          <Col xs={2} sm={2} md={2} lg={4} />
+          <Col xs={20} sm={20} md={20} lg={16} className={style.box}>
+            <div className={style.orderDetail}>
+              <CartSectionTitle text={'訂單編號： ' + orderInfo.order_sid} />
+              {orderInfo.checkoutType === 'shop' ? (
+                <OrderDetailPostInfo
+                  recipient={orderInfo.recipient}
+                  recipient_phone={orderInfo.recipient_phone}
+                  post_type={orderInfo.post_type}
+                  post_address={orderInfo.post_address}
+                  post_store_name={orderInfo.post_store_name}
+                />
+              ) : (
+                ''
+              )}
+              {orderInfo.checkoutType === 'shop'
+                ? orderInfo.orderDetailItems.map((v) => (
+                    <OrderDetailShop
+                      key={v.order_detail_sid}
+                      img={`/product-img/${v.img}`}
+                      prodtitle={v.rel_name}
+                      prodSubtitle={v.rel_seq_name}
+                      price={v.product_price}
+                      qty={v.product_qty}
+                    />
+                  ))
+                : orderInfo.orderDetailItems.map((v) => (
+                    <OrderDetailActivity
+                      key={v.order_detail_sid}
+                      img={`/activity_img/${v.activity_pic}`}
+                      prodtitle={v.rel_name}
+                      prodSubtitle={v.rel_seq_name}
+                      adPrice={v.adult_price}
+                      adQty={v.adult_qty}
+                      kidPrice={v.child_price}
+                      kidQty={v.child_qty}
+                    />
+                  ))}
+              {
+                <CartDetailTotalSection
+                  checkoutType={checkoutType}
+                  coupon_amount={orderInfo.coupon_amount}
+                  post_amount={orderInfo.post_amount}
+                  subtotal_amount={orderInfo.subtotal_amount}
+                />
+              }
+            </div>
+          </Col>
+        </Row>
       </>
     );
   }

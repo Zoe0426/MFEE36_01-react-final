@@ -1,0 +1,55 @@
+.head_decoration{
+    position: relative;
+    margin:0 0 32px 0;
+    display: flex;
+    flex-direction:column;
+}
+.header{
+    /* position: fixed;  */
+    top: 80px;
+    height: 55px;
+    background-color: var(--lightBrown);
+    /* border: 1px solid red; */
+    display: flex;
+    align-items:flex-end;
+    z-index: 2;
+}
+.heading{
+    font-size: var(--h2fs32);
+    color: var(--dark);
+}
+.headbg{
+    position: absolute;
+    top:10px;
+}
+.headcat{
+    position: absolute;
+    top:20px;
+    left: 8%;
+    width: 70px;
+    z-index: 2;
+}
+.headtrees{
+ position: absolute;
+    top:40px;
+    right: 8%;
+    width: 70px;
+    z-index: 2;
+}
+
+@media screen and (max-width:767px){
+
+.headcat{
+
+    left: 3%;
+    width: 60px;
+}
+.headtrees{
+
+    right: 3%;
+    width: 60px;
+}
+.heading{
+    text-align: center;
+}
+}
