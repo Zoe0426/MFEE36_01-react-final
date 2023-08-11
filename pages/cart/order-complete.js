@@ -82,7 +82,7 @@ export default function OrderComplete() {
         <BgCartHeadTextMiddle
           src="/cart_img/complete.png"
           title="謝謝您！付款成功！"
-          text="訂單確認郵件已經發送到您的電子信箱： ilwitu@mail.com"
+          text={`訂單確認郵件已經發送到您的電子信箱： ${orderInfo.email}`}
         />
         <Row>
           <Col xs={2} sm={2} md={2} lg={4} />
@@ -106,7 +106,18 @@ export default function OrderComplete() {
                   create_dt={orderInfo.create_dt}
                 />
               )}
-
+              <div className={style.titles}>
+                <p className={style.ttleft}>活動名稱</p>
+                <div className={style.ttright}>
+                  <div className={style.pq}>
+                    <p>成人</p>
+                    <p>人數</p>
+                    <p>小孩</p>
+                    <p>人數</p>
+                  </div>
+                  <p>小計</p>
+                </div>
+              </div>
               {orderInfo.checkoutType === 'shop'
                 ? orderInfo.orderDetailItems.map((v) => (
                     <OrderDetailShop

@@ -14,27 +14,31 @@ export default function OrderDetailActivity({
     <>
       <div className={style.productCard}>
         <img src={img} alt="activityImg" className={style.prodimg} />
+
         <div className={style.forRwd}>
           <div className={style.prodname}>
             <p className={style.prodtitle}>{prodtitle}</p>
             <p className={style.prodSubtitle}>{prodSubtitle}</p>
           </div>
-          <div className={style.prodDetail}>
-            <div className={style.detailblock}>
-              <p className={style.label}>大人</p>
-              <div className={style.qtyblock}>
-                <p className={style.price}>${adPrice.toLocaleString()}</p>
-                <p className={style.times}>*</p>
-                <p className={style.qty}>{adQty}</p>
-              </div>
-            </div>
 
-            <div className={style.detailblock}>
-              <p className={style.label}>小孩</p>
-              <div className={style.qtyblock}>
-                <p className={style.price}>${kidPrice.toLocaleString()}</p>
-                <p className={style.times}>*</p>
-                <p className={style.qty}>{kidQty}</p>
+          <div className={style.prodDetail}>
+            <div className={style.prodQty}>
+              <div className={style.detailblock}>
+                <p className={style.label}>大人</p>
+                <div className={style.qtyblock}>
+                  <p className={style.price}>${adPrice.toLocaleString()}</p>
+                  <p className={style.times}>*</p>
+                  <p className={style.qty}>{adQty}</p>
+                </div>
+              </div>
+
+              <div className={style.detailblock}>
+                <p className={style.label}>小孩</p>
+                <div className={style.qtyblock}>
+                  <p className={style.price}>${kidPrice.toLocaleString()}</p>
+                  <p className={style.times}>*</p>
+                  <p className={style.qty}>{kidQty}</p>
+                </div>
               </div>
             </div>
             <p className={style.subtotal}>

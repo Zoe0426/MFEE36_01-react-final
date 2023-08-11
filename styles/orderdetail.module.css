@@ -18,7 +18,9 @@
   border-bottom: 1px solid var(--gray);
 }
 
-
+.titles{
+  border-bottom: 1px solid red;
+}
 
 .itemNum{
   background-color: var(--light1);

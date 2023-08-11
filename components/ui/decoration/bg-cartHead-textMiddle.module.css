@@ -27,7 +27,7 @@
 }
 .completeBox{
     display: flex;
-    align-items: end;
+    align-items: center;
 }
 .completeBox img{
     margin-right: 20px;
