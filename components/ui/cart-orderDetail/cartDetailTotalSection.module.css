@@ -2,6 +2,7 @@
     width: 30%;
     margin-left: auto;
     margin-top: 32px;
+    padding-right: var(--p16);
     /* border: 1px solid red; */
 }
 .totalSection span{

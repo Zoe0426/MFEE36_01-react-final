@@ -1,7 +1,9 @@
 
 .postDetails{
     display: flex;
-    /* background-color: var(--light1); */
+    /* background-color: var(--light1);
+    padding: var(--p8) ;
+    border-radius: var(--br8); */
     
 }
 .postTo{
@@ -21,7 +23,9 @@
 }
 .detailtitle{
     min-width: 78px;
-
+}
+.mr8{
+    margin-right: var(--p8);
 }
 
 @media screen and (max-width:767px){

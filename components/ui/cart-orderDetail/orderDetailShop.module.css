@@ -2,8 +2,16 @@
 .productCard{
     display: flex;
     align-items: center;
-    padding: var(--p16) 0px;
+    padding: var(--p16);
     border-bottom: 1px dashed var(--secondary);
+    background-color: var(--light1);
+}
+.productCard:nth-child(2n){
+    display: flex;
+    align-items: center;
+    padding: var(--p16);
+    border-bottom: 1px dashed var(--secondary);
+    background-color: white;
 }
 
 .prodimg{
@@ -23,6 +31,7 @@
 }
 .prodtitle{
     font-size: var(--h6fs18);
+    line-height: 20px;
     margin-bottom: 8px;
 }
 .prodSubtitle{

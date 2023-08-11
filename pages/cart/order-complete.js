@@ -49,6 +49,7 @@ export default function OrderComplete() {
       }
     );
     const data = await r.json();
+    console.log('data:', data);
     setOrderInfo(data);
   };
 
@@ -72,6 +73,7 @@ export default function OrderComplete() {
   if (pageLoading) {
     return <Loading />;
   } else {
+    console.log('pc pt', orderInfo.post_type);
     return (
       <>
         <BgCartHeadTextMiddle text="完成結帳" />
@@ -87,6 +89,7 @@ export default function OrderComplete() {
                   post_type={orderInfo.post_type}
                   post_address={orderInfo.post_address}
                   post_store_name={orderInfo.post_store_name}
+                  create_dt={orderInfo.create_dt}
                 />
               ) : (
                 ''
