@@ -43,9 +43,6 @@ export default function OrderDetailActivity({
           </div>
         </div>
       </div>
-      <div className={style.policy}>
-        <span style={{ fontWeight: 'bold' }}>注意事項:</span> {policy}
-      </div>
     </>
   );
 }

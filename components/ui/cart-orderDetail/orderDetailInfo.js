@@ -22,7 +22,7 @@ export default function OrderDetailInfo({
           <p>{phone}</p>
         </div>
         <div className={style.detail}>
-          <p className={style.detailtitle}>成立時間</p>{' '}
+          <p className={style.detailtitle}>成立時間</p>
           <span className={style.mr8}>:</span>
           <p>{create_dt}</p>
         </div>

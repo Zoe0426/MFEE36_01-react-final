@@ -70,7 +70,7 @@ export default function OrderComplete() {
         getOrderDetail(query.orderSid, query.checkoutType);
     }
   }, [auth, first, query]);
-
+  console.log(orderInfo);
   if (pageLoading) {
     return <Loading />;
   } else {
@@ -99,8 +99,8 @@ export default function OrderComplete() {
                 />
               ) : (
                 <OrderDetailInfo
-                  name={orderInfo.name}
-                  phone={orderInfo.mobile}
+                  name={orderInfo.orderDetailItems[0].name}
+                  phone={orderInfo.orderDetailItems[0].mobile}
                   create_dt={orderInfo.create_dt}
                 />
               )}

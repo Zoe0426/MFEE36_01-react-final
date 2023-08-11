@@ -3,15 +3,9 @@
     display: flex;
     align-items: center;
     padding: var(--p16) ; 
+      border-bottom: 1px dashed var(--secondary);
 }
-.policy{
-  background-color: var(--light4);
-  padding: var(--p16);
-  /* padding-left: 100px; */
-  line-height: 20px;
-  border-bottom: 1px dashed var(--secondary);
 
-}
 .prodimg{
     width: 80px;
     border-radius: var(--br8);
