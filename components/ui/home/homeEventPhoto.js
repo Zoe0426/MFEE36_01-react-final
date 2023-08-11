@@ -32,7 +32,7 @@ export default function HomeEventPhoto({
               key={i}
               width="1100"
               clipPath="url(#shape)"
-              href={`http://localhost:3000/activity_img/${images[currentActPic]}`}
+              href={`${process.env.WEB}/activity_img/${images[currentActPic]}`}
               style={{
                 opacity: i === currentActPic ? 1 : 0.9,
                 transform: `translateX(${(i - currentActPic) * 863}px)`, // 計算圖片的位置

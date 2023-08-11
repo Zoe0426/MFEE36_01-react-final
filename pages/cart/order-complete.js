@@ -29,6 +29,8 @@ export default function OrderComplete() {
     post_type: 0,
     post_address: '',
     post_store_name: '',
+    name: '',
+    mobile: '',
     subtotal_amount: 0,
     post_amount: 0,
     coupon_amount: 0,
@@ -99,8 +101,8 @@ export default function OrderComplete() {
                 />
               ) : (
                 <OrderDetailInfo
-                  name={orderInfo.orderDetailItems[0].name}
-                  phone={orderInfo.orderDetailItems[0].mobile}
+                  name={orderInfo.name}
+                  phone={orderInfo.mobile}
                   create_dt={orderInfo.create_dt}
                 />
               )}
