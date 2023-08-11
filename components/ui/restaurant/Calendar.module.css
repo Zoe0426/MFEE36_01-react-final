@@ -226,10 +226,7 @@
   height: 1px;
   border-bottom: 1px solid rgb(203, 203, 203);
 }
-.check_line {
-  height: 1px;
-  border-bottom: 1px solid rgb(203, 203, 203);
-}
+
 /* 購買數量 */
 .detail_title {
   font-size: 16px;
