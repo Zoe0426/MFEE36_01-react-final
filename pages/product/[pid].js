@@ -820,6 +820,7 @@ export default function Product() {
     } else {
       //建立socket連線
       setWs(io(`${process.env.API_SERVER}`));
+      // setWs(io(`${process.env.API_SERVER}`,{transports:['websocket']}));
       setDisplayChatRoom(true);
     }
   };
