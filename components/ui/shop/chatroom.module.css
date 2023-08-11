@@ -73,10 +73,32 @@
   background: rgb(95, 35, 27, 0.5);
 }
 
+.emoji_box{
+  position: fixed;
+  right: 100px;
+  bottom: 97px;
+  bottom: 107px;
+  z-index: 1000;
+  width: 378px;
+  height: 140px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.emoji_smile{
+  color:var(--light-gray);
+  font-size:var(--h5fs20); 
+  margin-right: var(--p8);
+  align-self: center;
+}
+
 .sending_box {
   padding: var(--p16);
   display: flex;
   justify-content: center;
+  align-items: stretch;
+  position: relative;
 }
 
 .sending_box > textarea {
@@ -191,8 +213,12 @@
   color:var(--light-gray);
 }
 @media screen and (max-width:500px){
-    .chatroom_box {
+    .chatroom_box{
         right: 0px;
         bottom: 0px;
+      }
+
+      .emoji_box{
+        right: 0px;
       }
 }

@@ -832,13 +832,20 @@ export default function Product() {
   };
 
   const joinRoom = (username) => {
-    ws.emit('joinRoom', username); // 將使用者名稱傳送到後端
+    const productName = datatForProductMain.name;
+    ws.emit('joinRoom', { username, productName }); // 將使用者名稱傳送到後端
   };
 
   const initWebSocket = () => {
     //將server傳送回來的訊息，塞入之前的對話框
     ws.on('receiveMessage', (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      if (message.length > 0) {
+        //若客服人員比使用者晚進入聊天室，則可以查看使用者傳了什麼訊息
+        setMessages((prevMessages) => [...prevMessages, ...message]);
+      } else {
+        //供使用者 或是 客服與使用者成功連線的對話使用
+        setMessages((prevMessages) => [...prevMessages, message]);
+      }
     });
   };
 
@@ -864,6 +871,15 @@ export default function Product() {
     if (e.key === 'Enter' && inputText.trim()) {
       sendMessage(inputText);
     }
+  };
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const handleEmojiSelect = (emoji) => {
+       setInputText((prevInput) => prevInput + emoji.native);
+    setShowEmojiPicker(false);
+  };
+  const toggleDisplayForEmoji = () => {
+    setShowEmojiPicker(!showEmojiPicker);
   };
 
   const chatSendHandler = () => {
@@ -914,11 +930,14 @@ export default function Product() {
               auth={auth}
               chatroomDatas={messages}
               inputText={inputText}
+              username={username}
+              showEmojiPicker={showEmojiPicker}
               changeHandler={chatTextHandler}
               keyDownHandler={chatKeyDownHandler}
               clickHandler={chatSendHandler}
               closeHandler={chatCloseHandler}
-              username={username}
+              pickHandler={handleEmojiSelect}
+              toggleDisplayForEmoji={toggleDisplayForEmoji}
             />
           )}
           <div className="outer-container">
@@ -1131,7 +1150,7 @@ export default function Product() {
                     <div className={styles.detail_pay}>
                       <h5 className={styles.detail_title}>付款方式：</h5>
                       <p className={styles.detail_spec_text}>
-                        VISA 信用卡 / MASTER 信用卡 / LINE Pay / Google Pay
+                        VISA 信用卡 / MASTER 信用卡 / LINE Pay
                       </p>
                     </div>
                     <div>

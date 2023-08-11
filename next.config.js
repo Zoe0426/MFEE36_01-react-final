@@ -6,9 +6,9 @@ const nextConfig = {
     API_SERVER: 'http://localhost:3002',
     WEB: 'http://localhost:3000',
     //發表時使用
-    // API_SERVER: 'http://192.168.24.183:3002',
-    // WEB: 'http://192.168.24.183:3000',
-    // API_SERVER: 'http://192.168.24.19:3002',
+    API_SERVER: 'http://192.168.24.183:3002',
+    WEB: 'http://192.168.24.183:3000',
+    // API_SERVER: 'http://192.168.1.107:3002',
     // WEB: 'http://192.168.1.107:3000',
     // API_SERVER: 'http://192.168.24.19:3002',
     // WEB: 'http://192.168.24.19:3000',
