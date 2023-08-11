@@ -27,6 +27,7 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [bookingRows, setBookingRows] = useState([]); // 初始化為空陣列
   const [memberRows, setMemberRows] = useState([]);
+  const [first, setFirst] = useState(false);
   const [data, setData] = useState({ bookingRows: [], memberRows: [] });
   // const [startDateIndex, setStartDateIndex] = useState(0);
   // const dateData = {};
@@ -44,14 +45,20 @@ function App() {
   ]);
   const router = useRouter();
   useEffect(() => {
-    if (!auth.id) {
-      // const from = router.asPath;
-      //餐廳首頁
-      // router.push(`${process.env.WEB}/restaurant`);
-      //餐廳詳細頁
-      router.push(`${process.env.WEB}/restaurant/${bookingRows[0].rest_sid}`);
+    setFirst(true);
+  }, []);
+  useEffect(() => {
+    if (first) {
+      if (!auth.id) {
+        // const from = router.asPath;
+        //餐廳首頁
+        // router.push(`${process.env.WEB}/restaurant`);
+        //餐廳詳細頁
+        // router.push(`${process.env.WEB}/restaurant/${bookingRows[0].rest_sid}`);
+        router.push(`${process.env.WEB}/restaurant/4`);
+      }
     }
-  }, [auth]);
+  }, [auth, first]);
 
   useEffect(() => {
     fetch(`${process.env.API_SERVER}/restaurant-api/calendar`)
@@ -62,7 +69,7 @@ function App() {
         if (bookingRows && bookingRows.length > 0) {
           setBookingRows(bookingRows);
         }
-
+        console.log(bookingRows[0].name);
         if (memberRows && memberRows.length > 0) {
           setMemberRows(...memberRows);
         }
@@ -104,7 +111,7 @@ function App() {
   const [myDate, setMyDate] = useState(todayDate);
 
   const collectDate = `${myYear}-${myMonth}-${myDate}`;
-  console.log(collectDate);
+  // console.log(collectDate);
 
   const now = new Date();
   const nowY = myYear ? myYear : now.getFullYear();
@@ -156,8 +163,6 @@ function App() {
     const selectedDateSlots = bookingRows.filter(
       (booking) => booking.date === collectDate
     );
-
-    // 提取時間區段資料，並保存到 selectedTimeSlots 狀態中
     setSelectedTimeSlots(selectedDateSlots);
   }, [collectDate]);
 
@@ -173,6 +178,13 @@ function App() {
 
   //上個月
   const handlePreviousMonth = () => {
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth() + 1;
+
+    if (myYear === currentYear && myMonth === currentMonth) {
+      return;
+    }
     if (myMonth === 1) {
       setMyYear((prevYear) => prevYear - 1);
       setMyMonth(12);
@@ -221,6 +233,8 @@ function App() {
     const selectedDate = new Date(year, month - 1, date);
     return selectedDate > thirtyDaysLater;
   };
+
+  const showPreviousButton = !(myYear === todayYear && myMonth === todayMonth);
   return (
     <>
       <Head>
@@ -252,7 +266,11 @@ function App() {
           <div className={Styles.calendar}>
             <div className={Styles.header}>
               <button
-                className={Styles.month_btns}
+                className={
+                  showPreviousButton
+                    ? Styles.month_btns
+                    : Styles.disable_month_btn
+                }
                 onClick={handlePreviousMonth}
               >
                 <FontAwesomeIcon icon={faChevronLeft} />

@@ -111,7 +111,7 @@
   text-align: center;
 }
 .detail_info {
-  padding: 30px 20px;
+  padding: 20px;
 }
 
 .success {
@@ -210,8 +210,16 @@
 .confirm {
   padding-bottom: 20px;
 }
+.check_content{
+  line-height: 1.4;
+}
 .booking_title {
   font-weight: bold !important;
+}
+.check_title{
+  font-weight: bold !important;
+  white-space: nowrap;
+
 }
 
 .line {
@@ -281,7 +289,22 @@
   line-height: 100%;
   text-align: center;
 }
-
+.check_btns{
+  border-top: 1px solid var(--light-gray);
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  height: 60px;
+  padding-top: 12px;
+  padding-bottom: 4px;
+  margin-right: 8px;
+}
+.check_btns> button{
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 100%;
+  text-align: center;
+}
 @media screen and (max-width: 767px) {
   .modal_card {
     width: 80%;
@@ -331,6 +354,10 @@
     padding: 0 16px;
   }
   .booking_title {
+    text-align: left;
+    white-space: nowrap;
+  }
+  .check_title{
     text-align: left;
     white-space: nowrap;
   }

@@ -52,6 +52,8 @@ export default function FilterPage() {
   const [addLikeList, setAddLikeList] = useState([]);
   const [isClickingLike, setIsClickingLike] = useState(false);
 
+  const [first, setFirst] = useState(false);
+
   //分頁相關
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(15);
@@ -144,6 +146,10 @@ export default function FilterPage() {
       }).toString()}`
     );
   };
+  useEffect(() => {
+    restKeywordData();
+    setFirst(true);
+  }, []);
 
   // 這邊有點問題;
   const getData = async (obj = {}, token = '') => {
@@ -159,12 +165,13 @@ export default function FilterPage() {
       }
     );
     const data1 = await res.json();
-
+    setData(data1);
+    console.log(data1);
     //if (Array.isArray(data.rows)) {
-    setData((old) => {
-      console.log(data1);
-      return data1;
-    });
+    // setData((old) => {
+    //   console.log(data1);
+    //   return data1;
+    // });
     //}
   };
 
@@ -219,14 +226,16 @@ export default function FilterPage() {
     setKeyword(keyword || '');
     // setOrderBy(orderBy);
     // getData(router.query);
-
-    if (auth.token) {
-      getData(router.query, auth.token);
-    } else {
-      getData(router.query);
+    if (first && keywordDatas.length > 0) {
+      if (auth.token) {
+        getData(router.query, auth.token);
+      } else {
+        getData(router.query);
+      }
     }
-    return () => {};
-  }, [router.query, auth.token]);
+
+    // return () => {};
+  }, [router.query, first, keywordDatas]);
 
   //進入畫面時將checkbox依據queryString設定勾選狀態
   const resetCheckBox = (key, str) => {
@@ -287,9 +296,9 @@ export default function FilterPage() {
     }
   };
 
-  useEffect(() => {
-    restKeywordData();
-  }, []);
+  // useEffect(() => {
+  //   restKeywordData();
+  // }, []);
 
   const searchBarHandler = (e) => {
     let copyURL = { page: 1 };
