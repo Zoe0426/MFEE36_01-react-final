@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
+import Head from 'next/head';
 import styles from '../../styles/activitywish.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
 
@@ -600,6 +601,10 @@ export default function ActivityWish() {
 
   return (
     <div>
+      <Head>
+        <title>狗with咪 | 活動</title>
+      </Head>
+
       {/* .........banner......... */}
       <div className={styles.banner}></div>
 

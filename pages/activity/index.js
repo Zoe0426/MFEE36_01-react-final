@@ -11,6 +11,7 @@ import {
   Button,
   Space,
   DatePicker,
+  Select,
 } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import Link from 'next/link';
@@ -37,6 +38,7 @@ import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
 import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
+
 
 export default function ActivityHome() {
   // 主卡片
@@ -85,6 +87,18 @@ export default function ActivityHome() {
       ).toString()}`
     );
   };
+
+
+  //篩選地點
+  const handleProvinceChange = (value) => {
+    setSelectedCity(value);
+    setSelectedArea(null);
+  };
+  const onSecondCityChange = (value) => {
+    setSelectedArea(value);
+  };
+  //取台灣的地區
+  const cities = cityDatas;
 
   // 主卡片資訊
   useEffect(() => {
@@ -153,8 +167,7 @@ export default function ActivityHome() {
   const handleAreaClick = (e) => {
     setSelectedArea(e.key);
   };
-  //取台灣的地區
-  const cities = cityDatas;
+
 
   // 進階篩 日期區間
   const handleDateChange = (dates) => {
@@ -547,50 +560,37 @@ export default function ActivityHome() {
                       <label className={styles.labels}>活動地點：</label>
                     </div>
                     <div>
-                      {/* City Dropdown */}
-                      <Dropdown
-                        overlay={
-                          <Menu onClick={handleCityClick}>
-                            {Object.keys(cityDatas).map((city) => (
-                              <Menu.Item key={city}>{city}</Menu.Item>
-                            ))}
-                          </Menu>
+                    <Select
+                        value={selectedCity ? selectedCity : undefined}
+                        placeholder="城市"
+                        // style={{
+                        //   width: 200,
+                        // }}
+                        onChange={handleProvinceChange}
+                        options={Object.keys(cities).map((city) => ({
+                          label: city,
+                          value: city,
+                        }))}
+                        className={styles.city}
+                      />
+                      <Select
+                        // style={{
+                        //   width: 200,
+                        // }}
+                        value={selectedArea}
+                        placeholder="地區"
+                        onChange={onSecondCityChange}
+                        className={styles.area}
+                        options={
+                          selectedCity
+                            ? cities[selectedCity].map((area) => ({
+                                label: area,
+                                value: area,
+                              }))
+                            : []
                         }
-                        className={styles.location}
-                        placement="bottomLeft"
-                      >
-                        <Button>
-                          <Space>
-                            <p className={styles.dropdown_arrow}>
-                              {selectedCity ? selectedCity : '縣市'}
-                            </p>
-                            <DownOutlined />
-                          </Space>
-                        </Button>
-                      </Dropdown>
-
-                      {/* Area Dropdown */}
-                      <Dropdown
-                        overlay={
-                          <Menu onClick={handleAreaClick}>
-                            {selectedCity &&
-                              cityDatas[selectedCity].map((area) => (
-                                <Menu.Item key={area}>{area}</Menu.Item>
-                              ))}
-                          </Menu>
-                        }
-                        className={styles.location}
-                        placement="bottomLeft"
-                      >
-                        <Button>
-                          <Space>
-                            <p className={styles.dropdown_arrow}>
-                              {selectedArea ? selectedArea : '地區'}
-                            </p>
-                            <DownOutlined />
-                          </Space>
-                        </Button>
-                      </Dropdown>
+                        disabled={!selectedCity}
+                      />
                     </div>
                   </ConfigProvider>
                 </div>

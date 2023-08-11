@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
+import Head from 'next/head';
 import styles from '../../styles/activityvote.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
@@ -153,32 +154,37 @@ export default function ActivityVote() {
     );
   };
 
-  
   const handleVoteClick = async (activity_wish_sid) => {
     try {
       if (!auth.id) {
         return toSingIn();
       }
-  
-      const response = await fetch(`${process.env.API_SERVER}/activity-api/addvote`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify({ activity_wish_sid }),
-      });
-  
+
+      const response = await fetch(
+        `${process.env.API_SERVER}/activity-api/addvote`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth.token}`,
+          },
+          body: JSON.stringify({ activity_wish_sid }),
+        }
+      );
+
       if (response.ok) {
         const votedRowIndex = datas.rows.findIndex(
           (row) => row.activity_wish_sid === activity_wish_sid
         );
-  
+
         if (votedRowIndex !== -1) {
           datas.rows[votedRowIndex].hasVoted = true;
-  
-          setVotedActivities((prevVotedActivities) => [...prevVotedActivities, activity_wish_sid]);
-  
+
+          setVotedActivities((prevVotedActivities) => [
+            ...prevVotedActivities,
+            activity_wish_sid,
+          ]);
+
           setDatas((prevDatas) => ({
             ...prevDatas,
             rows: datas.rows,
@@ -191,10 +197,6 @@ export default function ActivityVote() {
       console.error('Error:', error);
     }
   };
-  
-  
-  
-
 
   // Pagination相關的函式------------------------------------------------------------
   const PageChangeHandler = (page) => {
@@ -209,6 +211,10 @@ export default function ActivityVote() {
 
   return (
     <div>
+      <Head>
+        <title>狗with咪 | 活動</title>
+      </Head>
+
       {/* .........banner......... */}
       <div className={styles.banner}></div>
 
@@ -327,37 +333,37 @@ export default function ActivityVote() {
         </div>
 
         <div className={styles.section_card}>
-        <Row gutter={[100, 120]} className={styles.section_card}>
-        {datas.rows.map((i) => {
-          const {
-            member_sid,
-            profile,
-            name,
-            city,
-            area,
-            vote_count,
-            content,
-            other_message,
-            activity_wish_sid,
-          } = i;
+          <Row gutter={[100, 120]} className={styles.section_card}>
+            {datas.rows.map((i) => {
+              const {
+                member_sid,
+                profile,
+                name,
+                city,
+                area,
+                vote_count,
+                content,
+                other_message,
+                activity_wish_sid,
+              } = i;
 
-          return (
-            <Col key={activity_wish_sid} span={8}>
-              <ActivityCard6
-                activity_wish_sid={activity_wish_sid}
-                title={name}
-                city={city}
-                area={area}
-                profile={profile}
-                content={content}
-                count={vote_count}
-                onVoteClick={handleVoteClick}
-                hasVoted={votedActivities.includes(activity_wish_sid)}
-              />
-            </Col>
-          );
-        })}
-      </Row>
+              return (
+                <Col key={activity_wish_sid} span={8}>
+                  <ActivityCard6
+                    activity_wish_sid={activity_wish_sid}
+                    title={name}
+                    city={city}
+                    area={area}
+                    profile={profile}
+                    content={content}
+                    count={vote_count}
+                    onVoteClick={handleVoteClick}
+                    hasVoted={votedActivities.includes(activity_wish_sid)}
+                  />
+                </Col>
+              );
+            })}
+          </Row>
         </div>
 
         {/* <div className={styles.section_card}>

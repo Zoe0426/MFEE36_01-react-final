@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
+import Head from 'next/head';
 import styles from '../../styles/activitywishlist.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
@@ -44,8 +45,6 @@ import ActivityCard6 from '@/components/ui/cards/ActivityCard6';
 import ActivityCard3 from '@/components/ui/cards/ActivityCard3';
 
 export default function ActivityWishList() {
- 
-
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
@@ -75,7 +74,7 @@ export default function ActivityWishList() {
     totalPages: 0,
     page: 1,
     rows: [],
-    topVoteRows:[],
+    topVoteRows: [],
   });
 
   // 小麵包屑------------------------------------------------------------
@@ -151,9 +150,7 @@ export default function ActivityWishList() {
     );
   };
 
-
-
- //收藏列表相關的函式------------------------------------------------------------
+  //收藏列表相關的函式------------------------------------------------------------
 
   // 更新收藏清單
   const updateLikeList = (activitySid, isLiked) => {
@@ -266,8 +263,6 @@ export default function ActivityWishList() {
     }
   };
 
-  
-
   const handleLikeClick = async (activitySid, token, authId) => {
     try {
       if (!token) {
@@ -327,7 +322,6 @@ export default function ActivityWishList() {
     return likeDatas.some((item) => item.activity_sid === activitySid);
   };
 
-
   // Pagination相關的函式------------------------------------------------------------
   const PageChangeHandler = (page) => {
     setPage(page);
@@ -341,6 +335,10 @@ export default function ActivityWishList() {
 
   return (
     <div>
+      <Head>
+        <title>狗with咪 | 活動</title>
+      </Head>
+
       {/* .........banner......... */}
       <div className={styles.banner}>
         <div className={styles.search}>
@@ -379,7 +377,6 @@ export default function ActivityWishList() {
                   confirmHandler={toSingIn}
                 />
               )}
-              
             </div>
           </div>
         </div>
@@ -394,7 +391,6 @@ export default function ActivityWishList() {
       <div className={styles.type}>
         <div className="container-inner">
           <div className={styles.type_btn_group}>
-            
             <img
               className={styles.type_decoration}
               src="../activity_img/decoration1.png"
@@ -424,7 +420,6 @@ export default function ActivityWishList() {
               src="../activity_img/decoration1.png"
               alt=""
             />
-           
           </div>
         </div>
       </div>
@@ -437,7 +432,9 @@ export default function ActivityWishList() {
           <div>
             <p className={styles.text_large}>願望列表</p>
             <p>
-              ({datas.totalRows != 0 ? `共${datas.totalRows}項願望` : '查無願望'})
+              (
+              {datas.totalRows != 0 ? `共${datas.totalRows}項願望` : '查無願望'}
+              )
             </p>
           </div>
           <div>
@@ -452,8 +449,6 @@ export default function ActivityWishList() {
       </div>
 
       <div className="container-inner">
-        
-
         <div className={styles.section_card}>
           <Row gutter={[0, 106]} className={styles.card}>
             {datas.rows.map((i) => {
@@ -480,7 +475,11 @@ export default function ActivityWishList() {
                     key={activity_sid}
                     activity_sid={activity_sid}
                     type={type_name}
-                    image={activity_pic ? '../activity_img/' + activity_pic.split(',')[0] : ''}
+                    image={
+                      activity_pic
+                        ? '../activity_img/' + activity_pic.split(',')[0]
+                        : ''
+                    }
                     title={name}
                     rating={avg_rating}
                     date_begin={recent_date}

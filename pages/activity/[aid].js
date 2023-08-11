@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import Image from 'next/image';
 import AuthContext from '@/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -678,6 +679,9 @@ export default function ActivityDetail() {
 
   return (
     <div>
+       <Head>
+        <title>狗with咪 | 活動</title>
+      </Head>
       {/* .........上方資訊......... */}
       <div className={styles.bgc}>
         <div className="container-inner">
