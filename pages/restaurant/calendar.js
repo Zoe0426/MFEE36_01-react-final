@@ -50,6 +50,7 @@ function App() {
       // router.push(`${process.env.WEB}/restaurant`);
       //餐廳詳細頁
       router.push(`${process.env.WEB}/restaurant/${bookingRows[0].rest_sid}`);
+      // router.push(`${process.env.WEB}/restaurant/4}`);
     }
   }, [auth]);
 

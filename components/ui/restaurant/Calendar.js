@@ -210,37 +210,37 @@ export default function BookingModal({
                 <h3 className={Styles.success}>預約成功！</h3>
                 <div className={Styles.detail_info}>
                   <div className={Styles.time}>
-                    <p className={Styles.booking_title}>預約餐廳</p>
+                    <p className={Styles.check_title}>預約餐廳</p>
                     <p>{datas.name}</p>
                   </div>
                   <div className={Styles.time}>
-                    <p className={Styles.booking_title}>預約時間</p>
+                    <p className={Styles.check_title}>預約時間</p>
                     <p className={Styles.date_time}>
                       {datas.date} {datas.time}
                     </p>
                   </div>
                   <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約會員</p>
+                    <p className={Styles.check_title}>預約會員</p>
                     <p>{memberDatas.name}</p>
                   </div>
                   <div className={Styles.member}>
-                    <p className={Styles.booking_title}>聯絡資訊</p>
+                    <p className={Styles.check_title}>聯絡資訊</p>
                     <p>{memberDatas.mobile}</p>
                   </div>
                   <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約人數</p>
+                    <p className={Styles.check_title}>預約人數</p>
                     <p>{countPeople} 位</p>
                   </div>
                   <div className={Styles.member}>
-                    <p className={Styles.booking_title}>預約寵物</p>
+                    <p className={Styles.check_title}>預約寵物</p>
                     <p>{countPet} 隻</p>
                   </div>
                   <div className={Styles.booking_note}>
-                    <p className={Styles.booking_title}>預約備註</p>
-                    <p>{noteValue}</p>
+                    <p className={Styles.check_title}>預約備註</p>
+                    <p className={Styles.check_content}>{noteValue}</p>
                   </div>
                 </div>
-                <div className={Styles.filter_btns}>
+                <div className={Styles.check_btns}>
                   <MainBtn clickHandler={handleModalConfirm} text="確定" />
                 </div>
               </div>
