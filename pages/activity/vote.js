@@ -5,42 +5,19 @@ import Link from 'next/link';
 import Head from 'next/head';
 import styles from '../../styles/activityvote.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
-import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
-import ActivityLikeListCard from '@/components/ui/cards/ActivityLikeListCard';
+
 import {
   Row,
   Col,
   Pagination,
   ConfigProvider,
-  Dropdown,
-  Menu,
-  Button,
-  Space,
-  Item,
-  DatePicker,
-  Radio,
+ 
 } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
-import SearchBar from '@/components/ui/buttons/SearchBar';
-// import Likelist from '@/components/ui/like-list/like-list';
-import IconBtn from '@/components/ui/buttons/IconBtn';
-import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
-import MainBtn from '@/components/ui/buttons/MainBtn';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHeart, faFilter } from '@fortawesome/free-solid-svg-icons';
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
-import Likelist from '@/components/ui/like-list/LikeListDrawer';
-import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
-import ActivityFilter from '@/components/ui/cards/ActivityFilter';
-import ActivityFilterPrice from '@/components/ui/cards/ActivityFilterPrice';
-import ActivityFilterDate from '@/components/ui/cards/ActivityFilterDate';
-import orderByOptions from '@/data/activity/orderby.json';
-import ActivityPageOrder from '@/components/ui/cards/ActivityPageOrder';
 
-import cityDatas from '@/data/activity/location.json';
-import filterDatas from '@/data/activity/filters.json';
-import moment from 'moment';
-import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
+import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+
+import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
+
 import ActivityCard6 from '@/components/ui/cards/ActivityCard6';
 import ActivityCard7 from '@/components/ui/cards/ActivityCard7';
 
@@ -366,56 +343,6 @@ export default function ActivityVote() {
           </Row>
         </div>
 
-        {/* <div className={styles.section_card}>
-          <Row gutter={[0, 106]} className={styles.card}>
-            {datas.rows.map((i) => {
-              const {
-                activity_sid,
-                type_name,
-                activity_pic,
-                name,
-                avg_rating,
-                recent_date,
-                farthest_date,
-                time,
-                city,
-                area,
-                address,
-                content,
-                feature_names,
-                price_adult,
-              } = i;
-              const liked = isInLikeList(activity_sid);
-              return (
-                <Col key={activity_sid} span={12}>
-                  <ActivityCard4
-                    key={activity_sid}
-                    activity_sid={activity_sid}
-                    type={type_name}
-                    image={'/activity_img/' + activity_pic.split(',')[0]}
-                    title={name}
-                    rating={avg_rating}
-                    date_begin={recent_date}
-                    date_end={farthest_date}
-                    time={time}
-                    city={city}
-                    area={area}
-                    address={address}
-                    content={content}
-                    features={feature_names?.split(',') || []}
-                    price={price_adult}
-                    isInLikeList={liked}
-                    handleLikeClick={() =>
-                      handleLikeClick(activity_sid, auth.token)
-                    } // 傳遞handleLikeClick函式給子組件
-                    singinHandler={toSingIn}
-                    token={auth.token}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
-        </div> */}
 
         {/* .........頁碼......... */}
         <div className={styles.pagination}>

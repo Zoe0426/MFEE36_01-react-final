@@ -6,24 +6,20 @@ import {
   Row,
   Col,
   ConfigProvider,
-  Dropdown,
-  Menu,
-  Button,
-  Space,
   DatePicker,
   Select,
 } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+
 import Link from 'next/link';
 import styles from '../../styles/activityindex.module.css';
-import ActivityLikeWithSelector from '@/components/ui/cards/ActivityLikeWithSelector';
+
 import SubBtn from '@/components/ui/buttons/subBtn';
 import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 import ActivityCard2 from '@/components/ui/cards/ActivityCard2';
 import ActivityCard3 from '@/components/ui/cards/ActivityCard3';
-import ActivityFormSelectors from '@/components/ui/cards/ActivityFormSelectors';
+
 import SearchBar from '@/components/ui/buttons/SearchBar';
-import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
+
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
@@ -118,17 +114,7 @@ export default function ActivityHome() {
     fetchData();
   }, []);
 
-  // 小麵包屑------------------------------------------------------------
-  const [breadCrubText, setBreadCrubText] = useState([
-    {
-      id: 'activity',
-      text: '活動首頁',
-      href: `${process.env.WEB}/activity`,
-      show: true,
-    },
-    { id: 'search', text: '', href: '', show: true },
-    { id: 'aid', text: '', href: '', show: false },
-  ]);
+ 
 
   //searchBar相關的函式------------------------------------------------------------
   const searchBarHandler = (e) => {
@@ -471,7 +457,6 @@ export default function ActivityHome() {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} />
 
             <div className={styles.btns}>
               {auth.token ? (

@@ -679,7 +679,7 @@ export default function ActivityDetail() {
 
   return (
     <div>
-       <Head>
+      <Head>
         <title>狗with咪 | 活動</title>
       </Head>
       {/* .........上方資訊......... */}
@@ -1080,7 +1080,8 @@ export default function ActivityDetail() {
       </div>
 
       {/* ....銜接處圖片1.... */}
-      <img src="/activity_img/detail_bg_8.jpg" alt="Activity" />
+        <img src="/activity_img/detail_bg_8.jpg" alt="Activity" />
+      
 
       <div className="container-inner">
         <div className={styles.nav_detail}>

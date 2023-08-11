@@ -8,12 +8,13 @@ const ActivityCard2 = ({
 }) => {
   return (
     <div className={styles.card}>
+      <div className={styles.image_gradient}></div>
       <img className={styles.image}  src={`/activity_img/${city}.jpg`} alt='' />
-      <div className={styles.overlay}></div> {/* 新增的覆盖层 */}
+      <div className={styles.overlay}></div>
       <div className={styles.content}>
         <p className={styles.city}>{city}</p>
         <div className={styles.btnContainer}>
-        <Link href={`http://localhost:3000/activity/list?city=${city}`}>
+        <Link href={`${process.env.WEB}/activity/list?city=${city}`}>
           <ActivitySecondaryBtn text='更多活動' />
           </Link>
         </div>
