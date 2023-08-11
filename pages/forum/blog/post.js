@@ -6,7 +6,6 @@ import { Col, Row, ConfigProvider } from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
 import PostNavPure from '@/components/ui/postNavPure/postNavPure';
 import BlogBoardNav from '@/components/ui/blogBoardNav/blogBoardNav';
-import BlogPost from '@/components/ui/blogPost/blogPost';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faLayerGroup, faFileLines, faImage, faHashtag} from '@fortawesome/free-solid-svg-icons';
 import MainBtn from '@/components/ui/buttons/MainBtn';

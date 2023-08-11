@@ -29,6 +29,7 @@
 }
 .commentBlock{
     background-color:var(--light1);
+    border-radius: 0 0 10px 10px;
 }
 .commentBTN{
     display: flex;

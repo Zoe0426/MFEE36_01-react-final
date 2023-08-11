@@ -3,7 +3,6 @@ import Style from '@/styles/index.module.css'
 import PostCard from '@/components/ui/PostCard/postCard'
 import PostBanner from '@/components/ui/postBanner/postBanner'
 import BoardNav from '@/components/ui/BoardNav/boardNav'
-import PostNav from '@/components/ui/postNav/postNav'
 import PostBottom from '@/components/ui/postBottom/postBottom'
 import Link from 'next/link'
 import { Pagination } from 'antd'
@@ -63,6 +62,7 @@ export default function Post() {
     const forumData = await response.json();
     setData(forumData.rows);
     setForumData(forumData);
+    setPage(forumData.page);
   
     // setData(forumData.rows);
     console.log('forumData', forumData);
@@ -90,6 +90,135 @@ export default function Post() {
     fetchData(router.query)
   }, [router.query])
   
+  //看板篩選
+  const changeBoardSid=(board_sid)=>{
+    console.log('inchangebs function, ', board_sid);
+    switch (board_sid){
+      case 1:
+        router.push(
+          `?${new URLSearchParams({
+            ...router.query,
+            page:1,
+            orderBy: orderBy,
+            board_sid: 1,
+            // perPage: perpage,
+          }).toString()}`
+        );
+        break;
+      case 2:
+        router.push(
+          `?${new URLSearchParams({
+            ...router.query,
+            page:1,
+            orderBy: orderBy,
+            board_sid: 2,
+            // perPage: perpage,
+          }).toString()}`
+        );
+        break;
+      case 3:
+        router.push(
+          `?${new URLSearchParams({
+            ...router.query,
+            page:1,
+            orderBy: orderBy,
+            board_sid: 3,
+            // perPage: perpage,
+          }).toString()}`
+        );
+        break;
+        case 4:
+          router.push(
+            `?${new URLSearchParams({
+              ...router.query,
+              page:1,
+              orderBy: orderBy,
+              board_sid: 4,
+              // perPage: perpage,
+            }).toString()}`
+          );
+        break;
+        case 5:
+          router.push(
+            `?${new URLSearchParams({
+              ...router.query,
+              page:1,
+              orderBy: orderBy,
+              board_sid: 5,
+              // perPage: perpage,
+            }).toString()}`
+          );
+        break;
+        case 6:
+          router.push(
+            `?${new URLSearchParams({
+              ...router.query,
+              page:1,
+              orderBy: orderBy,
+              board_sid: 6,
+              // perPage: perpage,
+            }).toString()}`
+          )
+        break;
+        case 7:
+          router.push(
+            `?${new URLSearchParams({
+              ...router.query,
+              page:1,
+              orderBy: orderBy,
+              board_sid: 7,
+              // perPage: perpage,
+            }).toString()}`
+          );
+        break;
+        case 8:
+          router.push(
+            `?${new URLSearchParams({
+              ...router.query,
+              page:1,
+              orderBy: orderBy,
+              board_sid: 8,
+              // perPage: perpage,
+            }).toString()}`
+          );
+        break;
+        case 9:
+          router.push(
+            `?${new URLSearchParams({
+              ...router.query,
+              page:1,
+              orderBy: orderBy,
+              board_sid: 9,
+              // perPage: perpage,
+            }).toString()}`
+          );
+        break;
+        case 11:
+          router.push(
+            `?${new URLSearchParams({
+              ...router.query,
+              page:1,
+              orderBy: orderBy,
+              board_sid: 11,
+              // perPage: perpage,
+            }).toString()}`
+          );
+        break;
+        case 12:
+          router.push(
+            `?${new URLSearchParams({
+              ...router.query,
+              page:1,
+              orderBy: orderBy,
+              board_sid: 12,
+              // perPage: perpage,
+            }).toString()}`
+          );
+        break;
+    }
+    setBoardSid(board_sid);
+    
+  }
 
   // 下拉選單：熱門/最新
 
@@ -135,160 +264,160 @@ const menuProps = {
 
 
 
- //醫療版
-  const doctor = ()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 1,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((forumData) => forumData.board_sid === 1);
-    // setData(newData);
-  }
-  //住宿版
-  const home = ()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 2,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 2);
-    // setData(newData);
-  }
-  //景點版
-  const site = ()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 3,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 3);
-    // setData(newData);
-  }
-  //餐廳版
-  const restaurant=()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 8,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 8);
-    // setData(newData);
-  }
-  //美容版
-  const salon=()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 4,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 4);
-    // setData(newData);
-  }
-  //學校版
-  const school=()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 7,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 7);
-    // setData(newData);
-  }
-  //狗貓聚版
-  const hang=()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 5,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 5);
-    // setData(newData);
-  }
-  //幼犬貓板
-  const young=()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 11,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 11);
-    // setData(newData);
-  }
-  //老犬貓板
-  const old=()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 12,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 12);
-    // setData(newData);
-  }
-  //好物版
-  const product=()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 9,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 9);
-    // setData(newData);
-  }
-  //毛孩日記
-  const diary=()=>{
-    router.push(
-      `?${new URLSearchParams({
-        ...router.query,
-        page:1,
-        orderBy: orderBy,
-        board_sid: 6,
-        // perPage: perpage,
-      }).toString()}`
-    );
-    // const newData = forumData.rows.filter((data) => data.board_sid === 6);
-    // setData(newData);
-  }
+//  //醫療版
+//   const doctor = ()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 1,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((forumData) => forumData.board_sid === 1);
+//     // setData(newData);
+//   }
+//   //住宿版
+//   const home = ()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 2,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 2);
+//     // setData(newData);
+//   }
+//   //景點版
+//   const site = ()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 3,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 3);
+//     // setData(newData);
+//   }
+//   //餐廳版
+//   const restaurant=()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 8,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 8);
+//     // setData(newData);
+//   }
+//   //美容版
+//   const salon=()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 4,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 4);
+//     // setData(newData);
+//   }
+//   //學校版
+//   const school=()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 7,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 7);
+//     // setData(newData);
+//   }
+//   //狗貓聚版
+//   const hang=()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 5,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 5);
+//     // setData(newData);
+//   }
+//   //幼犬貓板
+//   const young=()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 11,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 11);
+//     // setData(newData);
+//   }
+//   //老犬貓板
+//   const old=()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 12,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 12);
+//     // setData(newData);
+//   }
+//   //好物版
+//   const product=()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 9,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 9);
+//     // setData(newData);
+//   }
+//   //毛孩日記
+//   const diary=()=>{
+//     router.push(
+//       `?${new URLSearchParams({
+//         ...router.query,
+//         page:1,
+//         orderBy: orderBy,
+//         board_sid: 6,
+//         // perPage: perpage,
+//       }).toString()}`
+//     );
+//     // const newData = forumData.rows.filter((data) => data.board_sid === 6);
+//     // setData(newData);
+//   }
   const PostAuthorBTNHandler =()=>{
     router.push(`/forum/blog`)
   }
@@ -302,39 +431,41 @@ const menuProps = {
           keyDownHandler={keyEnter}
           inputText={keyword}/>
           <BoardNav 
-          doctor={()=>{
-            doctor();
-          }}
-          home={()=>{
-            home();
-          }}
-          site={()=>{
-            site();
-          }}
-          restaurant={()=>{
-            restaurant();
-          }}
-          salon={()=>{
-            salon();
-          }}
-          school={()=>{
-            school();
-          }}
-          hang={()=>{
-            hang();
-          }}
-          young={()=>{
-            young();
-          }}
-          old={()=>{
-            old();
-          }}
-          product={()=>{
-            product();
-          }}
-          diary={()=>{
-            diary()
-          }}
+          changeBoardSid={changeBoardSid}
+          board_sid={board_sid}
+          // doctor={()=>{
+          //   doctor();
+          // }}
+          // home={()=>{
+          //   home();
+          // }}
+          // site={()=>{
+          //   site();
+          // }}
+          // restaurant={()=>{
+          //   restaurant();
+          // }}
+          // salon={()=>{
+          //   salon();
+          // }}
+          // school={()=>{
+          //   school();
+          // }}
+          // hang={()=>{
+          //   hang();
+          // }}
+          // young={()=>{
+          //   young();
+          // }}
+          // old={()=>{
+          //   old();
+          // }}
+          // product={()=>{
+          //   product();
+          // }}
+          // diary={()=>{
+          //   diary()
+          // }}
           PostAuthorBTNHandler={PostAuthorBTNHandler}
           img='/forum_img/board_img/個人頁面.png' text='個人頁面'/>
           <div className="container-inner">

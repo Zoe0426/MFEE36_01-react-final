@@ -10,6 +10,8 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import AuthContext from '@/context/AuthContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+
 
 export default function BlogIndex() {
     // router
@@ -99,7 +101,7 @@ export default function BlogIndex() {
           const from = router.asPath;
           router.push(`/member/sign-in?from=${from}`);
         }else if (auth.token) {
-          fetch(`${process.env.API_SERVER}/forum-api/forum/blog/favlist`, {
+          fetch(`${process.env.API_SERVER}/forum-api/forum/blog/draft`, {
             headers: {
               Authorization: 'Bearer ' + auth.token,
             },
@@ -161,10 +163,15 @@ export default function BlogIndex() {
     .then((r)=> r.json())
     .then((data)=> {
       console.log('data', data);
+      setNewData(data);
     })
     .catch((error) => {
       console.error('Error delete:', error);
     });
+    console.log('data',data);
+    setNewData(data);
+    setPostNum(postNum);
+    console.log('postNum',postNum);
   }
   // edit post
   const editPost = (post_sid) => {
@@ -173,6 +180,9 @@ export default function BlogIndex() {
 
   return (
     <div className="container-outer">
+    <Head>
+      <title>狗with咪 | 論壇</title>
+    </Head>
       <div className={Style.body}>
         <BlogBanner changeHandler={getSearchbarValue} 
         clickHandler={searchKeyword} 
