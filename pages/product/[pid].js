@@ -552,9 +552,9 @@ export default function Product() {
 
       const data = await res.json();
 
-      if (data.likeDatas.length > 0) {
-        setLikeDatas(data.likeDatas);
-      }
+      // if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+      // }
     } catch (error) {
       console.log(error);
     }
