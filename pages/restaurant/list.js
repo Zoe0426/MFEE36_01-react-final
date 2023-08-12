@@ -310,10 +310,6 @@ export default function FilterPage() {
     }
   };
 
-  // useEffect(() => {
-  //   restKeywordData();
-  // }, []);
-
   const searchBarHandler = (e) => {
     let copyURL = { page: 1 };
     const searchText = e.target.value;
@@ -520,29 +516,6 @@ export default function FilterPage() {
   const toggleFilter = () => {
     setShowFilter(!showfilter);
   };
-
-  //收藏列表相關的函式-------------------------------------------------------
-  //取得收藏列表
-
-  const getLikeList = async (token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/show-like`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data);
-
-    if (data.likeDatas.length > 0) {
-      setLikeDatas(data.likeDatas);
-    }
-    console.log(likeDatas);
-  };
-
   useEffect(() => {
     if (!isClickingLike && addLikeList.length > 0) {
       sendLikeList(addLikeList, auth.token).then(() => {
@@ -551,6 +524,28 @@ export default function FilterPage() {
       });
     }
   }, [isClickingLike, addLikeList]);
+  //收藏列表相關的函式-------------------------------------------------------
+  const getLikeList = async (token = '') => {
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/show-like`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const data = await res.json();
+
+      if (data.likeDatas.length > 0) {
+        setLikeDatas(data.likeDatas);
+        console.log(likeDatas);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //沒登入會員收藏，跳轉登入
   const toSingIn = () => {
@@ -909,8 +904,6 @@ export default function FilterPage() {
                 removeAllHandler={() => {
                   removeAllLikeList(auth.token);
                 }}
-                // removeAllHandler={removeAllLikeList}
-                // removeLikeListItem={removeLikeListItem}
               />
             )}
           </div>

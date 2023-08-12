@@ -268,7 +268,7 @@ export default function RestInfo() {
   };
 
   //卡片愛心收藏的相關函式-------------------------------------------------------
-  const addLikeListHandler = () => {
+  const addLikeListHandler = (rid, token) => {
     const timeClick = new Date().getTime();
     const data = [
       {
@@ -362,17 +362,17 @@ export default function RestInfo() {
       updateLikeStatus(false); // 更新狀態為未收藏
     } else {
       // 如果未收藏，則添加收藏
-      addLikeListHandler();
+      addLikeListHandler(rid, token);
       updateLikeStatus(true); // 更新狀態為已收藏
     }
   };
 
   const removeLikeListBtn = (rid, token = '') => {
     // 將列表該項目刪除
-    setLikeDatas((prevLikeDatas) => {
-      // 使用 filter 方法來刪除符合條件的項目
-      return prevLikeDatas.filter((item) => item.rest_sid !== rid);
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.rest_sid !== rid;
     });
+    setLikeDatas(newLikeList);
 
     // 將請求送到後端作業
     removeLikeListToDB(rid, token);
@@ -397,6 +397,7 @@ export default function RestInfo() {
     // });
     // setData({ ...data, rows: newData });
     //將請求送到後端作業
+
     removeLikeListToDB(rid, token);
   };
 
@@ -921,8 +922,6 @@ export default function RestInfo() {
                 </div>
               </div>
             </div>
-
-
 
             {/* button */}
             <div className={Styles.detail_main_buttom}>

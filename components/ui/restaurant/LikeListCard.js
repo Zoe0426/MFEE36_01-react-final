@@ -14,8 +14,7 @@ export default function LikeListCard({
 }) {
   const router = useRouter();
   return datas.map((v) => {
-    const { rest_sid, name, img_name, city, area, rule_names, service_names } =
-      v;
+    const { rest_sid, name, img_name, city, area } = v;
 
     return (
       <div className={Styles.like_rest} key={rest_sid}>
@@ -43,7 +42,7 @@ export default function LikeListCard({
           className={Styles.like_content_box}
           onClick={() => {
             closeLikeList();
-            router.push(`http://localhost:3000/restaurant/${rest_sid}`);
+            router.push(`${process.env.WEB}/restaurant/${rest_sid}`);
           }}
         >
           <h5 className={Styles.like_title}>{name}</h5>
