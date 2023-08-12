@@ -181,6 +181,7 @@ export default function FilterPage() {
       keyword,
       rule,
       service,
+      orderBy,
       city,
       area,
       category,
@@ -193,6 +194,19 @@ export default function FilterPage() {
 
     setRule(rule || '');
     setService(service || '');
+    if (orderBy) {
+      const selectedOrderByKey = Object.keys(rankOptions).find(
+        (key) => rankOptions[key] === orderBy
+      );
+      const selectedOrderBy = orderByOptions.find((v) => {
+        return v.key === selectedOrderByKey;
+      });
+      // console.log(selectedOrderByKey);
+      setOrderBy(selectedOrderBy.label);
+    } else {
+      setOrderBy('-- 排序條件 --');
+    }
+
     if (city) {
       const newBreadCrubText = breadCrubText.map((v) => {
         if (v.id === 'search') {
