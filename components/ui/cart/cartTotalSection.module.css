@@ -127,7 +127,7 @@ flex-direction: column;
     width: 100%;
     bottom:0;
     padding: var(--p8) 60px;
-    background-color: var(--light4);
+    background-color: var(--light5);
 }
 .totalSelectedNum{
     right: 50px;

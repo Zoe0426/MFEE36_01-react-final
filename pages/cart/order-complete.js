@@ -106,18 +106,33 @@ export default function OrderComplete() {
                   create_dt={orderInfo.create_dt}
                 />
               )}
-              <div className={style.titles}>
-                <p className={style.ttleft}>活動名稱</p>
-                <div className={style.ttright}>
-                  <div className={style.pq}>
-                    <p>成人</p>
-                    <p>人數</p>
-                    <p>小孩</p>
-                    <p>人數</p>
+              {checkoutType === 'activity' && (
+                <div className={style.productCard}>
+                  <div className={style.actname}>活動名稱</div>
+                  <div className={style.forRwd}>
+                    <div className={style.prodname}></div>
+                    <div className={style.prodDetail}>
+                      <div className={style.prodQty}>
+                        <div className={style.detailblock}>
+                          <p className={style.label}>大人</p>
+                          <div className={style.qtyblock}>
+                            <p className={style.qty}>人數</p>
+                          </div>
+                        </div>
+
+                        <div className={style.detailblock}>
+                          <p className={style.label}>小孩</p>
+                          <div className={style.qtyblock}>
+                            <p className={style.qty}>人數</p>
+                          </div>
+                        </div>
+                      </div>
+                      <p className={style.subtotal}>小計</p>
+                    </div>
                   </div>
-                  <p>小計</p>
                 </div>
-              </div>
+              )}
+
               {orderInfo.checkoutType === 'shop'
                 ? orderInfo.orderDetailItems.map((v) => (
                     <OrderDetailShop

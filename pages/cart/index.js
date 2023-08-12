@@ -504,32 +504,10 @@ export default function Cart() {
             <div className={style.overlay}></div>
             <div className={style.modal}>
               <div className={style.modal_card}>
-                <h2 className={style.modal_title}>
-                  {/* <FontAwesomeIcon
-                    icon={faPaw}
-                    style={{
-                      maxHeight: 16,
-                      maxWidth: 16,
-                      transform: 'rotate(-15deg)',
-                      color: '#FFD4C0',
-                      marginRight: '16px',
-                    }}
-                  /> */}
-                  溫馨提醒
-                  {/* <FontAwesomeIcon
-                    icon={faPaw}
-                    style={{
-                      maxHeight: 16,
-                      maxWidth: 16,
-                      transform: 'rotate(15deg)',
-                      color: '#FFD4C0',
-                      marginLeft: '16px',
-                    }}
-                  /> */}
-                </h2>
+                <h2 className={style.modal_title}>溫馨提醒</h2>
                 <div className={style.cmodal_content}>
                   <CartAlertContent
-                    contentP1="付款後，本訂單之商品及使用的優惠券"
+                    contentP1="訂單成立後，相關商品及使用的優惠券"
                     contentP2="將會從購物車移除，可於會員中心查看"
                   />
                 </div>

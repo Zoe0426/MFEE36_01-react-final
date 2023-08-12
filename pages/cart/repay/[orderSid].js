@@ -12,7 +12,10 @@ import AuthContext from '@/context/AuthContext';
 import Loading from '@/components/ui/loading/loading';
 import CartRepayProduct from '@/components/ui/cart/cartRepayProduct';
 import CartRepayActivity from '@/components/ui/cart/cartRepayActivity';
-
+import BgCartHeadTextMiddle from '@/components/ui/decoration/bg-cartHead-textMiddle';
+import MainBtn from '@/components/ui/buttons/MainBtn';
+import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
+import CartAlertContent from '@/components/ui/cart/cartAlertContent';
 export default function Cart() {
   const { auth } = useContext(AuthContext);
   const router = useRouter();
@@ -48,9 +51,12 @@ export default function Cart() {
     } else if (auth.id && query.orderSid) {
       const s = query.orderSid.slice(0, 8);
       setOrderSid(s);
-      query.orderSid.slice(-3) === 'mem'
-        ? setFromMem(true)
-        : setShowRepayAlert(true);
+      if (query.orderSid.slice(-3) === 'mem') {
+        setFromMem(true);
+      } else {
+        setShowRepayAlert(true);
+        document.body.classList.add('likeList-open');
+      }
       setPageLoading(false);
       getOrder(s);
     }
@@ -110,12 +116,28 @@ export default function Cart() {
     }
   };
 
+  const closeAlert = () => {
+    setShowRepayAlert(false);
+    document.body.classList.remove('likeList-open');
+  };
+  const redirectToMem = () => {
+    router.push('/member/orderlist');
+  };
   if (pageLoading) {
     return <Loading />;
   } else if (!pageLoading) {
     return (
       <>
-        <BgCartHead text={fromMem ? '重新付款' : '付款失敗 重新付款'} />
+        {!fromMem && (
+          <BgCartHeadTextMiddle
+            src="/cart_img/warning.png"
+            title="付款失敗，重新付款"
+            text="請於時限內完成付款流程，未付款訂單可於會員中心查詢"
+          />
+        )}
+        {fromMem && (
+          <BgCartHead text={fromMem ? '重新付款' : '付款失敗 重新付款'} />
+        )}
         <Row>
           <Col xs={2} sm={2} md={2} lg={4} />
           <Col xs={20} sm={20} md={20} lg={11} className={style.detailSection}>
@@ -205,6 +227,23 @@ export default function Cart() {
             />
           </Col>
         </Row>
+        {showRepayAlert && (
+          <>
+            <div onClick={closeAlert} className={style.overlay}></div>
+            <div className={style.modal}>
+              <div className={style.modal_card}>
+                <div className={style.modal_content}>付款失敗，重新付款？</div>
+                <div className={style.btn_group}>
+                  <SecondaryBtn
+                    text="前往訂單列表"
+                    clickHandler={redirectToMem}
+                  />
+                  <MainBtn clickHandler={closeAlert} text="重新付款" />
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </>
     );
   }

@@ -247,7 +247,7 @@ export default function CartTotalSection({
             </div>
           </div>
           <div className={style.checkoutBtn}>
-            <MainBtn text="結帳" clickHandler={createOrder} />
+            <MainBtn text="成立訂單" clickHandler={createOrder} />
           </div>
           <img
             src="/home-images/dog.svg"

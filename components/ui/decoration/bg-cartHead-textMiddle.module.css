@@ -22,7 +22,8 @@
     height: 120px;
     display:flex;
     justify-content: center;
-    align-items:end;
+    align-items:center;
+    padding-top: 30px;
     /* border: 1px solid green; */
 }
 .completeBox{
