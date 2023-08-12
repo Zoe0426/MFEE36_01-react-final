@@ -70,10 +70,14 @@ export default function Navbar({ type = '' }) {
 
   //======redirect======
   const redirectToCart = () => {
+    setShowLoginBox(false);
     if (auth.token) {
       router.push('/cart');
     } else {
-      setShowCartBox(true);
+      console.log(!router.pathname.includes('member/sign-in'));
+      if (!router.pathname.includes('member/sign-in')) {
+        setShowCartBox(true);
+      }
     }
   };
   const redirectTo = (where) => {
@@ -106,7 +110,10 @@ export default function Navbar({ type = '' }) {
     setShowLoginBox(false);
   };
   const toggleLoginBox = () => {
-    setShowLoginBox(!showLoginBox);
+    if (!router.pathname.includes('member/sign-in')) {
+      setShowLoginBox(!showLoginBox);
+    }
+    setShowCartBox(false);
   };
   const toggleMemList = () => {
     setShowMemList(!showMemList);
@@ -127,7 +134,8 @@ export default function Navbar({ type = '' }) {
             </button>
             {/* <Link href="/"> */}
             <img
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 gohome();
               }}
               className={`${type === 'home' ? Styles.homeLogo : Styles.logo}`}
@@ -143,7 +151,8 @@ export default function Navbar({ type = '' }) {
               {/* <Link href="/product" > */}
               <div
                 className={Styles.link}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   redirectTo('product');
                 }}
               >
@@ -157,7 +166,8 @@ export default function Navbar({ type = '' }) {
               </Link> */}
               <div
                 className={Styles.link}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   redirectTo('activity');
                   // router.push('/activity');
                   // console.log('act');
@@ -169,7 +179,8 @@ export default function Navbar({ type = '' }) {
             <div className={Styles.linkItem}>
               <div
                 className={Styles.link}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   redirectTo('restaurant');
                 }}
               >
@@ -182,7 +193,8 @@ export default function Navbar({ type = '' }) {
             <div className={Styles.linkItem}>
               <div
                 className={Styles.link}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   redirectTo('forum');
                 }}
               >
@@ -244,24 +256,6 @@ export default function Navbar({ type = '' }) {
           </div>
         </nav>
       </header>
-      {/* {showLogoutSuccess && (
-        <div className={Styles.modal}>
-          <div className={Styles.modal_card}>
-            <div className={Styles.box}>
-              <Image src={img} width={70} height={70} alt="rightImg" />
-              <div
-                className={`${Styles.modal_content} ${
-                  classTitle === 'active' ? Styles.active : ''
-                }`}
-              >
-                {text}
-              </div>
-              <div className={Styles.modal_content2}>{text2}</div>
-              <Image src={img} width={70} height={70} alt="leftImg" />
-            </div>
-          </div>
-        </div>
-      )} */}
       {showLogoutSuccess && (
         <ModalWithoutBtn
           text="登出成功，再來唷！"
