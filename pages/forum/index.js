@@ -10,6 +10,8 @@ import { useRouter } from 'next/router'
 // 下拉選單
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown,ConfigProvider, message, Space, Tooltip } from 'antd';
+// 找不到結果的卡片
+import NotFindCard from '@/components/ui/cards/not-find-card';
 export default function Post() {
   const router = useRouter();
   const [page, setPage] = useState(1);
@@ -495,7 +497,8 @@ const menuProps = {
               </ConfigProvider>
             </div>
             <div className={Style.postBody}>
-              {data.map((v,i)=>(
+            {data.length > 0 ? (
+              data.map((v,i)=>(
               <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
               <PostCard className={Style.postCard} key={v.post_sid}
               profile={`${process.env.API_SERVER}/img/${v.profile}`} 
@@ -508,7 +511,9 @@ const menuProps = {
               comments={v.postComment} 
               favorites={v.postFavlist}/>          
               </Link>
-              ))}   
+              ))  
+            ): (<NotFindCard textForCat="非常抱歉!" textForDog="沒有找到相關文章!" />)
+          }
               <div className={Style.page}>
                 <ConfigProvider
                 theme={{

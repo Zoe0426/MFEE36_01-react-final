@@ -43,7 +43,7 @@
     font-size:var(--h4fs24);
     font-weight:var(--fwbold);
     margin-top:7px;
-    margin-bottom:11px;
+    margin-bottom:18px;
     margin-left:15px;
 }
 .postCon{
@@ -51,6 +51,8 @@
     margin-left:15px;
     width:620px;
     line-height:25px;
+    min-height: 50px;
+    margin-bottom: 7px;
 }
 .like{
     width:20px;

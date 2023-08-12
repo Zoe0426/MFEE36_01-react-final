@@ -37,3 +37,21 @@
 .postContent{
     margin:10px
 }
+.postNav{
+    background-color: #FFEFE8;
+    height:60px;
+    width:100%;
+    display: flex;
+    align-content: center;
+    position: relative;
+}
+.postNavText{
+    font-size: var(--h3fs28);
+    font-weight: bold;
+    padding-left:20px;
+    padding-top: 20px;
+    width:80%;
+}
+.list{
+    margin-top: 5px;
+}

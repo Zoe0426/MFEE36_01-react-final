@@ -60,13 +60,16 @@
   }
   .modal_content{
       padding: var(--p16);
+      font-size: var(--h5fs20);
   }
   .list{
     display: flex;
     z-index:9999;
+    margin-left: 20px;
   }
   .plus{
     margin-left:20px;
+    margin-top:10px;
   }
   /* .line {
     height: 1px;
@@ -90,6 +93,18 @@
     justify-content: flex-end;
     margin-top: 12px;
     height: 50px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+  .cancel{
+    margin-right: 10px;
+  }
+  .input{
+    margin: 10px;
+    margin-left: 20px;
+  }
+  .inputBlock{
+    width:500px;
   }
   
   /* .btn_group > button {

@@ -9,11 +9,11 @@ import BlogBoardNav from '@/components/ui/blogBoardNav/blogBoardNav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faLayerGroup, faFileLines, faImage, faHashtag} from '@fortawesome/free-solid-svg-icons';
 import MainBtn from '@/components/ui/buttons/MainBtn';
-import PostHashtag from '@/components/ui/postHashtag/postHashtag';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import AuthContext from '@/context/AuthContext';
 // Ant design 輸入文字
 import { Input, Form, Select, Space } from 'antd';
+import ModalCancel from '@/components/ui/modal/modal_delete';
 const { TextArea } = Input;
 
 // Ant design 上傳圖片
@@ -93,7 +93,6 @@ const handlePublish = () => {
     formData.append('photo', file.originFileObj);
   });
   formData.append('postStatus', 0); // 設置發布狀態為已發佈 (0) 或草稿 (1)
-  // // setPostStatus(0); 
   submitForm(formData, 0); // 提交表单
   console.log('publish_formData',formData);
   // router.push(`/forum/${postid}`)
@@ -113,7 +112,6 @@ const handleDraft = () => {
     formData.append('photo', file.originFileObj);
   });
   formData.append('postStatus', 1); // 設置發布狀態為已發佈 (0) 或草稿 (1)
-  // setPostStatus(1);
   submitForm(formData, 1); // 提交表單
   console.log('draft_formData',formData);
   // router.push(`/forum/blog/draft`)
@@ -124,9 +122,7 @@ const handleDraft = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
-  const [fileList, setFileList] = useState([
-
-  ]);
+  const [fileList, setFileList] = useState([]);
   const handleCancel = () => setPreviewOpen(false);
   const handlePreview = async (file) => {
     if (!file.url && !file.preview) {
@@ -309,6 +305,17 @@ const handleDraft = () => {
     const newContent = e.target.value
     setContent(newContent);
   }
+  console.log('auth.id',auth.id);
+  const leave = ()=>{
+    // const formData = new FormData();
+    // formData.append('memberSid', auth.id);
+    // submitForm(formData);    
+    if(auth.id){
+      router.push(`/forum/blog`)
+    }else{
+      console.log('failed');
+    }
+  }
   
   return (
     
@@ -319,24 +326,48 @@ const handleDraft = () => {
         <Col span={6}>
           <BlogSidebar profile='/forum_img/kabo-p6yH8VmGqxo-unsplash.jpg' memberName='莉莉安'/>
         </Col>
-        <Col span={16}>
+        <Col span={16} className={Style.rightBlock}>
             <div className={Style.blogContent}>
             <Form
               onFinish={submitForm}
             >
             <PostNavPure postNav='發佈文章'/>
             <div className={Style.postContent}>
-              <div><FontAwesomeIcon icon={faLayerGroup} />選擇發文看板</div>
-              <BlogBoardNav
+              <div className={Style.label}>
+                <FontAwesomeIcon className={Style.icon} icon={faLayerGroup} style={{maxWidth:20, maxHeight:20}}/>
+                <p>選擇發文看板</p>
+              </div>
+              <BlogBoardNav className={Style.board}
               changeBoardSid={changeBoardSid}
               boardSid={boardSid}
                 />
-              <div><FontAwesomeIcon icon={faFileLines} />發佈文章內容</div>
-                <Input placeholder="文章標題" value={title} onChange={editTitle}/>
-                <TextArea rows={20} placeholder="撰寫新文章內容" value={content} onChange={editContent}/>  
-              <div><FontAwesomeIcon icon={faImage} />新增相片</div>
+              <div className={Style.post}>
+              <div className={Style.label}>
+                <FontAwesomeIcon className={Style.icon} icon={faFileLines} style={{maxWidth:20, maxHeight:20}}/>
+                <p>發佈文章內容</p>
+              </div>
+              <ConfigProvider
+                  theme={{
+                    token: {
+                      colorPrimary: '#FD8C46',
+                      colorText: 'rgb(81, 81, 81)',
+                      fontSize: 16,
+                      controlInteractiveSize: 18,
+                    }
+                  }}
+                >
+                <div className={Style.titleCenter}>
+                  <Input placeholder="文章標題" value={title} onChange={editTitle} className={Style.title}/>
+                </div>
+                <div className={Style.titleCenter}>
+                  <TextArea rows={20} placeholder="撰寫新文章內容" value={content} onChange={editContent} className={Style.content}/>  
+                </div>
+              <div className={Style.fileLabel}>
+                <FontAwesomeIcon className={Style.icon} icon={faImage} style={{maxWidth:20, maxHeight:20}}/>
+                <p>新增相片</p>
+              </div>
               <Form.Item name={'photo'}>
-                <Upload
+                <Upload className={Style.file}
                   action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                   listType="picture-card"
                   fileList={fileList}
@@ -355,10 +386,14 @@ const handleDraft = () => {
                   />
                 </Modal>
               </Form.Item>
-              <div><FontAwesomeIcon icon={faHashtag} />新增話題</div>
+              <div className={Style.label}>
+                <FontAwesomeIcon className={Style.icon} icon={faHashtag} style={{maxWidth:20, maxHeight:20}}/>
+                <p>新增話題</p>
+              </div>
+              <div className={Style.hashtag}>
                 <Space
                   style={{
-                    width: '100%',
+                    width: '95%',
                   }}
                   direction="vertical"
                 >
@@ -366,18 +401,29 @@ const handleDraft = () => {
                   mode="multiple"
                   allowClear
                   style={{
-                    width: '100%',
+                    width: '95%',
                   }}
                   placeholder="選擇話題"
                   onChange={handleChangeTag}
                   options={options}
                 />
                 </Space>
-              <MainBtn className={Style.subBtn} text='發佈文章' clickHandler={handlePublish}
-              /> 
-              <MainBtn text='儲存至草稿夾' clickHandler={handleDraft}
-              /> 
-            <SecondaryBtn text = '取消'/>    
+              </div>
+              </ConfigProvider>
+
+            <div className={Style.btn}>
+              <div className={Style.bbb}>
+                <MainBtn text='發佈文章' clickHandler={handlePublish}/> 
+              </div>
+              <div className={Style.bbb}>
+                <MainBtn text='儲存至草稿夾' clickHandler={handleDraft}/> 
+              </div>
+              <div className={Style.bbb}>
+                {/* <SecondaryBtn text = '取消'/>  */} 
+                <ModalCancel btnType = 'secondary' btnText='取消' content="文章尚未編輯完，確定要離開嗎？" confirmHandler={leave}/>
+              </div>
+            </div>
+            </div>
 
           </div>
         </Form>

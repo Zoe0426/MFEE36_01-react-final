@@ -216,6 +216,8 @@ export default function PostCollection() {
             <div className={Style.blogContent}>
                 {/*<PostNav postNav='收藏文章' optionCh='收藏文章列表' op1='寵物醫院' op2='寵物住宿'/>*/}
                 <div>
+            <div className={Style.postNav}>
+            <div className={Style.postNavText}>收藏文章</div>
               <ConfigProvider
                     theme={{
                       token: {
@@ -229,7 +231,7 @@ export default function PostCollection() {
                       },
                     }}
                   >
-                <Dropdown menu={menuProps}>
+                <Dropdown className={Style.list} menu={menuProps}>
                 <Button>
                   <Space>
                     {obText}
@@ -238,6 +240,7 @@ export default function PostCollection() {
                 </Button>
               </Dropdown>
             </ConfigProvider>
+            </div>
             </div>
                 <div className={Style.postContent}>
 

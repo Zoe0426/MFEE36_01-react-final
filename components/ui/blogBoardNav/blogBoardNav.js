@@ -1,16 +1,29 @@
 
-import React  from 'react';
+import React, {useState}  from 'react';
 import Style from './blogBoardNav.module.css';
 import SubBtnBoard from '../buttons/subBtnBoard';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faChevronRight,faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 
 export default function BlogBoardNav({changeBoardSid, boardSid=1
 }) {
   console.log('nav BoardSid', boardSid)
+  const [move, setMove] = useState(0);
+  const right = ()=>{
+    setMove(1)
+  }
+  const left = ()=>{
+    setMove(0)
+  }
   return (
     <div className={Style.boardNavbar}>
       <div className={Style.boardNav}>
         <div className={Style.nav}>
-          <div className={Style.boardRange}>
+        <div className={Style.left}>
+          <FontAwesomeIcon icon={faChevronLeft} onClick={left}/>
+        </div>
+        <div className={Style.navHidden}>
+          <div className={Style.boardRange} style={{ left: move === 1 ? '-650px' : '0',  transition: 'left 0.3s ease-in-out'}}>
             <div className={Style.board} >
               <SubBtnBoard img="/forum_img/board_img/寵物醫療版.png" text="醫療板" boardSid={boardSid} isFill={boardSid===1?true:false} subBtnHandler={()=>{
                 changeBoardSid(1)
@@ -66,7 +79,11 @@ export default function BlogBoardNav({changeBoardSid, boardSid=1
                 changeBoardSid(6)
               }}/>
             </div>
-          </div>
+            </div>
+            </div>
+            <div className={Style.right}>
+              <FontAwesomeIcon icon={faChevronRight} onClick={right}/>
+            </div>
         </div>
       </div>
     </div>

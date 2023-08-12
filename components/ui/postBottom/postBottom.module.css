@@ -7,15 +7,15 @@
 }
 .bottomBlock{
     width:100%;
-    height:500px;
+    height:550px;
     background-color:var(--light3);
-    
 }
 .bottom{
     position: relative;
 }
 .bottomContent{
     max-width: 65%;
+    padding-top: 20px;
     /* border: 1px solid purple; */
     margin: auto;
     display: flex;

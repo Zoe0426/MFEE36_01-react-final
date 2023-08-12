@@ -15,7 +15,6 @@ export default function BlogSidebar({profile='',memberName=''}) {
           </div>
           <div className={Styles.member}>
             <div className={Styles.memberName}>{memberName}</div>
-            <FontAwesomeIcon icon={faPen} />
           </div>
         </div>
         <div className={Styles.blogFunc}>
@@ -36,7 +35,6 @@ export default function BlogSidebar({profile='',memberName=''}) {
         <Link href="http://localhost:3000/forum/blog/draft">
           <BlogFuncBtn img='/forum_img/blog_func_img/草稿夾.png' func=' 草稿夾'/>
         </Link>
-          <BlogFuncBtn img='/forum_img/blog_func_img/成效分析.png' func='成效分析'/>
         </div>
         </div>
       </div>

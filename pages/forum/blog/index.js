@@ -182,7 +182,7 @@ export default function BlogIndex() {
         <Row className={Style.antRow}>
           <Col span={6}>
               <BlogSidebar
-                profile="/forum_img/kabo-p6yH8VmGqxo-unsplash.jpg"
+                profile={'/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg'}
                 memberName={newData[0]?.nickname}
               />
           </Col>

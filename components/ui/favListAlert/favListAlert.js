@@ -114,6 +114,18 @@ export default function FavListAlert({
               <h2 className={Style.modal_title}>{title}</h2>
               <div className={Style.modal_content}>{content}</div>
               <div className={Style.list}>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    colorText: 'rgb(81, 81, 81)',
+                    colorTextPlaceholder: '#DDDDDD',
+                    controlOutline: 'transparent',
+                    fontSize: 16,
+                    controlInteractiveSize: 16,
+                  },
+                }}
+              >
               <Dropdown menu={menuProps}>
                 <Button>
                   <Space>
@@ -122,18 +134,38 @@ export default function FavListAlert({
                   </Space>
                 </Button>
               </Dropdown>
+              </ConfigProvider>
               { !inputList && (<FontAwesomeIcon icon={faPlus} onClick={plus} className={Style.plus}/>)}
               </div>
               { inputList && (
-                  <Input placeholder={inputText} onChange={getInput}/>
+                <ConfigProvider
+                theme={{
+                  token: {
+                    colorPrimary: '#FD8C46',
+                    colorText: 'rgb(81, 81, 81)',
+                    colorTextPlaceholder: '#DDDDDD',
+                    controlOutline: 'transparent',
+                    fontSize: 16,
+                    controlInteractiveSize: 16,
+                  },
+                }}
+              >
+                <div className={Style.input}>
+                  <Input className={Style.inputBlock} placeholder={inputText} onChange={getInput}/>
+                </div>
+              </ConfigProvider>
               )
               }
               <div className={Style.line}></div>
               <div className={Style.btn_group}>
                 {showSubBtn && (
-                  <SecondaryBtn text={subBtnText} clickHandler={cancelAddFav} />
+                  <div className={Style.cancel}>
+                    <SecondaryBtn text={subBtnText} clickHandler={cancelAddFav} />
+                  </div>
                 )}
-                <MainBtn clickHandler={confirmBtn} text={mainBtnText} />
+                <div className={Style.cancel}>
+                  <MainBtn clickHandler={confirmBtn} text={mainBtnText} />
+                </div>
               </div>
             </div>
           </div>

@@ -22,7 +22,8 @@ export default function PostCardDraft({profile='', boardName='', author='', post
             <div className={Style.iconContainer}>
             {/* 刪除、查看、編輯 icon */}
             <div className={Style.icon} onClick={deletePost}>
-                <ModalDelete btnType = 'trash' text='確定要刪除嗎？'/>
+                <div><FontAwesomeIcon icon={faTrashCan} /></div>
+                {/* <ModalDelete btnType = 'trash' text='確定要刪除嗎？'/> */}
                 <div className={Style.word}>刪除</div>
             </div>
             <div className={Style.icon} onClick={viewPost}>
@@ -34,7 +35,7 @@ export default function PostCardDraft({profile='', boardName='', author='', post
                 <div className={Style.word}>編輯</div>
             </div>
             </div>
-        </div>
+            </div>
         </>
     )
 }
