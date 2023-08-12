@@ -410,22 +410,24 @@ export default function Restindex() {
   //取得收藏列表
 
   const getLikeList = async (token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/show-like`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data);
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/show-like`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const data = await res.json();
 
-    if (data.likeDatas.length > 0) {
+      // if (data.likeDatas.length > 0) {
       setLikeDatas(data.likeDatas);
+      // }
+    } catch (error) {
+      console.log(error);
     }
-    console.log(likeDatas);
   };
 
   useEffect(() => {

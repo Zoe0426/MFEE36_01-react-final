@@ -538,10 +538,9 @@ export default function FilterPage() {
       );
       const data = await res.json();
 
-      if (data.likeDatas.length > 0) {
-        setLikeDatas(data.likeDatas);
-        console.log(likeDatas);
-      }
+      // if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -615,6 +614,7 @@ export default function FilterPage() {
       getLikeList(auth.token);
     } else {
       document.body.classList.remove('likeList-open');
+      setLikeDatas([]);
     }
   };
 

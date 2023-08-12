@@ -238,22 +238,24 @@ export default function RestInfo() {
   //收藏列表相關的函式-------------------------------------------------------
 
   const getLikeList = async (token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/show-like`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data);
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/show-like`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const data = await res.json();
 
-    if (data.likeDatas.length > 0) {
+      // if (data.likeDatas.length > 0) {
       setLikeDatas(data.likeDatas);
+      // }
+    } catch (error) {
+      console.log(error);
     }
-    console.log(likeDatas);
   };
 
   //沒登入會員收藏，跳轉登入booking
@@ -323,6 +325,7 @@ export default function RestInfo() {
       getLikeList(auth.token);
     } else {
       document.body.classList.remove('likeList-open');
+      setLikeDatas([]);
     }
   };
 
