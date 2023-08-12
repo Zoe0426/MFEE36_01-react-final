@@ -49,7 +49,8 @@ export default function HomeMainBtns() {
         src="/home-images/mainBtnArea/h-shopbtn.svg"
         alt="demo"
         className={style.shopBtn}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           redirectTo('product');
         }}
       />
@@ -57,7 +58,8 @@ export default function HomeMainBtns() {
         src="/home-images/mainBtnArea/h-actbtn.svg"
         alt="demo"
         className={style.actBtn}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           redirectTo('activity');
         }}
       />
@@ -65,7 +67,8 @@ export default function HomeMainBtns() {
         src="/home-images/mainBtnArea/h-resbtn.svg"
         alt="demo"
         className={style.resBtn}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           redirectTo('restaurant');
         }}
       />
@@ -73,7 +76,8 @@ export default function HomeMainBtns() {
         src="/home-images/mainBtnArea/h-forumbtn.svg"
         alt="demo"
         className={style.forumBtn}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault();
           redirectTo('forum');
         }}
       />

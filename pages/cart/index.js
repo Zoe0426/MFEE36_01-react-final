@@ -14,6 +14,7 @@ import CartCouponInfo from '@/components/ui/cart/cartcouponinfo';
 import CartCouponList from '@/components/ui/cart/cartCouponList';
 import CartAddressList from '@/components/ui/cart/cartAddressList';
 import Modal from '@/components/ui/modal/modal';
+import CartAddressModal from '@/components/ui/modal/cartAddressModal';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import CartTotalSection from '@/components/ui/cart/cartTotalSection';
@@ -387,7 +388,7 @@ export default function Cart() {
                   <CartNoInfoCard />
                 )}
                 <div className={style.couponModal}>
-                  <Modal
+                  <CartAddressModal
                     btnType="text"
                     btnText="變更收件地址"
                     title={

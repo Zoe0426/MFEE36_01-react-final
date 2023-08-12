@@ -129,7 +129,8 @@ export default function Home() {
               src="/home-images/mainBtnArea/h-smShopBtn.svg"
               className={style.smShop}
               alt="smShop"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 redirectTo('product');
               }}
             />
@@ -137,7 +138,8 @@ export default function Home() {
               src="/home-images/mainBtnArea/h-smEventBtn.svg"
               className={style.smEvent}
               alt="smShop"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 redirectTo('activity');
               }}
             />
@@ -145,7 +147,8 @@ export default function Home() {
               src="/home-images/mainBtnArea/h-smResBtn.svg"
               className={style.smRes}
               alt="smShop"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 redirectTo('restaurant');
               }}
             />
@@ -153,7 +156,8 @@ export default function Home() {
               src="/home-images/mainBtnArea/h-smforumBtn.svg"
               className={style.smForum}
               alt="smShop"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
                 redirectTo('forum');
               }}
             />
