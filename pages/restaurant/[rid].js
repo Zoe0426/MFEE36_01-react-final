@@ -893,36 +893,37 @@ export default function RestInfo() {
                   {restDetailRows.acceptType}
                 </p>
               </div>
-            </div>
-
-            {/* 分享區 */}
-            <div className={Styles.share_box}>
-              <div className={Styles.share_title}>分享</div>
-              <div className={Styles.share_icons}>
-                <FontAwesomeIcon
-                  icon={faLine}
-                  className={Styles.line}
-                  onClick={() => {
-                    handleLineShare('shareOnLine');
-                  }}
-                />
-                <FontAwesomeIcon
-                  icon={faFacebookSquare}
-                  className={Styles.fb}
-                  onClick={() => {
-                    handleLineShare('shareOnFB');
-                  }}
-                />
-                <Image
-                  src={Xicon}
-                  alt="Xicon"
-                  className={Styles.x_twitter}
-                  onClick={() => {
-                    handleLineShare('shareOnTwitter');
-                  }}
-                />
+              <div className={Styles.share_box}>
+                <div className={Styles.share_title}>分享</div>
+                <div className={Styles.share_icons}>
+                  <FontAwesomeIcon
+                    icon={faLine}
+                    className={Styles.line}
+                    onClick={() => {
+                      handleLineShare('shareOnLine');
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faFacebookSquare}
+                    className={Styles.fb}
+                    onClick={() => {
+                      handleLineShare('shareOnFB');
+                    }}
+                  />
+                  <Image
+                    src={Xicon}
+                    alt="Xicon"
+                    className={Styles.x_twitter}
+                    onClick={() => {
+                      handleLineShare('shareOnTwitter');
+                    }}
+                  />
+                </div>
               </div>
             </div>
+
+
+
             {/* button */}
             <div className={Styles.detail_main_buttom}>
               {!auth.token ? (

@@ -137,7 +137,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 60px;
+  margin-bottom: 28px;
 }
 .contact_location{
   display: flex;
@@ -598,7 +598,7 @@ display: flex;
 .share_box{
   display: flex;
   align-items: center;
-  padding-top: 50px;
+  margin-top: 24px;
 }
 .share_icons{
   display: flex;
