@@ -35,9 +35,9 @@ import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
 import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
+import NotFindCard from '@/components/ui/cards/not-find-card';
 
 export default function ActivityMain() {
-  // 網址在這看 http://localhost:3000/activity/list?cid=類別&keyword=關鍵字&page=頁碼
 
   const router = useRouter();
   const [page, setPage] = useState(1);
@@ -45,8 +45,9 @@ export default function ActivityMain() {
   const [keyword, setKeyword] = useState('');
   const [activity_type_sid, setActivity_type_sid] = useState(0);
   const [selectedActivityTypeSid, setSelectedActivityTypeSid] = useState(0);
+  const [showWarning, setShowWarning] = useState(false);
 
-  const [orderBy, setOrderBy] = useState('-- 請選擇 --');
+  const [orderBy, setOrderBy] = useState('-- 排序 --');
 
   // 收藏清單
   const [likeDatas, setLikeDatas] = useState([]);
@@ -206,6 +207,8 @@ export default function ActivityMain() {
       setMaxPrice(maxPrice || '');
       setStartDate(startDate || null);
       setEndDate(endDate || null);
+
+      setShowWarning(false);
 
       const usp = new URLSearchParams(router.query);
 
@@ -741,6 +744,12 @@ export default function ActivityMain() {
                     }}
                   >
                     <label className={styles.labels}>活動日期：</label>
+                    {showWarning && (
+                          <span className={styles.detail_spec_warning}>
+                            &nbsp;(請選擇日期!)
+                          </span>
+                        )}
+
                     <DatePicker.RangePicker
                       name="range-picker"
                       label="活動日期"
@@ -866,6 +875,7 @@ export default function ActivityMain() {
       {/* .........section1......... */}
       <div className="container-inner">
         <div className={styles.section_card}>
+        {datas.rows.length > 0 ? (
           <Row gutter={[0, 106]} className={styles.card}>
             {datas.rows.map((i) => {
               const {
@@ -914,6 +924,9 @@ export default function ActivityMain() {
               );
             })}
           </Row>
+            ) : (
+              <NotFindCard textForCat="非常抱歉!" textForDog="沒有找到相關活動!" />
+            )}
         </div>
 
         {/* .........頁碼......... */}

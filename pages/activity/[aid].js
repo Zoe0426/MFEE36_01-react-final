@@ -265,28 +265,20 @@ export default function ActivityDetail() {
     countChild,
     selectedDate
   ) => {
-    //   console.log('Order activity button clicked!');
-    // console.log('selectedDate:', selectedDate);
-    // console.log('actDateRows:', actDateRows);
+   
 
     try {
       if (!token) {
         throw new Error('未找到會員ID');
-        // const from = router.asPath;
-        // router.push(`/member/sign-in?from=${from}`);
-        // return;
+       
       }
 
-      // Find the corresponding activity_group_sid for the selectedDate
+    
 
       console.log('Order activity button clicked!');
       console.log('selectedDate:', selectedDate);
       console.log('actDateRows:', actDateRows);
-      //   const selectedDateObj = actDateRows.find(
-      //     (dateRow) => dateRow.date === selectedDate
-      //   );
-      //   console.log(selectedDateObj);
-      // console.log(selectedDateObj.date);
+      
 
       if (!selectedDate) throw new Error('無效的活動日期');
 
@@ -340,10 +332,7 @@ export default function ActivityDetail() {
   };
 
   //若未登入會員而點擊收藏，要跳轉至會員登入
-  // const toSingIn = () => {
-  //   const from = router.asPath;
-  //   router.push(`/member/sign-in?from=${process.env.WEB}${from}`);
-  // };
+ 
   const toSingIn = () => {
     const from = router.query;
     router.push(
