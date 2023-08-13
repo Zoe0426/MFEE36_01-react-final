@@ -327,18 +327,13 @@ export default function FilterPage() {
     }
   };
 
-  const searchBarClickHandler = () => {
-    if (!keyword) {
-      return;
-    }
-    setShowFilter(false);
+  const searchBarClickHandler = (keyword = '') => {
+    let obj = { page: 1 };
 
-    router.push(
-      `/restaurant/list?${new URLSearchParams({
-        keyword: keyword,
-        page: 1,
-      }).toString()}`
-    );
+    if (keyword) {
+      obj.keyword = keyword;
+    }
+    router.push(`?${new URLSearchParams(obj).toString()}`);
   };
 
   const autocompleteHandler = (selectkeyword) => {
@@ -727,7 +722,9 @@ export default function FilterPage() {
               }, 700);
             }}
             keyDownHandler={searchBarHandler}
-            clickHandler={searchBarClickHandler}
+            clickHandler={() => {
+              searchBarClickHandler(keyword);
+            }}
             autocompleteHandler={autocompleteHandler}
             showKeywordDatas={showKeywordDatas}
             blurHandler={() => {
@@ -737,6 +734,7 @@ export default function FilterPage() {
             }}
             clearHandler={() => {
               setKeyword('');
+              searchBarClickHandler();
             }}
           />
           {/* </div> */}
