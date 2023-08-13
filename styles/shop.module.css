@@ -343,7 +343,7 @@
 /* 照片區 */
 .detail_img_box {
   width: 40%;
-  margin-right: 36px;
+  margin-right: 36px;  
 }
 
 .detail_big_img {
@@ -351,6 +351,7 @@
   border-radius: var(--br10);
   overflow: hidden;
   text-align: center;
+  background-color: white;
 }
 
 .detail_big_img > img {
@@ -369,6 +370,10 @@
   border-radius: var(--br8);
   overflow: hidden;
   opacity: 0.5;
+  cursor: pointer;
+}
+.detail_small_img:hover{
+  opacity: 0.8;
 }
 
 .detail_small_img_active {
