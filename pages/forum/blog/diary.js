@@ -83,7 +83,7 @@ export default function BlogIndex() {
               </div>
             </div>           
             <div className={Style.diaryBody}>
-            <Link href='http://localhost:3000/forum/221'>
+            
               <div className={Style.card}>
                   <div className={Style.sticker}></div>
                   <div className={Style.imgBorder}>
@@ -100,12 +100,13 @@ export default function BlogIndex() {
                           <FontAwesomeIcon icon={faChevronRight} onClick={right1}/>
                       </div>
                   </div>
+                  <Link href='http://localhost:3000/forum/221'>
                   <div className={Style.diaryDate}>2022.06.18</div>
                   <div className={Style.diaryTitle}>{'兩個月大的小哈嚕'}</div>
                   <div className={Style.diaryContent}>{'小小的手掌🐶 大大的力量❤️'}</div>      
-              </div>
-            </Link>
-            <Link href='http://localhost:3000/forum/222'>
+                  </Link>
+                  </div>
+            
               <div className={Style.card}>
                   <div className={Style.sticker}></div>
                   <div className={Style.imgBorder}>
@@ -122,13 +123,15 @@ export default function BlogIndex() {
                           <FontAwesomeIcon icon={faChevronRight} onClick={right2}/>
                       </div>
                   </div>
+                <Link href='http://localhost:3000/forum/222'>
                   <div className={Style.diaryDate}>2022.07.22</div>
                   <div className={Style.diaryTitle}>{'小辛巴哈嚕'}</div>
                   <div className={Style.diaryContent}>{'阿~~西班牙~麻麻裡吉娃娃~'}</div>     
-              </div>
-            </Link>
+                </Link>
+                  </div>
             
-            <Link href='http://localhost:3000/forum/223'>
+            
+            
               <div className={Style.card}>
               <div className={Style.sticker}></div>
               <div className={Style.imgBorder}>
@@ -145,13 +148,14 @@ export default function BlogIndex() {
                       <FontAwesomeIcon icon={faChevronRight} onClick={right3}/>
                   </div>
               </div>
+            <Link href='http://localhost:3000/forum/223'>
               <div className={Style.diaryDate}>2022.08.01</div>
               <div className={Style.diaryTitle}>{'第一次出去玩'}</div>
               <div className={Style.diaryContent}>{'鄰居小朋友來找我玩，開心到我直接撒了一泡尿呀😎'}</div>      
-              </div>
             </Link>
+              </div>
+            
 
-            <Link href='http://localhost:3000/forum/224'>
               <div className={Style.card}>
               <div className={Style.sticker}></div>
               <div className={Style.imgBorder}>
@@ -168,11 +172,12 @@ export default function BlogIndex() {
                       <FontAwesomeIcon icon={faChevronRight} onClick={right4}/>
                   </div>
               </div>
+            <Link href='http://localhost:3000/forum/224'>
               <div className={Style.diaryDate}>2022.08.12</div>
               <div className={Style.diaryTitle}>{'四個月大的哈嚕'}</div>
               <div className={Style.diaryContent}>{'我四個月了喔~學會在尿盆尿尿跟趴下了呦！🦊'}</div>      
-              </div>
             </Link>
+              </div>
 
             <div className={Style.card}>
             <div className={Style.sticker}></div>
