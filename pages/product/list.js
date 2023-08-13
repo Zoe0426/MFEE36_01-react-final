@@ -367,7 +367,7 @@ export default function List() {
       const data = await res.json();
 
       if (data.success) {
-        console.log(data);
+        // console.log(data);
       }
     } catch (error) {
       console.log(error);
@@ -462,7 +462,7 @@ export default function List() {
         }
       );
       const result = await removeAll.json();
-      console.log(JSON.stringify(result, null, 4));
+      // console.log(JSON.stringify(result, null, 4));
       if (pid === 'all') {
         setTimeout(() => {
           toggleLikeList();

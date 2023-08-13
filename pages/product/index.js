@@ -365,7 +365,7 @@ export default function ProdoctIndex() {
       const data = await res.json();
 
       if (data.success) {
-        console.log(data);
+        // console.log(data);
       }
     } catch (error) {
       console.log(error);
