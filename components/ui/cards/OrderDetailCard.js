@@ -253,7 +253,7 @@ export default function OrderDetailCard({
                   <Input.TextArea
                     rows={4}
                     style={{ backgroundColor: 'transparent' }}
-                    readOnly={shopContent}
+                    readOnly={prodCommentSid}
                   />
                 </Form.Item>
               </>
@@ -263,7 +263,7 @@ export default function OrderDetailCard({
                   <Input.TextArea
                     rows={4}
                     style={{ backgroundColor: 'transparent' }}
-                    readOnly={actContent}
+                    readOnly={actCommentSid}
                   />
                 </Form.Item>
               </>

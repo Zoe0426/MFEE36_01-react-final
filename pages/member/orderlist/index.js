@@ -136,7 +136,9 @@ export default function OrderList() {
             .then((r) => r.json())
             .then((data) => {
               console.log(data);
-              const firstData = data.filter((data) => data.orderStatus === 1);
+              const firstData = data.filter(
+                (data) => data.rel_type === 'shop' && data.orderStatus === 1
+              );
               setData(firstData);
               setAllData(data);
               setLoading(false);
@@ -148,7 +150,7 @@ export default function OrderList() {
         console.log('User is not logged in. Cannot fetch');
       }
     }
-  }, [first, router.query]);
+  }, [first, router.query, auth]);
 
   const shopOrder = () => {
     const newData = allData.filter(
