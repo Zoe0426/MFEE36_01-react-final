@@ -69,7 +69,7 @@ function App() {
         if (bookingRows && bookingRows.length > 0) {
           setBookingRows(bookingRows);
         }
-        console.log(bookingRows[0].name);
+        // console.log(bookingRows[0].name);
         if (memberRows && memberRows.length > 0) {
           setMemberRows(...memberRows);
         }
@@ -92,7 +92,7 @@ function App() {
           } else return { ...v };
         });
         setBreadCrubText(newBreadCrubText);
-        console.log(bookingRows[0].rest_sid);
+        // console.log(bookingRows[0].rest_sid);
         setData(data);
       })
       .catch((error) => {
@@ -138,19 +138,19 @@ function App() {
   const [countPet, setCountPet] = useState(1);
   const [noteValue, setNoteValue] = useState('');
   const handleNoteChange = (event) => {
-    console.log('備註');
+    // console.log('備註');
     setNoteValue(event.target.value);
   };
 
   const handleChangePeople = (newCount) => {
     // 在這裡處理人數的變更，不執行 handleSubmit
-    console.log('人數');
+    // console.log('人數');
     setCountPeople(newCount);
   };
 
   const handleChangePet = (newCount) => {
     // 在這裡處理寵物數量的變更，不執行 handleSubmit
-    console.log('寵物');
+    // console.log('寵物');
     setCountPet(newCount);
   };
   // 處理日期點擊事件，顯示該日期對應的時間區段

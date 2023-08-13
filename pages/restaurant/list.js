@@ -153,7 +153,7 @@ export default function FilterPage() {
 
   // 這邊有點問題;
   const getData = async (obj = {}, token = '') => {
-    console.log('getData:', obj);
+    // console.log('getData:', obj);
     const usp = new URLSearchParams(obj);
     const res = await fetch(
       `${process.env.API_SERVER}/restaurant-api/list?${usp.toString()}`,
@@ -166,7 +166,7 @@ export default function FilterPage() {
     );
     const data1 = await res.json();
     setData(data1);
-    console.log(data1);
+    // console.log(data1);
     //if (Array.isArray(data.rows)) {
     // setData((old) => {
     //   console.log(data1);
@@ -190,7 +190,7 @@ export default function FilterPage() {
       selectedDate,
     } = router.query;
 
-    console.log(router.query);
+    // console.log(router.query);
 
     setRule(rule || '');
     setService(service || '');
@@ -271,7 +271,7 @@ export default function FilterPage() {
         return data;
       }
 
-      console.log(searchWord);
+      // console.log(searchWord);
 
       if (Array.isArray(data)) {
         // 確保 data 是陣列
@@ -285,7 +285,7 @@ export default function FilterPage() {
         });
       }
 
-      console.log(data);
+      // console.log(data);
 
       data.sort((a, b) => b.count - a.count);
 
@@ -395,7 +395,7 @@ export default function FilterPage() {
   //篩選的部分
   const filterHandler = () => {
     const filterCate = filters.category;
-    console.log(filterCate);
+    // console.log(filterCate);
 
     //時間篩選
     const start = startTime ? startTime + ':00' : null;
@@ -602,7 +602,7 @@ export default function FilterPage() {
   //展開收藏列表
   const toggleLikeList = () => {
     const newShowLikeList = !showLikeList;
-    console.log(newShowLikeList);
+    // console.log(newShowLikeList);
     setShowLikeList(newShowLikeList);
     if (newShowLikeList) {
       document.body.classList.add('likeList-open');
