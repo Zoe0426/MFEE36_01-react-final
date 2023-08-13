@@ -38,9 +38,11 @@
 
 .logo{
   width: 85px;
+  cursor: pointer;
 }
 .homeLogo{
   width: 100px;
+  cursor: pointer;
 }
 
 .linkMenu{
@@ -153,6 +155,7 @@
 }
 .profileBtn{
   border-radius: 50%;
+  cursor: pointer;
 }
 .profileImg{
   width: 40px; 

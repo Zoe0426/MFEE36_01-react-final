@@ -24,6 +24,7 @@
     background-color: var(--secondary);
     margin-right: 16px;
     transition: all .3s;
+    cursor: pointer;
 }
 .activeDot{
     background-color: var(--main);

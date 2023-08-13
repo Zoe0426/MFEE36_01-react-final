@@ -15,7 +15,6 @@ import CartRepayActivity from '@/components/ui/cart/cartRepayActivity';
 import BgCartHeadTextMiddle from '@/components/ui/decoration/bg-cartHead-textMiddle';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
-import CartAlertContent from '@/components/ui/cart/cartAlertContent';
 export default function Cart() {
   const { auth } = useContext(AuthContext);
   const router = useRouter();

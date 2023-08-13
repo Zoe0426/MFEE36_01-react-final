@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Row, Col } from 'antd';
+import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import BgCartHeadTextMiddle from '@/components/ui/decoration/bg-cartHead-textMiddle';
 import style from '@/styles/cartOrderdetail.module.css';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
@@ -18,6 +19,8 @@ export default function OrderComplete() {
   const { query } = router;
   const [first, setFirst] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
+  const [successHead, setSuccessHead] = useState(false);
+  const [checkOrdHead, setCheckOrdHead] = useState(false);
   const [checkoutType, setCheckoutType] = useState('');
   const [orderInfo, setOrderInfo] = useState({
     order_sid: '',
@@ -68,8 +71,13 @@ export default function OrderComplete() {
     if (auth.id && query.memberSid && query.orderSid) {
       setPageLoading(false);
       setCheckoutType(query.checkoutType);
-      auth.id === query.memberSid &&
-        getOrderDetail(query.orderSid, query.checkoutType);
+      if (query.orderSid.slice(-4) === 'link') {
+        setCheckOrdHead(true);
+      } else {
+        setSuccessHead(true);
+      }
+      const sid = query.orderSid.slice(0, 8);
+      auth.id === query.memberSid && getOrderDetail(sid, query.checkoutType);
     }
   }, [auth, first, query]);
   console.log(orderInfo);
@@ -79,11 +87,15 @@ export default function OrderComplete() {
     console.log('pc pt', orderInfo.post_type);
     return (
       <>
-        <BgCartHeadTextMiddle
-          src="/cart_img/complete.png"
-          title="謝謝您！付款成功！"
-          text={`訂單確認郵件已經發送到您的電子信箱： ${orderInfo.email}`}
-        />
+        {successHead && (
+          <BgCartHeadTextMiddle
+            src="/cart_img/complete.png"
+            title="謝謝您！付款成功！"
+            text={`訂單確認郵件已經發送到您的電子信箱： ${orderInfo.email}`}
+          />
+        )}
+        {checkOrdHead && <BgCartHead text="訂單詳情" />}
+
         <Row>
           <Col xs={2} sm={2} md={2} lg={4} />
           <Col xs={20} sm={20} md={20} lg={16} className={style.box}>
