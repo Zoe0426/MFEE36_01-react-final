@@ -18,6 +18,7 @@ export default function ModalCancel({
   showSubBtn = true, //是否需要顯示取消的按鈕
   content = <></>,
   confirmHandler = () => {},
+ 
 }) {
   const [modal, setModal] = useState(false);
 
@@ -38,7 +39,7 @@ export default function ModalCancel({
   return (
     <>
       {btnType === 'secondary' ? (
-        <SecondaryBtn clickHandler={toggleModal} text={btnText} />
+        <SecondaryBtn clickHandler={toggleModal} text={btnText} htmltype='button'/>
       ) : btnType === 'trash' ? (
         <FontAwesomeIcon
           icon={faTrashCan}
@@ -84,7 +85,7 @@ export default function ModalCancel({
               {/* <div className={Styles.line}></div> */}
               <div className={Styles.btn_group}>
                 {showSubBtn && (
-                  <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />
+                  <SecondaryBtn text={subBtnText} clickHandler={toggleModal}/>
                 )}
                 <MainBtn clickHandler={confirmBtn} text={mainBtnText} />
               </div>

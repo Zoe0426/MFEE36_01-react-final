@@ -28,7 +28,9 @@ export default function BlogSidebar({profile='',memberName=''}) {
         <Link href="http://localhost:3000/forum/blog/postcollection">
           <BlogFuncBtn img='/forum_img/blog_func_img/收藏文章.png' func='收藏文章'/>
         </Link>
+        <Link href="http://localhost:3000/forum/blog/diary">
           <BlogFuncBtn img='/forum_img/blog_func_img/毛孩日記.png' func='毛孩日記'/>
+        </Link>
         <Link href="http://localhost:3000/forum/blog/post">
           <BlogFuncBtn img='/forum_img/blog_func_img/發布文章.png' func='發布文章'/>
         </Link>

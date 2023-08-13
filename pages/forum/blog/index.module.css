@@ -23,13 +23,9 @@
     height: 80px;
     background-color: var(--secondary);
     border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    /* position: fixed; */
-    left:87%;
-    margin-bottom: 30px;
+    position: fixed;
+    bottom: 20px; /* 距離底部的距離 */
+    right: 20px;
 }
 .editIcon{
     width:40px;
@@ -47,3 +43,10 @@
 .container-outer{
     margin-bottom: 100px;
 }
+
+.containerOuter {
+    position: relative;
+    min-height: 100vh; /* 確保頁面高度至少與視窗高度一樣 */
+    margin: 0;
+    padding: 0;
+  }

@@ -42,11 +42,12 @@
 .author{
     /* margin:10px; */
     padding-left:10px;
+    padding-top: 14px;
 }
 .nickname{
     font-size: var(--h5fs20);
     font-weight: var(--fwbold);
-    margin: 5px;
+    /* margin: 5px; */
 }
 .id{
     font-size: var(--pfs16);
@@ -55,7 +56,9 @@
 }
 .articleDetail{
     display: flex;
-    margin:10px;
+    /* margin:10px; */
+    margin-top: 20px;
+    margin-left: 40px;
 }
 .board,.time{
     margin:5px;

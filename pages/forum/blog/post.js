@@ -307,9 +307,8 @@ const handleDraft = () => {
   }
   console.log('auth.id',auth.id);
   const leave = ()=>{
-    // const formData = new FormData();
-    // formData.append('memberSid', auth.id);
-    // submitForm(formData);    
+    console.log('click');
+    // e.preventDefault(); 
     if(auth.id){
       router.push(`/forum/blog`)
     }else{

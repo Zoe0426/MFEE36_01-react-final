@@ -138,7 +138,7 @@ export default function Post() {
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
-                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid} memberId={auth.id}/>
+                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid}/>
                 ))}
                 </div>
                 <div>
@@ -153,8 +153,6 @@ export default function Post() {
 
                 <div className={Style.commentBlock}>
                   <div className={Style.commentBTN}>
-                    <PostCommentBtn text="由舊至新" bc='white'/>
-                    <PostCommentBtn text="由舊至新" bc='var(--secondary)'/>
                   </div>
                   {postData.map((v,i)=>(
                     <div className={Style.commentNum}>{`共 ${v.postComment} 則留言`}</div>
@@ -165,7 +163,7 @@ export default function Post() {
                   </div>
                   <div className={Style.comments}>
                   {commentData.map((v,i)=>(
-                    <PostComment  className={Style.singlecomment} profile={`${process.env.API_SERVER}/img/${v.profile}`} author={v.nickname} comment={v.comment_content} floor={`B${i+1}`} date={v.comment_date} moreComments=''/>
+                    <PostComment  className={Style.singlecomment} profile={`${process.env.API_SERVER}/img/${v.profile}`} author={v.nickname} comment={v.comment_content} date={v.comment_date} moreComments=''/>
                   ))}
                   </div>
                 </div>

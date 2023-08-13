@@ -208,7 +208,7 @@ export default function PostCollection() {
       <Row className={Style.antRow}>
         <Col span={6}>
               <BlogSidebar
-                profile="/forum_img/kabo-p6yH8VmGqxo-unsplash.jpg"
+                profile='/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg'
                 memberName={newData[0]?.favorite_nickname}
               />
           </Col>
@@ -259,16 +259,28 @@ export default function PostCollection() {
                     />
                   </Link>
                 ))}
-
-                    <div className={Style.editBg}>
-                        <FontAwesomeIcon icon={faPenToSquare} className={Style.editIcon}/>
-                    </div>
+                    <div className={Style.pagination}>
+                    <ConfigProvider
+                      theme={{
+                      token: {
+                        colorPrimary: '#FD8C46',
+                        colorBgContainer: 'transparent',
+                        colorBgTextHover: '#FFEFE8',
+                        colorBgTextActive: '#FFEFE8',
+                        fontSize: 18,
+                        controlHeight: 38,
+                        lineWidthFocus: 1,
+                          },
+                        }}
+                      >
                     <Pagination
                       current={page}
                       total={postNum} // 使用新的 state postNum 來設置 total
                       pageSize={perPage}
                       onChange={PageChangeHandler}
-                    />     
+                    />  
+                    </ConfigProvider> 
+                    </div>  
                 </div>
             </div>
         </Col>

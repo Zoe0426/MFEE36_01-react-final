@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Style from './postcollection.module.css';
 import BlogBanner from '@/components/ui/blogBanner/blogBanner';
-import { Col, Row, Pagination} from 'antd';
+import { Col, Row, Pagination, ConfigProvider} from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
 import BlogNav from '@/components/ui/blogNav/blogNav';
 import PostCardDraft from '@/components/ui/PostCard/postCardDraft';
@@ -180,7 +180,7 @@ export default function BlogIndex() {
   }
 
   return (
-    <div className="container-outer">
+    <div className={Style.containerOuter}>
     <Head>
       <title>狗with咪 | 論壇</title>
     </Head>
@@ -217,16 +217,32 @@ export default function BlogIndex() {
                      />
                      ))}             
                    {/* </Link> */}
+              <Link href={'http://localhost:3000/forum/blog/post'}>
                 <div className={Style.editBg}>
                   <FontAwesomeIcon icon={faPenToSquare} className={Style.editIcon} />
                 </div>
+              </Link>
                 <div className={Style.pagination}>
+                <ConfigProvider
+                theme={{
+                token: {
+                  colorPrimary: '#FD8C46',
+                  colorBgContainer: 'transparent',
+                  colorBgTextHover: '#FFEFE8',
+                  colorBgTextActive: '#FFEFE8',
+                  fontSize: 18,
+                  controlHeight: 38,
+                  lineWidthFocus: 1,
+                    },
+                  }}
+                >
                 <Pagination
                 current={page}
                 total={postNum} // 使用新的 state postNum 來設置 total
                 pageSize={perPage}
                 onChange={PageChangeHandler}
               /> 
+              </ConfigProvider>
                 </div>
               </div>
             </div>
