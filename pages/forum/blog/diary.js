@@ -151,7 +151,7 @@ export default function BlogIndex() {
             <Link href='http://localhost:3000/forum/223'>
               <div className={Style.diaryDate}>2022.08.01</div>
               <div className={Style.diaryTitle}>{'第一次出去玩'}</div>
-              <div className={Style.diaryContent}>{'鄰居小朋友來找我玩，開心到我直接撒了一泡尿呀😎'}</div>      
+              <div className={Style.diaryContent}>{'鄰居小朋友來找我玩，開心到直接撒了一泡尿呀😎'}</div>      
             </Link>
               </div>
             

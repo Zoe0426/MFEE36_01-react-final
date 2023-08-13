@@ -61,16 +61,16 @@ export default function Post() {
       setPostData(data.newData || []); //因為在node文章資料是叫data
       setHashtagData(data.tagData || []); //因為在node hashtag資料是叫tagData
       setCommentData(data.newCommentData || []);
-      console.log(commentData);
+      // console.log(commentData);
       const newImgData = data.imgData.map(v=>v.file)
       setImgData(newImgData || []);
   
-      console.log('postData', data.newData);
-      console.log('hashtagData', data.tagData);
-      console.log('commentData', data.newCommentData);
-      console.log('newImgData', newImgData);
+      // console.log('postData', data.newData);
+      // console.log('hashtagData', data.tagData);
+      // console.log('commentData', data.newCommentData);
+      // console.log('newImgData', newImgData);
   
-      console.log(postid);
+      // console.log(postid);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
