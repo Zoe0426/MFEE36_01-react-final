@@ -56,7 +56,7 @@ export default function Schedule() {
         })
           .then((r) => r.json())
           .then((data) => {
-            console.log(data);
+            //console.log(data);
             setData(data);
             setLoading(false);
           });
@@ -108,8 +108,8 @@ export default function Schedule() {
       return listData;
     };
 
-    console.log(odSid);
-    console.log(memberSid);
+    //console.log(odSid);
+    //console.log(memberSid);
 
     // const handleSubmit = (values) => {
     //   if (relType === 'activity') {
@@ -120,7 +120,7 @@ export default function Schedule() {
     //     })
     //       .then((r) => r.json())
     //       .then((data) => {
-    //         console.log(data);
+    //         //console.log(data);
     //       });
     //   } else if (relType === 'shop') {
     //     fetch(`${process.env.API_SERVER}/member-api/prodReviews`, {
@@ -130,7 +130,7 @@ export default function Schedule() {
     //     })
     //       .then((r) => r.json())
     //       .then((data) => {
-    //         console.log(data);
+    //         //console.log(data);
     //       });
     //   }
     //   router.push(from);

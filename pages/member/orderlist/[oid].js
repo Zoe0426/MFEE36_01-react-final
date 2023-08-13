@@ -13,7 +13,7 @@ export default function OrderDetail() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // console.log(query);
+    // //console.log(query);
     if (query.oid) {
       fetch(`${process.env.API_SERVER}/member-api/orderdetail/${query.oid}`, {
         headers: {
@@ -22,18 +22,18 @@ export default function OrderDetail() {
       })
         .then((r) => r.json())
         .then((data) => {
-          console.log(data);
-          //console.log(data[0].post_status);
+          //console.log(data);
+          ////console.log(data[0].post_status);
           setData(data);
         });
     }
   }, [query]);
 
-  //console.log('data', data);
+  ////console.log('data', data);
 
   //運送狀態
   if (data.length > 0) {
-    //console.log(data[0].post_status);
+    ////console.log(data[0].post_status);
     let statusName = '';
     switch (data[0].post_status) {
       case 1:

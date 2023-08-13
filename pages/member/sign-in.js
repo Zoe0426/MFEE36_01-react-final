@@ -19,7 +19,7 @@ export default function SignIn() {
   //回去哪一頁的路徑
   const router = useRouter();
   const fromPath2 = router.asPath.split('from=')[1] || '/';
-  //console.log({ mem: router.asPath.split('from=')[1] });
+  ////console.log({ mem: router.asPath.split('from=')[1] });
 
   //送出表單
   const handleSubmit = (values) => {
@@ -33,7 +33,7 @@ export default function SignIn() {
         if (data.success) {
           const obj = { ...data.data };
           localStorage.setItem('petauth', JSON.stringify(obj));
-          console.log('l30-', obj.profile);
+          //console.log('l30-', obj.profile);
           if (obj.profile) {
             const photo = `${process.env.API_SERVER}/img/${obj.profile}`;
             localStorage.setItem(`${obj.id}photoUrl`, JSON.stringify(photo));
@@ -60,7 +60,7 @@ export default function SignIn() {
           }, 1000);
         }
       });
-    console.log('pass', pass);
+    //console.log('pass', pass);
   };
   return (
     <>

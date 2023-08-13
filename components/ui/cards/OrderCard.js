@@ -39,14 +39,14 @@ export default function OrderCard({
       const createTime = new Date(createDt);
       const diffMillis = Math.abs(currentTime.getTime() - createTime.getTime());
       const differenceHr = diffMillis / (1000 * 60 * 60);
-      console.log('differenceHr', differenceHr);
+      //console.log('differenceHr', differenceHr);
 
       if (differenceHr > 48) {
         setIsOver48(true);
       }
     }
   }, [createDt]);
-  console.log('isover48', isover48);
+  //console.log('isover48', isover48);
 
   // const price = subTotal.num.toLocaleString();
 

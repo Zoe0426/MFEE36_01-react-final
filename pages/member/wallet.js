@@ -39,7 +39,7 @@ export default function Wallet() {
         })
           .then((r) => r.json())
           .then((data) => {
-            console.log(data);
+            //console.log(data);
             let filterData = data.filter((data) => {
               const currentTime = new Date();
               const expireTime = new Date(data.exp_date);
@@ -50,7 +50,7 @@ export default function Wallet() {
             setLoading(false);
           });
       } else {
-        console.log('User is not logged in. Cannot fetch coupons.');
+        //console.log('User is not logged in. Cannot fetch coupons.');
       }
     }
   }, [auth, first]);

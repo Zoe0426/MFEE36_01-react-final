@@ -30,8 +30,8 @@ export const AuthContextProvider = function ({ children }) {
     const itemID = `${relSid}_${relSeqSid}`;
     const getCart = localStorage.getItem(`${auth.id}cart`);
     const memItems = JSON.parse(getCart);
-    // console.log(memItems);
-    // console.log(itemID);
+    // //console.log(memItems);
+    // //console.log(itemID);
 
     if (todo === 'add' && !memItems.includes(itemID)) {
       //加1
@@ -54,12 +54,12 @@ export const AuthContextProvider = function ({ children }) {
     const newPhoto = localStorage.getItem(`${auth.id}photoUrl`);
 
     if (newPhoto) {
-      console.log('newPhoto', newPhoto);
+      //console.log('newPhoto', newPhoto);
 
       const updatePhoto = JSON.parse(newPhoto);
       setPhoto(updatePhoto);
     } else {
-      // console.log('no photo');
+      // //console.log('no photo');
     }
   }, [first]);
 
