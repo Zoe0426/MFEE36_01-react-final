@@ -421,7 +421,7 @@ const handleDraft = () => {
             <Form
             onFinish={submitForm}
             >
-            <PostNavPure postNav='發佈文章'/>
+            <PostNavPure postNav='編輯文章'/>
             <div className={Style.postContent}>
               <div className={Style.label}>
                 <FontAwesomeIcon className={Style.icon} icon={faLayerGroup} style={{maxWidth:20, maxHeight:20}}/>

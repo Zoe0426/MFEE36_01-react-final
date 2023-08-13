@@ -71,6 +71,7 @@ export default function BlogIndex() {
       .then((data) => {
         setData(data);
         setNewData(data.rows);
+        setPage(data.page);
         console.log('data', data);
         console.log('data.rows', data.rows);
         // console.log('newData', newData);
