@@ -25,7 +25,7 @@ export default function OrderList() {
   const router = useRouter();
 
   const searchBarClickHandler = (keyword) => {
-    // console.log(keyword);
+    // //console.log(keyword);
     if (shop) {
       router.push(
         `?${new URLSearchParams({
@@ -63,7 +63,7 @@ export default function OrderList() {
         const keywordS = router.query.keywordS;
         const keywordA = router.query.keywordA;
         const keywordR = router.query.keywordR;
-        console.log('keywordR', keywordR);
+        //console.log('keywordR', keywordR);
         if (keywordS) {
           fetch(
             `${process.env.API_SERVER}/member-api/order?${new URLSearchParams({
@@ -77,7 +77,7 @@ export default function OrderList() {
           )
             .then((r) => r.json())
             .then((data) => {
-              console.log(data);
+              //console.log(data);
               const firstData = data.filter(
                 (data) => data.rel_type === 'shop' && data.orderStatus === 1
               );
@@ -98,7 +98,7 @@ export default function OrderList() {
           )
             .then((r) => r.json())
             .then((data) => {
-              console.log(data);
+              //console.log(data);
               const firstData = data.filter(
                 (data) => data.rel_type === 'activity' && data.orderStatus === 1
               );
@@ -119,7 +119,7 @@ export default function OrderList() {
           )
             .then((r) => r.json())
             .then((data) => {
-              console.log(data);
+              //console.log(data);
               const firstData = data.filter((data) => data.orderStatus === 0);
               setData(firstData);
               setAllData(data);
@@ -135,7 +135,7 @@ export default function OrderList() {
           })
             .then((r) => r.json())
             .then((data) => {
-              console.log(data);
+              //console.log(data);
               const firstData = data.filter(
                 (data) => data.rel_type === 'shop' && data.orderStatus === 1
               );
@@ -156,7 +156,7 @@ export default function OrderList() {
     const newData = allData.filter(
       (data) => data.rel_type === 'shop' && data.orderStatus === 1
     );
-    console.log(newData);
+    //console.log(newData);
     setData(newData);
     setShop(true);
     setActivity(false);
@@ -167,7 +167,7 @@ export default function OrderList() {
     const newData = allData.filter(
       (data) => data.rel_type === 'activity' && data.orderStatus === 1
     );
-    console.log(newData);
+    //console.log(newData);
     setData(newData);
     setActivity(true);
     setShop(false);
@@ -176,7 +176,7 @@ export default function OrderList() {
 
   const repayOrder = () => {
     const newData = allData.filter((data) => data.orderStatus === 0);
-    console.log(newData);
+    //console.log(newData);
     setData(newData);
     setRepay(true);
     setActivity(false);

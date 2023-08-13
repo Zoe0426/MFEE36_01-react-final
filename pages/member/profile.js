@@ -48,12 +48,12 @@ export default function Profile() {
   //咦進來就要把嗟到的照片變成ＦＩＬＥ
   //const [avatar, setAvatar] = useState([]);
 
-  // //console.log('avatar', avatar);
-  ////console.log('memProfileImg1', memProfileImg);
+  // ////console.log('avatar', avatar);
+  //////console.log('memProfileImg1', memProfileImg);
 
   const [fileList, setFileList] = useState([]);
   const [toUpload, setToUpload] = useState(false);
-  console.log('isPass', isPass);
+  //console.log('isPass', isPass);
 
   const changeToUpload = () => {
     setToUpload(true);
@@ -74,7 +74,7 @@ export default function Profile() {
     } else if (auth.id) {
       setPageLoading(false);
       if (auth.token) {
-        console.log('token', auth.token);
+        //console.log('token', auth.token);
         fetch(`${process.env.API_SERVER}/member-api/edit`, {
           headers: {
             Authorization: 'Bearer ' + auth.token,
@@ -82,14 +82,14 @@ export default function Profile() {
         })
           .then((r) => r.json())
           .then((data) => {
-            console.log(data);
+            //console.log(data);
             setData(data);
             let array = data;
             let obj = array[0];
-            console.log('tt', obj.birthday);
+            //console.log('tt', obj.birthday);
             let birthday =
               obj && obj.birthday ? dayjs(obj.birthday, dateFormat) : null;
-            console.log('birthday', birthday);
+            //console.log('birthday', birthday);
             setInitialValues({
               memberSid: obj ? obj.memberSid : '',
               name: obj ? obj.name : '',
@@ -113,33 +113,33 @@ export default function Profile() {
             //     },
             //   ]);
             // }
-            //console.log('obj', obj.profile);
+            ////console.log('obj', obj.profile);
           });
       } else {
-        //console.log('User is not logged in. Cannot fetch coupons.');
+        console.log('User is not logged in. Cannot fetch coupons.');
       }
     }
   }, [auth, first, memProfileImg]);
-  console.log('birthday', initialValues.birthday);
-  //console.log('token', auth.token);
+  //console.log('birthday', initialValues.birthday);
+  ////console.log('token', auth.token);
 
   const beforeUpload = (file) => {
     let isJpgOrPng = true;
     if (file.type == 'image/jpeg' || file.type == 'image/png') {
-      console.log('not right type');
+      //console.log('not right type');
       isJpgOrPng = true;
-      console.log('-117', isJpgOrPng);
+      //console.log('-117', isJpgOrPng);
     } else {
       isJpgOrPng = false;
     }
     if (isJpgOrPng === false) {
-      console.log('typefalse');
+      //console.log('typefalse');
       //message.error('You can only upload JPG/PNG file!');
       setImgType(false);
       setIsPass(!isPass);
       return;
     } else {
-      console.log('hellojpgpng');
+      //console.log('hellojpgpng');
       setImgType(true);
       setIsPass(false);
     }
@@ -192,10 +192,10 @@ export default function Profile() {
   );
 
   const onFinish = (values) => {
-    //console.log('選中的值:', values);
+    ////console.log('選中的值:', values);
   };
   const onFinishFailed = (errorInfo) => {
-    //console.log('Failed:', errorInfo);
+    ////console.log('Failed:', errorInfo);
   };
 
   const validatePhone = (_, value) => {
@@ -215,16 +215,16 @@ export default function Profile() {
     obj = array[0];
   }
 
-  //console.log('obj', obj);
+  ////console.log('obj', obj);
 
   // 表單送出
   const handleSubmit = (values) => {
-    //console.log(values);
+    ////console.log(values);
     const formData = new FormData();
 
     formData.append('email', values.email);
     formData.append('avatar', values.avatar.file.originFileObj);
-    console.log('first', values.avatar.file.originFileObj);
+    //console.log('first', values.avatar.file.originFileObj);
     formData.append('memberSid', values.memberSid);
     formData.append('name', values.name);
     formData.append('mobile', values.mobile);
@@ -236,17 +236,17 @@ export default function Profile() {
     formData.append('gender', values.gender);
     formData.append('pet', values.pet);
 
-    // //console.log(formData.has('avatar')); // 应该输出 true
+    // ////console.log(formData.has('avatar')); // 应该输出 true
 
-    // //console.log('formData', formData.get('email'));
-    console.log('formData', formData.get('avatar'));
-    // //console.log('formData', formData.get('memberSid'));
-    console.log('formData', formData.get('name'));
-    console.log('表格寫入生日', formData.get('birthday'));
-    // //console.log('formData', formData.get('mobile'));
-    // //console.log('formData', formData.get('birthday'));
-    // //console.log('formData', formData.get('gender'));
-    // //console.log('formData', formData.get('pet'));
+    // ////console.log('formData', formData.get('email'));
+    //console.log('formData', formData.get('avatar'));
+    // ////console.log('formData', formData.get('memberSid'));
+    //console.log('formData', formData.get('name'));
+    //console.log('表格寫入生日', formData.get('birthday'));
+    // ////console.log('formData', formData.get('mobile'));
+    // ////console.log('formData', formData.get('birthday'));
+    // ////console.log('formData', formData.get('gender'));
+    // ////console.log('formData', formData.get('pet'));
 
     fetch('http://localhost:3002/member-api/updateInfo', {
       method: 'PUT',
@@ -257,7 +257,7 @@ export default function Profile() {
     })
       .then((r) => r.json())
       .then((data) => {
-        //console.log('l-204', data[0].profile);
+        ////console.log('l-204', data[0].profile);
         setMemProfileImg(data[0].profile);
         const photo = `${process.env.API_SERVER}/img/${data[0].profile}`;
         localStorage.setItem(`${auth.id}photoUrl`, JSON.stringify(photo));
@@ -270,7 +270,7 @@ export default function Profile() {
           router.push(from);
         }, 1000);
       });
-    ////console.log('memProfileImg2', memProfileImg);
+    //////console.log('memProfileImg2', memProfileImg);
   };
 
   if (pageLoading) {

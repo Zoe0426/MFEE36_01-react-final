@@ -26,7 +26,7 @@ export default function MemberSidebar() {
       })
         .then((r) => r.json())
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           setData(data);
         });
       fetch(`${process.env.API_SERVER}/member-api/edit`, {
@@ -37,7 +37,7 @@ export default function MemberSidebar() {
         .then((r) => r.json())
         .then((data2) => {
           setData2(data2);
-          console.log('data2', data2[0].profile);
+          //console.log('data2', data2[0].profile);
           if (data2[0].profile) {
             setMemProfileImg(data2[0].profile);
           } else {
