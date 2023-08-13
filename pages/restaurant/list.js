@@ -581,21 +581,25 @@ export default function FilterPage() {
 
   //將資料送到後端
   const sendLikeList = async (arr, token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: arr }),
-      }
-    );
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: arr }),
+        }
+      );
+      const data = await res.json();
 
-    if (data.success) {
-      console.log(data);
+      if (data.success) {
+        // console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -665,7 +669,7 @@ export default function FilterPage() {
         }
       );
       const result = await removeAll.json();
-      console.log(JSON.stringify(result, null, 4));
+      // console.log(JSON.stringify(result, null, 4));
       if (rid === 'all') {
         setTimeout(() => {
           toggleLikeList();
