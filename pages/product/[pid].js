@@ -836,7 +836,8 @@ export default function Product() {
 
   const joinRoom = (username) => {
     const productName = datatForProductMain.name;
-    ws.emit('joinRoom', { username, productName }); // 將使用者名稱傳送到後端
+    const img = auth.profile;
+    ws.emit('joinRoom', { username, productName, img }); // 將使用者名稱傳送到後端
   };
 
   const initWebSocket = () => {
