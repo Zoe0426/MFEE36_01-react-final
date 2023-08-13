@@ -258,11 +258,13 @@ export default function ProdoctIndex() {
   };
 
   const searchBarClickHandler = () => {
-    router.push(
-      `${process.env.WEB}/product/list?${new URLSearchParams({
-        keyword: keyword,
-      }).toString()}`
-    );
+    if (keyword) {
+      router.push(
+        `${process.env.WEB}/product/list?${new URLSearchParams({
+          keyword: keyword,
+        }).toString()}`
+      );
+    }
   };
 
   const autocompleteHandler = (selectkeyword) => {

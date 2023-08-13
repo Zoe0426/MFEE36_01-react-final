@@ -34,7 +34,9 @@ export default function NumberInput({
   };
   const handleBlur = () => {
     const newValue =
-      isNaN(defaultValue) || defaultValue === '' ? 1 : defaultValue;
+      isNaN(defaultValue) || defaultValue === '' || defaultValue === 0
+        ? 1
+        : defaultValue;
     // setValue(newValue);
     handleNumber(newValue);
   };

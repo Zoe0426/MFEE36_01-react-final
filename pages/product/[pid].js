@@ -121,7 +121,7 @@ export default function Product() {
   const [messages, setMessages] = useState([]);
   const [displayChatRoom, setDisplayChatRoom] = useState(false);
   const [showToolTips, setShowToolTips] = useState(false);
-
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   //控制主商品照片放大的
   const [countEnterMainPic, setCoutEnterMainPic] = useState(1);
   const [isMouseOverOnMainPic, setIsMouseOverOnMainPic] = useState(false);
@@ -330,6 +330,7 @@ export default function Product() {
       setUsername('');
       setMessages([]);
       setDisplayChatRoom(false);
+      setShowEmojiPicker(false);
     }
   }, [router.query, first]);
 
@@ -551,9 +552,9 @@ export default function Product() {
 
       const data = await res.json();
 
-      if (data.likeDatas.length > 0) {
-        setLikeDatas(data.likeDatas);
-      }
+      // if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -819,7 +820,9 @@ export default function Product() {
       chatCloseHandler();
     } else {
       //建立socket連線
-      setWs(io(`${process.env.API_SERVER}`));
+      // setWs(io(`ws://${location.host.split(':')[0]}:3002`));
+      // setWs(io(`${process.env.API_SERVER}`));
+      setWs(io(`${process.env.WS}`));
       setDisplayChatRoom(true);
     }
   };
@@ -833,7 +836,8 @@ export default function Product() {
 
   const joinRoom = (username) => {
     const productName = datatForProductMain.name;
-    ws.emit('joinRoom', { username, productName }); // 將使用者名稱傳送到後端
+    const img = auth.profile;
+    ws.emit('joinRoom', { username, productName, img }); // 將使用者名稱傳送到後端
   };
 
   const initWebSocket = () => {
@@ -872,10 +876,9 @@ export default function Product() {
       sendMessage(inputText);
     }
   };
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const handleEmojiSelect = (emoji) => {
-       setInputText((prevInput) => prevInput + emoji.native);
+    setInputText((prevInput) => prevInput + emoji.native);
     setShowEmojiPicker(false);
   };
   const toggleDisplayForEmoji = () => {

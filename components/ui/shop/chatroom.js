@@ -40,7 +40,15 @@ export default function Chatroom({
             onClick={closeHandler}
           />
         </div>
-        <div className={styles.chatroom_textarea} ref={chatroomRef}>
+        <div
+          className={styles.chatroom_textarea}
+          ref={chatroomRef}
+          onClick={() => {
+            if (showEmojiPicker) {
+              toggleDisplayForEmoji();
+            }
+          }}
+        >
           <ul>
             {chatroomDatas.map((v, i) => {
               return (
@@ -136,6 +144,11 @@ export default function Chatroom({
             onChange={changeHandler}
             onKeyDown={keyDownHandler}
             placeholder="請輸入訊息"
+            onFocus={() => {
+              if (showEmojiPicker) {
+                toggleDisplayForEmoji();
+              }
+            }}
           />
 
           <button onClick={clickHandler}>傳送</button>

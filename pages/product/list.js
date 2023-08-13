@@ -389,9 +389,9 @@ export default function List() {
       );
       const data = await res.json();
 
-      if (data.likeDatas.length > 0) {
+      // if (data.likeDatas.length > 0) {
         setLikeDatas(data.likeDatas);
-      }
+      // }
     } catch (error) {
       console.log(error);
     }
