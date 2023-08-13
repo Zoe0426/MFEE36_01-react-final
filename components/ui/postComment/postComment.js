@@ -13,7 +13,6 @@ export default function PostComment({profile='',author='',comment='',floor='',da
                 <p className={Style.comment}>{comment}</p>
             </div>
             <div className={Style.details}>
-                <div className={Style.floor}>{floor}</div>
                 <div className={Style.date}>{date}</div>
             </div>
         </div>

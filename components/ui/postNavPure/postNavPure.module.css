@@ -4,11 +4,12 @@
     width:100%;
     display: flex;
     align-content: center;
+    border-radius: 10px 10px 0 0;
 }
 .postNavText{
     font-size: var(--h3fs28);
     font-weight: bold;
     padding-left:20px;
-    padding-top:10px;
+    padding-top:5px;
     width:80%;
 }

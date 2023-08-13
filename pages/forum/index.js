@@ -10,6 +10,8 @@ import { useRouter } from 'next/router'
 // 下拉選單
 import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown,ConfigProvider, message, Space, Tooltip } from 'antd';
+// 找不到結果的卡片
+import NotFindCard from '@/components/ui/cards/not-find-card';
 export default function Post() {
   const router = useRouter();
   const [page, setPage] = useState(1);
@@ -262,162 +264,6 @@ const menuProps = {
     );
   };
 
-
-
-//  //醫療版
-//   const doctor = ()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 1,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((forumData) => forumData.board_sid === 1);
-//     // setData(newData);
-//   }
-//   //住宿版
-//   const home = ()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 2,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 2);
-//     // setData(newData);
-//   }
-//   //景點版
-//   const site = ()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 3,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 3);
-//     // setData(newData);
-//   }
-//   //餐廳版
-//   const restaurant=()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 8,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 8);
-//     // setData(newData);
-//   }
-//   //美容版
-//   const salon=()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 4,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 4);
-//     // setData(newData);
-//   }
-//   //學校版
-//   const school=()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 7,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 7);
-//     // setData(newData);
-//   }
-//   //狗貓聚版
-//   const hang=()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 5,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 5);
-//     // setData(newData);
-//   }
-//   //幼犬貓板
-//   const young=()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 11,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 11);
-//     // setData(newData);
-//   }
-//   //老犬貓板
-//   const old=()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 12,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 12);
-//     // setData(newData);
-//   }
-//   //好物版
-//   const product=()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 9,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 9);
-//     // setData(newData);
-//   }
-//   //毛孩日記
-//   const diary=()=>{
-//     router.push(
-//       `?${new URLSearchParams({
-//         ...router.query,
-//         page:1,
-//         orderBy: orderBy,
-//         board_sid: 6,
-//         // perPage: perpage,
-//       }).toString()}`
-//     );
-//     // const newData = forumData.rows.filter((data) => data.board_sid === 6);
-//     // setData(newData);
-//   }
   const PostAuthorBTNHandler =()=>{
     router.push(`/forum/blog`)
   }
@@ -433,39 +279,6 @@ const menuProps = {
           <BoardNav 
           changeBoardSid={changeBoardSid}
           board_sid={board_sid}
-          // doctor={()=>{
-          //   doctor();
-          // }}
-          // home={()=>{
-          //   home();
-          // }}
-          // site={()=>{
-          //   site();
-          // }}
-          // restaurant={()=>{
-          //   restaurant();
-          // }}
-          // salon={()=>{
-          //   salon();
-          // }}
-          // school={()=>{
-          //   school();
-          // }}
-          // hang={()=>{
-          //   hang();
-          // }}
-          // young={()=>{
-          //   young();
-          // }}
-          // old={()=>{
-          //   old();
-          // }}
-          // product={()=>{
-          //   product();
-          // }}
-          // diary={()=>{
-          //   diary()
-          // }}
           PostAuthorBTNHandler={PostAuthorBTNHandler}
           img='/forum_img/board_img/個人頁面.png' text='個人頁面'/>
           <div className="container-inner">
@@ -495,7 +308,8 @@ const menuProps = {
               </ConfigProvider>
             </div>
             <div className={Style.postBody}>
-              {data.map((v,i)=>(
+            {data.length > 0 ? (
+              data.map((v,i)=>(
               <Link key={v.post_sid} href={`/forum/${v.post_sid}`}>
               <PostCard className={Style.postCard} key={v.post_sid}
               profile={`${process.env.API_SERVER}/img/${v.profile}`} 
@@ -508,7 +322,9 @@ const menuProps = {
               comments={v.postComment} 
               favorites={v.postFavlist}/>          
               </Link>
-              ))}   
+              ))  
+            ): (<NotFindCard textForCat="非常抱歉!" textForDog="沒有找到相關文章!" />)
+          }
               <div className={Style.page}>
                 <ConfigProvider
                 theme={{

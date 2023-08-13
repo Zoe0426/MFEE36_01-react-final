@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Style from './postcollection.module.css';
 import BlogBanner from '@/components/ui/blogBanner/blogBanner';
-import { Col, Row, Pagination} from 'antd';
+import { Col, Row, Pagination, ConfigProvider} from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
 import BlogNav from '@/components/ui/blogNav/blogNav';
 import PostCardBlog from '@/components/ui/PostCard/postCardmyPost';
@@ -71,6 +71,7 @@ export default function BlogIndex() {
       .then((data) => {
         setData(data);
         setNewData(data.rows);
+        setPage(data.page);
         console.log('data', data);
         console.log('data.rows', data.rows);
         // console.log('newData', newData);
@@ -172,7 +173,7 @@ export default function BlogIndex() {
   }
 
   return (
-    <div className="container-outer">
+    <div className={Style.containerOuter}>
       <div className={Style.body}>
         <BlogBanner changeHandler={getSearchbarValue} 
         clickHandler={searchKeyword} 
@@ -182,7 +183,7 @@ export default function BlogIndex() {
         <Row className={Style.antRow}>
           <Col span={6}>
               <BlogSidebar
-                profile="/forum_img/kabo-p6yH8VmGqxo-unsplash.jpg"
+                profile={'/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg'}
                 memberName={newData[0]?.nickname}
               />
           </Col>
@@ -206,17 +207,33 @@ export default function BlogIndex() {
                        viewPost={() => viewPost(v.post_sid)}
                        editPost={() => editPost(v.post_sid)}
                      />
-                 ))}             
-                <div className={Style.editBg}>
-                  <FontAwesomeIcon icon={faPenToSquare} className={Style.editIcon} />
-                </div>
+                 ))} 
+                <Link href={'http://localhost:3000/forum/blog/post'}>
+                  <div className={Style.editBg}>
+                    <FontAwesomeIcon icon={faPenToSquare} className={Style.editIcon} />
+                  </div>
+                </Link>            
                 <div className={Style.pagination}>
+                <ConfigProvider
+                theme={{
+                token: {
+                  colorPrimary: '#FD8C46',
+                  colorBgContainer: 'transparent',
+                  colorBgTextHover: '#FFEFE8',
+                  colorBgTextActive: '#FFEFE8',
+                  fontSize: 18,
+                  controlHeight: 38,
+                  lineWidthFocus: 1,
+                    },
+                  }}
+                >
                 <Pagination
                 current={page}
                 total={postNum} // 使用新的 state postNum 來設置 total
                 pageSize={perPage}
                 onChange={PageChangeHandler}
               /> 
+              </ConfigProvider>
                 </div>
               </div>
             </div>

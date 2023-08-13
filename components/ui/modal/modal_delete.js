@@ -9,8 +9,8 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Input, ConfigProvider } from 'antd';
 import IconMainBtn from '../buttons/IconMainBtn';
 import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
-export default function ModalDelete({
-  btnType = 'main', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn)、input(ant d input)、closeBtn(x), text(純文字)六種
+export default function ModalCancel({
+  btnType = 'secondary', //選點了展開modal的Btn類型，目前有main(MainBtn)，heart(愛心)、iconBtn(iconBtn)、input(ant d input)、closeBtn(x), text(純文字)六種
   icon = '', //選擇iconBtn的，請先把要用的icon引入到主頁面，並傳給此參數
   btnText = '點我展開modal', // 選點了展開modal的Btn文字內容
   mainBtnText = '確認', //確認btn的文字
@@ -18,6 +18,7 @@ export default function ModalDelete({
   showSubBtn = true, //是否需要顯示取消的按鈕
   content = <></>,
   confirmHandler = () => {},
+ 
 }) {
   const [modal, setModal] = useState(false);
 
@@ -37,8 +38,8 @@ export default function ModalDelete({
 
   return (
     <>
-      {btnType === 'main' ? (
-        <MainBtn clickHandler={toggleModal} text={btnText} />
+      {btnType === 'secondary' ? (
+        <SecondaryBtn clickHandler={toggleModal} text={btnText} htmltype='button'/>
       ) : btnType === 'trash' ? (
         <FontAwesomeIcon
           icon={faTrashCan}
@@ -84,7 +85,7 @@ export default function ModalDelete({
               {/* <div className={Styles.line}></div> */}
               <div className={Styles.btn_group}>
                 {showSubBtn && (
-                  <SecondaryBtn text={subBtnText} clickHandler={toggleModal} />
+                  <SecondaryBtn text={subBtnText} clickHandler={toggleModal}/>
                 )}
                 <MainBtn clickHandler={confirmBtn} text={mainBtnText} />
               </div>

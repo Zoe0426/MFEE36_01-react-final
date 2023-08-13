@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Style from './postcollection.module.css';
 import BlogBanner from '@/components/ui/blogBanner/blogBanner';
-import { Col, Row, Pagination} from 'antd';
+import { Col, Row, Pagination, ConfigProvider} from 'antd';
 import BlogSidebar from '@/components/ui/blogSidebar/blogSidebar';
 import BlogNav from '@/components/ui/blogNav/blogNav';
 import PostCardDraft from '@/components/ui/PostCard/postCardDraft';
@@ -163,15 +163,16 @@ export default function BlogIndex() {
     .then((r)=> r.json())
     .then((data)=> {
       console.log('data', data);
-      setNewData(data);
+      if(data.result.affectedRows===1){
+        router.push(`/forum/blog/draft`);
+        setPostNum(postNum-1);
+      }else{
+        alert('刪除不成功')
+      }
     })
     .catch((error) => {
       console.error('Error delete:', error);
     });
-    console.log('data',data);
-    setNewData(data);
-    setPostNum(postNum);
-    console.log('postNum',postNum);
   }
   // edit post
   const editPost = (post_sid) => {
@@ -179,7 +180,7 @@ export default function BlogIndex() {
   }
 
   return (
-    <div className="container-outer">
+    <div className={Style.containerOuter}>
     <Head>
       <title>狗with咪 | 論壇</title>
     </Head>
@@ -192,7 +193,7 @@ export default function BlogIndex() {
         <Row className={Style.antRow}>
           <Col span={6}>
               <BlogSidebar
-                profile="/forum_img/kabo-p6yH8VmGqxo-unsplash.jpg"
+              profile={'/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg'}
                 memberName={newData[0]?.nickname}
               />
           </Col>
@@ -216,16 +217,32 @@ export default function BlogIndex() {
                      />
                      ))}             
                    {/* </Link> */}
+              <Link href={'http://localhost:3000/forum/blog/post'}>
                 <div className={Style.editBg}>
                   <FontAwesomeIcon icon={faPenToSquare} className={Style.editIcon} />
                 </div>
+              </Link>
                 <div className={Style.pagination}>
+                <ConfigProvider
+                theme={{
+                token: {
+                  colorPrimary: '#FD8C46',
+                  colorBgContainer: 'transparent',
+                  colorBgTextHover: '#FFEFE8',
+                  colorBgTextActive: '#FFEFE8',
+                  fontSize: 18,
+                  controlHeight: 38,
+                  lineWidthFocus: 1,
+                    },
+                  }}
+                >
                 <Pagination
                 current={page}
                 total={postNum} // 使用新的 state postNum 來設置 total
                 pageSize={perPage}
                 onChange={PageChangeHandler}
               /> 
+              </ConfigProvider>
                 </div>
               </div>
             </div>

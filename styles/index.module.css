@@ -39,4 +39,7 @@
     justify-content: center;
     margin: 30px;
 }
+.postNav{
+    border-radius: 10px 10px 0 0;
+}
 

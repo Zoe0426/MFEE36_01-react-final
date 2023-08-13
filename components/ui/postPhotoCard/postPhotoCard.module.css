@@ -29,6 +29,42 @@
     object-position: top center;
     border-radius:var(--br10);
 }
+.imgHidden{
+    /* width:200px; */
+    overflow: hidden;
+}
+.imgRange{
+    width:200px;
+    height:100%;
+    display:flex;
+    position: relative;
+}
+.imgBorder{
+  width:100%;
+  /* height:150px; */
+  /* position: relative; */
+  position: absolute;
+  display: flex;
+  top:25px;
+  justify-content: center;
+  /* padding-left: 10px; */
+  margin: 0;
+}
+.right, .left{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+  }
+.diaryTitle{
+    position: absolute;
+    top:240px;
+    left:30px;
+}
+.diaryContent{
+    position: absolute;
+    top:260px;
+    left:30px;
+}
 .boardName{
     width:130px;
     height:35px;
