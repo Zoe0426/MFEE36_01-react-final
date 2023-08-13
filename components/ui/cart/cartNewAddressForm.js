@@ -74,7 +74,7 @@ export default function CartNewAddressForm({
       mystorename = values.sevenAddress.split('_')[1];
     }
     //原有資料加入新地址
-    console.log({ values });
+    //console.log({ values });
     postAddData.unshift({
       address: myaddress,
       address_sid: newSid,

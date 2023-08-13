@@ -19,7 +19,7 @@ export default function Cart() {
   const { auth } = useContext(AuthContext);
   const router = useRouter();
   const query = router.query;
-  console.log(query.orderSid);
+  //console.log(query.orderSid);
 
   const [orderSid, setOrderSid] = useState('');
   const [first, setFirst] = useState(false);
@@ -88,12 +88,12 @@ export default function Cart() {
       setCouponData(data.coupon);
       setOrderInfo(data.orderInfo);
 
-      console.log(data);
+      //console.log(data);
       if (data.postType) {
         setPostType(data.postType);
       }
     } catch (er) {
-      console.log(er);
+      //console.log(er);
       throw new Error('取訂單資料時出錯');
     }
   };

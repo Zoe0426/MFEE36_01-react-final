@@ -23,7 +23,7 @@ export default function CartTotalSection({
   showCouponModalHandler = () => {},
 }) {
   const [showCard, setShowCard] = useState(false);
-  console.log(postType);
+  //console.log(postType);
   const postAmount = postType === 1 ? 90 : 60;
   const shopSelected = shopData.reduce((a, v) => {
     return v.selected ? a + 1 : a;
@@ -74,8 +74,8 @@ export default function CartTotalSection({
     onClick: selectPaymentType,
   };
   const showInfoCard = () => {
-    console.log('clicked');
-    console.log(showCard);
+    //console.log('clicked');
+    //console.log(showCard);
     setShowCard(true);
   };
   const notShowCard = () => {

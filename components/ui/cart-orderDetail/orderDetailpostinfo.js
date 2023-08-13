@@ -9,7 +9,7 @@ export default function OrderDetailPostInfo({
   post_store_name = '',
   create_dt = '',
 }) {
-  console.log(post_type);
+  //console.log(post_type);
   return (
     <div className={style.postDetails}>
       <div className={style.postTo}>

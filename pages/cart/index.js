@@ -114,7 +114,7 @@ export default function Cart() {
       },
     });
     const data = await r.json();
-    console.log(data);
+    //console.log(data);
     if (data.shop.length > 0) {
       const myShopData = data.shop.map((v) => ({ ...v, selected: false }));
       setShopData(myShopData);
@@ -240,8 +240,8 @@ export default function Cart() {
     setCouponmodal(true);
     document.body.classList.add('likeList-open');
   };
-  console.log(couponData);
-  console.log(cartData);
+  //console.log(couponData);
+  //console.log(cartData);
   if (pageLoading) {
     return <Loading />;
   } else if (!pageLoading) {

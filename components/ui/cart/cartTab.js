@@ -42,7 +42,7 @@ export default function CartTab({
         if (shopSelectStatus) {
           setModal(!modal);
           document.body.classList.add('likeList-open');
-          console.log('add');
+          //console.log('add');
         } else {
           changeTypeHandler('activity');
         }
@@ -52,7 +52,7 @@ export default function CartTab({
   const closeHandler = () => {
     setModal(false);
     document.body.classList.remove('likeList-open');
-    console.log('remove');
+    //console.log('remove');
   };
   const confirmHandler = () => {
     checkoutType === 'shop'
@@ -60,7 +60,7 @@ export default function CartTab({
       : changeTypeHandler('shop');
     setModal(false);
     document.body.classList.remove('likeList-open');
-    console.log('remove');
+    //console.log('remove');
   };
   return (
     <>

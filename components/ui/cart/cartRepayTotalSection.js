@@ -48,8 +48,8 @@ export default function CartTotalSection({
     onClick: selectPaymentType,
   };
   const showInfoCard = () => {
-    console.log('clicked');
-    console.log(showCard);
+    //console.log('clicked');
+    //console.log(showCard);
     setShowCard(true);
   };
   const notShowCard = () => {

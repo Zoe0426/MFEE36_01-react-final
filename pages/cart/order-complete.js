@@ -55,7 +55,7 @@ export default function OrderComplete() {
       }
     );
     const data = await r.json();
-    console.log('data:', data);
+    //console.log('data:', data);
     setOrderInfo(data);
   };
 
@@ -80,11 +80,11 @@ export default function OrderComplete() {
       auth.id === query.memberSid && getOrderDetail(sid, query.checkoutType);
     }
   }, [auth, first, query]);
-  console.log(orderInfo);
+  //console.log(orderInfo);
   if (pageLoading) {
     return <Loading />;
   } else {
-    console.log('pc pt', orderInfo.post_type);
+    //console.log('pc pt', orderInfo.post_type);
     return (
       <>
         {successHead && (

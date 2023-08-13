@@ -27,11 +27,11 @@ export default function SearchSeven({
   };
   const handleBlur = (event) => {
     const sevenAddress = event.target.value;
-    console.log({ sevenAddress });
+    //console.log({ sevenAddress });
     const isValueInOptions = options.some((v) => {
       return v.value === sevenAddress;
     });
-    console.log({ isValueInOptions });
+    //console.log({ isValueInOptions });
     if (!isValueInOptions) {
       setSevenAddress('');
     }

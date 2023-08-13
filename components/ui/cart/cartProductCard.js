@@ -41,7 +41,7 @@ export default function CartProductCard({
   };
 
   const removeItemFromDb = async (sid) => {
-    console.log('remove cart_sid:', sid);
+    //console.log('remove cart_sid:', sid);
     const r = await fetch(
       `${process.env.API_SERVER}/cart-api/remove-cart-item`,
       {
@@ -51,7 +51,7 @@ export default function CartProductCard({
       }
     );
     const result = await r.json();
-    console.log('remove-result:', result);
+    //console.log('remove-result:', result);
     if (result === 'success') {
       setShopData((old) => old.filter((v) => v.cart_sid !== sid));
       updateCart(relSid, relSeqSid, 'remove');

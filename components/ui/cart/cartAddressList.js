@@ -81,10 +81,10 @@ export default function CartAddressList({
         setPostAddData(newData);
         setselectedAddSid(selectedSid);
       } else {
-        console.log('fail to delete address');
+        //console.log('fail to delete address');
       }
     } catch (er) {
-      console.log(er);
+      //console.log(er);
     }
   };
   const scrollToHandler = () => {

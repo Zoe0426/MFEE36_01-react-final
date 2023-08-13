@@ -61,7 +61,7 @@ export default function Home() {
     setPostData(data.forum);
     setActivityImgs(data.activityImgs);
     setIsloading(false);
-    console.log(data);
+    //console.log(data);
   };
   const hashShop = [
     '飼料',
