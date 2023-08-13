@@ -57,5 +57,11 @@
 .description{
     font-size: var(--h6fs18);
     line-height: 22px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* 顯示的行数 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 66px;
 }
   

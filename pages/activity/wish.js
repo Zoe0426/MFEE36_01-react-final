@@ -565,7 +565,15 @@ export default function ActivityWish() {
         throw new Error('送出願望 失敗');
       }
 
+      //成功的話
       setSuccessAddToCard(true);
+      setTimeout(() => {
+        router.push(
+          `${process.env.WEB}/activity/vote`
+        );
+      }, 1200);
+      
+      //失敗的話
       setTimeout(() => {
         setSuccessAddToCard(false);
       }, 1200);
@@ -634,9 +642,9 @@ export default function ActivityWish() {
         <div className={styles.title}>
           <div className={styles.title_text}>活動許願池</div>
           <p className={styles.intro}>
-            歡迎想發起活動的大家，將活動需求填寫於下方表單中。
+            歡迎想發起活動的您，將活動需求填寫於下方表單中。
           </p>
-          <p className={styles.intro}>表單送出後我們將會盡快與您聯繫！</p>
+          <p className={styles.intro}>表單送出後可以到'我要投票'看最新投票狀況噢！</p>
         </div>
       </div>
 
