@@ -162,6 +162,12 @@ export default function BlogIndex() {
     .then((r)=> r.json())
     .then((data)=> {
       console.log('data', data);
+      if(data.result.affectedRows===1){
+        router.push(`/forum/blog`);
+        setPostNum(postNum-1);
+      }else{
+        alert('刪除不成功')
+      }
     })
     .catch((error) => {
       console.error('Error delete:', error);
