@@ -34,20 +34,20 @@ export default function PostCollection() {
   //關鍵字動作
   const getSearchbarValue = (e) => {
     setKeyword(e.target.value);
-    console.log('e.target.value',e.target.value);
+    // console.log('e.target.value',e.target.value);
   }
   const keyEnter = (e) =>{
     if(e.key === 'Enter'){
-      console.log('enter');
+      // console.log('enter');
       getSearchData();
     }
-    console.log(e);
+    // console.log(e);
   }
   const searchKeyword = (e) => {
-    console.log("send search");
+    // console.log("send search");
     getSearchData();
   }
-  console.log(listName);
+  // console.log(listName);
   // 把keyEnter和searchKeyword並一起
   const getSearchData = ()=>{
     router.push(
@@ -58,8 +58,8 @@ export default function PostCollection() {
         keyword: keyword
       }).toString()}`
     );
-    console.log('newData:',newData);
-    console.log('postNum',postNum);
+    // console.log('newData:',newData);
+    // console.log('postNum',postNum);
   }
   
   // 會員登入的auth
@@ -84,9 +84,9 @@ export default function PostCollection() {
         setNewData(data.rows);
         setItems(data.items);
         // setAllData(data.rows); // 將所有文章數據存儲在 allData 中
-        console.log('newData', newData);
-        console.log('data.rows', data.rows);
-        console.log('data.rows.length', data.rows.length);
+        // console.log('newData', newData);
+        // console.log('data.rows', data.rows);
+        // console.log('data.rows.length', data.rows.length);
       });
   };
 
@@ -104,7 +104,7 @@ export default function PostCollection() {
   }, [auth, first]);
 
       useEffect(() => {
-        console.log(auth); //第一次auth會寫進local storage裡面
+        // console.log(auth); //第一次auth會寫進local storage裡面
     
         // 從 URL 中讀取 page 參數，若不存在，預設為 1
         // const currentPage = router.query.page ? parseInt(router.query.page) : 1;
@@ -124,7 +124,7 @@ export default function PostCollection() {
               const postNum = newData.totalRows;
               setPostNum(postNum); // 設定文章數量
               // setPage(currentPage);
-              console.log('postNum',postNum);
+              // console.log('postNum',postNum);
               // const firstFavoriteNickname = newData[0].favorite_nickname;
               // console.log(firstFavoriteNickname);
 
@@ -174,8 +174,8 @@ export default function PostCollection() {
       );
       setListName(listName);
       setNewData(newData);
-      console.log('click', e);
-      console.log('newData',newData);
+      // console.log('click', e);
+      // console.log('newData',newData);
     };
 
 
