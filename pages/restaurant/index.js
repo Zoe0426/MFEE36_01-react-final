@@ -181,7 +181,7 @@ export default function Restindex() {
         return data;
       }
 
-      console.log(searchWord);
+      // console.log(searchWord);
 
       if (Array.isArray(data)) {
         // 確保 data 是陣列
@@ -195,7 +195,7 @@ export default function Restindex() {
         });
       }
 
-      console.log(data);
+      // console.log(data);
 
       data.sort((a, b) => b.count - a.count);
 
@@ -292,7 +292,7 @@ export default function Restindex() {
   //篩選的部分
   const filterHandler = () => {
     const filterCate = filters.category;
-    console.log(filterCate);
+    // console.log(filterCate);
 
     //時間篩選
     const start = startTime ? startTime + ':00' : null;
@@ -302,7 +302,7 @@ export default function Restindex() {
     const selectedDate = datePickerValue;
     const selectedDayOfWeek = selectedDate ? selectedDate.$W : null;
 
-    console.log(selectedDate);
+    // console.log(selectedDate);
 
     // 檢查是否填寫了開始時間和結束時間
     // if (startTime && !endTime) {
@@ -329,8 +329,8 @@ export default function Restindex() {
       query.area = selectedArea;
     }
 
-    console.log(selectedCity);
-    console.log(selectedArea);
+    // console.log(selectedCity);
+    // console.log(selectedArea);
 
     if (checkedOptions.length > 0) {
       query.category = checkedOptions;
@@ -496,7 +496,7 @@ export default function Restindex() {
       } else return { ...v };
     });
 
-    console.log(newData);
+    // console.log(newData);
 
     if (type === 'rows1') {
       setData({ ...data, rows1: newData });
@@ -511,28 +511,32 @@ export default function Restindex() {
 
   //將資料送到後端
   const sendLikeList = async (arr, token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: arr }),
-      }
-    );
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: arr }),
+        }
+      );
+      const data = await res.json();
 
-    if (data.success) {
-      console.log(data);
+      if (data.success) {
+        // console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
   //展開收藏列表
   const toggleLikeList = () => {
     const newShowLikeList = !showLikeList;
-    console.log(newShowLikeList);
+    // console.log(newShowLikeList);
     setShowLikeList(newShowLikeList);
     if (newShowLikeList) {
       document.body.classList.add('likeList-open');
@@ -617,7 +621,7 @@ export default function Restindex() {
         }
       );
       const result = await removeAll.json();
-      console.log(JSON.stringify(result, null, 4));
+      // console.log(JSON.stringify(result, null, 4));
       if (rid === 'all') {
         setTimeout(() => {
           toggleLikeList();

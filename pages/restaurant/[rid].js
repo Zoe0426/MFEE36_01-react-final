@@ -158,7 +158,7 @@ export default function RestInfo() {
       setBreadCrumbData(...breadCrumbData);
     }
 
-    console.log(breadCrumbData[0].category_englsih);
+    // console.log(breadCrumbData[0].category_englsih);
     // if (imageRows && imageRows.length > 0) {
     //   setImageRows(imageRows);
     // }
@@ -181,7 +181,7 @@ export default function RestInfo() {
     if (activityRows && activityRows.length > 0) {
       setActivityRows(...activityRows);
     }
-    console.log(restDetailRows);
+    // console.log(restDetailRows);
 
     // 麵包屑
     const newBreadCrubText = breadCrubText.map((v) => {
@@ -287,21 +287,25 @@ export default function RestInfo() {
 
   //將資料送到後端
   const sendLike = async (arr, token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ data: arr }),
-      }
-    );
-    const data = await res.json();
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/handle-like-list`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ data: arr }),
+        }
+      );
+      const data = await res.json();
 
-    if (data.success) {
-      console.log(data);
+      if (data.success) {
+        // console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -318,7 +322,7 @@ export default function RestInfo() {
   //展開收藏列表
   const toggleLikeList = () => {
     const newShowLikeList = !showLikeList;
-    console.log(newShowLikeList);
+    // console.log(newShowLikeList);
     setShowLikeList(newShowLikeList);
     if (newShowLikeList) {
       document.body.classList.add('likeList-open');
@@ -404,7 +408,7 @@ export default function RestInfo() {
     removeLikeListToDB(rid, token);
   };
 
-  console.log(restDetailRows.like);
+  // console.log(restDetailRows.like);
 
   const removeLikeListToDB = async (rid = '', token = '') => {
     try {
@@ -418,7 +422,7 @@ export default function RestInfo() {
         }
       );
       const result = await removeAll.json();
-      console.log(JSON.stringify(result, null, 4));
+      // console.log(JSON.stringify(result, null, 4));
       if (rid === 'all') {
         setTimeout(() => {
           toggleLikeList();
@@ -461,7 +465,7 @@ export default function RestInfo() {
   const [commentFilter, setCommentFilter] = useState(6); //評論篩選，6為全部，其他為5~1
 
   const commentFiliterByRating = (dataForComment, type) => {
-    console.log('Type:', type);
+    // console.log('Type:', type);
     // console.log('Data for Comment:', dataForComment);
 
     switch (type) {
@@ -491,7 +495,7 @@ export default function RestInfo() {
           return { ...v, display: true };
         } else return { ...v, display: false };
       });
-      console.log(newArr);
+      // console.log(newArr);
       setShowCommentCard(newArr);
       const currentIndex = newArr.findIndex((v) => v.display === true);
       if (currentIndex === 0) {
