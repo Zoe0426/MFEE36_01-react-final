@@ -302,7 +302,7 @@ export default function AlertModal({
                           <Input.TextArea
                             rows={4}
                             style={{ backgroundColor: 'transparent' }}
-                            readOnly={data[0]?.content}
+                            readOnly={data[0]?.rest_commtent_id}
                           />
                         </Form.Item>
                       </>
@@ -315,7 +315,7 @@ export default function AlertModal({
                           <Input.TextArea
                             rows={4}
                             style={{ backgroundColor: 'transparent' }}
-                            readOnly={data[0]?.content}
+                            readOnly={data[0]?.activity_rating_sid}
                           />
                         </Form.Item>
                       </>

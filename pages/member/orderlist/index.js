@@ -150,7 +150,7 @@ export default function OrderList() {
         console.log('User is not logged in. Cannot fetch');
       }
     }
-  }, [first, router.query]);
+  }, [first, router.query, auth]);
 
   const shopOrder = () => {
     const newData = allData.filter(
