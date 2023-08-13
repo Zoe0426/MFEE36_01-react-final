@@ -181,6 +181,7 @@ export default function FilterPage() {
       keyword,
       rule,
       service,
+      orderBy,
       city,
       area,
       category,
@@ -193,6 +194,19 @@ export default function FilterPage() {
 
     setRule(rule || '');
     setService(service || '');
+    if (orderBy) {
+      const selectedOrderByKey = Object.keys(rankOptions).find(
+        (key) => rankOptions[key] === orderBy
+      );
+      const selectedOrderBy = orderByOptions.find((v) => {
+        return v.key === selectedOrderByKey;
+      });
+      // console.log(selectedOrderByKey);
+      setOrderBy(selectedOrderBy.label);
+    } else {
+      setOrderBy('-- 排序條件 --');
+    }
+
     if (city) {
       const newBreadCrubText = breadCrubText.map((v) => {
         if (v.id === 'search') {
@@ -296,10 +310,6 @@ export default function FilterPage() {
     }
   };
 
-  // useEffect(() => {
-  //   restKeywordData();
-  // }, []);
-
   const searchBarHandler = (e) => {
     let copyURL = { page: 1 };
     const searchText = e.target.value;
@@ -317,18 +327,13 @@ export default function FilterPage() {
     }
   };
 
-  const searchBarClickHandler = () => {
-    if (!keyword) {
-      return;
-    }
-    setShowFilter(false);
+  const searchBarClickHandler = (keyword = '') => {
+    let obj = { page: 1 };
 
-    router.push(
-      `/restaurant/list?${new URLSearchParams({
-        keyword: keyword,
-        page: 1,
-      }).toString()}`
-    );
+    if (keyword) {
+      obj.keyword = keyword;
+    }
+    router.push(`?${new URLSearchParams(obj).toString()}`);
   };
 
   const autocompleteHandler = (selectkeyword) => {
@@ -506,29 +511,6 @@ export default function FilterPage() {
   const toggleFilter = () => {
     setShowFilter(!showfilter);
   };
-
-  //收藏列表相關的函式-------------------------------------------------------
-  //取得收藏列表
-
-  const getLikeList = async (token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/show-like`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data);
-
-    if (data.likeDatas.length > 0) {
-      setLikeDatas(data.likeDatas);
-    }
-    console.log(likeDatas);
-  };
-
   useEffect(() => {
     if (!isClickingLike && addLikeList.length > 0) {
       sendLikeList(addLikeList, auth.token).then(() => {
@@ -537,6 +519,27 @@ export default function FilterPage() {
       });
     }
   }, [isClickingLike, addLikeList]);
+  //收藏列表相關的函式-------------------------------------------------------
+  const getLikeList = async (token = '') => {
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/show-like`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const data = await res.json();
+
+      // if (data.likeDatas.length > 0) {
+      setLikeDatas(data.likeDatas);
+      // }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //沒登入會員收藏，跳轉登入
   const toSingIn = () => {
@@ -606,6 +609,7 @@ export default function FilterPage() {
       getLikeList(auth.token);
     } else {
       document.body.classList.remove('likeList-open');
+      setLikeDatas([]);
     }
   };
 
@@ -718,7 +722,9 @@ export default function FilterPage() {
               }, 700);
             }}
             keyDownHandler={searchBarHandler}
-            clickHandler={searchBarClickHandler}
+            clickHandler={() => {
+              searchBarClickHandler(keyword);
+            }}
             autocompleteHandler={autocompleteHandler}
             showKeywordDatas={showKeywordDatas}
             blurHandler={() => {
@@ -728,6 +734,7 @@ export default function FilterPage() {
             }}
             clearHandler={() => {
               setKeyword('');
+              searchBarClickHandler();
             }}
           />
           {/* </div> */}
@@ -895,8 +902,6 @@ export default function FilterPage() {
                 removeAllHandler={() => {
                   removeAllLikeList(auth.token);
                 }}
-                // removeAllHandler={removeAllLikeList}
-                // removeLikeListItem={removeLikeListItem}
               />
             )}
           </div>

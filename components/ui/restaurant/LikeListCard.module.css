@@ -14,11 +14,16 @@
   border-radius: 8px;
   overflow: hidden;
 }
-.rest_img img {
+.rest_img>img {
   width: 100%;
   height: auto;
   transition: 0.5s;
+  height: 280px;
+  object-fit: cover;
+  object-position: top center;
 }
+
+
 .info {
   width: 100%;
 }
@@ -80,6 +85,9 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+  height: 120px;
+  object-fit: cover;
+  object-position: top center;
 }
 
 /*收藏的內文*/

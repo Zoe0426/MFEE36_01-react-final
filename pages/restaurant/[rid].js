@@ -2,12 +2,9 @@ import React, { useEffect, useContext, useRef } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
-import { Fragment } from 'react';
 import { useState } from 'react';
-import { SlideImage } from '@/components/ui/restaurant/ImageSample';
 import Styles from './[rid].module.css';
 import IconBtn from '@/components/ui/buttons/IconBtn';
-import IconSeconBtn from '@/components/ui/buttons/IconSeconBtn';
 import IconMainBtn from '@/components/ui/buttons/IconMainBtn';
 import RateStar from '@/components/ui/rateStar/RateStar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,19 +16,13 @@ import {
   faClock,
   faPaw,
   faCalendar,
-  faStar,
   faChevronLeft,
   faChevronRight,
   faChevronDown,
   faChevronUp,
   faClone,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  faFacebookSquare,
-  faLine,
-  faSquareInstagram,
-  faSquareTwitter,
-} from '@fortawesome/free-brands-svg-icons';
+import { faFacebookSquare, faLine } from '@fortawesome/free-brands-svg-icons';
 import Tab from '@/components/ui/restaurant/Tab';
 import FeatureCard from '@/components/ui/restaurant/featureCard';
 import ActivityCard from '@/components/ui/restaurant/ActivityCard';
@@ -39,7 +30,6 @@ import Image from 'next/image';
 import CloudTop from '@/assets/cloud_top.svg';
 import NotionAreaBgc from '@/components/ui/restaurant/NotionAreaBgc';
 import PinkBtn from '@/components/ui/restaurant/PinkBtn';
-import { Col, Row, Breadcrumb, ConfigProvider } from 'antd';
 import CommentCard from '@/components/ui/cards/comment-card';
 import ImageGallary from '../../components/ui/restaurant/ImageGallary';
 import catJump from '@/assets/jump_cat.svg';
@@ -248,22 +238,24 @@ export default function RestInfo() {
   //收藏列表相關的函式-------------------------------------------------------
 
   const getLikeList = async (token = '') => {
-    const res = await fetch(
-      `${process.env.API_SERVER}/restaurant-api/show-like`,
-      {
-        method: 'GET',
-        headers: {
-          Authorization: 'Bearer ' + token,
-        },
-      }
-    );
-    const data = await res.json();
-    console.log(data);
+    try {
+      const res = await fetch(
+        `${process.env.API_SERVER}/restaurant-api/show-like`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      const data = await res.json();
 
-    if (data.likeDatas.length > 0) {
+      // if (data.likeDatas.length > 0) {
       setLikeDatas(data.likeDatas);
+      // }
+    } catch (error) {
+      console.log(error);
     }
-    console.log(likeDatas);
   };
 
   //沒登入會員收藏，跳轉登入booking
@@ -278,7 +270,7 @@ export default function RestInfo() {
   };
 
   //卡片愛心收藏的相關函式-------------------------------------------------------
-  const addLikeListHandler = () => {
+  const addLikeListHandler = (rid, token) => {
     const timeClick = new Date().getTime();
     const data = [
       {
@@ -333,6 +325,7 @@ export default function RestInfo() {
       getLikeList(auth.token);
     } else {
       document.body.classList.remove('likeList-open');
+      setLikeDatas([]);
     }
   };
 
@@ -372,17 +365,17 @@ export default function RestInfo() {
       updateLikeStatus(false); // 更新狀態為未收藏
     } else {
       // 如果未收藏，則添加收藏
-      addLikeListHandler();
+      addLikeListHandler(rid, token);
       updateLikeStatus(true); // 更新狀態為已收藏
     }
   };
 
   const removeLikeListBtn = (rid, token = '') => {
     // 將列表該項目刪除
-    setLikeDatas((prevLikeDatas) => {
-      // 使用 filter 方法來刪除符合條件的項目
-      return prevLikeDatas.filter((item) => item.rest_sid !== rid);
+    const newLikeList = likeDatas.filter((arr) => {
+      return arr.rest_sid !== rid;
     });
+    setLikeDatas(newLikeList);
 
     // 將請求送到後端作業
     removeLikeListToDB(rid, token);
@@ -407,6 +400,7 @@ export default function RestInfo() {
     // });
     // setData({ ...data, rows: newData });
     //將請求送到後端作業
+
     removeLikeListToDB(rid, token);
   };
 
@@ -638,16 +632,16 @@ export default function RestInfo() {
   };
 
   // 複製網址
-  const handleCopyUrl = () => {
-    const urlToCopy = window.location.href;
-    // 使用瀏覽器原生的剪貼板 API 將網址複製到剪貼板
-    navigator.clipboard
-      .writeText(urlToCopy)
-      .then(() => {})
-      .catch((error) => {
-        console.error('複製網址失敗:', error);
-      });
-  };
+  // const handleCopyUrl = () => {
+  //   const urlToCopy = window.location.href;
+  //   // 使用瀏覽器原生的剪貼板 API 將網址複製到剪貼板
+  //   navigator.clipboard
+  //     .writeText(urlToCopy)
+  //     .then(() => {})
+  //     .catch((error) => {
+  //       console.error('複製網址失敗:', error);
+  //     });
+  // };
 
   //營業時間的函式
   const [showBusinessHours, setShowBusinessHours] = useState(false);
@@ -811,7 +805,7 @@ export default function RestInfo() {
             <div className={Styles.title_share}>
               <h1 className={Styles.jill_h1}>{restDetailRows.name}</h1>
               <div className={Styles.copy}>
-                <Success clickHandler={handleCopyUrl} />
+                {/* <Success clickHandler={handleCopyUrl} /> */}
               </div>
             </div>
             <RateStar
@@ -903,36 +897,35 @@ export default function RestInfo() {
                   {restDetailRows.acceptType}
                 </p>
               </div>
-            </div>
-
-            {/* 分享區 */}
-            <div className={Styles.share_box}>
-              <div className={Styles.share_title}>分享</div>
-              <div className={Styles.share_icons}>
-                <FontAwesomeIcon
-                  icon={faLine}
-                  className={Styles.line}
-                  onClick={() => {
-                    handleLineShare('shareOnLine');
-                  }}
-                />
-                <FontAwesomeIcon
-                  icon={faFacebookSquare}
-                  className={Styles.fb}
-                  onClick={() => {
-                    handleLineShare('shareOnFB');
-                  }}
-                />
-                <Image
-                  src={Xicon}
-                  alt="Xicon"
-                  className={Styles.x_twitter}
-                  onClick={() => {
-                    handleLineShare('shareOnTwitter');
-                  }}
-                />
+              <div className={Styles.share_box}>
+                <div className={Styles.share_title}>分享</div>
+                <div className={Styles.share_icons}>
+                  <FontAwesomeIcon
+                    icon={faLine}
+                    className={Styles.line}
+                    onClick={() => {
+                      handleLineShare('shareOnLine');
+                    }}
+                  />
+                  <FontAwesomeIcon
+                    icon={faFacebookSquare}
+                    className={Styles.fb}
+                    onClick={() => {
+                      handleLineShare('shareOnFB');
+                    }}
+                  />
+                  <Image
+                    src={Xicon}
+                    alt="Xicon"
+                    className={Styles.x_twitter}
+                    onClick={() => {
+                      handleLineShare('shareOnTwitter');
+                    }}
+                  />
+                </div>
               </div>
             </div>
+
             {/* button */}
             <div className={Styles.detail_main_buttom}>
               {!auth.token ? (
