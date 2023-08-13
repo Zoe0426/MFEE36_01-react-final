@@ -25,17 +25,17 @@ export default function Post() {
   //關鍵字動作
   const getSearchbarValue = (e) => {
     setKeyword(e.target.value);
-    console.log('e.target.value',e.target.value);
+    // console.log('e.target.value',e.target.value);
   }
   const keyEnter = (e) =>{
     if(e.key === 'Enter'){
       console.log('enter');
       getSearchData();
     }
-    console.log(e);
+    // console.log(e);
   }
   const searchKeyword = (e) => {
-    console.log("send search");
+    // console.log("send search");
     getSearchData();
   }
   // 把keyEnter和searchKeyword並一起
@@ -67,7 +67,7 @@ export default function Post() {
     setPage(forumData.page);
   
     // setData(forumData.rows);
-    console.log('forumData', forumData);
+    // console.log('forumData', forumData);
   };
 
   useEffect(()=>{
@@ -80,8 +80,8 @@ export default function Post() {
     if(keyword){
       setKeyword(keyword);
     }
-    console.log('router.query',router.query.orderBy);
-    console.log('orderBy',orderBy);
+    // console.log('router.query',router.query.orderBy);
+    // console.log('orderBy',orderBy);
     if(orderBy && orderBy==='postLike'){
       setObText('熱門文章')
       setOrderBy('postLike')
@@ -94,7 +94,7 @@ export default function Post() {
   
   //看板篩選
   const changeBoardSid=(board_sid)=>{
-    console.log('inchangebs function, ', board_sid);
+    // console.log('inchangebs function, ', board_sid);
     switch (board_sid){
       case 1:
         router.push(
@@ -233,7 +233,7 @@ export default function Post() {
         // perPage: perpage,
       }).toString()}`
     );
-    console.log('click', e);
+    // console.log('click', e);
   };
 
   const items = [

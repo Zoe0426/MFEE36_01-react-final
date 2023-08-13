@@ -43,7 +43,7 @@ export default function Post() {
   // 選到的話題 (要click到的hashtag -> onclick)
   const [choseHashtag, setChoseHashtag] = useState([]);
 
-  console.log(auth.id);
+  // console.log(auth.id);
 
 
 
@@ -51,7 +51,7 @@ export default function Post() {
 
   // 提交表单到后端的函数
 const submitForm = (values, directTo) => {
-  console.log(values);
+  // console.log(values);
 
   fetch(`${process.env.API_SERVER}/forum-api/forum/blog/post`,{
     method:'POST',
@@ -59,8 +59,8 @@ const submitForm = (values, directTo) => {
   })
   .then((r) => r.json())
   .then((data) => {
-    console.log('data', data);
-    console.log(data.mySid);
+    // console.log('data', data);
+    // console.log(data.mySid);
     // 根据后端返回的数据来处理结果
     if(directTo){
       router.push(`/forum/blog/draft`)
@@ -76,11 +76,11 @@ const submitForm = (values, directTo) => {
 
 // 发布文章
 const handlePublish = () => {
-  console.log('clicked');
+  // console.log('clicked');
   const formData = new FormData();
 
 
-  console.log({formData});
+  // console.log({formData});
   //将需要提交的数据添加到 formData 中
   // formData.append('postid', postid);
   formData.append('title', title);
@@ -253,11 +253,11 @@ const handleDraft = () => {
   
     const handleChangeTag = (value) => {
       setChoseHashtag(value);
-      console.log(`selected ${value}`);
+      // console.log(`selected ${value}`);
     };
 
   const changeBoardSid=(boardSid)=>{
-    console.log('inchangebs function, ', boardSid);
+    // console.log('inchangebs function, ', boardSid);
     switch (boardSid){
       case 1:
         setOptions(antTag.doctor);
@@ -305,9 +305,9 @@ const handleDraft = () => {
     const newContent = e.target.value
     setContent(newContent);
   }
-  console.log('auth.id',auth.id);
+  // console.log('auth.id',auth.id);
   const leave = ()=>{
-    console.log('click');
+    // console.log('click');
     // e.preventDefault(); 
     if(auth.id){
       router.push(`/forum/blog`)

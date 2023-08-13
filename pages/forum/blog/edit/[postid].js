@@ -56,7 +56,7 @@ export default function Post() {
   const router = useRouter();
 
   const postid = router.query.postid; 
-  console.log(auth.id);
+  // console.log(auth.id);
 
 
   //塞值進去post title和post content
@@ -95,35 +95,35 @@ export default function Post() {
             },
           );
         });
-        console.log(myFileList);
+        // console.log(myFileList);
         setFileList(myFileList);
       }else{
         setFileList([]);
       }
   
-      console.log(data);
-      console.log('postData', data.newData);
-      console.log('data.newData[0].post_title', data.newData[0].post_title);
+      // console.log(data);
+      // console.log('postData', data.newData);
+      // console.log('data.newData[0].post_title', data.newData[0].post_title);
       const post = data.newData[0];
-      console.log('post', post);
+      // console.log('post', post);
       setPost({title:post.post_title, content:post.post_content})
-      console.log('hashtagDataName', data.tagData[0].hashtag_name);
-      console.log('commentData', data.newCommentData);
-      console.log('newImgData', newImgData);
-      console.log('board_sid', data.newData[0].board_sid);
+      // console.log('hashtagDataName', data.tagData[0].hashtag_name);
+      // console.log('commentData', data.newCommentData);
+      // console.log('newImgData', newImgData);
+      // console.log('board_sid', data.newData[0].board_sid);
   
-      console.log(postid);
-      console.log('data.newData[0].post_title',data.newData[0].post_title);
+      // console.log(postid);
+      // console.log('data.newData[0].post_title',data.newData[0].post_title);
       
-      console.log('post',post.post_content);
+      // console.log('post',post.post_content);
 
 
       const hashtagNames = data.tagData.map(item => item.hashtag_name);
-      console.log(hashtagNames);
+      // console.log(hashtagNames);
       setHashtagNames(hashtagNames);
 
       const boardSid = data.newData[0].board_sid;
-      console.log('boardSid',boardSid);
+      // console.log('boardSid',boardSid);
       setBoardSid(boardSid);
 
 
@@ -148,7 +148,7 @@ export default function Post() {
       setPost(newTitle);
     }
     const editContent = (e)=>{
-      console.log({post});
+      // console.log({post});
       const newContent = {...post, content: e.target.value}
       setPost(newContent);
     }
@@ -180,14 +180,14 @@ const handlePublish = () => {
   formData.append('memberSid', auth.id);
   formData.append('boardSid', boardSid);
   formData.append('choseHashtag', choseHashtag);
-  console.log('choseHashtag',choseHashtag);
+  // console.log('choseHashtag',choseHashtag);
   fileList.forEach((file) => {
     formData.append('photo', file.originFileObj);
   });
   formData.append('postStatus', 0); // 設置發布狀態為已發佈 (0) 或草稿 (1)
   // setPostStatus(0); 
   submitForm(formData); // 提交表单
-  console.log('publish_formData',formData);
+  // console.log('publish_formData',formData);
   router.push(`/forum/${postid}`)
 };
 
@@ -207,7 +207,7 @@ const handleDraft = () => {
   formData.append('postStatus', 1); // 設置發布狀態為已發佈 (0) 或草稿 (1)
   // setPostStatus(1);
   submitForm(formData); // 提交表單
-  console.log('draft_formData',formData);
+  // console.log('draft_formData',formData);
   router.push(`/forum/blog/draft`)
 };
 

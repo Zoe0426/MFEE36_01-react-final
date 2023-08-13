@@ -26,17 +26,17 @@ export default function BlogIndex() {
     //關鍵字動作
     const getSearchbarValue = (e) => {
       setKeyword(e.target.value);
-      console.log('e.target.value',e.target.value);
+      // console.log('e.target.value',e.target.value);
     }
     const keyEnter = (e) =>{
       if(e.key === 'Enter'){
-        console.log('enter');
+        // console.log('enter');
         getSearchData();
       }
-      console.log(e);
+      // console.log(e);
     }
     const searchKeyword = (e) => {
-      console.log("send search");
+      // console.log("send search");
       getSearchData();
     }
     // 把keyEnter和searchKeyword並一起
@@ -48,8 +48,8 @@ export default function BlogIndex() {
           keyword: keyword
         }).toString()}`
       );
-      console.log('newData:',newData);
-      console.log('postNum',postNum);
+      // console.log('newData:',newData);
+      // console.log('postNum',postNum);
     }
 
   
@@ -73,8 +73,8 @@ export default function BlogIndex() {
       .then((data) => {
         setData(data);
         setNewData(data.rows);
-        console.log('data', data);
-        console.log('data.rows', data.rows);
+        // console.log('data', data);
+        // console.log('data.rows', data.rows);
         // console.log('newData', newData);
       });
   };
@@ -108,14 +108,14 @@ export default function BlogIndex() {
           })
             .then((r) => r.json())
             .then((newData) => {
-              console.log(newData);
+              // console.log(newData);
               setData(newData.rows);
               const postNum = newData.totalRows;
               setPostNum(postNum); // 設定文章數量
-              console.log('postNum',postNum);
-              console.log('newData',newData);
-              console.log('newData.rows',newData.rows);
-              console.log('data',data);
+              // console.log('postNum',postNum);
+              // console.log('newData',newData);
+              // console.log('newData.rows',newData.rows);
+              // console.log('data',data);
             });
         } else {
           console.log('User is not logged in. Cannot fetch posts.');
@@ -162,7 +162,7 @@ export default function BlogIndex() {
     })
     .then((r)=> r.json())
     .then((data)=> {
-      console.log('data', data);
+      // console.log('data', data);
       if(data.result.affectedRows===1){
         router.push(`/forum/blog/draft`);
         setPostNum(postNum-1);
