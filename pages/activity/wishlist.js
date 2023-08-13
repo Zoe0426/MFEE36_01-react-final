@@ -85,7 +85,7 @@ export default function ActivityWishList() {
         });
     }
 
-    console.log('router.query:', router.query);
+    //console.log('router.query:', router.query);
     const { keyword } = router.query;
 
     if (Object.keys(router.query).length !== 0) {
@@ -234,7 +234,7 @@ export default function ActivityWishList() {
         }
       );
       const result = await removeAll.json();
-      console.log(JSON.stringify(result, null, 4));
+      //console.log(JSON.stringify(result, null, 4));
       if (aid === 'all') {
         setTimeout(() => {
           toggleLikeList();
@@ -269,7 +269,7 @@ export default function ActivityWishList() {
         }
 
         updateLikeList(activitySid, false); // Successfully removed from like list
-        console.log('刪除收藏成功');
+        //console.log('刪除收藏成功');
       } else {
         // Perform the post action to add to the like list
         const response = await fetch(
@@ -292,7 +292,7 @@ export default function ActivityWishList() {
         }
 
         updateLikeList(activitySid, true); // Successfully added to like list
-        console.log('新增收藏成功');
+        //console.log('新增收藏成功');
       }
     } catch (error) {
       console.error('操作收藏失敗:', error);

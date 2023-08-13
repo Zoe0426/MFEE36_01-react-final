@@ -188,7 +188,7 @@ export default function ActivityDetail() {
           //   setActImageRows(actImageRows[0].activity_pic.split(','));
           // }
 
-          console.log(actImageRows); //測試
+          //console.log(actImageRows); //測試
           // console.log((actImageRows[0].activity_pic).split(',')[0])//測試
 
           if (actDateRows && actDateRows.length > 0) {
@@ -275,9 +275,9 @@ export default function ActivityDetail() {
 
     
 
-      console.log('Order activity button clicked!');
-      console.log('selectedDate:', selectedDate);
-      console.log('actDateRows:', actDateRows);
+      //console.log('Order activity button clicked!');
+      //console.log('selectedDate:', selectedDate);
+      //console.log('actDateRows:', actDateRows);
       
 
       if (!selectedDate) throw new Error('無效的活動日期');
@@ -372,7 +372,7 @@ export default function ActivityDetail() {
       }
     );
     const data = await res.json();
-    console.log(data);
+    //console.log(data);
 
     if (data.likeDatas.length > 0) {
       setLikeDatas(data.likeDatas);
@@ -444,7 +444,7 @@ export default function ActivityDetail() {
         }
       );
       const result = await removeAll.json();
-      console.log(JSON.stringify(result, null, 4));
+      //console.log(JSON.stringify(result, null, 4));
       if (aid === 'all') {
         setTimeout(() => {
           toggleLikeList();
@@ -487,7 +487,7 @@ export default function ActivityDetail() {
         }
 
         updateLikeList(activitySid, false); // Successfully removed from like list
-        console.log('刪除收藏成功');
+        //console.log('刪除收藏成功');
       } else {
         // Perform the post action to add to the like list
         const response = await fetch(
@@ -549,11 +549,11 @@ export default function ActivityDetail() {
     }
 
     setShowFullCommentCard(newShowFullCommentCard);
-    if (newShowFullCommentCard) {
-      document.body.classList.add('likeList-open');
-    } else {
-      document.body.classList.remove('likeList-open');
-    }
+    // if (newShowFullCommentCard) {
+    //   document.body.classList.add('likeList-open');
+    // } else {
+    //   document.body.classList.remove('likeList-open');
+    // }
   };
 
   //轉換到下一張評價卡片
@@ -641,7 +641,7 @@ export default function ActivityDetail() {
   const handleLineShare = (type = '') => {
     const title = `狗with咪 || ${actDetailRows.name}`; // 要分享的標題
     const shareUrl = window.location.href;
-    console.log(shareUrl);
+    //console.log(shareUrl);
     let shareURL = '';
     switch (type) {
       case 'shareOnLine':
@@ -1293,19 +1293,19 @@ export default function ActivityDetail() {
                             ? `${styles.sliders_pages_bttn} ${styles.sliders_pages_active}`
                             : styles.sliders_pages_bttn
                         }
-                        onClick={() => {
-                          setCommentCurrent(i);
-                          if (i === 0) {
-                            setShowCommentArrowLeft(false);
-                            setShowCommentArrowRight(true);
-                          } else if (i === totalCommentPage - 1) {
-                            setShowCommentArrowRight(false);
-                            setShowCommentArrowLeft(true);
-                          } else {
-                            setShowCommentArrowLeft(true);
-                            setShowCommentArrowRight(true);
-                          }
-                        }}
+                        // onClick={() => {
+                        //   setCommentCurrent(i);
+                        //   if (i === 0) {
+                        //     setShowCommentArrowLeft(false);
+                        //     setShowCommentArrowRight(true);
+                        //   } else if (i === totalCommentPage - 1) {
+                        //     setShowCommentArrowRight(false);
+                        //     setShowCommentArrowLeft(true);
+                        //   } else {
+                        //     setShowCommentArrowLeft(true);
+                        //     setShowCommentArrowRight(true);
+                        //   }
+                        // }}
                       ></li>
                     );
                   })

@@ -221,8 +221,8 @@ export default function ActivityHome() {
       delete query.endDate;
     }
 
-    console.log(minPrice);
-    console.log('query:', query);
+    //console.log(minPrice);
+    //console.log('query:', query);
 
     router.push(
       `?${new URLSearchParams({
@@ -356,7 +356,7 @@ export default function ActivityHome() {
         }
       );
       const result = await removeAll.json();
-      console.log(JSON.stringify(result, null, 4));
+      //console.log(JSON.stringify(result, null, 4));
       if (aid === 'all') {
         setTimeout(() => {
           toggleLikeList();
@@ -399,7 +399,7 @@ export default function ActivityHome() {
         }
 
         updateLikeList(activitySid, false); // Successfully removed from like list
-        console.log('刪除收藏成功');
+        //console.log('刪除收藏成功');
       } else {
         // Perform the post action to add to the like list
         const response = await fetch(
@@ -422,7 +422,7 @@ export default function ActivityHome() {
         }
 
         updateLikeList(activitySid, true); // Successfully added to like list
-        console.log('新增收藏成功');
+        //console.log('新增收藏成功');
       }
     } catch (error) {
       console.error('操作收藏失敗:', error);

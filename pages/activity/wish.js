@@ -79,7 +79,7 @@ export default function ActivityWish() {
   //form 表單驗證
   const [form] = Form.useForm();
   const onFinish = (values) => {
-    console.log('選中的值:', values);
+    //console.log('選中的值:', values);
     handleSubmit(values);
   };
   const onFinishFailed = (errorInfo) => {
@@ -510,7 +510,7 @@ export default function ActivityWish() {
         content,
         other_message
       );
-      console.log('Wish submitted successfully');
+      //console.log('Wish submitted successfully');
 
       form.resetFields();
       setSelectedCity('');
@@ -578,7 +578,7 @@ export default function ActivityWish() {
         setSuccessAddToCard(false);
       }, 1200);
 
-      console.log('送出願望 成功');
+      //console.log('送出願望 成功');
     } catch (error) {
       throw new Error('Error submitting wish: ' + error.message);
     }
