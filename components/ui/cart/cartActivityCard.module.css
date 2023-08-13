@@ -17,7 +17,10 @@
      margin-right: 16px;
 }
 .prodimg{
-    width: 120px;
+    max-width: 120px;
+    min-width: 120px;
+    height: 90px;
+    object-fit: cover;
     border-radius: var(--br8);
     margin-right: 16px;
 }
@@ -95,7 +98,9 @@
      margin-right: 8px;
 }
 .prodimg{
-    width: 60px;
+    max-width: 60px;
+    min-width:60px;
+    height: 50px;
     margin-right: 12px;
 }
 .forRwd{
