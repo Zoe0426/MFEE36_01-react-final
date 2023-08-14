@@ -12,6 +12,7 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Dropdown,ConfigProvider, message, Space, Tooltip } from 'antd';
 // 找不到結果的卡片
 import NotFindCard from '@/components/ui/cards/not-find-card';
+import Head from 'next/head';
 export default function Post() {
   const router = useRouter();
   const [page, setPage] = useState(1);
@@ -271,6 +272,9 @@ const menuProps = {
   return (
     <>
       <div className="container-outer">
+      <Head>
+        <title>狗with咪 | 論壇</title>
+      </Head>
         <div className={Style.body}>
           <PostBanner changeHandler={getSearchbarValue} 
           clickHandler={searchKeyword} 

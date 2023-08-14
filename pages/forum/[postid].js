@@ -12,6 +12,7 @@ import PostCommentBtn from '@/components/ui/postCommentBtn/postCommentBtn';
 import PostComment from '@/components/ui/postComment/postComment';
 import PostCommentLaunch from '@/components/ui/postCommentLaunch/postCommentLaunch';
 import PostBottom from '@/components/ui/postBottom/postBottom';
+import Head from 'next/head';
 
 
 
@@ -47,6 +48,9 @@ export default function Post() {
   // 登入狀態
   const { auth, setAuth } = useContext(AuthContext);
 
+  //新留言數
+  const [commentAmount, setCommentAmount] = useState(0);
+
 
 
   const fetchData = async (postid) => {
@@ -64,6 +68,7 @@ export default function Post() {
       // console.log(commentData);
       const newImgData = data.imgData.map(v=>v.file)
       setImgData(newImgData || []);
+      setCommentAmount(data.newCommentData.length);
   
       // console.log('postData', data.newData);
       // console.log('hashtagData', data.tagData);
@@ -107,6 +112,9 @@ export default function Post() {
 
   return (
     <div className="container-outer">
+    <Head>
+      <title>狗with咪 | 論壇</title>
+    </Head>
         <div className={Style.body}>
             <PostBanner/>
             <BoardNav
@@ -138,7 +146,7 @@ export default function Post() {
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
-                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid}/>
+                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={commentAmount}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid}/>
                 ))}
                 </div>
                 <div>
@@ -147,16 +155,14 @@ export default function Post() {
 
                 <div className={Style.PostCommentLaunch}>
                 {postData.map((v,i)=>(
-                <PostCommentLaunch profile={'/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg'} commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
+                <PostCommentLaunch profile={'/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg'} commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id} commentAmount={commentAmount} setCommentAmount={setCommentAmount}/>
                 ))}
               </div>
 
                 <div className={Style.commentBlock}>
                   <div className={Style.commentBTN}>
                   </div>
-                  {postData.map((v,i)=>(
-                    <div className={Style.commentNum}>{`共 ${v.postComment} 則留言`}</div>
-                  ))}
+                    <div className={Style.commentNum}>{`共 ${commentAmount} 則留言`}</div>
 
                   <div className={Style.line}>
                     <img className={Style.commentLine} src='/forum_img/commentLine.png'/>
