@@ -18,8 +18,8 @@ const nextConfig = {
     // API_SERVER: 'http://192.168.24.19:3002',
     // WEB: 'http://192.168.24.19:3000',
     //LILY
-    // API_SERVER: 'http://192.168.24.68:3002',
-    // WEB: 'http://192.168.24.68:3000',
+    // API_SERVER: 'http://192.168.0.187:3002',
+    // WEB: 'http://192.168.0.187:3000',
     //發表時要再後端.env檔使用
     // EMAIL_USER= gowithmeispan@gmail.com
     // EMAIL_PASSWORD= vjpthtohtzqvjbjy
