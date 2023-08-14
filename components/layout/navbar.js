@@ -5,6 +5,7 @@ import AuthContext from '@/context/AuthContext';
 import NavRoundBtn from '../ui/buttons/NavRoundBtn';
 import CloseBtn from '../ui/buttons/closeBtn';
 import ModalWithoutBtn from '../ui/modal/modal-without-btn';
+import Link from 'next/link';
 export default function Navbar({ type = '' }) {
   const { auth, logout, cartItemNum, setCartItemNum, photo } =
     useContext(AuthContext);
@@ -148,23 +149,23 @@ export default function Navbar({ type = '' }) {
             className={`${Styles.linkMenu} ${isActive ? Styles.active : ''}`}
           >
             <div className={Styles.linkItem}>
-              {/* <Link href="/product" > */}
-              <div
+              <Link href="/product" className={Styles.link}>
+                {/* <div
                 className={Styles.link}
                 onClick={(e) => {
                   e.preventDefault();
                   redirectTo('product');
                 }}
-              >
+              > */}
                 商城
-              </div>
-              {/* </Link> */}
+                {/* </div> */}
+              </Link>
             </div>
             <div className={Styles.linkItem}>
-              {/* <Link href="/activity" className={Styles.link}>
+              <Link href="/activity" className={Styles.link}>
                 活動
-              </Link> */}
-              <div
+              </Link>
+              {/* <div
                 className={Styles.link}
                 onClick={(e) => {
                   e.preventDefault();
@@ -174,7 +175,7 @@ export default function Navbar({ type = '' }) {
                 }}
               >
                 活動
-              </div>
+              </div> */}
             </div>
             <div className={Styles.linkItem}>
               <div
