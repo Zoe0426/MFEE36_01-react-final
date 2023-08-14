@@ -8,7 +8,7 @@
   font-size: var(--pfs12);
 }
 
-:where(.css-dev-only-do-not-override-1qwgemz).ant-picker-calendar .ant-picker-cell .ant-picker-cell-inner{
+:where(.css-dev-only-do-not-override-1wghlqb).ant-picker-calendar.ant-picker-calendar-full .ant-picker-calendar-date-content{
   position: static;
 }
 
