@@ -135,7 +135,7 @@ export default function OrderList() {
           })
             .then((r) => r.json())
             .then((data) => {
-              //console.log(data);
+              console.log(data);
               const firstData = data.filter(
                 (data) => data.rel_type === 'shop' && data.orderStatus === 1
               );
@@ -203,6 +203,7 @@ export default function OrderList() {
               pageTag={pageTag}
               onClick={() => {
                 setPageTag('shop');
+                setData(data);
                 shopOrder();
               }}
             />
