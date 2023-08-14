@@ -12,10 +12,13 @@ import MainBtn from '../buttons/MainBtn';
 const { TextArea } = Input;
 
 
-export default function PostCommentLaunch({profile='',commentData=[], setCommentData=()=>{}, postSid='', memberId=''}) {
+export default function PostCommentLaunch({profile='',comments=0,commentData=[], setCommentData=()=>{}, postSid='', memberId=''}) {
   const router = useRouter();
   const [value, setValue] = useState('');
   console.log(value);
+
+    // 記錄留言數（+-1）
+    const [commentAmount, setCommentAmount] = useState(comments);
 
   //留言登入
   const [showLogin, setShowLogin] = useState(false);
@@ -40,6 +43,7 @@ export default function PostCommentLaunch({profile='',commentData=[], setComment
           setCommentData(data.newCommentData);
           // 清空留言
           setValue('');
+          setCommentAmount(commentAmount+1)
         })
       console.log('Send Comment');
 

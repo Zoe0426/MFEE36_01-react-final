@@ -47,6 +47,9 @@ export default function Post() {
   // 登入狀態
   const { auth, setAuth } = useContext(AuthContext);
 
+  //新留言數
+  const [commentAmount, setCommentAmount] = useState(0);
+
 
 
   const fetchData = async (postid) => {
@@ -64,6 +67,7 @@ export default function Post() {
       // console.log(commentData);
       const newImgData = data.imgData.map(v=>v.file)
       setImgData(newImgData || []);
+      setCommentAmount(data.newCommentData.length);
   
       // console.log('postData', data.newData);
       // console.log('hashtagData', data.tagData);
@@ -154,9 +158,7 @@ export default function Post() {
                 <div className={Style.commentBlock}>
                   <div className={Style.commentBTN}>
                   </div>
-                  {postData.map((v,i)=>(
-                    <div className={Style.commentNum}>{`共 ${v.postComment} 則留言`}</div>
-                  ))}
+                    <div className={Style.commentNum}>{`共 ${commentAmount} 則留言`}</div>
 
                   <div className={Style.line}>
                     <img className={Style.commentLine} src='/forum_img/commentLine.png'/>
