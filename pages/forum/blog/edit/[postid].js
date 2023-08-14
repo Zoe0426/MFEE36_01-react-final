@@ -414,7 +414,7 @@ const handleDraft = () => {
       <BlogBanner/>
       <Row className={Style.antRow}>
         <Col span={6}>
-          <BlogSidebar profile='/forum_img/kabo-p6yH8VmGqxo-unsplash.jpg' memberName='莉莉安'/>
+          <BlogSidebar profile='/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg' memberName='潘彥廷'/>
         </Col>
         <Col span={16}>
             <div className={Style.blogContent}>
