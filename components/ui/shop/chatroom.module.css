@@ -91,6 +91,7 @@
   font-size:var(--h5fs20); 
   margin-right: var(--p8);
   align-self: center;
+  cursor: pointer;
 }
 
 .sending_box {
@@ -100,6 +101,7 @@
   align-items: stretch;
   position: relative;
 }
+
 
 .sending_box > textarea {
   flex: 1;
@@ -123,6 +125,7 @@
   border-radius: var(--br8);
   background-color: var(--main);
   color: white;
+  cursor: pointer;
 }
 
 .text {
