@@ -12,6 +12,7 @@ import PostCommentBtn from '@/components/ui/postCommentBtn/postCommentBtn';
 import PostComment from '@/components/ui/postComment/postComment';
 import PostCommentLaunch from '@/components/ui/postCommentLaunch/postCommentLaunch';
 import PostBottom from '@/components/ui/postBottom/postBottom';
+import Head from 'next/head';
 
 
 
@@ -111,6 +112,9 @@ export default function Post() {
 
   return (
     <div className="container-outer">
+    <Head>
+      <title>狗with咪 | 論壇</title>
+    </Head>
         <div className={Style.body}>
             <PostBanner/>
             <BoardNav
