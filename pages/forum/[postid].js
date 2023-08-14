@@ -142,7 +142,7 @@ export default function Post() {
                 </div>
                 <div className={Style.content}>
                 {postData.map((v,i)=>(
-                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={v.postComment}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid}/>
+                  <PostArticleContent postContent={v.post_content} likes={v.postLike} comments={commentAmount}  isLiked={isLiked} setIsLiked={setIsLiked} Fav={Fav} setFav={setFav} postSid={postid}/>
                 ))}
                 </div>
                 <div>
@@ -151,7 +151,7 @@ export default function Post() {
 
                 <div className={Style.PostCommentLaunch}>
                 {postData.map((v,i)=>(
-                <PostCommentLaunch profile={'/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg'} commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id}/>
+                <PostCommentLaunch profile={'/forum_img/9509de8d-407e-47c0-a500-b1cf4a27c919.jpg'} commentData={commentData} setCommentData={setCommentData}  postSid={postid} memberId={auth.id} commentAmount={commentAmount} setCommentAmount={setCommentAmount}/>
                 ))}
               </div>
 
