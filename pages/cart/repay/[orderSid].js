@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Row, Col } from 'antd';
 import style from '@/styles/cart.module.css';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 //components
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import CartSectionTitle from '@/components/ui/cart/cartSectionTitle';
@@ -127,6 +128,9 @@ export default function Cart() {
   } else if (!pageLoading) {
     return (
       <>
+        <Head>
+          <title>狗with咪 GO WITH ME</title>
+        </Head>
         {!fromMem && (
           <BgCartHeadTextMiddle
             src="/cart_img/warning.png"

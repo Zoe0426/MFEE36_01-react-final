@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Row, Col } from 'antd';
+import Head from 'next/head';
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import BgCartHeadTextMiddle from '@/components/ui/decoration/bg-cartHead-textMiddle';
 import style from '@/styles/cartOrderdetail.module.css';
@@ -87,6 +88,9 @@ export default function OrderComplete() {
     //console.log('pc pt', orderInfo.post_type);
     return (
       <>
+        <Head>
+          <title>狗with咪 GO WITH ME</title>
+        </Head>
         {successHead && (
           <BgCartHeadTextMiddle
             src="/cart_img/complete.png"

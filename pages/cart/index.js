@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Row, Col, ConfigProvider, Checkbox } from 'antd';
 import style from '@/styles/cart.module.css';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 //components
 import BgCartHead from '@/components/ui/decoration/bg-cartHead';
 import CartProductCard from '@/components/ui/cart/cartProductCard';
@@ -247,6 +248,9 @@ export default function Cart() {
   } else if (!pageLoading) {
     return (
       <>
+        <Head>
+          <title>狗with咪 | 購物車</title>
+        </Head>
         {loading && <Loading />}
         <BgCartHead text="購物車" />
         <Row>
