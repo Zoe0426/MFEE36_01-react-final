@@ -48,6 +48,25 @@ export default function SearchSeven({
     form.setFieldsValue({ sevenAddress: value });
     form.validateFields(['請選擇門市']);
   };
+  //預計到貨日期
+  function formatDateRange(startDate, endDate) {
+    const options = { month: 'numeric', day: 'numeric' };
+    const dateFormatter = new Intl.DateTimeFormat('zh-TW', options);
+
+    const formattedStartDate = dateFormatter.format(startDate);
+    const formattedEndDate = dateFormatter.format(endDate);
+
+    return `${formattedStartDate} - ${formattedEndDate}`;
+  }
+  const today = new Date();
+  const threeDaysLater = new Date();
+  threeDaysLater.setDate(today.getDate() + 2);
+
+  const tenDaysLater = new Date();
+  tenDaysLater.setDate(today.getDate() + 5);
+
+  const dateRange = formatDateRange(threeDaysLater, tenDaysLater);
+  //console.log(dateRange); // 6月8日 - 6月16日
   return (
     <>
       <AutoComplete
@@ -99,7 +118,7 @@ export default function SearchSeven({
                 }}
               />
             </span>
-            <span className={style.date}>預計到貨： </span>
+            <span className={style.date}>預計到貨：{dateRange} </span>
           </p>
         </div>
       )}
