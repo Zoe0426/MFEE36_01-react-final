@@ -11,7 +11,7 @@ export default function NumberInput({
   maxValue = 0,
   handleNumber = () => {},
 }) {
-  console.log(maxValue);
+  // console.log(maxValue);
   const [value, setValue] = useState(defaultValue);
   const [isExceedingMaxValue, setIsExceedingMaxValue] = useState(false); // 新增狀態
   const updateValue = (type) => {
@@ -74,7 +74,7 @@ export default function NumberInput({
     }
   };
 
-  console.log(isExceedingMaxValue);
+  // console.log(isExceedingMaxValue);
   const handleBlur = () => {
     const newValue = isNaN(value) || value === '' ? 1 : value;
     setValue(newValue);

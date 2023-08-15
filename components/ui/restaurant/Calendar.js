@@ -35,7 +35,7 @@ export default function BookingModal({
   const toggleModal = () => {
     //setModal(!modal);
     const newModal = !modal;
-    console.log(newModal);
+    // console.log(newModal);
     setModal(newModal);
     if (newModal) {
       document.body.classList.add('likeList-open');
