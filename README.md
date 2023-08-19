@@ -1,3 +1,8 @@
+![alt text](https://github.com/Zoe0426/MFEE36_01-react-final/blob/main/public/home-images/header_photo.png?raw=true)
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
