@@ -265,7 +265,7 @@ export default function Cart() {
                 shopData={shopData}
                 activityData={activityData}
                 changeTypeHandler={changeCheckoutType}
-                mainBtnText="確認前往活動結帳"
+                mainBtnText="確認前往商品結帳"
               />
               <CartTab
                 type="activity"
@@ -274,7 +274,7 @@ export default function Cart() {
                 shopData={shopData}
                 activityData={activityData}
                 changeTypeHandler={changeCheckoutType}
-                mainBtnText="確認前往商品結帳"
+                mainBtnText="確認前往活動結帳"
               />
             </div>
             {/* ========== 顯示商品 ==========*/}
