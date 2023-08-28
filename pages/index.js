@@ -442,7 +442,7 @@ export default function Home() {
         <Col span={2}></Col>
         <Col span={22}>
           <Row className={style.hSection}>
-            <Col className={style.hInfo} xs={24} sm={24} md={9}>
+            <Col className={style.hInfo} xs={22} sm={22} md={9}>
               <article>
                 <p className={style.hstitle}>寵物論壇</p>
                 <p className={style.hetitle}>CHAT WITH ME</p>
