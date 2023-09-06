@@ -178,7 +178,7 @@ export default function PostCollection() {
     setListName(listName);
     setNewData(newData);
     // console.log('click', e);
-    // console.log('newData',newData);
+    console.log('newData',newData);
   };
 
   const menuProps = {
@@ -198,6 +198,7 @@ export default function PostCollection() {
       }).toString()}`
     );
   };
+  
 
   return (
     <>
