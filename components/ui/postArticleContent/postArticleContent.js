@@ -117,7 +117,7 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
         const apiEndpoint = Fav ? '/forum-api/forum/delFav' : '/forum-api/forum/addFav';
         const requestData = {
           post_sid: postSid,
-          member_sid: memberId,
+          member_sid: auth.id,
           list_name: listText ? listText : listName ,
         };
         
@@ -132,10 +132,12 @@ export default function PostArticleContent({postContent='', likes=0, comments=0,
           .then((r) => r.json())
           .then((data) => {
             console.log('add fav result:',data);
+            console.log(requestData);
           });
       } else {
         router.push(`/member/sign-in?from=${from}`);
       }
+      
     };
 
     // 收藏按讚前要登入會員
