@@ -43,41 +43,17 @@ import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
 
 import styles from '@/styles/shop.module.css';
 
-import filterData from '@/data/product/filterData.json';
-import orderbyOptions from '@/data/product/orderbyOptions.json';
+import {
+  filterData,
+  orderbyOptions,
+  initialTableDataState,
+  initialBreadcrumbState,
+  initialPriceInputState,
+  initialCheckboxGroups,
+} from '@/data/product/shop-list-data';
 
 const BASE_URL = process.env.WEB || 'http://localhost:3000';
 const LOCALSTORAGE_SHOP_VIEW_HISTORY = 'petProductHistory';
-
-const initialTableDataState = {
-  totalRows: 0,
-  perPage: 16,
-  totalPages: 0,
-  page: 1,
-  rows: [],
-};
-
-const initialBreadcrumbState = [
-  {
-    id: 'shop',
-    text: '商城',
-    href: `${BASE_URL}/product`,
-    show: true,
-  },
-  { id: 'search', text: '> 商品列表', href: '', show: true },
-  { id: 'pid', text: '', href: '', show: false },
-];
-
-const initialPriceInputState = [
-  { key: 'minPrice', value: 0, placeholder: '$ 最小金額', errorMessage: '' },
-  { key: 'maxPrice', value: 0, placeholder: '$ 最大金額', errorMessage: '' },
-];
-
-const initialCheckboxGroups = [
-  { label: '適用對象', name: 'typeForPet', isNeedSpan: true },
-  { label: '使用年齡', name: 'typeForAge', isNeedSpan: true },
-  { label: '商品類別', name: 'category', isNeedSpan: true },
-];
 
 const List = () => {
   /* 元件內的引用順序
@@ -118,7 +94,6 @@ const List = () => {
     true
   );
 
-  // TODO: 將URLSearchParams拆成function，token要用客製化的hook取得
   const getData = async (urlParams = {}, token = '') => {
     const data = await getProductListApi(urlParams, token);
     if (!data.rows.length) return;
@@ -532,33 +507,26 @@ const List = () => {
   const inputChangeHandler = (e, inputType) => {
     const priceValue = Number(e.target.value);
     const newPriceInputs = priceInputs.map((input) => {
-      if (input.key === inputType) {
-        return { ...input, value: priceValue };
-      } else return { ...input };
+      if (input.key !== inputType) return { ...input };
+      return { ...input, value: priceValue };
     });
     setPriceInputs(newPriceInputs);
   };
 
+  const numberValidate = (value) => {
+    if (isNaN(value)) '請輸入數字';
+    if (value.includes('.')) '請輸入整數';
+    if (parseInt(value) < 0) '金額需大於0';
+    return '';
+  };
+
   const inputCheckHandler = (e, inputType) => {
     const priceValue = e.target.value;
-    let errorMessage = '';
-
-    if (isNaN(priceValue)) {
-      errorMessage = '請輸入數字';
-    }
-
-    if (priceValue.includes('.')) {
-      errorMessage = '請輸入整數';
-    }
-
-    if (parseInt(priceValue) < 0) {
-      errorMessage = '金額需大於0';
-    }
+    const errorMessage = numberValidate(priceValue);
 
     const newPriceInputs = priceInputs.map((input) => {
-      if (input.key === inputType) {
-        return { ...input, errorMessage: errorMessage };
-      } else return { ...input };
+      if (input.key !== inputType) return { ...input };
+      return { ...input, errorMessage };
     });
     setPriceInputs(newPriceInputs);
   };
@@ -671,24 +639,6 @@ const List = () => {
                     />
                   );
                 })}
-                {/* <ProductFilter
-                  text="適用對象"
-                  name="typeForPet"
-                  data={filters.typeForPet}
-                  changeHandler={checkboxToggleHandler}
-                />
-                <ProductFilter
-                  text="使用年齡"
-                  name="typeForAge"
-                  data={filters.typeForAge}
-                  changeHandler={checkboxToggleHandler}
-                />
-                <ProductFilter
-                  text="商品類別"
-                  name="category"
-                  data={filters.category}
-                  changeHandler={checkboxToggleHandler}
-                /> */}
                 <ProductFilter
                   text="品牌"
                   name="brand"
