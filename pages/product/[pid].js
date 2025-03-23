@@ -24,7 +24,7 @@ import IconBtn from '@/components/ui/buttons/IconBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import ModalWithoutLine from '@/components/ui/modal/modal-without-line';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
-import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ModoalReminder from '@/components/ui/shop/modal-reminder';
 import NumberInput from '@/components/ui/numberInput/numberInput1';
 
 /*引用的背景*/
@@ -624,7 +624,7 @@ export default function Product() {
   const removeLikeListToDB = async (pid = '', token = '') => {
     try {
       const removeAll = await fetch(
-        `${process.env.API_SERVER}/shop-api/likelist/${pid}`,
+        `${process.env.API_SERVER}/shop-api/like-list/${pid}`,
         {
           method: 'DELETE',
           headers: {

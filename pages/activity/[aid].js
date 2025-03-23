@@ -30,7 +30,7 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import IconBtn from '@/components/ui/buttons/IconBtn';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import Modal from '@/components/ui/modal/modal';
-import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ModoalReminder from '@/components/ui/shop/modal-reminder';
 import ActivityCard1 from '@/components/ui/cards/ActivityCard1';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
@@ -265,20 +265,14 @@ export default function ActivityDetail() {
     countChild,
     selectedDate
   ) => {
-   
-
     try {
       if (!token) {
         throw new Error('未找到會員ID');
-       
       }
-
-    
 
       //console.log('Order activity button clicked!');
       //console.log('selectedDate:', selectedDate);
       //console.log('actDateRows:', actDateRows);
-      
 
       if (!selectedDate) throw new Error('無效的活動日期');
 
@@ -332,7 +326,7 @@ export default function ActivityDetail() {
   };
 
   //若未登入會員而點擊收藏，要跳轉至會員登入
- 
+
   const toSingIn = () => {
     const from = router.query;
     router.push(
@@ -1069,8 +1063,7 @@ export default function ActivityDetail() {
       </div>
 
       {/* ....銜接處圖片1.... */}
-        <img src="/activity_img/detail_bg_8.jpg" alt="Activity" />
-      
+      <img src="/activity_img/detail_bg_8.jpg" alt="Activity" />
 
       <div className="container-inner">
         <div className={styles.nav_detail}>

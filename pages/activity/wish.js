@@ -26,7 +26,7 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 
 import Modal from '@/components/ui/modal/modal';
-import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ModoalReminder from '@/components/ui/shop/modal-reminder';
 import ModalWithoutBtn from '@/components/ui/modal/modal-without-btn';
 
 export default function ActivityWish() {
@@ -568,11 +568,9 @@ export default function ActivityWish() {
       //成功的話
       setSuccessAddToCard(true);
       setTimeout(() => {
-        router.push(
-          `${process.env.WEB}/activity/vote`
-        );
+        router.push(`${process.env.WEB}/activity/vote`);
       }, 1200);
-      
+
       //失敗的話
       setTimeout(() => {
         setSuccessAddToCard(false);
@@ -644,7 +642,9 @@ export default function ActivityWish() {
           <p className={styles.intro}>
             歡迎想發起活動的您，將活動需求填寫於下方表單中。
           </p>
-          <p className={styles.intro}>表單送出後可以到'我要投票'看最新投票狀況噢！</p>
+          <p className={styles.intro}>
+            表單送出後可以到'我要投票'看最新投票狀況噢！
+          </p>
         </div>
       </div>
 

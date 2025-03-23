@@ -3,16 +3,8 @@ import styles from './product-input.module.css';
 import { Row, Col, Input, ConfigProvider } from 'antd';
 
 export default function ProductInput({
-  showErrorMessage1 = false,
-  showErrorMessage2 = false,
-  outlineStatus1 = '',
-  outlineStatus2 = '',
-  errorMessage1 = '',
-  errorMessage2 = '',
-  minPrice = 0,
-  maxPrice = 0,
-  minHandler = () => {},
-  maxHandler = () => {},
+  inputs = [],
+  changeHandler = () => {},
   checkHandler = () => {},
 }) {
   return (
@@ -32,7 +24,34 @@ export default function ProductInput({
         <label className={styles.labels}>價格範圍</label>
         <span className={styles.colon}>:</span>
         <Row align="middle" style={{ flex: 1 }} className={styles.toBox}>
-          <Col
+          {inputs.map(({ key, value, placeholder, errorMessage }) => {
+            return (
+              <Col
+                key={key}
+                xs={{ span: 10, order: key === 'minPrice' ? 0 : 1 }}
+                sm={{ span: 10, order: key === 'minPrice' ? 0 : 1 }}
+                md={{ span: 3, order: key === 'minPrice' ? 0 : 1 }}
+                className={styles.input_text}
+              >
+                <Input
+                  placeholder={placeholder}
+                  value={value ? value : null}
+                  status={!!errorMessage && 'error'}
+                  onChange={(e) => changeHandler(e, key)}
+                  onBlur={(e) => checkHandler(e, key)}
+                  onKeyUp={(e) => {
+                    if (e.key === 'Enter') {
+                      checkHandler(e, key);
+                    }
+                  }}
+                />
+                {!!errorMessage && (
+                  <div className={styles.message_box}> {errorMessage}</div>
+                )}
+              </Col>
+            );
+          })}
+          {/* <Col
             xs={{ span: 10 }}
             sm={{ span: 10 }}
             md={{ span: 3 }}
@@ -53,11 +72,15 @@ export default function ProductInput({
             {showErrorMessage1 && (
               <div className={styles.message_box}> {errorMessage1}</div>
             )}
-          </Col>
-          <Col xs={{ span: 4 }} sm={{ span: 4 }} md={{ span: 1 }}>
+          </Col> */}
+          <Col
+            xs={{ span: 4, order: 0 }}
+            sm={{ span: 4, order: 0 }}
+            md={{ span: 1, order: 0 }}
+          >
             <div className={styles.symboTo}>~</div>
           </Col>
-          <Col
+          {/* <Col
             xs={{ span: 10 }}
             sm={{ span: 10 }}
             md={{ span: 3 }}
@@ -80,7 +103,7 @@ export default function ProductInput({
             ) : (
               <div className={styles.message_box}></div>
             )}
-          </Col>
+          </Col> */}
         </Row>
       </div>
     </ConfigProvider>

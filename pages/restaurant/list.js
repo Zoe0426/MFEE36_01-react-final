@@ -22,7 +22,7 @@ import RestaurantFilter from '@/components/ui/restaurant/RestaurantFilter';
 import RestPageOrder from '@/components/ui/restaurant/RestPageOrder';
 import TimeDateFilter from '@/components/ui/restaurant/TimeDateFilter';
 import { useRouter } from 'next/router';
-import SearchBar1 from '@/components/ui/buttons/SearchBar1';
+import SearchBarWithAutocomplete from '@/components/ui/buttons/SearchBarWithAutocomplete';
 import orderByOptions from '@/data/restaurnt/orderby.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cityDatas from '@/data/restaurnt/location.json';
@@ -712,7 +712,7 @@ export default function FilterPage() {
             clickHandler={searchBarClickHandler}
           /> */}
           {/* <div className={Styles.search_bar}> */}
-          <SearchBar1
+          <SearchBarWithAutocomplete
             keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
             placeholder="搜尋友善餐廳"
             btn_text="尋找餐廳"

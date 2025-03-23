@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 // import Modal from '@/components/ui/modal/modal';
 import Modal1 from '@/components/ui/modal/modal-without-line';
-import ModoalReminder from '@/components/ui/shop/modoal-reminder';
+import ModoalReminder from '@/components/ui/shop/modal-reminder';
 
 export default function ShopProductCard({
   product_sid = '',

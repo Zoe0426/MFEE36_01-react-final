@@ -6,7 +6,7 @@ import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 import BGMiddleDecoration from '@/components/ui/decoration/bg-middle-decoration';
 import BGMNewDecoration from '@/components/ui/decoration/bg-new-decoration';
 import ShopSupplierCard from '@/components/ui/cards/shop-supplier-card';
-import SearchBar from '@/components/ui/buttons/SearchBar1';
+import SearchBar from '@/components/ui/buttons/SearchBarWithAutocomplete';
 import SubBtn from '@/components/ui/buttons/subBtn';
 import { Row, Col } from 'antd';
 import Image from 'next/image';
@@ -215,7 +215,7 @@ export default function ProdoctIndex() {
   };
 
   //searchBar相關的函式-------------------------------------------------------
-  const filterKeywordDatas = (datas, keyword, keyin) => {
+  const filterKeywordDatas = (datas, keyword = '', keyin) => {
     datas = datas
       .map((v) => ({ ...v, count: 0 }))
       .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hant'));

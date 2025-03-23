@@ -1,11 +1,11 @@
 import React from 'react';
-import Styles from './SearchBar1.module.css';
+import Styles from './SearchBarWithAutocomplete.module.css';
 import MainBtn from './MainBtn';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-export default function SearchBar1({
+export default function SearchBarWithAutocomplete({
   keywordDatas = [],
   showKeywordDatas = false,
   placeholder = '',

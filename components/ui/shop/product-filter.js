@@ -40,7 +40,7 @@ export default function ProductFilter({
                     value={v.value}
                     checked={v.checked}
                     onChange={() => {
-                      changeHandler(data, name, v.label);
+                      changeHandler(name, v.label);
                     }}
                   >
                     {v.label.includes('-')

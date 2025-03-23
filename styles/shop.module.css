@@ -293,6 +293,10 @@
   text-align: center;
 }
 
+.pagination > ul {
+  justify-content: center;
+}
+
 /*--------------商品細節頁面-------------*/
 
 /* 主要訊息區 */

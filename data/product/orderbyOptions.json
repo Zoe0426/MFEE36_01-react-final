@@ -1,0 +1,22 @@
+{
+  "DEFAULT": {
+    "label": "-- 請選擇 --",
+    "key": ""
+  },
+  "PRICE_ASC": {
+    "label": "價格由低到高",
+    "key": "price_ASC"
+  },
+  "PRICE_DESC": {
+    "label": "價格由高到低",
+    "key": "price_DESC"
+  },
+  "NEW_DESC": {
+    "label": "最新商品",
+    "key": "new_DESC"
+  },
+  "SALES_DESC": {
+    "label": "熱賣商品",
+    "key": "sales_DESC"
+  }
+}

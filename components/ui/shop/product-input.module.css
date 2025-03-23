@@ -4,7 +4,8 @@
   align-items: flex-start;
   min-height: 48px;
 }
-.labels, .colon {
+.labels,
+.colon {
   font-size: var(--h6fs18);
   font-weight: var(--fwbold);
   height: 100%;
@@ -15,7 +16,7 @@
   margin-top: 8px;
 }
 
-.colon{
+.colon {
   width: auto;
 }
 
@@ -27,6 +28,7 @@
 .symboTo {
   text-align: center;
   margin-top: 8px;
+  order: 0;
 }
 
 .message_box {
@@ -37,8 +39,12 @@
   min-height: 20px;
 }
 
-.input_text{
-   min-width: 143px;
+.input_text {
+  min-width: 143px;
+}
+
+.input_text:last-child {
+  order: 1;
 }
 
 @media screen and (max-width: 767px) {
@@ -55,16 +61,15 @@
   .labels {
     line-height: 50px;
   }
-  .colon{
+  .colon {
     display: none;
   }
 
-  .input_text{
+  .input_text {
     min-width: 50px;
- }
+  }
 
   .toBox {
     padding-top: 0px;
   }
-
 }

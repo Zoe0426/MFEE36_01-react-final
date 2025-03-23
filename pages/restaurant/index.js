@@ -33,7 +33,7 @@ import SecondaryBtn from '@/components/ui/buttons/SecondaryBtn';
 import MainBtn from '@/components/ui/buttons/MainBtn';
 import friendlyCondition from '@/data/restaurnt/firendly-condition.json';
 import cityDatas from '@/data/restaurnt/location.json';
-import SearchBar1 from '@/components/ui/buttons/SearchBar1';
+import SearchBarWithAutocomplete from '@/components/ui/buttons/SearchBarWithAutocomplete';
 import LikeListCard from '@/components/ui/restaurant/LikeListCard';
 import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import AlertModal from '@/components/ui/restaurant/AlertModal';
@@ -690,7 +690,7 @@ export default function Restindex() {
       <div className={Styles.banner}>
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
-          <SearchBar1
+          <SearchBarWithAutocomplete
             keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
             placeholder="搜尋友善餐廳"
             btn_text="尋找餐廳"

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import styles from './modal-reminder.module.css';
 import stars from '@/assets/stars.svg';
 
-export default function ModoalReminder({ text = '' }) {
+export default function ModalReminder({ text = '' }) {
   return (
     <div className={styles.modal_box}>
       <p className={styles.txt}>{text}</p>
