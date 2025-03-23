@@ -14,7 +14,7 @@ import Loading from '@/components/ui/loading/loading';
 import CommentCard from '@/components/ui/cards/comment-card';
 import CommentCard1 from '@/components/ui/restaurant/CommentCard';
 import NoCommentCard from '@/components/ui/cards/comment-card-no';
-import Likelist from '@/components/ui/like-list/LikeListDrawer';
+import LikeListDrawer from '@/components/ui/like-list/LikeListDrawer';
 import ShopLikelistCard from '@/components/ui/cards/shop-like-list-card';
 import ShopProductCard from '@/components/ui/cards/shop-product-card';
 
@@ -53,7 +53,7 @@ export default function Product() {
   const productSpecial = useRef(null);
   const { auth, updateCart } = useContext(AuthContext);
   const [addLikeList, setAddLikeList] = useState([]);
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'shop',
       text: '商城',
@@ -202,7 +202,7 @@ export default function Product() {
           .replace(/amp;/g, '&');
         setDataForProductMain({ ...shopMainData[0], description });
 
-        const newBreadCrubText = breadCrubText.map((v) => {
+        const newBreadCrumbText = breadCrumbText.map((v) => {
           if (v.id === 'search') {
             return {
               ...v,
@@ -214,7 +214,7 @@ export default function Product() {
             return { ...v, text: ` > ${shopMainData[0].name}` };
           } else return { ...v };
         });
-        setBreadCrubText(newBreadCrubText);
+        setBreadCrumbText(newBreadCrumbText);
       }
 
       if (Array.isArray(commentDatas)) {
@@ -947,7 +947,7 @@ export default function Product() {
             <div className={styles.bgc_lightBrown}>
               <div className="container-inner">
                 <div className={styles.nav_head}>
-                  <BreadCrumb breadCrubText={breadCrubText} />
+                  <BreadCrumb breadCrumbText={breadCrumbText} />
                   <div className={styles.btns}>
                     {auth.token ? (
                       <IconBtn
@@ -973,11 +973,11 @@ export default function Product() {
                 </div>
                 <div className="like">
                   {showLikeList && (
-                    <Likelist
-                      datas={likeDatas}
+                    <LikeListDrawer
+                      data={likeDatas}
                       customCard={
                         <ShopLikelistCard
-                          datas={likeDatas}
+                          data={likeDatas}
                           token={auth.token}
                           removeLikeListItem={removeLikeListItem}
                           closeLikeList={toggleLikeList}

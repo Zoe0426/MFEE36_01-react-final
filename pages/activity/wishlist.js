@@ -6,12 +6,7 @@ import Head from 'next/head';
 import styles from '../../styles/activitywishlist.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
 import ActivityCard4 from '@/components/ui/cards/ActivityCard4';
-import {
-  Row,
-  Col,
-  Pagination,
-  ConfigProvider,
-} from 'antd';
+import { Row, Col, Pagination, ConfigProvider } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import SearchBar from '@/components/ui/buttons/SearchBar';
 // import Likelist from '@/components/ui/like-list/like-list';
@@ -24,7 +19,6 @@ import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 import BGUpperDecoration from '@/components/ui/decoration/bg-upper-decoration';
 
 import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
-
 
 export default function ActivityWishList() {
   const router = useRouter();
@@ -60,7 +54,7 @@ export default function ActivityWishList() {
   });
 
   // 小麵包屑------------------------------------------------------------
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'activity',
       text: '活動首頁',
@@ -339,7 +333,7 @@ export default function ActivityWishList() {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} />
+            <BreadCrumb breadCrumbText={breadCrumbText} />
 
             <div className={styles.btns}>
               {auth.token ? (

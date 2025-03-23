@@ -43,8 +43,8 @@ import ShopTotalPagesRank from '@/components/ui/infos/shop-total-pages_rank';
 
 import styles from '@/styles/shop.module.css';
 
-import filterDatas from '@/data/product/filters.json';
-import orderByOptions from '@/data/product/orderByOptions.json';
+import filterData from '@/data/product/filterData.json';
+import orderbyOptions from '@/data/product/orderbyOptions.json';
 
 const BASE_URL = process.env.WEB || 'http://localhost:3000';
 const LOCALSTORAGE_SHOP_VIEW_HISTORY = 'petProductHistory';
@@ -73,6 +73,12 @@ const initialPriceInputState = [
   { key: 'maxPrice', value: 0, placeholder: '$ 最大金額', errorMessage: '' },
 ];
 
+const initialCheckboxGroups = [
+  { label: '適用對象', name: 'typeForPet', isNeedSpan: true },
+  { label: '使用年齡', name: 'typeForAge', isNeedSpan: true },
+  { label: '商品類別', name: 'category', isNeedSpan: true },
+];
+
 const List = () => {
   /* 元件內的引用順序
    * 1. 常數宣告
@@ -86,23 +92,23 @@ const List = () => {
    */
 
   const router = useRouter();
-  const filterInitialRef = useRef(filterDatas);
+  const filterInitialRef = useRef(filterData);
 
   const { auth } = useContext(AuthContext);
 
   const [addLikeList, setAddLikeList] = useState([]);
   const [breadCrumbs, setBreadCrumbs] = useState(initialBreadcrumbState);
-  const [filters, setFilters] = useState(filterDatas);
+  const [filters, setFilters] = useState(filterData);
   const [first, setFirst] = useState(false);
   const [isClickingLike, setIsClickingLike] = useState(false);
   const [isShowFilter, setIsShowFilter] = useState(false);
-  const [isShowKeywordDatas, setIsShowKeywordDatas] = useState(false);
+  const [isShowKeywordData, setIsShowKeywordData] = useState(false);
   const [isShowLikeList, setIsShowLikeList] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const [keyword, setKeyword] = useState('');
-  const [keywordDatas, setKeywordDatas] = useState([]);
-  const [likeDatas, setLikeDatas] = useState([]);
-  const [orderBy, setOrderBy] = useState(orderByOptions.DEFAULT);
+  const [keywordData, setKeywordData] = useState([]);
+  const [likeData, setLikeData] = useState([]);
+  const [orderBy, setOrderBy] = useState(orderbyOptions.DEFAULT);
   const [priceInputs, setPriceInputs] = useState(initialPriceInputState);
   const [tableData, setTableData] = useState(initialTableDataState);
 
@@ -135,7 +141,7 @@ const List = () => {
         name: keyword,
         count: 0,
       }));
-      setKeywordDatas(newKeywords);
+      setKeywordData(newKeywords);
     }
   };
 
@@ -162,7 +168,7 @@ const List = () => {
 
       //將按下上一頁/重新整理，都可將先前排序的選項設定回去
       const orderByUpperCase = orderBy ? orderBy.toUpperCase() : 'DEFAULT';
-      setOrderBy(orderByOptions[orderByUpperCase]);
+      setOrderBy(orderbyOptions[orderByUpperCase]);
 
       const prices = { minPrice, maxPrice };
       setPriceInputs((prev) =>
@@ -287,7 +293,7 @@ const List = () => {
   //收藏列表相關的函式-------------------------------------------------------
   const getLikeListData = async (token = '') => {
     const { likeDatas } = await getLikeListApi(token);
-    setLikeDatas(likeDatas);
+    setLikeData(likeDatas);
   };
 
   const toggleLikeListDrawer = () => {
@@ -301,13 +307,13 @@ const List = () => {
   };
 
   const removeAllLikeList = async (token) => {
-    if (likeDatas.length <= 0) return;
+    if (likeData.length <= 0) return;
 
     const { rows } = tableData;
     const newData = rows.map((v) => ({ ...v, like: false }));
 
     await removeLikeListToDB('all', token); //將請求送到後端作業
-    setLikeDatas([]); //將列表顯示為空的
+    setLikeData([]); //將列表顯示為空的
     setTableData({ ...tableData, rows: newData }); //將畫面上的愛心清除
     toggleLikeListDrawer();
   };
@@ -315,10 +321,10 @@ const List = () => {
   const removeSingleLike = (id, token = '') => {
     const { rows } = tableData;
 
-    const newLikeList = likeDatas.filter(
+    const newLikeList = likeData.filter(
       ({ product_sid }) => product_sid !== id
     ); //將列表該項目刪除
-    setLikeDatas(newLikeList);
+    setLikeData(newLikeList);
 
     const newData = updateRowLikeStatus(rows, id); //取消畫面上的愛心
     setTableData({ ...tableData, rows: newData });
@@ -331,37 +337,32 @@ const List = () => {
   };
 
   //searchBar相關的函式-------------------------------------------------------
-  const filterKeywordDatas = (datas, keyword, keyin) => {
-    datas = datas
-      .map((v) => ({ ...v, count: 0 }))
-      .sort((a, b) => a.name.localeCompare(b.name, 'zh-Hant'));
-    if (!keyin) {
-      const searchWord = keyword.split('');
+  const filterKeywordData = (data, keyword, isKeying) => {
+    if (isKeying) return data; // 若仍在輸入關鍵字，直接返回原始數據
 
-      datas.forEach((v1) => {
-        v1.count = 0;
-        searchWord.forEach((v2) => {
-          if (v1.name.includes(v2)) {
-            v1.count += 1;
-          }
-        });
-      });
+    const keywordChars = keyword.split('');
 
-      datas.sort((a, b) => b.count - a.count);
-
-      return datas.filter((v) => v.count >= searchWord.length);
-    }
+    return data
+      .map((row) => ({
+        ...row,
+        count: keywordChars.reduce(
+          (count, char) => count + (row.name.includes(char) ? 1 : 0),
+          0
+        ),
+      }))
+      .filter((row) => row.count >= keywordChars.length)
+      .sort((a, b) => b.count - a.count);
   };
 
   const searchBarHandler = (e) => {
     const searchText = e.target.value;
 
     if (!searchText) {
-      setIsShowKeywordDatas(false);
+      setIsShowKeywordData(false);
     }
 
     if (e.key === 'Enter') {
-      setIsShowKeywordDatas(false);
+      setIsShowKeywordData(false);
       searchBarClickHandler(searchText);
     }
   };
@@ -371,9 +372,9 @@ const List = () => {
     toOtherUrl({ ...url });
   };
 
-  const autocompleteHandler = (selectkeyword) => {
-    setKeyword(selectkeyword);
-    setIsShowKeywordDatas(false);
+  const autocompleteHandler = (selectText) => {
+    setKeyword(selectText);
+    setIsShowKeywordData(false);
   };
 
   //Pagination相關的函式-------------------------------------------------------
@@ -384,7 +385,7 @@ const List = () => {
   //排序相關的函式-------------------------------------------------------
   const orderByHandler = (e) => {
     const selectOrderBy = e.key;
-    setOrderBy(orderByOptions[selectOrderBy]);
+    setOrderBy(orderbyOptions[selectOrderBy]);
     toOtherUrl({ ...router.query, page: 1, orderBy: selectOrderBy });
   };
 
@@ -397,10 +398,11 @@ const List = () => {
     const isPriceError = priceInputs.some((input) => input.errorMessage);
     if (isPriceError) return;
 
-    const query = router.query;
+    const keepQuery = ['keyword', 'perPage', 'orderBy'];
+    const { query } = router;
     const allSelectCheckboxOptions = getAllSelectedCheckboxOptions(filters);
 
-    let newQuery = Object.keys(query).reduce((acc, key) => {
+    let newQuery = keepQuery.reduce((acc, key) => {
       if (!query[key]) return acc;
       return { ...acc, [key]: query[key] };
     }, {});
@@ -577,13 +579,13 @@ const List = () => {
         <nav className="container-inner">
           <div className={styles.search_bar}>
             <SearchBarWithAutocomplete
-              keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
+              keywordData={filterKeywordData(keywordData, keyword, isTyping)}
               placeholder="搜尋你愛的東西"
               btn_text="尋找商品"
               inputText={keyword}
               changeHandler={(e) => {
                 setKeyword(e.target.value);
-                setIsShowKeywordDatas(true);
+                setIsShowKeywordData(true);
                 setIsTyping(true);
                 setTimeout(() => {
                   setIsTyping(false);
@@ -594,10 +596,10 @@ const List = () => {
                 searchBarClickHandler(keyword);
               }}
               autocompleteHandler={autocompleteHandler}
-              showKeywordDatas={isShowKeywordDatas}
+              showKeywordData={isShowKeywordData}
               blurHandler={() => {
                 setTimeout(() => {
-                  setIsShowKeywordDatas(false);
+                  setIsShowKeywordData(false);
                 }, 200);
               }}
               clearHandler={() => {
@@ -607,7 +609,7 @@ const List = () => {
             />
           </div>
           <div className={styles.nav_head_list}>
-            <BreadCrumb breadCrubText={breadCrumbs} />
+            <BreadCrumb breadCrumbText={breadCrumbs} />
             <div className={styles.btns}>
               {auth.token ? (
                 <IconBtn
@@ -637,10 +639,10 @@ const List = () => {
           <div className="like">
             {isShowLikeList && (
               <LikeListDrawer
-                datas={likeDatas}
+                data={likeData}
                 customCard={
                   <ShopLikeListCard
-                    datas={likeDatas}
+                    data={likeData}
                     token={auth.token}
                     removeLikeListItem={removeSingleLike}
                     closeLikeList={toggleLikeListDrawer}
@@ -656,7 +658,20 @@ const List = () => {
           <div className={styles.filter_box}>
             {isShowFilter && (
               <>
-                <ProductFilter
+                {initialCheckboxGroups.map((group) => {
+                  const { label, name, isNeedSpan } = group;
+                  return (
+                    <ProductFilter
+                      key={name}
+                      text={label}
+                      name={name}
+                      data={filters[name]}
+                      needSpan={isNeedSpan}
+                      changeHandler={checkboxToggleHandler}
+                    />
+                  );
+                })}
+                {/* <ProductFilter
                   text="適用對象"
                   name="typeForPet"
                   data={filters.typeForPet}
@@ -673,7 +688,7 @@ const List = () => {
                   name="category"
                   data={filters.category}
                   changeHandler={checkboxToggleHandler}
-                />
+                /> */}
                 <ProductFilter
                   text="品牌"
                   name="brand"
@@ -716,13 +731,13 @@ const List = () => {
           totalItems={tableData.totalRows}
           onRankChange={orderByHandler}
           orderBy={orderBy?.label}
-          items={Object.values(orderByOptions)}
+          items={Object.values(orderbyOptions)}
           searchText={breadCrumbs}
         />
         {tableData?.rows?.length > 0 ? (
           <Row gutter={[32, 36]} className={styles.cards_list}>
             {tableData.rows &&
-              tableData.rows.map((v) => {
+              tableData.rows.map((row) => {
                 const {
                   product_sid,
                   name,
@@ -732,7 +747,7 @@ const List = () => {
                   avg_rating,
                   sales_qty,
                   like,
-                } = v;
+                } = row;
                 return (
                   <Col
                     xs={12}
@@ -749,7 +764,7 @@ const List = () => {
                       min_price={min_price}
                       avg_rating={avg_rating}
                       tag_display={
-                        orderBy?.key === orderByOptions.SALES_DESC.key
+                        orderBy?.key === orderbyOptions.SALES_DESC.key
                       }
                       sales_qty={sales_qty}
                       like={like}

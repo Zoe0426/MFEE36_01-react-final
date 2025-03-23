@@ -6,13 +6,7 @@ import Head from 'next/head';
 import styles from '../../styles/activityvote.module.css';
 import SubBtn from '@/components/ui/buttons/subBtn';
 
-import {
-  Row,
-  Col,
-  Pagination,
-  ConfigProvider,
- 
-} from 'antd';
+import { Row, Col, Pagination, ConfigProvider } from 'antd';
 
 import BreadCrumb from '@/components/ui/bread-crumb/breadcrumb';
 
@@ -54,7 +48,7 @@ export default function ActivityVote() {
   });
 
   // 小麵包屑------------------------------------------------------------
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'activity',
       text: '活動首頁',
@@ -198,7 +192,7 @@ export default function ActivityVote() {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} />
+            <BreadCrumb breadCrumbText={breadCrumbText} />
           </div>
         </div>
 
@@ -342,7 +336,6 @@ export default function ActivityVote() {
             })}
           </Row>
         </div>
-
 
         {/* .........頁碼......... */}
         <div className={styles.pagination}>

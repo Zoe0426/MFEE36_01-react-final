@@ -691,7 +691,7 @@ export default function Restindex() {
         <div className={Styles.search}>
           <h1 className={Styles.jill_h1}>想知道哪裡有寵物餐廳？</h1>
           <SearchBarWithAutocomplete
-            keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
+            keywordData={filterKeywordDatas(keywordDatas, keyword, isTyping)}
             placeholder="搜尋友善餐廳"
             btn_text="尋找餐廳"
             inputText={keyword}
@@ -706,7 +706,7 @@ export default function Restindex() {
             keyDownHandler={searchBarHandler}
             clickHandler={searchBarClickHandler}
             autocompleteHandler={autocompleteHandler}
-            showKeywordDatas={showKeywordDatas}
+            showKeywordData={showKeywordDatas}
             blurHandler={() => {
               setTimeout(() => {
                 setShowKeywordDatas(false);
@@ -855,7 +855,7 @@ export default function Restindex() {
           <div className={Styles.like_list}>
             {showLikeList && (
               <LikeListDrawer
-                datas={likeDatas}
+                data={likeDatas}
                 customCard={
                   <LikeListCard
                     datas={likeDatas}

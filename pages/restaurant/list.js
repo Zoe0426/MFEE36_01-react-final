@@ -86,7 +86,7 @@ export default function FilterPage() {
   const { auth, setAuth } = useContext(AuthContext);
 
   //麵包屑
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'restaurant',
       text: '餐廳首頁',
@@ -208,12 +208,12 @@ export default function FilterPage() {
     }
 
     if (city) {
-      const newBreadCrubText = breadCrubText.map((v) => {
+      const newBreadCrumbText = breadCrumbText.map((v) => {
         if (v.id === 'search') {
           return { ...v, text: `> ${city}餐廳` };
         } else return { ...v };
       });
-      setBreadCrubText(newBreadCrubText);
+      setBreadCrumbText(newBreadCrumbText);
       setSelectedCity(city);
     }
     if (area) {
@@ -488,8 +488,8 @@ export default function FilterPage() {
     setShowFilter(false);
 
     // 修改麵包屑
-    setBreadCrubText((prevBreadCrubText) => {
-      return prevBreadCrubText.map((v) =>
+    setBreadCrumbText((prevBreadCrumbText) => {
+      return prevBreadCrumbText.map((v) =>
         v.id === 'search' ? { ...v, text: '> 餐廳列表' } : { ...v }
       );
     });
@@ -713,7 +713,7 @@ export default function FilterPage() {
           /> */}
           {/* <div className={Styles.search_bar}> */}
           <SearchBarWithAutocomplete
-            keywordDatas={filterKeywordDatas(keywordDatas, keyword, isTyping)}
+            keywordData={filterKeywordDatas(keywordDatas, keyword, isTyping)}
             placeholder="搜尋友善餐廳"
             btn_text="尋找餐廳"
             inputText={keyword}
@@ -730,7 +730,7 @@ export default function FilterPage() {
               searchBarClickHandler(keyword);
             }}
             autocompleteHandler={autocompleteHandler}
-            showKeywordDatas={showKeywordDatas}
+            showKeywordData={showKeywordDatas}
             blurHandler={() => {
               setTimeout(() => {
                 setShowKeywordDatas(false);
@@ -749,7 +749,7 @@ export default function FilterPage() {
         <div className="container-inner">
           <div className={Styles.bread_btn}>
             <div className={Styles.breadcrumb}>
-              <BreadCrumb breadCrubText={breadCrubText} />
+              <BreadCrumb breadCrumbText={breadCrumbText} />
             </div>
             <div className={Styles.function_group}>
               {/* <IconBtn icon={faMap} text="餐廳地圖" /> */}
@@ -893,7 +893,7 @@ export default function FilterPage() {
           <div className={Styles.like_list}>
             {showLikeList && (
               <LikeListDrawer
-                datas={likeDatas}
+                data={likeDatas}
                 customCard={
                   <LikeListCard
                     datas={likeDatas}

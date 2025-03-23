@@ -2,13 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import AuthContext from '@/context/AuthContext';
 import Head from 'next/head';
-import {
-  Row,
-  Col,
-  ConfigProvider,
-  DatePicker,
-  Select,
-} from 'antd';
+import { Row, Col, ConfigProvider, DatePicker, Select } from 'antd';
 
 import Link from 'next/link';
 import styles from '../../styles/activityindex.module.css';
@@ -34,7 +28,6 @@ import cityDatas from '@/data/activity/location.json';
 import filterDatas from '@/data/activity/filters.json';
 import moment from 'moment';
 import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
-
 
 export default function ActivityHome() {
   // 主卡片
@@ -84,7 +77,6 @@ export default function ActivityHome() {
     );
   };
 
-
   //篩選地點
   const handleProvinceChange = (value) => {
     setSelectedCity(value);
@@ -113,8 +105,6 @@ export default function ActivityHome() {
 
     fetchData();
   }, []);
-
- 
 
   //searchBar相關的函式------------------------------------------------------------
   const searchBarHandler = (e) => {
@@ -153,7 +143,6 @@ export default function ActivityHome() {
   const handleAreaClick = (e) => {
     setSelectedArea(e.key);
   };
-
 
   // 進階篩 日期區間
   const handleDateChange = (dates) => {
@@ -457,7 +446,6 @@ export default function ActivityHome() {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-
             <div className={styles.btns}>
               {auth.token ? (
                 <IconBtn
@@ -545,7 +533,7 @@ export default function ActivityHome() {
                       <label className={styles.labels}>活動地點：</label>
                     </div>
                     <div>
-                    <Select
+                      <Select
                         value={selectedCity ? selectedCity : undefined}
                         placeholder="城市"
                         // style={{
@@ -594,7 +582,7 @@ export default function ActivityHome() {
           <>
             {showLikeList && (
               <LikeListDrawer
-                datas={likeDatas}
+                data={likeDatas}
                 customCard={
                   <ActivityLikeListCard
                     datas={likeDatas}

@@ -60,7 +60,7 @@ export default function ActivityWish() {
   };
 
   // 小麵包屑------------------------------------------------------------
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'activity',
       text: '活動首頁',
@@ -593,7 +593,7 @@ export default function ActivityWish() {
 
       <div className={styles.bgc}>
         <div className="container-inner">
-          <BreadCrumb breadCrubText={breadCrubText} />
+          <BreadCrumb breadCrumbText={breadCrumbText} />
         </div>
       </div>
 
@@ -643,7 +643,7 @@ export default function ActivityWish() {
             歡迎想發起活動的您，將活動需求填寫於下方表單中。
           </p>
           <p className={styles.intro}>
-            表單送出後可以到'我要投票'看最新投票狀況噢！
+            表單送出後可以到『我要投票』看最新投票狀況噢！
           </p>
         </div>
       </div>

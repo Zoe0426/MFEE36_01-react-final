@@ -2,10 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import styles from './breadcrumb.module.css';
 
-export default function BreadCrumb({ breadCrubText = [] }) {
+export default function BreadCrumb({ breadCrumbText = [] }) {
   return (
     <ol className={styles.breadcrumb}>
-      {breadCrubText.map((v) => {
+      {breadCrumbText.map((v) => {
         const itemClassName = v.href ? styles.linked : styles['non-linked'];
         return (
           v.show && (

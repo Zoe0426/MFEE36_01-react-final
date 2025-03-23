@@ -133,7 +133,7 @@ export default function ActivityDetail() {
     (actDetailRows.price_adult / 2) * countChild;
 
   // 小麵包屑
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'activity',
       text: '活動首頁',
@@ -212,7 +212,7 @@ export default function ActivityDetail() {
           }
 
           //麵包屑
-          const newBreadCrubText = breadCrubText.map((v) => {
+          const newBreadCrumbText = breadCrumbText.map((v) => {
             if (v.id === 'search') {
               return {
                 ...v,
@@ -224,7 +224,7 @@ export default function ActivityDetail() {
               return { ...v, text: actDetailRows[0].name };
             } else return { ...v };
           });
-          setBreadCrubText(newBreadCrubText);
+          setBreadCrumbText(newBreadCrumbText);
 
           //評論區
           if (Array.isArray(actRatingRows)) {
@@ -670,7 +670,7 @@ export default function ActivityDetail() {
         <div className="container-inner">
           <div className={styles.nav_head}>
             {/* <p>TODO: BreadCrumb</p> */}
-            <BreadCrumb breadCrubText={breadCrubText} />
+            <BreadCrumb breadCrumbText={breadCrumbText} />
             <div className={styles.btns}>
               {auth.token ? (
                 <IconBtn
@@ -698,7 +698,7 @@ export default function ActivityDetail() {
           <>
             {showLikeList && (
               <LikeListDrawer
-                datas={likeDatas}
+                data={likeDatas}
                 customCard={
                   <ActivityLikeListCard
                     datas={likeDatas}

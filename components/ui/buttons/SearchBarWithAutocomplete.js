@@ -6,8 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 export default function SearchBarWithAutocomplete({
-  keywordDatas = [],
-  showKeywordDatas = false,
+  keywordData = [],
+  showKeywordData = false,
   placeholder = '',
   btn_text = '',
   inputText = '',
@@ -43,10 +43,10 @@ export default function SearchBarWithAutocomplete({
               onClick={clearHandler}
             />
           </div>
-          {showKeywordDatas && keywordDatas.length > 0 && (
+          {showKeywordData && keywordData.length > 0 && (
             <div className={Styles.keyword_reminder}>
               <ul>
-                {keywordDatas.map((v, i) => {
+                {keywordData.map((v, i) => {
                   if (i < 10) {
                     return (
                       <li

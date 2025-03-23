@@ -102,7 +102,7 @@ export default function RestInfo() {
   const [breadCrumbData, setBreadCrumbData] = useState([]);
 
   //麵包屑
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'restaurant',
       text: '餐廳首頁',
@@ -184,7 +184,7 @@ export default function RestInfo() {
     // console.log(restDetailRows);
 
     // 麵包屑
-    const newBreadCrubText = breadCrubText.map((v) => {
+    const newBreadCrumbText = breadCrumbText.map((v) => {
       if (v.id === 'search') {
         return {
           ...v,
@@ -196,7 +196,7 @@ export default function RestInfo() {
         return { ...v, text: `> ${restDetailRows[0].name}` };
       } else return { ...v };
     });
-    setBreadCrubText(newBreadCrubText);
+    setBreadCrumbText(newBreadCrumbText);
 
     setData(data);
 
@@ -701,7 +701,7 @@ export default function RestInfo() {
         <div className="container-inner">
           <div className={Styles.bgc}>
             <div className={Styles.breadcrumb}>
-              <BreadCrumb breadCrubText={breadCrubText} />
+              <BreadCrumb breadCrumbText={breadCrumbText} />
             </div>
 
             {auth.token ? (
@@ -729,7 +729,7 @@ export default function RestInfo() {
         <div className={Styles.like_list}>
           {showLikeList && (
             <LikeListDrawer
-              datas={likeDatas}
+              data={likeDatas}
               customCard={
                 <LikeListCard
                   datas={likeDatas}

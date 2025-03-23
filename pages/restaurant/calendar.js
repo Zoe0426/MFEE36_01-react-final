@@ -32,7 +32,7 @@ function App() {
   // const [startDateIndex, setStartDateIndex] = useState(0);
   // const dateData = {};
   //麵包屑
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'restaurant',
       text: '餐廳首頁',
@@ -75,7 +75,7 @@ function App() {
         }
 
         // 麵包屑
-        const newBreadCrubText = breadCrubText.map((v) => {
+        const newBreadCrumbText = breadCrumbText.map((v) => {
           if (v.id === 'search') {
             return {
               ...v,
@@ -91,7 +91,7 @@ function App() {
             };
           } else return { ...v };
         });
-        setBreadCrubText(newBreadCrubText);
+        setBreadCrumbText(newBreadCrumbText);
         // console.log(bookingRows[0].rest_sid);
         setData(data);
       })
@@ -244,7 +244,7 @@ function App() {
         <div className="container-inner">
           <div className={Styles.bgc}>
             <div className={Styles.breadcrumb}>
-              <BreadCrumb breadCrubText={breadCrubText} />
+              <BreadCrumb breadCrumbText={breadCrumbText} />
             </div>
           </div>
         </div>

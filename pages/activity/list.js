@@ -38,7 +38,6 @@ import ActivityAlertModal from '@/components/ui/cards/ActivityAlertModal';
 import NotFindCard from '@/components/ui/cards/not-find-card';
 
 export default function ActivityMain() {
-
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(8);
@@ -105,7 +104,7 @@ export default function ActivityMain() {
   // const areas = getAreasByCity(selectedCity);
 
   // 小麵包屑------------------------------------------------------------
-  const [breadCrubText, setBreadCrubText] = useState([
+  const [breadCrumbText, setBreadCrumbText] = useState([
     {
       id: 'activity',
       text: '活動首頁',
@@ -664,7 +663,7 @@ export default function ActivityMain() {
       <div className={styles.bgc}>
         <div className="container-inner">
           <div className={styles.nav_head}>
-            <BreadCrumb breadCrubText={breadCrubText} />
+            <BreadCrumb breadCrumbText={breadCrumbText} />
 
             <div className={styles.btns}>
               {auth.token ? (
@@ -745,10 +744,10 @@ export default function ActivityMain() {
                   >
                     <label className={styles.labels}>活動日期：</label>
                     {showWarning && (
-                          <span className={styles.detail_spec_warning}>
-                            &nbsp;(請選擇日期!)
-                          </span>
-                        )}
+                      <span className={styles.detail_spec_warning}>
+                        &nbsp;(請選擇日期!)
+                      </span>
+                    )}
 
                     <DatePicker.RangePicker
                       name="range-picker"
@@ -831,7 +830,7 @@ export default function ActivityMain() {
           <>
             {showLikeList && (
               <Likelist
-                datas={likeDatas}
+                data={likeDatas}
                 customCard={
                   <ActivityLikeListCard
                     datas={likeDatas}
@@ -875,58 +874,61 @@ export default function ActivityMain() {
       {/* .........section1......... */}
       <div className="container-inner">
         <div className={styles.section_card}>
-        {datas.rows.length > 0 ? (
-          <Row gutter={[0, 106]} className={styles.card}>
-            {datas.rows.map((i) => {
-              const {
-                activity_sid,
-                type_name,
-                activity_pic,
-                name,
-                avg_rating,
-                recent_date,
-                farthest_date,
-                time,
-                city,
-                area,
-                address,
-                content,
-                feature_names,
-                price_adult,
-              } = i;
-              const liked = isInLikeList(activity_sid);
-              return (
-                <Col key={activity_sid} span={12}>
-                  <ActivityCard4
-                    key={activity_sid}
-                    activity_sid={activity_sid}
-                    type={type_name}
-                    image={'/activity_img/' + activity_pic.split(',')[0]}
-                    title={name}
-                    rating={avg_rating}
-                    date_begin={recent_date}
-                    date_end={farthest_date}
-                    time={time}
-                    city={city}
-                    area={area}
-                    address={address}
-                    content={content}
-                    features={feature_names?.split(',') || []}
-                    price={price_adult}
-                    isInLikeList={liked}
-                    handleLikeClick={() =>
-                      handleLikeClick(activity_sid, auth.token)
-                    } // 傳遞handleLikeClick函式給子組件
-                    singinHandler={toSingIn}
-                    token={auth.token}
-                  />
-                </Col>
-              );
-            })}
-          </Row>
-            ) : (
-              <NotFindCard textForCat="非常抱歉!" textForDog="沒有找到相關活動!" />
-            )}
+          {datas.rows.length > 0 ? (
+            <Row gutter={[0, 106]} className={styles.card}>
+              {datas.rows.map((i) => {
+                const {
+                  activity_sid,
+                  type_name,
+                  activity_pic,
+                  name,
+                  avg_rating,
+                  recent_date,
+                  farthest_date,
+                  time,
+                  city,
+                  area,
+                  address,
+                  content,
+                  feature_names,
+                  price_adult,
+                } = i;
+                const liked = isInLikeList(activity_sid);
+                return (
+                  <Col key={activity_sid} span={12}>
+                    <ActivityCard4
+                      key={activity_sid}
+                      activity_sid={activity_sid}
+                      type={type_name}
+                      image={'/activity_img/' + activity_pic.split(',')[0]}
+                      title={name}
+                      rating={avg_rating}
+                      date_begin={recent_date}
+                      date_end={farthest_date}
+                      time={time}
+                      city={city}
+                      area={area}
+                      address={address}
+                      content={content}
+                      features={feature_names?.split(',') || []}
+                      price={price_adult}
+                      isInLikeList={liked}
+                      handleLikeClick={() =>
+                        handleLikeClick(activity_sid, auth.token)
+                      } // 傳遞handleLikeClick函式給子組件
+                      singinHandler={toSingIn}
+                      token={auth.token}
+                    />
+                  </Col>
+                );
+              })}
+            </Row>
+          ) : (
+            <NotFindCard
+              textForCat="非常抱歉!"
+              textForDog="沒有找到相關活動!"
+            />
+          )}
         </div>
 
         {/* .........頁碼......... */}
